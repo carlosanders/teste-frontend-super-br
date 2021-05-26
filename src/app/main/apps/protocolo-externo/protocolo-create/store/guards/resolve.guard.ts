@@ -10,7 +10,7 @@ import {ProtocoloCreateAppState} from '../reducers';
 import * as fromStore from '../';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded} from "../";
+import {getDocumentosHasLoaded} from '../';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -20,14 +20,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<ProtocoloCreateAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<ProtocoloCreateAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,21 +37,21 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
             switchMap(() => of(true)),
-            catchError((err) => of(false))
+            catchError(err => of(false))
         );
     }
 
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin([this.getProcesso(), this.getDocumentos()]).pipe(
@@ -62,7 +62,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Processo
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getProcesso(): any {
         return this._store.pipe(
@@ -74,9 +74,7 @@ export class ResolveGuard implements CanActivate {
                     }));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -84,7 +82,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Documentos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getDocumentos(): any {
         if (this.routerState.params['processoHandle']) {
@@ -95,9 +93,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.GetDocumentos({'processoOrigem.id': `eq:${this.routerState.params['processoHandle']}`}));
                     }
                 }),
-                filter((loaded: any) => {
-                    return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-                }),
+                filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
                 take(1)
             );
         } else {
@@ -108,9 +104,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.UnloadDocumentos());
                     }
                 }),
-                filter((loaded: any) => {
-                    return !loaded;
-                }),
+                filter((loaded: any) => !loaded),
                 take(1)
             );
         }

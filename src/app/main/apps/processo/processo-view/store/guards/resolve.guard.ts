@@ -42,7 +42,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -50,20 +50,20 @@ export class ResolveGuard implements CanActivate {
 
         this._store
             .pipe(select(getIsLoading))
-            .subscribe(loading => {
+            .subscribe((loading) => {
                 this.loadingJuntadas = loading;
             });
 
 
         this._store
             .pipe(select(getMinutasLoading))
-            .subscribe(loading => {
+            .subscribe((loading) => {
                 this.loadingDocumentos = loading;
             });
 
         this._store
             .pipe(select(getIsLoadingVolumes))
-            .subscribe(loading => {
+            .subscribe((loading) => {
                 this.loadingVolumes = loading;
             });
     }
@@ -71,9 +71,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
@@ -85,7 +85,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin([this.getJuntadas(), this.getDocumentos(), this.getVolumes()]).pipe(
@@ -96,7 +96,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Juntadas
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getJuntadas(): any {
         return this._store.pipe(
@@ -108,7 +108,7 @@ export class ResolveGuard implements CanActivate {
                     let processoFilter = null;
 
                     const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                     });
 
@@ -125,6 +125,7 @@ export class ResolveGuard implements CanActivate {
                             'volume',
                             'documento',
                             'documento.origemDados',
+                            'documento.juntadaAtual',
                             'documento.tipoDocumento',
                             'documento.componentesDigitais',
                             'documento.vinculacoesDocumentos',
@@ -140,9 +141,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingJuntadas = true;
                 }
             }),
-            filter((loaded: any) => {
-                return this.loadingJuntadas || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
-            }),
+            filter((loaded: any) => this.loadingJuntadas || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }
@@ -150,7 +149,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Documentos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getDocumentos(): any {
         if (this.routerState.params['tarefaHandle']) {
@@ -162,9 +161,7 @@ export class ResolveGuard implements CanActivate {
                         this.loadingDocumentos = true;
                     }
                 }),
-                filter((loaded: any) => {
-                    return this.loadingDocumentos || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
-                }),
+                filter((loaded: any) => this.loadingDocumentos || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
                 take(1)
             );
         } else {
@@ -176,9 +173,7 @@ export class ResolveGuard implements CanActivate {
                         this.loadingDocumentos = false;
                     }
                 }),
-                filter((loaded: any) => {
-                    return !loaded;
-                }),
+                filter((loaded: any) => !loaded),
                 take(1)
             );
         }
@@ -187,7 +182,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Volumes
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getVolumes(): any {
         return this._store.pipe(
@@ -199,7 +194,7 @@ export class ResolveGuard implements CanActivate {
                     let processoFilter = null;
 
                     const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                     });
 
@@ -218,9 +213,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingVolumes = true;
                 }
             }),
-            filter((loaded: any) => {
-                return this.loadingVolumes || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
-            }),
+            filter((loaded: any) => this.loadingVolumes || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
     }

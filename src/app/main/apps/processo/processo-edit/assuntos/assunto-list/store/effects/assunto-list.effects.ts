@@ -12,6 +12,7 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';
 import {assunto as assuntoSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class AssuntoListEffect {
@@ -25,7 +26,7 @@ export class AssuntoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class AssuntoListEffect {
 
     /**
      * Get Assuntos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class AssuntoListEffect {
         this._actions
             .pipe(
                 ofType<AssuntoListActions.GetAssuntos>(AssuntoListActions.GET_ASSUNTOS),
-                switchMap((action) => {
-                    return this._assuntoService.query(
+                switchMap(action => this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +53,8 @@ export class AssuntoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)
-                    );
-                }),
-                mergeMap((response) => [
+                    )),
+                mergeMap(response => [
                     new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
                     new AssuntoListActions.GetAssuntosSuccess({
                         entitiesId: response['entities'].map(assunto => assunto.id),
@@ -74,6 +74,7 @@ export class AssuntoListEffect {
 
     /**
      * Delete Assunto
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,14 +82,16 @@ export class AssuntoListEffect {
         this._actions
             .pipe(
                 ofType<AssuntoListActions.DeleteAssunto>(AssuntoListActions.DELETE_ASSUNTO),
-                mergeMap((action) => {
-                    return this._assuntoService.destroy(action.payload).pipe(
-                        map((response) => new AssuntoListActions.DeleteAssuntoSuccess(response.id)),
+                mergeMap(action => this._assuntoService.destroy(action.payload).pipe(
+                        map(response => new AssuntoListActions.DeleteAssuntoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new AssuntoListActions.DeleteAssuntoFailed(action.payload));
+                            return of(new AssuntoListActions.DeleteAssuntoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

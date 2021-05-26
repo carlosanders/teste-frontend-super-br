@@ -5,6 +5,8 @@ export const GET_SETORES_SUCCESS = '[COORDENADOR SETOR LIST] GET SETORES SUCCESS
 export const GET_SETORES_FAILED = '[COORDENADOR SETOR LIST] GET SETORES FAILED';
 
 export const RELOAD_SETORES = '[COORDENADOR SETOR LIST] RELOAD SETORES';
+export const UNLOAD_SETORES = '[COORDENADOR SETOR LIST] UNLOAD SETORES';
+
 
 export const DELETE_SETOR = '[COORDENADOR SETOR LIST] DELETE SETOR';
 export const DELETE_SETOR_SUCCESS = '[COORDENADOR SETOR LIST] DELETE SETOR SUCCESS';
@@ -45,6 +47,18 @@ export class GetSetoresFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Setores
+ */
+ export class UnloadSetores implements Action
+ {
+     readonly type = UNLOAD_SETORES;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Setores
@@ -98,6 +112,7 @@ export type SetorListActionsAll
     = GetSetores
     | GetSetoresSuccess
     | GetSetoresFailed
+    | UnloadSetores
     | ReloadSetores
     | DeleteSetor
     | DeleteSetorSuccess

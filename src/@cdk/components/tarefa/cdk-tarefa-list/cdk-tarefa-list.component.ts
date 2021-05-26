@@ -19,11 +19,11 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {Usuario, VinculacaoEtiqueta} from "../../../models";
+import {Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {DndDragImageOffsetFunction} from "ngx-drag-drop";
+import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -41,6 +41,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     togglingUrgenteIds: number[] = [];
+
+    @Input()
+    assinandoTarefasIds: number[] = [];
+
+    @Input()
+    assinandoTarefasEletronicamenteIds: number[] = [];
 
     @Input()
     tarefas: Tarefa[] = [];
@@ -100,7 +106,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     folder = new EventEmitter<any>();
 
     @Output()
-    selected = new EventEmitter<{tarefa: Tarefa, event: any}>();
+    selected = new EventEmitter<{tarefa: Tarefa; event: any}>();
 
     @Output()
     compartilhar = new EventEmitter<number>();
@@ -172,13 +178,16 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     criaRelatorio = new EventEmitter<boolean>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
 
     @Output()
     setDraggedTarefasIds = new EventEmitter<number[]>();
 
     @Output()
     salvarObservacao = new EventEmitter<any>();
+
+    @Output()
+    assinaMinutas = new EventEmitter<Tarefa>();
 
     @Input()
     loadingAssuntosProcessosId: number[];
@@ -204,12 +213,15 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     editandoObservacaoIds: number[] = [];
 
+    @Input()
+    savingObservacao: boolean = false;
+
     listFilter: any;
     listSort: {} = {};
 
     isIndeterminate = false;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
     @Input()
@@ -289,7 +301,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedCampos = [];
-                this.allCampos.forEach(c => {
+                this.allCampos.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedCampos.push(c.id);
                     }
@@ -304,7 +316,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         const path = '@cdk/components/tarefa/cdk-tarefa-list';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
@@ -325,10 +337,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     onStartDrag(event: DragEvent, tarefa: Tarefa): void {
         if (this.selectedIds.length > 0) {
             this.setDraggedTarefasIds.emit(this.selectedIds);
-            let tarefas = [];
-            this.tarefas.forEach(aTarefa => {
+            const tarefas = [];
+            this.tarefas.forEach((aTarefa) => {
                 if (this.selectedIds.indexOf(aTarefa.id) > -1) {
-                    let tmpTarefa: any = {};
+                    const tmpTarefa: any = {};
                     tmpTarefa.id = aTarefa.id;
                     tmpTarefa.usuario = aTarefa.usuarioResponsavel.id;
                     tmpTarefa.setor = aTarefa.setorResponsavel.id;
@@ -350,9 +362,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         }
     }
 
-    offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => {
-        return {x: 0, y: 0};
-    };
+    offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => ({x: 0, y: 0});
 
     onCancelDrag(event: DragEvent): void {
         this.setDraggedTarefasIds.emit([]);
@@ -400,7 +410,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
             if (this.selectedIds.indexOf(tarefa.id) > -1) {
                 tarefasBloco.push(tarefa);
             }
-        })
+        });
         this.deleteBloco.emit(tarefasBloco);
     }
 
@@ -493,6 +503,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.createDocumentoAvulso.emit(tarefaId);
     }
 
+    doAssinaMinutas(tarefa: Tarefa): void {
+        this.assinaMinutas.emit(tarefa);
+    }
+
     doCreateDocumentoAvulsoBloco(): void {
         this.createDocumentoAvulsoBloco.emit();
     }
@@ -531,7 +545,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
             if (this.selectedIds.indexOf(tarefa.id) > -1) {
                 tarefasBloco.push(tarefa);
             }
-        })
+        });
 
         this.cienciaBloco.emit(tarefasBloco);
     }
@@ -553,7 +567,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     doRestaurarBloco(): void {
-        this.selectedIds.forEach(tarefaId => {
+        this.selectedIds.forEach((tarefaId) => {
             const tarefa = new Tarefa();
             tarefa.id = tarefaId;
             this.doRestauraTarefa(tarefa);

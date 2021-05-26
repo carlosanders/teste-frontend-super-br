@@ -1,6 +1,6 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {WorkflowEspeciesProcessoEditReducer} from './especies-processo-edit.reducer';
-import {WorkflowEspeciesProcessoEditState} from "../reducers";
+import {WorkflowEspeciesProcessoEditState} from '../reducers';
 
 export interface WorkflowEspeciesProcessoEditAppState {
     especieProcesso: WorkflowEspeciesProcessoEditState;

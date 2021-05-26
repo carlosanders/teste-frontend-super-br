@@ -1,4 +1,5 @@
 import * as LotacaoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface LotacaoListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface LotacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const LotacaoListInitialState: LotacaoListState = {
@@ -31,7 +33,8 @@ export const LotacaoListInitialState: LotacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function LotacaoListReducer(
@@ -67,14 +70,24 @@ export function LotacaoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
         }
 
+        case LotacaoListActions.UNLOAD_LOTACOES: {
+            return {
+                ...LotacaoListInitialState
+            };
+        }
+
+
+
         case LotacaoListActions.RELOAD_LOTACOES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -99,14 +112,19 @@ export function LotacaoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case LotacaoListActions.DELETE_LOTACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

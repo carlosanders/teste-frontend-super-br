@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Pessoa} from '../../../../../@cdk/models';
+import {Pessoa} from '@cdk/models';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 @Injectable({

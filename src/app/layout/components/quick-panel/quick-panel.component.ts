@@ -17,9 +17,9 @@ import {
     SetCurrentLote
 } from 'app/store';
 import {Observable, of, Subject} from 'rxjs';
-import {CdkSidebarService} from '../../../../@cdk/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Lote} from '../../../store/reducers/operacoes.reducer';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'quick-panel',
@@ -129,7 +129,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
 
         this.operacoesLoteAtual$.pipe(
             takeUntil(this._unsubscribeAll),
-        ).subscribe(operacoes => {
+        ).subscribe((operacoes) => {
             this.operacoesLoteAtual = [];
             Object.keys(operacoes).forEach((operacaoId) => {
                 this.operacoesLoteAtual.push(operacoes[operacaoId]);
@@ -152,7 +152,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
 
         this.operacoesDesfazerLoteAtual$.pipe(
             takeUntil(this._unsubscribeAll),
-        ).subscribe(operacoes => {
+        ).subscribe((operacoes) => {
             this.operacoesDesfazerLoteAtual = [];
             Object.keys(operacoes).forEach((operacaoId) => {
                 this.operacoesDesfazerLoteAtual.push(operacoes[operacaoId]);
@@ -161,7 +161,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
 
         this.operacoesRefazerLoteAtual$.pipe(
             takeUntil(this._unsubscribeAll),
-        ).subscribe(operacoes => {
+        ).subscribe((operacoes) => {
             this.operacoesRefazerLoteAtual = [];
             Object.keys(operacoes).forEach((operacaoId) => {
                 this.operacoesRefazerLoteAtual.push(operacoes[operacaoId]);
@@ -171,7 +171,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getOperacoesEmProcessamento),
-            ).subscribe(value => {
+            ).subscribe((value) => {
             this.operacoesProcessando = Object.keys(value).length;
             if (this.operacoesProcessando === 0) {
                 this.operacoesPendentes = 0;
@@ -195,7 +195,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
 
     doRefazerBloco(): void {
         this.selectedIds.forEach((selectedId) => {
-            const operacao = this.operacoes.find((operacao) => operacao.id === selectedId);
+            const operacao = this.operacoes.find(operacao => operacao.id === selectedId);
             if (operacao.status >= 2 && operacao.redo) {
                 this.refazer(operacao);
             }
@@ -214,7 +214,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
 
     doDesfazerBloco(): void {
         this.selectedIds.forEach((selectedId) => {
-            const operacao = this.operacoes.find((operacao) => operacao.id === selectedId);
+            const operacao = this.operacoes.find(operacao => operacao.id === selectedId);
             if (operacao.status === 1 && operacao.undo) {
                 this.desfazer(operacao);
             }

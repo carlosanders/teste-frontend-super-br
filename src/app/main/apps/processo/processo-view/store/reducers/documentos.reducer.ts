@@ -55,7 +55,7 @@ export function ProcessoViewDocumentosReducer(
                 documentosLoaded: false,
                 loading: true,
                 lixeiraMinutas: false
-            }
+            };
         }
 
         case ProcessoViewDocumentosActions.GET_DOCUMENTOS_EXCLUIDOS: {
@@ -65,7 +65,7 @@ export function ProcessoViewDocumentosReducer(
                 documentosLoaded: false,
                 loadingDocumentosExcluidos: true,
                 lixeiraMinutas: true
-            }
+            };
         }
 
         case ProcessoViewDocumentosActions.GET_DOCUMENTOS_SUCCESS: {
@@ -136,21 +136,21 @@ export function ProcessoViewDocumentosReducer(
                 bufferingDelete: state.bufferingDelete + 1,
                 errorDelete: [],
                 error: null
-            }
+            };
         }
 
         case ProcessoViewDocumentosActions.DELETE_DOCUMENTO_FLUSH: {
             return {
                 ...state,
                 bufferingDelete: state.bufferingDelete + 1
-            }
+            };
         }
 
         case ProcessoViewDocumentosActions.DELETE_DOCUMENTO_CANCEL_SUCCESS: {
             return {
                 ...state,
                 documentosId: [...state.documentosId, action.payload],
-            }
+            };
         }
 
         case ProcessoViewDocumentosActions.UPDATE_DOCUMENTO: {
@@ -199,6 +199,62 @@ export function ProcessoViewDocumentosReducer(
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProcessoViewDocumentosActions.PREPARA_ASSINATURA_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id),
+                error: action.payload.error
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
+                error: action.payload.error
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
+                error: action.payload.error
             };
         }
 

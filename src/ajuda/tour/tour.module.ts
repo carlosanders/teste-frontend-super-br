@@ -1,7 +1,7 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
 import {ShepherdComponent} from './tour.component';
-import {CdkSharedModule} from '../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [

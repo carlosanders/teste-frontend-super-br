@@ -13,7 +13,7 @@ import { CdkModalidadeCategoriaSigiloGridModule } from '@cdk/components/modalida
     imports: [
 
         CdkModalidadeCategoriaSigiloGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

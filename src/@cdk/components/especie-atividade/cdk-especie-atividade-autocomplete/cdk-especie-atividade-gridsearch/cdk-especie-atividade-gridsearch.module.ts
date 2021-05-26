@@ -13,7 +13,7 @@ import { CdkEspecieAtividadeGridModule } from '@cdk/components/especie-atividade
     imports: [
 
         CdkEspecieAtividadeGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

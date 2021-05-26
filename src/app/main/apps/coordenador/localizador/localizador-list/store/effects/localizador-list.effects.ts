@@ -14,6 +14,7 @@ import {Localizador} from '@cdk/models/localizador.model';
 import {localizador as localizadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class LocalizadorListEffects {
@@ -28,7 +29,7 @@ export class LocalizadorListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +38,7 @@ export class LocalizadorListEffects {
 
     /**
      * Get Localizadores with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +46,7 @@ export class LocalizadorListEffects {
         this._actions
             .pipe(
                 ofType<LocalizadorListActions.GetLocalizadores>(LocalizadorListActions.GET_LOCALIZADORES),
-                switchMap((action) => {
-                    return this._localizadorService.query(
+                switchMap(action => this._localizadorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -55,7 +56,7 @@ export class LocalizadorListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
                             new LocalizadorListActions.GetLocalizadoresSuccess({
                                 entitiesId: response['entities'].map(localizador => localizador.id),
@@ -70,12 +71,12 @@ export class LocalizadorListEffects {
                             console.log(err);
                             return of(new LocalizadorListActions.GetLocalizadoresFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Localizador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -83,19 +84,22 @@ export class LocalizadorListEffects {
         this._actions
             .pipe(
                 ofType<LocalizadorListActions.DeleteLocalizador>(LocalizadorListActions.DELETE_LOCALIZADOR),
-                mergeMap((action) => {
-                    return this._localizadorService.destroy(action.payload).pipe(
-                        map((response) => new LocalizadorListActions.DeleteLocalizadorSuccess(response.id)),
+                mergeMap(action => this._localizadorService.destroy(action.payload).pipe(
+                        map(response => new LocalizadorListActions.DeleteLocalizadorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new LocalizadorListActions.DeleteLocalizadorFailed(action.payload));
+                            return of(new LocalizadorListActions.DeleteLocalizadorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Localizador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -103,8 +107,7 @@ export class LocalizadorListEffects {
         this._actions
             .pipe(
                 ofType<LocalizadorListActions.SaveLocalizador>(LocalizadorListActions.SAVE_LOCALIZADOR),
-                switchMap((action) => {
-                    return this._localizadorService.save(action.payload.localizador).pipe(
+                switchMap(action => this._localizadorService.save(action.payload.localizador).pipe(
                         mergeMap((response: Localizador) => [
                             new LocalizadorListActions.SaveLocalizadorSuccess(),  new OperacoesActions.Resultado({
                                 type: 'localizador',
@@ -116,7 +119,6 @@ export class LocalizadorListEffects {
                             console.log (err);
                             return of(new LocalizadorListActions.SaveLocalizadorFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -13,8 +13,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoDataSource} from '@cdk/data-sources/documento-avulso-data-source';
 import {FormControl} from '@angular/forms';
-import {modulesConfig} from "../../../../modules/modules-config";
-import {DynamicService} from "../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../modules/modules-config';
+import {DynamicService} from '../../../../modules/dynamic.service';
 
 @Component({
     selector: 'cdk-documento-avulso-grid',
@@ -241,6 +241,9 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -286,7 +289,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     isIndeterminate = false;
     hasExcluded = false;
 
-    @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>
+    @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>;
 
     /**
      * @param _changeDetectorRef
@@ -331,7 +334,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -362,11 +365,11 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
         const path = '@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid#button';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
+                        .then((componentFactory) => {
                             this.btContainer.forEach((button, index) => {
-                                let componentRef = button.createComponent(componentFactory);
+                                const componentRef = button.createComponent(componentFactory);
                                 componentRef.instance['documentoAvulsoId'] = this.documentosAvulsos[index]['id'];
                                 componentRef.instance['mecanismoRemessa'] = this.documentosAvulsos[index]['mecanismoRemessa'];
                                 componentRef.instance['apagadoEm'] = !!this.documentosAvulsos[index]['apagadoEm'];
@@ -492,5 +495,12 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

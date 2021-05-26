@@ -5,6 +5,8 @@ export const GET_TIPO_DOCUMENTO_SUCCESS = '[SUPERADMIN TIPO DOCUMENTO LIST] GET 
 export const GET_TIPO_DOCUMENTO_FAILED = '[SUPERADMIN TIPO DOCUMENTO LIST] GET TIPO_DOCUMENTO FAILED';
 
 export const RELOAD_TIPO_DOCUMENTO = '[SUPERADMIN TIPO DOCUMENTO LIST] RELOAD TIPO_DOCUMENTO';
+export const UNLOAD_TIPO_DOCUMENTO = '[SUPERADMIN TIPO DOCUMENTO LIST] UNLOAD TIPO_DOCUMENTO';
+
 
 export const DELETE_TIPO_DOCUMENTO = '[SUPERADMIN TIPO DOCUMENTO LIST] DELETE TIPO_DOCUMENTO';
 export const DELETE_TIPO_DOCUMENTO_SUCCESS = '[SUPERADMIN TIPO DOCUMENTO LIST] DELETE TIPO_DOCUMENTO SUCCESS';
@@ -45,6 +47,18 @@ export class GetTipoDocumentoFailed implements Action
     {
     }
 }
+
+/**
+ * Unload TipoDocumento
+ */
+ export class UnloadTipoDocumento implements Action
+ {
+     readonly type = UNLOAD_TIPO_DOCUMENTO;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload TipoDocumento
@@ -98,6 +112,7 @@ export type TipoDocumentoListActionsAll
     = GetTipoDocumento
     | GetTipoDocumentoSuccess
     | GetTipoDocumentoFailed
+    | UnloadTipoDocumento
     | ReloadTipoDocumento
     | DeleteTipoDocumento
     | DeleteTipoDocumentoSuccess

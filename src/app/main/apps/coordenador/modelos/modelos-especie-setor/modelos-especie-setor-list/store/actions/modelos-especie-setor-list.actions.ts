@@ -5,6 +5,8 @@ export const GET_MODELOS_ESPECIE_SETOR_SUCCESS = '[COORDENADOR MODELOS ESPECIE S
 export const GET_MODELOS_ESPECIE_SETOR_FAILED = '[COORDENADOR MODELOS ESPECIE SETOR LIST] GET VINCULACOES MODELO FAILED';
 
 export const RELOAD_MODELOS_ESPECIE_SETOR = '[COORDENADOR MODELOS ESPECIE SETOR LIST] RELOAD VINCULACOES MODELO';
+export const UNLOAD_MODELOS_ESPECIE_SETOR = '[COORDENADOR MODELOS ESPECIE SETOR LIST] UNLOAD VINCULACOES MODELO';
+
 
 export const DELETE_MODELO_ESPECIE_SETOR = '[COORDENADOR MODELOS ESPECIE SETOR LIST] DELETE VINCULACAO MODELO';
 export const DELETE_MODELO_ESPECIE_SETOR_SUCCESS = '[COORDENADOR MODELOS ESPECIE SETOR LIST] DELETE VINCULACAO MODELO SUCCESS';
@@ -48,7 +50,19 @@ export class GetModelosEspecieSetorFailed implements Action
 }
 
 /**
- * Get VinculacaoModelo[]
+ * Unload ModelosEspeciesSetor
+ */
+ export class UnloadModelosEspecieSetor implements Action
+ {
+     readonly type = UNLOAD_MODELOS_ESPECIE_SETOR;
+
+     constructor()
+     {
+     }
+ }
+
+/**
+ * Reload ModelosEspeciesSetor
  */
 export class ReloadModelosEspecieSetor implements Action
 {
@@ -100,6 +114,7 @@ export type ModelosEspecieSetorActionsAll
     = GetModelosEspecieSetor
     | GetModelosEspecieSetorSuccess
     | GetModelosEspecieSetorFailed
+    | UnloadModelosEspecieSetor
     | ReloadModelosEspecieSetor
     | DeleteModeloEspecieSetor
     | DeleteModeloEspecieSetorSuccess

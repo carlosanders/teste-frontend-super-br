@@ -16,6 +16,7 @@ export interface UnidadesListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const UnidadesListInitialState: UnidadesListState = {
@@ -33,7 +34,8 @@ export const UnidadesListInitialState: UnidadesListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function UnidadesListReducer(
@@ -70,14 +72,22 @@ export function UnidadesListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
+            };
+        }
+
+        case UnidadesListActions.UNLOAD_UNIDADES: {
+            return {
+                ...UnidadesListInitialState
             };
         }
 
         case UnidadesListActions.RELOAD_UNIDADES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

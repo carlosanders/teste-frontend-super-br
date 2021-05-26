@@ -8,12 +8,12 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Acao, Etiqueta, ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
-import {Observable} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 import * as fromStore from '../../store';
 import {getModalidadeAcaoEtiqueta} from '../store/selectors';
-import {getRouterState} from "../../../../../../../../../store/reducers";
+import {getRouterState} from '../../../../../../../../../store/reducers';
 
 @Component({
     selector: 'acao-trigger-001',
@@ -45,7 +45,7 @@ export class AcaoTrigger001Component implements OnInit, OnDestroy {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -65,8 +65,8 @@ export class AcaoTrigger001Component implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.modalidadeAcaoEtiqueta$.subscribe(
-            modalidadeAcaoEtiqueta => {
-                this.modalidadeAcaoEtiqueta = modalidadeAcaoEtiqueta
+            (modalidadeAcaoEtiqueta) => {
+                this.modalidadeAcaoEtiqueta = modalidadeAcaoEtiqueta;
             }
         );
     }

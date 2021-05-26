@@ -12,6 +12,7 @@ import {EnderecoService} from '@cdk/services/endereco.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Endereco} from '@cdk/models';
 import {endereco as enderecoSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class EnderecoListEffect {
@@ -25,7 +26,7 @@ export class EnderecoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class EnderecoListEffect {
 
     /**
      * Get Enderecos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class EnderecoListEffect {
         this._actions
             .pipe(
                 ofType<EnderecoListActions.GetEnderecos>(EnderecoListActions.GET_ENDERECOS),
-                switchMap((action) => {
-                    return this._enderecoService.query(
+                switchMap(action => this._enderecoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +53,8 @@ export class EnderecoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify([
                             'municipio', 'municipio.estado', 'pais', 'pessoa'
-                        ]));
-                }),
-                mergeMap((response) => [
+                        ]))),
+                mergeMap(response => [
                     new AddData<Endereco>({data: response['entities'], schema: enderecoSchema}),
                     new EnderecoListActions.GetEnderecosSuccess({
                         entitiesId: response['entities'].map(endereco => endereco.id),
@@ -75,6 +75,7 @@ export class EnderecoListEffect {
 
     /**
      * Delete Endereco
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,16 @@ export class EnderecoListEffect {
         this._actions
             .pipe(
                 ofType<EnderecoListActions.DeleteEndereco>(EnderecoListActions.DELETE_ENDERECO),
-                mergeMap((action) => {
-                    return this._enderecoService.destroy(action.payload).pipe(
-                        map((response) => new EnderecoListActions.DeleteEnderecoSuccess(response.id)),
+                mergeMap(action => this._enderecoService.destroy(action.payload).pipe(
+                        map(response => new EnderecoListActions.DeleteEnderecoSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new EnderecoListActions.DeleteEnderecoFailed(action.payload));
+                            return of(new EnderecoListActions.DeleteEnderecoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

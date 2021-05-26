@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {TipoValidacaoWorkflow, Pagination} from '../../../../../../@cdk/models';
+import {TipoValidacaoWorkflow, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -40,7 +40,7 @@ export class TipoValidacaoWorkflowEditComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -56,7 +56,7 @@ export class TipoValidacaoWorkflowEditComponent implements OnInit {
             id: [null],
             valor: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required]],
-            sigla: [null, [Validators.required]]       
+            sigla: [null, [Validators.required]]
          });
     }
 
@@ -66,7 +66,7 @@ export class TipoValidacaoWorkflowEditComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
 
     submitTipoValidacaoWorkflow(values): void {
-  
+
         const tipoValidacaoWorkflow = new TipoValidacaoWorkflow();
         Object.entries(values).forEach(
             ([key, value]) => {

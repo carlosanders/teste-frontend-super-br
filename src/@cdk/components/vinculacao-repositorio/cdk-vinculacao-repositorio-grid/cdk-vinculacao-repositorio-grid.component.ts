@@ -138,6 +138,9 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -222,7 +225,7 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -356,5 +359,12 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

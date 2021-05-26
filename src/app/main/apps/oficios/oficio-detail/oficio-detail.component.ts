@@ -111,7 +111,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -120,7 +120,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.mode = routerState.state.params['oficioTargetHandle'];
             }
@@ -129,7 +129,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
@@ -137,7 +137,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.documentoAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documentoAvulso => {
+        ).subscribe((documentoAvulso) => {
             this.documentoAvulso = documentoAvulso;
         });
 
@@ -155,7 +155,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
             } else {

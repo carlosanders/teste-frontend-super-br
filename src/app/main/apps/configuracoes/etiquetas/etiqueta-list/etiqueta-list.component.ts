@@ -30,6 +30,7 @@ export class EtiquetaListComponent implements OnInit, OnDestroy {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -46,11 +47,12 @@ export class EtiquetaListComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -58,7 +60,7 @@ export class EtiquetaListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

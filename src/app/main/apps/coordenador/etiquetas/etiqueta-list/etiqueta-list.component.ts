@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+import {UnloadEtiquetas} from './store';
+
+
 @Component({
     selector: 'etiqueta-list',
     templateUrl: './etiqueta-list.component.html',
@@ -22,7 +26,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EtiquetaListComponent implements OnInit {
+export class EtiquetaListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     etiquetas$: Observable<Etiqueta[]>;
@@ -30,6 +34,7 @@ export class EtiquetaListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -46,11 +51,12 @@ export class EtiquetaListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -58,9 +64,13 @@ export class EtiquetaListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadEtiquetas());
     }
 
     reload(params): void {

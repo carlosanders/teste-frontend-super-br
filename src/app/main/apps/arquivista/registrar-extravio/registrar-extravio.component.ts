@@ -5,10 +5,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Back, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
-import {getProcesso} from "../../processo/store";
+import {cdkAnimations} from '@cdk/animations';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {getProcesso} from '../../processo/store';
 
 @Component({
     selector: 'registrar-extravio',
@@ -49,7 +49,7 @@ export class RegistrarExtravioComponent implements OnInit {
     ngOnInit(): void {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -58,7 +58,7 @@ export class RegistrarExtravioComponent implements OnInit {
         this.processo$.pipe(
             filter(processo => !!processo && (!this.processo || processo.id !== this.processo.id)),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
         });
     }
@@ -76,7 +76,7 @@ export class RegistrarExtravioComponent implements OnInit {
         this.confirmDialogRef
             .componentInstance
             .confirmMessage = 'Deseja realmente registrar o extravio do processo? NUPs apensos ou anexos também serão registrados como extraviados.';
-        this.confirmDialogRef.afterClosed().subscribe(result => {
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const transicao = new Transicao();
 

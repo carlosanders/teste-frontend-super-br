@@ -44,7 +44,7 @@ export class CdkTipoRelatorioFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nome': `like:%${bit}%`});
             });
         }

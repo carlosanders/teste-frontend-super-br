@@ -21,7 +21,7 @@ import * as fromGuards from './store/guards';
 import {CdkAcaoTransicaoWorkflowListModule} from '@cdk/components/acao-transicao-workflow/cdk-acao-transicao-workflow-list/cdk-acao-transicao-workflow-list.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {AcaoTransicaoWorkflowService} from "@cdk/services/acao-transicao-workflow.service";
+import {AcaoTransicaoWorkflowService} from '@cdk/services/acao-transicao-workflow.service';
 
 const routes: Routes = [
     {

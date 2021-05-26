@@ -25,7 +25,7 @@ export class RepositorioEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class RepositorioEditEffects {
 
     /**
      * Save Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class RepositorioEditEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosActions.SaveRepositorio>(RepositoriosActions.SAVE_REPOSITORIO),
-                switchMap((action) => {
-                    return this._repositorioService.save(action.payload).pipe(
+                switchMap(action => this._repositorioService.save(action.payload).pipe(
                         mergeMap((response: Repositorio) => [
                             new RepositoriosActions.SaveRepositorioSuccess(),
                             new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
@@ -56,8 +56,7 @@ export class RepositorioEditEffects {
                             console.log(err);
                             return of(new RepositoriosActions.SaveRepositorioFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 }

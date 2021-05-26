@@ -78,7 +78,7 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -128,9 +128,9 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
         const path = 'app/main/apps/documento/documento-edit/visibilidade';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => {
+                        .then( (componentFactory)  => {
                             this.container.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });

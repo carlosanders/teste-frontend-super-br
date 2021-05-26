@@ -63,22 +63,22 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             id: 'valor',
             label: 'Valor',
             fixed: true
-        },    
+        },
         {
             id: 'dataValor',
             label: 'Data Valor',
             fixed: true
-        },      
+        },
         {
             id: 'descricao',
             label: 'Descrição',
             fixed: true
-        },     
+        },
         {
             id: 'observacao',
             label: 'Observação',
             fixed: false
-        },                        
+        },
         {
             id: 'processo',
             label: 'NUP',
@@ -128,6 +128,9 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: {};
 
     @Input()
     pageSize = 10;
@@ -208,7 +211,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -343,5 +346,12 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

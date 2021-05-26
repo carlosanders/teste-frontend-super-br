@@ -54,6 +54,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
     mode = 'documento';
 
+    assinaturaInterval = null;
+
     /**
      * @param _changeDetectorRef
      * @param _store
@@ -69,7 +71,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
 
@@ -108,7 +110,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(cd => {
+        ).subscribe((cd) => {
             this.componenteDigital = cd;
 
             if (this.componenteDigital) {
@@ -122,7 +124,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
         this.saving$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(saving => {
+        ).subscribe((saving) => {
             this.saving = saving;
             this._changeDetectorRef.detectChanges();
         });
@@ -131,7 +133,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -153,9 +155,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId && assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -163,6 +165,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });

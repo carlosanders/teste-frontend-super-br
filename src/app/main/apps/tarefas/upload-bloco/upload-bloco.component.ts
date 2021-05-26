@@ -71,7 +71,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            tarefas => {
+            (tarefas) => {
                 this.tarefaPrincipal = tarefas[0] ? tarefas[0] : null;
                 this.tarefasBloco = tarefas[1] ? tarefas.filter(t => t.id !== tarefas[0].id) : [];
                 this._changeDetectorRef.markForCheck();
@@ -81,7 +81,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -106,7 +106,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
     onComplete(componenteDigital: ComponenteDigital): void {
         this.operacoes.push({
             type: 'upload',
-            content: `Upload realizado com sucesso!`,
+            content: 'Upload realizado com sucesso!',
             success: true
         });
         this._changeDetectorRef.markForCheck();

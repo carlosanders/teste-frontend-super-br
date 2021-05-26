@@ -12,6 +12,7 @@ import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-us
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoPessoaUsuario} from '@cdk/models';
 import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 
 @Injectable()
@@ -27,7 +28,7 @@ export class VinculacaoPessoaUsuarioListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class VinculacaoPessoaUsuarioListEffects {
 
     /**
      * Get VinculacaoPessoaUsuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class VinculacaoPessoaUsuarioListEffects {
         this._actions
             .pipe(
                 ofType<VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioListActions.GET_VINCULACAO_PESSOA_USUARIO),
-                switchMap((action) => {
-                    return this._vinculacaoPessoaUsuarioService.query(
+                switchMap(action => this._vinculacaoPessoaUsuarioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class VinculacaoPessoaUsuarioListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<VinculacaoPessoaUsuario>({data: response['entities'], schema: vinculacaoPessoaUsuarioSchema}),
                             new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioSuccess({
                                 entitiesId: response['entities'].map(vinculacaoPessoaUsuario => vinculacaoPessoaUsuario.id),
@@ -69,12 +70,12 @@ export class VinculacaoPessoaUsuarioListEffects {
                             console.log(err);
                             return of(new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete VinculacaoPessoaUsuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,16 @@ export class VinculacaoPessoaUsuarioListEffects {
         this._actions
             .pipe(
                 ofType<VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioListActions.DELETE_VINCULACAO_PESSOA_USUARIO),
-                mergeMap((action) => {
-                    return this._vinculacaoPessoaUsuarioService.destroy(action.payload).pipe(
-                        map((response) => new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioSuccess(response.id)),
+                mergeMap(action => this._vinculacaoPessoaUsuarioService.destroy(action.payload).pipe(
+                        map(response => new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioFailed(action.payload));
+                            return of(new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

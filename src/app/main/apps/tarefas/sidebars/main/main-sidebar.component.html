@@ -14,10 +14,6 @@
         <mat-progress-bar [mode]="'indeterminate'" *ngIf="(loading$ | async)"></mat-progress-bar>
     </div>
 
-    <mat-error class="m-4" *ngIf="error">
-        {{ error }}
-    </mat-error>
-
     <div class="create-button">
         <button mat-raised-button
                 class="mat-accent compose-dialog-button w-100-p"
@@ -50,7 +46,7 @@
                      (dndDragover)="dragOver($event, element, dropzoneEnabledFolders())"
                      (dndDrop)="onDrop([$event, null], dropzoneEnabledFolders())">
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
-                   [routerLinkActive]="['active', 'accent']">
+                   [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
@@ -81,8 +77,26 @@
             </button>
         </mat-menu>
 
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <input #inputFolder type="text" *ngIf="showAddFolder" class="input-add-pasta" (keyup.enter)="addFolder()">
+        <div class="nova-pasta" *ngIf="showAddFolder">
+            <div class="campo-nova-pasta">
+                <mat-form-field [ngClass]="{'error': error}">
+                    <input matInput #inputFolder placeholder="Nome da pasta" [formControl]="newFolderCtrl" type="text" class="input-add-pasta" (keyup.enter)="addFolder()">
+                </mat-form-field>
+                <div class="actions">
+                    <button mat-icon-button aria-label="Criar pasta" matTooltip="Criar pasta" class="accent"
+                            [disabled]="!!error || inputFolder.value?.length < 2"
+                            (click)="$event.stopPropagation(); addFolder()">
+                        <mat-icon>send</mat-icon>
+                    </button>
+                    <button mat-icon-button aria-label="Cancelar" matTooltip="Cancelar" class="warn"
+                            (click)="$event.stopPropagation(); cancelAddFolder()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="erro-pasta mat-error" *ngIf="showAddFolder && error">
+            {{ error }}
         </div>
 
         <div class="nav-item" *ngFor="let folder of folders">
@@ -94,7 +108,7 @@
                      (dndDrop)="onDrop([$event, folder], dropzoneEnabledFolders(folder.nome.toLowerCase()))">
                 <div class="menu_content nav-link"
                      [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
-                     [routerLinkActive]="['active', 'accent']">
+                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes[folder.nome]}}" matBadgeColor="warn"
@@ -127,12 +141,33 @@
         </div>
 
         <div class="nav-item">
-            <a class="nav-link" matRipple
-               [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
-               [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="nav-link-icon">delete</mat-icon>
-                <span>Lixeira</span>
-            </a>
+            <section dndDropzone dndDropzoneDisabledClass="custom-drag-over-disabled"
+                     dndDragoverClass="custom-drag-over"
+                     id="folder_lixeira"
+                     #elementLixeira
+                     (dndDragover)="dragOver($event, elementLixeira, dropzoneEnabledFolders('lixeira'))"
+                     (dndDrop)="onDropDelete($event, dropzoneEnabledFolders('lixeira'))">
+                <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
+                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                    <div class="menu_content_label">
+                        <mat-icon class="nav-link-icon"
+                                  matBadge="{{tarefasPendentes['lixeira_' + generoHandleAcentuado]}}"
+                                  matBadgeColor="warn"
+                                  matBadgeSize="small">
+                            delete
+                        </mat-icon>
+                        <span style="flex: 1 1 auto;">Lixeira</span>
+                        <mat-icon class="place-holder">
+                            assignment_return
+                        </mat-icon>
+                    </div>
+                    <div class="menu_content_button">
+                        <div class="mat-icon-button">
+                            <mat-icon></mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div class="nav-subheader">COMPARTILHAMENTO</div>
@@ -140,7 +175,7 @@
         <div class="nav-item">
             <a class="nav-link" matRipple
                [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas/outros-usuarios'"
-               [routerLinkActive]="['active', 'accent']">
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">share</mat-icon>
                 <span>Outros Usuários</span>
             </a>
@@ -219,7 +254,7 @@
                                          (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                                          (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                                          [routerLinkActive]="['active', 'accent']"
-                                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                                         <section class="setor">
                                             <div class="menu_content_label">
                                                 <div>
@@ -341,7 +376,7 @@
                                  (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                                  (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                                  [routerLinkActive]="['active', 'accent']"
-                                 [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                                 [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                                 <section class="setor">
                                     <div class="menu_content_label">
                                         <div>
@@ -427,7 +462,7 @@
                          (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                          (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                          [routerLinkActive]="['active', 'accent']"
-                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                         <section class="setor">
                             <div class="menu_content_label">
                                 <div>
@@ -497,7 +532,7 @@
                      (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                      (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                      [routerLinkActive]="['active', 'accent']"
-                     [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                     [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                     <section class="setor">
                         <div class="menu_content_label">
                             <div>
@@ -557,7 +592,7 @@
 
         <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/assessor/' + usuario.id"
-               [routerLinkActive]="['active', 'accent']">
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
                 <span>{{usuario.nome | titlecase}}</span>
             </a>

@@ -15,7 +15,7 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {getPagination} from "../selectors";
+import {getPagination} from '../selectors';
 
 @Injectable()
 export class OficiosEffects {
@@ -39,7 +39,7 @@ export class OficiosEffects {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -48,6 +48,7 @@ export class OficiosEffects {
 
     /**
      * Get Tarefas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -55,8 +56,7 @@ export class OficiosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosAvulsoActions.GetDocumentosAvulso>(DocumentosAvulsoActions.GET_DOCUMENTOS_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.query(
+                switchMap(action => this._documentoAvulsoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -66,9 +66,8 @@ export class OficiosEffects {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                concatMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                concatMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                     new DocumentosAvulsoActions.GetDocumentosAvulsoSuccess({
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),
@@ -96,13 +95,12 @@ export class OficiosEffects {
             .pipe(
                 ofType<DocumentosAvulsoActions.ReloadDocumentosAvulso>(DocumentosAvulsoActions.RELOAD_DOCUMENTOS_AVULSO),
                 withLatestFrom(this._store.pipe(select(getPagination))),
-                tap(([action, pagination]) => {
-                    return this._store.dispatch(new DocumentosAvulsoActions.GetDocumentosAvulso(pagination));
-                })
+                tap(([action, pagination]) => this._store.dispatch(new DocumentosAvulsoActions.GetDocumentosAvulso(pagination)))
             );
 
     /**
      * Update DocumentoAvulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -130,6 +128,7 @@ export class OficiosEffects {
 
     /**
      * Toggle Lida Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -137,9 +136,8 @@ export class OficiosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosAvulsoActions.ToggleLidaDocumentosAvulso>(DocumentosAvulsoActions.TOGGLE_LIDA_DOCUMENTOS_AVULSO),
-                mergeMap((action) => {
-                    return this._documentoAvulsoService.toggleLida(action.payload).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._documentoAvulsoService.toggleLida(action.payload).pipe(
+                        mergeMap(response => [
                             new DocumentosAvulsoActions.ToggleLidaDocumentosAvulsoSuccess(response.id),
                             new UpdateData<DocumentoAvulso>({
                                 id: response.id,
@@ -151,7 +149,6 @@ export class OficiosEffects {
                             console.log(err);
                             return of(new DocumentosAvulsoActions.ToggleLidaDocumentosAvulsoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 }

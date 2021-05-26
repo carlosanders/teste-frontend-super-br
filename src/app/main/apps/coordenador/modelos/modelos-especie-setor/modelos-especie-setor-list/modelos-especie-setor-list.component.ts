@@ -1,6 +1,7 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component, OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,6 +13,9 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {VinculacaoModelo, Pagination} from '@cdk/models';
 
+import {UnloadModelosEspecieSetor} from './store';
+
+
 @Component({
     selector: 'modelos-especie-setor-list',
     templateUrl: './modelos-especie-setor-list.component.html',
@@ -20,7 +24,7 @@ import {VinculacaoModelo, Pagination} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModelosEspecieSetorListComponent implements OnInit {
+export class ModelosEspecieSetorListComponent implements OnInit, OnDestroy {
 
     vinculacoesModelos$: Observable<VinculacaoModelo[]>;
     routerState: any;
@@ -28,6 +32,7 @@ export class ModelosEspecieSetorListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     modalidadeOrgaoCentralPagination: Pagination = new Pagination();
     modeloPagination: Pagination = new Pagination();
@@ -46,11 +51,12 @@ export class ModelosEspecieSetorListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -67,9 +73,13 @@ export class ModelosEspecieSetorListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadModelosEspecieSetor());
     }
 
     reload(params): void {

@@ -29,7 +29,7 @@ export class VinculacaoPessoaUsuarioEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class VinculacaoPessoaUsuarioEditEffect {
 
     /**
      * Save VinculacaoPessoaUsuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,15 +46,13 @@ export class VinculacaoPessoaUsuarioEditEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoPessoaUsuarioEditActions.SaveVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioEditActions.SAVE_VINCULACAO_PESSOA_USUARIO),
-                switchMap((action) => {
-                    return this._vinculacaoPessoaUsuarioService.save(action.payload).pipe(
+                switchMap(action => this._vinculacaoPessoaUsuarioService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoPessoaUsuario) => [
                             new VinculacaoPessoaUsuarioEditActions.SaveVinculacaoPessoaUsuarioSuccess(),
                             new VinculacaoPessoaUsuarioListActions.ReloadVinculacaoPessoaUsuario(),
                             new AddData<VinculacaoPessoaUsuario>({data: [response], schema: vinculacaoPessoaUsuarioSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new VinculacaoPessoaUsuarioEditActions.SaveVinculacaoPessoaUsuarioFailed(err));

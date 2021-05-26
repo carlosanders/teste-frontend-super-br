@@ -32,7 +32,7 @@ export class EspecieTarefaEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class EspecieTarefaEditEffects {
 
     /**
      * Get EspecieTarefa with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class EspecieTarefaEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieTarefaEditActions.GetEspecieTarefa>(EspecieTarefaEditActions.GET_ESPECIE_TAREFA),
-                switchMap((action) => {
-                    return this._especieTarefaService.query(
+                switchMap(action => this._especieTarefaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -57,8 +57,7 @@ export class EspecieTarefaEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<EspecieTarefa>({data: response['entities'], schema: especieTarefaSchema}),
                     new EspecieTarefaEditActions.GetEspecieTarefaSuccess({
@@ -78,6 +77,7 @@ export class EspecieTarefaEditEffects {
 
     /**
      * Save EspecieTarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -104,6 +104,7 @@ export class EspecieTarefaEditEffects {
 
     /**
      * Update EspecieTarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -111,15 +112,13 @@ export class EspecieTarefaEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieTarefaEditActions.UpdateEspecieTarefa>(EspecieTarefaEditActions.UPDATE_ESPECIE_TAREFA),
-                switchMap((action) => {
-                    return this._especieTarefaService.patch(action.payload.especieTarefa, action.payload.changes).pipe(
+                switchMap(action => this._especieTarefaService.patch(action.payload.especieTarefa, action.payload.changes).pipe(
                         mergeMap((response: EspecieTarefa) => [
                             new EspecieTarefaListActions.ReloadEspecieTarefa(),
                             new AddData<EspecieTarefa>({data: [response], schema: especieTarefaSchema}),
                             new EspecieTarefaEditActions.UpdateEspecieTarefaSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new EspecieTarefaEditActions.UpdateEspecieTarefaFailed(err));

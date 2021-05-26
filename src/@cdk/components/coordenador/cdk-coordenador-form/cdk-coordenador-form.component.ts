@@ -105,7 +105,7 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
         if (this.form.get('unidade').value && this.form.get('tipo').value === 'S') {
             this.form.get('setor').enable();
             this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
-            this.setorPagination.filter['parent'] = `isNotNull`;
+            this.setorPagination.filter['parent'] = 'isNotNull';
 
             this._changeDetectorRef.markForCheck();
         }
@@ -137,7 +137,7 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
                                 this.form.get('setor').enable();
                                 this.form.get('setor').reset();
                                 this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
-                                this.setorPagination.filter['parent'] = `isNotNull`;
+                                this.setorPagination.filter['parent'] = 'isNotNull';
                             }
                             break;
                         default:
@@ -163,7 +163,7 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
                         this.form.get('setor').enable();
                         this.form.get('setor').reset();
                         this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
-                        this.setorPagination.filter['parent'] = `isNotNull`;
+                        this.setorPagination.filter['parent'] = 'isNotNull';
 
                         this._changeDetectorRef.markForCheck();
                     } else {
@@ -200,7 +200,7 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

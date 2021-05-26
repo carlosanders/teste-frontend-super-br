@@ -55,7 +55,7 @@ export class CdkValidacaoTransicaoWorkflowAutocompleteComponent implements OnIni
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             contexto: `like:%${bit}%`});
                     });
@@ -81,7 +81,7 @@ export class CdkValidacaoTransicaoWorkflowAutocompleteComponent implements OnIni
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.validacaoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

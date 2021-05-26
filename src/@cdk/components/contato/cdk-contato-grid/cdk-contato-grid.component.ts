@@ -111,6 +111,9 @@ export class CdkContatoGridComponent implements AfterViewInit, OnInit, OnChanges
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -191,7 +194,7 @@ export class CdkContatoGridComponent implements AfterViewInit, OnInit, OnChanges
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -327,16 +330,23 @@ export class CdkContatoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.create.emit();
     }
 
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
+
     getNomeContato(contato): string {
         switch (contato.tipoContato.nome) {
-            case "UNIDADE":
+            case 'UNIDADE':
                 return contato.unidade.nome;
-            case "SETOR":
+            case 'SETOR':
                 return contato.setor.nome;
-            case "USUÁRIO":
+            case 'USUÁRIO':
                 return contato.usuario.nome;
             default:
-                return "UNDEFINED";
+                return 'UNDEFINED';
 
         }
     }

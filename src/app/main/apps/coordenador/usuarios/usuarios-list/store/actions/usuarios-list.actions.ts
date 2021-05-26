@@ -5,6 +5,8 @@ export const GET_USUARIOS_SUCCESS = '[COORDENADOR USUARIO LIST] GET USUARIOS SUC
 export const GET_USUARIOS_FAILED = '[COORDENADOR USUARIO LIST] GET USUARIOS FAILED';
 
 export const RELOAD_USUARIOS = '[COORDENADOR USUARIO LIST] RELOAD USUARIOS';
+export const UNLOAD_USUARIOS = '[COORDENADOR USUARIO LIST] UNLOAD USUARIOS';
+
 
 export const DELETE_USUARIO = '[COORDENADOR USUARIO LIST] DELETE USUARIO';
 export const DELETE_USUARIO_SUCCESS = '[COORDENADOR USUARIO LIST] DELETE USUARIO SUCCESS';
@@ -49,6 +51,18 @@ export class GetUsuariosFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Usuarios
+ */
+ export class UnloadUsuarios implements Action
+ {
+     readonly type = UNLOAD_USUARIOS;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Usuarios
@@ -138,6 +152,7 @@ export type UsuariosListActionsAll
     = GetUsuarios
     | GetUsuariosSuccess
     | GetUsuariosFailed
+    | UnloadUsuarios
     | ReloadUsuarios
     | DeleteUsuario
     | DeleteUsuarioSuccess

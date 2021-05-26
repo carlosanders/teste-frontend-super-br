@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {ComponenteDigitalService} from "../../../../../../@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'repositorio-edit-dados-basicos',
@@ -76,7 +76,7 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
         const path = 'app/main/apps/documento/repositorio-edit/dados-basicos';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

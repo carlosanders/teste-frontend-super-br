@@ -13,8 +13,8 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {WorkflowService} from '../../../../../../../../@cdk/services/workflow.service';
-import {Workflow} from '../../../../../../../../@cdk/models';
+import {WorkflowService} from '@cdk/services/workflow.service';
+import {Workflow} from '@cdk/models';
 
 @Injectable()
 export class WorkflowEditEffects {
@@ -29,7 +29,7 @@ export class WorkflowEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class WorkflowEditEffects {
 
     /**
      * Get Workflow with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class WorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<WorkflowEditActions.GetWorkflow>(WorkflowEditActions.GET_WORKFLOW),
-                switchMap((action) => {
-                    return this._workflowService.query(
+                switchMap(action => this._workflowService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class WorkflowEditEffects {
                         JSON.stringify([
                             'populateAll',
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Workflow>({data: response['entities'], schema: workflowSchema}),
                     new WorkflowEditActions.GetWorkflowSuccess({
@@ -75,6 +74,7 @@ export class WorkflowEditEffects {
 
     /**
      * Save Workflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,6 +102,7 @@ export class WorkflowEditEffects {
 
     /**
      * Update Workflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -112,13 +113,11 @@ export class WorkflowEditEffects {
                 switchMap((action) => {
                     const context = JSON.stringify({isAdmin: true});
                     return this._workflowService.save(action.payload).pipe(
-                        mergeMap((response: Workflow) => {
-                            return [
+                        mergeMap((response: Workflow) => [
                                 new SetData<Workflow>({data: [response], schema: workflowSchema}),
                                 new WorkflowEditActions.ReloadWorkflow(action.payload),
                                 new WorkflowEditActions.UpdateWorkflowSuccess(response)
-                            ];
-                        })
+                            ])
                     );
                 }),
                 catchError((err, caught) => {
@@ -158,6 +157,7 @@ export class WorkflowEditEffects {
 
     /**
      * Get Workflow with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -165,8 +165,7 @@ export class WorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<WorkflowEditActions.ReloadWorkflow>(WorkflowEditActions.RELOAD_WORKFLOW),
-                switchMap((action) => {
-                    return this._workflowService.query(
+                switchMap(action => this._workflowService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -176,7 +175,7 @@ export class WorkflowEditEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(['populateAll']),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new SetData<Workflow>({data: response['entities'], schema: workflowSchema}),
                             new WorkflowListActions.GetWorkflowSuccess({
                                 entitiesId: response['entities'].map(workflow => workflow.id),
@@ -191,8 +190,7 @@ export class WorkflowEditEffects {
                             console.log(err);
                             return of(new WorkflowListActions.GetWorkflowFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

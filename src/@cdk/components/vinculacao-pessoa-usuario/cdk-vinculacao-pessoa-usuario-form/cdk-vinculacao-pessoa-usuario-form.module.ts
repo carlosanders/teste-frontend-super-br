@@ -6,7 +6,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {MatButtonModule} from '@angular/material/button';

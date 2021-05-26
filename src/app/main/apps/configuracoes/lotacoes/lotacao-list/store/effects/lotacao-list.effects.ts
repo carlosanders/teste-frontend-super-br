@@ -14,6 +14,7 @@ import {Lotacao} from '@cdk/models';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class LotacaoListEffect {
@@ -28,7 +29,7 @@ export class LotacaoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +38,7 @@ export class LotacaoListEffect {
 
     /**
      * Get Lotacoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +46,7 @@ export class LotacaoListEffect {
         this._actions
             .pipe(
                 ofType<LotacaoListActions.GetLotacoes>(LotacaoListActions.GET_LOTACOES),
-                switchMap((action) => {
-                    return this._lotacaoService.query(
+                switchMap(action => this._lotacaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -55,7 +56,7 @@ export class LotacaoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
                             new LotacaoListActions.GetLotacoesSuccess({
                                 entitiesId: response['entities'].map(lotacao => lotacao.id),
@@ -70,12 +71,12 @@ export class LotacaoListEffect {
                             console.log(err);
                             return of(new LotacaoListActions.GetLotacoesFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Lotacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -83,19 +84,22 @@ export class LotacaoListEffect {
         this._actions
             .pipe(
                 ofType<LotacaoListActions.DeleteLotacao>(LotacaoListActions.DELETE_LOTACAO),
-                mergeMap((action) => {
-                    return this._lotacaoService.destroy(action.payload).pipe(
-                        map((response) => new LotacaoListActions.DeleteLotacaoSuccess(response.id)),
+                mergeMap(action => this._lotacaoService.destroy(action.payload).pipe(
+                        map(response => new LotacaoListActions.DeleteLotacaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new LotacaoListActions.DeleteLotacaoFailed(action.payload));
+                            return of(new LotacaoListActions.DeleteLotacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Lotacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -103,8 +107,7 @@ export class LotacaoListEffect {
         this._actions
             .pipe(
                 ofType<LotacaoListActions.SaveLotacao>(LotacaoListActions.SAVE_LOTACAO),
-                switchMap((action) => {
-                    return this._lotacaoService.patch(action.payload.lotacao, action.payload.changes).pipe(
+                switchMap(action => this._lotacaoService.patch(action.payload.lotacao, action.payload.changes).pipe(
                         mergeMap((response: Lotacao) => [
                             new UpdateData<Lotacao>({id: response.id, schema: lotacaoSchema, changes: {principal: response.principal}}),
                             new LotacaoListActions.SaveLotacaoSuccess(),  new OperacoesActions.Resultado({
@@ -117,7 +120,6 @@ export class LotacaoListEffect {
                             console.log (err);
                             return of(new LotacaoListActions.SaveLotacaoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

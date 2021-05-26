@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkModeloAutocompleteModule} from '../../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkModeloGridsearchModule} from '../../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
 import {RouterModule} from '@angular/router';
-import {CdkAcaoTrigger001Component} from "./cdk-acao-trigger-001.component";
+import {CdkAcaoTrigger001Component} from './cdk-acao-trigger-001.component';
 
 @NgModule({
     declarations: [

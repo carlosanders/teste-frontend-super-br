@@ -265,6 +265,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -353,7 +356,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.getAllColumns().forEach(c => {
+                this.getAllColumns().forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -366,7 +369,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     getSort(columnId: string): boolean {
         let disabled = true;
-        this.getAllColumns().forEach(c => {
+        this.getAllColumns().forEach((c) => {
             if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
                 disabled = false;
             }
@@ -437,7 +440,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             this.view.emit({id: processo.id, chaveAcesso: result});
             return;
         });
@@ -459,7 +462,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         processosId.forEach(processoId => this.deleteProcesso(processoId));
     }
 
-    doRestricoesAcesso(processo:Processo): void {
+    doRestricoesAcesso(processo: Processo): void {
         this.restricoesAcesso.emit(processo);
     }
 
@@ -513,10 +516,10 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     setFilter(gridFilter): void {
         if(this.mobileMode && this.processos) {
-            (<HTMLInputElement>document.getElementById("sidebarId")).classList.remove('mobile-processo-pesquisa-on');
-            (<HTMLInputElement>document.getElementById("sidebarId")).classList.add('mobile-processo-pesquisa-off');
-            (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.remove('mobile-processo-lista-off');
-            (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.add('mobile-processo-lista-on');
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-processo-pesquisa-on');
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-processo-pesquisa-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-processo-lista-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-processo-lista-on');
         }
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
@@ -531,10 +534,17 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         this.create.emit();
     }
 
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
+
     cssPesquisaOn() {
-        (<HTMLInputElement>document.getElementById("sidebarId")).classList.remove('mobile-processo-pesquisa-off');
-        (<HTMLInputElement>document.getElementById("sidebarId")).classList.add('mobile-processo-pesquisa-on');
-        (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.remove('mobile-processo-lista-on');
-        (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.add('mobile-processo-lista-off');
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-processo-pesquisa-off');
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-processo-pesquisa-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-processo-lista-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-processo-lista-off');
     }
 }

@@ -12,6 +12,7 @@ import {RegraEtiquetaService} from '@cdk/services/regra-etiqueta.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {RegraEtiqueta} from '@cdk/models';
 import {regraEtiqueta as regraEtiquetaSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class RegraEtiquetaListEffect {
@@ -25,7 +26,7 @@ export class RegraEtiquetaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class RegraEtiquetaListEffect {
 
     /**
      * Get RegrasEtiqueta with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class RegraEtiquetaListEffect {
         this._actions
             .pipe(
                 ofType<RegraEtiquetaListActions.GetRegrasEtiqueta>(RegraEtiquetaListActions.GET_REGRAS_ETIQUETA),
-                switchMap((action) => {
-                    return this._regraEtiquetaService.query(
+                switchMap(action => this._regraEtiquetaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -51,7 +52,7 @@ export class RegraEtiquetaListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<RegraEtiqueta>({data: response['entities'], schema: regraEtiquetaSchema}),
                             new RegraEtiquetaListActions.GetRegrasEtiquetaSuccess({
                                 entitiesId: response['entities'].map(regraEtiqueta => regraEtiqueta.id),
@@ -66,12 +67,12 @@ export class RegraEtiquetaListEffect {
                             console.log(err);
                             return of(new RegraEtiquetaListActions.GetRegrasEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Regra
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -79,14 +80,16 @@ export class RegraEtiquetaListEffect {
         this._actions
             .pipe(
                 ofType<RegraEtiquetaListActions.DeleteRegraEtiqueta>(RegraEtiquetaListActions.DELETE_REGRA_ETIQUETA),
-                mergeMap((action) => {
-                    return this._regraEtiquetaService.destroy(action.payload).pipe(
-                        map((response) => new RegraEtiquetaListActions.DeleteRegraEtiquetaSuccess(response.id)),
+                mergeMap(action => this._regraEtiquetaService.destroy(action.payload).pipe(
+                        map(response => new RegraEtiquetaListActions.DeleteRegraEtiquetaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new RegraEtiquetaListActions.DeleteRegraEtiquetaFailed(action.payload));
+                            return of(new RegraEtiquetaListActions.DeleteRegraEtiquetaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

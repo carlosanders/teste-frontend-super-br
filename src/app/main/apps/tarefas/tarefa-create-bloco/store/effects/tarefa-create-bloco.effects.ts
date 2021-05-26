@@ -29,7 +29,7 @@ export class TarefaCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class TarefaCreateBlocoEffect {
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class TarefaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateBlocoActions.SaveTarefa>(TarefaCreateBlocoActions.SAVE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
+                mergeMap(action => this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaCreateBlocoActions.SaveTarefaSuccess(action.payload),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
@@ -61,14 +61,13 @@ export class TarefaCreateBlocoEffect {
                             console.log (err);
                             this._store.dispatch(new OperacoesActions.Resultado({
                                 type: 'tarefa',
-                                content: `Houve erro no tarefa no processo ${action.payload.processo.NUP}! ${err.error.message}`,
+                                content: `Houve erro na tarefa no processo ${action.payload.processo.NUP}! ${err.error.message}`,
                                 success: false,
                                 dateTime: moment()
                             }));
                             return of(new TarefaCreateBlocoActions.SaveTarefaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
 }

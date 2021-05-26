@@ -71,7 +71,7 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
      */
     ngOnInit(): void {
 
-        this.form.get('processo').valueChanges.subscribe(value => {
+        this.form.get('processo').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -84,7 +84,7 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('especieProcesso').valueChanges.subscribe(value => {
+        this.form.get('especieProcesso').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -97,7 +97,7 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('interessado').valueChanges.subscribe(value => {
+        this.form.get('interessado').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -110,7 +110,7 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('assunto').valueChanges.subscribe(value => {
+        this.form.get('assunto').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -123,7 +123,7 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('dataHoraAbertura').valueChanges.subscribe(value => {
+        this.form.get('dataHoraAbertura').valueChanges.subscribe((value) => {
             if (value) {
                 const date = value._i.year  + '-' + value._i.month + '-' + value._i.date;
                 this.filters = {
@@ -136,7 +136,7 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('dataHoraProximaTransicao').valueChanges.subscribe(value => {
+        this.form.get('dataHoraProximaTransicao').valueChanges.subscribe((value) => {
             if (value) {
                 const date = value._i.year  + '-' + value._i.month + '-' + value._i.date;
                 this.filters = {
@@ -149,7 +149,7 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('etiqueta').valueChanges.subscribe(value => {
+        this.form.get('etiqueta').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,

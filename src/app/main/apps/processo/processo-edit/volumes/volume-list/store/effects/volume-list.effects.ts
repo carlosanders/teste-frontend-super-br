@@ -12,6 +12,7 @@ import {VolumeService} from '@cdk/services/volume.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Volume} from '@cdk/models';
 import {volume as volumeSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class VolumeListEffect {
@@ -25,7 +26,7 @@ export class VolumeListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class VolumeListEffect {
 
     /**
      * Get Volumes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class VolumeListEffect {
         this._actions
             .pipe(
                 ofType<VolumeListActions.GetVolumes>(VolumeListActions.GET_VOLUMES),
-                switchMap((action) => {
-                    return this._volumeService.query(
+                switchMap(action => this._volumeService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -51,9 +52,8 @@ export class VolumeListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Volume>({data: response['entities'], schema: volumeSchema}),
                     new VolumeListActions.GetVolumesSuccess({
                         entitiesId: response['entities'].map(volume => volume.id),
@@ -74,6 +74,7 @@ export class VolumeListEffect {
 
     /**
      * Delete Volume
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,14 +82,16 @@ export class VolumeListEffect {
         this._actions
             .pipe(
                 ofType<VolumeListActions.DeleteVolume>(VolumeListActions.DELETE_VOLUME),
-                mergeMap((action) => {
-                    return this._volumeService.destroy(action.payload).pipe(
-                        map((response) => new VolumeListActions.DeleteVolumeSuccess(response.id)),
+                mergeMap(action => this._volumeService.destroy(action.payload).pipe(
+                        map(response => new VolumeListActions.DeleteVolumeSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new VolumeListActions.DeleteVolumeFailed(action.payload));
+                            return of(new VolumeListActions.DeleteVolumeFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

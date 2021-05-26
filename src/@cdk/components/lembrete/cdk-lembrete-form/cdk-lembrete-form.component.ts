@@ -142,7 +142,7 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -183,7 +183,7 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.lembretes = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

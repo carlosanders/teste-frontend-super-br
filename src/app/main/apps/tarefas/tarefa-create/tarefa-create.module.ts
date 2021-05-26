@@ -25,8 +25,9 @@ import {TarefaCreateStoreModule} from './store/store.module';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromGuards from './store/guards';
 import {ProcessoService} from '@cdk/services/processo.service';
-import {CdkVisibilidadePluginModule} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
+import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
 import {modulesConfig} from 'modules/modules-config';
+import {MatListModule} from '@angular/material/list';
 
 const routes: Routes = [
     {
@@ -80,6 +81,7 @@ modulesConfig.forEach((module) => {
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatListModule,
     ],
     providers: [
         TarefaService,

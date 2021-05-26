@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {DocumentoAvulso} from '@cdk/models';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class DocumentoAvulsoListEffect {
@@ -27,7 +28,7 @@ export class DocumentoAvulsoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class DocumentoAvulsoListEffect {
 
     /**
      * Get DocumentosAvulsos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class DocumentoAvulsoListEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoListActions.GetDocumentosAvulsos>(DocumentoAvulsoListActions.GET_DOCUMENTOS_AVULSOS),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.query(
+                switchMap(action => this._documentoAvulsoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,9 +54,8 @@ export class DocumentoAvulsoListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                     new DocumentoAvulsoListActions.GetDocumentosAvulsosSuccess({
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),
@@ -76,6 +76,7 @@ export class DocumentoAvulsoListEffect {
 
     /**
      * Delete DocumentoAvulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -83,19 +84,22 @@ export class DocumentoAvulsoListEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoListActions.DeleteDocumentoAvulso>(DocumentoAvulsoListActions.DELETE_DOCUMENTO_AVULSO),
-                mergeMap((action) => {
-                    return this._documentoAvulsoService.destroy(action.payload).pipe(
-                        map((response) => new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id)),
+                mergeMap(action => this._documentoAvulsoService.destroy(action.payload).pipe(
+                        map(response => new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(action.payload));
+                            return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Responder DocumentoAvulso
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

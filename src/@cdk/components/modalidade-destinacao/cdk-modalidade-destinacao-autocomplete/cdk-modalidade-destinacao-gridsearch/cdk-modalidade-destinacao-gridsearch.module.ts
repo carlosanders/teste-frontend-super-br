@@ -13,7 +13,7 @@ import { CdkModalidadeDestinacaoGridModule } from '@cdk/components/modalidade-de
     imports: [
 
         CdkModalidadeDestinacaoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

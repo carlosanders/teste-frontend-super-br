@@ -58,7 +58,7 @@
             </button>
         </div>
         <mat-menu #filtroDataNascimento="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="dataNascimento"
+            <cdk-date-filter campo="dataNascimento"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraDataNascimento($event)">
             </cdk-date-filter>
@@ -72,7 +72,7 @@
             </button>
         </div>
         <mat-menu #filtroDataObito="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="dataObito"
+            <cdk-date-filter campo="dataObito"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraDataObito($event)">
             </cdk-date-filter>

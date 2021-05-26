@@ -28,7 +28,7 @@ export class RelevanciaEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class RelevanciaEditEffect {
 
     /**
      * Get Relevancia with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class RelevanciaEditEffect {
         this._actions
             .pipe(
                 ofType<RelevanciaEditActions.GetRelevancia>(RelevanciaEditActions.GET_RELEVANCIA),
-                switchMap((action) => {
-                    return this._relevanciaService.query(
+                switchMap(action => this._relevanciaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Relevancia>({data: response['entities'], schema: relevanciaSchema}),
                     new RelevanciaEditActions.GetRelevanciaSuccess({
@@ -73,6 +72,7 @@ export class RelevanciaEditEffect {
 
     /**
      * Save Relevancia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class RelevanciaEditEffect {
         this._actions
             .pipe(
                 ofType<RelevanciaEditActions.SaveRelevancia>(RelevanciaEditActions.SAVE_RELEVANCIA),
-                switchMap((action) => {
-                    return this._relevanciaService.save(action.payload).pipe(
+                switchMap(action => this._relevanciaService.save(action.payload).pipe(
                         mergeMap((response: Relevancia) => [
                             new RelevanciaEditActions.SaveRelevanciaSuccess(),
                             new RelevanciaListActions.ReloadRelevancias(),
@@ -96,8 +95,7 @@ export class RelevanciaEditEffect {
                             console.log (err);
                             return of(new RelevanciaEditActions.SaveRelevanciaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save Relevancia Success

@@ -30,6 +30,7 @@ export class ValidacaoTransicaoWorkflowListComponent implements OnInit {
     validacoes: ValidacaoTransicaoWorkflow[] = [];
     loading$: Observable<boolean>;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -45,11 +46,12 @@ export class ValidacaoTransicaoWorkflowListComponent implements OnInit {
         this.validacoes$ = this._store.pipe(select(fromStore.getValidacaoList));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

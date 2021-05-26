@@ -30,6 +30,7 @@ export class AcaoTransicaoWorkflowListComponent implements OnInit {
     acoes: AcaoTransicaoWorkflow[] = [];
     loading$: Observable<boolean>;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -45,11 +46,12 @@ export class AcaoTransicaoWorkflowListComponent implements OnInit {
         this.acoes$ = this._store.pipe(select(fromStore.getAcaoList));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

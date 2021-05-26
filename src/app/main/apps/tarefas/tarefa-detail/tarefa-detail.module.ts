@@ -22,8 +22,10 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
-import {ModalidadeEtiquetaService} from '../../../../../@cdk/services/modalidade-etiqueta.service';
-import {EtiquetaService} from '../../../../../@cdk/services/etiqueta.service';
+import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.service';
+import {EtiquetaService} from '@cdk/services/etiqueta.service';
+import {ProcessoStoreModule} from '../../processo/store/store.module';
+import {AcompanhamentoService} from '../../../../../@cdk/services/acompanhamento.service';
 
 const routes: Routes = [
     {
@@ -109,11 +111,13 @@ routes[0].children.push({
         TranslateModule,
 
         CdkVinculacaoEtiquetaChipsModule,
+        ProcessoStoreModule,
 
         CdkSharedModule,
         CdkSidebarModule
     ],
     providers: [
+        AcompanhamentoService,
         TarefaService,
         VinculacaoEtiquetaService,
         LoginService,

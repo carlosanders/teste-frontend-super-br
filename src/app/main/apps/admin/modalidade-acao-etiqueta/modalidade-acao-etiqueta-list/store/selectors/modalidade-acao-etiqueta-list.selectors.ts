@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getModalidadeAcaoEtiquetaListState,
     (state: ModalidadeAcaoEtiquetaListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getModalidadeAcaoEtiquetaListState,
+    (state: ModalidadeAcaoEtiquetaListState) => state.deletingErrors
+);

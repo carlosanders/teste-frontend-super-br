@@ -1,4 +1,4 @@
-@import "../../../../@cdk/scss/cdk";
+@import "@cdk/scss/cdk";
 
 toolbar {
     position: relative;
@@ -75,6 +75,17 @@ toolbar {
     .title {
         margin-left: 15px;
     }
+
+    button {
+        margin-right: 15px;
+    }
+}
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: auto;
 
     button {
         margin-right: 15px;

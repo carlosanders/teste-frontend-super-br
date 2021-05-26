@@ -18,11 +18,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AcaoTrigger002Component} from './acao-trigger-002.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
-import {CommonModule} from "@angular/common";
-import {CdkAcaoTrigger002Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-002/cdk-acao-trigger-002.module";
-import * as fromGuards from "./store/guards";
-import {ModalidadeAcaoEtiquetaService} from "@cdk/services/modalidade-acao-etiqueta.service";
-import {AcaoTriggerStoreModule} from "../store/store.module";
+import {CommonModule} from '@angular/common';
+import {CdkAcaoTrigger002Module} from '@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-002/cdk-acao-trigger-002.module';
+import * as fromGuards from './store/guards';
+import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
+import {AcaoTriggerStoreModule} from '../store/store.module';
 
 const routes: Routes = [
     {

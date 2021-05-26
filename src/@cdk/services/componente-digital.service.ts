@@ -55,9 +55,9 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
             JSON.stringify(changes),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(ComponenteDigital, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
             })
         );
@@ -71,9 +71,9 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
             JSON.stringify(changes),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(ComponenteDigital, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
             })
         );
@@ -85,9 +85,9 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         return this.modelService.post(
             'administrativo/componente_digital/aprovar', classToPlain(componenteDigital), new HttpParams({fromObject: params})
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(ComponenteDigital, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
             })
         );

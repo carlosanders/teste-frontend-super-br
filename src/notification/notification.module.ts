@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { CdkSharedModule } from '../@cdk/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import {
     MatButtonModule,
     MatFormFieldModule,
@@ -9,7 +9,7 @@ import {
     MatTooltipModule
 } from '@cdk/angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { DirectivesModule } from '../@cdk/directives/directives';
+import { DirectivesModule } from '@cdk/directives/directives';
 import { NotificationComponent } from './notification.component';
 
 @NgModule({

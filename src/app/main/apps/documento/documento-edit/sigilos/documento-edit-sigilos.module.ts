@@ -4,7 +4,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {modulesConfig} from 'modules/modules-config';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -14,7 +14,7 @@ import {DocumentoEditSigilosStoreModule} from './store/store.module';
 import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-sigilo-form.module';
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
 import * as fromGuards from './store/guards';
-import {SigiloService} from '../../../../../../@cdk/services/sigilo.service';
+import {SigiloService} from '@cdk/services/sigilo.service';
 
 const routes: Routes = [
     {

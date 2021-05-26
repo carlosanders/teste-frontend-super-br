@@ -14,7 +14,7 @@ import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
@@ -234,7 +234,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()
                 };
             }
-            if (this.form.get('processo').value.especieProcesso?.workflow) {
+            if (this.form.get('processo').value?.especieProcesso?.workflow) {
                 this.addFilterProcessoWorfkflow();
             }
         } else {
@@ -254,7 +254,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.get('unidadeResponsavel').value) {
             this.form.get('setorResponsavel').enable();
             this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.form.get('unidadeResponsavel').value.id}`;
-            this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
+            this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
         } else {
             this.form.get('setorResponsavel').disable();
             this.form.get('usuarioResponsavel').disable();
@@ -286,7 +286,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
                         // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                         if (this.form.get('setorResponsavel').value.apenasDistribuidor) {
-                            let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id)
+                            const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id);
                             if (lotacoes.length === 0) {
                                 this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = this.form.get('setorResponsavel').value.id;
                             }
@@ -310,7 +310,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('usuarioResponsavel').disable();
                         // this.form.get('distribuicaoAutomatica').reset();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
-                        this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
+                        this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
                         this.editable = true;
 
                         const unidadesId = [];
@@ -368,7 +368,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor) {
-                        let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id)
+                        const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id);
                         if (lotacoes.length === 0) {
                             this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
                         }
@@ -586,7 +586,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     if (value && typeof value === 'object') {
                         this.clearValidators();
                         this._changeDetectorRef.markForCheck();
-                        this.processaGrupoContato(value)
+                        this.processaGrupoContato(value);
                     }
                     return of([]);
 
@@ -748,7 +748,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -773,14 +773,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             // caso usuario selecione Bloco de Processos
             if (this.form.get('blocoProcessos').value && this.processos) {
 
-                this.processos.forEach(processo => {
+                this.processos.forEach((processo) => {
                     let tarefa;
 
                     // caso tenha bloco de responsaveis
                     if (this.form.get('blocoResponsaveis').value && this.blocoResponsaveis) {
 
                         // para cada processo criamos uma tarefa para cada responsavel
-                        this.blocoResponsaveis.forEach(responsavel => {
+                        this.blocoResponsaveis.forEach((responsavel) => {
 
                             // caso seja distribuicao automatica manda somente o setorResponsavel
                             if (this.form.get('distribuicaoAutomatica').value) {
@@ -797,6 +797,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                                     usuarioResponsavel: responsavel.usuario
                                 };
                             }
+                            tarefa.bloco = true;
                             this.save.emit(tarefa);
                         });
 
@@ -807,6 +808,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             ...this.form.value,
                             processo: processo
                         };
+                        tarefa.bloco = true;
                         this.save.emit(tarefa);
                     }
                 });
@@ -819,7 +821,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.blocoResponsaveis) {
                 let tarefa;
 
-                this.blocoResponsaveis.forEach(responsavel => {
+                this.blocoResponsaveis.forEach((responsavel) => {
 
                     // caso seja distribuicao automatica manda somente o setorResponsavel
                     if (this.form.get('distribuicaoAutomatica').value) {
@@ -834,7 +836,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             usuarioResponsavel: responsavel.usuario
                         };
                     }
-
+                    tarefa.bloco = true;
                     this.save.emit(tarefa);
                 });
             }
@@ -1010,12 +1012,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.especieTarefaPagination.populate)
         ).pipe(
             finalize(() => this.especieTarefaListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.especieTarefaList = [];
                 response['entities'].forEach((favorito) => {
                     this.especieTarefaList.push(favorito.objFavoritoClass[0]);
@@ -1034,12 +1037,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.unidadeResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.unidadeResponsavelListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.unidadeResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.unidadeResponsavelList.push(favorito.objFavoritoClass[0]);
@@ -1059,12 +1063,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.setorResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.setorResponsavelListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.setorResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.setorResponsavelList.push(favorito.objFavoritoClass[0]);
@@ -1084,12 +1089,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.usuarioResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.usuarioResponsavelListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.usuarioResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.usuarioResponsavelList.push(favorito.objFavoritoClass[0]);
@@ -1140,7 +1146,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ).pipe(
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 response['entities'].forEach((setor) => {
                     this.form.get('setorResponsavel').setValue(setor);
                 });
@@ -1152,18 +1158,22 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     addFilterProcessoWorfkflow(): void {
         // caso processo seja de workflow verificar espécies permitidas
         this.especieTarefaPagination['context'] = {};
-        if (this.form.get('processo').value && this.form.get('processo').value.especieProcesso && this.form.get('processo').value.especieProcesso.workflow) {
+        if (this.form.get('processo').value?.especieProcesso?.workflow) {
 
-            if (!this.form.get('processo').value.tarefaAtualWorkflow) {
-                this.especieTarefaPagination.filter['workflows.id'] = 'eq:'
-                    + this.form.get('processo').value.especieProcesso.workflow.id;
-                this.especieTarefaPagination.filter['id'] = 'eq:'
-                    + this.form.get('processo').value.especieProcesso.workflow.especieTarefaInicial.id;
+            if (!this.form.get('id').value) {
+                if (!this.form.get('processo').value.tarefaAtualWorkflow) {
+                    this.especieTarefaPagination.filter['workflows.id'] = 'eq:'
+                        + this.form.get('processo').value.especieProcesso.workflow.id;
+                    this.especieTarefaPagination.filter['id'] = 'eq:'
+                        + this.form.get('processo').value.especieProcesso.workflow.especieTarefaInicial.id;
+                } else {
+                    this.especieTarefaPagination.filter['transicoesWorkflowTo.workflow.id'] = 'eq:'
+                        + this.form.get('processo').value.especieProcesso.workflow.id;
+                    this.especieTarefaPagination.filter['transicoesWorkflowTo.especieTarefaFrom.id'] = 'eq:'
+                        + this.form.get('processo').value.tarefaAtualWorkflow.especieTarefa.id;
+                }
             } else {
-                this.especieTarefaPagination.filter['transicoesWorkflowTo.workflow.id'] = 'eq:'
-                    + this.form.get('processo').value.especieProcesso.workflow.id;
-                this.especieTarefaPagination.filter['transicoesWorkflowTo.especieTarefaFrom.id'] = 'eq:'
-                    + this.form.get('processo').value.tarefaAtualWorkflow.especieTarefa.id;
+                this.form.get('especieTarefa').disable();
             }
 
             this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
@@ -1182,23 +1192,23 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
-    showGrupoContatoGRID():void {
+    showGrupoContatoGRID(): void {
         this.activeCard = 'grupo-contato-gridsearch';
     }
 
     processaGrupoContato(grupoContato): void {
-        grupoContato.contatos.forEach(contato => {
+        grupoContato.contatos.forEach((contato) => {
             if (this.form.get('distribuicaoAutomatica').value && contato.setor) {
                 const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === contato.setor.id));
                 if (!findDuplicate) {
-                    let setor = contato.setor;
+                    const setor = contato.setor;
                     this.blocoResponsaveis = [...this.blocoResponsaveis, {setor}];
                 }
             } else if (!this.form.get('distribuicaoAutomatica').value && contato.usuario) {
                 const findDuplicate = this.blocoResponsaveis.some(item => (item.usuario.id === contato.usuario.id));
                 if (!findDuplicate) {
-                    let usuario = contato.usuario;
-                    let setor = contato.usuario.colaborador?.lotacoes[0]?.setor;
+                    const usuario = contato.usuario;
+                    const setor = contato.usuario.colaborador?.lotacoes[0]?.setor;
                     this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
                 }
             }

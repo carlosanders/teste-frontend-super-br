@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Compartilhamento} from '@cdk/models';
 import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class AcompanhamentoListEffect {
@@ -27,7 +28,7 @@ export class AcompanhamentoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class AcompanhamentoListEffect {
 
     /**
      * Get Acompanhamentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class AcompanhamentoListEffect {
         this._actions
             .pipe(
                 ofType<AcompanhamentoListActions.GetAcompanhamentos>(AcompanhamentoListActions.GET_ACOMPANHAMENTOS),
-                switchMap((action) => {
-                    return this._acompanhamentoService.query(
+                switchMap(action => this._acompanhamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class AcompanhamentoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                                     new AddData<Compartilhamento>({
                                         data: response['entities'],
                                         schema: acompanhamentoSchema
@@ -73,12 +74,12 @@ export class AcompanhamentoListEffect {
                             console.log(err);
                             return of(new AcompanhamentoListActions.GetAcompanhamentosFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Acompanhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -86,14 +87,16 @@ export class AcompanhamentoListEffect {
         this._actions
             .pipe(
                 ofType<AcompanhamentoListActions.DeleteAcompanhamento>(AcompanhamentoListActions.DELETE_ACOMPANHAMENTO),
-                mergeMap((action) => {
-                    return this._acompanhamentoService.destroy(action.payload).pipe(
-                        map((response) => new AcompanhamentoListActions.DeleteAcompanhamentoSuccess(response.id)),
+                mergeMap(action => this._acompanhamentoService.destroy(action.payload).pipe(
+                        map(response => new AcompanhamentoListActions.DeleteAcompanhamentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new AcompanhamentoListActions.DeleteAcompanhamentoFailed(action.payload));
+                            return of(new AcompanhamentoListActions.DeleteAcompanhamentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -1,8 +1,8 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 
 import { AjudaProcessoEditComponent } from './ajuda-processo-edit.component';
-import { CdkSharedModule } from '../../../../../../@cdk/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { AjudaAssuntosModule } from 'app/main/apps/processo/processo-edit/assuntos/ajuda/ajuda-assuntos.module';
 import { AjudaTarefaCreateModule } from 'app/main/apps/tarefas/tarefa-create/ajuda/ajuda-tarefa-create.module';
 import { AjudaInteressadosModule } from 'app/main/apps/processo/processo-edit/interessados/ajuda/ajuda-interessados.module';

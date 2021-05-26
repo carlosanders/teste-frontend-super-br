@@ -9,6 +9,7 @@
     [tipoValidacaoWorkflows]="(tipoValidacaoWorkflows$ | async)"
     [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'valor', 'descricao', 'sigla', 'actions']"
     [actions]="['edit', 'create', 'delete']"

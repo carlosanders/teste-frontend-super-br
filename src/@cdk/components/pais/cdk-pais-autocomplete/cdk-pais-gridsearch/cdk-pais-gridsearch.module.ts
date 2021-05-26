@@ -13,7 +13,7 @@ import { CdkPaisGridModule } from '@cdk/components/pais/cdk-pais-grid/cdk-pais-g
     imports: [
 
         CdkPaisGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

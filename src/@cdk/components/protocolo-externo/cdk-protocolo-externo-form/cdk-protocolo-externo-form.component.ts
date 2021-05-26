@@ -187,20 +187,20 @@ export class CdkProtocoloExternoFormComponent implements OnInit, OnChanges, OnDe
         }
 
         if (this.pessoaVinculada) {
-            this.form.get('generoSetor').valueChanges.subscribe(value => {
+            this.form.get('generoSetor').valueChanges.subscribe((value) => {
                 if (value && typeof value === 'object') {
                     this.form.get('estado').enable();
                     this.setorAtualPagination.filter = {
                         ...this.setorAtualPagination.filter,
                         ...{'unidade.generoSetor.id': `eq:${value.id}`}
-                    }
+                    };
                 } else {
                     this.form.get('estado').setValue(null);
                     this.form.get('estado').disable();
                 }
             });
 
-            this.form.get('estado').valueChanges.subscribe(value => {
+            this.form.get('estado').valueChanges.subscribe((value) => {
                 if (value && typeof value === 'object') {
                     this.form.get('setorAtual').enable();
                     this.setorAtualPagination.filter = {
@@ -237,7 +237,7 @@ export class CdkProtocoloExternoFormComponent implements OnInit, OnChanges, OnDe
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

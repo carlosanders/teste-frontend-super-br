@@ -30,7 +30,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,9 +42,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getTarefas().pipe(
@@ -56,7 +56,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Tarefas
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getTarefas(): any {
         return this._store.pipe(
@@ -91,7 +91,7 @@ export class ResolveGuard implements CanActivate {
                     let tarefaFilter = {};
 
                     const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
+                    routeTypeParam.subscribe((typeParam) => {
 
                         if (this.routerState.params[typeParam] === 'coordenacao') {
                             tarefaFilter = {
@@ -99,7 +99,7 @@ export class ResolveGuard implements CanActivate {
                                 'especieTarefa.evento': 'eq:true'
                             };
                             const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe(targetParam => {
+                            routeTargetParam.subscribe((targetParam) => {
                                 tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
                             });
                         }
@@ -110,7 +110,7 @@ export class ResolveGuard implements CanActivate {
                                 'especieTarefa.evento': 'eq:true'
                             };
                             const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe(targetParam => {
+                            routeTargetParam.subscribe((targetParam) => {
                                 tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
                             });
                         }
@@ -137,13 +137,11 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetTarefas(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params['typeHandle'] &&
+            filter((loaded: any) => this.routerState.params['typeHandle'] &&
                     this.routerState.params['targetHandle'] &&
                     (this.routerState.params['typeHandle'] + '_' +
                         this.routerState.params['targetHandle']) ===
-                    loaded.value;
-            }),
+                    loaded.value),
             take(1)
         );
     }

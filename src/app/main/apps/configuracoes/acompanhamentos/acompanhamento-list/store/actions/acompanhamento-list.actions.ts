@@ -5,6 +5,8 @@ export const GET_ACOMPANHAMENTOS_SUCCESS = '[ACOMPANHAMENTO LIST] GET ACOMPANHAM
 export const GET_ACOMPANHAMENTOS_FAILED = '[ACOMPANHAMENTO LIST] GET ACOMPANHAMENTOS FAILED';
 
 export const RELOAD_ACOMPANHAMENTOS = '[ACOMPANHAMENTO LIST] RELOAD ACOMPANHAMENTOS';
+export const UNLOAD_ACOMPANHAMENTOS = '[ACOMPANHAMENTO LIST] UNLOAD ACOMPANHAMENTOS';
+
 
 export const DELETE_ACOMPANHAMENTO = '[ACOMPANHAMENTO LIST] DELETE ACOMPANHAMENTO';
 export const DELETE_ACOMPANHAMENTO_SUCCESS = '[ACOMPANHAMENTO LIST] DELETE ACOMPANHAMENTO SUCCESS';
@@ -45,6 +47,18 @@ export class GetAcompanhamentosFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Acompanhamentos
+ */
+ export class UnloadAcompanhamentos implements Action
+ {
+     readonly type = UNLOAD_ACOMPANHAMENTOS;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Acompanhamentos
@@ -98,6 +112,7 @@ export type AcompanhamentoListActionsAll
     = GetAcompanhamentos
     | GetAcompanhamentosSuccess
     | GetAcompanhamentosFailed
+    | UnloadAcompanhamentos
     | ReloadAcompanhamentos
     | DeleteAcompanhamento
     | DeleteAcompanhamentoSuccess

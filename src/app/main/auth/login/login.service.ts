@@ -130,9 +130,7 @@ export class LoginService {
         let hasAccess = false;
 
         if (profile && profile.roles && profile.roles.length > 0) {
-            hasAccess = profile.roles.findIndex((papel: string) => {
-                return papel.includes(role);
-            }) !== -1;
+            hasAccess = profile.roles.findIndex((papel: string) => papel.includes(role)) !== -1;
         }
         return hasAccess;
     }
@@ -142,9 +140,7 @@ export class LoginService {
         let hasAccess = false;
 
         if (profile && profile.roles && profile.roles.length > 0) {
-            hasAccess = profile.roles.findIndex((papel: string) => {
-                return papel.includes('ROLE_COORDENADOR');
-            }) !== -1;
+            hasAccess = profile.roles.findIndex((papel: string) => papel.includes('ROLE_COORDENADOR')) !== -1;
         }
         if (hasAccess) {
             return profile.coordenadores.length > 0;
@@ -157,9 +153,7 @@ export class LoginService {
         let hasAccess = false;
 
         if (profile && profile.roles && profile.roles.length > 0) {
-            hasAccess = profile.roles.findIndex((papel: string) => {
-                return papel.includes('ROLE_ADMIN');
-            }) !== -1;
+            hasAccess = profile.roles.findIndex((papel: string) => papel.includes('ROLE_ADMIN')) !== -1;
         }
         return hasAccess;
     }
@@ -176,10 +170,10 @@ export class LoginService {
     }
 
     private startCountdown(): void {
-        // Renova o token quando faltar 3 minutos para expirar
+        // Renova o token quando faltar 10 minutos para expirar
         const timeExpToken = this.getExp() - this.getTimestamp();
         if (timeExpToken > 0) {
-            const timeout = (timeExpToken > 180) ?  (timeExpToken - 180) * 1000 : 1;
+            const timeout = (timeExpToken > 600) ?  (timeExpToken - 600) * 1000 : 1;
             setTimeout(() => {
                 this._store.dispatch(new fromLoginStore.LoginRefreshToken());
             }, timeout);

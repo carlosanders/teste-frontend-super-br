@@ -28,7 +28,7 @@ export class EspecieSetorEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class EspecieSetorEditEffects {
 
     /**
      * Get EspecieSetor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class EspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieSetorEditActions.GetEspecieSetor>(EspecieSetorEditActions.GET_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._especieSetorService.query(
+                switchMap(action => this._especieSetorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -53,8 +53,7 @@ export class EspecieSetorEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<EspecieSetor>({data: response['entities'], schema: especieSetorSchema}),
                     new EspecieSetorEditActions.GetEspecieSetorSuccess({
@@ -74,6 +73,7 @@ export class EspecieSetorEditEffects {
 
     /**
      * Save EspecieSetor
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -100,6 +100,7 @@ export class EspecieSetorEditEffects {
 
     /**
      * Update EspecieSetor
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -107,15 +108,13 @@ export class EspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieSetorEditActions.UpdateEspecieSetor>(EspecieSetorEditActions.UPDATE_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._especieSetorService.patch(action.payload.especieSetor, action.payload.changes).pipe(
+                switchMap(action => this._especieSetorService.patch(action.payload.especieSetor, action.payload.changes).pipe(
                         mergeMap((response: EspecieSetor) => [
                             new EspecieSetorListActions.ReloadEspecieSetor(),
                             new AddData<EspecieSetor>({data: [response], schema: especieSetorSchema}),
                             new EspecieSetorEditActions.UpdateEspecieSetorSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new EspecieSetorEditActions.UpdateEspecieSetorFailed(err));

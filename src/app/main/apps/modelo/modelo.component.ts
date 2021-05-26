@@ -76,7 +76,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -103,19 +103,19 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
-        this.processo$.subscribe(processo => {
+        this.processo$.subscribe((processo) => {
             this.processo = processo;
         });
         this.tarefa$.pipe(
             filter(tarefa => !!tarefa),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
         });
-        this.error$.subscribe(erro => {
+        this.error$.subscribe((erro) => {
             if (erro) {
                 this.erro = erro.error.message;
             }

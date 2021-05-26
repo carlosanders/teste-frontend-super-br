@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getGarantiaListState,
     (state: GarantiaListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getGarantiaListState,
+    (state: GarantiaListState) => state.deletingErrors
+);

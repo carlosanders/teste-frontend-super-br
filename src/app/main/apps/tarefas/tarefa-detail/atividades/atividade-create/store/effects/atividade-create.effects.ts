@@ -28,7 +28,7 @@ export class AtividadeCreateEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class AtividadeCreateEffect {
 
     /**
      * Save Atividade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class AtividadeCreateEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateActions.SaveAtividade>(AtividadeCreateActions.SAVE_ATIVIDADE),
-                switchMap((action) => {
-                    return this._atividadeService.save(action.payload).pipe(
+                switchMap(action => this._atividadeService.save(action.payload).pipe(
                         mergeMap((response: Atividade) => [
                             new AtividadeCreateActions.SaveAtividadeSuccess(action.payload),
                             new AddData<Atividade>({data: [response], schema: atividadeSchema}),
@@ -59,8 +59,7 @@ export class AtividadeCreateEffect {
                             console.log (err);
                             return of(new AtividadeCreateActions.SaveAtividadeFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

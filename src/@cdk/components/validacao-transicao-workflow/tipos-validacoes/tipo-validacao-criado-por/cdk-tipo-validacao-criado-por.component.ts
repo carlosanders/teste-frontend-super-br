@@ -61,8 +61,8 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
             transicaoWorkflow: [null],
             contexto: [null],
             criadoPor:[null, [Validators.required]],
-            nome: ["nome", [Validators.required]],
-            descricao: ["descricao", [Validators.required]],
+            nome: ['nome', [Validators.required]],
+            descricao: ['descricao', [Validators.required]],
         });
 
     }
@@ -98,7 +98,7 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

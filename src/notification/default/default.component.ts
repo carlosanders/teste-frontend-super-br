@@ -7,9 +7,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { NotificationInterface } from '../notification.interface';
-import { cdkAnimations } from '../../@cdk/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { MAT_SNACK_BAR_DATA, MatSnackBarConfig, MatSnackBarRef } from '@angular/material/snack-bar';
-import { Notificacao } from '../../@cdk/models';
+import { Notificacao } from '@cdk/models';
 
 @Component({
     selector: 'app-notification-default',

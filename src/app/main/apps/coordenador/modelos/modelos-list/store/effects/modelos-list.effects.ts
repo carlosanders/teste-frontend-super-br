@@ -14,6 +14,7 @@ import {Modelo} from '@cdk/models/modelo.model';
 import {modelo as modeloSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class ModelosListEffect {
@@ -31,7 +32,7 @@ export class ModelosListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.id = 'generoHandle_entidadeHandle';
@@ -51,6 +52,7 @@ export class ModelosListEffect {
 
     /**
      * Get Modelos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -74,7 +76,7 @@ export class ModelosListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Modelo>({data: response['entities'], schema: modeloSchema}),
                             new ModeloListActions.GetModelosSuccess({
                                 entitiesId: response['entities'].map(modelo => modelo.id),
@@ -95,6 +97,7 @@ export class ModelosListEffect {
 
     /**
      * Delete Modelo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,19 +105,22 @@ export class ModelosListEffect {
         this._actions
             .pipe(
                 ofType<ModeloListActions.DeleteModelo>(ModeloListActions.DELETE_MODELO),
-                mergeMap((action) => {
-                    return this._modeloService.destroy(action.payload).pipe(
-                        map((response) => new ModeloListActions.DeleteModeloSuccess(response.id)),
+                mergeMap(action => this._modeloService.destroy(action.payload).pipe(
+                        map(response => new ModeloListActions.DeleteModeloSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ModeloListActions.DeleteModeloFailed(action.payload));
+                            return of(new ModeloListActions.DeleteModeloFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Modelo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -122,8 +128,7 @@ export class ModelosListEffect {
         this._actions
             .pipe(
                 ofType<ModeloListActions.SaveModelo>(ModeloListActions.SAVE_MODELO),
-                switchMap((action) => {
-                    return this._modeloService.save(action.payload.modelo).pipe(
+                switchMap(action => this._modeloService.save(action.payload.modelo).pipe(
                         mergeMap((response: Modelo) => [
                             new UpdateData<Modelo>({id: response.id, schema: modeloSchema, changes: {}}),
                             new ModeloListActions.SaveModeloSuccess(),  new OperacoesActions.Resultado({
@@ -136,7 +141,6 @@ export class ModelosListEffect {
                             console.log (err);
                             return of(new ModeloListActions.SaveModeloFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

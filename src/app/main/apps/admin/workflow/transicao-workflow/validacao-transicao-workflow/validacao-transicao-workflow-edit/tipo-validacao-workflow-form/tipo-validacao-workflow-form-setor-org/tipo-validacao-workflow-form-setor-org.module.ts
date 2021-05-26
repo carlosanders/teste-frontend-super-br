@@ -18,11 +18,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoValidacaoWorkflowFormSetorOrgComponent} from './tipo-validacao-workflow-form-setor-org.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
-import {CommonModule} from "@angular/common";
-import * as fromGuards from "./store/guards";
-import {ValidacaoFormStoreModule} from "../store/store.module";
-import {TipoValidacaoWorkflowService} from "@cdk/services/tipo-validacao-workflow.service";
-import {CdkTipoValidacaoSetorOrgModule} from "@cdk/components/validacao-transicao-workflow/tipos-validacoes/tipo-validacao-setor-org/cdk-tipo-validacao-setor-org.module";
+import {CommonModule} from '@angular/common';
+import * as fromGuards from './store/guards';
+import {ValidacaoFormStoreModule} from '../store/store.module';
+import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
+import {CdkTipoValidacaoSetorOrgModule} from '@cdk/components/validacao-transicao-workflow/tipos-validacoes/tipo-validacao-setor-org/cdk-tipo-validacao-setor-org.module';
 
 const routes: Routes = [
     {

@@ -47,7 +47,7 @@ export class CdkTipoValidacaoSetorOrgComponent implements OnInit, OnChanges, OnD
 
     @Input()
     setorOrigemPagination: Pagination;
-    
+
     activeCard = 'form';
 
     /**
@@ -62,15 +62,15 @@ export class CdkTipoValidacaoSetorOrgComponent implements OnInit, OnChanges, OnD
             transicaoWorkflow: [null],
             contexto: [null],
             setorOrigem: [null, [Validators.required]],
-            nome: ["nome", [Validators.required]],
-            descricao: ["descricao", [Validators.required]],
+            nome: ['nome', [Validators.required]],
+            descricao: ['descricao', [Validators.required]],
         });
 
-        
+
         this.setorRecebidoPagination = new Pagination();
         this.setorRecebidoPagination.filter = {parent: 'isNotNull'};
         this.setorOrigemPagination = new Pagination();
-     
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ export class CdkTipoValidacaoSetorOrgComponent implements OnInit, OnChanges, OnD
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

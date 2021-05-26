@@ -29,7 +29,7 @@ export class MunicipioEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class MunicipioEditEffects {
 
     /**
      * Get Municipio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class MunicipioEditEffects {
         this._actions
             .pipe(
                 ofType<MunicipioEditActions.GetMunicipio>(MunicipioEditActions.GET_MUNICIPIO),
-                switchMap((action) => {
-                    return this._municipioService.query(
+                switchMap(action => this._municipioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class MunicipioEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Municipio>({data: response['entities'], schema: municipioSchema}),
                     new MunicipioEditActions.GetMunicipioSuccess({
@@ -75,6 +74,7 @@ export class MunicipioEditEffects {
 
     /**
      * Save Municipio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,6 +101,7 @@ export class MunicipioEditEffects {
 
     /**
      * Update Municipio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -108,15 +109,13 @@ export class MunicipioEditEffects {
         this._actions
             .pipe(
                 ofType<MunicipioEditActions.UpdateMunicipio>(MunicipioEditActions.UPDATE_MUNICIPIO),
-                switchMap((action) => {
-                    return this._municipioService.patch(action.payload.municipio, action.payload.changes).pipe(
+                switchMap(action => this._municipioService.patch(action.payload.municipio, action.payload.changes).pipe(
                         mergeMap((response: Municipio) => [
                             new MunicipioListActions.ReloadMunicipio(),
                             new AddData<Municipio>({data: [response], schema: municipioSchema}),
                             new MunicipioEditActions.UpdateMunicipioSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new MunicipioEditActions.UpdateMunicipioFailed(err));

@@ -12,7 +12,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
-import {Setor} from '../../../../../../../@cdk/models';
+import {Setor} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -55,7 +55,7 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -83,7 +83,7 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
         this.unidade$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.unidade = setor;
                 }

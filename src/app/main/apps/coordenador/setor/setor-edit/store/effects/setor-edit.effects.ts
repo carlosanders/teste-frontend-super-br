@@ -29,7 +29,7 @@ export class SetorEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class SetorEditEffects {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,16 +46,14 @@ export class SetorEditEffects {
         this._actions
             .pipe(
                 ofType<SetorEditActions.GetSetor>(SetorEditActions.GET_SETOR),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                     new SetorEditActions.GetSetorSuccess({
@@ -74,6 +73,7 @@ export class SetorEditEffects {
 
     /**
      * Save Setor
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,15 +81,13 @@ export class SetorEditEffects {
         this._actions
             .pipe(
                 ofType<SetorEditActions.SaveSetor>(SetorEditActions.SAVE_SETOR),
-                switchMap((action) => {
-                    return this._setorService.save(action.payload).pipe(
+                switchMap(action => this._setorService.save(action.payload).pipe(
                         mergeMap((response: Setor) => [
                             new SetorEditActions.SaveSetorSuccess(),
                             new SetorListActions.ReloadSetores(),
                             new AddData<Setor>({data: [response], schema: setorSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new SetorEditActions.SaveSetorFailed(err));

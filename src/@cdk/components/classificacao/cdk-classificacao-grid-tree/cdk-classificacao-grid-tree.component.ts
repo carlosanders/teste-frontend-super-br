@@ -72,10 +72,10 @@ export class CdkClassificacaoGridTreeComponent implements OnInit {
         this.classificacaoMap.set(classificacao, node);
         this.nestedNodeMap.set(node, classificacao);
         return classificacao;
-    }
+    };
     ngOnInit(): void {
         this.initTree();
-        this._serviceTree.dataChange.subscribe(data => {
+        this._serviceTree.dataChange.subscribe((data) => {
             this.dataSource.data = data;
         });
     }
@@ -97,7 +97,7 @@ export class CdkClassificacaoGridTreeComponent implements OnInit {
      */
     initTree(): void {
         const classificacaoPai = this.getClassificacao('isNull');
-        classificacaoPai.subscribe(classificacaoes => {
+        classificacaoPai.subscribe((classificacaoes) => {
             const data = this.montarArrayClassificacao(classificacaoes);
             this._serviceTree.initialize(data);
         });

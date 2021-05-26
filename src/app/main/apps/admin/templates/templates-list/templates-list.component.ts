@@ -1,11 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Documento, Template} from '../../../../../../@cdk/models';
+import {Documento, Template} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadTemplates} from './store';
 
 @Component({
     selector: 'templates-list',
@@ -15,7 +16,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TemplatesListComponent implements OnInit {
+export class TemplatesListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     templates$: Observable<Template[]>;
@@ -35,7 +36,7 @@ export class TemplatesListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,10 +44,15 @@ export class TemplatesListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadTemplates());
+    }
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetTemplates({

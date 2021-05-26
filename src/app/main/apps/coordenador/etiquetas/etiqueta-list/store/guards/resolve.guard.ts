@@ -11,7 +11,7 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getEtiquetaListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '../../../../../../../../@cdk/models';
+import {Colaborador} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -31,7 +31,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,9 +43,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getEtiquetas().pipe(
@@ -57,7 +57,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Etiquetas
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getEtiquetas(): any {
         return this._store.pipe(
@@ -124,8 +124,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetEtiquetas(params));
                 }
             }),
-            filter((loaded: any) => {
-                return (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+            filter((loaded: any) => (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
                         + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] ===
                         loaded.value)
@@ -137,8 +136,7 @@ export class ResolveGuard implements CanActivate {
                             + this.routerState.params['unidadeHandle'] === loaded.value))
                     || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
                         (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
-                            loaded.value)));
-            }),
+                            loaded.value)))),
             take(1)
         );
     }

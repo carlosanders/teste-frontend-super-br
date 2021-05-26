@@ -147,6 +147,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -223,9 +226,6 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     ngOnChanges(): void {
-        if (this.usuarios) {
-            this.temDistribuidor = this.usuarios.some(item => item.isDisponivel);
-        }
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
         this.paginator.length = this.total;
     }
@@ -250,7 +250,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -410,6 +410,13 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 
     doDistribuirTarefas(usuario: Usuario): void {

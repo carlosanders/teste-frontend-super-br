@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {Classificacao, Pagination, Usuario} from '../../../../../../@cdk/models';
+import {Classificacao, Pagination, Usuario} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -42,7 +42,7 @@ export class ClassificacaoEditComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -56,7 +56,7 @@ export class ClassificacaoEditComponent implements OnInit {
         this.classificacao$.pipe(
             filter(classificacao => !!classificacao)
         ).subscribe(
-            classificacao => {
+            (classificacao) => {
                 this.classificacao = classificacao;
                 this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Classificacao', id: + this.classificacao.id};
             }

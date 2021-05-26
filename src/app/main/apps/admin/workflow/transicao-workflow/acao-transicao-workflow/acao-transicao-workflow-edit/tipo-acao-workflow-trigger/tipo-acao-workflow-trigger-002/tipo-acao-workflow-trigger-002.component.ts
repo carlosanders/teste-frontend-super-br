@@ -12,12 +12,12 @@ import {
     TransicaoWorkflow
 } from '@cdk/models';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
-import {Observable} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 import * as fromStore from '../../store';
-import {getRouterState} from "../../../../../../../../../store/reducers";
-import {getTipoAcaoWorkflow} from "../store/selectors";
+import {getRouterState} from '../../../../../../../../../store/reducers';
+import {getTipoAcaoWorkflow} from '../store/selectors';
 
 @Component({
     selector: 'tipo-acao-workflow-trigger-002',
@@ -54,7 +54,7 @@ export class TipoAcaoWorkflowTrigger002Component implements OnInit, OnDestroy {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -75,8 +75,8 @@ export class TipoAcaoWorkflowTrigger002Component implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.tipoAcaoWorkflow$.subscribe(
-            tipoAcaoWorkflow => {
-                this.tipoAcaoWorkflow = tipoAcaoWorkflow
+            (tipoAcaoWorkflow) => {
+                this.tipoAcaoWorkflow = tipoAcaoWorkflow;
             }
         );
     }

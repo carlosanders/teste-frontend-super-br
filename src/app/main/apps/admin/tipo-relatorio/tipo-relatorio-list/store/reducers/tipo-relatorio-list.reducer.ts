@@ -16,6 +16,7 @@ export interface TipoRelatorioListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TipoRelatorioListInitialState: TipoRelatorioListState = {
@@ -33,7 +34,8 @@ export const TipoRelatorioListInitialState: TipoRelatorioListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TipoRelatorioListReducer(
@@ -82,6 +84,12 @@ export function TipoRelatorioListReducer(
             };
         }
 
+        case TipoRelatorioListActions.UNLOAD_TIPO_RELATORIO: {
+            return {
+                ...TipoRelatorioListInitialState
+            };
+        }
+
         case TipoRelatorioListActions.RELOAD_TIPO_RELATORIO: {
             return {
                 ...state,
@@ -108,7 +116,7 @@ export function TipoRelatorioListReducer(
         case TipoRelatorioListActions.DELETE_TIPO_RELATORIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

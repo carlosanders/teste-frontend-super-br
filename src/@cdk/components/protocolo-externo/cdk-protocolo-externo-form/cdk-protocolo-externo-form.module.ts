@@ -29,8 +29,8 @@ import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-s
 import {MatSelectModule} from '@angular/material/select';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {FavoritoService} from '../../../services/favorito.service';
-import {CdkEstadoAutocompleteModule} from "../../estado/cdk-estado-autocomplete/cdk-estado-autocomplete.module";
-import {CdkEstadoGridsearchModule} from "../../estado/cdk-estado-autocomplete/cdk-estado-gridsearch/cdk-estado-gridsearch.module";
+import {CdkEstadoAutocompleteModule} from '../../estado/cdk-estado-autocomplete/cdk-estado-autocomplete.module';
+import {CdkEstadoGridsearchModule} from '../../estado/cdk-estado-autocomplete/cdk-estado-gridsearch/cdk-estado-gridsearch.module';
 
 @NgModule({
     declarations: [

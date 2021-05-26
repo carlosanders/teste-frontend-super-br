@@ -1,5 +1,5 @@
 import * as NotificacaoActions from '../actions';
-import {Notificacao} from "../../../@cdk/models";
+import {Notificacao} from '@cdk/models';
 
 export interface NotificacaoState {
     entitiesId: number[];
@@ -17,8 +17,8 @@ export interface NotificacaoState {
     deletingIds: number[];
     deletedIds: number[];
     snackbar: {
-        exibir: boolean,
-        notificacao: Notificacao
+        exibir: boolean;
+        notificacao: Notificacao;
     };
 }
 

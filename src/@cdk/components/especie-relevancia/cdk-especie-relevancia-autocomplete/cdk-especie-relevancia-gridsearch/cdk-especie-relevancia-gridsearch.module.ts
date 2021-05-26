@@ -13,7 +13,7 @@ import { CdkEspecieRelevanciaGridModule } from '@cdk/components/especie-relevanc
     imports: [
 
         CdkEspecieRelevanciaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

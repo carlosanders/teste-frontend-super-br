@@ -13,6 +13,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {usuario as usuarioSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class UsuariosListEffects {
@@ -37,7 +38,7 @@ export class UsuariosListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.id = 'generoHandle_entidadeHandle';
@@ -57,6 +58,7 @@ export class UsuariosListEffects {
 
     /**
      * Get Usuarios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -64,8 +66,7 @@ export class UsuariosListEffects {
         this._actions
             .pipe(
                 ofType<UsuariosListActions.GetUsuarios>(UsuariosListActions.GET_USUARIOS),
-                switchMap((action) => {
-                    return this._usuarioService.query(
+                switchMap(action => this._usuarioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -75,7 +76,7 @@ export class UsuariosListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
                             new UsuariosListActions.GetUsuariosSuccess({
                                 entitiesId: response['entities'].map(usuario => usuario.id),
@@ -90,12 +91,12 @@ export class UsuariosListEffects {
                             console.log(err);
                             return of(new UsuariosListActions.GetUsuariosFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Reset Senha Usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -103,19 +104,18 @@ export class UsuariosListEffects {
         this._actions
             .pipe(
                 ofType<UsuariosListActions.ResetSenha>(UsuariosListActions.RESET_SENHA),
-                mergeMap((action) => {
-                    return this._usuarioService.resetaSenha(action.payload).pipe(
-                        map((response) => new UsuariosListActions.ResetSenhaSuccess(response.id)),
+                mergeMap(action => this._usuarioService.resetaSenha(action.payload).pipe(
+                        map(response => new UsuariosListActions.ResetSenhaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new UsuariosListActions.ResetSenhaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -123,14 +123,16 @@ export class UsuariosListEffects {
         this._actions
             .pipe(
                 ofType<UsuariosListActions.DeleteUsuario>(UsuariosListActions.DELETE_USUARIO),
-                mergeMap((action) => {
-                    return this._usuarioService.destroy(action.payload).pipe(
-                        map((response) => new UsuariosListActions.DeleteUsuarioSuccess(response.id)),
+                mergeMap(action => this._usuarioService.destroy(action.payload).pipe(
+                        map(response => new UsuariosListActions.DeleteUsuarioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new UsuariosListActions.DeleteUsuarioFailed(action.payload));
+                            return of(new UsuariosListActions.DeleteUsuarioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

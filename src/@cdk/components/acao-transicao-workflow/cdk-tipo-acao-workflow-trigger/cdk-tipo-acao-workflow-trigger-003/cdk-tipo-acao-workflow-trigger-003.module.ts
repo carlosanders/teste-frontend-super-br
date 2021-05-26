@@ -14,8 +14,8 @@ import {
 import { CommonModule } from '@angular/common';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RouterModule} from '@angular/router';
-import {CdkTipoAcaoWorkflowTrigger003Component} from "./cdk-tipo-acao-workflow-trigger-003.component";
-import {CdkCompartilhamentoFormModule} from "../../../compartilhamento/cdk-compartilhamento-form/cdk-compartilhamento-form.module";
+import {CdkTipoAcaoWorkflowTrigger003Component} from './cdk-tipo-acao-workflow-trigger-003.component';
+import {CdkCompartilhamentoFormModule} from '../../../compartilhamento/cdk-compartilhamento-form/cdk-compartilhamento-form.module';
 
 @NgModule({
     declarations: [

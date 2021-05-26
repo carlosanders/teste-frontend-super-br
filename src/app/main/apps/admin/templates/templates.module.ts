@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TemplatesComponent} from './templates.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkSharedModule} from '../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 const routes: Routes = [
     {

@@ -26,9 +26,9 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
@@ -42,25 +42,27 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
     }
 
-    undelete(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
-        const params: HttpParams = new HttpParams();
-        params['context'] = context;
+    undelete(tarefa: Tarefa, populate: any = '[]', context: any = '{}'): Observable<Tarefa> {
+        const tmpParams: any = {};
+        tmpParams['populate'] = populate;
+        tmpParams['context'] = context;
+        const params = new HttpParams({fromObject: tmpParams});
         return this.http.patch(
             `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'undelete'}` + environment.xdebug,
             null,
-            {params}
+            { params }
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
@@ -74,9 +76,9 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             JSON.stringify(changes),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
@@ -94,17 +96,15 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Usuario, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Usuario(), {...usuario, ...response});
             })
         );
     }
 
     contarTarefaPastaUsuario(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
-        console.log('zzzzzzzzzzzzzzzzzzzzzzzzzz');
-        console.log(tarefa.usuarioResponsavel.id);
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.get(
@@ -112,9 +112,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             {params}
         ).
         pipe(
-            map(response => {
-                return plainToClass(Tarefa, response);
-            })
+            map(response => plainToClass(Tarefa, response))
         );
     }
 

@@ -13,7 +13,7 @@ import { CdkEspecieTarefaGridModule } from '@cdk/components/especie-tarefa/cdk-e
     imports: [
 
         CdkEspecieTarefaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

@@ -23,6 +23,11 @@ cdk-relatorio-list-item {
 
         .info {
 
+            word-break: break-word;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;

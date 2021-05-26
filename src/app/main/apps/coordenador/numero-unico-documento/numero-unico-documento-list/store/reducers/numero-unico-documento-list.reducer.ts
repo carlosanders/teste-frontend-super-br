@@ -1,4 +1,5 @@
 import * as NumeroUnicoDocumentoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface NumeroUnicoDocumentoListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface NumeroUnicoDocumentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const NumeroUnicoDocumentoListInitialState: NumeroUnicoDocumentoListState = {
@@ -33,7 +35,8 @@ export const NumeroUnicoDocumentoListInitialState: NumeroUnicoDocumentoListState
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function NumeroUnicoDocumentoListReducer(
@@ -70,14 +73,22 @@ export function NumeroUnicoDocumentoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
+            };
+        }
+
+        case NumeroUnicoDocumentoListActions.UNLOAD_NUMEROS_UNICOS_DOCUMENTOS: {
+            return {
+                ...NumeroUnicoDocumentoListInitialState
             };
         }
 
         case NumeroUnicoDocumentoListActions.RELOAD_NUMEROS_UNICOS_DOCUMENTOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -102,14 +113,19 @@ export function NumeroUnicoDocumentoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case NumeroUnicoDocumentoListActions.DELETE_NUMERO_UNICO_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

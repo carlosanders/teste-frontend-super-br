@@ -1,4 +1,5 @@
 import * as ContatoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface ContatoListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface ContatoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ContatoListInitialState: ContatoListState = {
@@ -33,7 +35,8 @@ export const ContatoListInitialState: ContatoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ContatoListReducer(
@@ -70,6 +73,7 @@ export function ContatoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -78,6 +82,7 @@ export function ContatoListReducer(
         case ContatoListActions.RELOAD_CONTATOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -102,14 +107,19 @@ export function ContatoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case ContatoListActions.DELETE_CONTATO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

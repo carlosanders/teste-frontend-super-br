@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+import {UnloadAfastamentos} from './store';
+
+
 @Component({
     selector: 'afastamento-list',
     templateUrl: './afastamento-list.component.html',
@@ -22,7 +26,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AfastamentoListComponent implements OnInit {
+export class AfastamentoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     afastamentos$: Observable<Afastamento[]>;
@@ -31,6 +35,7 @@ export class AfastamentoListComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
 
     /**
      * @param _changeDetectorRef
@@ -47,10 +52,11 @@ export class AfastamentoListComponent implements OnInit {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -58,9 +64,13 @@ export class AfastamentoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadAfastamentos());
     }
 
     reload(params): void {

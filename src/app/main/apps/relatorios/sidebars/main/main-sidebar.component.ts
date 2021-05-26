@@ -10,6 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'relatorios-main-sidebar',
@@ -43,7 +44,8 @@ export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.RelatoriosAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         const path = 'app/main/apps/relatorios/sidebars/main';
@@ -64,7 +66,7 @@ export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.generoHandle = routerState.state.params['generoHandle'];
@@ -97,6 +99,12 @@ export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
     onDrop($event): void {
         if (this.mode === 'Relatorios') {
             this._store.dispatch(new fromStore.SetFolderOnSelectedRelatorios({relatorio: $event[0].data, folder: $event[1]}));
+        }
+    }
+
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('relatorios-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('relatorios-main-sidebar').close();
         }
     }
 }

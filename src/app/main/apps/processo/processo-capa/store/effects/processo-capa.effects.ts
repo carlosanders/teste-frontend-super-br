@@ -18,8 +18,8 @@ import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
-import {AcompanhamentoService} from "../../../../../../../@cdk/services/acompanhamento.service";
-import {LoginService} from "../../../../../auth/login/login.service";
+import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -38,7 +38,7 @@ export class ProcessoCapaEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -47,6 +47,7 @@ export class ProcessoCapaEffect {
 
     /**
      * Get Processo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -100,6 +101,7 @@ export class ProcessoCapaEffect {
 
     /**
      * Get Assuntos Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -107,8 +109,7 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.GetAssuntos>(ProcessoCapaActions.GET_ASSUNTOS),
-                switchMap((action) => {
-                    return this._assuntoService.query(
+                switchMap(action => this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -116,9 +117,8 @@ export class ProcessoCapaEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
                     new ProcessoCapaActions.GetAssuntosSuccess({
                         entitiesId: response['entities'].map(assunto => assunto.id),
@@ -140,6 +140,7 @@ export class ProcessoCapaEffect {
 
     /**
      * GetInteressados Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -147,8 +148,7 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.GetInteressados>(ProcessoCapaActions.GET_INTERESSADOS),
-                switchMap((action) => {
-                    return this._interessadoService.query(
+                switchMap(action => this._interessadoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -156,9 +156,8 @@ export class ProcessoCapaEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
                     new ProcessoCapaActions.GetInteressadosSuccess({
                         entitiesId: response['entities'].map(interessado => interessado.id),
@@ -180,6 +179,7 @@ export class ProcessoCapaEffect {
 
     /**
      * GetVinculacoesProcessos Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -187,8 +187,7 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.GetVinculacoesProcessos>(ProcessoCapaActions.GET_VINCULACOES_PROCESSOS),
-                switchMap((action) => {
-                    return this._vinculacaoProcessoService.query(
+                switchMap(action => this._vinculacaoProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -196,9 +195,8 @@ export class ProcessoCapaEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
                     new ProcessoCapaActions.GetVinculacoesProcessosSuccess({
                         entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
@@ -220,6 +218,7 @@ export class ProcessoCapaEffect {
 
     /**
      * Get Acompanhamento do Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -227,8 +226,7 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.GetAcompanhamento>(ProcessoCapaActions.GET_ACOMPANHAMENTO),
-                switchMap((action) => {
-                    return this._acompanhamentoService.query(
+                switchMap(action => this._acompanhamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -236,9 +234,8 @@ export class ProcessoCapaEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Compartilhamento>({data: response['entities'], schema: acompanhamentoSchema}),
                     new ProcessoCapaActions.GetAcompanhamentoSuccess({
                         entitiesId: response['entities'].map(acompanhamento => acompanhamento.id),
@@ -260,6 +257,7 @@ export class ProcessoCapaEffect {
 
     /**
      * Save Acompanhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -289,6 +287,7 @@ export class ProcessoCapaEffect {
 
     /**
      * Delete Acompanhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -301,7 +300,7 @@ export class ProcessoCapaEffect {
                         loadingAcompanhamento: true
                     }));
                     return this._acompanhamentoService.destroy(action.payload.acompanhamentoId).pipe(
-                        mergeMap((response) =>
+                        mergeMap(response =>
                             [
                                 new RemoveChildData({
                                     id: action.payload.acompanhamentoId,

@@ -64,7 +64,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
      */
     ngOnInit(): void {
 
-        this.form.get('processo').valueChanges.subscribe(value => {
+        this.form.get('processo').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -77,7 +77,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('setorOrigem').valueChanges.subscribe(value => {
+        this.form.get('setorOrigem').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -90,7 +90,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('dataHoraRemessa').valueChanges.subscribe(value => {
+        this.form.get('dataHoraRemessa').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,

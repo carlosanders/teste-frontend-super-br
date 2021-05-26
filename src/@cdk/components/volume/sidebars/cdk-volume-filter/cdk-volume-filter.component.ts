@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-volume-filter',
@@ -10,7 +10,7 @@ import {Subject} from "rxjs";
     styleUrls: ['./cdk-volume-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: cdkAnimations
+    animations: cdkAnimations,
 })
 export class CdkVolumeFilterComponent {
 
@@ -51,21 +51,23 @@ export class CdkVolumeFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('numeracaoSequencial').value) {
-            this.form.get('numeracaoSequencial').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter.push({'numeracaoSequencial': `like:%${bit}%`});
-            });
+            andXFilter.push({'numeracaoSequencial': `eq:${this.form.get('numeracaoSequencial').value}`});
+        }
+
+        if (this.form.get('modalidadeMeio').value) {
+            andXFilter.push({'modalidadeMeio': `eq:${this.form.get('modalidadeMeio').value.id}`});
         }
 
         if (this.form.get('origemDados').value) {
             andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm.length > 0) {
+            andXFilter.push(this.filterCriadoEm[0]);
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm.length > 0) {
+            andXFilter.push(this.filterAtualizadoEm[0]);
         }
 
         if (this.form.get('criadoPor').value) {
@@ -90,10 +92,12 @@ export class CdkVolumeFilterComponent {
 
     filtraCriadoEm(value: any): void {
         this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     filtraAtualizadoEm(value: any): void {
         this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {
@@ -109,6 +113,9 @@ export class CdkVolumeFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
+        this.filterCriadoEm = [];
+        this.filterAtualizadoEm = [];
         this.emite();
     }
 

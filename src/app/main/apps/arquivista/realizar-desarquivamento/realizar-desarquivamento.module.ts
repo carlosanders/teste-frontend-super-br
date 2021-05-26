@@ -6,14 +6,14 @@ import {CdkRealizarTransicaoFormModule} from '@cdk/components/transicao/cdk-real
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {RealizarTransacaoStoreModule} from './store/store.module';
 import {MatListModule} from '@angular/material/list';
-import {ProcessoService} from '../../../../../@cdk/services/processo.service';
-import {DirectivesModule} from '../../../../../@cdk/directives/directives';
-import {CdkConfirmDialogModule} from "../../../../../@cdk/components";
-import {CdkConfirmDialogComponent} from "../../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
-import {MatDialogModule} from "@angular/material/dialog";
-import {RouterModule, Routes} from "@angular/router";
+import {ProcessoService} from '@cdk/services/processo.service';
+import {DirectivesModule} from '@cdk/directives/directives';
+import {CdkConfirmDialogModule} from '@cdk/components';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
-import {ModalidadeTransicaoService} from "../../../../../@cdk/services/modalidade-transicao.service";
+import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
 
 const routes: Routes = [
     {

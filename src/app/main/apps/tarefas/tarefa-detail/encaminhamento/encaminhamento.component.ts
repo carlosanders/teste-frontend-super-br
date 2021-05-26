@@ -15,7 +15,7 @@ import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Tarefa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
-import {CdkConfirmDialogComponent} from '../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -68,14 +68,14 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
         });
 
@@ -110,7 +110,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
             });
 
             this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.tarefa.processo.NUPFormatado + '?';
-            this.confirmDialogRef.afterClosed().subscribe(result => {
+            this.confirmDialogRef.afterClosed().subscribe((result) => {
                 if (result) {
                     this._store.dispatch(new fromStore.SaveProcesso(this.tarefa.processo));
                 }

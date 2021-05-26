@@ -3,7 +3,7 @@ import {WorkflowListAppState, WorkflowListState, getWorkflowListAppState} from '
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {workflow as workflowSchema} from '@cdk/normalizr/index';
-import {Workflow} from '../../../../../../../../@cdk/models';
+import {Workflow} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Workflow>(workflowSchema);
 
@@ -46,4 +46,9 @@ export const getDeletingIds = createSelector(
 export const getDeletedIds = createSelector(
     getWorkflowListState,
     (state: WorkflowListState) => state.deletedIds
+);
+
+export const getDeletingErrors = createSelector(
+    getWorkflowListState,
+    (state: WorkflowListState) => state.deletingErrors
 );

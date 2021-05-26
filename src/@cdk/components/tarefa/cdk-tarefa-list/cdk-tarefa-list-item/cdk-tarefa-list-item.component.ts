@@ -11,7 +11,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {Usuario, VinculacaoEtiqueta} from "../../../../models";
+import {Usuario, VinculacaoEtiqueta} from '../../../../models';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -68,6 +68,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     editTarefa = new EventEmitter<number>();
 
     @Output()
+    assinaMinutas = new EventEmitter<Tarefa>();
+
+    @Output()
     redistribuirTarefa = new EventEmitter<number>();
 
     @Output()
@@ -89,7 +92,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     salvarObservacao = new EventEmitter<any>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
 
     @Output()
     loadAssuntos = new EventEmitter<any>();
@@ -113,7 +116,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     dragging: boolean;
 
     @Input()
+    assinando: boolean;
+
+    @Input()
     editandoObservacao: boolean = false;
+
+    @Input()
+    savingObservacao: boolean = false;
 
     isOpen: boolean;
     loadedAssuntos: boolean;
@@ -124,7 +133,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
     @ViewChild('observacaoConteudo', {static: false, read: ElementRef})
@@ -180,7 +189,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         const path = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
@@ -190,9 +199,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         const pathItemText = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item#text';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(pathItemText)) {
-                module.components[pathItemText].forEach((c => {
+                module.components[pathItemText].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
+                        .then((componentFactory) => {
                             this.containerText.createComponent(componentFactory);
                             this._changeDetectorRef.detectChanges();
                         });
@@ -229,6 +238,14 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doEditTarefa(): void {
         this.editTarefa.emit(this.tarefa.id);
+    }
+
+    canAssinarMinutas(tarefa: Tarefa): boolean {
+        return tarefa.vinculacoesEtiquetas.filter(vinculacao => vinculacao.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento').length > 0;
+    }
+
+    doAssinaMinutas(): void {
+        this.assinaMinutas.emit(this.tarefa);
     }
 
     doEditProcesso(): void {

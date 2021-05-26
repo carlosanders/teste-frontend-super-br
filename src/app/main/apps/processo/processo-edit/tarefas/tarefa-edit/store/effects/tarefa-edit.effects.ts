@@ -29,7 +29,7 @@ export class TarefaEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class TarefaEditEffect {
 
     /**
      * Get Tarefa with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class TarefaEditEffect {
         this._actions
             .pipe(
                 ofType<TarefaEditActions.GetTarefa>(TarefaEditActions.GET_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.query(
+                switchMap(action => this._tarefaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -67,8 +67,7 @@ export class TarefaEditEffect {
                             'processo.especieProcesso.workflow',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
                     new TarefaEditActions.GetTarefaSuccess({
@@ -88,6 +87,7 @@ export class TarefaEditEffect {
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -95,8 +95,7 @@ export class TarefaEditEffect {
         this._actions
             .pipe(
                 ofType<TarefaEditActions.SaveTarefa>(TarefaEditActions.SAVE_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
+                switchMap(action => this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaEditActions.SaveTarefaSuccess(),
                             new TarefaListActions.ReloadTarefas(),
@@ -111,8 +110,7 @@ export class TarefaEditEffect {
                             console.log (err);
                             return of(new TarefaEditActions.SaveTarefaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

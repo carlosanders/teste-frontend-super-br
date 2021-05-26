@@ -9,6 +9,7 @@
         [modelos]="(modelos$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="colunas"
         [actions]="actions"

@@ -11,6 +11,7 @@ import {ValidacaoTransicaoWorkflowService} from '@cdk/services/validacao-transic
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
 import {validacaoTransicaoWorkflow as validacaoTransicaoWorkflowSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class ValidacaoTransicaoWorkflowListEffects {
@@ -24,7 +25,7 @@ export class ValidacaoTransicaoWorkflowListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -33,6 +34,7 @@ export class ValidacaoTransicaoWorkflowListEffects {
 
     /**
      * Get Validacoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -40,8 +42,7 @@ export class ValidacaoTransicaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<ValidacaoListActions.GetValidacoes>(ValidacaoListActions.GET_VALIDACOES),
-                switchMap((action) => {
-                    return this._validacaoTransicaoWorkflowService.query(
+                switchMap(action => this._validacaoTransicaoWorkflowService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -50,7 +51,7 @@ export class ValidacaoTransicaoWorkflowListEffects {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<ValidacaoTransicaoWorkflow>({data: response['entities'], schema: validacaoTransicaoWorkflowSchema}),
                             new ValidacaoListActions.GetValidacoesSuccess({
                                 entitiesId: response['entities'].map(validacao => validacao.id),
@@ -61,15 +62,13 @@ export class ValidacaoTransicaoWorkflowListEffects {
                                 total: response['total']
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new ValidacaoListActions.GetValidacoesFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new ValidacaoListActions.GetValidacoesFailed(err)))
+                    ))
             );
 
     /**
      * Delete Validacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -77,13 +76,13 @@ export class ValidacaoTransicaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<ValidacaoListActions.DeleteValidacao>(ValidacaoListActions.DELETE_VALIDACAO),
-                mergeMap((action) => {
-                    return this._validacaoTransicaoWorkflowService.destroy(action.payload).pipe(
-                        map((response) => new ValidacaoListActions.DeleteValidacaoSuccess(response.id)),
-                        catchError((err) => {
-                            return of(new ValidacaoListActions.DeleteValidacaoFailed(action.payload));
-                        })
-                    );
-                })
+                mergeMap(action => this._validacaoTransicaoWorkflowService.destroy(action.payload).pipe(
+                        map(response => new ValidacaoListActions.DeleteValidacaoSuccess(response.id)),
+                        catchError(err => of(new ValidacaoListActions.DeleteValidacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            ))
+                    ))
             );
 }

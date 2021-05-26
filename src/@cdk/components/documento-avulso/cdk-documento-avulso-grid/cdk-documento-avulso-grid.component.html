@@ -6,7 +6,7 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
 
         <div class="actions">
 
@@ -503,6 +503,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, documentoAvulso.id)">
+                            {{ getProp(deletingErrors, documentoAvulso.id) }}
+                        </mat-error>
 
                         <ng-template #buttonModule></ng-template>
 

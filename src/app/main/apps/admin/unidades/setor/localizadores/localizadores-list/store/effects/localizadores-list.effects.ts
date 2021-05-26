@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
 import {localizador as localizadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class LocalizadoresListEffects {
@@ -27,7 +28,7 @@ export class LocalizadoresListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class LocalizadoresListEffects {
 
     /**
      * Get Localizadores with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class LocalizadoresListEffects {
         this._actions
             .pipe(
                 ofType<RootLocalizadoresListActions.GetLocalizadores>(RootLocalizadoresListActions.GET_LOCALIZADORES),
-                switchMap((action) => {
-                    return this._localizadorService.query(
+                switchMap(action => this._localizadorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class LocalizadoresListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
                             new RootLocalizadoresListActions.GetLocalizadoresSuccess({
                                 entitiesId: response['entities'].map(localizador => localizador.id),
@@ -69,12 +70,12 @@ export class LocalizadoresListEffects {
                             console.log(err);
                             return of(new RootLocalizadoresListActions.GetLocalizadoresFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Localizador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,16 @@ export class LocalizadoresListEffects {
         this._actions
             .pipe(
                 ofType<RootLocalizadoresListActions.DeleteLocalizador>(RootLocalizadoresListActions.DELETE_LOCALIZADOR),
-                mergeMap((action) => {
-                    return this._localizadorService.destroy(action.payload).pipe(
-                        map((response) => new RootLocalizadoresListActions.DeleteLocalizadorSuccess(response.id)),
+                mergeMap(action => this._localizadorService.destroy(action.payload).pipe(
+                        map(response => new RootLocalizadoresListActions.DeleteLocalizadorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RootLocalizadoresListActions.DeleteLocalizadorFailed(action.payload));
+                            return of(new RootLocalizadoresListActions.DeleteLocalizadorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -16,6 +16,7 @@ export interface EspecieRelevanciaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieRelevanciaListInitialState: EspecieRelevanciaListState = {
@@ -33,7 +34,8 @@ export const EspecieRelevanciaListInitialState: EspecieRelevanciaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieRelevanciaListReducer(
@@ -69,6 +71,7 @@ export function EspecieRelevanciaListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -82,9 +85,18 @@ export function EspecieRelevanciaListReducer(
             };
         }
 
+        case EspecieRelevanciaListActions.UNLOAD_ESPECIE_RELEVANCIA: {
+            return {
+                ...EspecieRelevanciaListInitialState
+            };
+        }
+
+
+
         case EspecieRelevanciaListActions.RELOAD_ESPECIE_RELEVANCIA: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

@@ -8,18 +8,18 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {ModalidadeTransicao, Pagination, Processo, Transicao} from '../../../../../@cdk/models';
+import {ModalidadeTransicao, Pagination, Processo, Transicao} from '@cdk/models';
 import * as fromStore from './store';
 import {RouterStateUrl, getRouterState, getOperacoes} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
-import {getModalidadeTransicao, getSelectedProcessos} from "../arquivista-list/store";
-import {Router} from "@angular/router";
-import {CdkUtils} from "../../../../../@cdk/utils";
-import {SnackBarDesfazerComponent} from "../../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
-import {MatSnackBar, MatSnackBarRef} from "@angular/material/snack-bar";
+import {cdkAnimations} from '@cdk/animations';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {getModalidadeTransicao, getSelectedProcessos} from '../arquivista-list/store';
+import {Router} from '@angular/router';
+import {CdkUtils} from '@cdk/utils';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'transicao-arquivista-bloco',
@@ -76,7 +76,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
 
         this.modalidadeTransicaoExtravioDesarquivamento$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(modalidadeTransicaoExtravioDesarquivamento => {
+        ).subscribe((modalidadeTransicaoExtravioDesarquivamento) => {
             if (modalidadeTransicaoExtravioDesarquivamento) {
                 this.modalidadeTransicao = modalidadeTransicaoExtravioDesarquivamento;
             }
@@ -88,7 +88,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(
-                operacoes => {
+                (operacoes) => {
                     this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação');
                     this._changeDetectorRef.markForCheck();
                 }
@@ -98,7 +98,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -144,10 +144,10 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
             .componentInstance
             .confirmMessage = 'Deseja realmente realizar a ' + tituloModalidadeTransicao +
             ' em bloco? NUPs apensos ou anexos sofrerão a mesma temporalidade e destinação.';
-        this.confirmDialogRef.afterClosed().subscribe(result => {
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.operacoes = [];
-                this.processos.forEach(processo => {
+                this.processos.forEach((processo) => {
                     const operacaoId = CdkUtils.makeId();
                     const transicao = new Transicao();
                     Object.entries(values).forEach(

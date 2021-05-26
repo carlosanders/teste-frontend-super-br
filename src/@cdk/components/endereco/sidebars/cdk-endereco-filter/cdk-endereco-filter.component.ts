@@ -51,37 +51,37 @@ export class CdkEnderecoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('bairro').value) {
-            this.form.get('bairro').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('bairro').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'bairro': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('cep').value) {
-            this.form.get('cep').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('cep').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'cep': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('complemento').value) {
-            this.form.get('complemento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('complemento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'complemento': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('logradouro').value) {
-            this.form.get('logradouro').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('logradouro').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'logradouro': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('numero').value) {
-            this.form.get('numero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('numero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'numero': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('observacao').value) {
-            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }

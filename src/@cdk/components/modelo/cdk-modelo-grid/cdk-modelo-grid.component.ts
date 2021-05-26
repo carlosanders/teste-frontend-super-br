@@ -195,6 +195,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -286,7 +289,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.getAllColumns().forEach(c => {
+                this.getAllColumns().forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -299,7 +302,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     getSort(columnId: string): boolean {
         let disabled = true;
-        this.getAllColumns().forEach(c => {
+        this.getAllColumns().forEach((c) => {
             if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
                 disabled = false;
             }
@@ -449,5 +452,12 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

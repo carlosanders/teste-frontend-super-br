@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Modelo} from '@cdk/models';
 import {modelo as modeloSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class ModeloListEffect {
@@ -27,7 +28,7 @@ export class ModeloListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class ModeloListEffect {
 
     /**
      * Get Modelos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -59,7 +61,7 @@ export class ModeloListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Modelo>({data: response['entities'], schema: modeloSchema}),
                             new ModeloListActions.GetModelosSuccess({
                                 entitiesId: response['entities'].map(modelo => modelo.id),
@@ -80,6 +82,7 @@ export class ModeloListEffect {
 
     /**
      * Delete Modelo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -87,14 +90,16 @@ export class ModeloListEffect {
         this._actions
             .pipe(
                 ofType<ModeloListActions.DeleteModelo>(ModeloListActions.DELETE_MODELO),
-                mergeMap((action) => {
-                    return this._modeloService.destroy(action.payload).pipe(
-                        map((response) => new ModeloListActions.DeleteModeloSuccess(response.id)),
+                mergeMap(action => this._modeloService.destroy(action.payload).pipe(
+                        map(response => new ModeloListActions.DeleteModeloSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ModeloListActions.DeleteModeloFailed(action.payload));
+                            return of(new ModeloListActions.DeleteModeloFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

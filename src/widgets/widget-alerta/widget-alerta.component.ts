@@ -6,9 +6,9 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Aviso, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {catchError} from "rxjs/operators";
-import {of} from "rxjs";
-import {AvisoService} from "../../@cdk/services/aviso.service";
+import {catchError} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {AvisoService} from '@cdk/services/aviso.service';
 
 @Component({
     selector: 'widget-alerta',
@@ -50,56 +50,35 @@ export class WidgetAlertaComponent implements OnInit {
     ngOnInit(): void {
         this.avisoIsLoading = true;
          this._profile.colaborador?.lotacoes.forEach(
-            lotacao => {
+            (lotacao) => {
                 this.setor.push(lotacao.setor.id);
                 this.unidade.push(lotacao.setor.unidade.id);
                 this.modalidadeOrgaoCentral.push(lotacao.setor.unidade.modalidadeOrgaoCentral.id);
             }
          );
 
-         this._profile.coordenadores.forEach(
-           coordenador => {
-               if(coordenador.setor)
-               {
-                   this.setor.push(coordenador.setor.id);
-               }
-               if(coordenador.unidade)
-               {
-                   this.unidade.push(coordenador.unidade.id);
-               }
-               if(coordenador.orgaoCentral)
-               {
-                   this.modalidadeOrgaoCentral.push(coordenador.orgaoCentral.id);
-               }
-           }
-         );
 
-        let filters = {};
+        const filters = {};
         let filterUnidade = {};
         let filterOrgaoCentral = {};
 
-        const filterSetor = {"vinculacoesAvisos.setor.id" : "in:"+this.setor.map(setor => setor).join(",")};
-        const filterSistema = {"sistema": "eq:true"}
+        const filterSetor = {'vinculacoesAvisos.setor.id' : 'in:'+this.setor.map(setor => setor).join(',')};
+        const filterSistema = {'sistema': 'eq:true'};
 
         if(this.unidade.length){
-            filterUnidade = {"vinculacoesAvisos.unidade.id": "in:"+this.unidade.map(unidade => unidade).join(",")};
+            filterUnidade = {'vinculacoesAvisos.unidade.id': 'in:'+this.unidade.map(unidade => unidade).join(',')};
         }
 
         if(this.modalidadeOrgaoCentral.length){
-            filterOrgaoCentral = {"vinculacoesAvisos.modalidadeOrgaoCentral.id": "in:"+this.modalidadeOrgaoCentral.map(orgaoCentral => orgaoCentral).join(",")};
+            filterOrgaoCentral = {'vinculacoesAvisos.modalidadeOrgaoCentral.id': 'in:'+this.modalidadeOrgaoCentral.map(orgaoCentral => orgaoCentral).join(',')};
         }
 
-        let orX = [
+        filters['orX'] = [
             {...filterSetor},
             {...filterUnidade},
             {...filterOrgaoCentral},
             {...filterSistema}
-        ]
-        filters["orX"] = orX;
-
-        if(this._loginService.isAdmin()) {
-            filters = {};
-        }
+        ];
 
         this._avisoService.query(
             JSON.stringify(filters),
@@ -115,7 +94,7 @@ export class WidgetAlertaComponent implements OnInit {
                     }
                 )
             ).subscribe(
-            value => {
+            (value) => {
                 this.avisoIsLoading = false;
                 this._changeDetectorRef.markForCheck();
                 this.avisos = value['entities'];
@@ -157,7 +136,7 @@ export class WidgetAlertaComponent implements OnInit {
 
             if(vinculacaoAviso.modalidadeOrgaoCentral?.id)
             {
-                return vinculacaoAviso.modalidadeOrgaoCentral.descricao
+                return vinculacaoAviso.modalidadeOrgaoCentral.descricao;
             }
 
             return 'Sistema';

@@ -30,7 +30,7 @@ export class ProcessoViewEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class ProcessoViewEffect {
 
     /**
      * Get Juntadas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -63,11 +64,11 @@ export class ProcessoViewEffect {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(chaveAcesso));
                 }),
-                concatMap((response) => [
+                concatMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new ProcessoViewActions.GetJuntadasSuccess({
                         index: response['entities'].map(
-                            juntada => {
+                            (juntada) => {
                                 if (!juntada.ativo) {
                                     return [];
                                 }
@@ -79,7 +80,7 @@ export class ProcessoViewEffect {
                                 }
                                 if (juntada.documento.vinculacoesDocumentos) {
                                     juntada.documento.vinculacoesDocumentos.map(
-                                        vinculacaoDocumento => {
+                                        (vinculacaoDocumento) => {
                                             vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
                                                 cd => componentesDigitaisIds.push(cd.id)
                                             );
@@ -132,12 +133,10 @@ export class ProcessoViewEffect {
                         return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
                     }
                 }),
-                map((response: any) => {
-                    return new ProcessoViewActions.SetCurrentStepSuccess({
+                map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
                         binary: response,
                         loaded: this.routerState.params.stepHandle
-                    });
-                }),
+                    })),
                 catchError((err, caught) => {
                     this._store.dispatch(new ProcessoViewActions.SetCurrentStepFailed(err));
                     return caught;
@@ -158,14 +157,12 @@ export class ProcessoViewEffect {
                         let capa = true;
                         let firstJuntada = 0;
                         if (action.payload.index) {
-                            firstJuntada = action.payload.index.findIndex((indice) => {
-                                return indice.length > 0;
-                            });
+                            firstJuntada = action.payload.index.findIndex(indice => indice.length > 0);
                             capa = firstJuntada === -1;
                         }
                         if (capa) {
                             if (this.routerState.url.indexOf('/documento/') !== -1) {
-                                let arrPrimary = [];
+                                const arrPrimary = [];
                                 arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                                     'visualizar-processo' : 'anexar-copia');
                                 arrPrimary.push(this.routerState.params.processoHandle);
@@ -176,6 +173,12 @@ export class ProcessoViewEffect {
                                 arrPrimary.push('visualizar');
                                 arrPrimary.push('capa');
                                 arrPrimary.push('mostrar');
+                                const extras = {
+                                    relativeTo: this._activatedRoute.parent,
+                                    queryParams: {
+                                        documentoEdit: this.routerState.queryParams.documentoEdit
+                                    }
+                                };
 
                                 // Navegação do processo deve ocorrer por outlet
                                 this._router.navigate(
@@ -188,9 +191,7 @@ export class ProcessoViewEffect {
                                             }
                                         }
                                     ],
-                                    {
-                                        relativeTo: this._activatedRoute.parent
-                                    }
+                                    extras
                                 ).then();
                             } else {
                                 let url = this.routerState.url.split('/processo/' +
@@ -200,12 +201,17 @@ export class ProcessoViewEffect {
                                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                                 }
                                 url += '/visualizar/capa/mostrar';
-                                this._router.navigateByUrl(url).then();
+                                const extras = {
+                                    queryParams: {
+                                        documentoEdit: this.routerState.queryParams.documentoEdit
+                                    }
+                                };
+                                this._router.navigate([url], extras).then();
                             }
                         } else {
                             if (this.routerState.url.indexOf('/documento/') !== -1) {
                                 if (this.routerState.url.indexOf('sidebar:') === -1) {
-                                    let arrPrimary = [];
+                                    const arrPrimary = [];
                                     arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                                         'visualizar-processo' : 'anexar-copia');
                                     arrPrimary.push(this.routerState.params.processoHandle);
@@ -249,11 +255,11 @@ export class ProcessoViewEffect {
                                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                                 }
                                 url += '/visualizar/' + firstJuntada + '-0';
-                                let extras = {
+                                const extras = {
                                     queryParams: {
                                         documentoEdit: this.routerState.queryParams.documentoEdit
                                     }
-                                }
+                                };
                                 this._router.navigate([url], extras)
                                     .then(() => {
                                         this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
@@ -267,7 +273,7 @@ export class ProcessoViewEffect {
                         this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
                         if (this.routerState.url.indexOf('/documento/') !== -1) {
                             if (this.routerState.url.indexOf('sidebar:') === -1) {
-                                let arrPrimary = [];
+                                const arrPrimary = [];
                                 arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                                     'visualizar-processo' : 'anexar-copia');
                                 arrPrimary.push(this.routerState.params.processoHandle);
@@ -333,6 +339,7 @@ export class ProcessoViewEffect {
 
     /**
      * Get Capa Processo
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -342,7 +349,7 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.GetCapaProcesso>(ProcessoViewActions.GET_CAPA_PROCESSO),
                 map(() => {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
-                        let arrPrimary = [];
+                        const arrPrimary = [];
                         arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                             'visualizar-processo' : 'anexar-copia');
                         this.routerState.params['processoCopiaHandle'] ?

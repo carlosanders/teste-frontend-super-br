@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -15,6 +16,9 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models/pagination';
 
+import {UnloadLotacoes} from './store';
+
+
 @Component({
     selector: 'lotacao-list',
     templateUrl: './coordenador-lotacao-list.component.html',
@@ -23,7 +27,7 @@ import {Pagination} from '@cdk/models/pagination';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CoordenadorLotacaoListComponent implements OnInit {
+export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     lotacoes$: Observable<Lotacao[]>;
@@ -31,6 +35,7 @@ export class CoordenadorLotacaoListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     setorPagination: Pagination = new Pagination();
     colaboradorPagination: Pagination = new Pagination();
@@ -50,21 +55,22 @@ export class CoordenadorLotacaoListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if(this.routerState.url.includes('unidades')) {
-                        this.modulo = "unidades";
+                        this.modulo = 'unidades';
                     }
                     else if(this.routerState.url.includes('usuarios')) {
-                        this.modulo = "usuarios";
+                        this.modulo = 'usuarios';
                     }
                     else {
-                        this.modulo = "lotacoes";
+                        this.modulo = 'lotacoes';
                     }
                 }
             });
@@ -91,9 +97,13 @@ export class CoordenadorLotacaoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadLotacoes());
     }
 
     create(): void {

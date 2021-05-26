@@ -16,6 +16,7 @@ export interface EspecieProcessoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieProcessoListInitialState: EspecieProcessoListState = {
@@ -33,7 +34,8 @@ export const EspecieProcessoListInitialState: EspecieProcessoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieProcessoListReducer(
@@ -82,6 +84,14 @@ export function EspecieProcessoListReducer(
             };
         }
 
+        case EspecieProcessoListActions.UNLOAD_ESPECIE_PROCESSO: {
+            return {
+                ...EspecieProcessoListInitialState
+            };
+        }
+
+
+
         case EspecieProcessoListActions.RELOAD_ESPECIE_PROCESSO: {
             return {
                 ...state,
@@ -108,7 +118,7 @@ export function EspecieProcessoListReducer(
         case EspecieProcessoListActions.DELETE_ESPECIE_PROCESSO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

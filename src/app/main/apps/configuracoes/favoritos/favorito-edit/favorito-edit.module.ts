@@ -26,7 +26,7 @@ import {FavoritoService} from '@cdk/services/favorito.service';
 
 import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

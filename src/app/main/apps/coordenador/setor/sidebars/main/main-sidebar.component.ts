@@ -36,7 +36,7 @@ export class SetorMainSidebarComponent implements OnInit {
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
 
         this.unidade$.subscribe(
-            setor => {
+            (setor) => {
                 this.unidade = setor;
             }
         );
@@ -61,13 +61,18 @@ export class SetorMainSidebarComponent implements OnInit {
                 nome: 'Usuários do Setor',
                 icon: 'person',
                 link: 'usuarios'
+            },
+            {
+                nome: 'Avisos do Setor',
+                icon: 'info',
+                link: 'avisos'
             }
         ];
 
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.baseLink = '/apps/coordenador/' + this.routerState.params['generoHandle'] + '/' +

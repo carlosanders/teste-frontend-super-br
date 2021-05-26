@@ -5,6 +5,8 @@ export const GET_VINCULACOES_USUARIOS_SUCCESS = '[VINCULACAO USUARIO LIST] GET V
 export const GET_VINCULACOES_USUARIOS_FAILED = '[VINCULACAO USUARIO LIST] GET VINCULACOES USUARIOS FAILED';
 
 export const RELOAD_VINCULACOES_USUARIOS = '[VINCULACAO USUARIO LIST] RELOAD VINCULACOES USUARIOS';
+export const UNLOAD_VINCULACOES_USUARIOS = '[VINCULACAO USUARIO LIST] UNLOAD VINCULACOES USUARIOS';
+
 
 export const DELETE_VINCULACAO_USUARIO = '[VINCULACAO USUARIO LIST] DELETE VINCULACAO USUARIO';
 export const DELETE_VINCULACAO_USUARIO_SUCCESS = '[VINCULACAO USUARIO LIST] DELETE VINCULACAO USUARIO SUCCESS';
@@ -45,6 +47,18 @@ export class GetVinculacoesUsuariosFailed implements Action
     {
     }
 }
+
+/**
+ * Unload VinculacoesUsuarios
+ */
+ export class UnloadVinculacoesUsuarios implements Action
+ {
+     readonly type = UNLOAD_VINCULACOES_USUARIOS;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload VinculacoesUsuarios
@@ -98,6 +112,7 @@ export type VinculacaoUsuarioListActionsAll
     = GetVinculacoesUsuarios
     | GetVinculacoesUsuariosSuccess
     | GetVinculacoesUsuariosFailed
+    | UnloadVinculacoesUsuarios
     | ReloadVinculacoesUsuarios
     | DeleteVinculacaoUsuario
     | DeleteVinculacaoUsuarioSuccess

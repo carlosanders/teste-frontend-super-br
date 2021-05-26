@@ -48,31 +48,31 @@ export class CdkAssinaturaFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('algoritmoHash').value) {
-            this.form.get('algoritmoHash').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('algoritmoHash').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'algoritmoHash': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('assinatura').value) {
-            this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'assinatura': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('cadeiaCertificadoPEM').value) {
-            this.form.get('cadeiaCertificadoPEM').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('cadeiaCertificadoPEM').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'cadeiaCertificadoPEM': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('cadeiaCertificadoPkiPath').value) {
-            this.form.get('cadeiaCertificadoPkiPath').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('cadeiaCertificadoPkiPath').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'cadeiaCertificadoPkiPath': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('assinatura').value) {
-            this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'assinatura': `like:%${bit}%`});
             });
         }

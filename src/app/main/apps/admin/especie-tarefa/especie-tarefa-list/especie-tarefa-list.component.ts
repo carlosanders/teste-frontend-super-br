@@ -1,12 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 
-import {EspecieTarefa, Usuario} from '../../../../../../@cdk/models';
+import {EspecieTarefa, Usuario} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadEspecieTarefa} from './store';
+
 
 @Component({
     selector: 'especie-tarefa-list',
@@ -16,7 +18,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EspecieTarefaListComponent implements OnInit {
+export class EspecieTarefaListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     especieTarefas$: Observable<EspecieTarefa[]>;
@@ -24,6 +26,7 @@ export class EspecieTarefaListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     constructor(
@@ -35,11 +38,12 @@ export class EspecieTarefaListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -47,9 +51,13 @@ export class EspecieTarefaListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadEspecieTarefa());
     }
 
     reload(params): void {

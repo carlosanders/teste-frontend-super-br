@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@cdk/angular/material';
 import { Router } from '@angular/router';
 import { getRouterState } from '../../../../store';
-import { GeneroRelatorio } from '../../../../../@cdk/models/genero-relatorio.model';
+import { GeneroRelatorio } from '@cdk/models/genero-relatorio.model';
 import { Back } from '../../../../store';
 
 @Component({
@@ -76,7 +76,7 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -100,9 +100,9 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        let relatorio = new Relatorio();
-        var arrayParams: any;
-        var parametros: any;
+        const relatorio = new Relatorio();
+        let arrayParams: any;
+        let parametros: any;
 
         Object.entries(values).forEach(
             ([key, value]) => {

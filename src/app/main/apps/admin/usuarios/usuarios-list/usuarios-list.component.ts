@@ -16,7 +16,7 @@ import {Usuario} from '@cdk/models';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import { take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import {UnloadUsuarios} from "./store";
+import {UnloadUsuarios} from './store';
 
 @Component({
     selector: 'usuarios-list',
@@ -35,6 +35,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     pagination: any;
     actions: Array<string> = [];
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -53,11 +54,12 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -65,7 +67,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getAfastamentoListState,
     (state: AfastamentoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getAfastamentoListState,
+    (state: AfastamentoListState) => state.deletingErrors
+);

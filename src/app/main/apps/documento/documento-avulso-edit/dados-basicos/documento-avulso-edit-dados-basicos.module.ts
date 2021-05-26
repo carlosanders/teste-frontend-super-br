@@ -4,7 +4,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {modulesConfig} from 'modules/modules-config';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -14,8 +14,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkDocumentoAvulsoFormModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form.module';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {CdkConfirmDialogModule} from "../../../../../../@cdk/components";
-import {MatInputModule} from "@angular/material/input";
+import {CdkConfirmDialogModule} from '@cdk/components';
+import {MatInputModule} from '@angular/material/input';
 
 const routes: Routes = [
     {

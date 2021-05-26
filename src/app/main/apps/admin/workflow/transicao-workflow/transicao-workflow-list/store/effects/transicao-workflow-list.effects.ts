@@ -6,13 +6,13 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as WorkflowListActions from '../actions';
-import {TransicaoWorkflowService} from '../../../../../../../../../@cdk/services/transicao-workflow.service';
-import {transicaoWorkflow as transicaoWorkflowSchema} from '../../../../../../../../../@cdk/normalizr';
+import {TransicaoWorkflowService} from '@cdk/services/transicao-workflow.service';
+import {transicaoWorkflow as transicaoWorkflowSchema} from '@cdk/normalizr';
 import {getRouterState, State} from '../../../../../../../../store/reducers';
-import {AddData} from '../../../../../../../../../@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {LoginService} from '../../../../../../../auth/login/login.service';
-import {Workflow} from '../../../../../../../../../@cdk/models';
-
+import {Workflow} from '@cdk/models';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class TransicaoWorkflowListEffects {
@@ -27,7 +27,7 @@ export class TransicaoWorkflowListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class TransicaoWorkflowListEffects {
 
     /**
      * Get Workflow with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class TransicaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<WorkflowListActions.GetTransicaoWorkflow>(WorkflowListActions.GET_TRANSICAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._transicaoWorkflowService.query(
+                switchMap(action => this._transicaoWorkflowService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class TransicaoWorkflowListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Workflow>({data: response['entities'], schema: transicaoWorkflowSchema}),
                             new WorkflowListActions.GetTransicaoWorkflowSuccess({
                                 entitiesId: response['entities'].map(transicaoWorkflow => transicaoWorkflow.id),
@@ -69,12 +69,12 @@ export class TransicaoWorkflowListEffects {
                             console.log(err);
                             return of(new WorkflowListActions.GetTransicaoWorkflowFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Workflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +82,16 @@ export class TransicaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<WorkflowListActions.DeleteTransicaoWorkflow>(WorkflowListActions.DELETE_TRANSICAO_WORKFLOW),
-                mergeMap((action) => {
-                    return this._transicaoWorkflowService.destroy(action.payload).pipe(
-                        map((response) => new WorkflowListActions.DeleteTransicaoWorkflowSuccess(response.id)),
+                mergeMap(action => this._transicaoWorkflowService.destroy(action.payload).pipe(
+                        map(response => new WorkflowListActions.DeleteTransicaoWorkflowSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new WorkflowListActions.DeleteTransicaoWorkflowFailed(action.payload));
+                            return of(new WorkflowListActions.DeleteTransicaoWorkflowFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

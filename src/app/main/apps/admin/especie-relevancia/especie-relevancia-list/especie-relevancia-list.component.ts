@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {EspecieRelevancia} from '../../../../../../@cdk/models';
+import {EspecieRelevancia} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadEspecieRelevancia} from './store';
+
 
 @Component({
     selector: 'especie-relevancia-list',
@@ -15,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EspecieRelevanciaListComponent implements OnInit {
+export class EspecieRelevanciaListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     especieRelevancias$: Observable<EspecieRelevancia[]>;
@@ -23,6 +25,7 @@ export class EspecieRelevanciaListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     constructor(
@@ -36,7 +39,7 @@ export class EspecieRelevanciaListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,10 +47,16 @@ export class EspecieRelevanciaListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadEspecieRelevancia());
+    }
+
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetEspecieRelevancia({

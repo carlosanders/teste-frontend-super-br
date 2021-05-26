@@ -33,7 +33,7 @@ import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {expandirTela} from './store';
-import {CdkUtils} from '../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
@@ -95,7 +95,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     snackSubscription: any;
     lote: string;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
      * @param _changeDetectorRef
@@ -153,7 +153,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         const path = 'app/main/apps/tarefas/tarefa-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => this.container.createComponent(componentFactory));
                 }));
@@ -171,14 +171,14 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
             this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
@@ -196,7 +196,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.expandir$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            expandir => {
+            (expandir) => {
                 this.doToggleMaximizado(expandir);
             }
         );
@@ -208,7 +208,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
         });
         this.doToggleMaximizado(false);

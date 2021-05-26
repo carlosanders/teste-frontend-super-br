@@ -13,7 +13,7 @@ import { CdkModalidadeGeneroPessoaGridModule } from '@cdk/components/modalidade-
     imports: [
 
         CdkModalidadeGeneroPessoaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

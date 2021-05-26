@@ -3,12 +3,12 @@ import {Effect, Actions, ofType} from '@ngrx/effects';
 import {tap} from 'rxjs/operators';
 import * as MercureActions from 'app/store/actions/mercure.action';
 import {Observable} from 'rxjs';
-import {AddData} from '../../../@cdk/ngrx-normalizr';
-import {Notificacao, OrigemDados} from '../../../@cdk/models';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Notificacao, OrigemDados} from '@cdk/models';
 import {
     notificacao as notificacaoSchema,
     origemDados as origemDadosSchema
-} from '../../../@cdk/normalizr';
+} from '@cdk/normalizr';
 import {plainToClass} from 'class-transformer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';

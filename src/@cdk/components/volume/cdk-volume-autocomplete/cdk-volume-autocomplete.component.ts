@@ -54,7 +54,7 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 1),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
                         andxFilter.push({
                             numeracaoSequencial: `like:%${bit}%`
                         });
@@ -81,7 +81,7 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.volumeList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

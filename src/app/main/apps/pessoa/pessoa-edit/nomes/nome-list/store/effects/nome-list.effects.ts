@@ -12,6 +12,7 @@ import {NomeService} from '@cdk/services/nome.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Nome} from '@cdk/models';
 import {nome as nomeSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class NomeListEffect {
@@ -25,7 +26,7 @@ export class NomeListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class NomeListEffect {
 
     /**
      * Get Nomes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class NomeListEffect {
         this._actions
             .pipe(
                 ofType<NomeListActions.GetNomes>(NomeListActions.GET_NOMES),
-                switchMap((action) => {
-                    return this._nomeService.query(
+                switchMap(action => this._nomeService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +53,8 @@ export class NomeListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
-                mergeMap((response) => [
+                        ]))),
+                mergeMap(response => [
                     new AddData<Nome>({data: response['entities'], schema: nomeSchema}),
                     new NomeListActions.GetNomesSuccess({
                         entitiesId: response['entities'].map(nome => nome.id),
@@ -75,6 +75,7 @@ export class NomeListEffect {
 
     /**
      * Delete Nome
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,16 @@ export class NomeListEffect {
         this._actions
             .pipe(
                 ofType<NomeListActions.DeleteNome>(NomeListActions.DELETE_NOME),
-                mergeMap((action) => {
-                    return this._nomeService.destroy(action.payload).pipe(
-                        map((response) => new NomeListActions.DeleteNomeSuccess(response.id)),
+                mergeMap(action => this._nomeService.destroy(action.payload).pipe(
+                        map(response => new NomeListActions.DeleteNomeSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new NomeListActions.DeleteNomeFailed(action.payload));
+                            return of(new NomeListActions.DeleteNomeFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

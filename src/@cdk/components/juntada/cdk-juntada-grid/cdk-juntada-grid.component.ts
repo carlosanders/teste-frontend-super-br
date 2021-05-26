@@ -162,6 +162,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -272,7 +275,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -372,9 +375,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
      * Select all
      */
     selectAll(): void {
-        const selecionaveis = this.juntadas.filter(juntada => {
-            return juntada.ativo && this.desentranhadoId.indexOf(juntada.id) === -1 && (this.deletedIds.indexOf(juntada.id) === -1 || this.hasExcluded);
-        })
+        const selecionaveis = this.juntadas.filter(juntada => juntada.ativo && this.desentranhadoId.indexOf(juntada.id) === -1 && (this.deletedIds.indexOf(juntada.id) === -1 || this.hasExcluded));
         const arr = Object.keys(selecionaveis).map(k => selecionaveis[k]);
         this.selectedIds = arr.map(juntada => juntada.id);
         this.recompute();
@@ -418,6 +419,13 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
         this.create.emit();
     }
 
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
+
     doAdicionarVinculacao(juntadaId: number): void {
         this.adicionarVinculacao.emit(juntadaId);
     }
@@ -428,15 +436,15 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     download(componenteDigital: ComponenteDigital): void {
         this._componenteDigitalService.download(componenteDigital.id).subscribe(
-            response => {
+            (response) => {
                 fetch(response.conteudo)
                     .then(res => res.blob())
-                    .then(content => {
+                    .then((content) => {
                         // downloadLink.download = 'name_to_give_saved_file.pdf';
-                        const blob = new Blob([content], {type: componenteDigital.mimetype}),
-                            URL = window.URL,
-                            downloadUrl = URL.createObjectURL(blob),
-                            downloadLink = document.createElement('a');
+                        const blob = new Blob([content], {type: componenteDigital.mimetype});
+                            const URL = window.URL;
+                            const downloadUrl = URL.createObjectURL(blob);
+                            const downloadLink = document.createElement('a');
                         downloadLink.target = '_blank';
                         downloadLink.href = downloadUrl;
                         downloadLink.download = componenteDigital.fileName;
@@ -458,7 +466,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             result.documento = documento;
             this.assinar.emit(result);
         });

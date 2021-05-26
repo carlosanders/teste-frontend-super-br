@@ -5,6 +5,8 @@ export const GET_REPOSITORIOS_ESPECIE_SETOR_SUCCESS = '[COORDENADOR REPOSITORIOS
 export const GET_REPOSITORIOS_ESPECIE_SETOR_FAILED = '[COORDENADOR REPOSITORIOS ESPECIE SETOR LIST] GET VINCULACOES REPOSITORIO FAILED';
 
 export const RELOAD_REPOSITORIOS_ESPECIE_SETOR = '[COORDENADOR REPOSITORIOS ESPECIE SETOR LIST] RELOAD VINCULACOES REPOSITORIO';
+export const UNLOAD_REPOSITORIOS_ESPECIE_SETOR = '[COORDENADOR REPOSITORIOS ESPECIE SETOR LIST] UNLOAD VINCULACOES REPOSITORIO';
+
 
 export const DELETE_REPOSITORIO_ESPECIE_SETOR = '[COORDENADOR REPOSITORIOS ESPECIE SETOR LIST] DELETE VINCULACAO REPOSITORIO';
 export const DELETE_REPOSITORIO_ESPECIE_SETOR_SUCCESS = '[COORDENADOR REPOSITORIOS ESPECIE SETOR LIST] DELETE VINCULACAO REPOSITORIO SUCCESS';
@@ -48,7 +50,19 @@ export class GetRepositoriosEspecieSetorFailed implements Action
 }
 
 /**
- * Get VinculacaoRepositorio[]
+ * Unload RepositoriosEspecieSetor
+ */
+ export class UnloadRepositoriosEspecieSetor implements Action
+ {
+     readonly type = UNLOAD_REPOSITORIOS_ESPECIE_SETOR;
+
+     constructor()
+     {
+     }
+ }
+
+/**
+ * Reload RepositoriosEspecieSetor
  */
 export class ReloadRepositoriosEspecieSetor implements Action
 {
@@ -100,6 +114,7 @@ export type RepositoriosEspecieSetorActionsAll
     = GetRepositoriosEspecieSetor
     | GetRepositoriosEspecieSetorSuccess
     | GetRepositoriosEspecieSetorFailed
+    | UnloadRepositoriosEspecieSetor
     | ReloadRepositoriosEspecieSetor
     | DeleteRepositorioEspecieSetor
     | DeleteRepositorioEspecieSetorSuccess

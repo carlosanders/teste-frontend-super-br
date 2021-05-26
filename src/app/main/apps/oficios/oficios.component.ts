@@ -30,7 +30,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {MatDialog} from '@cdk/angular/material';
-import {CdkChaveAcessoPluginComponent} from '../../../../@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {CdkChaveAcessoPluginComponent} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'oficios',
@@ -163,7 +163,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -171,56 +171,56 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
         });
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
         });
 
         this.documentosAvulso$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(documentosAvulso => !!documentosAvulso)
-        ).subscribe(documentosAvulso => {
+        ).subscribe((documentosAvulso) => {
             this.documentosAvulso = documentosAvulso;
         });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(maximizado => {
+        ).subscribe((maximizado) => {
             this.maximizado = maximizado;
         });
 
         this.selectedDocumentosAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedDocumentosAvulso => {
+        ).subscribe((selectedDocumentosAvulso) => {
             this.selectedDocumentosAvulso = selectedDocumentosAvulso;
         });
 
         this.loading$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(loading => {
+        ).subscribe((loading) => {
             this.loading = loading;
         });
 
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedIds => {
+        ).subscribe((selectedIds) => {
             this.selectedIds = selectedIds;
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
                 if (this.maximizado) {
@@ -311,7 +311,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                 width: '600px'
             });
 
-            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
 
                 if (!documentoAvulso.dataHoraLeitura) {
                     this._store.dispatch(new fromStore.ToggleLidaDocumentosAvulso(documentoAvulso));

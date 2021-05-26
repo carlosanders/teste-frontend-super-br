@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {ProcessoService} from '../../../../../../../@cdk/services/processo.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {UpdateData} from '../../../../../../../@cdk/ngrx-normalizr';
-import {Processo} from '../../../../../../../@cdk/models';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 import * as ProcessoActions from '../actions/processo.actions';
-import {of} from "rxjs";
-import {ChangeProcessos, getProcessosIds} from "../../../arquivista-list/store";
-import * as moment from "moment";
+import {of} from 'rxjs';
+import {ChangeProcessos, getProcessosIds} from '../../../arquivista-list/store';
+import * as moment from 'moment';
 
 @Injectable()
 export class ProcessoEffects {
@@ -25,7 +25,7 @@ export class ProcessoEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -40,9 +40,8 @@ export class ProcessoEffects {
         this._actions
             .pipe(
                 ofType<ProcessoActions.SaveProcesso>(ProcessoActions.SAVE_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.patch(action.payload.processo, action.payload.changes).pipe(
-                        mergeMap((response) => [
+                switchMap(action => this._processoService.patch(action.payload.processo, action.payload.changes).pipe(
+                        mergeMap(response => [
                             new UpdateData<Processo>({
                                 id: response.id,
                                 schema: processoSchema,
@@ -54,11 +53,8 @@ export class ProcessoEffects {
                             }),
                             new ProcessoActions.SaveProcessoSuccess(action.payload)
                         ]),
-                        catchError((err) => {
-                            return of(new ProcessoActions.SaveProcessoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new ProcessoActions.SaveProcessoFailed(err)))
+                    ))
             );
 
 

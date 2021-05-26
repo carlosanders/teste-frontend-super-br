@@ -32,7 +32,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,9 +42,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getRepositorios().pipe(
@@ -56,7 +56,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Repositorios
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getRepositorios(): any {
         return this._store.pipe(
@@ -125,8 +125,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetRepositorios(params));
                 }
             }),
-            filter((loaded: any) => {
-                return (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+            filter((loaded: any) => (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
                         + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] ===
                         loaded.value)
@@ -138,8 +137,7 @@ export class ResolveGuard implements CanActivate {
                             + this.routerState.params['unidadeHandle'] === loaded.value))
                     || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
                         (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
-                            loaded.value)));
-            }),
+                            loaded.value)))),
             take(1)
         );
     }

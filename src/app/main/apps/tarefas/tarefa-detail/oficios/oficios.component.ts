@@ -33,7 +33,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {getDocumentosHasLoaded} from './store';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefa-detail-oficios',
@@ -82,16 +82,18 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     snackSubscription: any;
     lote: string;
 
-    /**
-     *
-     * @param _store
-     * @param _loginService
-     * @param _router
-     * @param _changeDetectorRef
-     * @param _dynamicService
-     * @param _formBuilder
-     * @param _snackBar
-     */
+    assinaturaInterval = null;
+
+        /**
+         *
+         * @param _store
+         * @param _loginService
+         * @param _router
+         * @param _changeDetectorRef
+         * @param _dynamicService
+         * @param _formBuilder
+         * @param _snackBar
+         */
     constructor(
         private _store: Store<fromStore.TarefaOficiosAppState>,
         public _loginService: LoginService,
@@ -130,15 +132,15 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit(): void {
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter((tarefa) => !!tarefa)
-        ).subscribe(tarefa => {
+            filter(tarefa => !!tarefa)
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
         });
 
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -148,7 +150,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -178,7 +180,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedDocumentos => {
+        ).subscribe((selectedDocumentos) => {
             this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 
@@ -186,15 +188,15 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentos => {
+            (documentos) => {
                 this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }
         );
 
-        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -202,6 +204,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
@@ -220,7 +224,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         const path = 'app/main/apps/tarefas/tarefa-detail/oficios';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
@@ -258,7 +262,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     doDelete(documentoId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();
-        documento.id = documentoId
+        documento.id = documentoId;
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documento.id,
             operacaoId: operacaoId,
@@ -311,7 +315,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     doRestaurar(documentoId): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();
-        documento.id = documentoId
+        documento.id = documentoId;
         this._store.dispatch(new fromStore.UndeleteDocumento({
             documento: documento,
             operacaoId: operacaoId,

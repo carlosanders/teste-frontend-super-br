@@ -1,10 +1,11 @@
-@import "../../@cdk/scss/cdk";
+@import "@cdk/scss/cdk";
 
 widget-alerta {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
     padding: 16px;
+
 
     .mat-card.scrollable-content {
         height: 100%;
@@ -14,8 +15,10 @@ widget-alerta {
         overflow: hidden;
         display: flex;
         flex-direction: column;
+
         mat-list {
-             mat-list-item {
+            mat-list-item {
+                padding: 5px 16px;
                 .descricao {
                     white-space: pre-wrap
                 }

@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Coordenador} from '@cdk/models/coordenador.model';
 import {coordenador as coordenadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class CoordenadoresListEffects {
@@ -27,7 +28,7 @@ export class CoordenadoresListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class CoordenadoresListEffects {
 
     /**
      * Get Coordenadores with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class CoordenadoresListEffects {
         this._actions
             .pipe(
                 ofType<CoordenadoresListActions.GetCoordenadores>(CoordenadoresListActions.GET_COORDENADORES),
-                switchMap((action) => {
-                    return this._coordenadorService.query(
+                switchMap(action => this._coordenadorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class CoordenadoresListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Coordenador>({data: response['entities'], schema: coordenadorSchema}),
                             new CoordenadoresListActions.GetCoordenadoresSuccess({
                                 entitiesId: response['entities'].map(coordenador => coordenador.id),
@@ -69,12 +70,12 @@ export class CoordenadoresListEffects {
                             console.log(err);
                             return of(new CoordenadoresListActions.GetCoordenadoresFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Coordenador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,16 @@ export class CoordenadoresListEffects {
         this._actions
             .pipe(
                 ofType<CoordenadoresListActions.DeleteCoordenador>(CoordenadoresListActions.DELETE_COORDENADOR),
-                mergeMap((action) => {
-                    return this._coordenadorService.destroy(action.payload).pipe(
-                        map((response) => new CoordenadoresListActions.DeleteCoordenadorSuccess(action.payload)),
+                mergeMap(action => this._coordenadorService.destroy(action.payload).pipe(
+                        map(response => new CoordenadoresListActions.DeleteCoordenadorSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new CoordenadoresListActions.DeleteCoordenadorFailed(action.payload));
+                            return of(new CoordenadoresListActions.DeleteCoordenadorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

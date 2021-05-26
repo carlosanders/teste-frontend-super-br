@@ -1,4 +1,5 @@
 import * as RepositorioListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface RepositorioListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface RepositorioListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RepositorioListInitialState: RepositorioListState = {
@@ -33,7 +35,8 @@ export const RepositorioListInitialState: RepositorioListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RepositorioListReducer(
@@ -70,14 +73,22 @@ export function RepositorioListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
+            };
+        }
+
+        case RepositorioListActions.UNLOAD_REPOSITORIOS: {
+            return {
+                ...RepositorioListInitialState
             };
         }
 
         case RepositorioListActions.RELOAD_REPOSITORIOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -102,14 +113,19 @@ export function RepositorioListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case RepositorioListActions.DELETE_REPOSITORIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

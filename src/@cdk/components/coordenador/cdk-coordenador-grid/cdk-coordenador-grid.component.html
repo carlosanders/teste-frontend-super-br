@@ -10,7 +10,7 @@
         </cdk-coordenador-filter>
     </cdk-sidebar>
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
 
         <div class="actions">
 
@@ -90,7 +90,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.id}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -99,7 +99,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.usuario.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.usuario.nome}} </td>
                 </ng-container>
 
                 <!-- Órgão Central Column -->
@@ -108,7 +108,7 @@
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.orgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.orgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -117,7 +117,7 @@
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Nome da Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.unidade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.unidade?.nome}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -126,7 +126,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.setor?.unidade?.sigla}} - {{coordenador.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1, 'error': getProp(deletingErrors, coordenador.id)}"> {{coordenador.setor?.unidade?.sigla}} - {{coordenador.setor?.nome}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -163,6 +163,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, coordenador.id)">
+                            {{ getProp(deletingErrors, coordenador.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

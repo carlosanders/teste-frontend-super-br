@@ -301,3 +301,31 @@
 * Correção depois que é clicado em "Criar Tarefa" de uma tarefa não é possível abrir o formulário de "Criar Tarefa" novamente #333
 * Correção favoritos não funciona corretamente no na página de redistribuição da tarefa #296
 * Correção erro ao usar bloco de processos para criar ofício de uma tarefa #338
+* Correção no widget de historico do painel
+* Melhoria para deixar opção de login mais amigável
+* Correção ao criar tarefas em bloco de responsáveis dá erro mas finaliza a criação #390
+* Correção ao criar tarefas com bloco de processos dá erro mas finaliza a criação #391
+* Correção quebra de linhas muito extensas no feeds
+* Correção filtro de modelos por nome
+* Correção filtro de teses
+* Correção validar fechamento de tarefa com oficio não remetido
+* Melhoria Botao editar minuta em outra aba
+* Melhoria confirmar fechamento do editor para salvar alterações
+* Melhoria edição de observacao simplificada na tarefa
+* Melhoria atalho para acompanhar e retirar acompanhamento de processo na movimentação.
+* Melhoria tornar etiqueta de minuta clicavel
+* Melhoria Abrir tarefa em outra aba se clicar com o ctrl apertado
+* Melhoria Colocar zoom no processo-view para o documento em HTML
+* Melhoria Notificação, snack, marcar todas lidas, clicar para ir
+* Melhoria novo botão de atalho para abrir minuta em nova aba
+* Melhoria novo botão de atalho para abrir juntada em nova aba
+* Melhoria Botao de editar processo tarefa-list
+* Melhoria edicao simplificada do tipo de documento no grid de juntadas
+* Correção erro ao adicionar unidades em bloco a partir do botão favoritos #302
+* Correção erro ao exibir espécies de tarefas ao movimentar uma tarefa em um workflow #440
+* Correção erro no passo 2 do workflow Elaboração de Ato Normativo #441
+* Correção erro no passo 3 do workflow Elaboração de ato administrativo #442
+* Melhoria melhorar a gestão do compartilhamento
+* Correção bug ao editar juntada
+* Melhoria atualizar a etiqueta de oficio remetido
+* Melhoria tornar lixeira área de drag and drop

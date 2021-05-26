@@ -29,7 +29,7 @@ export class CompartilhamentoCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class CompartilhamentoCreateBlocoEffect {
 
     /**
      * Save Compartilhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class CompartilhamentoCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoCreateBlocoActions.SaveCompartilhamento>(CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO),
-                mergeMap((action) => {
-                    return this._compartilhamentoService.save(action.payload).pipe(
+                mergeMap(action => this._compartilhamentoService.save(action.payload).pipe(
                         mergeMap((response: Compartilhamento) => [
                             new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(action.payload),
                             new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
@@ -67,8 +67,7 @@ export class CompartilhamentoCreateBlocoEffect {
                             }));
                             return of(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
 }

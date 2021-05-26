@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models/setor.model';
 import {setor as setorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class SetorListEffect {
@@ -27,7 +28,7 @@ export class SetorListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class SetorListEffect {
 
     /**
      * Get Setores with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class SetorListEffect {
         this._actions
             .pipe(
                 ofType<SetorListActions.GetSetores>(SetorListActions.GET_SETORES),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class SetorListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                             new SetorListActions.GetSetoresSuccess({
                                 entitiesId: response['entities'].map(setor => setor.id),
@@ -69,12 +70,12 @@ export class SetorListEffect {
                             console.log(err);
                             return of(new SetorListActions.GetSetoresFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Setor
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,19 +83,22 @@ export class SetorListEffect {
         this._actions
             .pipe(
                 ofType<SetorListActions.DeleteSetor>(SetorListActions.DELETE_SETOR),
-                mergeMap((action) => {
-                    return this._setorService.destroy(action.payload).pipe(
-                        map((response) => new SetorListActions.DeleteSetorSuccess(response.id)),
+                mergeMap(action => this._setorService.destroy(action.payload).pipe(
+                        map(response => new SetorListActions.DeleteSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new SetorListActions.DeleteSetorFailed(action.payload));
+                            return of(new SetorListActions.DeleteSetorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Transferir processos protocolo da unidade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,14 +106,12 @@ export class SetorListEffect {
         this._actions
             .pipe(
                 ofType<SetorListActions.TransferirProcessosProtocolo>(SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO),
-                mergeMap((action) => {
-                    return this._setorService.transferirProcessosProtocolo(action.payload).pipe(
-                        map((response) => new SetorListActions.TransferirProcessosProtocoloSuccess(response.id)),
+                mergeMap(action => this._setorService.transferirProcessosProtocolo(action.payload).pipe(
+                        map(response => new SetorListActions.TransferirProcessosProtocoloSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new SetorListActions.TransferirProcessosProtocoloFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 }

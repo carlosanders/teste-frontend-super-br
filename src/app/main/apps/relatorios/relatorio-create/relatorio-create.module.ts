@@ -24,9 +24,9 @@ import {CdkRelatorioFormModule} from '@cdk/components/relatorio/cdk-relatorio-fo
 import {RelatorioCreateStoreModule} from './store/store.module';
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import * as fromGuards from './store/guards';
-import {CdkVisibilidadePluginModule} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
+import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
 import {modulesConfig} from 'modules/modules-config';
-import {GeneroRelatorioService} from '../../../../../@cdk/services/genero-relatorio.service';
+import {GeneroRelatorioService} from '@cdk/services/genero-relatorio.service';
 
 const routes: Routes = [
     {

@@ -21,14 +21,14 @@ export class ErrorInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
+        return next.handle(request).pipe(catchError((err) => {
             if (err.status !== 401 && err.status !== 422) {
                 const error = err.error.message || err.statusText;
                 this.snackBar.open(error, 'Fechar', {
                     horizontalPosition: this.horizontalPosition,
                     verticalPosition: this.verticalPosition,
                     panelClass: ['danger-snackbar'],
-                    duration: 10000
+                    duration: 30000
                 });
             }
             return throwError(err);

@@ -16,6 +16,7 @@ export interface EspecieAtividadeListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieAtividadeListInitialState: EspecieAtividadeListState = {
@@ -33,7 +34,8 @@ export const EspecieAtividadeListInitialState: EspecieAtividadeListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieAtividadeListReducer(
@@ -69,6 +71,7 @@ export function EspecieAtividadeListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -82,9 +85,17 @@ export function EspecieAtividadeListReducer(
             };
         }
 
+        case EspecieAtividadeListActions.UNLOAD_ESPECIE_ATIVIDADE: {
+            return {
+                ...EspecieAtividadeListInitialState
+            };
+        }
+
+
         case EspecieAtividadeListActions.RELOAD_ESPECIE_ATIVIDADE: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

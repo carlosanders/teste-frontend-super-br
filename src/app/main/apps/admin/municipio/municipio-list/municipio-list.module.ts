@@ -16,17 +16,17 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MunicipioStoreModule} from './store/store.module';
-import {CdkMunicipioGridModule} from '../../../../../../@cdk/components/municipio/cdk-municipio-grid/cdk-municipio-grid.module';
+import {CdkMunicipioGridModule} from '@cdk/components/municipio/cdk-municipio-grid/cdk-municipio-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

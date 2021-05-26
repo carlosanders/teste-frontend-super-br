@@ -5,6 +5,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
 import {Coordenador} from '@cdk/models/coordenador.model';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'coordenador-main-sidebar',
@@ -31,7 +32,8 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
      * @param _loginService
      */
     constructor(
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
 
         this.usuario = this._loginService.getUserProfile();
@@ -164,6 +166,12 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+    }
+
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('coordenador-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('coordenador-main-sidebar').close();
+        }
     }
 }
 

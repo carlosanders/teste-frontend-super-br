@@ -16,6 +16,7 @@ export interface CargoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const CargoListInitialState: CargoListState = {
@@ -33,7 +34,8 @@ export const CargoListInitialState: CargoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function CargoListReducer(
@@ -69,6 +71,7 @@ export function CargoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -82,9 +85,16 @@ export function CargoListReducer(
             };
         }
 
+        case CargoListActions.UNLOAD_CARGO: {
+            return {
+                ...CargoListInitialState
+            };
+        }
+
         case CargoListActions.RELOAD_CARGO: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

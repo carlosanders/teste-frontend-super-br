@@ -2,23 +2,21 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
 import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 
-import {Processo, Transicao} from '@cdk/models';
+import {Transicao} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
-import {processo as processoSchema} from '@cdk/normalizr';
 
 import {getRouterState, State} from '../../../../../../store';
 import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
-import {ChangeProcessos, getProcessosIds, ReloadProcessos} from "../../../arquivista-list/store";
+import {ChangeProcessos, getProcessosIds} from '../../../arquivista-list/store';
 
 @Injectable()
 export class RealizarTransicaoEffects {
@@ -35,7 +33,7 @@ export class RealizarTransicaoEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +42,7 @@ export class RealizarTransicaoEffects {
 
     /**
      * Save RealizarTransicao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,14 +50,12 @@ export class RealizarTransicaoEffects {
         this._actions
             .pipe(
                 ofType<RealizarTransicaoActions.SaveRealizarTransicao>(RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO),
-                switchMap((action) => {
-                    return this._transicaoService.save(action.payload).pipe(
+                switchMap(action => this._transicaoService.save(action.payload).pipe(
                         mergeMap((response: Transicao) => [
                             new AddData<Transicao>({data: [response], schema: transicaoSchema}),
                             new RealizarTransicaoActions.SaveRealizarTransicaoSuccess(action.payload)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new RealizarTransicaoActions.SaveRealizarTransicaoFailed(err));
@@ -81,6 +78,7 @@ export class RealizarTransicaoEffects {
 
     /**
      * Get Processo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -96,7 +94,7 @@ export class RealizarTransicaoEffects {
                     ]);
                     return this._processoService.get(action.payload.id, populate);
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new RealizarTransicaoActions.GetProcessoSuccess(response)
                 ]),
                 catchError((err, caught) => {

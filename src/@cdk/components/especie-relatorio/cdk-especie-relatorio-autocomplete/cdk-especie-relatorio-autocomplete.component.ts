@@ -58,7 +58,7 @@ export class CdkEspecieRelatorioAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             nome: `like:%${bit}%`});
                     });
@@ -84,7 +84,7 @@ export class CdkEspecieRelatorioAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.especieRelatorioList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

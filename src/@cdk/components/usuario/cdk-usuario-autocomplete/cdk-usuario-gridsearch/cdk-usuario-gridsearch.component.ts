@@ -74,7 +74,7 @@ export class CdkUsuarioGridsearchComponent implements OnInit {
             JSON.stringify(params['context']))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.usuarios = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

@@ -14,11 +14,11 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MatRippleModule} from '@angular/material/core';
-import {CdkSidebarModule} from '../../../../../@cdk/components';
+import {CdkSidebarModule} from '@cdk/components';
 import {MatTabsModule} from '@angular/material/tabs';
 
 const routes: Routes = [

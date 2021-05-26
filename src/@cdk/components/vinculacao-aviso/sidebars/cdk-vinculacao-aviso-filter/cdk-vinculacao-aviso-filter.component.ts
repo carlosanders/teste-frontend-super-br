@@ -77,7 +77,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('aviso').valueChanges.subscribe(value => {
+        this.form.get('aviso').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -92,7 +92,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('especieSetor').valueChanges.subscribe(value => {
+        this.form.get('especieSetor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -107,7 +107,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('setor').valueChanges.subscribe(value => {
+        this.form.get('setor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -122,7 +122,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('usuario').valueChanges.subscribe(value => {
+        this.form.get('usuario').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -137,7 +137,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('modalidadeOrgaoCentral').valueChanges.subscribe(value => {
+        this.form.get('modalidadeOrgaoCentral').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -155,7 +155,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
+        this.form.get('criadoEm').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
@@ -164,7 +164,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
+        this.form.get('atualizadoEm').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
@@ -173,7 +173,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
+        this.form.get('apagadoEm').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
@@ -182,7 +182,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
+        this.form.get('criadoPor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -197,7 +197,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
+        this.form.get('atualizadoPor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -212,7 +212,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
+        this.form.get('apagadoPor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {

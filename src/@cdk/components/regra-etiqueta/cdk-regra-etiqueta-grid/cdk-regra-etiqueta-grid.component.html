@@ -6,7 +6,7 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
 
         <div class="actions">
 
@@ -94,7 +94,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> &nbsp;{{regra.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> &nbsp;{{regra.id}} </td>
                 </ng-container>
 
                 <!-- Contexto Column -->
@@ -103,7 +103,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.nome}} </td>
                 </ng-container>
 
                 <!-- Trigger Column -->
@@ -112,7 +112,7 @@
                         Descricao
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.descricao}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -121,7 +121,7 @@
                         Etiqueta
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Etiqueta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.etiqueta?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.etiqueta?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -130,7 +130,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -139,7 +139,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -149,7 +149,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -158,7 +158,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -167,7 +167,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -176,7 +176,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let regra" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1}"> {{regra.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(regra.id) > -1, 'error': getProp(deletingErrors, regra.id)}"> {{regra.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -213,6 +213,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, regra.id)">
+                            {{ getProp(deletingErrors, regra.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

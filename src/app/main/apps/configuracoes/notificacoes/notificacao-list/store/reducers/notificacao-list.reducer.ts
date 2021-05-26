@@ -1,4 +1,5 @@
 import * as NotificacaoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface NotificacaoListState {
     entitiesId: number[];
@@ -15,6 +16,8 @@ export interface NotificacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
+    toggleLidaErrors: any;
 }
 
 export const NotificacaoListInitialState: NotificacaoListState = {
@@ -31,7 +34,9 @@ export const NotificacaoListInitialState: NotificacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {},
+    toggleLidaErrors: {}
 };
 
 export function NotificacaoListReducer(
@@ -67,14 +72,22 @@ export function NotificacaoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
+            };
+        }
+
+        case NotificacaoListActions.UNLOAD_NOTIFICACOES: {
+            return {
+                ...NotificacaoListInitialState
             };
         }
 
         case NotificacaoListActions.RELOAD_NOTIFICACOES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -99,14 +112,36 @@ export function NotificacaoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case NotificacaoListActions.DELETE_NOTIFICACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
+            };
+        }
+
+        case NotificacaoListActions.TOGGLE_LIDA_NOTIFICACAO_SUCCESS: {
+            return {
+                ...state,
+                toggleLidaErrors: _.omit(state.deletingErrors, [action.payload])
+            };
+        }
+
+        case NotificacaoListActions.TOGGLE_LIDA_NOTIFICACAO_FAILED: {
+            return {
+                ...state,
+                toggleLidaErrors: {
+                    ...state.toggleLidaErrors,
+                    ...action.payload
+                }
             };
         }
 

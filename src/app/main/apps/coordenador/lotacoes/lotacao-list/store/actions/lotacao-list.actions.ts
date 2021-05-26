@@ -5,6 +5,8 @@ export const GET_LOTACOES_SUCCESS = '[COORDENADOR LOTACAO LIST] GET LOTACOES SUC
 export const GET_LOTACOES_FAILED = '[COORDENADOR LOTACAO LIST] GET LOTACOES FAILED';
 
 export const RELOAD_LOTACOES = '[COORDENADOR LOTACAO LIST] RELOAD LOTACOES';
+export const UNLOAD_LOTACOES = '[COORDENADOR LOTACAO LIST] UNLOAD LOTACOES';
+
 
 export const DELETE_LOTACAO = '[COORDENADOR LOTACAO LIST] DELETE LOTACAO';
 export const DELETE_LOTACAO_SUCCESS = '[COORDENADOR LOTACAO LIST] DELETE LOTACAO SUCCESS';
@@ -45,6 +47,18 @@ export class GetLotacoesFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Lotacoes
+ */
+ export class UnloadLotacoes implements Action
+ {
+     readonly type = UNLOAD_LOTACOES;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Lotacoes
@@ -98,6 +112,7 @@ export type LotacaoListActionsAll
     = GetLotacoes
     | GetLotacoesSuccess
     | GetLotacoesFailed
+    | UnloadLotacoes
     | ReloadLotacoes
     | DeleteLotacao
     | DeleteLotacaoSuccess

@@ -5,9 +5,9 @@ import {
     Inject,
     ViewEncapsulation
 } from '@angular/core';
-import { cdkAnimations } from '../../@cdk/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
-import { Notificacao } from '../../@cdk/models';
+import { Notificacao } from '@cdk/models';
 import { Router } from '@angular/router';
 
 @Component({

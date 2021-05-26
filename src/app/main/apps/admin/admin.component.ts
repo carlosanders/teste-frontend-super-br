@@ -9,9 +9,7 @@ import {
 } from '@angular/core';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-
 import {cdkAnimations} from '@cdk/animations';
-import {throwError} from 'rxjs';
 
 @Component({
     selector: 'admin',
@@ -26,8 +24,8 @@ export class AdminComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Constructor
      *
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {CdkSidebarService} _cdkSidebarService
+     * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

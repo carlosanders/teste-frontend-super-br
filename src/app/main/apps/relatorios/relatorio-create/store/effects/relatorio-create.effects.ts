@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStoreRelatorio from '../../../store';
-import {Usuario} from '../../../../../../../@cdk/models';
+import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class RelatorioCreateEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,6 +43,7 @@ export class RelatorioCreateEffect {
 
     /**
      * Save Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()

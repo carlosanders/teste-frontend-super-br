@@ -11,7 +11,7 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
 
         <div class="actions">
 
@@ -98,7 +98,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.id}} </td>
                 </ng-container>
 
                 <!-- Repositorio Column -->
@@ -107,7 +107,7 @@
                         Nome do Repositorio
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Nome do Repositorio: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.repositorio?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.repositorio?.nome}} </td>
                 </ng-container>
 
                 <!-- EspecieSetor Column -->
@@ -116,7 +116,7 @@
                         Espécie do Setor
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Espécie do Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.especieSetor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.especieSetor?.nome}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -125,7 +125,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.setor?.nome}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -134,7 +134,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.usuario?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.usuario?.nome}} </td>
                 </ng-container>
 
                 <!-- Órgão Central Column -->
@@ -143,7 +143,7 @@
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.modalidadeOrgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -152,7 +152,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -161,7 +161,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -170,7 +170,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -179,7 +179,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -188,7 +188,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -197,7 +197,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1, 'error': getProp(deletingErrors, vinculacaoRepositorio.id)}"> {{vinculacaoRepositorio.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -234,6 +234,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, vinculacaoRepositorio.id)">
+                            {{ getProp(deletingErrors, vinculacaoRepositorio.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

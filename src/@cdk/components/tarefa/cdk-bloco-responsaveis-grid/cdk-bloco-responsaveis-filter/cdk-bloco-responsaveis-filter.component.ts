@@ -40,19 +40,19 @@ export class CdkBlocoResponsaveisFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('responsavel').value) {
-            this.form.get('responsavel').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('responsavel').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'responsavel': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('setor').value) {
-            this.form.get('setor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('setor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'setor': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nome': `like:%${bit}%`});
             });
         }

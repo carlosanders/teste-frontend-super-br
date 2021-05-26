@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import {Pagination} from '@cdk/models/pagination';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
@@ -41,7 +41,7 @@ export class TipoRelatorioEditComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

@@ -11,8 +11,8 @@ import * as fromStore from '../index';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {getAcompanhamentoProcessoLoaded,getAssuntosLoaded,getInteressadosLoaded,getVinculacoesProcessosLoaded} from '../index';
-import {Usuario} from "../../../../../../../@cdk/models";
-import {LoginService} from "../../../../../auth/login/login.service";
+import {Usuario} from '@cdk/models';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -37,7 +37,7 @@ export class ResolveGuard implements CanActivate {
         this.usuario = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
 
@@ -49,9 +49,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
@@ -63,7 +63,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin([this.getAssuntos(), this.getInteressados(), this.getVinculacoesProcessos()]).pipe(
@@ -78,7 +78,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Processo
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getProcesso(): any {
         return this._store.pipe(
@@ -90,9 +90,7 @@ export class ResolveGuard implements CanActivate {
                     }));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -100,14 +98,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get assuntos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getAssuntos(): any {
         this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
 
         return this._store.pipe(
             select(getAssuntosLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {'processo.id': `eq:${this.processoId}`, 'principal': 'eq:true'},
                     sort: {},
@@ -120,9 +118,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetAssuntos(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -130,14 +126,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get interessados
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getInteressados(): any {
         this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
 
         return this._store.pipe(
             select(getInteressadosLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {'processo.id': `eq:${this.processoId}`},
                     sort: {},
@@ -150,9 +146,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetInteressados(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -160,14 +154,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get vinculacoesProcessos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getVinculacoesProcessos(): any {
         this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
 
         return this._store.pipe(
             select(getVinculacoesProcessosLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {
                         orX: [
@@ -190,9 +184,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetVinculacoesProcessos(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -200,13 +192,13 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Acompanhamento
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getAcompanhamento(): any {
         this._store.dispatch(new fromStore.UnloadAcompanhamento({reset: true}));
         return this._store.pipe(
             select(getAcompanhamentoProcessoLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {'processo.id': `eq:${this.processoId}`, 'usuario.id': `eq:${this.usuario.id}`},
                     sort: {},
@@ -219,9 +211,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetAcompanhamento(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

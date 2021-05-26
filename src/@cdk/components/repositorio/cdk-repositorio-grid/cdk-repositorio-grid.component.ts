@@ -185,6 +185,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     downloadedId: number;
 
     @Input()
@@ -282,7 +285,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.getAllColumns().forEach(c => {
+                this.getAllColumns().forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -295,7 +298,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     getSort(columnId: string): boolean {
         let disabled = true;
-        this.getAllColumns().forEach(c => {
+        this.getAllColumns().forEach((c) => {
             if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
                 disabled = false;
             }
@@ -446,8 +449,15 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
         this.create.emit();
     }
 
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
+
     doShow(documento: Documento): void {
-        this.visualizar.emit(documento.componentesDigitais[0].hash)
+        this.visualizar.emit(documento.componentesDigitais[0].hash);
     }
 
 }

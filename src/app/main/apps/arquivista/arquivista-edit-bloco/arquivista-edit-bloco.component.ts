@@ -8,15 +8,15 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {Processo} from '../../../../../@cdk/models';
+import {Processo} from '@cdk/models';
 import {RouterStateUrl, getRouterState,  getOperacoesState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {getSelectedProcessos} from '../arquivista-list/store';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 import * as fromStore from './store';
-import {CdkUtils} from "../../../../../@cdk/utils";
-import * as OperacoesActions from "../../../../store/actions/operacoes.actions";
+import {CdkUtils} from '@cdk/utils';
+import * as OperacoesActions from '../../../../store/actions/operacoes.actions';
 
 @Component({
     selector: 'arquivista-edit-bloco',
@@ -57,7 +57,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processos => {
+        ).subscribe((processos) => {
             this.processos = processos;
         });
 
@@ -68,7 +68,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
                 filter(op => !!op && !!op.content && op.type === 'arquivista')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -78,7 +78,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.operacoes = [];
@@ -110,12 +110,12 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
     submit(values): void {
         this.operacoes = [];
         const loteId = CdkUtils.makeId();
-        this.processos.forEach(processoBloco => {
+        this.processos.forEach((processoBloco) => {
             const processo = new Processo();
             processo.id = processoBloco.id;
             const operacaoId = CdkUtils.makeId();
 
-            let changes = {};
+            const changes = {};
             if (values['classificacao']) {
                 changes['classificacao'] = values['classificacao'].id;
             }
@@ -138,7 +138,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
                     })
                 ],
                 undo: null
-            }
+            };
 
             this._store.dispatch(new fromStore.SaveProcesso(payload));
         });

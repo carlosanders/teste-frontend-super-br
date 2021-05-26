@@ -23,9 +23,9 @@ export class AssuntoAdministrativoService extends ParentGenericService<AssuntoAd
             `${environment.api_url}${'administrativo/assuntoAdministrativo'}/${assuntoAdministrativo.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(AssuntoAdministrativo, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new AssuntoAdministrativo(), {...assuntoAdministrativo, ...response});
             })
         );

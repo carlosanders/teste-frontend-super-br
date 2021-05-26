@@ -5,6 +5,8 @@ export const GET_UNIDADES_SUCCESS = '[COORDENADOR UNIDADES LIST] GET UNIDADES SU
 export const GET_UNIDADES_FAILED = '[COORDENADOR UNIDADES LIST] GET UNIDADES FAILED';
 
 export const RELOAD_UNIDADES = '[COORDENADOR UNIDADES LIST] RELOAD UNIDADES';
+export const UNLOAD_UNIDADES = '[COORDENADOR UNIDADES LIST] UNLOAD UNIDADES';
+
 
 /**
  * Get Unidades
@@ -43,6 +45,18 @@ export class GetUnidadesFailed implements Action
 }
 
 /**
+ * Unload Unidades
+ */
+ export class UnloadUnidades implements Action
+ {
+     readonly type = UNLOAD_UNIDADES;
+
+     constructor()
+     {
+     }
+ }
+
+/**
  * Reload Unidades
  */
 export class ReloadUnidades implements Action
@@ -59,5 +73,6 @@ export type UnidadesOrgaoCentralListActionsAll
     = GetUnidades
     | GetUnidadesSuccess
     | GetUnidadesFailed
+    | UnloadUnidades
     | ReloadUnidades;
 

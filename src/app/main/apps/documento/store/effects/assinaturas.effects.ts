@@ -25,7 +25,7 @@ export class AssinaturaEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class AssinaturaEffect {
 
     /**
      * Get Assinatura with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class AssinaturaEffect {
         this._actions
             .pipe(
                 ofType<AssinaturaActions.GetAssinatura>(AssinaturaActions.GET_ASSINATURA_DOCUMENTO),
-                switchMap((action) => {
-                    return this._assinaturaService.query(JSON.stringify({
+                switchMap(action => this._assinaturaService.query(JSON.stringify({
                             id: 'eq:' + action.payload.assinaturaId
                         }),
                         1,
@@ -52,8 +52,7 @@ export class AssinaturaEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Assinatura>({data: response['entities'], schema: assinaturaSchema}),
                     new AssinaturaActions.GetAssinaturaSuccess({
@@ -73,6 +72,7 @@ export class AssinaturaEffect {
 
     /**
      * Get Assinaturas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,7 +101,7 @@ export class AssinaturaEffect {
                         JSON.stringify(params.sort),
                         JSON.stringify(params.populate));
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new AddData<Assinatura>({data: response['entities'], schema: assinaturaSchema}),
                     new AssinaturaActions.GetAssinaturasSuccess({
                         entitiesId: response['entities'].map(assinatura => assinatura.id),
@@ -122,6 +122,7 @@ export class AssinaturaEffect {
 
     /**
      * Delete Assinatura
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -129,19 +130,18 @@ export class AssinaturaEffect {
         this._actions
             .pipe(
                 ofType<AssinaturaActions.DeleteAssinatura>(AssinaturaActions.DELETE_ASSINATURA_DOCUMENTO),
-                mergeMap((action) => {
-                    return this._assinaturaService.destroy(action.payload.assinaturaId).pipe(
-                        map((response) => new AssinaturaActions.DeleteAssinaturaSuccess(response.id)),
+                mergeMap(action => this._assinaturaService.destroy(action.payload.assinaturaId).pipe(
+                        map(response => new AssinaturaActions.DeleteAssinaturaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
                             return of(new AssinaturaActions.DeleteAssinaturaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Assinatura
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -149,8 +149,7 @@ export class AssinaturaEffect {
         this._actions
             .pipe(
                 ofType<AssinaturaActions.SaveAssinaturaDocumento>(AssinaturaActions.SAVE_ASSINATURA_DOCUMENTO),
-                switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new AssinaturaActions.SaveAssinaturaDocumentoSuccess(),
                             new AssinaturaActions.GetAssinaturas(action.payload.documentoId),
@@ -165,8 +164,7 @@ export class AssinaturaEffect {
                             console.log (err);
                             return of(new AssinaturaActions.SaveAssinaturaDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 }

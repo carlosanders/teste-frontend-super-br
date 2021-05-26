@@ -9,6 +9,7 @@
         [lotacoes]="(lotacoes$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'colaborador.usuario.nome', 'setor.unidade.nome', 'setor.nome', 'peso', 'distribuidor', 'principal', 'actions']"
         [actions]="['edit', 'create', 'delete']"

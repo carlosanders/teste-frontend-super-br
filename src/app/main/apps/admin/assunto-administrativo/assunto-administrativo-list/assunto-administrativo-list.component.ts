@@ -1,12 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 
-import {AssuntoAdministrativo, Usuario} from '../../../../../../@cdk/models';
+import {AssuntoAdministrativo, Usuario} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+
+import {UnloadAssuntoAdministrativo} from './store';
+
 
 @Component({
     selector: 'assunto-administrativo-list',
@@ -16,7 +19,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AssuntoAdministrativoListComponent implements OnInit {
+export class AssuntoAdministrativoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     assuntoAdministrativos$: Observable<AssuntoAdministrativo[]>;
@@ -24,6 +27,7 @@ export class AssuntoAdministrativoListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     constructor(
@@ -37,7 +41,7 @@ export class AssuntoAdministrativoListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -45,9 +49,13 @@ export class AssuntoAdministrativoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadAssuntoAdministrativo());
     }
 
     reload(params): void {

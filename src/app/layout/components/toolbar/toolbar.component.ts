@@ -146,7 +146,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 select(getNormalizedNotificacaoEntities),
                 takeUntil(this._unsubscribeAll),
             )
-            .subscribe(notificacoes => {
+            .subscribe((notificacoes) => {
                 this.notificacoes = notificacoes;
             });
         this._store
@@ -166,7 +166,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getCounterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
+            ).subscribe((value) => {
                 if (value && value['notificacoes_pendentes'] !== undefined) {
                     if (parseInt(value['notificacoes_pendentes']) > 99) {
                         this.notificacoesCount = '99+';
@@ -188,7 +188,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesEmProcessamento),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
+            ).subscribe((value) => {
                 this.operacoesProcessando = Object.keys(value).length;
                 if (this.operacoesProcessando === 0) {
                     this.operacoesPendentes = 0;
@@ -295,6 +295,26 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     toggleLida(notificacao: Notificacao): void {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
+    }
+
+    sendToTarget(notificacao: Notificacao) {
+        const contexto = JSON.parse(notificacao.contexto);
+        switch (notificacao.tipoNotificacao.nome) {
+            case 'relatorio':
+                return this._router
+                    .navigate([
+                        `/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`
+                    ]);
+            case 'processo':
+                return this._router.navigate([`/apps/processo/${contexto.id}/visualizar/capa/mostrar`]);
+            case 'tarefa':
+                return this._router
+                    .navigate([
+                    `/apps/tarefas/administrativo/minhas-tarefas/entrada/tarefa/${contexto.id}/processo/${contexto.id_processo}/visualizar/capa/mostrar`
+                ]);
+            default:
+                return;
+        }
     }
 
     marcarTodasComoLida() {

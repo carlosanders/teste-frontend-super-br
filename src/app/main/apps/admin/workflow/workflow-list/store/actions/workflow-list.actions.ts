@@ -5,6 +5,7 @@ export const GET_WORKFLOW_SUCCESS = '[ADMIN WORKFLOW LIST] GET WORKFLOW SUCCESS'
 export const GET_WORKFLOW_FAILED = '[ADMIN WORKFLOW LIST] GET WORKFLOW FAILED';
 
 export const RELOAD_WORKFLOW = '[ADMIN WORKFLOW LIST] RELOAD WORKFLOW';
+export const UNLOAD_WORKFLOW = '[ADMIN WORKFLOW LIST] UNLOAD WORKFLOW';
 
 export const DELETE_WORKFLOW = '[ADMIN WORKFLOW LIST] DELETE WORKFLOW';
 export const DELETE_WORKFLOW_SUCCESS = '[ADMIN WORKFLOW LIST] DELETE WORKFLOW SUCCESS';
@@ -39,6 +40,19 @@ export class GetWorkflowFailed implements Action {
     constructor(public payload: string) {
     }
 }
+
+/**
+ * Unload Workflow
+ */
+ export class UnloadWorkflow implements Action
+ {
+     readonly type = UNLOAD_WORKFLOW;
+
+     constructor()
+     {
+     }
+ }
+
 
 /**
  * Reload Workflow
@@ -94,6 +108,7 @@ export type WorkflowListActionsAll
     = GetWorkflow
     | GetWorkflowSuccess
     | GetWorkflowFailed
+    | UnloadWorkflow
     | ReloadWorkflow
     | DeleteWorkflow
     | DeleteWorkflowSuccess

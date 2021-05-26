@@ -14,6 +14,7 @@ import {Repositorio} from '@cdk/models/repositorio.model';
 import {repositorio as repositorioSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class RepositoriosListEffect {
@@ -31,7 +32,7 @@ export class RepositoriosListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.id = 'generoHandle_entidadeHandle';
@@ -51,6 +52,7 @@ export class RepositoriosListEffect {
 
     /**
      * Get Repositorios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -74,7 +76,7 @@ export class RepositoriosListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Repositorio>({data: response['entities'], schema: repositorioSchema}),
                             new RepositorioListActions.GetRepositoriosSuccess({
                                 entitiesId: response['entities'].map(repositorio => repositorio.id),
@@ -95,6 +97,7 @@ export class RepositoriosListEffect {
 
     /**
      * Delete Repositorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,19 +105,22 @@ export class RepositoriosListEffect {
         this._actions
             .pipe(
                 ofType<RepositorioListActions.DeleteRepositorio>(RepositorioListActions.DELETE_REPOSITORIO),
-                mergeMap((action) => {
-                    return this._repositorioService.destroy(action.payload).pipe(
-                        map((response) => new RepositorioListActions.DeleteRepositorioSuccess(response.id)),
+                mergeMap(action => this._repositorioService.destroy(action.payload).pipe(
+                        map(response => new RepositorioListActions.DeleteRepositorioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RepositorioListActions.DeleteRepositorioFailed(action.payload));
+                            return of(new RepositorioListActions.DeleteRepositorioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Repositorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -122,8 +128,7 @@ export class RepositoriosListEffect {
         this._actions
             .pipe(
                 ofType<RepositorioListActions.SaveRepositorio>(RepositorioListActions.SAVE_REPOSITORIO),
-                switchMap((action) => {
-                    return this._repositorioService.save(action.payload.repositorio).pipe(
+                switchMap(action => this._repositorioService.save(action.payload.repositorio).pipe(
                         mergeMap((response: Repositorio) => [
                             new UpdateData<Repositorio>({id: response.id, schema: repositorioSchema, changes: {}}),
                             new RepositorioListActions.SaveRepositorioSuccess(),  new OperacoesActions.Resultado({
@@ -136,7 +141,6 @@ export class RepositoriosListEffect {
                             console.log (err);
                             return of(new RepositorioListActions.SaveRepositorioFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

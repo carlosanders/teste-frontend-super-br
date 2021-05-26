@@ -34,6 +34,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     @Output()
@@ -53,6 +54,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
     }
 
@@ -61,7 +63,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -69,7 +71,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

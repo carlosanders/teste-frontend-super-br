@@ -18,7 +18,7 @@ import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflo
 import {CdkTipoValidacaoWorkflowGridComponent} from './cdk-tipo-validacao-workflow-grid.component';
 import {CdkTipoValidacaoWorkflowAutocompleteModule} from '@cdk/components/tipo-validacao-workflow/cdk-tipo-validacao-workflow-autocomplete/cdk-tipo-validacao-workflow-autocomplete.module';
 import {CdkTipoValidacaoWorkflowFilterModule} from '../sidebars/cdk-tipo-validacao-workflow-filter/cdk-tipo-validacao-workflow-filter.module';
-import {CdkSidebarModule} from '@cdk/components/index'; 
+import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkGeneroProcessoAutocompleteModule} from '../../genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';

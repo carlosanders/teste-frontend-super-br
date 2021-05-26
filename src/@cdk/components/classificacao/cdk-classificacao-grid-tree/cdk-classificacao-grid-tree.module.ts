@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkClassificacaoGridTreeComponent} from './cdk-classificacao-grid-tree.component';
 import {MatTreeModule} from '@angular/material/tree';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCheckboxModule} from '@angular/material/checkbox';

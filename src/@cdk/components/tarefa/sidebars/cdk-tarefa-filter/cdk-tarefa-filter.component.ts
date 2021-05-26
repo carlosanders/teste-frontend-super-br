@@ -15,9 +15,9 @@ import {cdkAnimations} from '@cdk/animations';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
-import {of, Subject} from "rxjs";
-import {Pagination} from "../../../../models";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of, Subject} from 'rxjs';
+import {Pagination} from '../../../../models';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 
 @Component({
     selector: 'cdk-tarefa-filter',
@@ -130,7 +130,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         const path = '@cdk/components/tarefa/sidebars/cdk-tarefa-filter';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
@@ -146,7 +146,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         const andXFilter = [];
 
         if (this.form.get('observacao').value) {
-            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }

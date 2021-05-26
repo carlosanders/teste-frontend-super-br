@@ -17,8 +17,8 @@ export class CdkCopierService
     /**
      * Copy the text value to the clipboard
      *
-     * @param {string} text
-     * @returns {boolean}
+     * @param text
+     * @returns
      */
     copyText(text: string): boolean
     {
@@ -34,7 +34,7 @@ export class CdkCopierService
      * Creates a hidden textarea element, sets its value from `text` property,
      * and makes a selection on it.
      *
-     * @param {string} text
+     * @param text
      */
     private createTextareaAndSelect(text: string): void
     {

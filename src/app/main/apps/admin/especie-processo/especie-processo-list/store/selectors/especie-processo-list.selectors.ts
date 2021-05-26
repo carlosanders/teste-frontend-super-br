@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getEspecieProcessoListState,
     (state: EspecieProcessoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getEspecieProcessoListState,
+    (state: EspecieProcessoListState) => state.deletingErrors
+);

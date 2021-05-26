@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as AssuntoAdministrativoTreeListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {AssuntoAdministrativoService} from '../../../../../../../../@cdk/services/assunto-administrativo.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {AssuntoAdministrativo} from '../../../../../../../../@cdk/models';
-import {assuntoAdministrativo as assuntoAdministrativoSchema} from '../../../../../../../../@cdk/normalizr';
+import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {AssuntoAdministrativo} from '@cdk/models';
+import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
 import * as AssuntoAdministrativoEditActions
     from '../../../assunto-administrativo-edit/store/actions/assunto-administrativo-edit.actions';
 import * as AssuntoAdministrativoListActions
@@ -31,7 +31,7 @@ export class AssuntoAdministrativoTreeListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -40,6 +40,7 @@ export class AssuntoAdministrativoTreeListEffects {
 
     /**
      * Get AssuntoAdministrativo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -47,8 +48,7 @@ export class AssuntoAdministrativoTreeListEffects {
         this._actions
             .pipe(
                 ofType<AssuntoAdministrativoTreeListActions.GetAssuntoAdministrativo>(AssuntoAdministrativoTreeListActions.GET_ASSUNTO_ADMINISTRATIVO),
-                switchMap((action) => {
-                    return this._assuntoAdministrativoService.query(
+                switchMap(action => this._assuntoAdministrativoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -58,7 +58,7 @@ export class AssuntoAdministrativoTreeListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<AssuntoAdministrativo>({data: response['entities'], schema: assuntoAdministrativoSchema}),
                             new AssuntoAdministrativoTreeListActions.GetAssuntoAdministrativoSuccess({
                                 entitiesId: response['entities'].map(assuntoAdministrativo => assuntoAdministrativo.id),
@@ -73,13 +73,13 @@ export class AssuntoAdministrativoTreeListEffects {
                             console.log(err);
                             return of(new AssuntoAdministrativoTreeListActions.GetAssuntoAdministrativoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
     /**
      * Save AssuntoAdministrativo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -87,15 +87,13 @@ export class AssuntoAdministrativoTreeListEffects {
         this._actions
             .pipe(
                 ofType<AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativo>(AssuntoAdministrativoTreeListActions.SAVE_ASSUNTO_ADMINISTRATIVO),
-                switchMap((action) => {
-                    return this._assuntoAdministrativoService.save(action.payload).pipe(
+                switchMap(action => this._assuntoAdministrativoService.save(action.payload).pipe(
                         mergeMap((response: AssuntoAdministrativo) => [
                             new AssuntoAdministrativoListActions.ReloadAssuntoAdministrativo(),
                             new AddData<AssuntoAdministrativo>({data: [response], schema: assuntoAdministrativoSchema}),
                             new AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativoSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativoFailed(err));

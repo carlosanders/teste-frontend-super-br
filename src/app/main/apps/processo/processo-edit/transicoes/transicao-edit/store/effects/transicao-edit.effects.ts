@@ -28,7 +28,7 @@ export class TransicaoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class TransicaoEditEffect {
 
     /**
      * Get Transicao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class TransicaoEditEffect {
         this._actions
             .pipe(
                 ofType<TransicaoEditActions.GetTransicao>(TransicaoEditActions.GET_TRANSICAO),
-                switchMap((action) => {
-                    return this._transicaoService.query(
+                switchMap(action => this._transicaoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Transicao>({data: response['entities'], schema: transicaoSchema}),
                     new TransicaoEditActions.GetTransicaoSuccess({
@@ -73,6 +72,7 @@ export class TransicaoEditEffect {
 
     /**
      * Save Transicao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class TransicaoEditEffect {
         this._actions
             .pipe(
                 ofType<TransicaoEditActions.SaveTransicao>(TransicaoEditActions.SAVE_TRANSICAO),
-                switchMap((action) => {
-                    return this._transicaoService.save(action.payload).pipe(
+                switchMap(action => this._transicaoService.save(action.payload).pipe(
                         mergeMap((response: Transicao) => [
                             new TransicaoEditActions.SaveTransicaoSuccess(),
                             new TransicaoListActions.ReloadTransicoes(),
@@ -96,8 +95,7 @@ export class TransicaoEditEffect {
                             console.log (err);
                             return of(new TransicaoEditActions.SaveTransicaoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

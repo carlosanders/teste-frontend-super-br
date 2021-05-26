@@ -69,13 +69,15 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     especieAtividadePagination: Pagination;
 
-    /**
-     *
-     * @param _store
-     * @param _loginService
-     * @param _router
-     * @param _changeDetectorRef
-     */
+    assinaturaInterval = null;
+
+        /**
+         *
+         * @param _store
+         * @param _loginService
+         * @param _router
+         * @param _changeDetectorRef
+         */
     constructor(
         private _store: Store<fromStore.AtividadeCreateBlocoAppState>,
         public _loginService: LoginService,
@@ -97,7 +99,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'atividade')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -131,7 +133,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => {
+        ).subscribe((tarefas) => {
             this.tarefas = tarefas;
             this.atividade.usuario = tarefas[0].usuarioResponsavel;
             this.atividade.setor = tarefas[0].setorResponsavel;
@@ -146,7 +148,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -156,7 +158,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -182,7 +184,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedDocumentos => {
+        ).subscribe((selectedDocumentos) => {
             this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
             this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
@@ -191,16 +193,16 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentos => {
+            (documentos) => {
                 this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
                 this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }
         );
 
-        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -208,6 +210,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
@@ -233,7 +237,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefa => {
+        this.tarefas.forEach((tarefa) => {
             const atividade = new Atividade();
 
             Object.entries(values).forEach(
@@ -245,7 +249,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             atividade.tarefa = tarefa;
             atividade.usuario = tarefa.usuarioResponsavel;
             atividade.setor = tarefa.setorResponsavel;
-            atividade.documentos = this.minutas.filter((minuta) => minuta.tarefaOrigem.id === tarefa.id);
+            atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
 
             this._store.dispatch(new fromStore.SaveAtividade(atividade));
         });

@@ -1,3 +1,19 @@
+<div class="header">
+    <div class="actions">
+        <button mat-icon-button aria-label="criar compartilhamento" matTooltip="Criar Compartilhamento"
+                [routerLink]="'criar'"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">add</mat-icon>
+        </button>
+
+        <button mat-icon-button aria-label="ver compartilhamentos" matTooltip="Ver Compartilhamentos"
+                [routerLink]="['listar']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">list</mat-icon>
+        </button>
+    </div>
+</div>
+
 <div class="content">
     <router-outlet></router-outlet>
 </div>

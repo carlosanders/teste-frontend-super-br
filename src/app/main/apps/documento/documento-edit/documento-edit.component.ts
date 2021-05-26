@@ -151,7 +151,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     ngOnInit(): void {
 
         if (this._router.url.indexOf('/juntadas') === -1) {
-            this.tarefa$.subscribe(tarefa => {
+            this.tarefa$.subscribe((tarefa) => {
                 this.tarefa = tarefa;
             });
         }
@@ -164,7 +164,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -172,7 +172,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
         this.documento$.pipe(
             filter(documento => !this.documento || (documento && (documento.id !== this.documento.id)))
-        ).subscribe(documento => {
+        ).subscribe((documento) => {
             this.documento = documento;
             if (documento && documento.vinculacaoDocumentoPrincipal) {
                 this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
@@ -184,7 +184,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         const path = 'app/main/apps/documento/documento-edit';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
@@ -200,9 +200,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         const path1 = 'app/main/apps/documento/documento-edit#form';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path1)) {
-                module.components[path1].forEach((c => {
+                module.components[path1].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => {
+                        .then( (componentFactory)  => {
                             this.containerForm.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });

@@ -1,4 +1,5 @@
 import * as GrupoContatoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface GrupoContatoListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface GrupoContatoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const GrupoContatoListInitialState: GrupoContatoListState = {
@@ -33,7 +35,8 @@ export const GrupoContatoListInitialState: GrupoContatoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function GrupoContatoListReducer(
@@ -70,6 +73,7 @@ export function GrupoContatoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -77,7 +81,14 @@ export function GrupoContatoListReducer(
 
         case GrupoContatoListActions.RELOAD_GRUPO_CONTATOS: {
             return {
+                ...GrupoContatoListInitialState
+            };
+        }
+
+        case GrupoContatoListActions.RELOAD_GRUPO_CONTATOS: {
+            return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -102,14 +113,19 @@ export function GrupoContatoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case GrupoContatoListActions.DELETE_GRUPO_CONTATO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

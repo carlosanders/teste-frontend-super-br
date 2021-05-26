@@ -17,7 +17,7 @@
 
                 <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
                     <a class="nav-link" matRipple [routerLink]="'/apps/oficios/entrada/' + pessoaConveniada.pessoa.id"
-                       [routerLinkActive]="['active', 'accent']">
+                       [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                         <mat-icon class="nav-link-icon">inbox</mat-icon>
                         <span>Entrada</span>
                     </a>
@@ -25,7 +25,7 @@
 
                 <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
                     <a class="nav-link" matRipple [routerLink]="'/apps/oficios/saida/' + pessoaConveniada.pessoa.id"
-                       [routerLinkActive]="['active', 'accent']">
+                       [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                         <mat-icon class="nav-link-icon">sendbox</mat-icon>
                         <span>Saída</span>
                     </a>

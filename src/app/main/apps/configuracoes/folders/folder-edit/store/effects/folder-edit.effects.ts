@@ -30,7 +30,7 @@ export class FolderEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class FolderEditEffect {
 
     /**
      * Get Folder with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -46,16 +47,14 @@ export class FolderEditEffect {
         this._actions
             .pipe(
                 ofType<FolderEditActions.GetFolder>(FolderEditActions.GET_FOLDER),
-                switchMap((action) => {
-                    return this._folderService.query(
+                switchMap(action => this._folderService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                     new FolderEditActions.GetFolderSuccess({
@@ -75,6 +74,7 @@ export class FolderEditEffect {
 
     /**
      * Save Folder
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,16 +82,14 @@ export class FolderEditEffect {
         this._actions
             .pipe(
                 ofType<FolderEditActions.SaveFolder>(FolderEditActions.SAVE_FOLDER),
-                switchMap((action) => {
-                    return this._folderService.save(action.payload).pipe(
+                switchMap(action => this._folderService.save(action.payload).pipe(
                         mergeMap((response: Folder) => [
                             new FolderEditActions.SaveFolderSuccess(),
                             new FolderListActions.ReloadFolders(),
                             new GetFolders([]),
                             new AddData<Folder>({data: [response], schema: folderSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new FolderEditActions.SaveFolderFailed(err));

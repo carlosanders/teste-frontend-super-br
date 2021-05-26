@@ -1,4 +1,5 @@
 import * as RepositoriosEspecieSetorListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface RepositoriosEspecieSetorListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface RepositoriosEspecieSetorListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RepositoriosEspecieSetorListInitialState: RepositoriosEspecieSetorListState = {
@@ -33,7 +35,8 @@ export const RepositoriosEspecieSetorListInitialState: RepositoriosEspecieSetorL
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RepositoriosEspecieSetorListReducer(
@@ -70,14 +73,22 @@ export function RepositoriosEspecieSetorListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
+            };
+        }
+
+        case RepositoriosEspecieSetorListActions.UNLOAD_REPOSITORIOS_ESPECIE_SETOR: {
+            return {
+                ...RepositoriosEspecieSetorListInitialState
             };
         }
 
         case RepositoriosEspecieSetorListActions.RELOAD_REPOSITORIOS_ESPECIE_SETOR: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -102,14 +113,19 @@ export function RepositoriosEspecieSetorListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case RepositoriosEspecieSetorListActions.DELETE_REPOSITORIO_ESPECIE_SETOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

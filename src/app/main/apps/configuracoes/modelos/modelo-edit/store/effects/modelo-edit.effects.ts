@@ -29,7 +29,7 @@ export class ModeloEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class ModeloEditEffect {
 
     /**
      * Get Modelo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,15 +46,13 @@ export class ModeloEditEffect {
         this._actions
             .pipe(
                 ofType<ModeloEditActions.GetModelo>(ModeloEditActions.GET_MODELO),
-                switchMap((action) => {
-                    return this._modeloService.get(
+                switchMap(action => this._modeloService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll'
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Modelo>({data: [response], schema: modeloSchema}),
                     new ModeloEditActions.GetModeloSuccess({
@@ -73,6 +72,7 @@ export class ModeloEditEffect {
 
     /**
      * Save Modelo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,15 +80,13 @@ export class ModeloEditEffect {
         this._actions
             .pipe(
                 ofType<ModeloEditActions.SaveModelo>(ModeloEditActions.SAVE_MODELO),
-                switchMap((action) => {
-                    return this._modeloService.save(action.payload).pipe(
+                switchMap(action => this._modeloService.save(action.payload).pipe(
                         mergeMap((response: Modelo) => [
                             new ModeloEditActions.SaveModeloSuccess(),
                             new ModeloListActions.ReloadModelos(),
                             new AddData<Modelo>({data: [response], schema: modeloSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ModeloEditActions.SaveModeloFailed(err));

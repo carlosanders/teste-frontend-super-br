@@ -29,7 +29,7 @@ export class FavoritoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class FavoritoEditEffect {
 
     /**
      * Get Favorito with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,16 +46,14 @@ export class FavoritoEditEffect {
         this._actions
             .pipe(
                 ofType<FavoritoEditActions.GetFavorito>(FavoritoEditActions.GET_FAVORITO),
-                switchMap((action) => {
-                    return this._favoritoService.query(
+                switchMap(action => this._favoritoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Favorito>({data: response['entities'], schema: favoritoSchema}),
                     new FavoritoEditActions.GetFavoritoSuccess({
@@ -74,6 +73,7 @@ export class FavoritoEditEffect {
 
     /**
      * Save Favorito
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,15 +81,13 @@ export class FavoritoEditEffect {
         this._actions
             .pipe(
                 ofType<FavoritoEditActions.SaveFavorito>(FavoritoEditActions.SAVE_FAVORITO),
-                switchMap((action) => {
-                    return this._favoritoService.save(action.payload).pipe(
+                switchMap(action => this._favoritoService.save(action.payload).pipe(
                         mergeMap((response: Favorito) => [
                             new FavoritoEditActions.SaveFavoritoSuccess(),
                             new FavoritoListActions.ReloadFavoritos(),
                             new AddData<Favorito>({data: [response], schema: favoritoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new FavoritoEditActions.SaveFavoritoFailed(err));

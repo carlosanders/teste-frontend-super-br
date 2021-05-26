@@ -5,6 +5,7 @@ export const GET_ESPECIE_TAREFA_SUCCESS = '[SUPERADMIN ESPECIE TAREFA LIST] GET 
 export const GET_ESPECIE_TAREFA_FAILED = '[SUPERADMIN ESPECIE TAREFA LIST] GET ESPECIE_TAREFA FAILED';
 
 export const RELOAD_ESPECIE_TAREFA = '[SUPERADMIN ESPECIE TAREFA LIST] RELOAD ESPECIE_TAREFA';
+export const UNLOAD_ESPECIE_TAREFA = '[SUPERADMIN ESPECIE TAREFA LIST] UNLOAD ESPECIE_TAREFA';
 
 export const DELETE_ESPECIE_TAREFA = '[SUPERADMIN ESPECIE TAREFA LIST] DELETE ESPECIE_TAREFA';
 export const DELETE_ESPECIE_TAREFA_SUCCESS = '[SUPERADMIN ESPECIE TAREFA LIST] DELETE ESPECIE_TAREFA SUCCESS';
@@ -45,6 +46,18 @@ export class GetEspecieTarefaFailed implements Action
     {
     }
 }
+
+/**
+ * Unload EspecieTarefa
+ */
+ export class UnloadEspecieTarefa implements Action
+ {
+     readonly type = UNLOAD_ESPECIE_TAREFA;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload EspecieTarefa
@@ -99,6 +112,7 @@ export type EspecieTarefaListActionsAll
     | GetEspecieTarefaSuccess
     | GetEspecieTarefaFailed
     | ReloadEspecieTarefa
+    | UnloadEspecieTarefa
     | DeleteEspecieTarefa
     | DeleteEspecieTarefaSuccess
     | DeleteEspecieTarefaFailed;

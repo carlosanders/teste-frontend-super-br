@@ -30,7 +30,7 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
     loading: boolean;
 
     @Output()
-    editVinc = new EventEmitter<any>();    
+    editVinc = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -46,7 +46,7 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
         public dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.loading = false;        
+        this.loading = false;
 
         this.form = this._formBuilder.group({
             id: [data.id],
@@ -71,7 +71,7 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
                 id: this.form.value.id,
                 privada: this.form.value.privada,
                 conteudo: this.form.value.conteudo
-            });   
+            });
         }
     }
 

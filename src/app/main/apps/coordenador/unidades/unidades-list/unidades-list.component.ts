@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+import {UnloadUnidades} from './store';
+
+
 @Component({
     selector: 'unidades-orgao-central-list',
     templateUrl: './unidades-list.component.html',
@@ -22,7 +26,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class UnidadesOrgaoCentralListComponent implements OnInit {
+export class UnidadesOrgaoCentralListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     unidades$: Observable<Setor[]>;
@@ -50,7 +54,7 @@ export class UnidadesOrgaoCentralListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -58,9 +62,13 @@ export class UnidadesOrgaoCentralListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadUnidades());
     }
 
     reload(params): void {

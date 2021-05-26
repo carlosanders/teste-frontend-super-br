@@ -22,7 +22,7 @@ import {CdkMunicipioAutocompleteModule} from '../../municipio/cdk-municipio-auto
 import {CdkMunicipioGridsearchModule} from '../../municipio/cdk-municipio-autocomplete/cdk-municipio-gridsearch/cdk-municipio-gridsearch.module';
 import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
-import {MatCardModule} from "@angular/material/card";
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [

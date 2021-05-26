@@ -78,11 +78,16 @@
                 <mat-list *ngIf="notificacoesCount; else vazio">
                     <ng-container *ngFor="let notificacao of notificacoes; let i = index; let len = count">
                         <mat-list-item *ngIf="!notificacao.dataHoraLeitura" (click)="toggleLida(notificacao)">
-                            <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: justify;"
-                               [innerHTML]="notificacao.conteudo">
-                            </p>
+                            <div class="notification-item">
+                                <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: initial;"
+                                   [innerHTML]="notificacao.conteudo">
+                                </p>
+                                <button mat-icon-button (click)="sendToTarget(notificacao)">
+                                    <mat-icon class="mat-18">search</mat-icon>
+                                </button>
+                            </div>
                         </mat-list-item>
-                        <mat-divider *ngIf="i != len-1 && !notificacao.dataHoraLeitura"></mat-divider>
+                        <mat-divider *ngIf="i !== len-1 && !notificacao.dataHoraLeitura"></mat-divider>
                     </ng-container>
                 </mat-list>
                 <ng-template #vazio>

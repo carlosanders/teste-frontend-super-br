@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as moment from 'moment';
 
 @Injectable()
 export class TarefaCreateEffect {
@@ -27,7 +28,7 @@ export class TarefaCreateEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class TarefaCreateEffect {
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,23 +45,28 @@ export class TarefaCreateEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateActions.SaveTarefa>(TarefaCreateActions.SAVE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
+                mergeMap(action => this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
-                            new TarefaCreateActions.SaveTarefaSuccess(),
+                            new TarefaCreateActions.SaveTarefaSuccess(action.payload.bloco),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'tarefa',
                                 content: `Tarefa id ${response.id} criada com sucesso!`,
+                                success: true,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log (err);
+                            this._store.dispatch(new OperacoesActions.Resultado({
+                                type: 'tarefa',
+                                content: `Houve erro na tarefa no processo ${action.payload.processo.NUP} para o setor ${action.payload.setorResponsavel.nome}! ${err.error.message}`,
+                                success: false,
+                                dateTime: moment()
+                            }));
                             return of(new TarefaCreateActions.SaveTarefaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
@@ -70,11 +77,13 @@ export class TarefaCreateEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateActions.SaveTarefaSuccess>(TarefaCreateActions.SAVE_TAREFA_SUCCESS),
-                tap(() => {
-                    if (this.routerState.params.processoHandle) {
-                        this._router.navigate([this.routerState.url.replace('/criar/' + this.routerState.params.processoHandle, '')]).then();
-                    } else {
-                        this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
+                tap((action) => {
+                    if (!action.payload) {
+                        if (this.routerState.params.processoHandle) {
+                            this._router.navigate([this.routerState.url.replace('/criar/' + this.routerState.params.processoHandle, '')]).then();
+                        } else {
+                            this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
+                        }
                     }
                 })
             );

@@ -34,7 +34,7 @@ import {CdkUsuarioGridsearchModule} from '../../../usuario/cdk-usuario-autocompl
         MatRadioModule,
         MatTooltipModule,
         CdkSetorAutocompleteModule,
-        CdkSetorGridsearchModule,       
+        CdkSetorGridsearchModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
         CdkSharedModule

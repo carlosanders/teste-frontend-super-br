@@ -3,7 +3,8 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
-    ViewEncapsulation
+    ViewEncapsulation,
+    OnDestroy,
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
@@ -13,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {UnloadUnidades} from './store';
 
 @Component({
     selector: 'unidades-list',
@@ -22,7 +24,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class UnidadesListComponent implements OnInit {
+export class UnidadesListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     unidades$: Observable<Setor[]>;
@@ -30,6 +32,7 @@ export class UnidadesListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -46,11 +49,12 @@ export class UnidadesListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -58,10 +62,15 @@ export class UnidadesListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadUnidades());
+    }
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetUnidades({

@@ -18,7 +18,7 @@ import {VinculacaoEtiqueta} from '@cdk/models';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 import {Router} from '@angular/router';
-import {AcompanhamentoService} from "@cdk/services/acompanhamento.service";
+import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 
 @Injectable()
 export class ProcessoEffect {
@@ -36,7 +36,7 @@ export class ProcessoEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -47,6 +47,7 @@ export class ProcessoEffect {
 
     /**
      * Get Processo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -68,7 +69,17 @@ export class ProcessoEffect {
 
                     return this._processoService.get(
                         action.payload.id,
-                        JSON.stringify([...populate, 'especieProcesso', 'especieProcesso.generoProcesso', 'vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta']),
+                        JSON.stringify([
+                            ...populate,
+                            'especieProcesso',
+                            'especieProcesso.generoProcesso',
+                            'especieProcesso.workflow',
+                            'especieProcesso.workflow.especieTarefaInicial',
+                            'tarefaAtualWorkflow',
+                            'tarefaAtualWorkflow.especieTarefa',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta']
+                        ),
                         JSON.stringify(contexto));
                 }),
                 switchMap(response => [
@@ -91,6 +102,7 @@ export class ProcessoEffect {
 
     /**
      * Autuar Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -98,8 +110,7 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.AutuarProcesso>(ProcessoActions.AUTUAR_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.autuar(action.payload).pipe(
+                switchMap(action => this._processoService.autuar(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new ProcessoActions.AutuarProcessoSuccess(response),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -109,15 +120,13 @@ export class ProcessoEffect {
                                 dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new ProcessoActions.AutuarProcessoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new ProcessoActions.AutuarProcessoFailed(err)))
+                    ))
             );
 
     /**
      * Create Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -130,8 +139,8 @@ export class ProcessoEffect {
                     vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.processo = null),
-                        mergeMap((response) => [
+                        tap(response => response.processo = null),
+                        mergeMap(response => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
@@ -155,6 +164,7 @@ export class ProcessoEffect {
 
     /**
      * Save conteúdo vinculação etiqueta no processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -162,10 +172,9 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.SaveConteudoVinculacaoEtiqueta>(ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
                         // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new ProcessoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>(
                                 {id: response.id, schema: vinculacaoEtiquetaSchema, changes:
@@ -176,14 +185,14 @@ export class ProcessoEffect {
                             console.log(err);
                             return of(new ProcessoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
 
     /**
      * Delete Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -191,8 +200,7 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.DeleteVinculacaoEtiqueta>(ProcessoActions.DELETE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
@@ -205,12 +213,12 @@ export class ProcessoEffect {
                                 console.log(err);
                                 return of(new ProcessoActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Arquivar Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -218,8 +226,7 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.ArquivarProcesso>(ProcessoActions.ARQUIVAR_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.arquivar(action.payload).pipe(
+                switchMap(action => this._processoService.arquivar(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new ProcessoActions.ArquivarProcessoSuccess(response),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -229,11 +236,8 @@ export class ProcessoEffect {
                                 dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new ProcessoActions.ArquivarProcessoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new ProcessoActions.ArquivarProcessoFailed(err)))
+                    ))
             );
 
     /**
@@ -255,6 +259,7 @@ export class ProcessoEffect {
 
     /**
      * Get Acompanhamento do Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -262,8 +267,7 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.GetAcompanhamento>(ProcessoActions.GET_ACOMPANHAMENTO),
-                switchMap((action) => {
-                    return this._acompanhamentoService.query(
+                switchMap(action => this._acompanhamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -271,9 +275,8 @@ export class ProcessoEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Compartilhamento>({data: response['entities'], schema: acompanhamentoSchema}),
                     new ProcessoActions.GetAcompanhamentoSuccess({
                         entitiesId: response['entities'].map(acompanhamento => acompanhamento.id),
@@ -295,6 +298,7 @@ export class ProcessoEffect {
 
     /**
      * Save Acompanhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -323,6 +327,7 @@ export class ProcessoEffect {
 
     /**
      * Delete Acompanhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -335,7 +340,7 @@ export class ProcessoEffect {
                         loadingAcompanhamento: true
                     }));
                     return this._acompanhamentoService.destroy(action.payload.acompanhamentoId).pipe(
-                        mergeMap((response) =>
+                        mergeMap(response =>
                             [
                                 new RemoveChildData({
                                     id: action.payload.acompanhamentoId,

@@ -1,4 +1,5 @@
 import * as WorkflowListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface WorkflowListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface WorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const WorkflowListInitialState: WorkflowListState = {
@@ -33,7 +35,8 @@ export const WorkflowListInitialState: WorkflowListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function WorkflowListReducer(
@@ -71,6 +74,7 @@ export function WorkflowListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -84,9 +88,16 @@ export function WorkflowListReducer(
             };
         }
 
+        case WorkflowListActions.UNLOAD_WORKFLOW: {
+            return {
+                ...WorkflowListInitialState
+            };
+        }
+
         case WorkflowListActions.RELOAD_WORKFLOW: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -103,14 +114,19 @@ export function WorkflowListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case WorkflowListActions.DELETE_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

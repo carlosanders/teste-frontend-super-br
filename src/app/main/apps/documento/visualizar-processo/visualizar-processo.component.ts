@@ -53,7 +53,7 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getComponenteDigitalIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getComponenteDigitalErrors));
 
-        this.documento$.subscribe(documento => {
+        this.documento$.subscribe((documento) => {
             this.documento = documento;
         });
     }

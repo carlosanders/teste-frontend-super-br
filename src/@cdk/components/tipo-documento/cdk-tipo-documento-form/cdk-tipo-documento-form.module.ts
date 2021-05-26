@@ -10,7 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkGeneroDocumentoAutocompleteModule} from '../../genero-documento/cdk-genero-documento-autocomplete/cdk-genero-documento-autocomplete.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkTipoDocumentoGridsearchModule} from '../cdk-tipo-documento-autocomplete/cdk-tipo-documento-gridsearch/cdk-tipo-documento-gridsearch.module';
 import {CdkEspecieDocumentoGridsearchModule} from '../../especie-documento/cdk-especie-documento-autocomplete/cdk-especie-documento-gridsearch/cdk-especie-documento-gridsearch.module';

@@ -8,11 +8,11 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as EspecieProcessoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {EspecieProcessoService} from '../../../../../../../../@cdk/services/especie-processo.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {EspecieProcesso} from '../../../../../../../../@cdk/models';
-import {especieProcesso as especieProcessoSchema} from '../../../../../../../../@cdk/normalizr';
-
+import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {EspecieProcesso} from '@cdk/models';
+import {especieProcesso as especieProcessoSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class EspecieProcessoListEffects {
@@ -27,7 +27,7 @@ export class EspecieProcessoListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class EspecieProcessoListEffects {
 
     /**
      * Get EspecieProcesso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class EspecieProcessoListEffects {
         this._actions
             .pipe(
                 ofType<EspecieProcessoListActions.GetEspecieProcesso>(EspecieProcessoListActions.GET_ESPECIE_PROCESSO),
-                switchMap((action) => {
-                    return this._especieProcessoService.query(
+                switchMap(action => this._especieProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class EspecieProcessoListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<EspecieProcesso>({data: response['entities'], schema: especieProcessoSchema}),
                             new EspecieProcessoListActions.GetEspecieProcessoSuccess({
                                 entitiesId: response['entities'].map(especieProcesso => especieProcesso.id),
@@ -69,12 +69,12 @@ export class EspecieProcessoListEffects {
                             console.log(err);
                             return of(new EspecieProcessoListActions.GetEspecieProcessoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete EspecieProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +82,16 @@ export class EspecieProcessoListEffects {
         this._actions
             .pipe(
                 ofType<EspecieProcessoListActions.DeleteEspecieProcesso>(EspecieProcessoListActions.DELETE_ESPECIE_PROCESSO),
-                mergeMap((action) => {
-                    return this._especieProcessoService.destroy(action.payload).pipe(
-                        map((response) => new EspecieProcessoListActions.DeleteEspecieProcessoSuccess(response.id)),
+                mergeMap(action => this._especieProcessoService.destroy(action.payload).pipe(
+                        map(response => new EspecieProcessoListActions.DeleteEspecieProcessoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new EspecieProcessoListActions.DeleteEspecieProcessoFailed(action.payload));
+                            return of(new EspecieProcessoListActions.DeleteEspecieProcesso(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

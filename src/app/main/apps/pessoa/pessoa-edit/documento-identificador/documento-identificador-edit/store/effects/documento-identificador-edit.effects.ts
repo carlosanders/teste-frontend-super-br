@@ -28,7 +28,7 @@ export class DocumentoIdentificadorEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class DocumentoIdentificadorEditEffect {
 
     /**
      * Get DocumentoIdentificador with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class DocumentoIdentificadorEditEffect {
         this._actions
             .pipe(
                 ofType<DocumentoIdentificadorEditActions.GetDocumentoIdentificador>(DocumentoIdentificadorEditActions.GET_DOCUMENTO_IDENTIFICADOR),
-                switchMap((action) => {
-                    return this._documentoIdentificadorService.query(
+                switchMap(action => this._documentoIdentificadorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<DocumentoIdentificador>({data: response['entities'], schema: documentoIdentificadorchema}),
                     new DocumentoIdentificadorEditActions.GetDocumentoIdentificadoruccess({
@@ -73,6 +72,7 @@ export class DocumentoIdentificadorEditEffect {
 
     /**
      * Save DocumentoIdentificador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class DocumentoIdentificadorEditEffect {
         this._actions
             .pipe(
                 ofType<DocumentoIdentificadorEditActions.SaveDocumentoIdentificador>(DocumentoIdentificadorEditActions.SAVE_DOCUMENTO_IDENTIFICADOR),
-                switchMap((action) => {
-                    return this._documentoIdentificadorService.save(action.payload).pipe(
+                switchMap(action => this._documentoIdentificadorService.save(action.payload).pipe(
                         mergeMap((response: DocumentoIdentificador) => [
                             new DocumentoIdentificadorEditActions.SaveDocumentoIdentificadoruccess(),
                             new DocumentoIdentificadorListActions.ReloadDocumentoIdentificador(),
@@ -96,8 +95,7 @@ export class DocumentoIdentificadorEditEffect {
                             console.log (err);
                             return of(new DocumentoIdentificadorEditActions.SaveDocumentoIdentificadorFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

@@ -13,7 +13,7 @@ import { CdkEtiquetaGridModule } from '@cdk/components/etiqueta/cdk-etiqueta-gri
     imports: [
 
         CdkEtiquetaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

@@ -13,6 +13,7 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class NotificacaoListEffect {
@@ -27,7 +28,7 @@ export class NotificacaoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class NotificacaoListEffect {
 
     /**
      * Get Notificacoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class NotificacaoListEffect {
         this._actions
             .pipe(
                 ofType<NotificacaoListActions.GetNotificacoes>(NotificacaoListActions.GET_NOTIFICACOES),
-                switchMap((action) => {
-                    return this._notificacaoService.query(
+                switchMap(action => this._notificacaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class NotificacaoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Notificacao>({data: response['entities'], schema: notificacaoSchema}),
                             new NotificacaoListActions.GetNotificacoesSuccess({
                                 entitiesId: response['entities'].map(notificacao => notificacao.id),
@@ -69,12 +70,12 @@ export class NotificacaoListEffect {
                             console.log(err);
                             return of(new NotificacaoListActions.GetNotificacoesFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Notificacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,19 +83,22 @@ export class NotificacaoListEffect {
         this._actions
             .pipe(
                 ofType<NotificacaoListActions.DeleteNotificacao>(NotificacaoListActions.DELETE_NOTIFICACAO),
-                mergeMap((action) => {
-                    return this._notificacaoService.destroy(action.payload).pipe(
-                        map((response) => new NotificacaoListActions.DeleteNotificacaoSuccess(response.id)),
+                mergeMap(action => this._notificacaoService.destroy(action.payload).pipe(
+                        map(response => new NotificacaoListActions.DeleteNotificacaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new NotificacaoListActions.DeleteNotificacaoFailed(action.payload));
+                            return of(new NotificacaoListActions.DeleteNotificacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * ToggleLida Notificacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,17 +106,19 @@ export class NotificacaoListEffect {
         this._actions
             .pipe(
                 ofType<NotificacaoListActions.ToggleLidaNotificacao>(NotificacaoListActions.TOGGLE_LIDA_NOTIFICACAO),
-                mergeMap((action) => {
-                    return this._notificacaoService.toggleLida(action.payload).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._notificacaoService.toggleLida(action.payload).pipe(
+                        mergeMap(response => [
                             new UpdateData<Notificacao>({id: response.id, schema: notificacaoSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}}),
                             new NotificacaoListActions.ToggleLidaNotificacaoSuccess(response.id)
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(action.payload));
+                            return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

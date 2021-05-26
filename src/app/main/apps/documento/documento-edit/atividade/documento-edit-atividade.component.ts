@@ -14,8 +14,9 @@ import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
-import {ComponenteDigitalService} from "../../../../../../@cdk/services/componente-digital.service";
-import {Back} from "../../../../../store";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {Back} from '../../../../../store';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -81,9 +82,34 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
      * On init
      */
     ngOnInit(): void {
-        this.tarefa$.subscribe(tarefa => {
+        this.atividade = new Atividade();
+        this.atividade.encerraTarefa = true;
+        this.atividade.dataHoraConclusao = moment();
+
+        this.tarefa$.pipe(
+            filter(tarefa => !!tarefa)
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
+
+            this.atividade.tarefa = this.tarefa;
+            this.atividade.usuario = this.tarefa.usuarioResponsavel;
+            this.atividade.setor = this.tarefa.setorResponsavel;
+            if (this.tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+            } else {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
+            }
+
+            // caso tarefa seja de workflow verificar espécies permitidas
+            this.especieAtividadePagination['context'] = {};
+            if (tarefa.workflow) {
+                this.especieAtividadePagination.filter = {
+                    'transicoesWorkflow.especieTarefaFrom.id' : 'eq:' + tarefa.especieTarefa.id
+                };
+                this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
+            }
         });
+
         this.documento$.subscribe(documento => this.documento = documento);
 
         this._componenteDigitalService.completedEditorSave.subscribe((value) => {
@@ -91,18 +117,6 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
                 this.submitAtividade();
             }
         });
-
-        this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
-        this.atividade.tarefa = this.tarefa;
-        this.atividade.usuario = this.tarefa.usuarioResponsavel;
-        this.atividade.setor = this.tarefa.setorResponsavel;
-        if (this.tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
-            this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
-        } else {
-            this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
-        }
     }
 
     ngAfterViewInit(): void {

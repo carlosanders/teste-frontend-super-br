@@ -20,7 +20,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<TarefaDetailAppState>} _store
+     * @param _store
      * @param _router
      */
     constructor(
@@ -29,7 +29,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,9 +39,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
@@ -53,7 +53,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         if (this.routerState.params['processoHandle'] &&
@@ -77,7 +77,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Tarefa
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getTarefa(): any {
         return this._store.pipe(
@@ -89,9 +89,7 @@ export class ResolveGuard implements CanActivate {
                     }));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -99,7 +97,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Processo
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getProcesso(): any {
         return this._store.pipe(
@@ -115,9 +113,7 @@ export class ResolveGuard implements CanActivate {
                     }
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -125,7 +121,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Juntadas
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getJuntadas(): any {
         return this._store.pipe(
@@ -137,7 +133,7 @@ export class ResolveGuard implements CanActivate {
                     let processoFilter = null;
 
                     const routeParams = of('processoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                     });
 
@@ -154,6 +150,7 @@ export class ResolveGuard implements CanActivate {
                             'volume',
                             'documento',
                             'documento.origemDados',
+                            'documento.juntadaAtual',
                             'documento.tipoDocumento',
                             'documento.componentesDigitais',
                             'documento.vinculacoesDocumentos',
@@ -168,9 +165,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStoreProcessoView.GetJuntadas(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -178,7 +173,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Documentos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getDocumentos(): any {
         if (this.routerState.params['tarefaHandle']) {
@@ -189,9 +184,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStoreProcessoView.GetDocumentos());
                     }
                 }),
-                filter((loaded: any) => {
-                    return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-                }),
+                filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
                 take(1)
             );
         } else {
@@ -202,9 +195,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStoreProcessoView.UnloadDocumentos());
                     }
                 }),
-                filter((loaded: any) => {
-                    return !loaded;
-                }),
+                filter((loaded: any) => !loaded),
                 take(1)
             );
         }

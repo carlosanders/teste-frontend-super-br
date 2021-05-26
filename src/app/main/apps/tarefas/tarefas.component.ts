@@ -16,10 +16,10 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
+import {Documento, Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {getIsSavingObservacao, ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
@@ -32,8 +32,11 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from '@cdk/utils';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkConfirmDialogComponent} from "../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkAssinaturaEletronicaPluginComponent} from '../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {UpdateData} from '../../../../@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '../../../../@cdk/normalizr';
 
 @Component({
     selector: 'tarefas',
@@ -69,6 +72,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     togglingUrgenteIds$: Observable<number[]>;
     savingObservacao$: Observable<boolean>;
+    assinandoTarefasIds$: Observable<number[]>;
+    assinandoTarefasEletronicamenteIds$: Observable<number[]>;
+    assinaturaInterval = null;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -132,7 +138,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     snackSubscription: any;
     lote: string;
 
-    usuarioAtual: Usuario
+    usuarioAtual: Usuario;
+
+    javaWebStartOK = false;
 
     /**
      *
@@ -169,10 +177,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
         this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
+        this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
+        this.assinandoTarefasEletronicamenteIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasEletronicamenteId));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
-        })
+        });
 
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));
@@ -236,7 +246,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -246,18 +256,59 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'nova_tarefa') {
                 if (message.content.genero === this.routerState.params.generoHandle) {
                     this.novaTarefa = true;
                 }
+            }
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
+                        break;
+                }
+            }
+        });
+
+        this.assinandoTarefasIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoTarefasIds) => {
+            if (assinandoTarefasIds.length > 0) {
+                this.assinaturaInterval = setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoTarefasIds.length > 0)) {
+                        assinandoTarefasIds.forEach(
+                            tarefaId => this._store.dispatch(new fromStore.AssinaDocumentoFailed({tarefaId: tarefaId}))
+                        );
+                    }
+                }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
         });
 
         this.routerState$.pipe(
             distinctUntilChanged(),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
             this.targetHandle = routerState.state.params['targetHandle'];
 
@@ -270,43 +321,43 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(tarefas => !!tarefas)
-        ).subscribe(tarefas => {
+        ).subscribe((tarefas) => {
             this.tarefas = tarefas;
         });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(maximizado => {
+        ).subscribe((maximizado) => {
             this.maximizado = maximizado;
         });
 
         this.selectedTarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedTarefas => {
+        ).subscribe((selectedTarefas) => {
             this.selectedTarefas = selectedTarefas;
         });
 
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedIds => {
+        ).subscribe((selectedIds) => {
             this.selectedIds = selectedIds;
         });
 
         this.loading$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(loading => {
+        ).subscribe((loading) => {
             this.loading = loading;
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
                 if (this.maximizado) {
@@ -414,8 +465,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }
 
-    setCurrentTarefa(event: {tarefa: Tarefa, event: any}): void {
-        let tarefa = event.tarefa;
+    setCurrentTarefa(event: { tarefa: Tarefa; event: any }): void {
+        const tarefa = event.tarefa;
         if (!tarefa.apagadoEm) {
             if (!tarefa.dataHoraLeitura) {
                 this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
@@ -496,10 +547,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         tarefas.forEach((tarefa: Tarefa) => this.doCienciaTarefa(tarefa.id, this.lote));
     }
 
-    doRestauraTarefa(tarefa: Tarefa): void {
+    doRestauraTarefa(tarefa: Tarefa, folder: Folder = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.UndeleteTarefa({
             tarefa: tarefa,
+            folder: folder,
             operacaoId: operacaoId,
             loaded: this.loaded,
             redo: null,
@@ -539,7 +591,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedTarefas.forEach((tarefa) => {
 
             if (this.targetHandle === 'lixeira') {
-                this.doRestauraTarefa(tarefa);
+                this.doRestauraTarefa(tarefa, folder);
+                return;
             }
 
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));
@@ -645,7 +698,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCompartilhar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/listar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
     }
 
     doCompartilharBloco(): void {
@@ -683,6 +736,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doCreateDocumentoAvulsoBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
+    }
+
+    doAssinaturaMinutas(tarefa: Tarefa): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+            if (result.certificadoDigital) {
+                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, certificadoDigital: true}));
+            } else {
+                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, assinatura: {plainPassword: result.plainPassword}}));
+            }
+        });
     }
 
     /*
@@ -760,7 +827,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             .componentInstance
             .confirmMessage = 'Deseja gerar um relatório com a listagem completa de tarefas? Você receberá uma notificação quando o relatório estiver disponível.';
 
-        this.confirmDialogRef.afterClosed().subscribe(result => {
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel());
             }
@@ -769,9 +836,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doEditarDocumentoEtiqueta(event): void {
-        let tarefa = event.tarefa;
-        let vinculacaoEtiqueta = event.vinculacaoEtiqueta;
+        const tarefa = event.tarefa;
+        const vinculacaoEtiqueta = event.vinculacaoEtiqueta;
         if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this._store.dispatch(new fromStore.SetCurrentTarefa({
+                tarefaId: tarefa.id,
+                processoId: tarefa.processo.id,
+                acessoNegado: tarefa.processo.acessoNegado,
+                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
+            }));
+        }
+        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
             this._store.dispatch(new fromStore.SetCurrentTarefa({
                 tarefaId: tarefa.id,
                 processoId: tarefa.processo.id,

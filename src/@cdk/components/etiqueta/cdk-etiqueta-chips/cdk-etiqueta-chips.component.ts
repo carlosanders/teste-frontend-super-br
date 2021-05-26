@@ -1,7 +1,7 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '@cdk/angular/material';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@cdk/angular/material';
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
@@ -15,12 +15,6 @@ import {Pagination} from '@cdk/models';
     animations: cdkAnimations
 })
 export class CdkEtiquetaChipsComponent {
-
-    visible = true;
-    selectable = true;
-    addOnBlur = true;
-    separatorKeysCodes: number[] = [ENTER, COMMA];
-    etiquetaCtrl = new FormControl();
 
     @Input()
     etiquetas: Etiqueta[] = [];
@@ -39,6 +33,12 @@ export class CdkEtiquetaChipsComponent {
 
     @ViewChild('etiquetaInput', {static: true}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: true}) matAutocomplete: MatAutocomplete;
+
+    visible = true;
+    selectable = true;
+    addOnBlur = true;
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    etiquetaCtrl = new FormControl();
 
     constructor() {
         this.pagination = new Pagination();

@@ -27,7 +27,7 @@ import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkLotacaoFormModule} from '@cdk/components/lotacao/cdk-lotacao-form/cdk-lotacao-form.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

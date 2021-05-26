@@ -18,11 +18,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoValidacaoWorkflowFormCriadoPorComponent} from './tipo-validacao-workflow-form-criado-por.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
-import {CommonModule} from "@angular/common";
-import * as fromGuards from "./store/guards";
-import {ValidacaoFormStoreModule} from "../store/store.module";
-import {TipoValidacaoWorkflowService} from "@cdk/services/tipo-validacao-workflow.service";
-import {CdkTipoValidacaoCriadoPorModule} from "@cdk/components/validacao-transicao-workflow/tipos-validacoes/tipo-validacao-criado-por/cdk-tipo-validacao-criado-por.module";
+import {CommonModule} from '@angular/common';
+import * as fromGuards from './store/guards';
+import {ValidacaoFormStoreModule} from '../store/store.module';
+import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
+import {CdkTipoValidacaoCriadoPorModule} from '@cdk/components/validacao-transicao-workflow/tipos-validacoes/tipo-validacao-criado-por/cdk-tipo-validacao-criado-por.module';
 
 const routes: Routes = [
     {

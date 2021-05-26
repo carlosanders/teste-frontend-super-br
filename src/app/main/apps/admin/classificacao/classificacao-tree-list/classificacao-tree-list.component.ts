@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Classificacao, Pagination} from '../../../../../../@cdk/models';
+import {Classificacao, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getRouterState} from '../../../../../store';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'classificacao-tree-list',
@@ -35,7 +35,7 @@ export class ClassificacaoTreeListComponent implements OnInit {
         this.loadForm();
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

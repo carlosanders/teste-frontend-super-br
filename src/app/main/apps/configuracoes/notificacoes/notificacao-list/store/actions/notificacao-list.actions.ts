@@ -5,6 +5,8 @@ export const GET_NOTIFICACOES_SUCCESS = '[NOTIFICACAO LIST] GET NOTIFICACOES SUC
 export const GET_NOTIFICACOES_FAILED = '[NOTIFICACAO LIST] GET NOTIFICACOES FAILED';
 
 export const RELOAD_NOTIFICACOES = '[NOTIFICACAO LIST] RELOAD NOTIFICACOES';
+export const UNLOAD_NOTIFICACOES = '[NOTIFICACAO LIST] UNLOAD NOTIFICACOES';
+
 
 export const TOGGLE_LIDA_NOTIFICACAO = '[NOTIFICACAO LIST] TOGGLE LIDA NOTIFICACAO';
 export const TOGGLE_LIDA_NOTIFICACAO_SUCCESS = '[NOTIFICACAO LIST] TOGGLE LIDA NOTIFICACAO SUCCESS';
@@ -49,6 +51,18 @@ export class GetNotificacoesFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Notificacoes
+ */
+ export class UnloadNotificacoes implements Action
+ {
+     readonly type = UNLOAD_NOTIFICACOES;
+
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Notificacoes
@@ -141,6 +155,7 @@ export type NotificacaoListActionsAll
     | ToggleLidaNotificacao
     | ToggleLidaNotificacaoSuccess
     | ToggleLidaNotificacaoFailed
+    | UnloadNotificacoes
     | ReloadNotificacoes
     | DeleteNotificacao
     | DeleteNotificacaoSuccess

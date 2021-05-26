@@ -96,7 +96,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this.paginationAssuntos$ = this._store.pipe(select(fromStore.getPaginationAssuntos));
         this.paginationInteressados$ = this._store.pipe(select(fromStore.getPaginationInteressados));
         this.paginationVinculacoesProcessos$ = this._store.pipe(select(fromStore.getPaginationVinculacoesProcessos));
-        this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso))
+        this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso));
     }
 
     ngOnInit(): void {
@@ -104,7 +104,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -113,22 +113,22 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
             const tarefa = new Tarefa();
 
             if (this.processo && this.processo.especieProcesso?.workflow) {
                 tarefa.workflow = this.processo.especieProcesso.workflow;
-                 this.estaNumProcessoWorkflow = "SIM";
+                 this.estaNumProcessoWorkflow = 'SIM';
             }else{
-                this.estaNumProcessoWorkflow = "NÃO";
+                this.estaNumProcessoWorkflow = 'NÃO';
             }
         });
 
@@ -136,33 +136,33 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(assuntos => !!assuntos)
-        ).subscribe( assuntos => {
+        ).subscribe( (assuntos) => {
             this.assuntos = assuntos;
         });
 
         this.interessados$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(interessados => !!interessados)
-        ).subscribe( interessados => {
+        ).subscribe( (interessados) => {
             this.interessados = interessados;
         });
 
         this.vinculacoesProcessos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(vinculacoesProcessos => !!vinculacoesProcessos)
-        ).subscribe( vinculacoesProcessos => {
+        ).subscribe( (vinculacoesProcessos) => {
             this.vinculacoesProcessos = vinculacoesProcessos;
         });
 
-        this.paginationAssuntos$.subscribe(pagination => {
+        this.paginationAssuntos$.subscribe((pagination) => {
             this.paginationAssuntos = pagination;
         });
 
-        this.paginationInteressados$.subscribe(pagination => {
+        this.paginationInteressados$.subscribe((pagination) => {
             this.paginationInteressados = pagination;
         });
 
-        this.paginationVinculacoesProcessos$.subscribe(pagination => {
+        this.paginationVinculacoesProcessos$.subscribe((pagination) => {
             this.paginationVinculacoesProcessos = pagination;
         });
     }
@@ -231,7 +231,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         }));
     }
 
-    view(emissao: {id: number, chaveAcesso?: string}): void {
+    view(emissao: {id: number; chaveAcesso?: string}): void {
         const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
         this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }
@@ -243,7 +243,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             const payload = {
                 'acompanhamentoId': processo.compartilhamentoUsuario.id,
                 'processoId': processo.id
-            }
+            };
             this._store.dispatch(new fromStore.DeleteAcompanhamento(payload));
         }
     }

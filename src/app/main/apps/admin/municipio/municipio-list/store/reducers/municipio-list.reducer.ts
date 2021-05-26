@@ -16,6 +16,7 @@ export interface MunicipioListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const MunicipioListInitialState: MunicipioListState = {
@@ -33,7 +34,8 @@ export const MunicipioListInitialState: MunicipioListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function MunicipioListReducer(
@@ -81,6 +83,13 @@ export function MunicipioListReducer(
                 loaded: false
             };
         }
+
+        case MunicipioListActions.UNLOAD_MUNICIPIO: {
+            return {
+                ...MunicipioListInitialState
+            };
+        }
+
 
         case MunicipioListActions.RELOAD_MUNICIPIO: {
             return {

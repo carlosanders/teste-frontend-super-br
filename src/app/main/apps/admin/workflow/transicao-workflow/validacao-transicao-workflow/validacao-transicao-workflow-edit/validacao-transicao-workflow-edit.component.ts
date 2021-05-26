@@ -11,8 +11,8 @@ import {ValidacaoTransicaoWorkflow, TransicaoWorkflow, TipoValidacaoWorkflow} fr
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Back} from '../../../../../../../store/actions';
-import {getRouterState} from "../../../../../../../store/reducers";
-import {Router} from "@angular/router";
+import {getRouterState} from '../../../../../../../store/reducers';
+import {Router} from '@angular/router';
 @Component({
     selector: 'validacao-transicao-workflow-edit',
     templateUrl: './validacao-transicao-workflow-edit.component.html',
@@ -31,7 +31,7 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
     tipoValidacaoWorkflowList: TipoValidacaoWorkflow[];
     tipoValidacaoWorkflowList$: Observable<TipoValidacaoWorkflow[]>;
     action: string;
-    componentUrl:string;
+    componentUrl: string;
     /**
      * @param _store
      */
@@ -43,11 +43,11 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.validacao$ = this._store.pipe(select(fromStore.getValidacao));
         this.tipoValidacaoWorkflowList$ = this._store.pipe(select(fromStore.getTipoValidacaoWorkflowList));
-        
+
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 this.action = '';
                 if (routerState) {
                     this.routerState = routerState.state;
@@ -97,27 +97,27 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                validacao[key] = value
+                validacao[key] = value;
             }
         );
 
 
-        const transicaoWorkflow:TransicaoWorkflow = new TransicaoWorkflow();
+        const transicaoWorkflow: TransicaoWorkflow = new TransicaoWorkflow();
         transicaoWorkflow.id = parseInt(this.routerState.params.transicaoWorkflowHandle);
         validacao.transicaoWorkflow = transicaoWorkflow;
         this._store.dispatch(new fromStore.SaveValidacao(validacao));
     }
-   
-   
+
+
     selectValidacaoWorkflow(tipoValidacaoWorkflow: TipoValidacaoWorkflow): void {
         let routeId = null;
         switch (tipoValidacaoWorkflow.sigla){
             case 'ATR_PARA':
                 routeId = 1;
-                break;     
+                break;
             case 'CRIADO_POR':
                 routeId = 2;
-                break;    
+                break;
             case 'SETOR_ORG':
                 routeId = 3;
                 break;
@@ -126,12 +126,12 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
                 break;
             case 'UNIDADE':
                 routeId = 5;
-                break;        
+                break;
             default:
                 routeId = 0;
         }
         this._router.navigate([this.routerState.url+'/'+routeId+'/form']);
-    }    
+    }
     doAbort(): void {
         this._store.dispatch(new Back());
     }

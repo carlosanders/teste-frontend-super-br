@@ -12,7 +12,7 @@ import * as fromStore from '../../../../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'municipio',
@@ -41,7 +41,7 @@ export class MunicipioComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 if (this.routerState.url.indexOf('listar') > -1) {

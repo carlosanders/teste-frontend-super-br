@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Afastamento} from '@cdk/models/afastamento.model';
 import {afastamento as afastamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class AfastamentosListEffects {
@@ -27,7 +28,7 @@ export class AfastamentosListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class AfastamentosListEffects {
 
     /**
      * Get Afastamentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class AfastamentosListEffects {
         this._actions
             .pipe(
                 ofType<AfastamentosListActions.GetAfastamentos>(AfastamentosListActions.GET_AFASTAMENTOS),
-                switchMap((action) => {
-                    return this._afastamentoService.query(
+                switchMap(action => this._afastamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class AfastamentosListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Afastamento>({data: response['entities'], schema: afastamentoSchema}),
                             new AfastamentosListActions.GetAfastamentosSuccess({
                                 entitiesId: response['entities'].map(afastamento => afastamento.id),
@@ -69,12 +70,12 @@ export class AfastamentosListEffects {
                             console.log(err);
                             return of(new AfastamentosListActions.GetAfastamentosFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Afastamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,16 @@ export class AfastamentosListEffects {
         this._actions
             .pipe(
                 ofType<AfastamentosListActions.DeleteAfastamento>(AfastamentosListActions.DELETE_AFASTAMENTO),
-                mergeMap((action) => {
-                    return this._afastamentoService.destroy(action.payload).pipe(
-                        map((response) => new AfastamentosListActions.DeleteAfastamentoSuccess(response.id)),
+                mergeMap(action => this._afastamentoService.destroy(action.payload).pipe(
+                        map(response => new AfastamentosListActions.DeleteAfastamentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new AfastamentosListActions.DeleteAfastamentoFailed(action.payload));
+                            return of(new AfastamentosListActions.DeleteAfastamentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

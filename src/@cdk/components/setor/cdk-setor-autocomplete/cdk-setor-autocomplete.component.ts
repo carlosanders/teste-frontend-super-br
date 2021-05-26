@@ -61,13 +61,13 @@ export class CdkSetorAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     const termFilterNome = [];
                     const termFilterSigla = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         const nomeKey = this.extraFilter ? this.extraFilter + '.nome' : 'nome';
                         const siglaKey = this.extraFilter ? this.extraFilter + '.sigla' : 'sigla';
-                        let objNome = {};
-                        objNome[nomeKey] = `like:%${bit}%`
+                        const objNome = {};
+                        objNome[nomeKey] = `like:%${bit}%`;
                         termFilterNome.push(objNome);
-                        let objSigla = {};
+                        const objSigla = {};
                         objSigla[siglaKey] = `like:%${bit}%`;
                         termFilterSigla.push(objSigla);
                     });
@@ -99,7 +99,7 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.setorList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

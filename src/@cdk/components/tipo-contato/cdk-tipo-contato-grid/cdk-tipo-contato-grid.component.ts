@@ -116,6 +116,9 @@ export class CdkTipoContatoGridComponent implements AfterViewInit, OnInit, OnCha
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -196,7 +199,7 @@ export class CdkTipoContatoGridComponent implements AfterViewInit, OnInit, OnCha
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -330,5 +333,12 @@ export class CdkTipoContatoGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

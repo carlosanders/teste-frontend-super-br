@@ -12,6 +12,7 @@ import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoRepositorio} from '@cdk/models';
 import {vinculacaoRepositorio as vinculacaoRepositorioschema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class RepositoriosEspecieSetorListEffects {
@@ -25,7 +26,7 @@ export class RepositoriosEspecieSetorListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class RepositoriosEspecieSetorListEffects {
 
     /**
      * Get VinculacoesRepositorio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class RepositoriosEspecieSetorListEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosEspecieSetorListActions.GetRepositoriosEspecieSetor>(RepositoriosEspecieSetorListActions.GET_REPOSITORIOS_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._vinculacaoRepositorioservice.query(
+                switchMap(action => this._vinculacaoRepositorioservice.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,7 +53,7 @@ export class RepositoriosEspecieSetorListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<VinculacaoRepositorio>({data: response['entities'], schema: vinculacaoRepositorioschema}),
                             new RepositoriosEspecieSetorListActions.GetRepositoriosEspecieSetorSuccess({
                                 entitiesId: response['entities'].map(vinculacaoRepositorio => vinculacaoRepositorio.id),
@@ -67,12 +68,12 @@ export class RepositoriosEspecieSetorListEffects {
                             console.log(err);
                             return of(new RepositoriosEspecieSetorListActions.GetRepositoriosEspecieSetorFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete VinculacaoRepositorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,14 +81,16 @@ export class RepositoriosEspecieSetorListEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetor>(RepositoriosEspecieSetorListActions.DELETE_REPOSITORIO_ESPECIE_SETOR),
-                mergeMap((action) => {
-                    return this._vinculacaoRepositorioservice.destroy(action.payload).pipe(
-                        map((response) => new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorSuccess(response.id)),
+                mergeMap(action => this._vinculacaoRepositorioservice.destroy(action.payload).pipe(
+                        map(response => new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorFailed(action.payload));
+                            return of(new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

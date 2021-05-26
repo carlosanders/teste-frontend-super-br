@@ -2,11 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {Compartilhamento} from '@cdk/models';
 import {Router} from '@angular/router';
@@ -22,7 +22,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AcompanhamentoListComponent implements OnInit {
+export class AcompanhamentoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     acompanhamentos$: Observable<Compartilhamento[]>;
@@ -30,6 +30,7 @@ export class AcompanhamentoListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -47,10 +48,11 @@ export class AcompanhamentoListComponent implements OnInit {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -58,9 +60,13 @@ export class AcompanhamentoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadAcompanhamentos());
     }
 
     reload(params): void {
@@ -106,4 +112,8 @@ export class AcompanhamentoListComponent implements OnInit {
         this._store.dispatch(new fromStore.DeleteAcompanhamento(acompanhamentoId));
     }
 
+    view(emissao: { id: number; chaveAcesso?: string }): void {
+        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
+    }
 }

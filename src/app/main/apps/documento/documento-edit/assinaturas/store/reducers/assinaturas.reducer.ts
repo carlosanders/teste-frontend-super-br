@@ -1,5 +1,5 @@
 import * as AssinaturasActions from '../actions';
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 export interface AssinaturasState {
     entitiesId: number[];
@@ -100,7 +100,7 @@ export function AssinaturasReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
-                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 

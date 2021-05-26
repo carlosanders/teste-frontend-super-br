@@ -18,7 +18,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Documento } from '@cdk/models/documento.model';
 import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
-import {Assinatura, DocumentoAvulso, Usuario} from '../../../../../../@cdk/models';
+import {Assinatura, DocumentoAvulso, Usuario} from '@cdk/models';
 import { getDocumentoAvulso } from '../store/selectors';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
@@ -103,7 +103,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -111,32 +111,32 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.mode = routerState.state.params['oficioTargetHandle'];
         });
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
         });
 
         this.documentoAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documentoAvulso => {
+        ).subscribe((documentoAvulso) => {
             this.documentoAvulso = documentoAvulso;
         });
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentos => {
+            (documentos) => {
                 this.oficios = documentos;
                 this._changeDetectorRef.markForCheck();
                 this.oficios = this.oficios.concat(this.documentoAvulso.documentoResposta);
@@ -146,7 +146,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedDocumentos => {
+        ).subscribe((selectedDocumentos) => {
             this.selectedOficios =  selectedDocumentos;
         });
     }
@@ -155,7 +155,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         const path = 'app/main/apps/oficios/oficio-detail/complementar';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

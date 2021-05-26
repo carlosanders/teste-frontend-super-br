@@ -3,6 +3,7 @@
         [nomes]="(nomes$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'delete']"
         (reload)="reload($event)"

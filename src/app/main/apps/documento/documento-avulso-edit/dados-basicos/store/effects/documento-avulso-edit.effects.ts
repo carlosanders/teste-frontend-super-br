@@ -14,17 +14,18 @@ import {Router} from '@angular/router';
 import {DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {UnloadDocumento} from "../../../../store";
+import {UnloadDocumento} from '../../../../store';
 import {
     GetDocumentos as GetDocumentosProcesso,
     GetJuntadas,
     UnloadDocumentos,
     UnloadJuntadas
-} from "../../../../../processo/processo-view/store";
-import {GetDocumentos as GetDocumentosAtividade} from "../../../../../tarefas/tarefa-detail/atividades/atividade-create/store";
-import {GetDocumentos as GetDocumentosAvulsos} from "../../../../../tarefas/tarefa-detail/oficios/store";
-import * as ProcessoViewActions from "../../../../../processo/processo-view/store/actions/processo-view.actions";
-import {UnloadComponenteDigital} from "../../../../componente-digital/store";
+} from '../../../../../processo/processo-view/store';
+import {GetDocumentos as GetDocumentosAtividade} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {GetDocumentos as GetDocumentosAvulsos} from '../../../../../tarefas/tarefa-detail/oficios/store';
+import * as ProcessoViewActions from '../../../../../processo/processo-view/store/actions/processo-view.actions';
+import {UnloadComponenteDigital} from '../../../../componente-digital/store';
+import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
 
 @Injectable()
 export class DocumentoAvulsoEditEffects {
@@ -45,7 +46,7 @@ export class DocumentoAvulsoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -54,6 +55,7 @@ export class DocumentoAvulsoEditEffects {
 
     /**
      * Save DocumentoAvulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -61,8 +63,7 @@ export class DocumentoAvulsoEditEffects {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulso>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.save(action.payload).pipe(
+                switchMap(action => this._documentoAvulsoService.save(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
                             new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
@@ -76,12 +77,12 @@ export class DocumentoAvulsoEditEffects {
                             console.log(err);
                             return of(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Remeter Documento Avulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -89,8 +90,7 @@ export class DocumentoAvulsoEditEffects {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoEditActions.RemeterDocumentoAvulso>(DocumentoAvulsoEditActions.REMETER_DOCUMENTO_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.remeter(action.payload).pipe(
+                switchMap(action => this._documentoAvulsoService.remeter(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
                             new UpdateData<DocumentoAvulso>({
                                 id: response.id, schema: documentoAvulsoSchema,
@@ -99,10 +99,12 @@ export class DocumentoAvulsoEditEffects {
                                     usuarioRemessa: response.usuarioRemessa
                                 }
                             }),
-                            new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess()
+                            new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess(),
+                            new GetTarefa({
+                                id: this.routerState.params['tarefaHandle']
+                            })
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoFailed(err));
@@ -112,6 +114,7 @@ export class DocumentoAvulsoEditEffects {
 
     /**
      * Remeter Documento Avulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -119,8 +122,7 @@ export class DocumentoAvulsoEditEffects {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoEditActions.ToggleEncerramentoDocumentoAvulso>(DocumentoAvulsoEditActions.TOGGLE_ENCERRAMENTO_DOCUMENTO_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.toggleEncerramento(action.payload).pipe(
+                switchMap(action => this._documentoAvulsoService.toggleEncerramento(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoEditActions.ToggleEncerramentoDocumentoAvulsoSuccess(),
                             new UpdateData<DocumentoAvulso>({
@@ -129,8 +131,7 @@ export class DocumentoAvulsoEditEffects {
                                 changes: {dataHoraEncerramento: response.dataHoraEncerramento}
                             })
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new DocumentoAvulsoEditActions.ToggleEncerramentoDocumentoAvulsoFailed(err));
@@ -140,6 +141,7 @@ export class DocumentoAvulsoEditEffects {
 
     /**
      * Remeter Documento Avulso Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -174,7 +176,7 @@ export class DocumentoAvulsoEditEffects {
                             let processoFilter = null;
 
                             const routeParams = of('processoHandle');
-                            routeParams.subscribe(param => {
+                            routeParams.subscribe((param) => {
                                 processoFilter = `eq:${this.routerState.params[param]}`;
                             });
 

@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Repositorio} from '@cdk/models';
 import {repositorio as repositorioSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class RepositorioListEffect {
@@ -27,7 +28,7 @@ export class RepositorioListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class RepositorioListEffect {
 
     /**
      * Get Repositorios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -59,7 +61,7 @@ export class RepositorioListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Repositorio>({data: response['entities'], schema: repositorioSchema}),
                             new RepositorioListActions.GetRepositoriosSuccess({
                                 entitiesId: response['entities'].map(repositorio => repositorio.id),
@@ -80,6 +82,7 @@ export class RepositorioListEffect {
 
     /**
      * Delete Repositorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -87,14 +90,16 @@ export class RepositorioListEffect {
         this._actions
             .pipe(
                 ofType<RepositorioListActions.DeleteRepositorio>(RepositorioListActions.DELETE_REPOSITORIO),
-                mergeMap((action) => {
-                    return this._repositorioService.destroy(action.payload).pipe(
-                        map((response) => new RepositorioListActions.DeleteRepositorioSuccess(response.id)),
+                mergeMap(action => this._repositorioService.destroy(action.payload).pipe(
+                        map(response => new RepositorioListActions.DeleteRepositorioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RepositorioListActions.DeleteRepositorioFailed(action.payload));
+                            return of(new RepositorioListActions.DeleteRepositorioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

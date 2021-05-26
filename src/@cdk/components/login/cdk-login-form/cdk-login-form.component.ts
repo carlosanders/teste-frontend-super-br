@@ -13,7 +13,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {LoginService} from "../../../../app/main/auth/login/login.service";
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-login-form',
@@ -60,7 +60,7 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
         private _formBuilder: FormBuilder,
         public _loginService: LoginService
     ) {
-        let tipoLogin = this._loginService.getLoginType()?? 'externo';
+        const tipoLogin = this._loginService.getLoginType()?? 'externo';
 
         this.form = this._formBuilder.group({
             tipoLogin: [tipoLogin, [Validators.required]],
@@ -94,7 +94,7 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

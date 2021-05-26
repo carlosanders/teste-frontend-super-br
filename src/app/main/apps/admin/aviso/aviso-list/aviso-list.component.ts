@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Aviso} from '../../../../../../@cdk/models';
+import {Aviso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadAviso} from './store';
+
 
 @Component({
     selector: 'aviso-list',
@@ -15,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AvisoListComponent implements OnInit {
+export class AvisoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     avisos$: Observable<Aviso[]>;
@@ -38,7 +40,7 @@ export class AvisoListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,10 +48,15 @@ export class AvisoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadAviso());
+    }
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetAviso({

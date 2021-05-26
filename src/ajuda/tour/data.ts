@@ -59,7 +59,7 @@ export const builtInButtons = {
           ],
           id: 'Widgets',
           title: 'Widgets',
-          text: `A página inicial agora está mais limpa e mostra as informações mais importantes para o usuário, por meio de widgets.`
+          text: 'A página inicial agora está mais limpa e mostra as informações mais importantes para o usuário, por meio de widgets.'
       },
       {
           attachTo: {
@@ -74,7 +74,7 @@ export const builtInButtons = {
           classes: 'custom-class-name-1 custom-class-name-2',
           id: 'Widget Avisos',
           title: 'Widget Avisos',
-          text: `Os avisos mostram as informações relevantes do sistema no momento. O email de suporte também é enviado`
+          text: 'Os avisos mostram as informações relevantes do sistema no momento. O email de suporte também é enviado'
       },
       {
           attachTo: {
@@ -89,7 +89,7 @@ export const builtInButtons = {
           classes: 'custom-class-name-1 custom-class-name-2',
           id: 'Widget Histórico',
           title: 'Widget Histórico',
-          text: `O Histórico mostra as últimas ações do usuário como criação de tarefas e processos`
+          text: 'O Histórico mostra as últimas ações do usuário como criação de tarefas e processos'
       },
       {
           attachTo: {
@@ -122,7 +122,7 @@ export const builtInButtons = {
           classes: 'custom-class-name-1 custom-class-name-2',
           id: 'Painel Lateral',
           title: 'Painel Lateral',
-          text: `No Painel lateral, que pode ser fixado ou não, o usuário pode acessar diferentes opções do Sapiens`
+          text: 'No Painel lateral, que pode ser fixado ou não, o usuário pode acessar diferentes opções do Sapiens'
       },
       {
           attachTo: {
@@ -249,7 +249,7 @@ export const builtInButtons = {
       classes: 'custom-class-name-1 custom-class-name-2',
       id: 'Últimas Operações',
       title: 'Últimas Operações',
-      text: `Mostra as ultimas operaçoes realizadas pelo usuario`
+      text: 'Mostra as ultimas operaçoes realizadas pelo usuario'
     },
 
     {

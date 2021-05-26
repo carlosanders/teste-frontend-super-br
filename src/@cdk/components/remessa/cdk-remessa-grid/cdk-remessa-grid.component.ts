@@ -16,8 +16,8 @@ import {Tramitacao, Usuario} from '@cdk/models';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {modulesConfig} from "../../../../modules/modules-config";
-import {DynamicService} from "../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../modules/modules-config';
+import {DynamicService} from '../../../../modules/dynamic.service';
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -135,6 +135,9 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -186,7 +189,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
     hasExcluded = false;
 
-    @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>
+    @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>;
 
     /**
      * @param _changeDetectorRef
@@ -231,7 +234,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -262,11 +265,11 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         const path = '@cdk/components/remessa/cdk-remessa-grid/cdk-remessa-grid#button';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
+                        .then((componentFactory) => {
                             this.btContainer.forEach((button, index) => {
-                                let componentRef = button.createComponent(componentFactory);
+                                const componentRef = button.createComponent(componentFactory);
                                 componentRef.instance['remessaId'] = this.remessas[index]['id'];
                                 componentRef.instance['mecanismoRemessa'] = this.remessas[index]['mecanismoRemessa'];
                                 componentRef.instance['apagadoEm'] = !!this.remessas[index]['apagadoEm'];
@@ -389,6 +392,13 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 
     editRecebimento(tramitacaoId): void {

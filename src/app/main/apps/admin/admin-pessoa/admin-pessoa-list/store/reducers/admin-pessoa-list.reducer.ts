@@ -16,6 +16,7 @@ export interface PessoaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const PessoaListInitialState: PessoaListState = {
@@ -33,7 +34,8 @@ export const PessoaListInitialState: PessoaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AdminPessoaListReducer(
@@ -69,6 +71,7 @@ export function AdminPessoaListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -82,9 +85,17 @@ export function AdminPessoaListReducer(
             };
         }
 
+        case PessoaListActions.UNLOAD_PESSOA: {
+            return {
+                ...PessoaListInitialState
+            };
+        }
+
+
         case PessoaListActions.RELOAD_PESSOA: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

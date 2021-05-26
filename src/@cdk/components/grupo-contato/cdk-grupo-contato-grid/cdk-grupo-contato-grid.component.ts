@@ -15,7 +15,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GrupoContato} from '@cdk/models/grupo-contato.model';
 import {GrupoContatoDataSource} from '@cdk/data-sources/grupo-contato-data-source';
 import {FormControl} from '@angular/forms';
-import {Pagination} from "../../../models";
+import {Pagination} from '../../../models';
 
 @Component({
     selector: 'cdk-grupo-contato-grid',
@@ -120,6 +120,9 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -204,7 +207,7 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -266,7 +269,7 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
         this.edit.emit(grupoContatoId);
     }
 
-    doShowContatos(grupoContatoId:number): void {
+    doShowContatos(grupoContatoId: number): void {
         this.showContatos.emit(grupoContatoId);
     }
 
@@ -342,5 +345,12 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

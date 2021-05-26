@@ -9,12 +9,12 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Aviso, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
-import {Pagination} from "../../../models";
-import {FavoritoService} from "../../../services/favorito.service";
-import {LoginService} from "../../../../app/main/auth/login/login.service";
-import {Router} from "@angular/router";
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {Pagination} from '../../../models';
+import {FavoritoService} from '../../../services/favorito.service';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'cdk-aviso-form',
@@ -123,7 +123,7 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
         if (this.form.get('unidade').value && this.form.get('tipo').value === 'S') {
             this.form.get('setor').enable();
             this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
-            this.setorPagination.filter['parent'] = `isNotNull`;
+            this.setorPagination.filter['parent'] = 'isNotNull';
 
             this._changeDetectorRef.markForCheck();
         }
@@ -156,7 +156,7 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                                 this.form.get('setor').enable();
                                 this.form.get('setor').reset();
                                 this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
-                                this.setorPagination.filter['parent'] = `isNotNull`;
+                                this.setorPagination.filter['parent'] = 'isNotNull';
                             }
                             break;
                         default:
@@ -182,7 +182,7 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                         this.form.get('setor').enable();
                         this.form.get('setor').reset();
                         this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
-                        this.setorPagination.filter['parent'] = `isNotNull`;
+                        this.setorPagination.filter['parent'] = 'isNotNull';
                         this._changeDetectorRef.markForCheck();
                     } else {
                         this.form.get('setor').disable();
@@ -227,7 +227,7 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                 this.form.get('tipo').setValue('M');
                 this.form.get('modalidadeOrgaoCentral').setValue(vinculo.modalidadeOrgaoCentral);
             }
-        })
+        });
 
         if(this.aviso?.sistema)
         {
@@ -247,7 +247,7 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
             }
         }
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

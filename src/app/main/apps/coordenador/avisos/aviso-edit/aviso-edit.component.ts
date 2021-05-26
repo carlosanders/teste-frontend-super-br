@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-import {Aviso, ModalidadeOrgaoCentral, Setor, Usuario} from '../../../../../../@cdk/models';
+import {Aviso, ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store';
 import {Back} from '../../../../../store';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'aviso-edit',
@@ -64,7 +64,7 @@ export class AvisoEditComponent implements OnInit {
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
             )
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['unidadeHandle']) {
@@ -73,7 +73,7 @@ export class AvisoEditComponent implements OnInit {
                         this.unidadeHandle$.pipe(
                             takeUntil(this._unsubscribeAll)
                         ).subscribe(
-                            setor => {
+                            (setor) => {
                                 if (setor) {
                                     this.unidade = setor;
                                 }
@@ -86,7 +86,7 @@ export class AvisoEditComponent implements OnInit {
                         this.setorHandle$.pipe(
                             takeUntil(this._unsubscribeAll)
                         ).subscribe(
-                            setor => {
+                            (setor) => {
                                 if (setor) {
                                     this.setor = setor;
                                 }
@@ -121,7 +121,7 @@ export class AvisoEditComponent implements OnInit {
         this.aviso$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            aviso => {
+            (aviso) => {
                 if (aviso) {
                     this.aviso = aviso;
                     if (this.aviso.vinculacoesAvisos[0]?.setor) {
@@ -143,7 +143,7 @@ export class AvisoEditComponent implements OnInit {
         this.setor$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.setor = setor;
                 }
@@ -153,7 +153,7 @@ export class AvisoEditComponent implements OnInit {
         this.unidade$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.unidade = setor;
                 }
@@ -163,7 +163,7 @@ export class AvisoEditComponent implements OnInit {
         this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            modalidadeOrgaoCentral => {
+            (modalidadeOrgaoCentral) => {
                 if (modalidadeOrgaoCentral) {
                     this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }

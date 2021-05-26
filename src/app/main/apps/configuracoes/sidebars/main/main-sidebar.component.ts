@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'configuracoes-main-sidebar',
@@ -20,7 +21,8 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
      * Constructor
      */
     constructor(
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
 
         if (this._loginService.isGranted('ROLE_COLABORADOR')) {
@@ -141,5 +143,11 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+    }
+
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('configuracoes-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('configuracoes-main-sidebar').close();
+        }
     }
 }

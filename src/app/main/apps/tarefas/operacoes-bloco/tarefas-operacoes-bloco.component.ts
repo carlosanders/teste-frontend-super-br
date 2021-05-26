@@ -23,7 +23,7 @@ import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {CdkUtils} from '../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefas-operacoes-bloco',
@@ -87,7 +87,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     ngOnInit(): void {
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => {
+        ).subscribe((tarefas) => {
             this.tarefas = tarefas;
             if (tarefas.length === 0) {
                 this._router.navigate([
@@ -108,7 +108,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -116,10 +116,10 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     }
 
     ngAfterViewInit(): void {
-        const path = '@cdk/components/tarefa/cdk-tarefa-list';
+        const path = 'app/main/apps/tarefas/operacoes-bloco/tarefas-operacoes-bloco';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

@@ -32,7 +32,7 @@ export class EspecieRelevanciaEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class EspecieRelevanciaEditEffects {
 
     /**
      * Get EspecieRelevancia with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class EspecieRelevanciaEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieRelevanciaEditActions.GetEspecieRelevancia>(EspecieRelevanciaEditActions.GET_ESPECIE_RELEVANCIA),
-                switchMap((action) => {
-                    return this._especieRelevanciaService.query(
+                switchMap(action => this._especieRelevanciaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -57,8 +57,7 @@ export class EspecieRelevanciaEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<EspecieRelevancia>({data: response['entities'], schema: especieRelevanciaSchema}),
                     new EspecieRelevanciaEditActions.GetEspecieRelevanciaSuccess({
@@ -78,6 +77,7 @@ export class EspecieRelevanciaEditEffects {
 
     /**
      * Save EspecieRelevancia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -104,6 +104,7 @@ export class EspecieRelevanciaEditEffects {
 
     /**
      * Update EspecieRelevancia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -111,15 +112,13 @@ export class EspecieRelevanciaEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieRelevanciaEditActions.UpdateEspecieRelevancia>(EspecieRelevanciaEditActions.UPDATE_ESPECIE_RELEVANCIA),
-                switchMap((action) => {
-                    return this._especieRelevanciaService.patch(action.payload.especieRelevancia, action.payload.changes).pipe(
+                switchMap(action => this._especieRelevanciaService.patch(action.payload.especieRelevancia, action.payload.changes).pipe(
                         mergeMap((response: EspecieRelevancia) => [
                             new EspecieRelevanciaListActions.ReloadEspecieRelevancia(),
                             new AddData<EspecieRelevancia>({data: [response], schema: especieRelevanciaSchema}),
                             new EspecieRelevanciaEditActions.UpdateEspecieRelevanciaSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new EspecieRelevanciaEditActions.UpdateEspecieRelevanciaFailed(err));

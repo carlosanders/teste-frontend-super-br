@@ -85,7 +85,7 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
         const path = '@cdk/components/tarefa/cdk-encaminhamento-form';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                     this._changeDetectorRef.markForCheck();

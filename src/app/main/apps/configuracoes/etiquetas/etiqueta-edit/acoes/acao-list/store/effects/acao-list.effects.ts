@@ -12,6 +12,7 @@ import {AcaoService} from '@cdk/services/acao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Acao} from '@cdk/models';
 import {acao as acaoSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class AcaoListEffect {
@@ -25,7 +26,7 @@ export class AcaoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class AcaoListEffect {
 
     /**
      * Get Acoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class AcaoListEffect {
         this._actions
             .pipe(
                 ofType<AcaoListActions.GetAcoes>(AcaoListActions.GET_ACOES),
-                switchMap((action) => {
-                    return this._acaoService.query(
+                switchMap(action => this._acaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -51,7 +52,7 @@ export class AcaoListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Acao>({data: response['entities'], schema: acaoSchema}),
                             new AcaoListActions.GetAcoesSuccess({
                                 entitiesId: response['entities'].map(acao => acao.id),
@@ -66,12 +67,12 @@ export class AcaoListEffect {
                             console.log(err);
                             return of(new AcaoListActions.GetAcoesFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Acao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -79,14 +80,16 @@ export class AcaoListEffect {
         this._actions
             .pipe(
                 ofType<AcaoListActions.DeleteAcao>(AcaoListActions.DELETE_ACAO),
-                mergeMap((action) => {
-                    return this._acaoService.destroy(action.payload).pipe(
-                        map((response) => new AcaoListActions.DeleteAcaoSuccess(response.id)),
+                mergeMap(action => this._acaoService.destroy(action.payload).pipe(
+                        map(response => new AcaoListActions.DeleteAcaoSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new AcaoListActions.DeleteAcaoFailed(action.payload));
+                            return of(new AcaoListActions.DeleteAcaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -15,7 +15,7 @@ import {atividade as atividadeSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class AtividadeListEffect {
-    
+
     routerState: any;
 
     constructor(
@@ -25,7 +25,7 @@ export class AtividadeListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class AtividadeListEffect {
 
     /**
      * Get Atividades with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class AtividadeListEffect {
         this._actions
             .pipe(
                 ofType<AtividadeListActions.GetAtividades>(AtividadeListActions.GET_ATIVIDADES),
-                exhaustMap((action) => {
-                    return this._atividadeService.query(
+                exhaustMap(action => this._atividadeService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -52,9 +52,8 @@ export class AtividadeListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Atividade>({data: response['entities'], schema: atividadeSchema}),
                     new AtividadeListActions.GetAtividadesSuccess({
                         entitiesId: response['entities'].map(atividade => atividade.id),

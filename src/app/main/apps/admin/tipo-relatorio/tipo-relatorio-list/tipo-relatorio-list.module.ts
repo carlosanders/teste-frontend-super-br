@@ -5,8 +5,8 @@ import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
 import {TipoRelatorioStoreModule} from './store/store.module';
-import {TipoRelatorioService} from '../../../../../../@cdk/services/tipo-relatorio.service';
-import {CdkTipoRelatorioGridModule} from '../../../../../../@cdk/components/tipo-relatorio/cdk-tipo-relatorio-grid/cdk-tipo-relatorio-grid.module';
+import {TipoRelatorioService} from '@cdk/services/tipo-relatorio.service';
+import {CdkTipoRelatorioGridModule} from '@cdk/components/tipo-relatorio/cdk-tipo-relatorio-grid/cdk-tipo-relatorio-grid.module';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -19,14 +19,14 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

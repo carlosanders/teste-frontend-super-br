@@ -24,7 +24,7 @@
 
         <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
             <a class="nav-link" matRipple [routerLink]="'/apps/relatorios/' + generoHandle + '/meus-relatorios/entrada'"
-               [routerLinkActive]="['active', 'accent']">
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">inbox</mat-icon>
                 <span>Entrada</span>
             </a>
@@ -33,7 +33,7 @@
         <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, folder])"
              *ngFor="let folder of (folders$ | async)">
             <a class="nav-link" matRipple [routerLink]="'/apps/relatorios/' + generoHandle + '/meus-relatorios/' + folder.nome | lowercase"
-               [routerLinkActive]="['active', 'accent']">
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
                 <span>{{folder.nome | titlecase}}</span>
             </a>

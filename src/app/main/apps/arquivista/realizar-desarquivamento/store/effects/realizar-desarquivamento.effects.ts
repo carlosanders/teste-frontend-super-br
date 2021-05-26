@@ -16,7 +16,7 @@ import {transicao as transicaoSchema} from '@cdk/normalizr';
 import {getRouterState, State} from '../../../../../../store';
 import * as RealizarDesarquivamentoActions from '../actions/realizar-desarquivamento.actions';
 import * as fromStore from '../../store';
-import {ChangeProcessos, getProcessosIds} from "../../../arquivista-list/store";
+import {ChangeProcessos, getProcessosIds} from '../../../arquivista-list/store';
 
 @Injectable()
 export class RealizarDesarquivamentoEffects {
@@ -33,7 +33,7 @@ export class RealizarDesarquivamentoEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class RealizarDesarquivamentoEffects {
 
     /**
      * Save RealizarTransicao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,14 +50,12 @@ export class RealizarDesarquivamentoEffects {
         this._actions
             .pipe(
                 ofType<RealizarDesarquivamentoActions.SaveRealizarDesarquivamento>(RealizarDesarquivamentoActions.SAVE_REALIZAR_DESARQUIVAMENTO),
-                switchMap((action) => {
-                    return this._transicaoService.save(action.payload).pipe(
+                switchMap(action => this._transicaoService.save(action.payload).pipe(
                         mergeMap((response: Transicao) => [
                             new AddData<Transicao>({data: [response], schema: transicaoSchema}),
                             new RealizarDesarquivamentoActions.SaveRealizarDesarquivamentoSuccess(action.payload)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new RealizarDesarquivamentoActions.SaveRealizarDesarquivamentoFailed(err));
@@ -79,6 +78,7 @@ export class RealizarDesarquivamentoEffects {
 
     /**
      * Get Processo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -94,7 +94,7 @@ export class RealizarDesarquivamentoEffects {
                     ]);
                     return this._processoService.get(action.payload.id, populate);
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new RealizarDesarquivamentoActions.GetProcessoSuccess(response)
                 ]),
                 catchError((err, caught) => {

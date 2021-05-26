@@ -48,7 +48,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 if (this.routerState.url.indexOf('unidades/listar') > -1) {
@@ -85,7 +85,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
         }
         if (this.action === 'setores' || this.action === 'competencias') {
-            this._router.navigate([`apps/admin/unidades/listar`]).then();
+            this._router.navigate(['apps/admin/unidades/listar']).then();
         }
     }
 }

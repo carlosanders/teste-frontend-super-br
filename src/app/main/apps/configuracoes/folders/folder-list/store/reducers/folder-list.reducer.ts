@@ -1,4 +1,5 @@
 import * as FolderListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface FolderListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface FolderListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const FolderListInitialState: FolderListState = {
@@ -31,7 +33,8 @@ export const FolderListInitialState: FolderListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function FolderListReducer(
@@ -67,14 +70,22 @@ export function FolderListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
+            };
+        }
+
+        case FolderListActions.UNLOAD_FOLDERS: {
+            return {
+                ...FolderListInitialState
             };
         }
 
         case FolderListActions.RELOAD_FOLDERS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -99,14 +110,19 @@ export function FolderListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case FolderListActions.DELETE_FOLDER_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

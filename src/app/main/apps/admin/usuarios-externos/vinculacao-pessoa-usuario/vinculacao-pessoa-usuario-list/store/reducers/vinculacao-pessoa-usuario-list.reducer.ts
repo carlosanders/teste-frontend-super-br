@@ -1,4 +1,5 @@
 import * as VinculacaoPessoaUsuarioListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface VinculacaoPessoaUsuarioListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface VinculacaoPessoaUsuarioListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const VinculacaoPessoaUsuarioListInitialState: VinculacaoPessoaUsuarioListState = {
@@ -33,7 +35,8 @@ export const VinculacaoPessoaUsuarioListInitialState: VinculacaoPessoaUsuarioLis
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function VinculacaoPessoaUsuarioListReducer(
@@ -69,6 +72,7 @@ export function VinculacaoPessoaUsuarioListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded: action.payload.loaded,
             };
@@ -101,14 +105,19 @@ export function VinculacaoPessoaUsuarioListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case VinculacaoPessoaUsuarioListActions.DELETE_VINCULACAO_PESSOA_USUARIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

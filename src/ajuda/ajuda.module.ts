@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {AjudaComponent} from './ajuda.component';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 
 
 
 
 
-import {CdkSharedModule} from '../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {
     MatButtonModule,
     MatFormFieldModule,
@@ -14,9 +14,9 @@ import {
     MatInputModule,
     MatTooltipModule
 } from '@cdk/angular/material';
-import {MatDividerModule} from "@angular/material/divider";
-import {MatCardModule} from "@angular/material/card";
-import {TourModule} from "./tour/tour.module";
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
+import {TourModule} from './tour/tour.module';
 
 
 @NgModule({

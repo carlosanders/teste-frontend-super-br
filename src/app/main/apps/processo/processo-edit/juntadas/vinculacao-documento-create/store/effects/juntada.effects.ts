@@ -31,7 +31,7 @@ export class JuntadaEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -40,6 +40,7 @@ export class JuntadaEffects {
 
     /**
      * Get Juntada with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -47,8 +48,7 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<VinculacaoDocumentoCreateActions.GetJuntada>(VinculacaoDocumentoCreateActions.GET_JUNTADA),
-                switchMap((action) => {
-                    return this._juntadaService.query(
+                switchMap(action => this._juntadaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -60,9 +60,8 @@ export class JuntadaEffects {
                             'documento.vinculacoesDocumentos',
                             'documento.tipoDocumento',
                             'documento.vinculacaoDocumentoPrincipal'
-                        ]));
-                }),
-                mergeMap((response) => [
+                        ]))),
+                mergeMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new VinculacaoDocumentoCreateActions.GetJuntadaSuccess({
                         juntadaId: response['entities'][0].id,
@@ -81,6 +80,7 @@ export class JuntadaEffects {
 
     /**
      * Save VinculacaoDocumento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -88,8 +88,7 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<VinculacaoDocumentoCreateActions.SaveVinculacaoDocumento>(VinculacaoDocumentoCreateActions.SAVE_VINCULACAO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._vinculacaoDocumentoService.save(action.payload).pipe(
+                switchMap(action => this._vinculacaoDocumentoService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoDocumento) => [
                             new VinculacaoDocumentoCreateActions.SaveVinculacaoDocumentoSuccess(),
                             new JuntadaListActions.ReloadJuntadas(),
@@ -104,8 +103,7 @@ export class JuntadaEffects {
                             console.log (err);
                             return of(new VinculacaoDocumentoCreateActions.SaveVinculacaoDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

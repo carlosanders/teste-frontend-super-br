@@ -60,7 +60,7 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             nome: `like:%${bit}%`});
                     });
@@ -69,12 +69,10 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         let filterParam = '';
                         if (Array.isArray(this.pagination.filter.orX)) {
-                            const arrayFilterParam = this.pagination.filter.orX.map((v) => {
-                                return {
+                            const arrayFilterParam = this.pagination.filter.orX.map(v => ({
                                     ...v,
                                     andX: andxFilter
-                                };
-                            });
+                                }));
                             filterParam = JSON.stringify({orX: arrayFilterParam});
                         } else {
                             const objectFilterParam = {
@@ -98,7 +96,7 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.etiquetaList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

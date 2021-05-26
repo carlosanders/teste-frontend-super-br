@@ -131,6 +131,9 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -214,7 +217,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -350,6 +353,13 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
         this.create.emit();
     }
 
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
+
     viewProcesso(vinculacaoProcesso: VinculacaoProcesso): void {
 
         let processo = vinculacaoProcesso.processoVinculado;
@@ -367,7 +377,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             this.view.emit({id: processo.id, chaveAcesso: result});
             return;
         });

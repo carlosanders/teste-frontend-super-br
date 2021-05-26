@@ -18,8 +18,8 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../actions';
-import * as fromStoreTarefaDetail from "../../../../tarefas/tarefa-detail/store";
-import {DomSanitizer} from "@angular/platform-browser";
+import * as fromStoreTarefaDetail from '../../../../tarefas/tarefa-detail/store';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Injectable()
 export class ComponentesDigitaisEffects {
@@ -39,7 +39,7 @@ export class ComponentesDigitaisEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -48,6 +48,7 @@ export class ComponentesDigitaisEffects {
 
     /**
      * Get ComponentesDigitais with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -55,7 +56,7 @@ export class ComponentesDigitaisEffects {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.CreateComponenteDigital>(ComponenteDigitalActions.CREATE_COMPONENTE_DIGITAL),
-                map(action => {
+                map((action) => {
 
                     const componenteDigital = new ComponenteDigital();
                     componenteDigital.modelo = action.payload.modelo;
@@ -73,6 +74,7 @@ export class ComponentesDigitaisEffects {
 
     /**
      * Save ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +82,7 @@ export class ComponentesDigitaisEffects {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
+                switchMap(action => this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
                         tap((response) => {
                             this._store.dispatch(new GetDocumentos());
                             if (this.routerState.params['tarefaHandle']) {
@@ -110,13 +111,13 @@ export class ComponentesDigitaisEffects {
                             console.log(err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -129,14 +130,12 @@ export class ComponentesDigitaisEffects {
                         this.routeAtividadeDocumento = action.payload.routeDocumento;
                     }
                 ),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         `{"componentesDigitais.id": "eq:${action.payload.componenteDigitalId}"}`,
                         1,
                         0,
                         '{}',
-                        '[]');
-                }),
+                        '[]')),
                 switchMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new ComponenteDigitalActions.GetDocumentoSuccess({
@@ -159,7 +158,7 @@ export class ComponentesDigitaisEffects {
                 ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
                 tap((action) => {
                     const primary = 'componente-digital/' + action.payload.componenteDigitalId;
-                    let sidebar = 'editar/' + action.payload.routeDocumento;
+                    const sidebar = 'editar/' + action.payload.routeDocumento;
 
                     this._router.navigate([
                             this.routerState.url.split('processo/')[0] + 'processo/' + this.routerState.params.processoHandle
@@ -179,6 +178,7 @@ export class ComponentesDigitaisEffects {
 
     /**
      * Visualizar Modelo
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -203,7 +203,7 @@ export class ComponentesDigitaisEffects {
                         }
                         const byteArray = new Uint8Array(byteNumbers);
                         // Adicionado \ufeff para criar o Blob como utf-8
-                        const blob = new Blob(["\ufeff", byteArray], {type: response.mimetype});
+                        const blob = new Blob(['\ufeff', byteArray], {type: response.mimetype});
                         const URL = window.URL;
                         if (response.mimetype === 'application/pdf' || response.mimetype === 'text/html') {
                             const data = URL.createObjectURL(blob);
@@ -213,8 +213,8 @@ export class ComponentesDigitaisEffects {
                                 window.URL.revokeObjectURL(data);
                             }, 100);
                         } else {
-                            const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
-                                downloadLink = document.createElement('a');
+                            const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                                const downloadLink = document.createElement('a');
                             const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                             downloadLink.target = '_blank';
                             downloadLink.href = sanitizedUrl;
@@ -240,6 +240,7 @@ export class ComponentesDigitaisEffects {
 
     /**
      * Visualizar Juntada em outra aba
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -264,7 +265,7 @@ export class ComponentesDigitaisEffects {
                      }
                      const byteArray = new Uint8Array(byteNumbers);
                      // Adicionado \ufeff para criar o Blob como utf-8
-                     const blob = new Blob(["\ufeff", byteArray], {type: response.mimetype});
+                     const blob = new Blob(['\ufeff', byteArray], {type: response.mimetype});
                      const URL = window.URL;
                      if (response.mimetype === 'application/pdf' || response.mimetype === 'text/html') {
                          const data = URL.createObjectURL(blob);
@@ -274,8 +275,8 @@ export class ComponentesDigitaisEffects {
                              window.URL.revokeObjectURL(data);
                          }, 100);
                      } else {
-                         const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
-                             downloadLink = document.createElement('a');
+                         const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                             const downloadLink = document.createElement('a');
                          const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                          downloadLink.target = '_blank';
                          downloadLink.href = sanitizedUrl;
@@ -292,7 +293,7 @@ export class ComponentesDigitaisEffects {
              }),
              catchError((err, caught) => {
                  console.log(err);
-                 this._store.dispatch(new ComponenteDigitalActions.VisualizarModeloFailed(err));
+                 this._store.dispatch(new ComponenteDigitalActions.VisualizarJuntadaFailed(err));
                  return caught;
              })
          );

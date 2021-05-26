@@ -67,7 +67,6 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
      */
     ngOnDestroy(): void
     {
-        console.log('destroy?')
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

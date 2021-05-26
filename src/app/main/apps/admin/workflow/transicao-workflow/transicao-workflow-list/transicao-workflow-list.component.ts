@@ -3,9 +3,9 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {TransicaoWorkflow} from '../../../../../../../@cdk/models/transicao-workflow.model';
+import {TransicaoWorkflow} from '@cdk/models/transicao-workflow.model';
 import {getRouterState} from '../../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Back} from '../../../../../../store/actions';
 
 @Component({
@@ -24,6 +24,7 @@ export class TransicaoWorkflowListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     constructor(
@@ -36,11 +37,12 @@ export class TransicaoWorkflowListComponent implements OnInit {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
 
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -48,7 +50,7 @@ export class TransicaoWorkflowListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
@@ -75,7 +77,7 @@ export class TransicaoWorkflowListComponent implements OnInit {
     edit(transicaoWorkflowId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId]);
     }
-    
+
     regras(transicaoWorkflowId: number): void {
         this._router.navigate(
             [this.routerState.url.replace('listar', '') + transicaoWorkflowId + '/validacoes'])

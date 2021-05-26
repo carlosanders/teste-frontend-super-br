@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getSelectedTarefas} from '../store/selectors';
+import {getSelectedTarefas} from '../store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -83,7 +83,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -93,7 +93,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -121,7 +121,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefaBloco => {
+        this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
             Object.entries(values).forEach(

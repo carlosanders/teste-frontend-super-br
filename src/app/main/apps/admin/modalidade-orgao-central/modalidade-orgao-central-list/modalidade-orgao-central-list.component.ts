@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ModalidadeOrgaoCentral} from '../../../../../../@cdk/models';
+import {ModalidadeOrgaoCentral} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadModalidadeOrgaoCentral} from './store';
+
 
 @Component({
     selector: 'modalidade-orgao-central-list',
@@ -15,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModalidadeOrgaoCentralListComponent implements OnInit {
+export class ModalidadeOrgaoCentralListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     modalidadeOrgaoCentralList$: Observable<ModalidadeOrgaoCentral[]>;
@@ -23,6 +25,7 @@ export class ModalidadeOrgaoCentralListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     constructor(
@@ -36,7 +39,7 @@ export class ModalidadeOrgaoCentralListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,10 +47,16 @@ export class ModalidadeOrgaoCentralListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadModalidadeOrgaoCentral());
+    }
+
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetModalidadeOrgaoCentral({

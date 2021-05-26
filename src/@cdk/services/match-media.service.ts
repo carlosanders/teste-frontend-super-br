@@ -14,7 +14,7 @@ export class CdkMatchMediaService
     /**
      * Constructor
      *
-     * @param {MediaObserver} _mediaObserver
+     * @param _mediaObserver
      */
     constructor(
         private _mediaObserver: MediaObserver

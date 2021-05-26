@@ -13,7 +13,7 @@ import { CdkModalidadeVinculacaoDocumentoGridModule } from '@cdk/components/moda
     imports: [
 
         CdkModalidadeVinculacaoDocumentoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

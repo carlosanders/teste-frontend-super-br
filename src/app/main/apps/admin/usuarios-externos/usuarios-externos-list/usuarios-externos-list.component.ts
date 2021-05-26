@@ -1,12 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {Usuario} from '../../../../../../@cdk/models';
+import {Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as fromStorePessoaUsuarioList from '../vinculacao-pessoa-usuario/vinculacao-pessoa-usuario-list/store';
 import {getRouterState} from '../../../../../store/reducers';
+import {UnloadUsuariosExternos} from './store';
 
 @Component({
     selector: 'usuarios-externos-list',
@@ -16,7 +17,7 @@ import {getRouterState} from '../../../../../store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class UsuariosExternosListComponent implements OnInit {
+export class UsuariosExternosListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     usuarios$: Observable<Usuario[]>;
@@ -24,6 +25,7 @@ export class UsuariosExternosListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     public externo = true;
 
@@ -36,11 +38,12 @@ export class UsuariosExternosListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -48,9 +51,14 @@ export class UsuariosExternosListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadUsuariosExternos());
     }
 
     reload(params): void {

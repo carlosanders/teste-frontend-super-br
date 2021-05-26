@@ -73,7 +73,7 @@ export class CdkLembreteGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.lembretes = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

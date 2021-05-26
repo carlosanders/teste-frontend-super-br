@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 
 
 import { AjudaProtocoloCreateComponent } from './ajuda-protocolo-create.component';
@@ -10,7 +10,7 @@ import { AjudaSigilosModule } from 'app/main/apps/processo/processo-edit/sigilos
 import { AjudaVisibilidadesModule } from 'app/main/apps/processo/processo-edit/visibilidades/ajuda/ajuda-visibilidades.module';
 
 
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [
@@ -23,7 +23,7 @@ import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
         AjudaInteressadosModule,
         AjudaTramitacoesModule,
         AjudaSigilosModule,
-        AjudaVisibilidadesModule, 
+        AjudaVisibilidadesModule,
     ],
     providers: [
     ],

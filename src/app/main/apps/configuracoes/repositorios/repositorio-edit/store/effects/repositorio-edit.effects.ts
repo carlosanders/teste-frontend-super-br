@@ -29,7 +29,7 @@ export class RepositorioEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class RepositorioEditEffect {
 
     /**
      * Get Repositorio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,14 +46,12 @@ export class RepositorioEditEffect {
         this._actions
             .pipe(
                 ofType<RepositorioEditActions.GetRepositorio>(RepositorioEditActions.GET_REPOSITORIO),
-                switchMap((action) => {
-                    return this._repositorioService.get(
+                switchMap(action => this._repositorioService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
                     new RepositorioEditActions.GetRepositorioSuccess({
@@ -72,6 +71,7 @@ export class RepositorioEditEffect {
 
     /**
      * Save Repositorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -79,15 +79,13 @@ export class RepositorioEditEffect {
         this._actions
             .pipe(
                 ofType<RepositorioEditActions.SaveRepositorio>(RepositorioEditActions.SAVE_REPOSITORIO),
-                switchMap((action) => {
-                    return this._repositorioService.save(action.payload).pipe(
+                switchMap(action => this._repositorioService.save(action.payload).pipe(
                         mergeMap((response: Repositorio) => [
                             new RepositorioEditActions.SaveRepositorioSuccess(),
                             new RepositorioListActions.ReloadRepositorios(),
                             new AddData<Repositorio>({data: [response], schema: repositorioSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new RepositorioEditActions.SaveRepositorioFailed(err));

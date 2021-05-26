@@ -49,6 +49,8 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
 
     routerState: any;
 
+    assinaturaInterval = null;
+
     /**
      *
      * @param _store
@@ -73,7 +75,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         this._store
             .pipe(
                 select(getMercureState),
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -106,9 +108,9 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
     ngOnInit(): void {
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
+        this.assinandoDocumentosVinculadosId$.subscribe((assinandoDocumentosVinculadosId) => {
             if (assinandoDocumentosVinculadosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosVinculadosId.length > 0)) {
                         assinandoDocumentosVinculadosId.forEach(
@@ -116,6 +118,8 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
         });
@@ -123,7 +127,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -134,7 +138,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         const path = 'app/main/apps/documento/documento-avulso-edit/anexos';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

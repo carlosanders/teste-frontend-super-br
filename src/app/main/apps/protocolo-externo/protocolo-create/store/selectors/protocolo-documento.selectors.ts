@@ -49,12 +49,10 @@ export const getDeletingDocumentosId = createSelector(
 
 export const getConvertendoAllDocumentosId = createSelector(
     getProtocoloDocumentoState,
-    (state: ProtocoloDocumentoState) => {
-        return [
+    (state: ProtocoloDocumentoState) => [
             ...state.convertendoDocumentoIds,
             ...state.convertendoDocumentoHtmlIds
-        ];
-    }
+        ]
 );
 
 export const getConvertendoDocumentosId = createSelector(

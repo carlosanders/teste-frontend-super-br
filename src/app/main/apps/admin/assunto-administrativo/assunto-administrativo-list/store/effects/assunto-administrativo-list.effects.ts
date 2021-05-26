@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as AssuntoAdministrativoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {AssuntoAdministrativoService} from '../../../../../../../../@cdk/services/assunto-administrativo.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {AssuntoAdministrativo} from '../../../../../../../../@cdk/models';
-import {assuntoAdministrativo as assuntoAdministrativoSchema} from '../../../../../../../../@cdk/normalizr';
+import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {AssuntoAdministrativo} from '@cdk/models';
+import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class AssuntoAdministrativoListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class AssuntoAdministrativoListEffects {
 
     /**
      * Get AssuntoAdministrativo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class AssuntoAdministrativoListEffects {
         this._actions
             .pipe(
                 ofType<AssuntoAdministrativoListActions.GetAssuntoAdministrativo>(AssuntoAdministrativoListActions.GET_ASSUNTO_ADMINISTRATIVO),
-                switchMap((action) => {
-                    return this._assuntoAdministrativoService.query(
+                switchMap(action => this._assuntoAdministrativoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class AssuntoAdministrativoListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<AssuntoAdministrativo>({data: response['entities'], schema: assuntoAdministrativoSchema}),
                             new AssuntoAdministrativoListActions.GetAssuntoAdministrativoSuccess({
                                 entitiesId: response['entities'].map(assuntoAdministrativo => assuntoAdministrativo.id),
@@ -69,8 +69,7 @@ export class AssuntoAdministrativoListEffects {
                             console.log(err);
                             return of(new AssuntoAdministrativoListActions.GetAssuntoAdministrativoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

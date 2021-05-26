@@ -12,6 +12,7 @@ import {TipoRelatorioService} from '@cdk/services/tipo-relatorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 
 @Injectable()
@@ -27,7 +28,7 @@ export class TipoRelatorioListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +37,7 @@ export class TipoRelatorioListEffects {
 
     /**
      * Get TipoRelatorio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +45,7 @@ export class TipoRelatorioListEffects {
         this._actions
             .pipe(
                 ofType<TipoRelatorioListActions.GetTipoRelatorio>(TipoRelatorioListActions.GET_TIPO_RELATORIO),
-                switchMap((action) => {
-                    return this._tipoRelatorioService.query(
+                switchMap(action => this._tipoRelatorioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +55,7 @@ export class TipoRelatorioListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<TipoRelatorio>({data: response['entities'], schema: tipoRelatorioSchema}),
                             new TipoRelatorioListActions.GetTipoRelatorioSuccess({
                                 entitiesId: response['entities'].map(tipoRelatorio => tipoRelatorio.id),
@@ -69,12 +70,12 @@ export class TipoRelatorioListEffects {
                             console.log(err);
                             return of(new TipoRelatorioListActions.GetTipoRelatorioFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete TipoRelatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,17 @@ export class TipoRelatorioListEffects {
         this._actions
             .pipe(
                 ofType<TipoRelatorioListActions.DeleteTipoRelatorio>(TipoRelatorioListActions.DELETE_TIPO_RELATORIO),
-                mergeMap((action) => {
-                    return this._tipoRelatorioService.destroy(action.payload).pipe(
-                        map((response) => new TipoRelatorioListActions.DeleteTipoRelatorioSuccess(response.id)),
+                mergeMap(action => this._tipoRelatorioService.destroy(action.payload).pipe(
+                        map(response => new TipoRelatorioListActions.DeleteTipoRelatorioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TipoRelatorioListActions.DeleteTipoRelatorioFailed(action.payload));
+                            return of(new TipoRelatorioListActions.DeleteTipoRelatorioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
+
                         })
-                    );
-                })
+                    ))
             );
 }

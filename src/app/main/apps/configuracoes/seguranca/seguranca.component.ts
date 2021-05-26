@@ -47,7 +47,7 @@ export class SegurancaComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

@@ -12,6 +12,7 @@ import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal
 import {AddData} from '@cdk/ngrx-normalizr';
 import {RelacionamentoPessoal} from '@cdk/models';
 import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class RelacionamentoListEffect {
@@ -25,7 +26,7 @@ export class RelacionamentoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +35,7 @@ export class RelacionamentoListEffect {
 
     /**
      * Get Relacionamentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +43,7 @@ export class RelacionamentoListEffect {
         this._actions
             .pipe(
                 ofType<RelacionamentoListActions.GetRelacionamentos>(RelacionamentoListActions.GET_RELACIONAMENTOS),
-                switchMap((action) => {
-                    return this._relacionamentoPessoalService.query(
+                switchMap(action => this._relacionamentoPessoalService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +53,8 @@ export class RelacionamentoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
-                mergeMap((response) => [
+                        ]))),
+                mergeMap(response => [
                     new AddData<RelacionamentoPessoal>({data: response['entities'], schema: relacionamentoSchema}),
                     new RelacionamentoListActions.GetRelacionamentosSuccess({
                         entitiesId: response['entities'].map(relacionamento => relacionamento.id),
@@ -75,6 +75,7 @@ export class RelacionamentoListEffect {
 
     /**
      * Delete Relacionamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +83,16 @@ export class RelacionamentoListEffect {
         this._actions
             .pipe(
                 ofType<RelacionamentoListActions.DeleteRelacionamento>(RelacionamentoListActions.DELETE_RELACIONAMENTO),
-                mergeMap((action) => {
-                    return this._relacionamentoPessoalService.destroy(action.payload).pipe(
-                        map((response) => new RelacionamentoListActions.DeleteRelacionamentoSuccess(response.id)),
+                mergeMap(action => this._relacionamentoPessoalService.destroy(action.payload).pipe(
+                        map(response => new RelacionamentoListActions.DeleteRelacionamentoSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new RelacionamentoListActions.DeleteRelacionamentoFailed(action.payload));
+                            return of(new RelacionamentoListActions.DeleteRelacionamentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

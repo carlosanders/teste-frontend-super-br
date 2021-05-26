@@ -126,6 +126,9 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -205,7 +208,7 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -339,5 +342,12 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

@@ -67,7 +67,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
             principal: [null],
             assuntoAdministrativo: [null, [Validators.required]]
         });
-        
+
         this.assuntoAdministrativoPagination = new Pagination();
 
     }
@@ -98,7 +98,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -133,7 +133,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
             this.form.get('assuntoAdministrativo').setValue(null);
         }
     }
-    
+
     selectAssuntoAdministrativo(assuntoAdministrativo: AssuntoAdministrativo): void {
         if (assuntoAdministrativo) {
             this.form.get('assuntoAdministrativo').setValue(assuntoAdministrativo);
@@ -162,12 +162,13 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.assuntoAdministrativoPagination.populate)
         ).pipe(
             finalize(() => this.assuntoAdministrativoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.assuntoAdministrativoList = [];
                 response['entities'].forEach((favorito) => {
                     this.assuntoAdministrativoList.push(favorito.objFavoritoClass[0]);

@@ -26,7 +26,7 @@ export class GeneroRelatoriosEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class GeneroRelatoriosEffects {
 
     /**
      * Get GeneroRelatorios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,16 +43,14 @@ export class GeneroRelatoriosEffects {
         this._actions
             .pipe(
                 ofType<GeneroRelatoriosActions.GetGeneroRelatorios>(GeneroRelatoriosActions.GET_GENERO_RELATORIOS),
-                switchMap(() => {
-                    return this._generoRelatorioService.query(
+                switchMap(() => this._generoRelatorioService.query(
                         JSON.stringify({}),
                         100,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 mergeMap(response => [
                     new AddData<GeneroRelatorio>({data: response['entities'], schema: generoRelatorioSchema}),
                     new GeneroRelatoriosActions.GetGeneroRelatoriosSuccess({

@@ -5,6 +5,8 @@ export const GET_PESSOA_SUCCESS = '[ADMIN PESSOA LIST] GET PESSOA SUCCESS';
 export const GET_PESSOA_FAILED = '[ADMIN PESSOA LIST] GET PESSOA FAILED';
 
 export const RELOAD_PESSOA = '[ADMIN PESSOA LIST] RELOAD PESSOA';
+export const UNLOAD_PESSOA = '[ADMIN PESSOA LIST] UNLOAD PESSOA';
+
 
 /**
  * Get Pessoa
@@ -37,6 +39,18 @@ export class GetPessoaFailed implements Action {
 }
 
 /**
+ * Unload Pessoa
+ */
+ export class UnloadPessoa implements Action
+ {
+     readonly type = UNLOAD_PESSOA;
+
+     constructor()
+     {
+     }
+ }
+
+/**
  * Reload Pessoa
  */
 export class ReloadPessoa implements Action {
@@ -51,5 +65,6 @@ export type PessoaListActionsAll
     = GetPessoa
     | GetPessoaSuccess
     | GetPessoaFailed
+    | UnloadPessoa
     | ReloadPessoa;
 

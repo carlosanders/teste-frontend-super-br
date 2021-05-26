@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getFavoritoListState,
+    (state: FavoritoListState) => state.deletingErrors
+);

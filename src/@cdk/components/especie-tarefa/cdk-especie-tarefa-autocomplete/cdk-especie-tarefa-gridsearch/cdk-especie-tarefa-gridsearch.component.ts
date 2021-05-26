@@ -81,7 +81,7 @@ export class CdkEspecieTarefaGridsearchComponent implements OnInit {
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.especieTarefas = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

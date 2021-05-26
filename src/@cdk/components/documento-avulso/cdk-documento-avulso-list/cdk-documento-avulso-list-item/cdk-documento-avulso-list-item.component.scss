@@ -11,6 +11,11 @@ cdk-documento-avulso-list-item {
 
     .info {
 
+        word-break: break-word;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+
         &.nao-lido {
             font-weight: bold;
         }

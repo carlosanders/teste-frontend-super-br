@@ -21,9 +21,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {AcaoListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkAcaoListModule} from '@cdk/components/acao/cdk-acao-list/cdk-acao-list.module';
-import {AcaoService} from '../../../../../../../../@cdk/services/acao.service';
+import {AcaoService} from '@cdk/services/acao.service';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

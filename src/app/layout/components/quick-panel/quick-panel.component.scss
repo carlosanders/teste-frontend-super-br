@@ -4,7 +4,6 @@ cdk-sidebar {
 
     &.quick-panel {
         overflow: hidden;
-        z-index: 0;
 
         &.quick-panel:not(.open) {
 
@@ -153,5 +152,11 @@ quick-panel {
                 }
             }
         }
+    }
+}
+
+.quick-panel-filter {
+    > span {
+        white-space: inherit !important;
     }
 }

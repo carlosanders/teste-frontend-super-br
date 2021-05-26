@@ -2,7 +2,7 @@ import {CdkNavigation} from '@cdk/types';
 
 export const navigationConverter = {
     'arquivistico': 'arquivístico'
-}
+};
 
 export const navigation: CdkNavigation[] = [
     {

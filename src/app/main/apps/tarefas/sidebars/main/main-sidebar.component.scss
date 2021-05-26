@@ -1,4 +1,4 @@
-@import '../../../../../../@cdk/scss/cdk';
+@import '@cdk/scss/cdk';
 
 tarefas-main-sidebar {
     display: flex;
@@ -44,6 +44,67 @@ tarefas-main-sidebar {
         flex-direction: column;
         height: 0;
         overflow-y: auto;
+
+        .nova-pasta {
+            display: flex;
+            flex-direction: row;
+            flex: 0 1 auto;
+            justify-content: flex-start;
+            align-items: center;
+            border-radius: 20px;
+            background: white;
+            margin-left: 6px;
+            margin-right: 6px;
+            margin-top: 16px;
+            height: 46px;
+
+            @include mat-elevation(1);
+
+            .campo-nova-pasta {
+                display: flex;
+                flex: 1 1 auto;
+                height: 46px;
+                align-items: center;
+
+                .mat-form-field {
+                    flex: 1 1 auto;
+                    display: flex;
+                    margin: -10px 0 -10px 8px;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+
+                    .mat-form-field-wrapper {
+                        flex: 1 1 auto;
+
+                        .mat-form-field-infix {
+                            width: auto;
+                        }
+                    }
+                }
+
+                > .actions {
+                    display: flex;
+                    flex-direction: row;
+                    flex: 1 1 auto;
+                    margin-right: 4px;
+
+                    > button {
+                        height: 36px;
+                        width: 36px;
+                        line-height: 36px;
+                        margin-right: 2px;
+                    }
+                }
+            }
+        }
+
+        .erro-pasta {
+            margin: 4px 0 4px 14px;
+            font-size: small;
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: flex-start;
+        }
 
         [dndDropzone] {
             transition: all 300ms ease;
@@ -97,14 +158,6 @@ tarefas-main-sidebar {
 
         > .create-button {
             margin: 16px;
-        }
-
-        .input-add-pasta {
-            width: 199px;
-            height: 24px;
-            border-radius: 10px;
-            align-items: center;
-            margin-top: 12px;
         }
 
         .btn_menu_folder {

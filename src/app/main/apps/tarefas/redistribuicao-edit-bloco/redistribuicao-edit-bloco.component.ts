@@ -20,9 +20,9 @@ import {Router} from '@angular/router';
 import {filter, skip, take, takeUntil, tap} from 'rxjs/operators';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {Back} from 'app/store/actions';
-import {MatDialog} from "../../../../../@cdk/angular/material";
-import {ModalAvisoRestricaoNupComponent} from "../modal-aviso-restricao-nup/modal-aviso-restricao-nup.component";
-import {getTarefasProcessoRestritoValidadas} from "./store";
+import {MatDialog} from '@cdk/angular/material';
+import {ModalAvisoRestricaoNupComponent} from '../modal-aviso-restricao-nup/modal-aviso-restricao-nup.component';
+import {getTarefasProcessoRestritoValidadas} from './store';
 
 @Component({
     selector: 'redistribuicao-edit-bloco',
@@ -98,10 +98,10 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => {
+        ).subscribe((tarefas) => {
             this.tarefas = tarefas;
 
-            tarefas.forEach(tarefa => {
+            tarefas.forEach((tarefa) => {
                 if (tarefa.processo.acessoRestrito === true && !this.processosRestritos.includes(tarefa.processo)) {
                     this.processosRestritos.push(tarefa.processo);
 
@@ -124,8 +124,8 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
                 .pipe(
                     tap(
                         (value) => {
-                            let tarefasValidadas = [];
-                            this.tarefas.forEach(tarefa => tarefasValidadas.push(tarefa.id))
+                            const tarefasValidadas = [];
+                            this.tarefas.forEach(tarefa => tarefasValidadas.push(tarefa.id));
                             this._store.dispatch(
                                 new fromStore.TarefasProcessoRestritoValidadasSuccess(
                                     tarefasValidadas
@@ -140,7 +140,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -148,7 +148,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
@@ -160,7 +160,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
 
                     this.reloadTarefas();
 
@@ -173,7 +173,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -217,7 +217,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefaBloco => {
+        this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
             Object.entries(tarefaBloco).forEach(
@@ -240,7 +240,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         });
     }
 
-    doRestricoesAcesso(processo:Processo): void {
+    doRestricoesAcesso(processo: Processo): void {
         this._router.navigate(['apps/tarefas/' +
         this.routerState.params.generoHandle + '/' +
         this.routerState.params.typeHandle + '/' +

@@ -6,7 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {modulesConfig} from 'modules/modules-config';
 import {DocumentoAvulsoEditAnexosStoreModule} from './store/store.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';

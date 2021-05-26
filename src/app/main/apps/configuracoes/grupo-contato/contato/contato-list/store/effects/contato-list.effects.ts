@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Contato} from '@cdk/models';
 import {contato as contatoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class ContatoListEffect {
@@ -27,7 +28,7 @@ export class ContatoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,14 +37,13 @@ export class ContatoListEffect {
 
     /**
      * Get Contato with router parameters
+     *
      * @type {Observable<any>}
      */
-    getContato: any = createEffect(() => {
-        return this._actions
+    getContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<ContatoListActions.GetContato>(ContatoListActions.GET_CONTATOS),
-                switchMap((action) => {
-                    return this._contatoService.query(
+                switchMap(action => this._contatoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,7 +53,7 @@ export class ContatoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Contato>({data: response['entities'], schema: contatoSchema}),
                             new ContatoListActions.GetContatoSuccess({
                                 entitiesId: response['entities'].map(contato => contato.id),
@@ -64,30 +64,25 @@ export class ContatoListEffect {
                                 total: response['total']
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new ContatoListActions.GetContatoFailed(err));
-                        })
-                    );
-                })
-            )
-    });
+                        catchError(err => of(new ContatoListActions.GetContatoFailed(err)))
+                    ))
+            ));
 
     /**
      * Delete Contato
+     *
      * @type {Observable<any>}
      */
-    deleteContato: any = createEffect(() => {
-        return this._actions
+    deleteContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<ContatoListActions.DeleteContato>(ContatoListActions.DELETE_CONTATO),
-                mergeMap((action) => {
-                    return this._contatoService.destroy(action.payload).pipe(
-                        map((response) => new ContatoListActions.DeleteContatoSuccess(response.id)),
-                        catchError((err) => {
-                            return of(new ContatoListActions.DeleteContatoFailed(action.payload));
-                        })
-                    );
-                })
-            )
-    });
+                mergeMap(action => this._contatoService.destroy(action.payload).pipe(
+                        map(response => new ContatoListActions.DeleteContatoSuccess(response.id)),
+                        catchError(err => of(new ContatoListActions.DeleteContatoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            ))
+                    ))
+            ));
 }

@@ -13,6 +13,7 @@ import {NumeroUnicoDocumento} from '@cdk/models';
 import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class NumeroUnicoDocumentoListEffect {
@@ -30,7 +31,7 @@ export class NumeroUnicoDocumentoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.id = 'unidadeHandle';
@@ -48,6 +49,7 @@ export class NumeroUnicoDocumentoListEffect {
 
     /**
      * Get NumerosUnicosDocumentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -55,8 +57,7 @@ export class NumeroUnicoDocumentoListEffect {
         this._actions
             .pipe(
                 ofType<NumeroUnicoDocumentoListActions.GetNumerosUnicosDocumentos>(NumeroUnicoDocumentoListActions.GET_NUMEROS_UNICOS_DOCUMENTOS),
-                switchMap((action) => {
-                    return this._numeroUnicoDocumentoService.query(
+                switchMap(action => this._numeroUnicoDocumentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -66,7 +67,7 @@ export class NumeroUnicoDocumentoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<NumeroUnicoDocumento>({data: response['entities'], schema: numeroUnicoDocumentoSchema}),
                             new NumeroUnicoDocumentoListActions.GetNumerosUnicosDocumentosSuccess({
                                 entitiesId: response['entities'].map(numeroUnicoDocumento => numeroUnicoDocumento.id),
@@ -81,12 +82,12 @@ export class NumeroUnicoDocumentoListEffect {
                             console.log(err);
                             return of(new NumeroUnicoDocumentoListActions.GetNumerosUnicosDocumentosFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete NumeroUnicoDocumento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -94,14 +95,16 @@ export class NumeroUnicoDocumentoListEffect {
         this._actions
             .pipe(
                 ofType<NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumento>(NumeroUnicoDocumentoListActions.DELETE_NUMERO_UNICO_DOCUMENTO),
-                mergeMap((action) => {
-                    return this._numeroUnicoDocumentoService.destroy(action.payload).pipe(
-                        map((response) => new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoSuccess(response.id)),
+                mergeMap(action => this._numeroUnicoDocumentoService.destroy(action.payload).pipe(
+                        map(response => new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoFailed(action.payload));
+                            return of(new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
-                    );
-                })
+                    ))
             );
 }

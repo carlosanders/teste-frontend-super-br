@@ -70,7 +70,7 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
         this.documentosAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentosAvulso => {
+            (documentosAvulso) => {
                 this.documentoAvulsoPrincipal = documentosAvulso[0] ? documentosAvulso[0].id : null;
                 this.documentosAvulsoBloco  = documentosAvulso.filter(documentoAvulso => documentosAvulso[0].id !== documentoAvulso.id);
                 this._changeDetectorRef.markForCheck();
@@ -80,7 +80,7 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -106,7 +106,7 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
     onComplete(componenteDigital: ComponenteDigital): void {
         this.operacoes.push({
             type: 'upload',
-            content: `Upload realizado com sucesso!`,
+            content: 'Upload realizado com sucesso!',
             success: true
         });
         this._changeDetectorRef.markForCheck();

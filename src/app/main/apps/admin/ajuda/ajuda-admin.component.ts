@@ -12,10 +12,10 @@ import {cdkAnimations} from '@cdk/animations';
     animations: cdkAnimations
 })
 export class AjudaAdminComponent {
-    
+
     topicos: Topico[] = [];
     titulo = 'admin';
-    
+
     carregar(topico: string): void {
         this.titulo = topico;
     }

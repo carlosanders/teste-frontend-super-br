@@ -2,7 +2,7 @@ import { Component, AfterViewInit, AfterViewChecked, OnDestroy} from '@angular/c
 import { ShepherdService } from 'angular-shepherd';
 import Shepherd from 'shepherd.js';
 import { steps as defaultSteps, defaultStepOptions} from './data';
-import {CdkSidebarService} from "../../@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
   selector: 'shepherd',
@@ -25,7 +25,7 @@ export class ShepherdComponent implements AfterViewChecked{
             this.tourInicio = false;
             this.shepherdService.isActive = true;
         }
-      
+
   }
 
     tour:  Shepherd.Tour.TourOptions[] = [

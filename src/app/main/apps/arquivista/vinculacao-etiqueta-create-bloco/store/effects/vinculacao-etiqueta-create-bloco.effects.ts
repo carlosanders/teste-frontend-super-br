@@ -16,8 +16,8 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 import {processo as processoSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../@cdk/utils";
-import {ChangeSelectedProcessos, getSelectedProcessoIds, ReloadProcessos} from "../../../arquivista-list/store";
+import {CdkUtils} from '@cdk/utils';
+import {ChangeSelectedProcessos, getSelectedProcessoIds, ReloadProcessos} from '../../../arquivista-list/store';
 
 @Injectable()
 export class VinculacaoEtiquetaCreateBlocoEffect {
@@ -32,7 +32,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
 
     /**
      * Save Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,9 +49,8 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
-                        tap((response) => response.processo = null),
+                mergeMap(action => this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                        tap(response => response.processo = null),
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaSuccess(action.payload),
                             new AddChildData<VinculacaoEtiqueta>({
@@ -87,8 +87,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                             }));
                             return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     @Effect({dispatch: false})

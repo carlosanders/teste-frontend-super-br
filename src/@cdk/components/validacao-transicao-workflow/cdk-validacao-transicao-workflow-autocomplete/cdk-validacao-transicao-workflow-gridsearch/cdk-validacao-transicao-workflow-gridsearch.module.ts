@@ -13,7 +13,7 @@ import { CdkValidacaoTransicaoWorkflowGridModule } from '@cdk/components/validac
     imports: [
 
         CdkValidacaoTransicaoWorkflowGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

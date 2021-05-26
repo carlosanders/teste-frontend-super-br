@@ -139,14 +139,14 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
         });
 
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter((tarefa) => !!tarefa)
-        ).subscribe(tarefa => {
+            filter(tarefa => !!tarefa)
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
 
             if (tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
@@ -172,7 +172,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
