@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
@@ -10,10 +10,11 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {Usuario} from '@cdk/models';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {usuario as usuarioSchema} from '@cdk/normalizr';
+import {ComponenteDigital, Usuario} from '@cdk/models';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {usuario as usuarioSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import * as LoginActions from '../../../../../auth/login/store/actions/login.actions';
+import {ComponenteDigitalService} from "../../../../../../../@cdk/services/componente-digital.service";
 
 @Injectable()
 export class ProfileEffect {
@@ -22,28 +23,24 @@ export class ProfileEffect {
     constructor(
         private _actions: Actions,
         private _usuarioService: UsuarioService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _store: Store<State>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe((routerState) => {
+            .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
             });
     }
 
-    /**
-     * Save Profile
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveProfile: any =
-        this._actions
+    saveProfile: any = createEffect(() => {
+        return this._actions
             .pipe(
                 ofType<ProfileActions.SaveProfile>(ProfileActions.SAVE_PERFIL),
-                switchMap(action => this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+                switchMap((action) => {
+                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
                         mergeMap((response: Usuario) => [
                             new UpdateData<Usuario>({id: response.id, schema: usuarioSchema, changes: {assinaturaHTML: response.assinaturaHTML}}),
                             new ProfileActions.SaveProfileSuccess(),  new OperacoesActions.Resultado({
@@ -54,9 +51,46 @@ export class ProfileEffect {
                             new LoginActions.LoginProfile({redirect: false})
                         ]),
                         catchError((err) => {
-                            console.log (err);
                             return of(new ProfileActions.SaveProfileFailed(err));
                         })
-                    ))
+                    );
+                })
             );
+    });
+
+    uploadImagemPerfil: any = createEffect(() => {
+        return this._actions
+            .pipe(
+                ofType<ProfileActions.UploadImagemPerfil>(ProfileActions.UPLOAD_IMAGEM_PERFIL),
+                switchMap((action) => {
+                    return this._componenteDigitalService.save(action.payload).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema}),
+                            new ProfileActions.UploadImagemPerfilSuccess(response)
+                        ]),
+                        catchError((err) => {
+                            return of(new ProfileActions.UploadImagemPerfilFailed(err));
+                        })
+                    );
+                })
+            );
+    });
+
+    uploadImagemChancela: any = createEffect(() => {
+        return this._actions
+            .pipe(
+                ofType<ProfileActions.UploadImagemChancela>(ProfileActions.UPLOAD_IMAGEM_CHANCELA),
+                switchMap((action) => {
+                    return this._componenteDigitalService.save(action.payload).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema}),
+                            new ProfileActions.UploadImagemChancelaSuccess(response)
+                        ]),
+                        catchError((err) => {
+                            return of(new ProfileActions.UploadImagemChancelaFailed(err));
+                        })
+                    );
+                })
+            );
+    });
 }

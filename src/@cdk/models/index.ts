@@ -125,3 +125,6 @@ export * from './tipo-contato.model';
 export * from './tipo-notificacao.model';
 export * from './grupo-contato.model';
 export * from './contato.model';
+export * from './chat.model';
+export * from './chat-mensagem.model';
+export * from './chat-participante.model';

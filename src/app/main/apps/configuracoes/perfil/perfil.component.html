@@ -1,3 +1,4 @@
+
 <div class="header">
     <path icone="person"
           [caminhoAbsoluto]="routerState.url"
@@ -6,10 +7,72 @@
 </div>
 <div class="content">
     <cdk-perfil-form
+        *ngIf="activeCard === 'form'"
         [usuario]="usuario"
         [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
+        [errors]="errors"
         (save)="submit($event)"
+        (uploadImagemPerfilHandler)="doUploadImagemPerfil()"
+        (uploadImagemChancelaHandler)="doUploadImagemChancela()"
         (abort)="doAbort()">
     </cdk-perfil-form>
+    <form fxLayoutGap="16px" *ngIf="activeCard !== 'form'">
+        <ng-container *ngIf="activeCard === 'crop-imagem-perfil'">
+            <image-cropper
+                #imgPerfilCropComponent
+                [imageChangedEvent]="imagemPerfilEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="1/1"
+                [resizeToWidth]="254"
+                [autoCrop]="false"
+                format="jpeg"
+                [roundCropper]="true"
+                (imageCropped)="imagemPerfilCropped($event)"></image-cropper>
+
+            <div class="actions">
+                <button mat-raised-button color="accent" (click)="cropImgPerfil()"
+                        *ngIf="(isSaving$ | async) === false">
+                    RECORTAR
+                </button>
+                <button mat-raised-button color="warn" type="button" (click)="cancelCrop()">
+                    CANCELAR
+                </button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="activeCard === 'crop-imagem-chancela'">
+            <image-cropper
+                #imgChancelaCropComponent
+                [imageChangedEvent]="imagemChancelaEvent"
+                [aspectRatio]="4/4"
+                [maintainAspectRatio]="false"
+                [resizeToWidth]="250"
+                [resizeToHeight]="250"
+                [autoCrop]="false"
+                format="jpeg"
+                [roundCropper]="false"
+                (imageCropped)="imagemChancelaCropped($event)"></image-cropper>
+
+            <div class="actions">
+                <button mat-raised-button color="accent" (click)="cropImgChancela()"
+                        *ngIf="(isSaving$ | async) === false">
+                    RECORTAR
+                </button>
+                <button mat-raised-button color="warn" type="button" (click)="cancelCrop()">
+                    CANCELAR
+                </button>
+            </div>
+        </ng-container>
+    </form>
+
+    <input hidden type="file"
+           (change)="doChangeImgPerfilUpload($event)"
+           name="imgPerfilUpload"
+           #imgPerfilUpload
+           accept="{{uploadImagesMimeTypes}}">
+
+    <input hidden type="file"
+           (change)="doChangeImgChancelaUpload($event)"
+           name="imgChancelaUpload"
+           #imgChancelaUpload
+           accept="{{uploadImagesMimeTypes}}">
 </div>

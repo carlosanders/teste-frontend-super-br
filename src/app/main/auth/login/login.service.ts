@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store';
@@ -11,7 +11,14 @@ import * as moment from 'moment';
 @Injectable()
 export class LoginService {
 
+    private _userProfileSubject:BehaviorSubject<Usuario> = new BehaviorSubject<Usuario>(null);
+
     constructor(private http: HttpClient, private _store: Store<State>) {
+    }
+
+    getUserProfileChanges(): Observable<Usuario>
+    {
+        return this._userProfileSubject.asObservable();
     }
 
     getUserProfile(): Usuario {
@@ -20,6 +27,7 @@ export class LoginService {
 
     setUserProfile(userProfile: any): void {
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        this._userProfileSubject.next(userProfile);
     }
 
     removeUserProfile(): void {
