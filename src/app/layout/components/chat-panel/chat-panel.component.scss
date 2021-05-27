@@ -1,0 +1,155 @@
+@import "../../../../@cdk/scss/cdk";
+
+chat-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+
+    @include media-breakpoint('lt-lg') {
+        padding: 0 !important;
+    }
+
+    .content-card {
+        position: relative;
+        display: flex;
+        flex: 1;
+        border-radius: 8px;
+
+        .mat-sidenav-container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+
+            .sidenav-left,
+            .sidenav-right {
+                width: 300px;
+                min-width: 300px;
+                max-width: 300px;
+            }
+
+            .sidenav-right {
+                border-left: none;
+            }
+
+            > .mat-sidenav-content,
+            > .mat-drawer-content {
+                display: flex;
+                flex: 1 1 auto;
+                min-height: 100%;
+                height: auto;
+            }
+
+            > .mat-drawer-content {
+                max-width: 100%;
+            }
+
+            mat-sidenav {
+                min-width: 400px;
+
+                .mat-drawer-inner-container {
+
+                    .sidenav-header {
+
+                        mat-toolbar {
+                            border-bottom: 1px solid;
+                            min-height: 64px;
+                            max-height: 64px;
+                            height: 64px;
+
+                            .chat-profile {
+                                .avatar-wrapper {
+                                    .avatar,
+                                    .status {
+                                        cursor: pointer;
+                                    }
+                                }
+                                .chat-profile-name {
+                                    font-size: 16px;
+                                    box-sizing: border-box;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    max-width: 190px;
+                                    font-weight: lighter;
+                                }
+                            }
+
+                            mat-toolbar-row {
+                                .search {
+                                    height: 36px;
+                                    line-height: 36px;
+                                    padding: 8px;
+                                    font-size: 13px;
+                                    border-radius: 18px;
+                                    border: 1px solid;
+                                    overflow: hidden;
+
+                                    .mat-icon {
+                                        margin: 0;
+                                    }
+
+                                    input {
+                                        padding: 0 12px 0 8px;
+                                        height: 36px;
+                                        border: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .sidenav-content {
+                        padding-top: 10px;
+                        overflow: auto;
+                    }
+                }
+
+                .chat-content {
+                    display: flex;
+                    overflow: auto;
+                    height: 0;
+                    flex: 1 0 auto;
+                }
+
+                .chat-footer {
+                    border-top: 1px solid;
+                    padding: 10px;
+
+                    .chat-mensagem-form {
+                        .message-text {
+                            position: relative;
+
+                            .mat-form-field-wrapper {
+                                padding: 0;
+                                .mat-form-field-flex {
+                                    padding: 0;
+                                    .mat-form-field-infix {
+                                        padding: 0;
+                                        border: none;
+                                        border-radius: 20px;
+                                        border: 1px solid;
+
+                                        textarea {
+                                            overflow: hidden;
+                                            margin: 16px 48px 16px 16px;
+                                            width: calc(100% - 64px);
+                                            padding: 0;
+                                            font-size: 14px;
+                                        }
+                                    }
+                                }
+                                .mat-form-field-underline {
+                                    display: none !important;
+                                }
+                            }
+                        }
+                        .send-message-button {
+                            position: absolute;
+                            right: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
