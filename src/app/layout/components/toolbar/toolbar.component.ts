@@ -37,6 +37,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     notificacoesCount: string;
     carregandoNotificacao = true;
     cdkConfig: any;
+    checkedNotifications: Notificacao[] = [];
 
     quickPanelLockedOpen: boolean;
 
@@ -265,17 +266,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
     }
 
-    sendToTarget(notificacao: Notificacao) {
+    sendToTarget(notificacao: Notificacao): any {
         const contexto = JSON.parse(notificacao.contexto);
+        console.log('clicou', notificacao.tipoNotificacao);
         switch (notificacao.tipoNotificacao.nome) {
-            case 'relatorio':
+            case 'RELATORIO':
                 return this._router
                     .navigate([
                         `/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`
                     ]);
-            case 'processo':
+            case 'PROCESSO':
                 return this._router.navigate([`/apps/processo/${contexto.id}/visualizar/capa/mostrar`]);
-            case 'tarefa':
+            case 'TAREFA':
                 return this._router
                     .navigate([
                     `/apps/tarefas/administrativo/minhas-tarefas/entrada/tarefa/${contexto.id}/processo/${contexto.id_processo}/visualizar/capa/mostrar`
@@ -285,7 +287,19 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    marcarTodasComoLida() {
+    marcarTodasComoLida(): void {
         this._store.dispatch(new ButtonTodasNotificacoesLidas());
+    }
+
+    /**
+     * @param checked
+     * @param notification
+     */
+    checkNotification(checked: boolean, notification: Notificacao): any {
+        if (checked) {
+            return this.checkedNotifications.push(notification);
+        }
+
+        this.checkedNotifications = this.checkedNotifications.filter(item => item.id !== notification.id);
     }
 }
