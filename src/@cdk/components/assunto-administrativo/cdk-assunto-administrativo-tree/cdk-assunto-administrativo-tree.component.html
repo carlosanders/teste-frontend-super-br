@@ -17,7 +17,7 @@
             <div *ngIf="!this.dataSource.data.length">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
-            <mat-tree *ngIf="dataSource.data" [dataSource]="dataSource" [treeControl]="treeControl">
+            <mat-tree *ngIf="dataSource.data.length" [dataSource]="dataSource" [treeControl]="treeControl">
 
                 <!--Sem Filho-->
                 <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node" matTreeNodeToggle

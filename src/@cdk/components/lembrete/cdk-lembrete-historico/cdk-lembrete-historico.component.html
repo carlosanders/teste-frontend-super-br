@@ -18,7 +18,7 @@
             <div class="spinner-container" *ngIf="loading">
                 <mat-spinner diameter="32"></mat-spinner>
             </div>
-            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
