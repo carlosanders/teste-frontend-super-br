@@ -1,8 +1,8 @@
 <h2>Ofício</h2>
 <cdk-documento-avulso-form
     [documentoAvulso]="documentoAvulso"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
+    [saving]="saving"
+    [errors]="errors"
     [especieDocumentoAvulsoPagination]="especieDocumentoAvulsoPagination"
     [setorDestinoPagination]="setorDestinoPagination"
     [modeloPagination]="modeloPagination"
@@ -10,6 +10,7 @@
     [mode]="mode"
     (gerirPessoaDestino)="doGerirPessoaDestino()"
     (editPessoaDestino)="doEditPessoaDestino($event)"
+    [mecanismoRemessa]="mecanismoRemessa"
     [pessoaDestino]="pessoaDestino"
     [destinatarios]="destinatarios"
     [prazoCriteriaList]="prazoCriteriaList"

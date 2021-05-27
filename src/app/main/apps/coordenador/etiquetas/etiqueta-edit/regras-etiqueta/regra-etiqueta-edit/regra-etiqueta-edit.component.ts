@@ -69,7 +69,9 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
     ];
 
     /**
+     *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -148,8 +150,8 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
         const regraEtiqueta = new RegraEtiqueta();
 
         const criterias: string[] = [];
-        values.criterias.forEach((criteria: Criteria) => {
-            const eachCriteria = criteria.mapeamento.replace('{placeholder}', criteria.valor);
+        values.criterias.forEach((aCriteria: Criteria) => {
+            const eachCriteria = aCriteria.mapeamento.replace('{placeholder}', aCriteria.valor);
             criterias.push(eachCriteria);
         });
 
