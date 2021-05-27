@@ -187,6 +187,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 }),
             );
         this.resize$.subscribe();
+        if (this._loginService.getUserProfile() && !this._loginService.isExpired()) {
+            this._loginService.startCountdown();
+        }
     }
 
     /**

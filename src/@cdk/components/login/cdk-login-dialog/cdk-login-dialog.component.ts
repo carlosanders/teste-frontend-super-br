@@ -65,7 +65,7 @@ export class CdkLoginDialogComponent implements OnInit {
 
         this.form = this._formBuilder.group({
             tipoLogin: [this.tipoLogin, [Validators.required]],
-            username: ['', [Validators.required]],
+            username: [data.username, [Validators.required]],
             password: ['', Validators.required]
         });
     }

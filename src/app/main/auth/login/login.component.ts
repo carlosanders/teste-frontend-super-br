@@ -9,7 +9,7 @@ import {environment} from '../../../../environments/environment';
 import {getRouterState} from '../../../store';
 import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
 import {LoginService} from './login.service';
-import {filter} from "rxjs/operators";
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector     : 'login',
