@@ -329,3 +329,8 @@
 * Correção bug ao editar juntada
 * Melhoria atualizar a etiqueta de oficio remetido
 * Melhoria tornar lixeira área de drag and drop
+
+1.4.1
+
+* Correção após movimentar Processo encerrando a tarefa, o sistema retorna para uma tela de edição da tarefa encerrada #451
+* Melhoria estilização da tela de encaminhando pós encerramento de tarefa

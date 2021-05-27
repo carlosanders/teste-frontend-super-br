@@ -103,10 +103,8 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    submit(): void {
-        if (this.form.valid) {
-            this.save.emit(this.form.value);
-        }
+    submit(value: string): void {
+        this.save.emit({options: value});
     }
 
     doAbort(): void {
