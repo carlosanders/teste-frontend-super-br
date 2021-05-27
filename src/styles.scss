@@ -18,6 +18,15 @@ mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
 
+.mat-select-panel .mat-optgroup-label, .mat-select-panel .mat-option {
+    line-height: normal !important;
+    height: auto !important;
+}
+
+tr.mat-row, tr.mat-footer-row {
+    height: auto !important;
+}
+
 mat-option.mat-option-text {
     > span {
         white-space: normal;
