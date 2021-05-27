@@ -32,13 +32,13 @@ export class LoginInterceptor implements HttpInterceptor {
     token: string;
 
     loginSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    private loginProgress = false;
 
     dialogRef: MatDialogRef<CdkLoginDialogComponent>;
 
     subscribers: any;
 
     routerState: any;
+    private loginProgress = false;
 
     constructor(
         private store: Store<fromStore.LoginState>,
@@ -156,7 +156,8 @@ export class LoginInterceptor implements HttpInterceptor {
                 config$: this.config$,
                 loadingConfig$: this.loadingConfig$,
                 certificadoDigital: this.certificadoDigital,
-                errorMessage$: this.errorMessage$
+                errorMessage$: this.errorMessage$,
+                username: this.loginService.getUserProfile().username
             },
             disableClose: true,
             height: '95%',
@@ -173,7 +174,7 @@ export class LoginInterceptor implements HttpInterceptor {
 
     onSubmitExterno(values): void {
         const payload = {
-            username: values.username.replace(/\D/g, ''),
+            username: this.loginService.getUserProfile().username,
             password: values.password,
             redirect: false
         };

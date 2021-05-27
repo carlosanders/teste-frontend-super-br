@@ -4,14 +4,13 @@ import {
     Component, Input,
     OnDestroy, OnInit,
     ViewEncapsulation,
-    OnChanges, SimpleChange, EventEmitter, Output
+    EventEmitter, Output
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {Acao, Pagination, Setor, Tarefa, Usuario} from '../../../../models';
+import {Acao, ModalidadeAcaoEtiqueta, Pagination, Setor, Tarefa, Usuario} from '../../../../models';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs';
 
 @Component({
     selector: 'cdk-acao-trigger-002',
@@ -22,9 +21,7 @@ import {Observable} from 'rxjs';
     animations: cdkAnimations
 })
 
-export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges {
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
+export class CdkAcaoTrigger002Component implements OnInit, OnDestroy {
 
     @Input()
     saving: boolean;
@@ -51,7 +48,7 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     usuarioPagination: Pagination;
 
     @Input()
-    modalidadeAcaoEtiqueta;
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
 
     @Output()
     save = new EventEmitter<Acao>();
@@ -87,19 +84,6 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     }
 
     /**
-     * On change
-     */
-    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (
-            changes['modalidadeAcaoEtiqueta']
-            && this.modalidadeAcaoEtiqueta
-            && this.modalidadeAcaoEtiqueta.id !== this.form.get('modalidadeAcaoEtiqueta').value
-        ) {
-            this.form.get('modalidadeAcaoEtiqueta').setValue(this.modalidadeAcaoEtiqueta);
-        }
-    }
-
-    /**
      * On destroy
      */
     ngOnDestroy(): void {
@@ -114,6 +98,7 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     }
 
     submit(values): void {
+        values['modalidadeAcaoEtiqueta'] = this.modalidadeAcaoEtiqueta;
         this.save.emit(values);
     }
 }

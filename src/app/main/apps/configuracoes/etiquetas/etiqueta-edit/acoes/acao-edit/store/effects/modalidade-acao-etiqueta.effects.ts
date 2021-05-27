@@ -2,18 +2,16 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
-
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {acao as acaoSchema, modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
-import {Acao, ModalidadeAcaoEtiqueta} from '@cdk/models';
+import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
+import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
 import * as ModalidadeAcaoEtiquetaActions from '../actions';
-import * as AcaoListActions from '../../../acao-list/store/actions';
 
 @Injectable()
 export class ModalidadeAcaoEtiquetaEffects {
@@ -37,8 +35,9 @@ export class ModalidadeAcaoEtiquetaEffects {
     /**
      * @type {Observable<any>}
      */
+    // eslint-disable-next-line @typescript-eslint/member-ordering
     @Effect()
-    getModalidadeAcaoEtiqueta: any =
+    getModalidadesAcaoEtiqueta: any =
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaActions.GetModalidadesAcaoEtiqueta>(ModalidadeAcaoEtiquetaActions.GET_MODALIDADES_ACAO_ETIQUETA),

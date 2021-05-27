@@ -2,17 +2,21 @@ import * as ModalidadeAcaoEtiquetaActions from '../actions/modalidade-acao-etiqu
 
 export interface ModalidadeAcaoEtiquetaState {
     entitiesId: number[];
+    saving: boolean;
+    errors: any;
     loading: boolean;
     loaded: any;
 }
 
 export const ModalidadeAcaoEtiquetaInitialState: ModalidadeAcaoEtiquetaState = {
     entitiesId: [],
+    saving: false,
+    errors: false,
     loading: false,
     loaded: false
 };
 
-export function ModalidadeAcaoEtiqueraReducer(
+export function ModalidadeAcaoEtiquetaReducer(
     state = ModalidadeAcaoEtiquetaInitialState,
     action: ModalidadeAcaoEtiquetaActions.ModalidadeAcaoEtiquetaActionsAll
 ): ModalidadeAcaoEtiquetaState {
