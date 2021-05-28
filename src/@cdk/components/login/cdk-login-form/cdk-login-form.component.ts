@@ -29,6 +29,9 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
     config: any;
 
     @Input()
+    version: any;
+
+    @Input()
     errors: any;
 
     @Output()
