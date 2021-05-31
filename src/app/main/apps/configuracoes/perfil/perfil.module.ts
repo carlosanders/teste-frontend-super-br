@@ -25,7 +25,9 @@ import {ProfileStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '@cdk/components/path/path.module';
+import {PathModule} from '../../../../../@cdk/components/path/path.module';
+import {ComponenteDigitalService} from "../../../../../@cdk/services/componente-digital.service";
+import {ImageCropperModule} from "ngx-image-cropper";
 
 const routes: Routes = [
     {
@@ -63,6 +65,7 @@ modulesConfig.forEach((module) => {
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
+        ImageCropperModule,
 
         CdkPerfilFormModule,
 
@@ -76,7 +79,8 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         LoginService,
-        UsuarioService
+        UsuarioService,
+        ComponenteDigitalService
     ]
 })
 export class PerfilModule {

@@ -8,69 +8,118 @@
 
     chat-panel {
 
-        #contacts-list {
-            background-color: map-get($background, app-bar);
+        .content-card {
 
-            .contacts-list-item {
+            mat-sidenav-container {
 
-                &.active {
-                    background: map-get($background, hover);
+                mat-sidenav {
+                    position: relative !important;
+                    display: flex;
+                    flex-direction: column;
+                    width: 400px;
+                    max-width: 90%;
+                    overflow: hidden;
 
-                    &:after {
-                        background-color: map-get($accent, default);
-                    }
-                }
+                    .mat-drawer-inner-container {
+                        flex-direction: column;
+                        box-sizing: border-box;
+                        display: flex;
 
-                .unread-count {
-                    background-color: map-get($accent, default);
-                    color: map-get($accent, default-contrast);
-                }
+                        .big-circle {
+                            background: map-get($background, card);
+                            border-color: map-get($foreground, divider);
+                        }
 
-                .status-icon {
-                    border-color: map-get($background, app-bar);
-                }
-            }
-        }
+                        .sidenav-header {
 
-        #chat {
+                            mat-toolbar {
+                                border-bottom-color: map-get($foreground, divider);
 
-            .messages {
+                                mat-toolbar-row {
 
-                .message-row {
+                                    .search {
+                                        background: map-get($background, background);
+                                        border-color: map-get($foreground, divider);
 
-                    &.contact {
+                                        input {
+                                            background: map-get($background, background);
+                                            color: map-get($foreground, text);
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
-                        .bubble {
-                            background-color: map-get($primary, default);
-                            color: map-get($primary, default-contrast);
+                        .sidenav-content {
+
+                            .contact-list,
+                            .chat-list {
+
+                                .mat-subheader {
+                                    color: map-get($accent, default);
+                                }
+
+                                .contact {
+                                    border-bottom-color: map-get($foreground, divider);
+
+                                    .contact-last-message {
+                                        color: map-get($foreground, secondary-text);
+                                    }
+
+                                    .contact-mood {
+                                        color: map-get($foreground, secondary-text);
+                                    }
+                                }
+                            }
                         }
                     }
 
-                    &.me {
+                    .chat-content {
 
-                        .bubble {
-                            color: rgba(0, 0, 0, 0.87);
-                            background-color: #E0E0E0;
+                        .message-row {
+
+                            &.contact {
+
+                                .bubble {
+                                    background-color: map-get($primary, default);
+                                    color: map-get($primary, default-contrast);
+                                }
+                            }
+
+                            &.me {
+
+                                .bubble {
+                                    color: rgba(0, 0, 0, 0.87);
+                                    background-color: #E0E0E0;
+                                }
+                            }
                         }
                     }
-                }
-            }
 
-            .reply-form {
+                    .chat-footer {
+                        background: map-get($background, app-bar);
+                        border-top-color: map-get($foreground, divider);
 
-                .message-text {
-                    background-color: map-get($background, app-bar);
-                    border-color: map-get($foreground, divider);
+                        .chat-mensagem-form {
 
-                    .mat-form-field-wrapper {
+                            .message-text {
+                                background-color: map-get($background, app-bar);
+                                border-color: map-get($foreground, divider);
 
-                        .mat-form-field-flex {
+                                .mat-form-field-wrapper {
 
-                            .mat-form-field-infix {
-                                @if ($is-dark == true) {
-                                    background-color: map-get($background, hover);
-                                } @else {
-                                    background-color: white;
+                                    .mat-form-field-flex {
+
+                                        .mat-form-field-infix {
+                                            border-color: map-get($foreground, divider);
+
+                                            @if ($is-dark == true) {
+                                                background-color: map-get($background, hover);
+                                            } @else {
+                                                background-color: white;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -78,5 +127,6 @@
                 }
             }
         }
+
     }
 }

@@ -14,7 +14,7 @@
         <div class="titulo">Juntada selecionadas</div>
 
         <div class="content" cdkPerfectScrollbar>
-            <table mat-table [dataSource]="dataSourceJuntadasAdicionadas" matSort [hidden]="loading">
+            <table mat-table [dataSource]="dataSourceJuntadasAdicionadas" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id

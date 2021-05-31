@@ -1,5 +1,14 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChildren} from '@angular/core';
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChildren
+} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {SetorService} from '../../../services/setor.service';
 import {catchError, finalize} from 'rxjs/operators';
@@ -11,7 +20,8 @@ import {Pagination, Setor} from '../../../models';
 @Component({
     selector: 'cdk-setor-tree',
     templateUrl: './cdk-setor-tree.component.html',
-    styleUrls: ['./cdk-setor-tree.component.scss']
+    styleUrls: ['./cdk-setor-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CdkSetorTreeComponent implements OnInit {
 
@@ -33,6 +43,7 @@ export class CdkSetorTreeComponent implements OnInit {
     selected = new EventEmitter<Setor>();
 
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _serviceTree: CdkSetorTreeService,
         private _setorService: SetorService,
         private _formBuilder: FormBuilder,
@@ -137,7 +148,10 @@ export class CdkSetorTreeComponent implements OnInit {
             JSON.stringify(params.sort),
             JSON.stringify(params.populate)
         ).pipe(
-            finalize(() => this.loading = false),
+            finalize(() => {
+                this.loading = false;
+                this._changeDetectorRef.detectChanges();
+            }),
             catchError(() => of([]))
         );
 

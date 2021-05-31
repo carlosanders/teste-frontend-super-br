@@ -189,6 +189,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 

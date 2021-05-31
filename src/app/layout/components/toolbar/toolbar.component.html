@@ -24,7 +24,10 @@
                 <button mat-button [matMenuTriggerFor]="userMenu"
                         class="user-button">
                     <div fxLayout="row" fxLayoutAlign="center center">
-                        <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/User.png">
+                        <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/User.png"
+                             *ngIf="!!userProfile?.imgPerfil?.id === false">
+                        <img class="avatar mr-0 mr-sm-16" [src]="userProfile.imgPerfil.conteudo|safeResourceUrl"
+                             *ngIf="!!userProfile?.imgPerfil?.id === true">
                         <span class="username mr-12" fxHide fxShow.gt-sm>{{userProfile?.nome.split(' ')[0]}}</span>
                         <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                     </div>
@@ -128,6 +131,22 @@
                     (click)="toggleSidebarOpen('ajudaPanel')"
                     aria-label="Ajuda">
                 <mat-icon class="secondary-text">live_help</mat-icon>
+            </button>
+
+            <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
+
+            <button mat-icon-button
+                    class="quick-panel-toggle-button2"
+                    (click)="toggleChatPanel()"
+                    aria-label="Mensagem">
+                <mat-icon *ngIf="carregandoChat">
+                    <mat-spinner diameter="20"></mat-spinner>
+                </mat-icon>
+                <mat-icon class="secondary-text" *ngIf="!carregandoChat"
+                          [matBadge]="totalChatMensagensNaoLidas" matBadgePosition="above after"
+                          [matBadgeColor]="totalChatMensagensNaoLidas ? 'warn' : 'accent'">
+                    chat
+                </mat-icon>
             </button>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>

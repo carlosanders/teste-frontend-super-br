@@ -35,7 +35,6 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {CdkModeloAutocompleteComponent} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.component';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 
@@ -49,8 +48,26 @@ import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from 
 })
 export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-    private _unsubscribeDocs: Subject<any> = new Subject();
+    @Input()
+    capaProcesso: boolean;
+
+    @Input()
+    capa: boolean = true;
+
+    @Output()
+    scrolled = new EventEmitter<any>();
+
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
+
+    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
+
+    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger})
+    autoCompleteModelos: MatAutocompleteTrigger;
 
     sort: string = 'DESC';
 
@@ -118,19 +135,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     lixeiraMinutas: boolean;
 
-    @Input()
-    capaProcesso: boolean;
-
-    @Input()
-    capa: boolean = true;
-
     tarefa$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     tarefa: boolean;
-
-    @Output()
-    scrolled = new EventEmitter<any>();
-
-    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
     volumesPagination$: Observable<any>;
     volumesPagination: any;
@@ -149,18 +155,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     loadedMinutas: any;
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
-
-    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
-
-    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
-
-    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger})
-    autoCompleteModelos: MatAutocompleteTrigger;
 
     minutasLoading$: Observable<boolean>;
 
@@ -174,6 +170,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     documentoEdit: any = {uuid: null, open: false};
 
     formEditorValid = false;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _unsubscribeDocs: Subject<any> = new Subject();
 
     /**
      *

@@ -1,0 +1,93 @@
+<div class="header accent mat-elevation-z4 primary" fxLayout="row" fxLayoutAlign="space-between center">
+
+    <ng-container>
+        <div class="title ml-16 cursor-pointer" fxLayout="row" fxLayoutAlign="start center"
+             (click)="closeSidebar()">
+            <mat-icon class="s-32 cdk-white-fg">chat</mat-icon>
+            <h3 class="ml-12">Mensagens</h3>
+        </div>
+    </ng-container>
+
+    <button mat-icon-button class="toggle-sidebar-open mr-8" (click)="closeSidebar()">
+        <mat-icon class="secondary-text">close</mat-icon>
+    </button>
+
+</div>
+<div class="content-card"
+     *ngIf="usuarioAutenticado === true">
+
+    <mat-sidenav-container>
+        <!-- LEFT SIDENAV-->
+        <mat-sidenav class="sidenav sidenav-left" position="start" opened="true" mode="side">
+            <chat-header class="sidenav-header"
+                (pesquisaChatHandler)="pesquisaChat($event)">
+            </chat-header>
+            <div class="sidenav-content" fxFlex
+                 infiniteScroll
+                 [scrollWindow]="false"
+                 [infiniteScrollDistance]="2"
+                 [infiniteScrollThrottle]="50"
+                 (scrolled)="onScrollChatList($event)">
+                <div *cdkIfOnDom [@animateStagger]="{value:'50'}">
+                    <chat-list
+                        fxLayout="column"
+                        (chatClickHandler)="openChat($event)"
+                        [chatList]="chatList"
+                        [chatOpen]="chatOpen"
+                        [loading]="chatLoading">
+                    </chat-list>
+                </div>
+            </div>
+        </mat-sidenav>
+        <!-- /LEFT SIDENAV-->
+        <!-- RIGHT SIDENAV-->
+        <mat-sidenav class="sidenav sidenav-right" position="end" opened="true" mode="side"
+                     *ngIf="!!chatOpen">
+            <div class="chat" fxFlex fxLayout="column">
+                <chat-mensagem-header class="sidenav-header"
+                    [chat]="chatOpen"
+                    (fecharChatHandler)="fecharChat()">
+                </chat-mensagem-header>
+                <div class="chat-content"
+                     #chatMensagemScroll
+                     CdkPerfectScrollbar
+                     infiniteScroll
+                     [scrollWindow]="false"
+                     [infiniteScrollUpDistance]="3.5"
+                     [infiniteScrollThrottle]="50"
+                     (scrolledUp)="onScrollUpChatMessageList($event)"
+                     (scroll)="onScrollChatMessageList($event)">
+                    <chat-mensagem-list
+                        [chat]="chatOpen"
+                        [loading]="(chatMensagemLoading$ | async)"
+                        [chatMensagens]="chatMensagens">
+                    </chat-mensagem-list>
+                </div>
+                <div class="chat-footer" fxFlex="0 0 auto" fxLayout="column">
+
+                    <form class="chat-mensagem-form" name="chatMensagemForm" fxFlex="0 0 auto" fxLayout="row"
+                          [formGroup]="chatMensagemForm"
+                          fxLayoutAlign="center center"
+                          (ngSubmit)="enviarMensagem(chatOpen)"
+                          (keydown.enter)="enviarMensagem(chatOpen); $event.preventDefault();"
+                          fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                        <mat-form-field class="message-text" fxFlex floatLabel="never" appearance="standard">
+
+                            <textarea matInput placeholder="Escreva sua mensagem..."
+                                      formControlName="mensagem"
+                                      #mensagem
+                                      maxlength="150" [rows]="1" [matTextareaAutosize]="false"></textarea>
+                        </mat-form-field>
+
+                        <button class="send-message-button" mat-icon-button type="submit" aria-label="Enviar Mensagem">
+                            <mat-icon class="secondary-text">send</mat-icon>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </mat-sidenav>
+        <!-- /RIGHT SIDENAV-->
+    </mat-sidenav-container>
+</div>

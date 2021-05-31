@@ -4,13 +4,19 @@ import {
     Component, Input,
     OnDestroy, OnInit,
     ViewEncapsulation,
-    OnChanges, SimpleChange, EventEmitter, Output
+    EventEmitter, Output
 } from '@angular/core';
 
-import {Observable} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {Acao, DocumentoAvulso, EspecieTarefa, Pagination, Pessoa, Processo} from '../../../../models';
+import {
+    Acao,
+    DocumentoAvulso,
+    EspecieTarefa,
+    ModalidadeAcaoEtiqueta,
+    Pagination,
+    Pessoa
+} from '../../../../models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 // @ts-ignore
@@ -23,21 +29,16 @@ import {FormBuilder, FormGroup} from '@angular/forms';
     animations: cdkAnimations
 })
 
-export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges {
-
-    processo$: Observable<Processo>;
-
-    processo: Processo;
-
-    isSaving$: Observable<boolean>;
-
-    errors$: Observable<any>;
+export class CdkAcaoTrigger004Component implements OnInit, OnDestroy {
 
     @Input()
     mode = 'trigger-etiqueta';
 
     @Input()
     pessoaDestino: Pessoa;
+
+    @Input()
+    mecanismoRemessa: string = 'interna';
 
     @Input()
     documentoAvulso: DocumentoAvulso;
@@ -52,6 +53,9 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
     logEntryPagination: Pagination;
 
     @Input()
+    setorDestinoPagination: Pagination;
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -59,6 +63,9 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
 
     @Input()
     valid = true;
+
+    @Input()
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
 
     @Input()
     destinatarios = [];
@@ -84,7 +91,7 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
     activeCard: string = 'form';
 
     especieDocumentoAvulsoPagination: Pagination;
-    setorDestinoPagination: Pagination;
+
     modeloPagination: Pagination;
 
     /**
@@ -112,14 +119,6 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
     ngOnInit(): void {
         this.documentoAvulso = new DocumentoAvulso();
         this.documentoAvulso.mecanismoRemessa = 'interna';
-        this.documentoAvulso.processo = this.processo;
-    }
-
-    /**
-     * On change
-     */
-    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-
     }
 
     /**
@@ -136,10 +135,10 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
         this.abort.emit();
     }
 
-    submit($values): void {
-        this.save.emit($values);
+    submit(values): void {
+        values['modalidadeAcaoEtiqueta'] = this.modalidadeAcaoEtiqueta;
+        this.save.emit(values);
     }
-
 
     doGerirPessoaDestino(): void {
         this.gerirPessoaDestino.emit();

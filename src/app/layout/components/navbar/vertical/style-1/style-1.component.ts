@@ -127,6 +127,13 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.navigation = this._cdkNavigationService.getCurrentNavigation();
             });
+
+        this._loginService.getUserProfileChanges()
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter(userProfile => !!userProfile)
+            )
+            .subscribe(userProfile => this.userProfile = userProfile);
     }
 
     /**

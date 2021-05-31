@@ -1,6 +1,6 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
@@ -47,6 +47,7 @@ export class FlatNode {
 export class CdkClassificacaoTreeComponent {
 
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _serviceTree: CdkClassificacaoTreeService,
         private _classificacaoService: ClassificacaoService,
         private _formBuilder: FormBuilder,
@@ -267,7 +268,10 @@ export class CdkClassificacaoTreeComponent {
             JSON.stringify(params.sort),
             JSON.stringify(params.populate)
         ).pipe(
-            finalize(() => this.loading = false),
+            finalize(() => {
+                this.loading = false;
+                this._changeDetectorRef.detectChanges();
+            }),
             catchError(() => of([]))
         );
 

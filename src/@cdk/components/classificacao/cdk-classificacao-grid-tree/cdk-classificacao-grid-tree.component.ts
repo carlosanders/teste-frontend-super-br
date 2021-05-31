@@ -1,5 +1,14 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChildren} from '@angular/core';
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChildren
+} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {ClassificacaoService} from '../../../services/classificacao.service';
 import {catchError, finalize} from 'rxjs/operators';
@@ -11,7 +20,8 @@ import {Classificacao, Pagination} from '../../../models';
 @Component({
     selector: 'cdk-classificacao-grid-tree',
     templateUrl: './cdk-classificacao-grid-tree.component.html',
-    styleUrls: ['./cdk-classificacao-grid-tree.component.scss']
+    styleUrls: ['./cdk-classificacao-grid-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CdkClassificacaoGridTreeComponent implements OnInit {
 
@@ -33,6 +43,7 @@ export class CdkClassificacaoGridTreeComponent implements OnInit {
     selected = new EventEmitter<Classificacao>();
 
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _serviceTree: CdkClassificacaoGridTreeService,
         private _classificacaoService: ClassificacaoService,
         private _formBuilder: FormBuilder,
@@ -132,7 +143,10 @@ export class CdkClassificacaoGridTreeComponent implements OnInit {
             JSON.stringify(params.sort),
             JSON.stringify(params.populate)
         ).pipe(
-            finalize(() => this.loading = false),
+            finalize(() => {
+                this.loading = false;
+                this._changeDetectorRef.detectChanges();
+            }),
             catchError(() => of([]))
         );
 

@@ -1,41 +1,87 @@
-<div class="content" *ngIf="action === 'form-cadastro'">
-    <div class="header">
-        <div class="actions">
-            <button mat-icon-button
-                    (click)="goBack()"
-                    aria-label="voltar"
-                    matTooltip="Voltar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-        </div>
-    </div>
-    <div class="header border-bottom">
-        <path icone="beenhere"
-              [caminhoAbsoluto]="routerState.url"
-              inicioCaminho="etiquetas">
-        </path>
-    </div>
-        <div class="items" *ngIf="modalidadeAcaoEtiquetaList.length > 0">
-            <div class="trigger-acao-item" *ngFor="let modalidadeAcaoEtiqueta of modalidadeAcaoEtiquetaList"
-                 (click)="selectTrigger(modalidadeAcaoEtiqueta)">
-                <div class="info">
-                    <div class="title">
-                        <span>{{modalidadeAcaoEtiqueta.valor}}</span>
-                    </div>
-                    <div class="body mt-4">
-                        <span>{{modalidadeAcaoEtiqueta.descricao}}</span>
-                    </div>
-                </div>
-
-                <div class="actions">
-                    <button mat-icon-button aria-label="selecionar">
-                        <mat-icon>send</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="no-acoes-text" *ngIf="modalidadeAcaoEtiquetaList.length === 0">
-            <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
-        </div>
+<div class="header border-bottom">
+    <path icone="beenhere"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="etiquetas">
+    </path>
 </div>
-<router-outlet></router-outlet>
+<div class="items" *ngIf="modalidadeAcaoEtiquetaList.length > 0">
+    <mat-form-field class="mr-8" aria-label="criteria">
+        <mat-select placeholder="Modalidade Ação" [formControl]="modalidadeControl">
+            <mat-select-trigger>
+                {{displayFn()}}
+            </mat-select-trigger>
+            <mat-option class="multiline"
+                        *ngFor="let modalidade of modalidadeAcaoEtiquetaList"
+                        [value]="modalidade.valor">
+                <div class="title">
+                    <span class="strong">{{modalidade.valor}} </span>
+                </div>
+                <div class="body">
+                    <span> {{modalidade.descricao}}</span>
+                </div>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="triggers" *ngIf="modalidadeControl.value" cdkPerfectScrollbar>
+    <cdk-acao-trigger-001
+        cdkPerfectScrollbar
+        *ngIf="modalidadeControl.value === 'MINUTA'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeAcaoEtiqueta]="getModalidadeAcaoEtiquetaSelecionada()"
+        [modeloPagination]="modeloPagination"
+        (save)="submitTrigger1($event)"
+        (abort)="goBack()">
+    </cdk-acao-trigger-001>
+
+    <cdk-acao-trigger-002
+        cdkPerfectScrollbar
+        *ngIf="modalidadeControl.value === 'DISTRIBUIÇÃO AUTOMÁTICA'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeAcaoEtiqueta]="getModalidadeAcaoEtiquetaSelecionada()"
+        [usuarioPagination]="usuarioPagination"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination"
+        (save)="submitTrigger2($event)"
+        (abort)="goBack()">
+    </cdk-acao-trigger-002>
+
+    <cdk-acao-trigger-003
+        cdkPerfectScrollbar
+        *ngIf="modalidadeControl.value === 'COMPARTILHAMENTO'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeAcaoEtiqueta]="getModalidadeAcaoEtiquetaSelecionada()"
+        [usuarioPagination]="usuarioCompartilhamentoPagination"
+        (save)="submitTrigger3($event)"
+        (abort)="goBack()">
+    </cdk-acao-trigger-003>
+
+    <cdk-acao-trigger-004
+        cdkPerfectScrollbar
+        *ngIf="modalidadeControl.value === 'OFÍCIO'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [documentoAvulso]="documentoAvulso"
+        [prazoCriteriaList]="prazoCriteriaList"
+        [destinatarios]="destinatarios"
+        [setorDestinoPagination]="unidadePagination"
+        [modalidadeAcaoEtiqueta]="getModalidadeAcaoEtiquetaSelecionada()"
+        (gerirPessoaDestino)="gerirPessoaDestino()"
+        (editPessoaDestino)="editPessoaDestino($event)"
+        [pessoaDestino]="pessoaDestino"
+        (save)="submitTrigger4($event)"
+        (abort)="goBack()">
+    </cdk-acao-trigger-004>
+</div>
+<div class="no-acoes-text" *ngIf="modalidadeAcaoEtiquetaList.length === 0">
+    <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
+</div>
+<div class="actions" *ngIf="!modalidadeControl.value">
+    <button mat-raised-button color="warn" type="button" (click)="goBack()">
+        CANCELAR
+    </button>
+</div>
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

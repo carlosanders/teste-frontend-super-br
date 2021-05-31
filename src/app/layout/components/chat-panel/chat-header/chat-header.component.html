@@ -1,0 +1,63 @@
+<mat-toolbar>
+    <mat-toolbar-row *ngIf="activeCard === 'chat-list'">
+        <form [formGroup]="pesquisaForm" name="pesquisaForm"
+              (ngSubmit)="pesquisar()"
+              (keydown.enter)="pesquisar(); $event.preventDefault();">
+
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="s-16 secondary-text">search</mat-icon>
+                    <input matInput formControlName="pesquisa" placeholder="Pesquisar..." fxFlex>
+                </div>
+            </div>
+            <div>
+                <button mat-icon-button
+                        [matMenuTriggerFor]="userMenu"
+                        aria-label="more">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userMenu="matMenu">
+                    <button mat-menu-item (click)="novaConversa()">
+                        Nova conversa
+                    </button>
+<!--                    <button mat-menu-item>-->
+<!--                        Novo grupo-->
+<!--                    </button>-->
+                </mat-menu>
+            </div>
+        </form>
+    </mat-toolbar-row>
+    <mat-toolbar-row *ngIf="activeCard === 'chat-individual-form'">
+        <form [formGroup]="usuarioForm" name="usuarioForm"
+              (ngSubmit)="iniciarChat()"
+              (keydown.enter)="iniciarChat(); $event.preventDefault();">
+            <button mat-icon-button (click)="cancelUsuarioForm()">
+                <mat-icon class="secondary-text">arrow_back</mat-icon>
+            </button>
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="s-16 secondary-text">search</mat-icon>
+                    <input
+                           #usuarioInput
+                           fxFlex
+                           matInput placeholder="Pesquisar usuário..."
+                           formControlName="usuario"
+                           [matAutocomplete]="usuario.autocomplete"
+                           (blur)="checkUsuario()"
+                           required>
+                </div>
+            </div>
+            <cdk-usuario-autocomplete
+                #usuario="usuarioAutocomplete"
+                [control]="usuarioForm.get('usuario')"
+                [pagination]="usuarioFormPagination">
+            </cdk-usuario-autocomplete>
+            <button type="submit" mat-icon-button
+                    [disabled]="usuarioForm.invalid">
+                <mat-icon class="secondary-text">done</mat-icon>
+            </button>
+        </form>
+    </mat-toolbar-row>
+</mat-toolbar>

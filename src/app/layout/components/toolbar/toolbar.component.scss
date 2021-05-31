@@ -127,3 +127,18 @@ toolbar {
     background-color: #eae9e9;
     font-weight: bold;
 }
+
+.avatar {
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease-in-out;
+    &:after {
+        content: "";
+        color: #757575;
+        position: absolute;
+        top: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        margin: auto;
+    }
+}
