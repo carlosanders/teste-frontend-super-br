@@ -69,22 +69,48 @@
                 </mat-icon>
             </button>
             <mat-menu #menuNoticacoes="matMenu" class="menuNotificacao" [overlapTrigger]="false" xPosition="before">
-                <div class="notification-header" *ngIf="notificacoesCount">
-                    <h2 class="title">Notificações</h2>
-                    <button mat-icon-button title="Marcar todos como lido" (click)="marcarTodasComoLida()">
-                        <mat-icon class="mat-18">done_all</mat-icon>
-                    </button>
+                <div class="notification-header" *ngIf="notificacoes.length">
+                    <div>
+                        <span class="title">Notificações</span>
+                        <span class="actions" *ngIf="checkedNotifications.length">
+                            {{ this.checkedNotifications.length }}
+                            <mat-icon class="mat-18" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuNoticacoesDetail">
+                                more_vert
+                            </mat-icon>
+                            <mat-menu #menuNoticacoesDetail="matMenu" xPosition="before">
+                                <mat-list>
+                                    <mat-list-item>
+                                         <button mat-menu-item (click)="marcarSelecionadosComoLido()">
+                                            <span>MARCAR COMO LIDO</span>
+                                         </button>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                         <button mat-menu-item (click)="removerSelecionados()">
+                                            <span>REMOVER</span>
+                                         </button>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-menu>
+                        </span>
+                    </div>
+                    <div class="actions">
+                        <mat-icon class="mat-18" title="Marcar como lido" (click)="marcarTodasComoLida()">done_all</mat-icon>
+                        <mat-icon class="mat-18" title="Remover" (click)="excluirTodasNotificaoes()">delete_all</mat-icon>
+                    </div>
                 </div>
-                <mat-list *ngIf="notificacoesCount; else vazio">
+                <mat-list *ngIf="notificacoes.length; else vazio">
                     <ng-container *ngFor="let notificacao of notificacoes; let i = index; let len = count">
-                        <mat-list-item *ngIf="!notificacao.dataHoraLeitura" (click)="toggleLida(notificacao)">
-                            <div class="notification-item">
+                        <mat-list-item [class.non-readed]="!notificacao.dataHoraLeitura">
+                            <div class="notification-item" (click)="$event.stopPropagation()">
+                                <mat-checkbox (change)="checkNotification($event.checked, notificacao)"></mat-checkbox>
                                 <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: initial;"
                                    [innerHTML]="notificacao.conteudo">
                                 </p>
-                                <button mat-icon-button (click)="sendToTarget(notificacao)">
-                                    <mat-icon class="mat-18">search</mat-icon>
-                                </button>
+                                <div class="actions">
+                                    <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)">search</mat-icon>
+                                    <mat-icon class="mat-18" title="Marcar como lida" (click)="$event.stopPropagation(); toggleLida(notificacao)" *ngIf="!notificacao.dataHoraLeitura">done</mat-icon>
+                                    <mat-icon class="mat-18" title="Remover" (click)="$event.stopPropagation(); removerNotificacao(notificacao)">delete</mat-icon>
+                                </div>
                             </div>
                         </mat-list-item>
                         <mat-divider *ngIf="i !== len-1 && !notificacao.dataHoraLeitura"></mat-divider>
