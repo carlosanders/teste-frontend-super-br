@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
 import {CdkConfigService} from '@cdk/services/config.service';
@@ -11,11 +11,16 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {ButtonTodasNotificacoesLidas, getCounterState} from 'app/store';
+import {
+    ButtonTodasNotificacoesLidas,
+    getCounterState,
+    RemoveAllNotificacao,
+    RemoveNotificacao
+} from 'app/store';
 import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
-import {getIsLoading, getNormalizedNotificacaoEntities, getOperacoesEmProcessamento} from '../../../store';
+import {getIsLoading, getNormalizedNotificacaoEntities, getOperacoesEmProcessamento, getNotificacaoList} from '../../../store';
 
 @Component({
     selector: 'toolbar',
@@ -141,11 +146,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(
-                select(getNormalizedNotificacaoEntities),
+                select(getNotificacaoList),
                 takeUntil(this._unsubscribeAll),
             )
             .subscribe((notificacoes) => {
-                this.notificacoes = notificacoes;
+                if (notificacoes) {
+                    this.notificacoes = notificacoes.sort(((n1,n2) => n2.id - n1.id));
+                }
             });
         this._store
             .pipe(
@@ -268,7 +275,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     sendToTarget(notificacao: Notificacao): any {
         const contexto = JSON.parse(notificacao.contexto);
-        console.log('clicou', notificacao.tipoNotificacao);
         switch (notificacao.tipoNotificacao.nome) {
             case 'RELATORIO':
                 return this._router
@@ -289,6 +295,36 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     marcarTodasComoLida(): void {
         this._store.dispatch(new ButtonTodasNotificacoesLidas());
+    }
+
+    excluirTodasNotificaoes(): void {
+        this._store.dispatch(new RemoveAllNotificacao());
+    }
+
+    removerNotificacao(notificacao): void {
+        this._store.dispatch(new RemoveNotificacao(notificacao.id));
+    }
+
+    marcarSelecionadosComoLido(): void {
+        this.checkedNotifications.forEach((notificacao) => {
+            if (!notificacao.dataHoraLeitura) {
+                this.toggleLida(notificacao);
+            }
+        });
+
+        this.resetSelecoes();
+    }
+
+    removerSelecionados(): void {
+        this.checkedNotifications.forEach((notificacao) => {
+            this._store.dispatch(new RemoveNotificacao(notificacao.id));
+        });
+
+        this.resetSelecoes();
+    }
+
+    resetSelecoes(): void {
+        this.checkedNotifications = [];
     }
 
     /**
