@@ -221,7 +221,7 @@ export class CdkAcaoTransicaoWorkflowGridComponent implements AfterViewInit, OnI
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-acao-transicao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-acao-transicao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

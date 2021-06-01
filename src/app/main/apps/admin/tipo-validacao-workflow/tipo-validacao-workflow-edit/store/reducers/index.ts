@@ -7,7 +7,7 @@ export interface TipoValidacaoWorkflowEditAppState
 }
 
 export const getTipoValidacaoWorkflowEditAppState = createFeatureSelector<TipoValidacaoWorkflowEditAppState>(
-    'tipo-validacao-workflow-edit-app'
+    'tipo-validacao-workflow-edit-edit-app'
 );
 
 export const getAppState = createSelector(

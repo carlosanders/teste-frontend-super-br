@@ -2,8 +2,8 @@
     <cdk-compartilhamento-form
         [compartilhamento]="compartilhamento"
         [usuarioPagination]="usuarioPagination"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
+        [saving]="saving"
+        [errors]="errors"
         (save)="submit($event)"
         (abort)="doAbort()">
     </cdk-compartilhamento-form>

@@ -1,4 +1,4 @@
-<div class="header border-bottom">
+<div class="header border-bottom" *ngIf="routerState.url.includes('/acoes')">
     <path icone="beenhere"
           [caminhoAbsoluto]="routerState.url"
           inicioCaminho="etiquetas">

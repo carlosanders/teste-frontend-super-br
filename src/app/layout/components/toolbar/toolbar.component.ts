@@ -21,7 +21,7 @@ import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
 import {getIsLoading, getOperacoesEmProcessamento, getNotificacaoList} from '../../../store';
-import {getChatIsLoading} from "../chat-panel/store";
+import {getChatIsLoading} from '../chat-panel/store';
 
 @Component({
     selector: 'toolbar',
@@ -42,19 +42,21 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     notificacoes: Notificacao[] = [];
     notificacoesCount: string;
     carregandoNotificacao = true;
-    carregandoChat:boolean = true;
-    totalChatMensagensNaoLidas:any = 0;
+    carregandoChat: boolean = true;
+    totalChatMensagensNaoLidas: any = 0;
     cdkConfig: any;
     checkedNotifications: Notificacao[] = [];
 
-    quickPanelLockedOpen: boolean;
+    titulo = 'processo';
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    quickPanelLockedOpen: boolean;
 
     operacoesProcessando = 0;
     operacoesPendentes = 0;
     shepherdService: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *
@@ -281,8 +283,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     goLogout(): void {
         this._store.dispatch(new Logout({url: false}));
     }
-
-    titulo = 'processo';
 
     tour(tour: string): void {
         this.titulo = tour;

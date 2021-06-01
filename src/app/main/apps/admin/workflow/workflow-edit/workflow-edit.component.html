@@ -1,17 +1,9 @@
-<div class="header">
+<div class="header" *ngIf="!routerState.url.includes('/transicoes') && !routerState.url.includes('/especies-processo')">
     <path icone="low_priority"
           [caminhoAbsoluto]="routerState.url"
           inicioCaminho="workflows">
     </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
-    <cdk-workflow-form
-        [workflow]="(workflow$ | async)"
-        [especieTarefaPagination]="especieTarefaPagination"
-        [form]="formWorkflow"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        (save)="submitWorkflow($event)"
-        (abort)="doAbort()">
-    </cdk-workflow-form>
+    <router-outlet></router-outlet>
 </div>

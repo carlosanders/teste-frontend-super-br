@@ -1,10 +1,11 @@
-<div class="header">
+<div class="header" *ngIf="routerState.url.includes('/acoes')">
     <path icone="beenhere"
           [caminhoAbsoluto]="routerState.url"
           inicioCaminho="etiquetas">
     </path>
 </div>
-<cdk-acao-list
+<div class="content">
+    <cdk-acao-list
         [loading]="(loading$ | async)"
         [acoes]="acoes"
         [deletingIds]="(deletingIds$ | async)"
@@ -15,4 +16,5 @@
         (excluded)="excluded($event)"
         (create)="create()"
         (delete)="delete($event)">
-</cdk-acao-list>
+    </cdk-acao-list>
+</div>

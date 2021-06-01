@@ -229,7 +229,7 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
 
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-validacao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-validacao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

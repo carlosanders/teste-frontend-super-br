@@ -10,8 +10,8 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
-import {Pagination, Usuario} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {Pagination} from '@cdk/models';
+import {distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 @Component({
@@ -49,9 +49,9 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
     @Input()
     usuarioPagination: Pagination;
 
-
-
     activeCard = 'form';
+
+    selected = false;
 
     /**
      * Constructor
@@ -69,9 +69,7 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
             descricao: ['descricao', [Validators.required]],
         });
 
-
         this.usuarioRecebidoPagination = new Pagination();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,7 +80,24 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
      * On change
      */
     ngOnInit(): void {
+        if (this.form.get('atribuidoPara').value) {
+            this.selected = true;
+        }
 
+        this.form.get('atribuidoPara').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.selected = false;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -137,25 +152,6 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
     doAbort(): void {
         this.abort.emit();
     }
-
-    checkUsuarioRecebido(): void {
-        const value = this.form.get('usuario').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('usuario').setValue(null);
-        }
-    }
-
-    showUsuarioRecebidoGrid(): void {
-        this.activeCard = 'usuario-recebido-gridsearch';
-    }
-
-    selectUsuarioRecebido(usuario: Usuario): void {
-        if (usuario) {
-            this.form.get('usuario').setValue(usuario);
-        }
-        this.activeCard = 'form';
-    }
-
 
     cancel(): void {
         this.activeCard = 'form';

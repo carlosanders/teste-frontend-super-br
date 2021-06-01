@@ -1,0 +1,85 @@
+<div class="header" *ngIf="routerState.url.includes('acoes')">
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
+</div>
+<div class="items" *ngIf="tipoAcaoWorkflowList.length > 0">
+    <mat-form-field class="mr-8" aria-label="criteria">
+        <mat-select placeholder="Modalidade Ação" [formControl]="tipoAcaoControl">
+            <mat-select-trigger>
+                {{displayFn()}}
+            </mat-select-trigger>
+            <mat-option class="multiline"
+                        *ngFor="let tipoAcaoWorkflow of tipoAcaoWorkflowList"
+                        [value]="tipoAcaoWorkflow.valor">
+                <div class="title">
+                    <span class="strong">{{tipoAcaoWorkflow.valor}} </span>
+                </div>
+                <div class="body">
+                    <span> {{tipoAcaoWorkflow.descricao}}</span>
+                </div>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="triggers" *ngIf="tipoAcaoControl.value" cdkPerfectScrollbar>
+    <cdk-tipo-acao-workflow-trigger-001
+        cdkPerfectScrollbar
+        *ngIf="tipoAcaoControl.value === 'MINUTA'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [tipoAcaoWorkflow]="getTipoAcaoSelecionada()"
+        [modeloPagination]="modeloPagination"
+        (save)="submitTrigger1($event)"
+        (abort)="goBack()">
+    </cdk-tipo-acao-workflow-trigger-001>
+
+    <cdk-tipo-acao-workflow-trigger-002
+        cdkPerfectScrollbar
+        *ngIf="tipoAcaoControl.value === 'DISTRIBUIÇÃO AUTOMÁTICA'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [usuarioPagination]="usuarioPagination"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination"
+        [tipoAcaoWorkflow]="getTipoAcaoSelecionada()"
+        (save)="submitTrigger2($event)"
+        (abort)="goBack()">
+    </cdk-tipo-acao-workflow-trigger-002>
+
+    <cdk-tipo-acao-workflow-trigger-003
+        *ngIf="tipoAcaoControl.value === 'COMPARTILHAMENTO'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [usuarioPagination]="usuarioCompartilhamentoPagination"
+        [tipoAcaoWorkflow]="getTipoAcaoSelecionada()"
+        (save)="submitTrigger3($event)"
+        (abort)="goBack()">
+    </cdk-tipo-acao-workflow-trigger-003>
+
+    <cdk-tipo-acao-workflow-trigger-004
+        *ngIf="tipoAcaoControl.value === 'OFÍCIO'"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [documentoAvulso]="documentoAvulso"
+        [prazoCriteriaList]="prazoCriteriaList"
+        [destinatarios]="destinatarios"
+        [setorDestinoPagination]="unidadePagination"
+        [tipoAcaoWorkflow]="getTipoAcaoSelecionada()"
+        (gerirPessoaDestino)="gerirPessoaDestino()"
+        (editPessoaDestino)="editPessoaDestino($event)"
+        [pessoaDestino]="pessoaDestino"
+        (save)="submitTrigger4($event)"
+        (abort)="goBack()">
+    </cdk-tipo-acao-workflow-trigger-004>
+</div>
+<div class="no-acoes-text" *ngIf="tipoAcaoWorkflowList.length === 0">
+    <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
+</div>
+<div class="actions" *ngIf="!tipoAcaoControl.value">
+    <button mat-raised-button color="warn" type="button" (click)="goBack()">
+        CANCELAR
+    </button>
+</div>
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

@@ -221,7 +221,7 @@ export class CdkValidacaoTransicaoWorkflowGridComponent implements AfterViewInit
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-validacao-transicao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-validacao-transicao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
