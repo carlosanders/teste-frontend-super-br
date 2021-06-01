@@ -11,8 +11,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
 import {Pagination, TipoDocumento} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-tipo-validacao-tipo-doc',
@@ -39,14 +39,14 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
     @Output()
     abort = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     tipoDocumentoPagination: Pagination;
 
-
+    form: FormGroup;
 
     activeCard = 'form';
+
+    selected = false;
 
     /**
      * Constructor
@@ -64,9 +64,7 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
             descricao: ['descricao', [Validators.required]],
         });
 
-
         this.tipoDocumentoPagination = new Pagination();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -77,7 +75,24 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
      * On change
      */
     ngOnInit(): void {
+        if (this.form.get('tipoDocumento').value) {
+            this.selected = true;
+        }
 
+        this.form.get('tipoDocumento').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.selected = false;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**

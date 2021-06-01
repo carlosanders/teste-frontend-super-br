@@ -25,11 +25,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 
 export class CdkTipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy, OnChanges {
 
-    processo$: Observable<Processo>;
-    processo: Processo;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
-
     @Input()
     mode = 'trigger-etiqueta';
     @Input()
@@ -43,6 +38,8 @@ export class CdkTipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy
     @Input()
     logEntryPagination: Pagination;
     @Input()
+    setorDestinoPagination: Pagination;
+    @Input()
     saving: boolean;
     @Input()
     errors: any;
@@ -54,7 +51,6 @@ export class CdkTipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy
     modeloPaginationAndx: any;
     @Input()
     tipoAcaoWorkflow: TipoAcaoWorkflow;
-
     @Output()
     gerirPessoaDestino = new EventEmitter();
     @Output()
@@ -68,8 +64,10 @@ export class CdkTipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy
     form: FormGroup;
     activeCard: string = 'form';
     especieDocumentoAvulsoPagination: Pagination;
-    setorDestinoPagination: Pagination;
     modeloPagination: Pagination;
+
+    processo$: Observable<Processo>;
+    processo: Processo;
 
     /**
      * Constructor
@@ -120,8 +118,9 @@ export class CdkTipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy
         this.abort.emit();
     }
 
-    submit($values): void {
-        this.save.emit($values);
+    submit(values): void {
+        values['tipoAcaoWorkflow'] = this.tipoAcaoWorkflow;
+        this.save.emit(values);
     }
 
 

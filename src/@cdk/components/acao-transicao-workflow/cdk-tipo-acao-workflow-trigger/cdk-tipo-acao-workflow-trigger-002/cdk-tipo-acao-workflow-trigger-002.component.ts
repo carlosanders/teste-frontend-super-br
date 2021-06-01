@@ -23,8 +23,6 @@ import {Observable} from 'rxjs';
 })
 
 export class CdkTipoAcaoWorkflowTrigger002Component implements OnInit, OnDestroy, OnChanges {
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
 
     @Input()
     saving: boolean;
@@ -98,6 +96,7 @@ export class CdkTipoAcaoWorkflowTrigger002Component implements OnInit, OnDestroy
     }
 
     submit(values): void {
+        values['tipoAcaoWorkflow'] = this.tipoAcaoWorkflow;
         this.save.emit(values);
     }
 }

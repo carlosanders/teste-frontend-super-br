@@ -7,7 +7,7 @@ import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {WorkflowEditAppState} from '../reducers';
-import * as fromStore from '../';
+import * as fromStore from '../index';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 

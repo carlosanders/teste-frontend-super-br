@@ -133,7 +133,7 @@ export class TipoValidacaoWorkflowEditEffects {
             .pipe(
                 ofType<TipoValidacaoWorkflowEditActions.SaveTipoValidacaoWorkflowSuccess>(TipoValidacaoWorkflowEditActions.SAVE_TIPO_VALIDACAO_WORKFLOW_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/admin/tipo-validacao-workflow/listar']).then();
+                    this._router.navigate(['apps/admin/tipo-validacao-workflow-edit/listar']).then();
                 })
             );
 

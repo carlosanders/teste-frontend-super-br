@@ -56,7 +56,7 @@ export class ProcessoEffect {
                         JSON.stringify([
                             'populateAll',
                             'especieProcesso', 'especieProcesso.generoProcesso',
-                            'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade', 'especieProcesso.workflow.especieTarefaInicial',
+                            'especieProcesso.workflow-edit', 'setorAtual', 'setorAtual.unidade', 'especieProcesso.workflow-edit.especieTarefaInicial',
                             'tarefaAtualWorkflow', 'tarefaAtualWorkflow.especieTarefa',
 
                         ]))),

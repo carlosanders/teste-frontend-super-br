@@ -1,0 +1,9 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-tipo-validacao-setor-org
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [setorOrigemPagination]="setorPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-tipo-validacao-setor-org>
+</div>

@@ -42,8 +42,15 @@ export class PathComponent implements OnInit {
         this.caminhoAbsoluto = this.caminhoAbsoluto.slice(posicao, this.caminhoAbsoluto.length);
         const arrayCaminho = this.caminhoAbsoluto.split('/');
         arrayCaminho.forEach((c: string) => {
-            if (c==='dados-basicos' || c==='default') { } //Não adiciona no link, para resolver despadronizacoes
-            else if (c==='arvore') { //Entra se for arvore
+            if (c === 'dados-basicos' || c === 'default') { } //Não adiciona no link, para resolver despadronizacoes
+            else if (c === 'visualizar') {
+                caminhoAux += '/' + c;
+                chave = `${raiz}${caminhoAux}`;
+                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
+                caminhoAnterior = c;
+                this.linkCaminhos.push({link: chave, label: valor});
+            }
+            else if (c === 'arvore') { //Entra se for arvore
                 chave = `${raiz}${caminhoAux}/${c}`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 this.linkCaminhos.push({link: chave, label: valor});
@@ -55,20 +62,14 @@ export class PathComponent implements OnInit {
                 caminhoAnterior = c;
                 this.linkCaminhos.push({link: chave, label: valor});
             }
-            else if (c.indexOf('modalidade-') > -1) {
-                chave = `${raiz}${caminhoAux}` + '/' + c;
-                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
-                caminhoAnterior = c;
-                this.linkCaminhos.push({link: chave, label: valor});
-            }
-            else if(!Number(c) && c!=='editar' && c!=='listar' && c!=='criar') { //Entra se for para listar
+            else if(!Number(c) && c !=='editar' && c !=='listar' && c !=='criar') { //Entra se for para listar
                 caminhoAux += '/' + c;
                 chave = `${raiz}${caminhoAux}/listar`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 caminhoAnterior = c;
                 this.linkCaminhos.push({link: chave, label: valor});
             }
-            else if(c!=='editar' && c!=='listar') { //Entra se for numero ou criar
+            else if(c !== 'editar' && c !=='listar') { //Entra se for numero ou criar
                 chave = `${raiz}${caminhoAux}/editar/${c}`;
                 caminhoAux += '/editar/' + c;
                 valor = this.mapaNome.has(caminhoAnterior) ? this.mapaNome.get(caminhoAnterior) : caminhoAnterior;
@@ -99,6 +100,7 @@ export class PathComponent implements OnInit {
         this.mapaNome.set('repositorios', 'teses');
         this.mapaNome.set('seguranca', 'seguranças');
         this.mapaNome.set('usuarios', 'usuários');
+        this.mapaNome.set('validacoes', 'validações');
         this.mapaNome.set('vinculacao-pessoa-usuario', 'usuários externos');
     }
 

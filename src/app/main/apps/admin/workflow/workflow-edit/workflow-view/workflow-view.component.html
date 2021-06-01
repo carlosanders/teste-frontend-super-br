@@ -1,0 +1,29 @@
+<div class="page-layout left-sidebar">
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header">
+            <div class="workflow-navigation">WORKFLOW - VISUALIZAR TRANSIÇÕES</div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content" cdkPerfectScrollbar>
+
+            <div class="loading" *ngIf="loading">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+
+            <div *ngIf="!loading" class="workflow-view-content">
+                <iframe id="iframe-workflow" [src]="src"></iframe>
+            </div>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

@@ -185,8 +185,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.processoPagination = new Pagination();
         this.processoPagination.populate =
             ['especieProcesso', 'especieProcesso.generoProcesso',
-                'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade'
-                , 'especieProcesso.workflow.especieTarefaInicial',
+                'especieProcesso.workflow-edit', 'setorAtual', 'setorAtual.unidade'
+                , 'especieProcesso.workflow-edit.especieTarefaInicial',
                 'tarefaAtualWorkflow', 'tarefaAtualWorkflow.especieTarefa'];
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -1156,7 +1156,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     addFilterProcessoWorfkflow(): void {
-        // caso processo seja de workflow verificar espécies permitidas
+        // caso processo seja de workflow-edit verificar espécies permitidas
         this.especieTarefaPagination['context'] = {};
         if (this.form.get('processo').value?.especieProcesso?.workflow) {
 

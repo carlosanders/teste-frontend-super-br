@@ -252,7 +252,6 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.SaveAcao(acao));
     }
 
-
     submitTrigger4(values): void {
         const contexto = {};
 

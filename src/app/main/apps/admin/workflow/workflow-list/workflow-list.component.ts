@@ -6,8 +6,6 @@ import * as fromStore from './store';
 import {Workflow} from '@cdk/models';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
-import {UnloadWorkflow} from './store';
-
 
 @Component({
     selector: 'workflow-list',
@@ -78,7 +76,7 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     }
 
     editTransicoesWorkflow(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${workflowId}/transicoes`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/transicoes`)]);
     }
 
     edit(workflowId: number): void {
@@ -94,10 +92,10 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     }
 
     view(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'visualizar/') + workflowId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + workflowId + '/visualizar')]);
     }
 
     especies(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${workflowId}/especies-processo/listar`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/especies-processo/listar`)]);
     }
 }
