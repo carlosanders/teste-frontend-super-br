@@ -248,7 +248,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
             }
 
-            // caso tarefa seja de workflow verificar espécies permitidas
+            // caso tarefa seja de workflow-edit verificar espécies permitidas
             this.especieAtividadePagination['context'] = {};
             if (tarefa.workflow) {
                 this.especieAtividadePagination.filter = {

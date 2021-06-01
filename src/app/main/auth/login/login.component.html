@@ -23,6 +23,7 @@
     <cdk-login-form (save)="this.onSubmit($event)"
                     [certificadoDigital]="certificadoDigital"
                     [config]="(config$ | async)"
+                    [version]="version"
                     [errorMessage]="errorMessage$ | async"
                     [loading]="loading$ | async"
                     [loadingConfig]="loadingConfig$ | async"></cdk-login-form>

@@ -10,7 +10,7 @@ import {effects} from './effects';
 @NgModule({
     declarations: [],
     imports: [
-        StoreModule.forFeature('workflow-list', reducers),
+        StoreModule.forFeature('workflow-edit-list', reducers),
         EffectsModule.forFeature(effects),
         CommonModule
     ]

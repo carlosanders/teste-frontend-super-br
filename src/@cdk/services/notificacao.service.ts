@@ -34,12 +34,22 @@ export class NotificacaoService extends ParentGenericService<Notificacao> {
         );
     }
 
-    marcarTodas(context: any = '{}') {
+    marcarTodas(context: any = '{}'): any {
         const params = {};
         params['context'] = context;
 
         return this.http.patch(
             `${environment.api_url}${'administrativo/notificacao'}/marcar_todas` + environment.xdebug,
+            params
+        );
+    }
+
+    excluirTodas(context: any = '{}'): any {
+        const params = {};
+        params['context'] = context;
+
+        return this.http.patch(
+            `${environment.api_url}${'administrativo/notificacao'}/excluir_todas` + environment.xdebug,
             params
         );
     }

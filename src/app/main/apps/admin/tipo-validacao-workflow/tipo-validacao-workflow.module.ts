@@ -42,7 +42,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/tipo-validacao-workflow';
+const path = 'app/main/apps/admin/tipo-validacao-workflow-edit';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

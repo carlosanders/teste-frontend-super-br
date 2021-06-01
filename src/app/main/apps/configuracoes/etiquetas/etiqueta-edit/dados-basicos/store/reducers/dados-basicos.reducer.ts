@@ -1,19 +1,13 @@
 import * as EtiquetaEditActions from '../actions/dados-basicos.actions';
 
 export interface EtiquetaEditState {
-    etiquetaId: number;
     saving: boolean;
     errors: any;
-    loading: boolean;
-    loaded: any;
 }
 
 export const EtiquetaEditInitialState: EtiquetaEditState = {
-    etiquetaId: null,
     saving: false,
     errors: false,
-    loading: false,
-    loaded: false
 };
 
 export function EtiquetaEditReducer(

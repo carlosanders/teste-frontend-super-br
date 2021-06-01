@@ -113,6 +113,7 @@ export class CdkJuntadaFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

@@ -1,0 +1,28 @@
+<div class="header" *ngIf="routerState.url.includes('acoes')">
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
+</div>
+<div class="items" *ngIf="tipoValidacaoWorkflowList.length > 0">
+    <mat-form-field class="mr-8" aria-label="regra">
+        <mat-select placeholder="Modalidade Ação" [formControl]="tipoValidacaoControl">
+            <mat-select-trigger>{{displayFn()}}</mat-select-trigger>
+            <mat-option *ngFor="let tipoValidacaoWorkflow of tipoValidacaoWorkflowList"
+                        [value]="tipoValidacaoWorkflow.valor">
+                {{tipoValidacaoWorkflow.descricao}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="validacoes">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+</div>
+<div class="no-acoes-text" *ngIf="tipoValidacaoWorkflowList.length === 0">
+    <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
+</div>
+<div class="actions" *ngIf="!tipoValidacaoControl.value">
+    <button mat-raised-button color="warn" type="button" (click)="goBack()">
+        CANCELAR
+    </button>
+</div>

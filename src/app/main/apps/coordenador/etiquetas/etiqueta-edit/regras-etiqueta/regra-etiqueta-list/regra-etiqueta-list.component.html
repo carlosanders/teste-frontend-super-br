@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header" *ngIf="routerState.url.includes('regras')">
     <path icone="assignment"
           [caminhoAbsoluto]="routerState.url"
           inicioCaminho="etiquetas">

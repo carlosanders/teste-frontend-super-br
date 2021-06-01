@@ -7,7 +7,7 @@ export interface TipoAcaoWorkflowListAppState
 }
 
 export const getTipoAcaoWorkflowListAppState = createFeatureSelector<TipoAcaoWorkflowListAppState>(
-    'tipo-acao-workflow-list'
+    'tipo-acao-workflow-edit-list'
 );
 
 export const getAppState = createSelector(

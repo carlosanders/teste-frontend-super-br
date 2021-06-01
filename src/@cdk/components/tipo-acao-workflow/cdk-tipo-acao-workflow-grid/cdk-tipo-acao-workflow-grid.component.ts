@@ -229,7 +229,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
 
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

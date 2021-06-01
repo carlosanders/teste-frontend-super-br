@@ -65,13 +65,16 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
     @Input()
     valid = true;
 
-    selected = false;
+    @Input()
+    form: FormGroup;
 
     @Output()
     save = new EventEmitter<Tarefa>();
 
     @Output()
     abort = new EventEmitter<any>();
+
+    selected = false;
 
     usuarioResponsavelList: Usuario[] = [];
 
@@ -91,8 +94,6 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
 
     _profile: Colaborador;
 
-    @Input()
-    form: FormGroup;
     activeCard = 'form';
 
     /**
