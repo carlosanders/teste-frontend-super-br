@@ -21,10 +21,10 @@
                 <span>
                     NUP {{tarefa.processo?.NUP | formatNup}}
                 </span>
-                <mat-icon (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
-                </mat-icon>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                </mat-icon>
+                <mat-icon class="s-14 mt-8" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
                 </mat-icon>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up

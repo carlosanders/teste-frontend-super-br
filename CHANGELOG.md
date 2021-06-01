@@ -345,3 +345,4 @@
 * Correção para processos vinculados que não estão listados
 * Correção grid de usuários afastados ou não disponíveis
 * Correção estilos dos grids
+* Melhoria chat experimental
