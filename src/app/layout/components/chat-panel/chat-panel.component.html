@@ -18,7 +18,9 @@
 
     <mat-sidenav-container>
         <!-- LEFT SIDENAV-->
-        <mat-sidenav class="sidenav sidenav-left" position="start" opened="true" mode="side">
+        <mat-sidenav class="sidenav sidenav-left" position="start" opened="true" mode="side"
+                     [disableClose]="true"
+                     *ngIf="activeCard === 'chat-list'">
             <chat-header class="sidenav-header"
                 (pesquisaChatHandler)="pesquisaChat($event)">
             </chat-header>
@@ -42,7 +44,8 @@
         <!-- /LEFT SIDENAV-->
         <!-- RIGHT SIDENAV-->
         <mat-sidenav class="sidenav sidenav-right" position="end" opened="true" mode="side"
-                     *ngIf="!!chatOpen">
+                     [disableClose]="true"
+                     *ngIf="!!chatOpen && activeCard === 'chat-mensagem-list'">
             <div class="chat" fxFlex fxLayout="column">
                 <chat-mensagem-header class="sidenav-header"
                     [chat]="chatOpen"

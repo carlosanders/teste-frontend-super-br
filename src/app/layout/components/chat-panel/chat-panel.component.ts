@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     ChangeDetectorRef,
     Component,
     ElementRef, EventEmitter,
@@ -21,17 +20,16 @@ import {
     GetChat,
     GetChatIncrement,
     GetMensagens,
-    GetMensagensIncrement, LimparMensagensNaoLidas, MensagensNaoLidas,
+    GetMensagensIncrement, LimparMensagensNaoLidas,
     OpenChat, UnloadChatMensagens
 } from "./store";
 import {LoginService} from "../../../main/auth/login/login.service";
-import {CdkSidebarService} from "../../../../@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
 import {filter, takeUntil} from "rxjs/operators";
-import {MercureService} from "../../../../@cdk/services/mercure.service";
+import {MercureService} from "@cdk/services/mercure.service";
 import * as loginStoreSelectores from "../../../main/auth/login/store/selectors";
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
-import {isArray} from "rxjs/internal-compatibility";
 import {ChatUtils} from "./utils/chat.utils";
 
 @Component({
@@ -75,7 +73,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
      * Global controls
      */
     chatMensagemForm: FormGroup;
-    componentState = 'chat-list';
+    activeCard = 'chat-list';
     usuarioAutenticado:boolean = false;
     usuarioLogado:Usuario;
     lastScrollMensagemHeight:number;
@@ -144,11 +142,11 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             takeUntil(this._unsubscribeAll)
         );
 
-        this._store.pipe(
-            select(loginStoreSelectores.getProfile),
-            takeUntil(this._unsubscribeAll),
-            filter(profile => !!profile)
-        ).subscribe(profile => this.getChatsUsuario(profile));
+        this._loginService.getUserProfileChanges()
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter(profile => !!profile)
+            ).subscribe(profile => this.getChatsUsuario(profile));
 
         this.chatMensagemForm = this._formBuilder.group({
             mensagem: [null, [Validators.required]]
@@ -170,11 +168,12 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             }
 
             if (chat?.id && chat?.id != this.chatOpen?.id) {
-                this.componentState = 'chat-list';
+                this.activeCard = 'chat-mensagem-list';
                 this.lastScrollMensagemHeight = null;
                 this.chatMensagemScrollBottom = true;
                 this.chatOpen = chat;
                 this._mercureService.subscribe('/v1/administrativo/chat/'+this.chatOpen.id);
+                this._mercureService.unsubscribe(this.usuarioLogado.username+'/chat');
 
                 this._store.dispatch(new LimparMensagensNaoLidas(this.chatUtils.getParticipante(chat.participantes)));
                 this._store.dispatch(new UnloadChatMensagens());
@@ -197,7 +196,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
                 setTimeout(() => this.mensagemElementRef.nativeElement.focus());
 
-                this.toogleChatHandler.emit(true);
+                // this.toogleChatHandler.emit(true);
             } else if (chat?.id === this.chatOpen?.id) {
                 this.chatOpen = chat;
             }
@@ -246,32 +245,25 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             this.scrollChatMensagensToBottom();
         });
 
-        this._cdkSidebarService.getSidebar('chatPanel').openedChanged.subscribe((isOpen) => {
-            if (!isOpen) {
-                this.fecharChat();
-            }
-        });
+        // this._cdkSidebarService.getSidebar('chatPanel').openedChanged.subscribe((isOpen) => {
+        //     if (!isOpen) {
+        //         this.fecharChat();
+        //     }
+        // });
 
-        this.chatList$.subscribe(chatList => {
-            this.chatList = chatList;
-
-            if (isArray(chatList)) {
-                this._store.dispatch(
-                    new MensagensNaoLidas(this.chatUtils.getChatListTotalMensagensNaoLidas(chatList, this.chatOpen))
-                );
-            }
-        });
+        this.chatList$.subscribe(chatList => this.chatList = chatList);
 
         this.chatPaginator$.subscribe(paginator => this.chatPaginator = paginator);
         this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
 
-        if (this._loginService.getUserProfile()) {
+        if (!!this._loginService.getUserProfile()) {
             this.getChatsUsuario(this._loginService.getUserProfile());
         }
     }
 
     private getChatsUsuario(usuario: Usuario, keyword:string = ''): void
     {
+        this._mercureService.subscribe(usuario.username+'/chat');
         this.usuarioLogado = usuario;
         this.usuarioAutenticado = true;
         let gridFilter = {};
@@ -337,9 +329,11 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
     fecharChat() : void
     {
-        this.toogleChatHandler.emit(false);
+        // this.toogleChatHandler.emit(false);
         if (this.chatOpen && this.chatOpen.id) {
             this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
+            this.activeCard = 'chat-list';
+            this.getChatsUsuario(this.usuarioLogado);
             this._store.dispatch(new LimparMensagensNaoLidas(
                 this.chatUtils.getParticipante(this.chatOpen.participantes))
             );
@@ -364,7 +358,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             const chatMensagem = new ChatMensagem();
             chatMensagem.chat = chat;
             chatMensagem.mensagem = this.chatMensagemForm.get('mensagem').value;
-            chatMensagem.usuario = this._loginService.getUserProfile();
+            chatMensagem.usuario = this.usuarioLogado;
 
             this._store.dispatch(new EnviarMensagem(chatMensagem));
             // Inclusão falsa da mensagem no array para melhoria de experiência do usuário

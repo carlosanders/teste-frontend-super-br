@@ -1,8 +1,8 @@
 <mat-toolbar class="chat-toolbar">
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
         <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="cursor-pointer secondary-text" (click)="fecharChat()">arrow_back</mat-icon>
             <div class="chat-profile" fxLayout="row" fxLayoutAlign="start center">
-
                 <div class="avatar-wrapper">
                     <chat-imagem
                         [chat]="chat">
@@ -13,16 +13,16 @@
                 </div>
             </div>
         </div>
-        <div>
-            <button mat-icon-button [matMenuTriggerFor]="contactMenu" aria-label="more">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #contactMenu="matMenu">
-                <button mat-menu-item (click)="fecharChat()">
-                    Fechar Conversa
-                </button>
-            </mat-menu>
-        </div>
+<!--        <div>-->
+<!--            <button mat-icon-button [matMenuTriggerFor]="contactMenu" aria-label="more">-->
+<!--                <mat-icon>more_vert</mat-icon>-->
+<!--            </button>-->
+<!--            <mat-menu #contactMenu="matMenu">-->
+<!--                <button mat-menu-item (click)="fecharChat()">-->
+<!--                    Fechar Conversa-->
+<!--                </button>-->
+<!--            </mat-menu>-->
+<!--        </div>-->
 
     </div>
 </mat-toolbar>

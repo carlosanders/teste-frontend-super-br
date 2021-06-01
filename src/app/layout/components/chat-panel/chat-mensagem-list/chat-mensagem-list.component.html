@@ -17,8 +17,8 @@
         <div class="message">{{chatMensagem.mensagem}}{{chatMensagem?.componenteDigital?.fileName}}</div>
     </div>
     <div class="time secondary-text">
-        <span *ngIf="saving !== true"> {{chatMensagem.criadoEm | date:'short'}} </span>
-        <span *ngIf="saving === true">Enviando...</span>
+        <span *ngIf="chatMensagem.id"> {{chatMensagem.criadoEm | date:'short'}} </span>
+        <span *ngIf="saving === true && !chatMensagem.id">Enviando...</span>
         &nbsp;
     </div>
 
