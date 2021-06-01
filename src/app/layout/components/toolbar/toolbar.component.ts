@@ -300,14 +300,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     sendToTarget(notificacao: Notificacao) {
         const contexto = JSON.parse(notificacao.contexto);
         switch (notificacao.tipoNotificacao.nome) {
-            case 'relatorio':
+            case 'RELATORIO':
                 return this._router
                     .navigate([
                         `/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`
                     ]);
-            case 'processo':
+            case 'PROCESSO':
                 return this._router.navigate([`/apps/processo/${contexto.id}/visualizar/capa/mostrar`]);
-            case 'tarefa':
+            case 'TAREFA':
                 return this._router
                     .navigate([
                     `/apps/tarefas/administrativo/minhas-tarefas/entrada/tarefa/${contexto.id}/processo/${contexto.id_processo}/visualizar/capa/mostrar`
