@@ -85,4 +85,17 @@ export class DocumentoService extends ParentGenericService<Documento> {
             })
         );
     }
+
+    convertToPdf(id: number, changes: any, populate: any = '[]', context: any = '{}'): Observable<Documento> {
+        const params = {};
+        params['populate'] = JSON.stringify(populate);
+        params['context'] = context;
+
+        return this.modelService.patch(
+            'administrativo/documento/convertToPdf',
+            id,
+            changes,
+            new HttpParams({fromObject: params})
+        );
+    }
 }
