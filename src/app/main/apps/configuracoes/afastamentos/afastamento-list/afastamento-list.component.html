@@ -12,6 +12,8 @@
         [deletedIds]="(deletedIds$ | async)"
         [deletingErrors]="(deletingErrors$ | async)"
         [actions]="['create', 'edit', 'delete', 'showDeleted']"
+        [displayedColumns]="['select', 'id', 'dataInicio', 'dataInicioBloqueio', 'dataFim',
+        'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"

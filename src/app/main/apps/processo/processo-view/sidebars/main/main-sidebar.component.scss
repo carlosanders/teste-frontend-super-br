@@ -95,6 +95,10 @@ processo-view-main-sidebar {
         flex-direction: column;
     }
 
+    .mat-expansion-panel-body {
+        padding: 0 !important;
+    }
+
     > .content {
         flex: 1 1 auto;
         display: flex;
