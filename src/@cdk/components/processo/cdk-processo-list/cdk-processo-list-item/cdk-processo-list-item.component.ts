@@ -157,6 +157,15 @@ export class CdkProcessoListItemComponent implements OnInit {
         }
         this.isOpen = !this.isOpen;
     }
+
+    copiarParaAreaTrabalho(nup): void {
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (nup));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
+    }
 }
 
 

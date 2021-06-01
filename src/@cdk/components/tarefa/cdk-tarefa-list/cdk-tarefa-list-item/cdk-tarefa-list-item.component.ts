@@ -298,4 +298,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
         this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa});
     }
+
+    copiarParaAreaTrabalho(nup): void {
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (nup));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
+    }
 }

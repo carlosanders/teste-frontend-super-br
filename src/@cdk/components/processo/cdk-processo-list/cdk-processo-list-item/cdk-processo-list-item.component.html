@@ -13,6 +13,8 @@
                 <mat-icon *ngIf="processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
                 </mat-icon>
                 <span>PROCESSO {{processo?.NUP | formatNup}}</span>
+                <mat-icon (click)="copiarParaAreaTrabalho(processo?.NUP); $event.stopPropagation();">file_copy
+                </mat-icon>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!processo?.acessoNegado && !isOpen">keyboard_arrow_down
                 </mat-icon>
