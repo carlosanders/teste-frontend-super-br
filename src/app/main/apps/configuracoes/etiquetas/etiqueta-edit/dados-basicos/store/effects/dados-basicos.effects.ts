@@ -17,7 +17,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
-export class EtiquetaEditEffect {
+export class EtiquetaDadosBasicosEffects {
     routerState: any;
 
     constructor(

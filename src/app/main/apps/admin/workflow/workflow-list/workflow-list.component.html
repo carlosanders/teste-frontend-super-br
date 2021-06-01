@@ -4,22 +4,20 @@
           inicioCaminho="workflows">
     </path>
 </div>
-<div class="content">
-    <cdk-workflow-grid
-        [loading]="(loading$ | async)"
-        [workflows]="(workflows$ | async)"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletingErrors]="(deletingErrors$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [displayedColumns]="['id', 'nome', 'descricao', 'especieTarefaInicial.nome', 'actions']"
-        [actions]="['especies' ,'view', 'transicoes', 'edit', 'create', 'delete']"
-        (editTransicoesWorflow)="editTransicoesWorkflow($event)"
-        (especies)="especies($event)"
-        (view)="view($event)"
-        (reload)="reload($event)"
-        (edit)="edit($event)"
-        (create)="create()"
-        (delete)="delete($event)">
-    </cdk-workflow-grid>
-</div>
+<cdk-workflow-grid
+    [loading]="(loading$ | async)"
+    [workflows]="(workflows$ | async)"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['id', 'nome', 'descricao', 'especieTarefaInicial.nome', 'actions']"
+    [actions]="['especies' ,'view', 'transicoes', 'edit', 'create', 'delete']"
+    (editTransicoesWorflow)="editTransicoesWorkflow($event)"
+    (especies)="especies($event)"
+    (view)="view($event)"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()"
+    (delete)="delete($event)">
+</cdk-workflow-grid>

@@ -1,0 +1,23 @@
+<div class="header" *ngIf="routerState.url.includes('/transicoes')">
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
+</div>
+<cdk-transicao-workflow-grid
+    [loading]="(loading$ | async)"
+    [transicoesWorkflows]="(transicoesWorkflows$ | async)"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['id', 'especieTarefaFrom.nome', 'especieAtividade.nome', 'especieTarefaTo.nome', 'actions']"
+    [actions]="['edit', 'create', 'delete', 'regras', 'actions']"
+    (regras)="regras($event)"
+    (cancel)="cancel()"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()"
+    (acoes)="acoes($event)"
+    (delete)="delete($event)">
+</cdk-transicao-workflow-grid>

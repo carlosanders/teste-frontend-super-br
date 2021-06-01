@@ -1,13 +1,31 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
-    <label id="acoes-rg">Setor de Origem</label>
-
-        
     <mat-form-field>
+        <input matInput placeholder="Unidade"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete" required
+               (blur)="checkUnidade()">
+        <cdk-setor-autocomplete
+            #unidade="setorAutocomplete"
+            [control]="form.get('unidade')"
+            [pagination]="unidadePagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showUnidadeGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('unidade').hasError('formError')">
+            {{form.get('unidade').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+        *ngIf="!form.get('setorOrigem').disabled">
         <input matInput placeholder="Setor de Origem"
                formControlName="setorOrigem"
                [matAutocomplete]="setorOrigem.autocomplete"
                [readonly]="form.get('id').value"
-               (blur)="checkSetorOrigem()">
+               (blur)="checkSetorOrigem()"
+               required>
         <cdk-setor-autocomplete
             #setorOrigem="setorAutocomplete"
             [control]="form.get('setorOrigem')"
@@ -25,7 +43,7 @@
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
+                [disabled]="form.invalid || !selected" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
@@ -37,6 +55,12 @@
     <div>{{form.errors}}</div>
 </form>
 
+<cdk-setor-gridsearch
+    *ngIf="activeCard === 'unidade-gridsearch'"
+    [pagination]="unidadePagination"
+    (selected)="selectUnidade($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
     *ngIf="activeCard === 'setor-origem-gridsearch'"

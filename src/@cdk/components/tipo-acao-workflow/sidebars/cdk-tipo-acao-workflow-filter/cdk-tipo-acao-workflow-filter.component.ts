@@ -80,7 +80,7 @@ export class CdkTipoAcaoWorkflowFilterComponent {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-edit-filter').close();
     }
 
     verificarValor(objeto): void {

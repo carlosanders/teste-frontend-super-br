@@ -16,10 +16,10 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getEtiqueta} from '../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getEtiqueta} from '../store';
+import {Back} from '../../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store/reducers';
+import {getRouterState} from '../../../../../../store';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -31,8 +31,6 @@ import {takeUntil} from 'rxjs/operators';
     animations: cdkAnimations
 })
 export class DadosBasicosComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     routerState: any;
     etiqueta$: Observable<Etiqueta>;
@@ -51,6 +49,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     templatePagination: Pagination;
 
     modalidadeEtiquetaPagination: Pagination;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *

@@ -11,6 +11,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {Modelo, Pagination, TipoAcaoWorkflow} from '../../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-tipo-acao-workflow-trigger-001',
@@ -41,6 +43,7 @@ export class CdkTipoAcaoWorkflowTrigger001Component implements OnInit, OnDestroy
 
     form: FormGroup;
     formState: string = 'form';
+    selected = false;
 
     /**
      * Constructor
@@ -50,7 +53,6 @@ export class CdkTipoAcaoWorkflowTrigger001Component implements OnInit, OnDestroy
         private _router: Router,
         private _formBuilder: FormBuilder
     ) {
-
         this.form = this._formBuilder.group({
             id: [null],
             tipoAcaoWorkflow: [
@@ -71,6 +73,24 @@ export class CdkTipoAcaoWorkflowTrigger001Component implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void {
+        if (this.form.get('modelo').value) {
+            this.selected = true;
+        }
+
+        this.form.get('modelo').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.selected = false;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**

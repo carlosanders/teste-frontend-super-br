@@ -60,8 +60,8 @@ export class DadosBasicosEffect {
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
                             'especieProcesso',
-                            'especieProcesso.workflow',
-                            'especieProcesso.workflow.especieTarefaInicial'
+                            'especieProcesso.workflow-edit',
+                            'especieProcesso.workflow-edit.especieTarefaInicial'
                         ]))),
                 switchMap(response => [
                     new AddData<Processo>({data: [response], schema: processoSchema}),

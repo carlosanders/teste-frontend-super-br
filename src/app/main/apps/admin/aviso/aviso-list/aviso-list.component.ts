@@ -6,8 +6,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
-import {UnloadAviso} from './store';
-
 
 @Component({
     selector: 'aviso-list',

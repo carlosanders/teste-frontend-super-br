@@ -24,10 +24,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 export class CdkTipoAcaoWorkflowTrigger003Component implements OnInit, OnDestroy, OnChanges {
 
-    compartilhamento: Compartilhamento;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
-
     @Input()
     usuarioPagination: Pagination;
     @Input()
@@ -41,6 +37,8 @@ export class CdkTipoAcaoWorkflowTrigger003Component implements OnInit, OnDestroy
     save = new EventEmitter<TipoAcaoWorkflow>();
     @Output()
     abort = new EventEmitter<any>();
+
+    compartilhamento: Compartilhamento;
 
     routerState: any;
     form: FormGroup;
@@ -89,6 +87,7 @@ export class CdkTipoAcaoWorkflowTrigger003Component implements OnInit, OnDestroy
     }
 
     submit(values): void {
+        values['tipoAcaoWorkflow'] = this.tipoAcaoWorkflow;
         this.save.emit(values);
     }
 

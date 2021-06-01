@@ -4,13 +4,13 @@ acao-edit {
     flex-direction: column;
 
     > .header {
-        flex: 1 1 auto;
+        flex: 0 1 auto;
         display: flex;
-
-        path {
-            padding: 16px;
-            align-items: self-start;
-        }
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
 
     > .border-bottom {
@@ -22,7 +22,7 @@ acao-edit {
         flex-direction: column;
         display: flex;
         margin-top: 16px;
-        margin-bottom: 16px;
+        padding: 16px;
 
         > .trigger-acao-item {
             display: flex;
@@ -50,6 +50,7 @@ acao-edit {
         display: flex;
         flex-direction: column;
         flex: 1 1 auto;
+        padding: 0 16px 16px;
 
         .responsive-grid .content {
             height: 0 !important;
