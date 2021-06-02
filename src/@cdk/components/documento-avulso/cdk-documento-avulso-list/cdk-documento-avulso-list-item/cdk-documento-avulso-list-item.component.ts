@@ -49,4 +49,13 @@ export class CdkDocumentoAvulsoListItemComponent implements OnInit {
     onSelectedChange(): void {
         this.toggleInSelectedDocumentosAvulso.emit(this.documentoAvulso.id);
     }
+
+    copiarParaAreaTrabalho(nup): void {
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (nup));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
+    }
 }
