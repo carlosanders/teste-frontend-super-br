@@ -255,7 +255,8 @@
                             </div>
                         </div>
                     </div>
-                    <mat-icon *ngIf="minuta.assinado" class="ml-8 mr-8">lock</mat-icon>
+                    <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4">attach_file</mat-icon>
+                    <mat-icon *ngIf="minuta.assinado" [matTooltip]="'Assinado'" class="ml-4 mr-4">lock</mat-icon>
                     <div class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="minutasMenu"
                                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
@@ -415,7 +416,7 @@
                             </div>
                         </div>
                     </div>
-                    <mat-icon *ngIf="oficio.assinado" class="ml-8 mr-8">lock</mat-icon>
+                    <mat-icon *ngIf="oficio.assinado" class="ml-4 mr-4">lock</mat-icon>
                     <div class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="oficiosMenu"
                                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
@@ -656,7 +657,7 @@
                         </div>
                     </div>
                 </div>
-                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
+                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-4 mr-4">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                             *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&

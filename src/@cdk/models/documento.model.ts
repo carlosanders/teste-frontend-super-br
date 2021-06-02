@@ -43,6 +43,8 @@ export class Documento {
 
     semEfeito?: boolean;
 
+    temAnexos?: boolean;
+
     @Exclude({toPlainOnly: true})
     minuta?: boolean;
 
@@ -170,6 +172,7 @@ export class Documento {
         this.dataHoraProducao = null;
         this.outroNumero = null;
         this.semEfeito = false;
+        this.temAnexos = false;
         this.localizadorOriginal = null;
         this.localProducao = null;
         this.autor = null;
