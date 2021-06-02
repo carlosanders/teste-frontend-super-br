@@ -34,7 +34,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,9 +46,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.checkRole()) {
@@ -62,7 +62,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin(
@@ -79,20 +79,16 @@ export class ResolveGuard implements CanActivate {
     /**
      * check Role Coordenador
      *
-     * @returns {any}
+     * @returns
      */
     checkRole(): boolean {
         if (this.routerState.params['generoHandle'] === 'nacional' &&
             !this._loginService.isGranted('ROLE_COORDENADOR_ORGAO_CENTRAL_' + this.routerState.params['entidadeHandle'])) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         if (this.routerState.params['generoHandle'] === 'unidade' &&
             !this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE_' + this.routerState.params['entidadeHandle'])) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         return true;
     }
@@ -100,7 +96,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Unidade
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getUnidade(): any {
         return this._store.pipe(
@@ -115,10 +111,8 @@ export class ResolveGuard implements CanActivate {
                     }));
                 }
             }),
-            filter((loaded: any) => {
-                return (this.routerState.params['unidadeHandle'] && (this.routerState.params['unidadeHandle'] === loaded.value))
-                    || (!this.routerState.params['unidadeHandle'] && (this.routerState.params['entidadeHandle'] === loaded.value));
-            }),
+            filter((loaded: any) => (this.routerState.params['unidadeHandle'] && (this.routerState.params['unidadeHandle'] === loaded.value))
+                    || (!this.routerState.params['unidadeHandle'] && (this.routerState.params['entidadeHandle'] === loaded.value))),
             take(1)
         );
     }
@@ -126,7 +120,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Setor
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getSetor(): any {
         if (this.routerState.params['setorHandle'] !== 'default' && this.routerState.params['setorHandle'] !== 'criar') {
@@ -140,10 +134,8 @@ export class ResolveGuard implements CanActivate {
                         }));
                     }
                 }),
-                filter((loaded: any) => {
-                    return this.routerState.params['setorHandle'] &&
-                        (this.routerState.params['setorHandle'] === loaded.value);
-                }),
+                filter((loaded: any) => this.routerState.params['setorHandle'] &&
+                        (this.routerState.params['setorHandle'] === loaded.value)),
                 take(1)
             );
         }

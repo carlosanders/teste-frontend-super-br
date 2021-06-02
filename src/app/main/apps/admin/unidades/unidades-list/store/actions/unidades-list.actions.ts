@@ -50,7 +50,7 @@ export class GetUnidadesFailed implements Action
  export class UnloadUnidades implements Action
  {
      readonly type = UNLOAD_UNIDADES;
- 
+
      constructor()
      {
      }

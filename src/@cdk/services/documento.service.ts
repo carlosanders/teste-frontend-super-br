@@ -78,11 +78,24 @@ export class DocumentoService extends ParentGenericService<Documento> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Documento, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Documento(), {...documento, ...response});
             })
+        );
+    }
+
+    convertToPdf(id: number, changes: any, populate: any = '[]', context: any = '{}'): Observable<Documento> {
+        const params = {};
+        params['populate'] = JSON.stringify(populate);
+        params['context'] = context;
+
+        return this.modelService.patch(
+            'administrativo/documento/convertToPdf',
+            id,
+            changes,
+            new HttpParams({fromObject: params})
         );
     }
 }

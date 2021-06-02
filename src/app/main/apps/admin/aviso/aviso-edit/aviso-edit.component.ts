@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store';
 import {Back} from '../../../../../store';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'aviso-edit',
@@ -54,7 +54,7 @@ export class AvisoEditComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -63,7 +63,7 @@ export class AvisoEditComponent implements OnInit {
         this.aviso$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            aviso => {
+            (aviso) => {
                 if (aviso) {
                     this.aviso = aviso;
                 }

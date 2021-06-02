@@ -15,7 +15,7 @@ import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkNomeFormComponent } from './cdk-nome-form.component';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
-import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [

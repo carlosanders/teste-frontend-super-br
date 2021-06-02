@@ -16,7 +16,7 @@ import {Location} from '@angular/common';
 import {Modelo} from '@cdk/models';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'modelo-edit-dados-basicos',
@@ -77,7 +77,7 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
         const path = 'app/main/apps/documento/modelo-edit/dados-basicos';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

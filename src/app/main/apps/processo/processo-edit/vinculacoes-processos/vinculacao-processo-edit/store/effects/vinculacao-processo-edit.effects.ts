@@ -28,7 +28,7 @@ export class VinculacaoProcessoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class VinculacaoProcessoEditEffect {
 
     /**
      * Get VinculacaoProcesso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class VinculacaoProcessoEditEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoProcessoEditActions.GetVinculacaoProcesso>(VinculacaoProcessoEditActions.GET_VINCULACAO_PROCESSO),
-                switchMap((action) => {
-                    return this._vinculacaoProcessoService.query(
+                switchMap(action => this._vinculacaoProcessoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
                     new VinculacaoProcessoEditActions.GetVinculacaoProcessoSuccess({
@@ -73,6 +72,7 @@ export class VinculacaoProcessoEditEffect {
 
     /**
      * Save VinculacaoProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class VinculacaoProcessoEditEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoProcessoEditActions.SaveVinculacaoProcesso>(VinculacaoProcessoEditActions.SAVE_VINCULACAO_PROCESSO),
-                switchMap((action) => {
-                    return this._vinculacaoProcessoService.save(action.payload).pipe(
+                switchMap(action => this._vinculacaoProcessoService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoProcesso) => [
                             new VinculacaoProcessoEditActions.SaveVinculacaoProcessoSuccess(),
                             new VinculacaoProcessoListActions.ReloadVinculacoesProcessos(),
@@ -96,8 +95,7 @@ export class VinculacaoProcessoEditEffect {
                             console.log (err);
                             return of(new VinculacaoProcessoEditActions.SaveVinculacaoProcessoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save VinculacaoProcesso Success

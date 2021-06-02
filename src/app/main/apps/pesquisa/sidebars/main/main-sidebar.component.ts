@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
 
 import { cdkAnimations } from '@cdk/animations';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector       : 'pesquisa-main-sidebar',

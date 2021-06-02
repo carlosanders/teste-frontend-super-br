@@ -37,8 +37,8 @@ import {MatSliderModule} from '@angular/material/slider';
 import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
 import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
 import {MatCardModule} from '@angular/material/card';
-import {CdkGrupoContatoAutocompleteModule} from "../../grupo-contato/cdk-grupo-contato-autocomplete/cdk-grupo-contato-autocomplete.module";
-import {CdkGrupoContatoGridsearchModule} from "../../grupo-contato/cdk-grupo-contato-autocomplete/cdk-grupo-contato-gridsearch/cdk-grupo-contato-gridsearch.module";
+import {CdkGrupoContatoAutocompleteModule} from '../../grupo-contato/cdk-grupo-contato-autocomplete/cdk-grupo-contato-autocomplete.module';
+import {CdkGrupoContatoGridsearchModule} from '../../grupo-contato/cdk-grupo-contato-autocomplete/cdk-grupo-contato-gridsearch/cdk-grupo-contato-gridsearch.module';
 
 @NgModule({
     declarations: [

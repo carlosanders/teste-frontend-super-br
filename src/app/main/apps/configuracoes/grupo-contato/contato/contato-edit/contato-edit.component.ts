@@ -54,7 +54,7 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -99,7 +99,7 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        let grupoContato = new GrupoContato();
+        const grupoContato = new GrupoContato();
         grupoContato.id = this.routerState.params.grupoContatoHandle;
         contato.grupoContato = grupoContato;
 

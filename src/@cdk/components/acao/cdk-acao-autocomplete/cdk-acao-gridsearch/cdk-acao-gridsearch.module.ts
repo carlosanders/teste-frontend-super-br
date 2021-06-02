@@ -13,7 +13,7 @@ import { CdkAcaoGridModule } from '@cdk/components/acao/cdk-acao-grid/cdk-acao-g
     imports: [
 
         CdkAcaoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

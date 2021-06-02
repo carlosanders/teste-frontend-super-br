@@ -197,7 +197,7 @@ export class CdkValidacaoTransicaoWorkflowGridComponent implements AfterViewInit
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -221,7 +221,7 @@ export class CdkValidacaoTransicaoWorkflowGridComponent implements AfterViewInit
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-validacao-transicao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-validacao-transicao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

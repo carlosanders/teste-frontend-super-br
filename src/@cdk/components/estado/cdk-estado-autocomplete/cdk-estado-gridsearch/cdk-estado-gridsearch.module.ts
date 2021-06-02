@@ -13,7 +13,7 @@ import { CdkEstadoGridModule } from '../../../estado/cdk-estado-grid/cdk-estado-
     imports: [
 
         CdkEstadoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

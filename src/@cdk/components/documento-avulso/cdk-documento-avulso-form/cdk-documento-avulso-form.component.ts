@@ -20,8 +20,8 @@ import {Pagination} from '@cdk/models';
 import {Modelo} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
 import {FavoritoService} from '../../../services/favorito.service';
-import {DynamicService} from "../../../../modules/dynamic.service";
-import {modulesConfig} from "../../../../modules/modules-config";
+import {DynamicService} from '../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../modules/modules-config';
 
 @Component({
     selector: 'cdk-documento-avulso-form',
@@ -101,11 +101,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Input()
     pessoaDestinoPagination: Pagination;
 
-    form: FormGroup;
-
-    activeCard = 'form';
-
-    processos: Processo[] = [];
+    @Input()
+    mecanismoRemessa: string = 'interna';
 
     @Input()
     destinatarios = [];
@@ -118,6 +115,17 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     @Input()
     pessoaDestino: Pessoa;
+
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    selected = false;
+
+    form: FormGroup;
+
+    activeCard = 'form';
+
+    processos: Processo[] = [];
 
     inputReadOnly: boolean;
     inputProcesso: boolean;
@@ -137,9 +145,6 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     setorDestinoList: Setor[] = [];
 
     setorDestinoListIsLoading: boolean;
-
-    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
-    container: ViewContainerRef;
 
     generoProcessos: any[] = [];
 
@@ -171,7 +176,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             setorDestino: [null, [Validators.required]],
             pessoaDestino: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
-        }
+        };
 
         this.form = this._formBuilder.group(controlConfig);
         this.prazoCriteriaList = [];
@@ -193,7 +198,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
      */
     ngOnInit(): void {
 
-        if (this.mode === 'trigger-etiqueta'){
+        if (this.mode === 'trigger-etiqueta') {
             this.form.get('dataHoraInicioPrazo').setValidators(null);
             this.form.get('dataHoraFinalPrazo').setValidators(null);
             this.form.controls['prazoFinal'].setValidators(Validators.required);
@@ -208,6 +213,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+                    this.selected = false;
                     if (value === 'interna') {
                         this.form.get('pessoaDestino').reset();
                         this.form.get('pessoaDestino').disable();
@@ -239,23 +245,35 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+                    if (!value) {
+                        this.selected = false;
+                    }
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+                    }
                     if (value && typeof value === 'object' && this.form.get('blocoDestinatarios').value) {
                         this.destinatarios.push(value);
-                        this._changeDetectorRef.markForCheck();
                     }
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
         ).subscribe();
 
         this.form.get('pessoaDestino').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+                    if (!value) {
+                        this.selected = false;
+                    }
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+                        this.form.markAsDirty({onlySelf: false});
+                    }
                     if (value && typeof value === 'object' && this.form.get('blocoDestinatarios').value) {
                         this.destinatarios.push(value);
-                        this._changeDetectorRef.markForCheck();
                     }
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
@@ -266,9 +284,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         const path = '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form#radio';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
+                        .then((componentFactory) => {
                             this.container.createComponent(componentFactory);
                             this._changeDetectorRef.markForCheck();
                         });
@@ -288,9 +306,18 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             if (this.documentoAvulso.id) {
                 this.inputProcesso = true;
                 this.inputReadOnly = true;
-                this.documentoAvulso.pessoaDestino ? this.form.get('setorDestino').clearValidators() : false;
-                this.documentoAvulso.setorDestino ? this.form.get('pessoaDestino').clearValidators() : false;
+                if (this.documentoAvulso.pessoaDestino) {
+                    this.form.get('setorDestino').clearValidators();
+                }
+                if (this.documentoAvulso.setorDestino) {
+                    this.form.get('pessoaDestino').clearValidators();
+                }
             }
+        }
+
+        if (changes['pessoaDestino'] && this.pessoaDestino) {
+            this.form.get('pessoaDestino').setValue(this.pessoaDestino);
+            this.form.markAsDirty({onlySelf: false});
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -306,16 +333,12 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             }
         }
 
-        if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+        if (!this.errors && !changes['pessoaDestino']) {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
             this.form.setErrors(null);
-        }
-
-        if (changes['pessoaDestino'] && this.pessoaDestino) {
-            this.form.get('pessoaDestino').setValue(this.pessoaDestino);
         }
 
         this._changeDetectorRef.markForCheck();
@@ -335,14 +358,14 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             if (this.form.get('blocoProcessos').value && this.processos) {
 
                 // percorrendo o bloco de processos
-                this.processos.forEach(processo => {
+                this.processos.forEach((processo) => {
                     let docAvulso;
 
                     // caso tenha bloco de Destinatarios
                     if (this.form.get('blocoDestinatarios').value) {
 
                         // para cada processo criamos um oficio para cada Destinatario
-                        this.destinatarios.forEach(destinatario => {
+                        this.destinatarios.forEach((destinatario) => {
 
                             if (destinatario instanceof Setor) {
                                 docAvulso = {
@@ -383,7 +406,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                 this.destinatarios) {
                 let docAvulso;
 
-                this.destinatarios.forEach(destinatario => {
+                this.destinatarios.forEach((destinatario) => {
 
                     if (destinatario instanceof Setor) {
                         docAvulso = {
@@ -472,13 +495,6 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         }
     }
 
-    selectPessoaDestino(pessoaDestino: Pessoa): void {
-        if (pessoaDestino) {
-            this.form.get('pessoaDestino').setValue(pessoaDestino);
-        }
-        this.activeCard = 'form';
-    }
-
     doGerirPessoaDestino(): void {
         this.gerirPessoaDestino.emit();
     }
@@ -548,7 +564,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             finalize(() => this.especieDocumentoAvulsoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.especieDocumentoAvulsoList = [];
                 response['entities'].forEach((favorito) => {
                     this.especieDocumentoAvulsoList.push(favorito.objFavoritoClass[0]);
@@ -573,7 +589,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             finalize(() => this.modeloListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.modeloList = [];
                 response['entities'].forEach((favorito) => {
                     this.modeloList.push(favorito.objFavoritoClass[0]);
@@ -598,7 +614,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             finalize(() => this.pessoaDestinoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.pessoaDestinoList = [];
                 response['entities'].forEach((favorito) => {
                     this.pessoaDestinoList.push(favorito.objFavoritoClass[0]);
@@ -623,7 +639,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             finalize(() => this.setorDestinoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.setorDestinoList = [];
                 response['entities'].forEach((favorito) => {
                     this.setorDestinoList.push(favorito.objFavoritoClass[0]);

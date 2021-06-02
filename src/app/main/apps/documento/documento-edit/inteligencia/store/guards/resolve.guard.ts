@@ -18,7 +18,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DocumentoEditInteligenciaAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<DocumentoEditInteligenciaAppState>
@@ -26,7 +26,7 @@ export class ResolveGuard implements CanActivate {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,9 +36,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getRepositorios().pipe(
@@ -50,7 +50,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Repositorios
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getRepositorios(): any {
         return this._store.pipe(
@@ -59,15 +59,13 @@ export class ResolveGuard implements CanActivate {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     let repositoriosPagination: any = null;
 
-                    this._store.pipe(select(getRepositoriosPagination)).subscribe(pagination => {
+                    this._store.pipe(select(getRepositoriosPagination)).subscribe((pagination) => {
                         repositoriosPagination = pagination;
                     });
                     this._store.dispatch(new fromStore.GetRepositorios(repositoriosPagination));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

@@ -73,7 +73,7 @@ export class CdkRelevanciaGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.relevancias = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

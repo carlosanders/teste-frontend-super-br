@@ -173,7 +173,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 map(() => window.innerWidth),
                 distinctUntilChanged(),
                 startWith(window.innerWidth),
-                tap(width => {
+                tap((width) => {
                     let payload = 'mobile';
                     if (width > 425 && width <= 1024) {
                         payload = 'tablet';
@@ -187,6 +187,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 }),
             );
         this.resize$.subscribe();
+        if (this._loginService.getUserProfile() && !this._loginService.isExpired()) {
+            this._loginService.startCountdown();
+        }
     }
 
     /**

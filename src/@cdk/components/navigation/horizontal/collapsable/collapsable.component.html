@@ -54,10 +54,10 @@
         <div class="{{cdkConfig.layout.navbar.primaryBackground}}">
 
             <ng-container *ngFor="let item of item.children">
-                <cdk-nav-horizontal-item *ngIf="item.type=='item'" [item]="item"></cdk-nav-horizontal-item>
-                <cdk-nav-horizontal-collapsable *ngIf="item.type=='collapsable'"
+                <cdk-nav-horizontal-item *ngIf="item.type==='item'" [item]="item"></cdk-nav-horizontal-item>
+                <cdk-nav-horizontal-collapsable *ngIf="item.type==='collapsable'"
                                                  [item]="item"></cdk-nav-horizontal-collapsable>
-                <cdk-nav-horizontal-collapsable *ngIf="item.type=='group'"
+                <cdk-nav-horizontal-collapsable *ngIf="item.type==='group'"
                                                  [item]="item"></cdk-nav-horizontal-collapsable>
             </ng-container>
 

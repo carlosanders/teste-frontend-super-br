@@ -6,7 +6,7 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode === 'search')}">
 
         <div class="actions">
 
@@ -68,7 +68,7 @@
         </div>
 
         <div class="content" cdkPerfectScrollbar>
-            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select" >

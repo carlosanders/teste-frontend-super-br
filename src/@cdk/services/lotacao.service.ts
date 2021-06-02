@@ -23,9 +23,9 @@ export class LotacaoService extends ParentGenericService<Lotacao> {
             `${environment.api_url}${'administrativo/lotacao'}/${lotacao.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Lotacao, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Lotacao(), {...lotacao, ...response});
             })
         );

@@ -154,7 +154,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -162,56 +162,56 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
 
         this.loading$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(loading => {
+        ).subscribe((loading) => {
             this.loading = loading;
         });
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
         });
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.currentPessoaConveniadaId = parseInt(routerState.state.params['targetHandle'], 0);
         });
 
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processos => !!processos)
-        ).subscribe(processos => {
+        ).subscribe((processos) => {
             this.processos = processos;
         });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(maximizado => {
+        ).subscribe((maximizado) => {
             this.maximizado = maximizado;
         });
 
         this.selectedProcessos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedProcessos => {
+        ).subscribe((selectedProcessos) => {
             this.selectedProcessos = selectedProcessos;
         });
 
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedIds => {
+        ).subscribe((selectedIds) => {
             this.selectedIds = selectedIds;
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
                 if (this.maximizado) {

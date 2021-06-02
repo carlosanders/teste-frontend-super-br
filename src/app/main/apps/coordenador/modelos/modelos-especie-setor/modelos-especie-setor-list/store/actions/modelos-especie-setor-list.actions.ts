@@ -55,7 +55,7 @@ export class GetModelosEspecieSetorFailed implements Action
  export class UnloadModelosEspecieSetor implements Action
  {
      readonly type = UNLOAD_MODELOS_ESPECIE_SETOR;
- 
+
      constructor()
      {
      }

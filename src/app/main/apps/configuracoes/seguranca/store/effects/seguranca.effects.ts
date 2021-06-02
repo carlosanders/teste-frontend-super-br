@@ -25,7 +25,7 @@ export class SegurancaEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class SegurancaEffect {
 
     /**
      * Save Seguranca
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class SegurancaEffect {
         this._actions
             .pipe(
                 ofType<SegurancaActions.SaveSeguranca>(SegurancaActions.SAVE_SEGURANCA),
-                switchMap((action) => {
-                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+                switchMap(action => this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
                         mergeMap((response: Usuario) => [
                             new SegurancaActions.SaveSegurancaSuccess(),  new OperacoesActions.Resultado({
                                 type: 'usuario',
@@ -54,7 +54,6 @@ export class SegurancaEffect {
                             console.log (err);
                             return of(new SegurancaActions.SaveSegurancaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

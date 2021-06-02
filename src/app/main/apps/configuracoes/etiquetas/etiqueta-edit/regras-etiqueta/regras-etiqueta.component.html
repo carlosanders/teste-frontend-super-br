@@ -1,16 +1,5 @@
 <div class="content">
     <!-- CONTENT HEADER -->
-    <div class="header">
-        <div class="actions m-8">
-            <button mat-icon-button
-                    (click)="goBack()"
-                    *ngIf="this.action === 'listar'"
-                    aria-label="voltar"
-                    matTooltip="Voltar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-        </div>
-    </div>
     <!-- / CONTENT HEADER -->
     <router-outlet></router-outlet>
 </div>

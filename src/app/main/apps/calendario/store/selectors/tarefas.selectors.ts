@@ -51,7 +51,7 @@ export const getEvents = createSelector(
                 };
 
                 return new CalendarEventModel(data);
-            })
+            });
         } else {
             return [];
         }

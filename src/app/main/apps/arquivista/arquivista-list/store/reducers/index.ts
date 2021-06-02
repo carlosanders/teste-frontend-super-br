@@ -5,7 +5,7 @@ import { ModalidadeTransicaoReducer, ModalidadeTransicaoState } from './modalida
 export interface ArquivistaAppState
 {
     arquivista: ArquivistaState;
-    modalidadeTransicao: ModalidadeTransicaoState
+    modalidadeTransicao: ModalidadeTransicaoState;
 }
 
 export const getArquivistaAppState = createFeatureSelector<ArquivistaAppState>(

@@ -34,7 +34,7 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {CdkConfigService} _cdkConfigService
+     * @param _cdkConfigService
      * @param _formBuilder
      * @param _loginService
      * @param _dialog
@@ -94,7 +94,7 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
                                 width: '600px'
                             });
 
-                            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+                            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
                                 this.inputText.emit({id: value.id, chaveAcesso: result});
                                 return of([]);
                             });

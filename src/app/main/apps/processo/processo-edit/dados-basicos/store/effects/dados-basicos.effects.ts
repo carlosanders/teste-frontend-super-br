@@ -25,7 +25,7 @@ export class DadosBasicosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class DadosBasicosEffect {
 
     /**
      * Save Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class DadosBasicosEffect {
         this._actions
             .pipe(
                 ofType<DadosBasicosActions.SaveProcesso>(DadosBasicosActions.SAVE_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
+                switchMap(action => this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new DadosBasicosActions.SaveProcessoSuccess(response),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -52,11 +52,8 @@ export class DadosBasicosEffect {
                                 dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new DadosBasicosActions.SaveProcessoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new DadosBasicosActions.SaveProcessoFailed(err)))
+                    ))
             );
     /**
      * Save Processo Success

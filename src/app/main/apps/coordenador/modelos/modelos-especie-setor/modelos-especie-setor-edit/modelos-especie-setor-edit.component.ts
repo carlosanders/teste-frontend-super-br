@@ -65,7 +65,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
             )
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -87,7 +87,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         this.vinculacaoModelo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            vinculacaoModelo => {
+            (vinculacaoModelo) => {
                 if (vinculacaoModelo) {
                     this.vinculacaoModelo = vinculacaoModelo;
                 }
@@ -97,7 +97,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            modalidadeOrgaoCentral => {
+            (modalidadeOrgaoCentral) => {
                 if (modalidadeOrgaoCentral) {
                     this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }
@@ -107,7 +107,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         this.unidade$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            unidade => {
+            (unidade) => {
                 if (unidade) {
                     this.unidade = unidade;
                 }
@@ -117,7 +117,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         this.modelo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            modelo => {
+            (modelo) => {
                 if (modelo) {
                     this.modelo = modelo;
                 }

@@ -24,7 +24,7 @@ export class ModelosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -33,6 +33,7 @@ export class ModelosEffect {
 
     /**
      * Get Modelos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -59,7 +60,7 @@ export class ModelosEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new AddData<Modelo>({data: response['entities'], schema: modeloSchema}),
                     new ModelosActions.GetModelosSuccess({
                         entitiesId: response['entities'].map(modelo => modelo.id),

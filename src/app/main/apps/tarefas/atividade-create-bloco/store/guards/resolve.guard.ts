@@ -20,14 +20,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<AtividadeCreateBlocoAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<AtividadeCreateBlocoAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,9 +37,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getDocumentos().pipe(
@@ -51,7 +51,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Documentos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getDocumentos(): any {
         return this._store.pipe(
@@ -59,12 +59,10 @@ export class ResolveGuard implements CanActivate {
             withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
             tap(([loaded, tarefas]) => {
                 if (!loaded && tarefas.length) {
-                    this._store.dispatch(new fromStore.GetDocumentos(tarefas.map((tarefa) => tarefa.id)));
+                    this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
                 }
             }),
-            filter((loaded: any) => {
-                return (loaded[0] === true) && loaded[1].length;
-            }),
+            filter((loaded: any) => (loaded[0] === true) && loaded[1].length),
             take(1)
         );
     }

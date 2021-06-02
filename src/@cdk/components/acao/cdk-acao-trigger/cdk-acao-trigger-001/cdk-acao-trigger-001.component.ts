@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from "@angular/router";
-import {Acao, Modelo, Pagination} from "../../../../models";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from '@angular/router';
+import {Acao, ModalidadeAcaoEtiqueta, Modelo, Pagination} from '../../../../models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'cdk-acao-trigger-001',
@@ -25,17 +25,24 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
 
     @Input()
     modeloPagination: Pagination;
+
     @Input()
     saving: boolean;
+
     @Input()
     errors: any;
+
     @Input()
     modeloAndx: any = [];
+
+    valid: boolean = false;
+
     @Input()
-    modalidadeAcaoEtiqueta;
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
 
     @Output()
     save = new EventEmitter<Acao>();
+
     @Output()
     abort = new EventEmitter<any>();
 
@@ -72,6 +79,13 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
      * On init
      */
     ngOnInit(): void {
+        this.form.get('modelo').valueChanges.subscribe((valor) => {
+            if (typeof valor === 'object') {
+                this.valid = true;
+            } else {
+                this.valid = false;
+            }
+        });
     }
 
     /**
@@ -102,7 +116,7 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
 
     selectModelo(modelo?: Modelo): void {
         if (modelo) {
-            this.form.get('modelo').setValue(modelo)
+            this.form.get('modelo').setValue(modelo);
         }
         this.formState = 'form';
     }

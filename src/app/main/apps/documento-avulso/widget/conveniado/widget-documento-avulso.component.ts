@@ -48,14 +48,14 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
      */
     ngOnInit(): void {
         const pessoaIds = [];
-        this._profile.vinculacoesPessoasUsuarios.forEach((pessoaConveniada) => pessoaIds.push(pessoaConveniada.pessoa.id));
+        this._profile.vinculacoesPessoasUsuarios.forEach(pessoaConveniada => pessoaIds.push(pessoaConveniada.pessoa.id));
 
         this._documentoAvulsoService.count(
             `{"pessoaDestino.id": "in:${pessoaIds}", "dataHoraResposta": "isNull", "dataHoraRemessa": "isNotNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
-            value => {
+            (value) => {
                 this.documentosAvulsosCount = value;
                 this._changeDetectorRef.markForCheck();
             }
@@ -66,7 +66,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
-            value => {
+            (value) => {
                 this.documentosAvulsosVencidosCount = value;
                 this._changeDetectorRef.markForCheck();
             }

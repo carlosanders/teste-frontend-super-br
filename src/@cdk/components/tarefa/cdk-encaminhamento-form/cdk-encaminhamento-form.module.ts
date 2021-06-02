@@ -7,6 +7,7 @@ import {
 
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkEncaminhamentoFormComponent } from './cdk-encaminhamento-form.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { CdkEncaminhamentoFormComponent } from './cdk-encaminhamento-form.compon
         MatIconModule,
         CdkSharedModule,
         MatRadioModule,
+        MatCardModule,
     ],
     providers: [
 

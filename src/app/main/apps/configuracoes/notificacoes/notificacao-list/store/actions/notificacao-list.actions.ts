@@ -58,7 +58,7 @@ export class GetNotificacoesFailed implements Action
  export class UnloadNotificacoes implements Action
  {
      readonly type = UNLOAD_NOTIFICACOES;
- 
+
      constructor()
      {
      }

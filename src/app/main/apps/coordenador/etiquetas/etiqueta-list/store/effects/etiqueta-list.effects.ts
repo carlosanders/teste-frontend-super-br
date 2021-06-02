@@ -13,7 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Etiqueta} from '@cdk/models';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class EtiquetaListEffect {
@@ -31,7 +31,7 @@ export class EtiquetaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.id = 'generoHandle_entidadeHandle';
@@ -51,6 +51,7 @@ export class EtiquetaListEffect {
 
     /**
      * Get Etiquetas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -58,8 +59,7 @@ export class EtiquetaListEffect {
         this._actions
             .pipe(
                 ofType<EtiquetaListActions.GetEtiquetas>(EtiquetaListActions.GET_ETIQUETAS),
-                switchMap((action) => {
-                    return this._etiquetaService.query(
+                switchMap(action => this._etiquetaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -69,7 +69,7 @@ export class EtiquetaListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Etiqueta>({data: response['entities'], schema: etiquetaSchema}),
                             new EtiquetaListActions.GetEtiquetasSuccess({
                                 entitiesId: response['entities'].map(etiqueta => etiqueta.id),
@@ -84,12 +84,12 @@ export class EtiquetaListEffect {
                             console.log(err);
                             return of(new EtiquetaListActions.GetEtiquetasFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -97,9 +97,8 @@ export class EtiquetaListEffect {
         this._actions
             .pipe(
                 ofType<EtiquetaListActions.DeleteEtiqueta>(EtiquetaListActions.DELETE_ETIQUETA),
-                mergeMap((action) => {
-                    return this._etiquetaService.destroy(action.payload).pipe(
-                        map((response) => new EtiquetaListActions.DeleteEtiquetaSuccess(response.id)),
+                mergeMap(action => this._etiquetaService.destroy(action.payload).pipe(
+                        map(response => new EtiquetaListActions.DeleteEtiquetaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new EtiquetaListActions.DeleteEtiquetaFailed(
@@ -108,7 +107,6 @@ export class EtiquetaListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

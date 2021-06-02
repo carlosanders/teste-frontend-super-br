@@ -36,7 +36,7 @@ export class InteressadosComponent implements OnInit {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.url.indexOf('interessados/listar') > -1) {

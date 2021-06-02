@@ -4,7 +4,7 @@ import { FoldersReducer, FoldersState } from './folders.reducer';
 import { RootLotacaoListReducer, RootLotacaoListState } from './lotacao.reducer';
 import { RootUnidadeReducer, RootUnidadeState } from './unidade.reducer';
 import { RootSetorReducer, RootSetorState } from './setor.reducer';
-import {AssinaturasReducer, AssinaturasState} from "./assinaturas.reducer";
+import {AssinaturasReducer, AssinaturasState} from './assinaturas.reducer';
 
 
 export interface TarefasAppState

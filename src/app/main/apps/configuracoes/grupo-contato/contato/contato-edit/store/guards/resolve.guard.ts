@@ -9,7 +9,7 @@ import {ContatoEditAppState} from '../reducers';
 import * as fromStore from '../';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from "../../../../../../../auth/login/login.service";
+import {LoginService} from '../../../../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -27,7 +27,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,9 +37,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getContato().pipe(
@@ -51,7 +51,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Contato
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getContato(): any {
         return this._store.pipe(
@@ -70,9 +70,7 @@ export class ResolveGuard implements CanActivate {
 
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

@@ -10,8 +10,8 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
-import {Pagination, Usuario} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {Pagination} from '@cdk/models';
+import {distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 @Component({
@@ -42,16 +42,16 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
     form: FormGroup;
 
     @Input()
-  
+
     @Input()
     usuarioRecebidoPagination: Pagination;
 
     @Input()
     usuarioPagination: Pagination;
 
-  
-    
     activeCard = 'form';
+
+    selected = false;
 
     /**
      * Constructor
@@ -65,13 +65,11 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
             transicaoWorkflow: [null],
             contexto: [null],
             atribuidoPara: [null, [Validators.required]],
-            nome: ["nome", [Validators.required]],
-            descricao: ["descricao", [Validators.required]],
+            nome: ['nome', [Validators.required]],
+            descricao: ['descricao', [Validators.required]],
         });
 
-        
         this.usuarioRecebidoPagination = new Pagination();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,14 +80,31 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
      * On change
      */
     ngOnInit(): void {
+        if (this.form.get('atribuidoPara').value) {
+            this.selected = true;
+        }
 
+        this.form.get('atribuidoPara').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.selected = false;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
      * On change
      */
 
-   
+
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['validacao'] && this.validacao && ((!this.validacao.id && !this.form.dirty) || (this.validacao.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.validacao});
@@ -109,7 +124,7 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -137,25 +152,6 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
     doAbort(): void {
         this.abort.emit();
     }
-
-    checkUsuarioRecebido(): void {
-        const value = this.form.get('usuario').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('usuario').setValue(null);
-        }
-    }
-
-    showUsuarioRecebidoGrid(): void {
-        this.activeCard = 'usuario-recebido-gridsearch';
-    }
-
-    selectUsuarioRecebido(usuario: Usuario): void {
-        if (usuario) {
-            this.form.get('usuario').setValue(usuario);
-        }
-        this.activeCard = 'form';
-    }
-
 
     cancel(): void {
         this.activeCard = 'form';

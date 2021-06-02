@@ -27,7 +27,7 @@ export class EspecieAtividadeListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class EspecieAtividadeListEffects {
 
     /**
      * Get EspecieAtividade with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class EspecieAtividadeListEffects {
         this._actions
             .pipe(
                 ofType<EspecieAtividadeListActions.GetEspecieAtividade>(EspecieAtividadeListActions.GET_ESPECIE_ATIVIDADE),
-                switchMap((action) => {
-                    return this._especieAtividadeService.query(
+                switchMap(action => this._especieAtividadeService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class EspecieAtividadeListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<EspecieAtividade>({data: response['entities'], schema: especieAtividadeSchema}),
                             new EspecieAtividadeListActions.GetEspecieAtividadeSuccess({
                                 entitiesId: response['entities'].map(especieAtividade => especieAtividade.id),
@@ -69,7 +69,6 @@ export class EspecieAtividadeListEffects {
                             console.log(err);
                             return of(new EspecieAtividadeListActions.GetEspecieAtividadeFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions';
 
-import { AddData } from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
 import { getRouterState, State } from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
 export class DocumentosEffects {
@@ -32,7 +32,7 @@ export class DocumentosEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class DocumentosEffects {
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         JSON.stringify(action.payload),
                         10,
                         0,
@@ -60,8 +60,7 @@ export class DocumentosEffects {
                             'documentoAvulsoRemessa.documentoResposta',
                             'componentesDigitais',
                             'juntadaAtual'
-                        ]));
-                }),
+                        ]))),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new DocumentosActions.GetDocumentosSuccess({
@@ -82,6 +81,7 @@ export class DocumentosEffects {
 
     /**
      * Get Documentos Complementares with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -89,8 +89,7 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.GetDocumentosComplementares>(DocumentosActions.GET_DOCUMENTOS_COMPLEMENTARES),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         JSON.stringify(action.payload),
                         10,
                         0,
@@ -101,8 +100,7 @@ export class DocumentosEffects {
                             'documentoAvulsoRemessa.documentoResposta',
                             'componentesDigitais',
                             'juntadaAtual'
-                        ]));
-                }),
+                        ]))),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new DocumentosActions.GetDocumentosCompelemtaresSuccess({
@@ -122,6 +120,7 @@ export class DocumentosEffects {
 
     /**
      * Clicked Documento
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -137,6 +136,7 @@ export class DocumentosEffects {
 
     /**
      * Converte Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -144,24 +144,27 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.ConverteToPdf>(DocumentosActions.CONVERTE_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
                             .pipe(
-                                mergeMap((response) => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                mergeMap(response => [
+                                    new UpdateData<Documento>({
+                                        id: response.id,
+                                        schema: documentoSchema,
+                                        changes: {componentesDigitais: response.componentesDigitais}
+                                    }),
                                     new DocumentosActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {
                                     console.log(err);
                                     return of(new DocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
-                            );
-                    }
+                            )
                 )
             );
 
     /**
      * Converte Documento HTML
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -169,10 +172,9 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.ConverteToPdf>(DocumentosActions.CONVERTE_DOCUMENTO_HTML),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
                                     new DocumentosActions.ConverteToHtmlSucess(action.payload)
                                 ]),
@@ -180,13 +182,13 @@ export class DocumentosEffects {
                                     console.log(err);
                                     return of(new DocumentosActions.ConverteToHtmlFailed(action.payload));
                                 })
-                            );
-                    }
+                            )
                 )
             );
 
     /**
      * Delete Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -194,19 +196,18 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.DeleteDocumento>(DocumentosActions.DELETE_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.destroy(action.payload).pipe(
-                            map((response) => new DocumentosActions.DeleteDocumentoSuccess(response.id)),
+                mergeMap(action => this._documentoService.destroy(action.payload).pipe(
+                            map(response => new DocumentosActions.DeleteDocumentoSuccess(response.id)),
                             catchError((err) => {
                                 console.log(err);
                                 return of(new DocumentosActions.DeleteDocumentoFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Assina Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -214,23 +215,20 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.AssinaDocumento>(DocumentosActions.ASSINA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
-                                map((response) => {
-                                    return new DocumentosActions.AssinaDocumentoSuccess(response);
-                                }),
+                                map(response => new DocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new DocumentosActions.AssinaDocumentoFailed(err));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Assina Documento Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -253,6 +251,7 @@ export class DocumentosEffects {
 
     /**
      * Save Documento Assinatura Eletronica
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -260,8 +259,7 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.AssinaDocumentoEletronicamente>(DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documentoId),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -276,8 +274,7 @@ export class DocumentosEffects {
                             console.log(err);
                             return of(new DocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     @Effect()
@@ -285,10 +282,9 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.RemoveAssinaturaDocumento>(DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.removeAssinatura(action.payload)
+                mergeMap(action => this._documentoService.removeAssinatura(action.payload)
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new DocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
                                     new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
                                 ]),
@@ -297,12 +293,12 @@ export class DocumentosEffects {
                                     this._store.dispatch(new DocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Download P7S
+     *
      * @type {Observable<any>}
      *
      * */
@@ -311,8 +307,7 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.DownloadToP7S>(DocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 map((response) => {
                                     if (response && response.conteudo) {
@@ -322,8 +317,8 @@ export class DocumentosEffects {
                                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                                         }
                                         const byteArray = new Uint8Array(byteNumbers);
-                                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                                            URL = window.URL;
+                                        const blob = new Blob([byteArray], {type: response.mimetype});
+                                            const URL = window.URL;
                                         const data = URL.createObjectURL(blob);
                                         const link = document.createElement('a');
                                         link.href = data;
@@ -340,8 +335,7 @@ export class DocumentosEffects {
                                     console.log(err);
                                     return of(new DocumentosActions.DownloadToP7SFailed(action.payload));
                                 })
-                            );
-                    }
+                            )
                 )
             );
 

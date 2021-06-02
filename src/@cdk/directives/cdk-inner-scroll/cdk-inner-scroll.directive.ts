@@ -17,9 +17,9 @@ export class CdkInnerScrollDirective implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ElementRef} _elementRef
-     * @param {CdkMatchMediaService} _cdkMediaMatchService
-     * @param {Renderer2} _renderer
+     * @param _elementRef
+     * @param _cdkMediaMatchService
+     * @param _renderer
      */
     constructor(
         private _elementRef: ElementRef,
@@ -104,6 +104,7 @@ export class CdkInnerScrollDirective implements OnInit, OnDestroy
 
     /**
      * Remove the class name
+     *
      * @private
      */
     private _removeClass(): void

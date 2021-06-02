@@ -59,7 +59,7 @@ export class DocumentoEditVersoesComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -69,7 +69,7 @@ export class DocumentoEditVersoesComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(cd => {
+        ).subscribe((cd) => {
             this.componenteDigital = cd;
 
             if (this.componenteDigital) {

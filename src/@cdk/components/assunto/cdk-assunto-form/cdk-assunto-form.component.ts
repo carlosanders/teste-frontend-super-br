@@ -98,7 +98,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -168,7 +168,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
             finalize(() => this.assuntoAdministrativoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.assuntoAdministrativoList = [];
                 response['entities'].forEach((favorito) => {
                     this.assuntoAdministrativoList.push(favorito.objFavoritoClass[0]);

@@ -13,7 +13,7 @@ import { CdkEspecieRelatorioGridModule } from '@cdk/components/especie-relatorio
     imports: [
 
         CdkEspecieRelatorioGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

@@ -17,7 +17,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
-export class EtiquetaEditEffect {
+export class EtiquetaDadosBasicosEffects {
     routerState: any;
 
     constructor(
@@ -29,7 +29,7 @@ export class EtiquetaEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class EtiquetaEditEffect {
 
     /**
      * Save Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,15 +46,13 @@ export class EtiquetaEditEffect {
         this._actions
             .pipe(
                 ofType<EtiquetaEditActions.SaveEtiqueta>(EtiquetaEditActions.SAVE_ETIQUETA),
-                switchMap((action) => {
-                    return this._etiquetaService.save(action.payload, JSON.stringify({isAdmin: true})).pipe(
+                switchMap(action => this._etiquetaService.save(action.payload, JSON.stringify({isAdmin: true})).pipe(
                         mergeMap((response: Etiqueta) => [
                             new EtiquetaEditActions.SaveEtiquetaSuccess(),
                             new EtiquetaListActions.ReloadEtiquetas(),
                             new AddData<Etiqueta>({data: [response], schema: etiquetaSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new EtiquetaEditActions.SaveEtiquetaFailed(err));

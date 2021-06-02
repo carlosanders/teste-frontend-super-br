@@ -6,10 +6,10 @@
 
     <div class="group-items">
         <ng-container *ngFor="let item of item.children">
-            <cdk-nav-vertical-group *ngIf="item.type=='group'" [item]="item"></cdk-nav-vertical-group>
-            <cdk-nav-vertical-collapsable *ngIf="item.type=='collapsable'"
+            <cdk-nav-vertical-group *ngIf="item.type==='group'" [item]="item"></cdk-nav-vertical-group>
+            <cdk-nav-vertical-collapsable *ngIf="item.type==='collapsable'"
                                            [item]="item"></cdk-nav-vertical-collapsable>
-            <cdk-nav-vertical-item *ngIf="item.type=='item'" [item]="item"></cdk-nav-vertical-item>
+            <cdk-nav-vertical-item *ngIf="item.type==='item'" [item]="item"></cdk-nav-vertical-item>
         </ng-container>
     </div>
 

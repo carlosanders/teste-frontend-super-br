@@ -28,7 +28,7 @@ export class DocumentoAvulsoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class DocumentoAvulsoEditEffect {
 
     /**
      * Get DocumentoAvulso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class DocumentoAvulsoEditEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoEditActions.GetDocumentoAvulso>(DocumentoAvulsoEditActions.GET_DOCUMENTO_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.query(
+                switchMap(action => this._documentoAvulsoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                     new DocumentoAvulsoEditActions.GetDocumentoAvulsoSuccess({
@@ -73,6 +72,7 @@ export class DocumentoAvulsoEditEffect {
 
     /**
      * Save DocumentoAvulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class DocumentoAvulsoEditEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulso>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.save(action.payload).pipe(
+                switchMap(action => this._documentoAvulsoService.save(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
                             new DocumentoAvulsoListActions.ReloadDocumentosAvulsos(),
@@ -96,8 +95,7 @@ export class DocumentoAvulsoEditEffect {
                             console.log (err);
                             return of(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

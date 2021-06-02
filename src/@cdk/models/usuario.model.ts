@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {VinculacaoUsuario} from '@cdk/models';
+import {ComponenteDigital, VinculacaoUsuario} from '@cdk/models';
 import {Colaborador} from '@cdk/models';
 import {VinculacaoPessoaUsuario} from './vinculacao-pessoa-usuario.model';
 import {Coordenador} from './coordenador.model';
@@ -86,6 +86,14 @@ export class Usuario {
     @Type(() => Coordenador)
     coordenadores?: Coordenador[];
 
+    @Type(() => ComponenteDigital)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    imgPerfil?: ComponenteDigital;
+
+    @Type(() => ComponenteDigital)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    imgChancela?: ComponenteDigital;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -112,5 +120,7 @@ export class Usuario {
         this.jwt = null;
         this.isDisponivel = null;
         this.primeiroAcesso = null;
+        this.imgPerfil = null;
+        this.imgChancela = null;
     }
 }

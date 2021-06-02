@@ -19,14 +19,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<LoginAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<LoginAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,9 +36,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getConfig().pipe(
@@ -50,7 +50,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Config
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getConfig(): any {
         return this._store.pipe(
@@ -60,9 +60,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetConfig());
                 }
             }),
-            filter((config: any) => {
-                return !!config;
-            }),
+            filter((config: any) => !!config),
             take(1)
         );
     }

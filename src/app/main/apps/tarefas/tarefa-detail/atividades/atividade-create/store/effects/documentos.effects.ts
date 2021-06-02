@@ -15,8 +15,8 @@ import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
-import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
-import {GetTarefa} from "../../../../store";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {GetTarefa} from '../../../../store';
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -33,7 +33,7 @@ export class AtividadeCreateDocumentosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class AtividadeCreateDocumentosEffect {
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -54,11 +55,11 @@ export class AtividadeCreateDocumentosEffect {
                     let tarefaId = null;
 
                     const routeParams = of('tarefaHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         tarefaId = `eq:${this.routerState.params[param]}`;
                     });
 
-                    let params = {}
+                    let params = {};
                     if (!action.payload['filter']) {
                         params = {
                             filter: {
@@ -118,6 +119,7 @@ export class AtividadeCreateDocumentosEffect {
 
     /**
      * Update Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -125,8 +127,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.UpdateDocumento>(AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO),
-                mergeMap((action) => {
-                    return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+                mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
                         mergeMap((response: Documento) => [
                             new AtividadeCreateDocumentosActions.UpdateDocumentoSuccess(response.id),
                             new AddData<Documento>({data: [response], schema: documentoSchema}),
@@ -136,12 +137,12 @@ export class AtividadeCreateDocumentosEffect {
                             console.log(err);
                             return of(new AtividadeCreateDocumentosActions.UpdateDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -214,6 +215,7 @@ export class AtividadeCreateDocumentosEffect {
 
     /**
      * Assina Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -221,19 +223,15 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumento>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
-                                map((response) => {
-                                    return new AtividadeCreateDocumentosActions.AssinaDocumentoSuccess(response);
-                                }),
+                                map(response => new AtividadeCreateDocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect()
@@ -241,10 +239,9 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.RemoveAssinaturaDocumento>(AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.removeAssinatura(action.payload)
+                mergeMap(action => this._documentoService.removeAssinatura(action.payload)
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
                                     new AtividadeCreateDocumentosActions.GetDocumentos(),
                                 ]),
@@ -253,12 +250,12 @@ export class AtividadeCreateDocumentosEffect {
                                     this._store.dispatch(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Assina Documento Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -281,6 +278,7 @@ export class AtividadeCreateDocumentosEffect {
 
     /**
      * Save Documento Assinatura Eletronica
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -288,8 +286,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamente>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -304,12 +301,12 @@ export class AtividadeCreateDocumentosEffect {
                             console.log(err);
                             return of(new AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Clicked Documento
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -348,6 +345,7 @@ export class AtividadeCreateDocumentosEffect {
 
     /**
      * Converte Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -355,11 +353,14 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.ConverteToPdf>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
                             .pipe(
-                                mergeMap((response) => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                mergeMap(response => [
+                                    new UpdateData<Documento>({
+                                        id: response.id,
+                                        schema: documentoSchema,
+                                        changes: {componentesDigitais: response.componentesDigitais}
+                                    }),
                                     new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {
@@ -367,13 +368,13 @@ export class AtividadeCreateDocumentosEffect {
                                     return of(new AtividadeCreateDocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
                             )
-                            ;
-                    }
+
                 )
             );
 
     /**
      * Converte Documento HTML
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -381,23 +382,20 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.ConverteToHtml>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
                                     new AtividadeCreateDocumentosActions.ConverteToHtmlSucess(action.payload)
                                 ]),
-                                catchError((err) => {
-                                    return of(new AtividadeCreateDocumentosActions.ConverteToHtmlFailed(action.payload));
-                                })
-                            );
-                    }
+                                catchError(err => of(new AtividadeCreateDocumentosActions.ConverteToHtmlFailed(action.payload)))
+                            )
                 )
             );
 
     /**
      * Download P7S
+     *
      * @type {Observable<any>}
      *
      * */
@@ -406,8 +404,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.DownloadP7S>(AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 map((response) => {
                                     if (response) {
@@ -417,8 +414,8 @@ export class AtividadeCreateDocumentosEffect {
                                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                                         }
                                         const byteArray = new Uint8Array(byteNumbers);
-                                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                                            URL = window.URL;
+                                        const blob = new Blob([byteArray], {type: response.mimetype});
+                                            const URL = window.URL;
                                         const data = URL.createObjectURL(blob);
                                         const link = document.createElement('a');
                                         link.href = data;
@@ -440,13 +437,13 @@ export class AtividadeCreateDocumentosEffect {
                                     return of(new AtividadeCreateDocumentosActions.DownloadP7SFailed(action.payload));
                                 })
                             )
-                            ;
-                    }
+
                 )
             );
 
     /**
      * Undelete Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -463,8 +460,7 @@ export class AtividadeCreateDocumentosEffect {
                         lote: action.payload.loteId
                     }));
                 }),
-                mergeMap((action) => {
-                    return this._documentoService.undelete(action.payload.documento).pipe(
+                mergeMap(action => this._documentoService.undelete(action.payload.documento).pipe(
                         map((response) => {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
@@ -493,7 +489,6 @@ export class AtividadeCreateDocumentosEffect {
                             console.log(err);
                             return of(new AtividadeCreateDocumentosActions.UndeleteDocumentoFailed(payload));
                         })
-                    );
-                }, 25)
+                    ), 25)
             );
 }

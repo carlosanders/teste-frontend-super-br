@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
 import {CdkConfigService} from '@cdk/services/config.service';
@@ -11,11 +11,17 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {ButtonTodasNotificacoesLidas, getCounterState} from 'app/store';
+import {
+    ButtonTodasNotificacoesLidas,
+    getCounterState,
+    RemoveAllNotificacao,
+    RemoveNotificacao
+} from 'app/store';
 import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
-import {getIsLoading, getNormalizedNotificacaoEntities, getOperacoesEmProcessamento} from '../../../store';
+import {getIsLoading, getOperacoesEmProcessamento, getNotificacaoList} from '../../../store';
+import {getChatIsLoading} from '../chat-panel/store';
 
 @Component({
     selector: 'toolbar',
@@ -36,16 +42,21 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     notificacoes: Notificacao[] = [];
     notificacoesCount: string;
     carregandoNotificacao = true;
+    carregandoChat: boolean = true;
+    totalChatMensagensNaoLidas: any = 0;
     cdkConfig: any;
+    checkedNotifications: Notificacao[] = [];
+
+    titulo = 'processo';
 
     quickPanelLockedOpen: boolean;
-
-    // Private
-    private _unsubscribeAll: Subject<any>;
 
     operacoesProcessando = 0;
     operacoesPendentes = 0;
     shepherdService: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *
@@ -140,11 +151,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(
-                select(getNormalizedNotificacaoEntities),
+                select(getNotificacaoList),
                 takeUntil(this._unsubscribeAll),
             )
-            .subscribe(notificacoes => {
-                this.notificacoes = notificacoes;
+            .subscribe((notificacoes) => {
+                if (notificacoes) {
+                    this.notificacoes = notificacoes.sort(((n1,n2) => n2.id - n1.id));
+                }
             });
         this._store
             .pipe(
@@ -155,14 +168,28 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(
+                select(getChatIsLoading),
+                takeUntil(this._unsubscribeAll),
+            ).subscribe(carregandoChat => this.carregandoChat = carregandoChat);
+
+        this._store
+            .pipe(
                 select(getCounterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
+            ).subscribe((value) => {
                 if (value && value['notificacoes_pendentes'] !== undefined) {
                     if (parseInt(value['notificacoes_pendentes']) > 99) {
                         this.notificacoesCount = '99+';
                     } else {
                         this.notificacoesCount = value['notificacoes_pendentes'];
+                    }
+                }
+
+                if (value && value['chat_mensagens_nao_lidas'] !== undefined) {
+                    if (parseInt(value['chat_mensagens_nao_lidas']) > 99) {
+                        this.totalChatMensagensNaoLidas = '99+';
+                    } else {
+                        this.totalChatMensagensNaoLidas = value['chat_mensagens_nao_lidas'];
                     }
                 }
             }
@@ -171,7 +198,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesEmProcessamento),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
+            ).subscribe((value) => {
                 this.operacoesProcessando = Object.keys(value).length;
                 if (this.operacoesProcessando === 0) {
                     this.operacoesPendentes = 0;
@@ -181,6 +208,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                     }
                 }
             });
+
+        this._loginService.getUserProfileChanges()
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter(userProfile => !!userProfile)
+            )
+            .subscribe(userProfile => this.userProfile = userProfile);
     }
 
     /**
@@ -220,6 +254,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         }
     }
 
+    toggleChatPanel(): void {
+        if (!this._cdkSidebarService.getSidebar('chatPanel').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('chatPanel').toggleOpen();
+        } else {
+            this._cdkSidebarService.getSidebar('chatPanel').toggleFold();
+        }
+    }
+
     /**
      * Search
      *
@@ -242,8 +284,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new Logout({url: false}));
     }
 
-    titulo = 'processo';
-
     tour(tour: string): void {
         this.titulo = tour;
     }
@@ -265,17 +305,17 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
     }
 
-    sendToTarget(notificacao: Notificacao) {
+    sendToTarget(notificacao: Notificacao): any {
         const contexto = JSON.parse(notificacao.contexto);
         switch (notificacao.tipoNotificacao.nome) {
-            case 'relatorio':
+            case 'RELATORIO':
                 return this._router
                     .navigate([
                         `/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`
                     ]);
-            case 'processo':
+            case 'PROCESSO':
                 return this._router.navigate([`/apps/processo/${contexto.id}/visualizar/capa/mostrar`]);
-            case 'tarefa':
+            case 'TAREFA':
                 return this._router
                     .navigate([
                     `/apps/tarefas/administrativo/minhas-tarefas/entrada/tarefa/${contexto.id}/processo/${contexto.id_processo}/visualizar/capa/mostrar`
@@ -285,7 +325,49 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    marcarTodasComoLida() {
+    marcarTodasComoLida(): void {
         this._store.dispatch(new ButtonTodasNotificacoesLidas());
+    }
+
+    excluirTodasNotificaoes(): void {
+        this._store.dispatch(new RemoveAllNotificacao());
+    }
+
+    removerNotificacao(notificacao): void {
+        this._store.dispatch(new RemoveNotificacao(notificacao.id));
+    }
+
+    marcarSelecionadosComoLido(): void {
+        this.checkedNotifications.forEach((notificacao) => {
+            if (!notificacao.dataHoraLeitura) {
+                this.toggleLida(notificacao);
+            }
+        });
+
+        this.resetSelecoes();
+    }
+
+    removerSelecionados(): void {
+        this.checkedNotifications.forEach((notificacao) => {
+            this._store.dispatch(new RemoveNotificacao(notificacao.id));
+        });
+
+        this.resetSelecoes();
+    }
+
+    resetSelecoes(): void {
+        this.checkedNotifications = [];
+    }
+
+    /**
+     * @param checked
+     * @param notification
+     */
+    checkNotification(checked: boolean, notification: Notificacao): any {
+        if (checked) {
+            return this.checkedNotifications.push(notification);
+        }
+
+        this.checkedNotifications = this.checkedNotifications.filter(item => item.id !== notification.id);
     }
 }

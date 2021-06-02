@@ -30,7 +30,7 @@ export class TipoAcaoWorkflowEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class TipoAcaoWorkflowEditEffects {
 
     /**
      * Get TipoAcaoWorkflow with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -46,8 +47,7 @@ export class TipoAcaoWorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<TipoAcaoWorkflowEditActions.GetTipoAcaoWorkflow>(TipoAcaoWorkflowEditActions.GET_TIPO_ACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoAcaoWorkflowService.query(
+                switchMap(action => this._tipoAcaoWorkflowService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -55,8 +55,7 @@ export class TipoAcaoWorkflowEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<TipoAcaoWorkflow>({data: response['entities'], schema: tipoAcaoWorkflowSchema}),
                     new TipoAcaoWorkflowEditActions.GetTipoAcaoWorkflowSuccess({
@@ -76,6 +75,7 @@ export class TipoAcaoWorkflowEditEffects {
 
     /**
      * Save TipoAcaoWorkflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,6 +102,7 @@ export class TipoAcaoWorkflowEditEffects {
 
     /**
      * Update TipoAcaoWorkflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -109,15 +110,13 @@ export class TipoAcaoWorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<TipoAcaoWorkflowEditActions.UpdateTipoAcaoWorkflow>(TipoAcaoWorkflowEditActions.UPDATE_TIPO_ACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoAcaoWorkflowService.patch(action.payload.tipoAcaoWorkflow, action.payload.changes).pipe(
+                switchMap(action => this._tipoAcaoWorkflowService.patch(action.payload.tipoAcaoWorkflow, action.payload.changes).pipe(
                         mergeMap((response: TipoAcaoWorkflow) => [
                             new TipoAcaoWorkflowListActions.ReloadTipoAcaoWorkflow(),
                             new AddData<TipoAcaoWorkflow>({data: [response], schema: tipoAcaoWorkflowSchema}),
                             new TipoAcaoWorkflowEditActions.UpdateTipoAcaoWorkflowSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new TipoAcaoWorkflowEditActions.UpdateTipoAcaoWorkflowFailed(err));
@@ -134,7 +133,7 @@ export class TipoAcaoWorkflowEditEffects {
             .pipe(
                 ofType<TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflowSuccess>(TipoAcaoWorkflowEditActions.SAVE_TIPO_ACAO_WORKFLOW_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/admin/tipo-acao-workflow/listar']).then();
+                    this._router.navigate(['apps/admin/tipo-acao-workflow-edit/listar']).then();
                 })
             );
 

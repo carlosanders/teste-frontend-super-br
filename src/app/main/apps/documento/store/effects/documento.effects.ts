@@ -64,7 +64,7 @@ export class DocumentoEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.lixeira = !!routerState.state.queryParams.lixeira;
@@ -77,6 +77,7 @@ export class DocumentoEffect {
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -90,7 +91,7 @@ export class DocumentoEffect {
                         value: ''
                     };
                     const routeParams = of('documentoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -139,7 +140,7 @@ export class DocumentoEffect {
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
                         ]),
-                        JSON.stringify(context))
+                        JSON.stringify(context));
                 }),
                 switchMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
@@ -163,6 +164,7 @@ export class DocumentoEffect {
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -194,6 +196,7 @@ export class DocumentoEffect {
 
     /**
      * Save Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -201,8 +204,7 @@ export class DocumentoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoActions.SaveDocumento>(DocumentoActions.SAVE_DOCUMENTO),
-                switchMap((action) => {
-                    return this._documentoService.save(action.payload).pipe(
+                switchMap(action => this._documentoService.save(action.payload).pipe(
                         mergeMap((response: Documento) => [
                             new DocumentoActions.SaveDocumentoSuccess(),
                             new AddData<Documento>({data: [response], schema: documentoSchema}),
@@ -216,12 +218,12 @@ export class DocumentoEffect {
                             console.log(err);
                             return of(new DocumentoActions.SaveDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -229,8 +231,7 @@ export class DocumentoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoActions.SaveTemplate>(DocumentoActions.SAVE_TEMPLATE),
-                switchMap((action) => {
-                    return this._modeloService.save(action.payload).pipe(
+                switchMap(action => this._modeloService.save(action.payload).pipe(
                         mergeMap((response: Template) => [
                             new DocumentoActions.SaveTemplateSuccess(),
                             new AddData<Template>({data: [response], schema: templateSchema}),
@@ -244,12 +245,12 @@ export class DocumentoEffect {
                             console.log(err);
                             return of(new DocumentoActions.SaveTemplateFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -260,7 +261,7 @@ export class DocumentoEffect {
                 withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
                 tap(([action, componenteDigital]) => {
                     let type = '/visualizar';
-                    let url = this.routerState.url;
+                    const url = this.routerState.url;
                     let sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
 
                     if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
@@ -301,6 +302,7 @@ export class DocumentoEffect {
 
     /**
      * Assina Documento
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -309,8 +311,7 @@ export class DocumentoEffect {
             .pipe(
                 ofType<DocumentoActions.AssinaDocumento>(DocumentoActions.ASSINA_DOCUMENTO),
                 withLatestFrom(this._store.pipe(select(DocumentoSelectors.getDocumentoId))),
-                mergeMap(([action, documentoId]) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 0)]))
+                mergeMap(([action, documentoId]) => this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 0)]))
                             .pipe(
                                 tap((response: any) => {
                                     const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.secret + '/get_jnlp';
@@ -327,12 +328,12 @@ export class DocumentoEffect {
                                     this._store.dispatch(new DocumentoActions.AssinaDocumentoFailed(err));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Assina Documento Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -362,6 +363,7 @@ export class DocumentoEffect {
 
     /**
      * Save Documento Assinatura Eletronica
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -369,8 +371,7 @@ export class DocumentoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoActions.AssinaDocumentoEletronicamente>(DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new DocumentoActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -384,12 +385,12 @@ export class DocumentoEffect {
                             console.log(err);
                             return of(new DocumentoActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Assina Documento Eletronicamente Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -419,6 +420,7 @@ export class DocumentoEffect {
 
     /**
      * Create Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -431,8 +433,8 @@ export class DocumentoEffect {
                     vinculacaoEtiqueta.documento = action.payload.documento;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.documento = null),
-                        mergeMap((response) => [
+                        tap(response => response.documento = null),
+                        mergeMap(response => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
@@ -456,6 +458,7 @@ export class DocumentoEffect {
 
     /**
      * Save conteúdo vinculação etiqueta no documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -463,10 +466,9 @@ export class DocumentoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoActions.SaveConteudoVinculacaoEtiqueta>(DocumentoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
                         // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new DocumentoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({id: response.id, schema: vinculacaoEtiquetaSchema, changes: {conteudo: response.conteudo, privada: response.privada}})
                         ]),
@@ -474,14 +476,14 @@ export class DocumentoEffect {
                             console.log(err);
                             return of(new DocumentoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
 
     /**
      * Delete Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -489,8 +491,7 @@ export class DocumentoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoActions.DeleteVinculacaoEtiqueta>(DocumentoActions.DELETE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
@@ -503,8 +504,7 @@ export class DocumentoEffect {
                                 console.log(err);
                                 return of(new DocumentoActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
 }

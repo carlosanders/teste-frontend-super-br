@@ -51,7 +51,7 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.refresh();
@@ -61,7 +61,7 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getSteps)
-            ).subscribe(steps => {
+            ).subscribe((steps) => {
                 if (steps) {
                     this.steps = steps;
                 }

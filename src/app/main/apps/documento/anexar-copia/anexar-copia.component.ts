@@ -16,7 +16,7 @@ import {Observable} from 'rxjs';
 import {Documento} from '@cdk/models';
 import {getCurrentComponenteDigitalId} from '../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UnloadJuntadas} from "../../processo/processo-view/store";
+import {UnloadJuntadas} from '../../processo/processo-view/store';
 
 @Component({
     selector: 'anexar-copia',
@@ -55,7 +55,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -75,11 +75,11 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getComponenteDigitalIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getComponenteDigitalErrors));
 
-        this.documento$.subscribe(documento => {
+        this.documento$.subscribe((documento) => {
             this.documento = documento;
         });
 
-        this.currentComponenteDigitalId$.subscribe(currentComponenteDigitalId => {
+        this.currentComponenteDigitalId$.subscribe((currentComponenteDigitalId) => {
             this.currentComponenteDigitalId = currentComponenteDigitalId;
         });
     }

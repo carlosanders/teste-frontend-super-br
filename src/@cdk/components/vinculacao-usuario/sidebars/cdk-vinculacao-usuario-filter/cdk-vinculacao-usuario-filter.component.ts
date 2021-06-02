@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-vinculacao-usuario-filter',
@@ -101,6 +101,7 @@ export class CdkVinculacaoUsuarioFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

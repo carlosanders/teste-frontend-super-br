@@ -27,7 +27,7 @@ import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {Usuario} from '@cdk/models';
-import {expandirTela} from "./store/selectors/processo.selectors";
+import {expandirTela} from './store/selectors/processo.selectors';
 
 @Component({
     selector: 'protocolo-externo-detail',
@@ -99,7 +99,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -107,7 +107,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
         });
 
@@ -125,14 +125,14 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
         });
 
         this.expandir$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            expandir => {
+            (expandir) => {
                 this.doToggleMaximizado(expandir);
             }
         );

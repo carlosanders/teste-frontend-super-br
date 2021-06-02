@@ -30,15 +30,15 @@ import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
-import {CounterState} from "../../../../../store/reducers/counter.reducer";
+import {CounterState} from '../../../../../store/reducers/counter.reducer';
 import {MatSort} from '@cdk/angular/material';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {CdkUtils} from "@cdk/utils";
-import {DndDropEvent} from "ngx-drag-drop";
-import {navigationConverter} from "../../../../../navigation/navigation";
-import {FormControl} from "@angular/forms";
-import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
+import {CdkUtils} from '@cdk/utils';
+import {DndDropEvent} from 'ngx-drag-drop';
+import {navigationConverter} from '../../../../../navigation/navigation';
+import {FormControl} from '@angular/forms';
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -76,9 +76,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     error = '';
 
     loading$: Observable<boolean>;
-    orgaoCentralLoading$: Observable<boolean>
-    unidadeLoading$: Observable<boolean>
-    lotacaoLoading$: Observable<boolean>
+    orgaoCentralLoading$: Observable<boolean>;
+    unidadeLoading$: Observable<boolean>;
+    lotacaoLoading$: Observable<boolean>;
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
@@ -142,6 +142,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * @param _loginService
      * @param router
      * @param _snackBar
+     * @param _cdkSidebarService
      */
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
@@ -163,7 +164,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
-        })
+        });
 
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.paginationUnidades$ = this._store.pipe(select(fromStore.getPaginationUnidades));
@@ -197,12 +198,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getCounterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
+            ).subscribe((value) => {
             this.counterState = value;
             this.preencherContador();
         });
 
-        this.isSavingFolder$.subscribe(saving => {
+        this.isSavingFolder$.subscribe((saving) => {
             this.showAddFolder = saving;
             if (!saving) {
                 this.newFolderCtrl.setValue('');
@@ -213,7 +214,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(fromStore.getFolders),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(folders => {
+            ).subscribe((folders) => {
                 this.folders = folders;
                 this.preencherContador();
             }
@@ -222,23 +223,23 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(fromStore.getSelectedTarefas),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => {
+        ).subscribe((tarefas) => {
             this.selectedTarefas = tarefas;
         });
 
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
 
-        this.paginationUnidades$.subscribe(pagination => {
+        this.paginationUnidades$.subscribe((pagination) => {
             this.paginationUnidades = pagination;
         });
 
-        this.paginationSetores$.subscribe(pagination => {
+        this.paginationSetores$.subscribe((pagination) => {
             this.paginationSetores = pagination;
         });
 
-        this.paginationLotacoes$.subscribe(pagination => {
+        this.paginationLotacoes$.subscribe((pagination) => {
             this.paginationLotacoes = pagination;
         });
 
@@ -246,7 +247,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 if (routerState.state.params['targetHandle'] === 'compartilhadas') {
@@ -266,7 +267,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         });
 
         this.unidades$.subscribe(
-            unidades => {
+            (unidades) => {
                 this.unidades = unidades;
                 this._changeDetectorRef.markForCheck();
             }
@@ -290,14 +291,14 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         });
 
         this.setores$.subscribe(
-            setores => {
+            (setores) => {
                 this.setores = setores;
                 this._changeDetectorRef.markForCheck();
             }
         );
 
         this.lotacoes$.subscribe(
-            lotacoes => {
+            (lotacoes) => {
                 this.lotacoes = lotacoes;
                 this._changeDetectorRef.markForCheck();
             }
@@ -341,7 +342,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             .pipe(
                 distinctUntilChanged(),
                 filter(term => !!term && term.length >= 2),
-            ).subscribe(valor => {
+            ).subscribe((valor) => {
                 this.error = '';
             });
     }
@@ -364,6 +365,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      */
     create(): void {
         this._store.dispatch(new fromStore.CreateTarefa());
+        this.fecharSidebar();
     }
 
     fechaOrgaoCentral(): void {
@@ -377,11 +379,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetUnidades({
                 ...this.paginationUnidades,
                 filter: {
-                    "modalidadeOrgaoCentral.id": "eq:" + orgaoCentral.id,
-                    "id": "notIn:" + this.unidadesCoordenacao.map(setor => setor.id).join(',')
+                    'modalidadeOrgaoCentral.id': 'eq:' + orgaoCentral.id,
+                    'id': 'notIn:' + this.unidadesCoordenacao.map(setor => setor.id).join(',')
                 },
                 limit: this.paginationUnidades.limit,
-                populate: ["populateAll", "setor"],
+                populate: ['populateAll', 'setor'],
                 context: this.paginationUnidades.context,
                 offset: 0,
                 sort: {},
@@ -414,16 +416,22 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.orgaoCentralOpen = false;
         }
         if (unidade.id !== this.unidadeId) {
+            const filtros: any = {
+                'unidade.id': 'eq:' + unidade.id,
+                'parent': 'isNotNull'
+            };
+            if (this.setoresCoordenacao.length) {
+                filtros.id = 'notIn:' + this.setoresCoordenacao.map(setor => setor.id).join(',');
+            }
+
             this._store.dispatch(new fromStore.UnloadSetores());
             this._store.dispatch(new fromStore.GetSetores({
                 ...this.paginationSetores,
                 filter: {
-                    "unidade.id": "eq:" + unidade.id,
-                    "id": "notIn:" + this.setoresCoordenacao.map(setor => setor.id).join(','),
-                    "parent": 'isNotNull'
+                    ...filtros
                 },
                 limit: this.paginationSetores.limit,
-                populate: ["populateAll", "unidade", "parent"],
+                populate: ['populateAll', 'unidade', 'parent'],
                 context: this.paginationSetores.context,
                 offset: 0,
                 sort: {},
@@ -461,10 +469,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetLotacoes({
                 ...this.paginationLotacoes,
                 filter: {
-                    "setor.id": "eq:" + setor.id
+                    'setor.id': 'eq:' + setor.id
                 },
                 limit: this.paginationLotacoes.limit,
-                populate: ["populateAll", "colaborador.usuario"],
+                populate: ['populateAll', 'colaborador.usuario'],
                 context: {'semAfastamento': true},
                 offset: 0,
                 sort: {},
@@ -493,7 +501,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             const usuarioId = usuario ? usuario.id : null;
             if (this.selectedTarefas.length > 1) {
                 const lote = CdkUtils.makeId();
-                this.selectedTarefas.forEach(tarefa => {
+                this.selectedTarefas.forEach((tarefa) => {
                     this.doDistribuir(tarefa, setor, usuarioId, lote);
                 });
             } else {
@@ -502,7 +510,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         }
         this.placeholderId = null;
-        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]))
+        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]));
     }
 
     doDistribuir(tarefa: Tarefa, setor: number, usuario: number, loteId: string = ''): void {
@@ -561,7 +569,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             if (this.mode === 'Tarefas') {
                 if (this.routerState.params['targetHandle'] !== 'lixeira') {
                     if (this.selectedTarefas.length > 1) {
-                        this.selectedTarefas.forEach(tarefa => {
+                        this.selectedTarefas.forEach((tarefa) => {
                             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
                                 tarefa: tarefa,
                                 folder: $event[1]
@@ -576,7 +584,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 } else {
                     // Restaurando tarefas da lixeira
                     if (this.selectedTarefas.length > 1) {
-                        this.selectedTarefas.forEach(tarefa => {
+                        this.selectedTarefas.forEach((tarefa) => {
                             this.doRestauraTarefa(tarefa, $event[1]);
                         });
                     } else {
@@ -586,7 +594,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         }
         this.placeholderId = null;
-        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]))
+        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]));
     }
 
     onDropDelete($event, enabled: boolean): void {
@@ -594,7 +602,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             if (this.mode === 'Tarefas') {
                 if (this.selectedTarefas.length > 1) {
                     const lote = CdkUtils.makeId();
-                    this.selectedTarefas.forEach(tarefa => {
+                    this.selectedTarefas.forEach((tarefa) => {
                         this.deleteTarefa(tarefa, lote);
                     });
                 } else {
@@ -603,7 +611,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         }
         this.placeholderId = null;
-        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]))
+        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]));
     }
 
     deleteTarefa(tarefa: Tarefa, loteId: string = null): void {
@@ -674,8 +682,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this.tarefasPendentes = [];
         if (this.generoHandle && this.counterState) {
             if (this.folders) {
-                for (let folder of this.folders) {
-                    let nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();
+                for (const folder of this.folders) {
+                    const nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();
                     if (this.counterState && this.counterState[nomePasta] !== undefined) {
                         this.tarefasPendentes[folder.nome] = this.counterState[nomePasta];
                     } else {
@@ -689,6 +697,13 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this.tarefasPendentes['caixa_entrada_' + this.generoHandleAcentuado] = 0;
             }
+
+            if (this.counterState['lixeira_' + this.generoHandleAcentuado] !== undefined) {
+                this.tarefasPendentes['lixeira_' + this.generoHandleAcentuado] = this.counterState['lixeira_' + this.generoHandleAcentuado];
+            } else {
+                this.tarefasPendentes['lixeira_' + this.generoHandleAcentuado] = 0;
+            }
+
         }
         this._changeDetectorRef.markForCheck();
     }
@@ -776,6 +791,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     /**
      * Issue-176
      * Verifica se é permitido soltar tarefas em um determinado setor
+     *
      * @param event: DndDropEvent
      * @param setor: Setor
      */

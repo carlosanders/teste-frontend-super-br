@@ -15,7 +15,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {catchError, finalize} from 'rxjs/operators';
 
 import {Pagination, VinculacaoAviso} from '@cdk/models';
-import {VinculacaoAvisoService} from "../../../../services/vinculacao-aviso.service";
+import {VinculacaoAvisoService} from '../../../../services/vinculacao-aviso.service';
 
 
 @Component({
@@ -72,7 +72,7 @@ export class CdkVinculacaoAvisoGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.vinculacaoAvisos = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

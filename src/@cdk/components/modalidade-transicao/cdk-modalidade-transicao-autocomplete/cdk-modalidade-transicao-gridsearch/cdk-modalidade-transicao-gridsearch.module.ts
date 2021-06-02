@@ -13,7 +13,7 @@ import { CdkModalidadeTransicaoGridModule } from '@cdk/components/modalidade-tra
     imports: [
 
         CdkModalidadeTransicaoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

@@ -62,7 +62,7 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -70,7 +70,7 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
 
@@ -80,13 +80,13 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
                 filter(op => !!op && !!op.content && op.type === 'componenteDigital')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
             );
 
-        this.tarefas$.subscribe(tarefas => {
+        this.tarefas$.subscribe((tarefas) => {
             this.tarefas = tarefas;
         });
     }
@@ -115,7 +115,7 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
     }
 
     doSelect(modelo): void {
-        this.tarefas.forEach (tarefa => {
+        this.tarefas.forEach ((tarefa) => {
             this._store.dispatch(new fromStore.CreateComponenteDigital({
                 modelo: modelo,
                 tarefaOrigem: tarefa

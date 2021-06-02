@@ -14,7 +14,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 
 import {ConfiguracaoNup} from '@cdk/models';
 import {FormControl} from '@angular/forms';
-import {ConfiguracaoNupDataSource} from "../../../data-sources/configuracao-nup-data-source";
+import {ConfiguracaoNupDataSource} from '../../../data-sources/configuracao-nup-data-source';
 
 @Component({
     selector: 'cdk-configuracao-nup-grid',
@@ -198,7 +198,7 @@ export class CdkConfiguracaoNupGridComponent implements AfterViewInit, OnInit, O
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }

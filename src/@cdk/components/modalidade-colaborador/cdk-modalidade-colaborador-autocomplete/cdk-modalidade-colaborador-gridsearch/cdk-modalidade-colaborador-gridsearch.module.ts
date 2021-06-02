@@ -13,7 +13,7 @@ import { CdkModalidadeColaboradorGridModule } from '@cdk/components/modalidade-c
     imports: [
 
         CdkModalidadeColaboradorGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

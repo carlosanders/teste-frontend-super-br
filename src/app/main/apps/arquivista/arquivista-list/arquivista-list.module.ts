@@ -14,9 +14,9 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {LoginService} from '../../../auth/login/login.service';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {modulesConfig} from 'modules/modules-config';
-import {TransicaoArquivistaStoreModule} from "../transicao-arquivista-bloco/store/store.module";
-import {TransicaoService} from "@cdk/services/transicao.service";
-import {ModalidadeTransicaoService} from "@cdk/services/modalidade-transicao.service";
+import {TransicaoArquivistaStoreModule} from '../transicao-arquivista-bloco/store/store.module';
+import {TransicaoService} from '@cdk/services/transicao.service';
+import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
 
 const routes: Routes = [
     {

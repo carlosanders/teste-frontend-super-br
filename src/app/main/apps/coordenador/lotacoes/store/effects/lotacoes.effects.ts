@@ -38,7 +38,7 @@ export class LotacoesEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -47,6 +47,7 @@ export class LotacoesEffects {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -54,16 +55,14 @@ export class LotacoesEffects {
         this._actions
             .pipe(
                 ofType<LotacoesActions.GetSetor>(LotacoesActions.GET_SETOR),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                     new LotacoesActions.GetSetorSuccess({
@@ -83,6 +82,7 @@ export class LotacoesEffects {
 
     /**
      * Get Usuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -90,16 +90,14 @@ export class LotacoesEffects {
         this._actions
             .pipe(
                 ofType<LotacoesActions.GetUsuario>(LotacoesActions.GET_USUARIO),
-                switchMap((action) => {
-                    return this._usuarioService.query(
+                switchMap(action => this._usuarioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
                     new LotacoesActions.GetUsuarioSuccess({

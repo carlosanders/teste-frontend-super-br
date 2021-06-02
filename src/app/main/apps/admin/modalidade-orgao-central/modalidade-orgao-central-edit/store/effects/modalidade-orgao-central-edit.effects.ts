@@ -32,7 +32,7 @@ export class ModalidadeOrgaoCentralEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class ModalidadeOrgaoCentralEditEffects {
 
     /**
      * Get ModalidadeOrgaoCentral with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class ModalidadeOrgaoCentralEditEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeOrgaoCentralEditActions.GetModalidadeOrgaoCentral>(ModalidadeOrgaoCentralEditActions.GET_MODALIDADE_ORGAO_CENTRAL),
-                switchMap((action) => {
-                    return this._modalidadeOrgaoCentralService.query(
+                switchMap(action => this._modalidadeOrgaoCentralService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -57,8 +57,7 @@ export class ModalidadeOrgaoCentralEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<ModalidadeOrgaoCentral>({data: response['entities'], schema: modalidadeOrgaoCentralSchema}),
                     new ModalidadeOrgaoCentralEditActions.GetModalidadeOrgaoCentralSuccess({
@@ -78,6 +77,7 @@ export class ModalidadeOrgaoCentralEditEffects {
 
     /**
      * Save ModalidadeOrgaoCentral
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -104,6 +104,7 @@ export class ModalidadeOrgaoCentralEditEffects {
 
     /**
      * Update ModalidadeOrgaoCentral
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -111,15 +112,13 @@ export class ModalidadeOrgaoCentralEditEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeOrgaoCentralEditActions.UpdateModalidadeOrgaoCentral>(ModalidadeOrgaoCentralEditActions.UPDATE_MODALIDADE_ORGAO_CENTRAL),
-                switchMap((action) => {
-                    return this._modalidadeOrgaoCentralService.patch(action.payload.modalidadeOrgaoCentral, action.payload.changes).pipe(
+                switchMap(action => this._modalidadeOrgaoCentralService.patch(action.payload.modalidadeOrgaoCentral, action.payload.changes).pipe(
                         mergeMap((response: ModalidadeOrgaoCentral) => [
                             new ModalidadeOrgaoCentralListActions.ReloadModalidadeOrgaoCentral(),
                             new AddData<ModalidadeOrgaoCentral>({data: [response], schema: modalidadeOrgaoCentralSchema}),
                             new ModalidadeOrgaoCentralEditActions.UpdateModalidadeOrgaoCentralSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ModalidadeOrgaoCentralEditActions.UpdateModalidadeOrgaoCentralFailed(err));

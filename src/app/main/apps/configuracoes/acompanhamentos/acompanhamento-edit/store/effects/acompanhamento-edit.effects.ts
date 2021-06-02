@@ -30,7 +30,7 @@ export class AcompanhamentoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class AcompanhamentoEditEffect {
 
     /**
      * Get Acompanhamento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -46,16 +47,14 @@ export class AcompanhamentoEditEffect {
         this._actions
             .pipe(
                 ofType<AcompanhamentoEditActions.GetAcompanhamento>(AcompanhamentoEditActions.GET_ACOMPANHAMENTO),
-                switchMap((action) => {
-                    return this._acompanhamentoService.query(
+                switchMap(action => this._acompanhamentoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Compartilhamento>({data: response['entities'], schema: comparilhamentoSchema}),
                     new AcompanhamentoEditActions.GetAcompanhamentoSuccess({
@@ -75,6 +74,7 @@ export class AcompanhamentoEditEffect {
 
     /**
      * Save Acompanhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,16 +82,14 @@ export class AcompanhamentoEditEffect {
         this._actions
             .pipe(
                 ofType<AcompanhamentoEditActions.SaveAcompanhamento>(AcompanhamentoEditActions.SAVE_ACOMPANHAMENTO),
-                switchMap((action) => {
-                    return this._acompanhamentoService.save(action.payload).pipe(
+                switchMap(action => this._acompanhamentoService.save(action.payload).pipe(
                         mergeMap((response: Compartilhamento) => [
                             new AcompanhamentoEditActions.SaveAcompanhamentoSuccess(),
                             new AcompanhamentoListActions.ReloadAcompanhamentos(),
                             new GetAcompanhamentos([]),
                             new AddData<Compartilhamento>({data: [response], schema: comparilhamentoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new AcompanhamentoEditActions.SaveAcompanhamentoFailed(err));

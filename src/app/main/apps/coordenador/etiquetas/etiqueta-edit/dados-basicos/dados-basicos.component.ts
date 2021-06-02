@@ -16,10 +16,10 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getEtiqueta} from '../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getEtiqueta} from '../store';
+import {Back} from '../../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store/reducers';
+import {getRouterState} from '../../../../../../store';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -31,8 +31,6 @@ import {takeUntil} from 'rxjs/operators';
     animations: cdkAnimations
 })
 export class DadosBasicosComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     routerState: any;
     etiqueta$: Observable<Etiqueta>;
@@ -51,6 +49,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     templatePagination: Pagination;
 
     modalidadeEtiquetaPagination: Pagination;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -76,7 +76,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
             )
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['unidadeHandle']) {
@@ -85,7 +85,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                         this.unidadeHandle$.pipe(
                             takeUntil(this._unsubscribeAll)
                         ).subscribe(
-                            setor => {
+                            (setor) => {
                                 if (setor) {
                                     this.unidade = setor;
                                 }
@@ -98,7 +98,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                         this.setorHandle$.pipe(
                             takeUntil(this._unsubscribeAll)
                         ).subscribe(
-                            setor => {
+                            (setor) => {
                                 if (setor) {
                                     this.setor = setor;
                                 }
@@ -127,7 +127,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.setor$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.setor = setor;
                 }
@@ -137,7 +137,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.unidade$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.unidade = setor;
                 }
@@ -147,7 +147,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            modalidadeOrgaoCentral => {
+            (modalidadeOrgaoCentral) => {
                 if (modalidadeOrgaoCentral) {
                     this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }

@@ -94,7 +94,7 @@ export class ComponenteDigital {
     tarefaOrigem?: Tarefa;
 
     @Type(() => Tarefa)
-    @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })
+    @Transform(value => value ? value.map(d => d.id) : null, { toPlainOnly: true })
     tarefaOrigemBloco?: Tarefa[];
 
     // @Type(() => DocumentoAvulso)
@@ -102,7 +102,7 @@ export class ComponenteDigital {
     documentoAvulsoOrigem?: DocumentoAvulso;
 
     @Type(() => DocumentoAvulso)
-    @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })
+    @Transform(value => value ? value.map(d => d.id) : null, { toPlainOnly: true })
     documentoAvulsoOrigemBloco?: DocumentoAvulso[];
 
     @Exclude({toPlainOnly: true})

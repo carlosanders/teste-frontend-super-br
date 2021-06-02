@@ -29,7 +29,7 @@ export class UsuariosExternosListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class UsuariosExternosListEffects {
 
     /**
      * Get Usuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class UsuariosExternosListEffects {
         this._actions
             .pipe(
                 ofType<UsuariosExternosListActions.GetUsuariosExternosList>(UsuariosExternosListActions.GET_USUARIOS_EXTERNOS_LIST),
-                switchMap((action) => {
-                    return this._usuarioService.query(
+                switchMap(action => this._usuarioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -56,7 +56,7 @@ export class UsuariosExternosListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Usuario>({data: response['entities'], schema: usuariosExternosSchema}),
                             new UsuariosExternosListActions.GetUsuariosExternosListSuccess({
                                 entitiesId: response['entities'].map(usuario => usuario.id),
@@ -71,8 +71,7 @@ export class UsuariosExternosListEffects {
                             console.log(err);
                             return of(new UsuariosExternosListActions.GetUsuariosExternosListFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

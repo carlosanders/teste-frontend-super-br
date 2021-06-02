@@ -9,8 +9,8 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';
 import {Observable, Subject} from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {LoginService} from "../../../../app/main/auth/login/login.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-login-dialog',
@@ -65,22 +65,22 @@ export class CdkLoginDialogComponent implements OnInit {
 
         this.form = this._formBuilder.group({
             tipoLogin: [this.tipoLogin, [Validators.required]],
-            username: ['', [Validators.required]],
+            username: [data.username, [Validators.required]],
             password: ['', Validators.required]
         });
     }
 
     ngOnInit(): void {
-        this.loading$.subscribe(value => {
+        this.loading$.subscribe((value) => {
             this.loading = value;
         });
-        this.config$.subscribe(value => {
+        this.config$.subscribe((value) => {
             this.config = value;
         });
-        this.loadingConfig$.subscribe(value => {
+        this.loadingConfig$.subscribe((value) => {
             this.loadingConfig = value;
         });
-        this.errorMessage$.subscribe(value => {
+        this.errorMessage$.subscribe((value) => {
             this.errorMessage = value;
         });
     }

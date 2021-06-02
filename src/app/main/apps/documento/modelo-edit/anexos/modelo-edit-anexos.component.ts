@@ -46,10 +46,10 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
     assinaturaInterval = null;
 
         /**
-     * @param _store
-     * @param _location
-     * @param _dynamicService
-     */
+         * @param _store
+         * @param _location
+         * @param _dynamicService
+         */
     constructor(
         private _store: Store<fromStore.ModeloEditAnexosAppState>,
         private _location: Location,
@@ -64,7 +64,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
         this._store
             .pipe(
                 select(getMercureState),
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -95,7 +95,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
      * On init
      */
     ngOnInit(): void {
-        this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
+        this.assinandoDocumentosVinculadosId$.subscribe((assinandoDocumentosVinculadosId) => {
             if (assinandoDocumentosVinculadosId.length > 0) {
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
@@ -116,7 +116,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
         const path = 'app/main/apps/documento/modelo-edit/anexos';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

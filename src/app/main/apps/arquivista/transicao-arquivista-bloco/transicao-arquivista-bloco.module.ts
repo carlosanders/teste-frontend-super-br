@@ -11,7 +11,7 @@ import {CdkRealizarTransicaoFormModule} from '@cdk/components/transicao/cdk-real
 import {MatListModule} from '@angular/material/list';
 import {modulesConfig} from 'modules/modules-config';
 import {DirectivesModule} from '@cdk/directives/directives';
-import {CdkConfirmDialogModule} from "@cdk/components";
+import {CdkConfirmDialogModule} from '@cdk/components';
 import * as fromGuards from './store/guards';
 
 const routes: Routes = [

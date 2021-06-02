@@ -12,7 +12,7 @@ export class Go implements Action
     /**
      * Constructor
      *
-     * @param {{path: any[]; query?: object; extras?: NavigationExtras}} payload
+     * @param payload
      */
     constructor(
         public payload: {

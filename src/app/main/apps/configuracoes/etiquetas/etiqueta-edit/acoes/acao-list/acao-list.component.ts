@@ -8,7 +8,7 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Acao, Etiqueta} from '@cdk/models';
+import {Acao} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -28,8 +28,6 @@ export class AcaoListComponent implements OnInit {
     routerState: any;
     acoes$: Observable<Acao[]>;
     acoes: Acao[] = [];
-    etiqueta$: Observable<Etiqueta>;
-    etiqueta: Etiqueta;
     loading$: Observable<boolean>;
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
@@ -46,7 +44,6 @@ export class AcaoListComponent implements OnInit {
         private _store: Store<fromStore.AcaoListAppState>,
     ) {
         this.acoes$ = this._store.pipe(select(fromStore.getAcaoList));
-        this.etiqueta$ = this._store.pipe(select(fromStore.getEtiqueta))
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
@@ -54,7 +51,7 @@ export class AcaoListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -62,17 +59,10 @@ export class AcaoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.etiqueta$.pipe(
-            filter(acoes => !!acoes)
-        ).subscribe(
-            etiqueta => {
-                this.etiqueta = etiqueta;
-            }
-        );
         this.acoes$.pipe(
             filter(acoes => !!acoes)
         ).subscribe(
-            acoes => {
+            (acoes) => {
                 this.acoes = acoes;
             }
         );

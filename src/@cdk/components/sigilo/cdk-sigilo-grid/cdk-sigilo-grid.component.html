@@ -8,7 +8,7 @@
 
     <div class="responsive-grid"
          [ngClass]="{
-            'search': (this.mode == 'search'),
+            'search': (this.mode === 'search'),
             'documento-edit': (this.mode === 'documento')
          }">
 
@@ -72,7 +72,7 @@
         </div>
 
         <div class="content" cdkPerfectScrollbar>
-            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">

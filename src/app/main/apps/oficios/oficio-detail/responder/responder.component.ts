@@ -70,13 +70,13 @@ export class ResponderComponent implements OnInit, OnDestroy {
     assinaturaInterval = null;
 
         /**
-     *
-     * @param _store
-     * @param _loginService
-     * @param _router
-     * @param _changeDetectorRef
-     * @param _dynamicService
-     */
+         *
+         * @param _store
+         * @param _loginService
+         * @param _router
+         * @param _changeDetectorRef
+         * @param _dynamicService
+         */
     constructor(
         private _store: Store<fromStore.ResponderAppState>,
         public _loginService: LoginService,
@@ -106,7 +106,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.mode = routerState.state.params['oficioTargetHandle'];
@@ -117,7 +117,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this._store.pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -142,14 +142,14 @@ export class ResponderComponent implements OnInit, OnDestroy {
 
         this.documentoAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documentoAvulso => {
+        ).subscribe((documentoAvulso) => {
             this.documentoAvulso = documentoAvulso;
         });
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentos => {
+            (documentos) => {
                 this.oficios = documentos;
                 this._changeDetectorRef.markForCheck();
             }
@@ -158,7 +158,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.documentosComplementares$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentosComplementares => {
+            (documentosComplementares) => {
                 this.oficios = this.oficios.concat(documentosComplementares);
                 this._changeDetectorRef.markForCheck();
             }
@@ -167,11 +167,11 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedDocumentos => {
+        ).subscribe((selectedDocumentos) => {
             this.selectedOficios = selectedDocumentos;
         });
 
-        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
@@ -192,7 +192,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
         const path = 'app/main/apps/oficios/oficio-detail/responder';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

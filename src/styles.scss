@@ -18,6 +18,15 @@ mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
 
+.mat-select-panel .mat-optgroup-label, .mat-select-panel .mat-option {
+    line-height: normal !important;
+    height: auto !important;
+}
+
+tr.mat-row, tr.mat-footer-row {
+    height: auto !important;
+}
+
 mat-option.mat-option-text {
     > span {
         white-space: normal;
@@ -43,12 +52,21 @@ mat-option.mat-option {
     display: flex !important;
     flex: 1 1 auto !important;
     flex-direction: column !important;
-    padding: 0 3px !important;
 }
 
 .danger-snackbar {
     background: #ff4444 !important;
     color: white !important;
+
+    .mat-simple-snackbar-action {
+        color: white !important;
+        font-weight: bold !important;
+    }
+}
+
+.notificacao-snackbar {
+    background: whitesmoke !important;
+    color: black !important;
 
     .mat-simple-snackbar-action {
         color: white !important;

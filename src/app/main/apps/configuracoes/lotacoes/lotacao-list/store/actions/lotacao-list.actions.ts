@@ -12,9 +12,9 @@ export const DELETE_LOTACAO = '[LOTACAO LIST] DELETE LOTACAO';
 export const DELETE_LOTACAO_SUCCESS = '[LOTACAO LIST] DELETE LOTACAO SUCCESS';
 export const DELETE_LOTACAO_FAILED = '[LOTACAO LIST] DELETE LOTACAO FAILED';
 
-export const SAVE_LOTACAO = '[LOTACAO] SAVE LOTACAO';
-export const SAVE_LOTACAO_SUCCESS = '[LOTACAO] SAVE LOTACAO SUCCESS';
-export const SAVE_LOTACAO_FAILED = '[LOTACAO] SAVE LOTACAO FAILED';
+export const SAVE_LOTACAO = '[LOTACAO LIST] SAVE LOTACAO';
+export const SAVE_LOTACAO_SUCCESS = '[LOTACAO LIST] SAVE LOTACAO SUCCESS';
+export const SAVE_LOTACAO_FAILED = '[LOTACAO LIST] SAVE LOTACAO FAILED';
 
 /**
  * Save Lotacao
@@ -94,7 +94,7 @@ export class GetLotacoesFailed implements Action
  export class UnloadLotacoes implements Action
  {
      readonly type = UNLOAD_LOTACOES;
- 
+
      constructor()
      {
      }

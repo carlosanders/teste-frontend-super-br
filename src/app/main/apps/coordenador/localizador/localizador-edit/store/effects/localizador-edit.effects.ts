@@ -29,7 +29,7 @@ export class LocalizadorEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class LocalizadorEditEffect {
 
     /**
      * Get Localizador with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,16 +46,14 @@ export class LocalizadorEditEffect {
         this._actions
             .pipe(
                 ofType<LocalizadorEditActions.GetLocalizador>(LocalizadorEditActions.GET_LOCALIZADOR),
-                switchMap((action) => {
-                    return this._localizadorService.query(
+                switchMap(action => this._localizadorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
                     new LocalizadorEditActions.GetLocalizadorSuccess({
@@ -74,6 +73,7 @@ export class LocalizadorEditEffect {
 
     /**
      * Save Localizador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,15 +81,13 @@ export class LocalizadorEditEffect {
         this._actions
             .pipe(
                 ofType<LocalizadorEditActions.SaveLocalizador>(LocalizadorEditActions.SAVE_LOCALIZADOR),
-                switchMap((action) => {
-                    return this._localizadorService.save(action.payload).pipe(
+                switchMap(action => this._localizadorService.save(action.payload).pipe(
                         mergeMap((response: Localizador) => [
                             new LocalizadorEditActions.SaveLocalizadorSuccess(),
                             new LocalizadorListActions.ReloadLocalizadores(),
                             new AddData<Localizador>({data: [response], schema: localizadorSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new LocalizadorEditActions.SaveLocalizadorFailed(err));

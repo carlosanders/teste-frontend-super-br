@@ -51,7 +51,7 @@ export class CdkNumeroUnicoDocumentoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('sequencia').value) {
-            this.form.get('sequencia').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('sequencia').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'sequencia': `like:%${bit}%`});
             });
         }

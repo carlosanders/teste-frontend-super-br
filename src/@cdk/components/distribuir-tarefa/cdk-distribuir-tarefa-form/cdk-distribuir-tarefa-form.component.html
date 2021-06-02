@@ -62,7 +62,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field *ngIf="!form.get('distribuicaoAutomatica').value">
+        <mat-form-field *ngIf="!form.get('usuarioResponsavel').disabled && !form.get('distribuicaoAutomatica').value">
             <input matInput placeholder="Usuário Responsável"
                    formControlName="usuarioResponsavel"
                    [matAutocomplete]="usuario.autocomplete" required
@@ -94,7 +94,7 @@
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid || !valid" *ngIf="!saving">
+                [disabled]="form.invalid || !valid || !selected" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

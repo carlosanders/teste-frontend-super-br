@@ -197,7 +197,7 @@ export class CdkAcaoTransicaoWorkflowGridComponent implements AfterViewInit, OnI
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -221,7 +221,7 @@ export class CdkAcaoTransicaoWorkflowGridComponent implements AfterViewInit, OnI
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-acao-transicao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-acao-transicao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

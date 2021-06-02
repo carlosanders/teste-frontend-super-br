@@ -29,7 +29,7 @@ export class TemplatesEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class TemplatesEditEffect {
 
     /**
      * Get Templates with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class TemplatesEditEffect {
         this._actions
             .pipe(
                 ofType<TemplatesEditActions.GetTemplates>(TemplatesEditActions.GET_TEMPLATES),
-                switchMap((action) => {
-                    return this._templateService.query(
+                switchMap(action => this._templateService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -58,8 +58,7 @@ export class TemplatesEditEffect {
                             'documento.componentesDigitais',
                             'documento.tipoDocumento'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Template>({data: response['entities'], schema: templatesSchema}),
                     new TemplatesEditActions.GetTemplatesSuccess({
@@ -79,6 +78,7 @@ export class TemplatesEditEffect {
 
     /**
      * Save Templates
+     *
      * @type {Observable<any>}
      */
     @Effect()

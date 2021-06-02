@@ -65,13 +65,13 @@ export class ProcessosComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.NUPHandle = this.routerState.params.NUPHandle;
@@ -86,7 +86,7 @@ export class ProcessosComponent implements OnInit, OnDestroy {
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
             } else {
@@ -114,7 +114,7 @@ export class ProcessosComponent implements OnInit, OnDestroy {
         }));
     }
 
-    view(emissao: {id: number, chaveAcesso?: string}): void {
+    view(emissao: {id: number; chaveAcesso?: string}): void {
         const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
         this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }

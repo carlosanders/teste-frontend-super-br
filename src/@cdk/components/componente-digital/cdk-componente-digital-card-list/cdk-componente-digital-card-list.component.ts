@@ -17,7 +17,7 @@ import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {DocumentoAvulso} from '@cdk/models';
-import {CdkDragEnter, moveItemInArray} from "@angular/cdk/drag-drop";
+import {CdkDragEnter, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -212,7 +212,7 @@ export class CdkComponenteDigitalCardListComponent {
     start(): void {
         this.uploading = true;
         if (this.uploadMode !== 'linear') {
-            this.files.forEach(file => {
+            this.files.forEach((file) => {
                 this.uploadFile(file);
             });
         } else {
@@ -221,7 +221,7 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     uploadNext(): void {
-        this.pending = this.files.filter((file) => (!file.canRetry && !file.retrying));
+        this.pending = this.files.filter(file => (!file.canRetry && !file.retrying));
         if (this.files.length > 0) {
             this.currentFile = this.files.shift();
             this.uploadFile(this.currentFile);
@@ -256,7 +256,7 @@ export class CdkComponenteDigitalCardListComponent {
         file.canCancel = true;
 
         this.getBase64(file.data).then(
-            conteudo => {
+            (conteudo) => {
                 const componenteDigital = this.componentesDigitais.find(componenteDigital => componenteDigital.file === file);
                 componenteDigital.conteudo = conteudo;
                 this._changeDetectorRef.markForCheck();
@@ -269,7 +269,7 @@ export class CdkComponenteDigitalCardListComponent {
 
                 componenteDigital.inProgress = true;
                 this.arquivoSubscription = file.sub = this._http.request(req).pipe(
-                    map(event => {
+                    map((event) => {
                         switch (event.type) {
                             case HttpEventType.UploadProgress:
                                 componenteDigital.progress = Math.round(event.loaded * 100 / event.total);
@@ -294,7 +294,7 @@ export class CdkComponenteDigitalCardListComponent {
                             this.removeFileFromArray(file);
                         }
                         this._changeDetectorRef.markForCheck();
-                        this.erroUpload.emit("Ocorreu um erro ao realizar o upload, clique no menu do arquivo e em seguida em repetir para tentar novamente!");
+                        this.erroUpload.emit('Ocorreu um erro ao realizar o upload, clique no menu do arquivo e em seguida em repetir para tentar novamente!');
                         if (this.uploadMode === 'linear') {
                             this.uploadNext();
                         }
@@ -331,8 +331,8 @@ export class CdkComponenteDigitalCardListComponent {
     drop(event: CdkDragEnter<any>): void {
         moveItemInArray(this.componentesDigitais, event.item.data, event.container.data);
         //moveItemInArray(this.componentesDigitais, event.previousIndex, event.currentIndex);
-        let tmpFiles: FileUploadModel[] = [];
-        this.componentesDigitais.forEach(componente => {
+        const tmpFiles: FileUploadModel[] = [];
+        this.componentesDigitais.forEach((componente) => {
             tmpFiles.push(componente.file);
         });
         this.files = [...tmpFiles];

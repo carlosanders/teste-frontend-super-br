@@ -80,7 +80,7 @@ export class CdkTransicaoWorkflowFilterComponent {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-transicao-workflow-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-transicao-workflow-edit-filter').close();
     }
 
     verificarValor(objeto): void {

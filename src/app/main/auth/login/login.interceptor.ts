@@ -3,17 +3,17 @@ import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/com
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
 import {LoginService} from './login.service';
-import {CdkUtils} from "@cdk/utils";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkLoginDialogComponent} from "@cdk/components/login/cdk-login-dialog/cdk-login-dialog.component";
-import {select, Store} from "@ngrx/store";
-import * as fromStore from "./store";
-import {Router} from "@angular/router";
-import {getConfig, getErrorMessage, getLoadingConfig, getToken} from "./store/selectors";
-import {environment} from "../../../../environments/environment";
-import {distinctUntilChanged, filter, switchMap, take} from "rxjs/operators";
-import {getRouterState} from "../../../store";
-import {MatSnackBar} from "@cdk/angular/material";
+import {CdkUtils} from '@cdk/utils';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkLoginDialogComponent} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.component';
+import {select, Store} from '@ngrx/store';
+import * as fromStore from './store';
+import {Router} from '@angular/router';
+import {getConfig, getErrorMessage, getLoadingConfig, getToken} from './store/selectors';
+import {environment} from '../../../../environments/environment';
+import {distinctUntilChanged, filter, switchMap, take} from 'rxjs/operators';
+import {getRouterState} from '../../../store';
+import {MatSnackBar} from '@cdk/angular/material';
 
 @Injectable()
 export class LoginInterceptor implements HttpInterceptor {
@@ -32,13 +32,13 @@ export class LoginInterceptor implements HttpInterceptor {
     token: string;
 
     loginSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    private loginProgress = false;
 
     dialogRef: MatDialogRef<CdkLoginDialogComponent>;
 
     subscribers: any;
 
     routerState: any;
+    private loginProgress = false;
 
     constructor(
         private store: Store<fromStore.LoginState>,
@@ -63,7 +63,7 @@ export class LoginInterceptor implements HttpInterceptor {
             .pipe(
                 distinctUntilChanged(),
                 filter(result => !!result),
-            ).subscribe(token => {
+            ).subscribe((token) => {
                 this.token = token;
                 if (this.loginProgress && !this.loginError) {
                     this.loginProgress = false;
@@ -75,7 +75,7 @@ export class LoginInterceptor implements HttpInterceptor {
             .pipe(
                 filter(result => !!result)
             )
-            .subscribe(config => {
+            .subscribe((config) => {
                 this.config = config;
                 if (this._router.url !== '/auth/login' && this.routerState.url.indexOf('/auth/login') === -1 && !this.loginProgress) {
                     this.loginProgress = true;
@@ -89,7 +89,7 @@ export class LoginInterceptor implements HttpInterceptor {
             .pipe(
                 distinctUntilChanged(),
             )
-            .subscribe(error => {
+            .subscribe((error) => {
                 this.loginError = error;
                 if (error && this.loginProgress) {
                     this.snackBar.dismiss();
@@ -156,13 +156,14 @@ export class LoginInterceptor implements HttpInterceptor {
                 config$: this.config$,
                 loadingConfig$: this.loadingConfig$,
                 certificadoDigital: this.certificadoDigital,
-                errorMessage$: this.errorMessage$
+                errorMessage$: this.errorMessage$,
+                username: this.loginService.getUserProfile().username
             },
             disableClose: true,
             height: '95%',
         });
 
-        this.subscribers = this.dialogRef.afterClosed().subscribe(result => {
+        this.subscribers = this.dialogRef.afterClosed().subscribe((result) => {
             if (result.tipoLogin === 'externo') {
                 this.onSubmitExterno(result);
             } else if (result.tipoLogin === 'ldap') {
@@ -173,7 +174,7 @@ export class LoginInterceptor implements HttpInterceptor {
 
     onSubmitExterno(values): void {
         const payload = {
-            username: values.username.replace(/\D/g, ''),
+            username: this.loginService.getUserProfile().username,
             password: values.password,
             redirect: false
         };

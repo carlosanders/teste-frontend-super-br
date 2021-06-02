@@ -13,8 +13,7 @@
 
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="!(expandir$ | async)">
-            <div class="search-wrapper"
-                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')">
+            <div class="search-wrapper" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo?.id">
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
                         matTooltip="Menu do processo"
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>

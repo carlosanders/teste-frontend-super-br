@@ -109,7 +109,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -118,8 +118,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter((processo) => !!processo)
-        ).subscribe(p => {
+            filter(processo => !!processo)
+        ).subscribe((p) => {
             this.processo = p;
         });
 
@@ -178,13 +178,13 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.detectChanges();
                 }
             );
 
-        this.isClearForm$.subscribe(limpaForm => {
+        this.isClearForm$.subscribe((limpaForm) => {
             if (limpaForm) {
                 this.isClearForm = true;
             }

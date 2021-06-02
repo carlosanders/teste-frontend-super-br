@@ -134,7 +134,7 @@ export class CdkCriteriaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('valor').reset();
                         this.form.get('exibicao').reset();
                         this.setorRecebidoPagination.filter['unidade.id'] = `eq:${value.id}`;
-                        this.setorRecebidoPagination.filter['parent'] = `isNotNull`;
+                        this.setorRecebidoPagination.filter['parent'] = 'isNotNull';
                         this._changeDetectorRef.markForCheck();
                     } else if (value && typeof value === 'object' && this.criteriaSelect.value?.id === 3) {
                         this.form.get('valor').setValue(value.id, {emitEvent: false});
@@ -198,7 +198,7 @@ export class CdkCriteriaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

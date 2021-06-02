@@ -204,7 +204,7 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -229,7 +229,7 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
 
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-validacao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-validacao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

@@ -54,7 +54,7 @@ export class CdkVinculacaoDocumentoAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             'documento.descricaoOutros': `like:%${bit}%`});
                     });
@@ -80,7 +80,7 @@ export class CdkVinculacaoDocumentoAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.vinculacaoDocumentoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

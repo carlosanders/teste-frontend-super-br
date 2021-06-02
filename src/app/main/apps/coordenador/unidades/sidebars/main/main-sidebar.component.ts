@@ -39,7 +39,7 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
 
         this.orgaoCentral$.pipe(filter(orgaoCentral => !!orgaoCentral)).subscribe(
-            orgaoCentral => {
+            (orgaoCentral) => {
                 this.orgaoCentral = orgaoCentral;
             }
         );
@@ -69,13 +69,18 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
                 nome: 'Setores da Unidade',
                 icon: 'domain',
                 link: 'setor'
+            },
+            {
+                nome: 'Avisos da Unidade',
+                icon: 'info',
+                link: 'avisos'
             }
         ];
 
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }

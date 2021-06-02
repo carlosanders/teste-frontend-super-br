@@ -73,7 +73,7 @@ export class CdkModalidadeVinculacaoDocumentoGridsearchComponent implements OnIn
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.modalidadevinculacaoDocumentos = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

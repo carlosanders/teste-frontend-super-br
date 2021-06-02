@@ -12,7 +12,7 @@ import {TransicaoService} from '@cdk/services/transicao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Transicao} from '@cdk/models';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class TransicaoListEffect {
@@ -26,7 +26,7 @@ export class TransicaoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class TransicaoListEffect {
 
     /**
      * Get Transicoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class TransicaoListEffect {
         this._actions
             .pipe(
                 ofType<TransicaoListActions.GetTransicoes>(TransicaoListActions.GET_TRANSICOES),
-                switchMap((action) => {
-                    return this._transicaoService.query(
+                switchMap(action => this._transicaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +52,8 @@ export class TransicaoListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Transicao>({data: response['entities'], schema: transicaoSchema}),
                     new TransicaoListActions.GetTransicoesSuccess({
                         entitiesId: response['entities'].map(transicao => transicao.id),
@@ -74,6 +73,7 @@ export class TransicaoListEffect {
 
     /**
      * Delete Transicao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,9 +81,8 @@ export class TransicaoListEffect {
         this._actions
             .pipe(
                 ofType<TransicaoListActions.DeleteTransicao>(TransicaoListActions.DELETE_TRANSICAO),
-                mergeMap((action) => {
-                    return this._transicaoService.destroy(action.payload).pipe(
-                        map((response) => new TransicaoListActions.DeleteTransicaoSuccess(response.id)),
+                mergeMap(action => this._transicaoService.destroy(action.payload).pipe(
+                        map(response => new TransicaoListActions.DeleteTransicaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new TransicaoListActions.DeleteTransicaoFailed(
@@ -92,7 +91,6 @@ export class TransicaoListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

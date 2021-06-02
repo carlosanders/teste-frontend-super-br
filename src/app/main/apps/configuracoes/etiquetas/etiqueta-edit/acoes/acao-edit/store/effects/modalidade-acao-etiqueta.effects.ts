@@ -2,18 +2,16 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
-
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {acao as acaoSchema, modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
-import {Acao, ModalidadeAcaoEtiqueta} from '@cdk/models';
+import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
+import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {ModalidadeAcaoEtiquetaService} from "@cdk/services/modalidade-acao-etiqueta.service";
-import * as ModalidadeAcaoEtiquetaActions from "../actions";
-import * as AcaoListActions from "../../../acao-list/store/actions";
+import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
+import * as ModalidadeAcaoEtiquetaActions from '../actions';
 
 @Injectable()
 export class ModalidadeAcaoEtiquetaEffects {
@@ -27,7 +25,7 @@ export class ModalidadeAcaoEtiquetaEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,13 +35,13 @@ export class ModalidadeAcaoEtiquetaEffects {
     /**
      * @type {Observable<any>}
      */
+    // eslint-disable-next-line @typescript-eslint/member-ordering
     @Effect()
-    getModalidadeAcaoEtiqueta: any =
+    getModalidadesAcaoEtiqueta: any =
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaActions.GetModalidadesAcaoEtiqueta>(ModalidadeAcaoEtiquetaActions.GET_MODALIDADES_ACAO_ETIQUETA),
-                switchMap((action) => {
-                    return this._modalidadeAcaoEtiquetaService.query(
+                switchMap(action => this._modalidadeAcaoEtiquetaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +52,7 @@ export class ModalidadeAcaoEtiquetaEffects {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify({isAdmin: true})
                     ).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<ModalidadeAcaoEtiqueta>(
                                 {data: response['entities'], schema: modalidadeAcaoEtiquetaSchema}
                                 ),
@@ -67,10 +65,7 @@ export class ModalidadeAcaoEtiquetaEffects {
                                 total: response['total']
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new ModalidadeAcaoEtiquetaActions.GetModalidadesAcaoEtiquetaFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new ModalidadeAcaoEtiquetaActions.GetModalidadesAcaoEtiquetaFailed(err)))
+                    ))
             );
 }

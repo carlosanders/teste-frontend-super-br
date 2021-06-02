@@ -168,7 +168,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     doAlterarDocumentoBloco(): void {
         const tipoDocumento = this.form.get('tipoDocumen').value;
 
-        this.selectedIds.forEach(documentoId => {
+        this.selectedIds.forEach((documentoId) => {
             const documentos = this.documentos.filter(doc => doc.id === documentoId);
             this.doAlterarTipoDocumento({documento: documentos[0], tipoDocumento: tipoDocumento});
         });
@@ -190,7 +190,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
             if (this.selectedIds.indexOf(documento.id) > -1) {
                 documentosBloco.push(documento);
             }
-        })
+        });
         this.deleteBloco.emit(documentosBloco);
     }
 

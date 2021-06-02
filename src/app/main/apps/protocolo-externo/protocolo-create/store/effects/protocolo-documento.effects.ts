@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
@@ -19,7 +19,7 @@ import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {environment} from '../../../../../../../environments/environment';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../store/actions/operacoes.actions';
-import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
 export class ProtocoloDocumentoEffects {
@@ -37,7 +37,7 @@ export class ProtocoloDocumentoEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -45,13 +45,14 @@ export class ProtocoloDocumentoEffects {
 
         this._store
             .pipe(select(getDocumentos))
-            .subscribe(documentos => {
+            .subscribe((documentos) => {
                 this.documentos = documentos;
             });
     }
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -59,16 +60,14 @@ export class ProtocoloDocumentoEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloDocumentoActions.GetDocumentos>(ProtocoloDocumentoActions.GET_DOCUMENTOS),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         JSON.stringify(action.payload),
                         100,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new ProtocoloDocumentoActions.GetDocumentosSuccess({
@@ -88,6 +87,7 @@ export class ProtocoloDocumentoEffects {
 
     /**
      * Clicked Documento
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -103,6 +103,7 @@ export class ProtocoloDocumentoEffects {
 
     /**
      * Assina Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -110,19 +111,15 @@ export class ProtocoloDocumentoEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloDocumentoActions.AssinaDocumento>(ProtocoloDocumentoActions.ASSINA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
-                                map((response) => {
-                                    return new ProtocoloDocumentoActions.AssinaDocumentoSuccess(response);
-                                }),
+                                map(response => new ProtocoloDocumentoActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new ProtocoloDocumentoActions.AssinaDocumentoFailed(err));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect()
@@ -130,10 +127,9 @@ export class ProtocoloDocumentoEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloDocumentoActions.RemoveAssinaturaDocumento>(ProtocoloDocumentoActions.REMOVE_ASSINATURA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.removeAssinatura(action.payload)
+                mergeMap(action => this._documentoService.removeAssinatura(action.payload)
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new ProtocoloDocumentoActions.RemoveAssinaturaDocumentoSuccess(action.payload),
                                     new ProtocoloDocumentoActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
                                 ]),
@@ -142,12 +138,12 @@ export class ProtocoloDocumentoEffects {
                                     this._store.dispatch(new ProtocoloDocumentoActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Assina Documento Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -170,6 +166,7 @@ export class ProtocoloDocumentoEffects {
 
     /**
      * Save Documento Assinatura Eletronica
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -177,8 +174,7 @@ export class ProtocoloDocumentoEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloDocumentoActions.AssinaDocumentoEletronicamente>(ProtocoloDocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new ProtocoloDocumentoActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -193,12 +189,12 @@ export class ProtocoloDocumentoEffects {
                             console.log(err);
                             return of(new ProtocoloDocumentoActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Converte Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -206,24 +202,27 @@ export class ProtocoloDocumentoEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloDocumentoActions.ConverteToPdf>(ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
                             .pipe(
-                                mergeMap((response) => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                mergeMap(response => [
+                                    new UpdateData<Documento>({
+                                        id: response.id,
+                                        schema: documentoSchema,
+                                        changes: {componentesDigitais: response.componentesDigitais}
+                                    }),
                                     new ProtocoloDocumentoActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {
                                     console.log(err);
                                     return of(new ProtocoloDocumentoActions.ConverteToPdfFailed(action.payload));
                                 })
-                            );
-                    }
+                            )
                 )
             );
 
     /**
      * Converte Documento HTML
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -231,23 +230,20 @@ export class ProtocoloDocumentoEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloDocumentoActions.ConverteToHtml>(ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
                                     new ProtocoloDocumentoActions.ConverteToHtmlSucess(action.payload)
                                 ]),
-                                catchError((err) => {
-                                    return of(new ProtocoloDocumentoActions.ConverteToHtmlFailed(action.payload));
-                                })
-                            );
-                    }
+                                catchError(err => of(new ProtocoloDocumentoActions.ConverteToHtmlFailed(action.payload)))
+                            )
                 )
             );
 
     /**
      * Download P7S
+     *
      * @type {Observable<any>}
      *
      * */
@@ -256,8 +252,7 @@ export class ProtocoloDocumentoEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloDocumentoActions.DownloadToP7S>(ProtocoloDocumentoActions.DOWNLOAD_DOCUMENTO_P7S),
-                mergeMap((action) => {
-                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 map((response) => {
                                     if (response && response.conteudo) {
@@ -267,8 +262,8 @@ export class ProtocoloDocumentoEffects {
                                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                                         }
                                         const byteArray = new Uint8Array(byteNumbers);
-                                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                                            URL = window.URL;
+                                        const blob = new Blob([byteArray], {type: response.mimetype});
+                                            const URL = window.URL;
                                         const data = URL.createObjectURL(blob);
                                         const link = document.createElement('a');
                                         link.href = data;
@@ -285,8 +280,7 @@ export class ProtocoloDocumentoEffects {
                                     console.log(err);
                                     return of(new ProtocoloDocumentoActions.DownloadToP7SFailed(action.payload));
                                 })
-                            );
-                    }
+                            )
                 )
             );
 

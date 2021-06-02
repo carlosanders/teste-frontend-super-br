@@ -41,12 +41,10 @@ export const getSelectedDocumentos = createSelector(
 
 export const getConvertendoAllDocumentosId = createSelector(
     getDocumentosState,
-    (state: DocumentosState) => {
-        return [
+    (state: DocumentosState) => [
             ...state.convertendoDocumentoIds,
             ...state.convertendoDocumentoHtmlIds
-        ];
-    }
+        ]
 );
 
 export const getConvertendoDocumentosId = createSelector(

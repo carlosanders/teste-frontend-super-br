@@ -13,7 +13,7 @@ import { CdkLogentryGridModule } from '@cdk/components/logentry/cdk-logentry-gri
     imports: [
 
         CdkLogentryGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

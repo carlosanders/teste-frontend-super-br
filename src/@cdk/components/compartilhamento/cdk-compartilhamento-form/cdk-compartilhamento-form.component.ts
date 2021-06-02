@@ -32,6 +32,8 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
     @Input()
     valid = true;
 
+    selected = false;
+
     @Input()
     errors: any;
 
@@ -63,6 +65,10 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
             usuario: [null, [Validators.required]]
         });
         this.usuarioPagination = new Pagination();
+
+        this.form.get('usuario').valueChanges.subscribe((valor) => {
+            this.selected = typeof valor === 'object';
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -91,7 +97,7 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

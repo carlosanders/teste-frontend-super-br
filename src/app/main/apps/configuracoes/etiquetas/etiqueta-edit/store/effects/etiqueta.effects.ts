@@ -27,7 +27,7 @@ export class EtiquetaEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class EtiquetaEffect {
 
     /**
      * Get Etiqueta with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class EtiquetaEffect {
         this._actions
             .pipe(
                 ofType<EtiquetaActions.GetEtiqueta>(EtiquetaActions.GET_ETIQUETA),
-                switchMap((action) => {
-                    return this._etiquetaService.query(
+                switchMap(action => this._etiquetaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -55,9 +55,7 @@ export class EtiquetaEffect {
                             'populateAll'
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Etiqueta>({data: response['entities'], schema: etiquetaSchema}),
                     new EtiquetaActions.GetEtiquetaSuccess({

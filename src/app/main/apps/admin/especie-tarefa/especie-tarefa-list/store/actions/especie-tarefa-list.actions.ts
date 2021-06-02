@@ -53,7 +53,7 @@ export class GetEspecieTarefaFailed implements Action
  export class UnloadEspecieTarefa implements Action
  {
      readonly type = UNLOAD_ESPECIE_TAREFA;
- 
+
      constructor()
      {
      }

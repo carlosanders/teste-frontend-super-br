@@ -41,9 +41,9 @@ import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selector
 import {getVinculacaoProcessoIsSaving} from './store';
 import {getTarefaIsSaving} from './store';
 import {getProcesso} from '../../store';
-import {configuracaoNup} from "@cdk/normalizr";
-import {CdkProcessoModalClassificacaoRestritaComponent} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component";
-import {MatDialog} from "@cdk/angular/material";
+import {configuracaoNup} from '@cdk/normalizr';
+import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
+import {MatDialog} from '@cdk/angular/material';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -320,7 +320,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.genero = this.routerState.params.generoHandle;
@@ -331,7 +331,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
         ).subscribe(
-            processo => {
+            (processo) => {
                 this.processo = processo;
                 this.isLinear = false;
 
@@ -401,7 +401,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(assuntos => !!assuntos)
         ).subscribe(
-            assuntos => {
+            (assuntos) => {
                 this.assuntos = assuntos;
 
                 if (assuntos.length > 0) {
@@ -414,7 +414,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 }
             }
         );
-        this.assuntosPagination$.subscribe(pagination => {
+        this.assuntosPagination$.subscribe((pagination) => {
             this.assuntosPagination = pagination;
         });
 
@@ -422,7 +422,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(interessados => !!interessados)
         ).subscribe(
-            interessados => {
+            (interessados) => {
                 this.interessados = interessados;
 
                 if (interessados.length > 0) {
@@ -435,7 +435,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 }
             }
         );
-        this.interessadosPagination$.subscribe(pagination => {
+        this.interessadosPagination$.subscribe((pagination) => {
             this.interessadosPagination = pagination;
         });
 
@@ -445,7 +445,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         ).subscribe(
             juntadas => this.juntadas = juntadas
         );
-        this.juntadasPagination$.subscribe(pagination => {
+        this.juntadasPagination$.subscribe((pagination) => {
             this.juntadasPagination = pagination;
         });
 
@@ -453,7 +453,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(vinculacoesProcessos => !!vinculacoesProcessos)
         ).subscribe(
-            vinculacoesProcessos => {
+            (vinculacoesProcessos) => {
                 this.vinculacoesProcessos = vinculacoesProcessos;
 
                 if (this.vinculacoesProcessos) {
@@ -462,7 +462,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 }
             }
         );
-        this.vinculacoesProcessosPagination$.subscribe(pagination => {
+        this.vinculacoesProcessosPagination$.subscribe((pagination) => {
             this.vinculacoesProcessosPagination = pagination;
         });
 
@@ -472,7 +472,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
         });
     }

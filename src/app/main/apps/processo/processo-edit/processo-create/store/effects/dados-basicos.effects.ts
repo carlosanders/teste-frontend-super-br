@@ -34,7 +34,7 @@ export class DadosBasicosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,6 +43,7 @@ export class DadosBasicosEffect {
 
     /**
      * Get Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -50,8 +51,7 @@ export class DadosBasicosEffect {
         this._actions
             .pipe(
                 ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.get(
+                switchMap(action => this._processoService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll',
@@ -60,10 +60,9 @@ export class DadosBasicosEffect {
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
                             'especieProcesso',
-                            'especieProcesso.workflow',
-                            'especieProcesso.workflow.especieTarefaInicial'
-                        ]));
-                }),
+                            'especieProcesso.workflow-edit',
+                            'especieProcesso.workflow-edit.especieTarefaInicial'
+                        ]))),
                 switchMap(response => [
                     new AddData<Processo>({data: [response], schema: processoSchema}),
                     new DadosBasicosActions.GetProcessoSuccess({
@@ -83,6 +82,7 @@ export class DadosBasicosEffect {
 
     /**
      * Save Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -90,8 +90,7 @@ export class DadosBasicosEffect {
         this._actions
             .pipe(
                 ofType<DadosBasicosActions.SaveProcesso>(DadosBasicosActions.SAVE_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
+                switchMap(action => this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new DadosBasicosActions.SaveProcessoSuccess(response),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -101,11 +100,8 @@ export class DadosBasicosEffect {
                                 dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new DadosBasicosActions.SaveProcessoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new DadosBasicosActions.SaveProcessoFailed(err)))
+                    ))
             );
 
     /**
@@ -123,6 +119,7 @@ export class DadosBasicosEffect {
 
     /**
      * Get Juntadas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -130,8 +127,7 @@ export class DadosBasicosEffect {
         this._actions
             .pipe(
                 ofType<DadosBasicosActions.GetJuntadas>(DadosBasicosActions.GET_JUNTADAS),
-                switchMap((action) => {
-                    return this._juntadaService.query(
+                switchMap(action => this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -140,9 +136,8 @@ export class DadosBasicosEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new DadosBasicosActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
@@ -163,6 +158,7 @@ export class DadosBasicosEffect {
 
     /**
      * Validar NUP
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -170,13 +166,11 @@ export class DadosBasicosEffect {
         this._actions
             .pipe(
                 ofType<DadosBasicosActions.ValidaNup>(DadosBasicosActions.VALIDA_NUP),
-                switchMap((action) => {
-                    return this._processoService.validaNup(
+                switchMap(action => this._processoService.validaNup(
                         action.payload.configuracaoNup,
                         action.payload.nup.replace(/\D/g, ''),
                         action.payload.unidadeArquivistica
-                    );
-                }),
+                    )),
                 tap((response) => {
                     this._store.dispatch(new DadosBasicosActions.ValidaNupSuccess(response));
                 }),

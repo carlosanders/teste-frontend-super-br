@@ -64,12 +64,10 @@ export const getSelectedDocumentos = createSelector(
 
 export const getConvertendoAllDocumentosId = createSelector(
     getProcessoViewDocumentosState,
-    (state: ProcessoViewDocumentosState) => {
-        return [
+    (state: ProcessoViewDocumentosState) => [
             ...state.convertendoDocumentoIds,
             ...state.convertendoDocumentoHtmlIds
-        ];
-    }
+        ]
 );
 
 export const getConvertendoDocumentosId = createSelector(

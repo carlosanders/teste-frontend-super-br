@@ -11,7 +11,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {Usuario, VinculacaoEtiqueta} from "../../../../models";
+import {Usuario, VinculacaoEtiqueta} from '../../../../models';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -92,7 +92,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     salvarObservacao = new EventEmitter<any>();
 
     @Output()
-    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}>();
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa}>();
 
     @Output()
     loadAssuntos = new EventEmitter<any>();
@@ -189,7 +189,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         const path = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
@@ -199,9 +199,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         const pathItemText = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item#text';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(pathItemText)) {
-                module.components[pathItemText].forEach((c => {
+                module.components[pathItemText].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
+                        .then((componentFactory) => {
                             this.containerText.createComponent(componentFactory);
                             this._changeDetectorRef.detectChanges();
                         });
@@ -245,7 +245,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     }
 
     doAssinaMinutas(): void {
-        this.assinaMinutas.emit(this.tarefa)
+        this.assinaMinutas.emit(this.tarefa);
     }
 
     doEditProcesso(): void {
@@ -297,5 +297,14 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
         this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa});
+    }
+
+    copiarParaAreaTrabalho(nup): void {
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (nup));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
     }
 }

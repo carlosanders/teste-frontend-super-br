@@ -20,7 +20,7 @@ export class PathComponent implements OnInit {
     @Input()
     inicioCaminho: string;
 
-    linkCaminhos: [object] = [{}];
+    linkCaminhos: Array<Record<string, string>> = [{}];
 
     mapaNome = new Map();
 
@@ -32,7 +32,7 @@ export class PathComponent implements OnInit {
         this.carregarCaminho();
     }
 
-    carregarCaminho() {
+    carregarCaminho(): void {
         let caminhoAux = '';
         let caminhoAnterior = '';
         let chave = '';
@@ -40,24 +40,38 @@ export class PathComponent implements OnInit {
         const posicao = this.caminhoAbsoluto.search(this.inicioCaminho);
         const raiz = this.caminhoAbsoluto.slice(0, posicao-1);
         this.caminhoAbsoluto = this.caminhoAbsoluto.slice(posicao, this.caminhoAbsoluto.length);
-        const arrayCaminho = this.caminhoAbsoluto.split("/");
-        arrayCaminho.forEach((c:string) => {
-            if(c==='dados-basicos' || c==='default') { } //Não adiciona no link, para resolver despadronizacoes
-            else if(c==='arvore') { //Entra se for arvore
+        const arrayCaminho = this.caminhoAbsoluto.split('/');
+        arrayCaminho.forEach((c: string) => {
+            if (c === 'dados-basicos' || c === 'default') { } //Não adiciona no link, para resolver despadronizacoes
+            else if (c === 'visualizar') {
+                caminhoAux += '/' + c;
+                chave = `${raiz}${caminhoAux}`;
+                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
+                caminhoAnterior = c;
+                this.linkCaminhos.push({link: chave, label: valor});
+            }
+            else if (c === 'arvore') { //Entra se for arvore
                 chave = `${raiz}${caminhoAux}/${c}`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 this.linkCaminhos.push({link: chave, label: valor});
             }
-            else if(!Number(c) && c!=='editar' && c!=='listar' && c!=='criar') { //Entra se for para listar
+            else if (c === 'acoes' || c === 'regras') {
+                caminhoAux += '/' + c;
+                chave = `${raiz}${caminhoAux}` + '/listar';
+                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
+                caminhoAnterior = c;
+                this.linkCaminhos.push({link: chave, label: valor});
+            }
+            else if(!Number(c) && c !=='editar' && c !=='listar' && c !=='criar') { //Entra se for para listar
                 caminhoAux += '/' + c;
                 chave = `${raiz}${caminhoAux}/listar`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 caminhoAnterior = c;
                 this.linkCaminhos.push({link: chave, label: valor});
             }
-            else if(c!=='editar' && c!=='listar') { //Entra se for numero ou criar
+            else if(c !== 'editar' && c !=='listar') { //Entra se for numero ou criar
                 chave = `${raiz}${caminhoAux}/editar/${c}`;
-                caminhoAux += '/' + c;
+                caminhoAux += '/editar/' + c;
                 valor = this.mapaNome.has(caminhoAnterior) ? this.mapaNome.get(caminhoAnterior) : caminhoAnterior;
                 valor = this.pluralParaSigular(valor);
                 valor = valor + c;
@@ -67,7 +81,7 @@ export class PathComponent implements OnInit {
         this.linkCaminhos.shift();
     }
 
-    carregarNomes() { //Adicionar nomes compostos, que tenha acento e ç
+    carregarNomes(): void { //Adicionar nomes compostos, que tenha acento e ç
         this.mapaNome.set('acoes', 'ações');
         this.mapaNome.set('arvore', 'árvore');
         this.mapaNome.set('avisos', 'avisos');
@@ -86,14 +100,15 @@ export class PathComponent implements OnInit {
         this.mapaNome.set('repositorios', 'teses');
         this.mapaNome.set('seguranca', 'seguranças');
         this.mapaNome.set('usuarios', 'usuários');
+        this.mapaNome.set('validacoes', 'validações');
         this.mapaNome.set('vinculacao-pessoa-usuario', 'usuários externos');
     }
 
     pluralParaSigular(palavra): string {
         let palavraSingular = '';
-        let arrayPalavras = palavra.split(" ");
+        const arrayPalavras = palavra.split(' ');
         arrayPalavras.forEach((valor) => {
-            let tamanho = valor.length;
+            const tamanho = valor.length;
             if(valor.substr(tamanho-3, tamanho)==='res' || valor.substr(tamanho-3, tamanho)==='res') {
                 palavraSingular += valor.substr(0, tamanho-2) + ' ';
             }

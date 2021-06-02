@@ -13,7 +13,7 @@ import { CdkSharedModule } from '@cdk/shared.module';
 import { RegisterComponent } from './register.component';
 import { RegisterStoreModule } from './store/store.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
-import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 const routes = [
     {
         path     : '',

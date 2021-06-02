@@ -54,7 +54,7 @@ export class GetVinculacoesUsuariosFailed implements Action
  export class UnloadVinculacoesUsuarios implements Action
  {
      readonly type = UNLOAD_VINCULACOES_USUARIOS;
- 
+
      constructor()
      {
      }

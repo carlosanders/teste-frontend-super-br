@@ -26,20 +26,30 @@ export class NotificacaoService extends ParentGenericService<Notificacao> {
             JSON.stringify(classToPlain(notificacao)),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Notificacao, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Notificacao(), {...notificacao, ...response});
             })
         );
     }
 
-    marcarTodas(context: any = '{}') {
+    marcarTodas(context: any = '{}'): any {
         const params = {};
         params['context'] = context;
 
         return this.http.patch(
             `${environment.api_url}${'administrativo/notificacao'}/marcar_todas` + environment.xdebug,
+            params
+        );
+    }
+
+    excluirTodas(context: any = '{}'): any {
+        const params = {};
+        params['context'] = context;
+
+        return this.http.patch(
+            `${environment.api_url}${'administrativo/notificacao'}/excluir_todas` + environment.xdebug,
             params
         );
     }

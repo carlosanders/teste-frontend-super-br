@@ -32,7 +32,7 @@ export class UsuarioEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class UsuarioEditEffects {
 
     /**
      * Get Usuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class UsuarioEditEffects {
         this._actions
             .pipe(
                 ofType<UsuarioEditActions.GetUsuario>(UsuarioEditActions.GET_USUARIO),
-                switchMap((action) => {
-                    return this._usuarioService.get(
+                switchMap(action => this._usuarioService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll',
@@ -57,8 +57,7 @@ export class UsuarioEditEffects {
                             'colaborador.modalidadeColaborador'
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                     new UsuarioEditActions.GetUsuarioSuccess({
@@ -78,6 +77,7 @@ export class UsuarioEditEffects {
 
     /**
      * Save Usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -85,15 +85,13 @@ export class UsuarioEditEffects {
         this._actions
             .pipe(
                 ofType<UsuarioEditActions.SaveUsuario>(UsuarioEditActions.SAVE_USUARIO),
-                switchMap((action) => {
-                    return this._usuarioService.save(action.payload).pipe(
+                switchMap(action => this._usuarioService.save(action.payload).pipe(
                         mergeMap((response: Usuario) => [
                             new UsuariosListActions.ReloadUsuarios(),
                             new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                             new UsuarioEditActions.SaveUsuarioSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new UsuarioEditActions.SaveUsuarioFailed(err));
@@ -103,6 +101,7 @@ export class UsuarioEditEffects {
 
     /**
      * Update Usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -110,15 +109,13 @@ export class UsuarioEditEffects {
         this._actions
             .pipe(
                 ofType<UsuarioEditActions.UpdateUsuario>(UsuarioEditActions.UPDATE_USUARIO),
-                switchMap((action) => {
-                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+                switchMap(action => this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
                         mergeMap((response: Usuario) => [
                             new UsuariosListActions.ReloadUsuarios(),
                             new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                             new UsuarioEditActions.UpdateUsuarioSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new UsuarioEditActions.UpdateUsuarioFailed(err));
@@ -154,6 +151,7 @@ export class UsuarioEditEffects {
 
     /**
      * Save Colaborador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -161,15 +159,13 @@ export class UsuarioEditEffects {
         this._actions
             .pipe(
                 ofType<UsuarioEditActions.SaveColaborador>(UsuarioEditActions.SAVE_COLABORADOR),
-                switchMap((action) => {
-                    return this._colaboradorService.save(action.payload).pipe(
+                switchMap(action => this._colaboradorService.save(action.payload).pipe(
                         mergeMap((response: Colaborador) => [
                             new UsuarioEditActions.SaveColaboradorSuccess(),
                             new UsuariosListActions.ReloadUsuarios(),
                             new AddData<Colaborador>({data: [response], schema: colaboradorSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new UsuarioEditActions.SaveColaboradorFailed(err));

@@ -94,7 +94,7 @@ export class GetRepositoriosFailed implements Action
  export class UnloadRepositorios implements Action
  {
      readonly type = UNLOAD_REPOSITORIOS;
- 
+
      constructor()
      {
      }

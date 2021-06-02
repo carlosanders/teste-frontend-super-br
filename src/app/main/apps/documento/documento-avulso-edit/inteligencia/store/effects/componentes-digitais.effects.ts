@@ -27,7 +27,7 @@ export class ComponenteDigitalEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class ComponenteDigitalEffects {
 
     /**
      * Get ComponentesDigitais with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -64,7 +65,7 @@ export class ComponenteDigitalEffects {
                         JSON.stringify(params.sort),
                         JSON.stringify(params.populate));
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     // new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
                     new ComponenteDigitalActions.GetComponentesDigitaisSuccess({
                         entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
@@ -85,6 +86,7 @@ export class ComponenteDigitalEffects {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -92,8 +94,7 @@ export class ComponenteDigitalEffects {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.DownloadComponenteDigital>(ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.download(action.payload.componenteDigitalId).pipe(
+                switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
                                     componenteDigitalId: response.id,
@@ -102,8 +103,7 @@ export class ComponenteDigitalEffects {
                             ),
                             new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}})
                         ]),
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigitalFailed(err));

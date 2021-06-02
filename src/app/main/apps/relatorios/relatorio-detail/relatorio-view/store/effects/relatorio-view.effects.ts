@@ -28,7 +28,7 @@ export class RelatorioViewEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class RelatorioViewEffect {
 
     /**
      * Get Relatorios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class RelatorioViewEffect {
         this._actions
             .pipe(
                 ofType<RelatorioViewActions.GetRelatorios>(RelatorioViewActions.GET_RELATORIOS),
-                switchMap((action) => {
-                    return this._relatorioService.query(
+                switchMap(action => this._relatorioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -55,13 +55,12 @@ export class RelatorioViewEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Relatorio>({ data: response['entities'], schema: relatorioSchema }),
                     new RelatorioViewActions.GetRelatoriosSuccess({
                         index: response['entities'].map(
-                            relatorio => {
+                            (relatorio) => {
                                 let componentesDigitaisIds = [];
                                 if (relatorio.documento.componentesDigitais && relatorio.documento.componentesDigitais !== null) {
                                     componentesDigitaisIds = relatorio.documento.componentesDigitais.map(
@@ -70,7 +69,7 @@ export class RelatorioViewEffect {
                                 }
                                 if (relatorio.documento.vinculacoesDocumentos && relatorio.documento.vinculacoesDocumentos !== null) {
                                     relatorio.documento.vinculacoesDocumentos.map(
-                                        vinculacaoDocumento => {
+                                        (vinculacaoDocumento) => {
                                             vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
                                                 cd => componentesDigitaisIds.push(cd.id)
                                             );
@@ -114,9 +113,7 @@ export class RelatorioViewEffect {
 
                     return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
                 }),
-                map((response: any) => {
-                    return new RelatorioViewActions.SetCurrentStepSuccess(response);
-                }),
+                map((response: any) => new RelatorioViewActions.SetCurrentStepSuccess(response)),
                 catchError((err, caught) => {
                     this._store.dispatch(new RelatorioViewActions.SetCurrentStepFailed(err));
                     return caught;

@@ -27,7 +27,7 @@ export class SetorEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class SetorEffects {
 
     /**
      * Get Setores with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class SetorEffects {
         this._actions
             .pipe(
                 ofType<RootSetorActions.GetSetores>(RootSetorActions.GET_SETORES),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                         }),
@@ -53,7 +53,7 @@ export class SetorEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                             new RootSetorActions.GetSetoresSuccess({
                                 entitiesId: response['entities'].map(setor => setor.id),
@@ -65,7 +65,6 @@ export class SetorEffects {
                             console.log(err);
                             return of(new RootSetorActions.GetSetoresFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

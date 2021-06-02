@@ -54,7 +54,7 @@ export class GetSetoresFailed implements Action
  export class UnloadSetores implements Action
  {
      readonly type = UNLOAD_SETORES;
- 
+
      constructor()
      {
      }

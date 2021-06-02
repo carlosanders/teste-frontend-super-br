@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-juntada-filter',
@@ -50,13 +50,13 @@ export class CdkJuntadaFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('descricao').value) {
-            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'descricao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('numeracaoSequencial').value) {
-            this.form.get('numeracaoSequencial').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('numeracaoSequencial').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'numeracaoSequencial': `like:%${bit}%`});
             });
         }
@@ -113,6 +113,7 @@ export class CdkJuntadaFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

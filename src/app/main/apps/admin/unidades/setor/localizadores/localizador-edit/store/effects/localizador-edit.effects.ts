@@ -29,7 +29,7 @@ export class LocalizadorEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class LocalizadorEditEffects {
 
     /**
      * Get Localizador with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,15 +46,13 @@ export class LocalizadorEditEffects {
         this._actions
             .pipe(
                 ofType<RootLocalizadorEditActions.GetLocalizador>(RootLocalizadorEditActions.GET_LOCALIZADOR),
-                switchMap((action) => {
-                    return this._localizadorService.get(
+                switchMap(action => this._localizadorService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll'
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Localizador>({data: [response], schema: localizadorSchema}),
                     new RootLocalizadorEditActions.GetLocalizadorSuccess({
@@ -73,6 +72,7 @@ export class LocalizadorEditEffects {
 
     /**
      * Save Localizador
+     *
      * @type {Observable<any>}
      */
     @Effect()

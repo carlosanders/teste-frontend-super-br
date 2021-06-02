@@ -73,7 +73,7 @@ export class CdkEstadoGridsearchComponent implements OnInit {
             JSON.stringify(['populateAll']))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.estados = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

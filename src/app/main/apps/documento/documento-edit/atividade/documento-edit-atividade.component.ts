@@ -14,9 +14,9 @@ import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
-import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
-import {Back} from "../../../../../store";
-import {filter} from "rxjs/operators";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {Back} from '../../../../../store';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -87,8 +87,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
         this.atividade.dataHoraConclusao = moment();
 
         this.tarefa$.pipe(
-            filter((tarefa) => !!tarefa)
-        ).subscribe(tarefa => {
+            filter(tarefa => !!tarefa)
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
 
             this.atividade.tarefa = this.tarefa;
@@ -100,7 +100,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
                 this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
             }
 
-            // caso tarefa seja de workflow verificar espécies permitidas
+            // caso tarefa seja de workflow-edit verificar espécies permitidas
             this.especieAtividadePagination['context'] = {};
             if (tarefa.workflow) {
                 this.especieAtividadePagination.filter = {

@@ -204,7 +204,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -229,7 +229,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
 
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

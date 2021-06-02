@@ -46,25 +46,25 @@ export class CdkUsuarioFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('username').value) {
-            this.form.get('username').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('username').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'username': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('email').value) {
-            this.form.get('email').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('email').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'email': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('nivelAcesso').value) {
-            this.form.get('nivelAcesso').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nivelAcesso').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nivelAcesso': `like:%${bit}%`});
             });
         }

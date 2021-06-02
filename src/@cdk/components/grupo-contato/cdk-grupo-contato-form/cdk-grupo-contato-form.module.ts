@@ -10,9 +10,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkGeneroDocumentoAutocompleteModule} from '../../genero-documento/cdk-genero-documento-autocomplete/cdk-genero-documento-autocomplete.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CdkGrupoContatoGridsearchModule} from "../cdk-grupo-contato-autocomplete/cdk-grupo-contato-gridsearch/cdk-grupo-contato-gridsearch.module";
+import {CdkGrupoContatoGridsearchModule} from '../cdk-grupo-contato-autocomplete/cdk-grupo-contato-gridsearch/cdk-grupo-contato-gridsearch.module';
 
 
 @NgModule({

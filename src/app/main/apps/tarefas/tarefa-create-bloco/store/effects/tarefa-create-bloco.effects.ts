@@ -29,7 +29,7 @@ export class TarefaCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class TarefaCreateBlocoEffect {
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class TarefaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateBlocoActions.SaveTarefa>(TarefaCreateBlocoActions.SAVE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
+                mergeMap(action => this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaCreateBlocoActions.SaveTarefaSuccess(action.payload),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
@@ -67,8 +67,7 @@ export class TarefaCreateBlocoEffect {
                             }));
                             return of(new TarefaCreateBlocoActions.SaveTarefaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
 }

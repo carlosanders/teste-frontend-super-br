@@ -68,14 +68,14 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
         });
 
@@ -94,10 +94,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
         if (values.options === 'criar_tarefa') {
-            this._router.navigate([
-                this.routerState.url.split('/encaminhamento')[0] + '/criar/' + this.tarefa.processo.id
-            ]).then();
-
+            this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id]).then();
         }
         if (values.options === 'arquivar') {
             this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
@@ -110,7 +107,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
             });
 
             this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.tarefa.processo.NUPFormatado + '?';
-            this.confirmDialogRef.afterClosed().subscribe(result => {
+            this.confirmDialogRef.afterClosed().subscribe((result) => {
                 if (result) {
                     this._store.dispatch(new fromStore.SaveProcesso(this.tarefa.processo));
                 }

@@ -53,7 +53,7 @@ export class GetTipoRelatorioFailed implements Action
  export class UnloadTipoRelatorio implements Action
  {
      readonly type = UNLOAD_TIPO_RELATORIO;
- 
+
      constructor()
      {
      }

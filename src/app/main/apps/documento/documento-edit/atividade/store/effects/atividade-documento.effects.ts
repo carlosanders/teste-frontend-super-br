@@ -14,7 +14,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {UnloadDocumento} from '../../../../store';
 import {RemoveTarefa} from '../../../../../tarefas/store';
 import {GetJuntadas, UnloadJuntadas} from '../../../../../processo/processo-view/store';
-import {GetTarefa} from "../../../../../tarefas/tarefa-detail/store";
+import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
 
 @Injectable()
 export class AtividadeDocumentoEffects {
@@ -28,7 +28,7 @@ export class AtividadeDocumentoEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class AtividadeDocumentoEffects {
 
     /**
      * Save Atividade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class AtividadeDocumentoEffects {
         this._actions
             .pipe(
                 ofType<AtividadeDocumentoActions.SaveAtividade>(AtividadeDocumentoActions.SAVE_ATIVIDADE),
-                switchMap((action) => {
-                    return this._atividadeService.save(action.payload).pipe(
+                switchMap(action => this._atividadeService.save(action.payload).pipe(
                         mergeMap((response: Atividade) => [
                             new AtividadeDocumentoActions.SaveAtividadeSuccess(action.payload),
                             new AddData<Atividade>({data: [response], schema: atividadeSchema}),
@@ -59,8 +59,7 @@ export class AtividadeDocumentoEffects {
                             console.log (err);
                             return of(new AtividadeDocumentoActions.SaveAtividadeFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
@@ -83,7 +82,7 @@ export class AtividadeDocumentoEffects {
                         let processoFilter = null;
 
                         const routeParams = of('processoHandle');
-                        routeParams.subscribe(param => {
+                        routeParams.subscribe((param) => {
                             processoFilter = `eq:${this.routerState.params[param]}`;
                         });
 
@@ -113,7 +112,7 @@ export class AtividadeDocumentoEffects {
 
                         this._store.dispatch(new GetJuntadas(params));
                     }
-                    let split = this.routerState.url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
+                    const split = this.routerState.url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
                     this._router.navigate([this.routerState.url.split(split)[0] + '/encaminhamento']).then();
                 })
             );

@@ -4,7 +4,6 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {map} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
 
 export class ParentGenericService<T> {
 
@@ -54,18 +53,18 @@ export class ParentGenericService<T> {
         if (t['id']) {
             return this.modelService.put(this.path, t['id'], classToPlain(t), new HttpParams({fromObject: params}))
                 .pipe(
-                    map(response => {
+                    map((response) => {
                         response = plainToClass(this.clz, response);
-                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                         return Object.assign(new this.clz(), {...t, ...response});
                     })
                 );
         } else {
             return this.modelService.post(this.path, classToPlain(t), new HttpParams({fromObject: params}))
                 .pipe(
-                    map(response => {
+                    map((response) => {
                         response = plainToClass(this.clz, response);
-                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                         return Object.assign(new this.clz(), {...t, ...response});
                     })
                 );
@@ -77,12 +76,12 @@ export class ParentGenericService<T> {
         params['populate'] = populate;
         params['context'] = context;
         return this.modelService.patch(
-            `${environment.api_url}${this.path}` + environment.xdebug,
-            t['id'], JSON.stringify(changes), new HttpParams({fromObject: params})
+            this.path,
+            t['id'], changes, new HttpParams({fromObject: params})
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(this.clz, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new this.clz(), {...t, ...response});
             })
         );

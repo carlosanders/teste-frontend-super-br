@@ -10,6 +10,8 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {id} from "@swimlane/ngx-charts";
+import {RemoveNotificacao} from "../actions";
 
 @Injectable()
 export class NotificacaoEffect {
@@ -24,7 +26,7 @@ export class NotificacaoEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -33,6 +35,7 @@ export class NotificacaoEffect {
 
     /**
      * Get Notificacoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -52,7 +55,7 @@ export class NotificacaoEffect {
                             JSON.stringify(action.payload.sort),
                             JSON.stringify(action.payload.populate),
                             JSON.stringify(action.payload.context)).pipe(
-                            mergeMap((response) => [
+                            mergeMap(response => [
                                 new AddData<Notificacao>({data: response['entities'], schema: notificacaoSchema}),
                                 new NotificacaoListActions.GetNotificacoesSuccess({
                                     entitiesId: response['entities'].map(notificacao => notificacao.id),
@@ -74,6 +77,7 @@ export class NotificacaoEffect {
 
     /**
      * ToggleLida Notificacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,9 +85,8 @@ export class NotificacaoEffect {
         this._actions
             .pipe(
                 ofType<NotificacaoListActions.ToggleLidaNotificacao>(NotificacaoListActions.TOGGLE_LIDA_NOTIFICACAO),
-                mergeMap((action) => {
-                    return this._notificacaoService.toggleLida(action.payload).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._notificacaoService.toggleLida(action.payload).pipe(
+                        mergeMap(response => [
                             new NotificacaoListActions.ReloadNotificacoes(),
                             new UpdateData<Notificacao>({id: response.id, schema: notificacaoSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}}),
                             new NotificacaoListActions.ToggleLidaNotificacaoSuccess(response.id),
@@ -92,8 +95,7 @@ export class NotificacaoEffect {
                             console.log(err);
                             return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     @Effect({dispatch: false})
@@ -101,10 +103,40 @@ export class NotificacaoEffect {
         this._actions
             .pipe(
                 ofType<NotificacaoListActions.ButtonTodasNotificacoesLidas>(NotificacaoListActions.BUTTON_TODAS_NOTIFICACOES_LIDAS),
-                tap(() => {
-                    return this._notificacaoService
+                tap(() => this._notificacaoService
                         .marcarTodas()
-                        .subscribe();
-                })
+                        .subscribe())
+            );
+
+    @Effect()
+    removeAllNotificacao: any =
+        this._actions
+            .pipe(
+                ofType<NotificacaoListActions.RemoveAllNotificacao>(NotificacaoListActions.REMOVE_ALL_NOTIFICACAO),
+                mergeMap(() => this._notificacaoService.excluirTodas().pipe(
+                    mergeMap(() => [
+                        new NotificacaoListActions.RemoveAllNotificacaoSuccess()
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new NotificacaoListActions.RemoveAllNotificacaoFailed());
+                    })
+                ))
+            );
+
+    @Effect()
+    removeNotificacao: any =
+        this._actions
+            .pipe(
+                ofType<NotificacaoListActions.RemoveNotificacao>(NotificacaoListActions.REMOVE_NOTIFICACAO),
+                mergeMap(action => this._notificacaoService.destroy(action.payload).pipe(
+                    mergeMap(response => [
+                        new NotificacaoListActions.RemoveNotificacaoSuccess(response.id),
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new NotificacaoListActions.RemoveNotificacaoFailed());
+                    })
+                ))
             );
 }

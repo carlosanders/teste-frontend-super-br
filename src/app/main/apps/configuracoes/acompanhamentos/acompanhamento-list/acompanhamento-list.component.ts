@@ -2,21 +2,17 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
     OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {Compartilhamento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-
-import {UnloadAcompanhamentos} from "./store";
-
 
 @Component({
     selector: 'acompanhamento-list',
@@ -56,7 +52,7 @@ export class AcompanhamentoListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -64,7 +60,7 @@ export class AcompanhamentoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
@@ -116,4 +112,8 @@ export class AcompanhamentoListComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DeleteAcompanhamento(acompanhamentoId));
     }
 
+    view(emissao: { id: number; chaveAcesso?: string }): void {
+        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
+    }
 }

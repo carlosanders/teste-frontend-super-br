@@ -54,7 +54,7 @@ export class GetEtiquetasFailed implements Action
  export class UnloadEtiquetas implements Action
  {
      readonly type = UNLOAD_ETIQUETAS;
- 
+
      constructor()
      {
      }

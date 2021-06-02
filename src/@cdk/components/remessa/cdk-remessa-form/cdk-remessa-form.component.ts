@@ -130,9 +130,9 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
         const path = '@cdk/components/remessa/cdk-remessa-form/cdk-remessa-form#radio';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
+                        .then((componentFactory) => {
                             this.extensoes.push(1);
                             this._changeDetectorRef.markForCheck();
                             this.container.createComponent(componentFactory);
@@ -164,7 +164,7 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

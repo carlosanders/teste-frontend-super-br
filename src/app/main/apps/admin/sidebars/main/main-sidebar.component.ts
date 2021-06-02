@@ -4,7 +4,7 @@ import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'admin-main-sidebar',

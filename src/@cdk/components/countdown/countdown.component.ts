@@ -59,18 +59,14 @@ export class CdkCountdownComponent implements OnInit, OnDestroy
         // Create a subscribable interval
         const countDown = interval(1000)
             .pipe(
-                map(value => {
-                    return diff = diff - 1;
-                }),
-                map(value => {
-                    return this._secondsToRemaining(value);
-                })
+                map(value => diff = diff - 1),
+                map(value => this._secondsToRemaining(value))
             );
 
         // Subscribe to the countdown interval
         countDown
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(value => {
+            .subscribe((value) => {
                 this.countdown = value;
             });
     }

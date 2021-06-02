@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store';
@@ -11,7 +11,15 @@ import * as moment from 'moment';
 @Injectable()
 export class LoginService {
 
+    private _timeout;
+    private _userProfileSubject: BehaviorSubject<Usuario> = new BehaviorSubject<Usuario>(null);
+
     constructor(private http: HttpClient, private _store: Store<State>) {
+    }
+
+    getUserProfileChanges(): Observable<Usuario>
+    {
+        return this._userProfileSubject.asObservable();
     }
 
     getUserProfile(): Usuario {
@@ -20,6 +28,7 @@ export class LoginService {
 
     setUserProfile(userProfile: any): void {
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        this._userProfileSubject.next(userProfile);
     }
 
     removeUserProfile(): void {
@@ -49,7 +58,7 @@ export class LoginService {
 
     setLocalBrowserExpiration(action): void {
         const duration = Number(action.payload.exp) - Number(action.payload.timestamp);
-        const expiration = moment().unix() + duration;
+        const expiration = moment().add(duration, 'seconds').unix();
         localStorage.setItem('localBrowserExp', expiration.toString());
     }
 
@@ -122,9 +131,7 @@ export class LoginService {
         let hasAccess = false;
 
         if (profile && profile.roles && profile.roles.length > 0) {
-            hasAccess = profile.roles.findIndex((papel: string) => {
-                return papel.includes(role);
-            }) !== -1;
+            hasAccess = profile.roles.findIndex((papel: string) => papel.includes(role)) !== -1;
         }
         return hasAccess;
     }
@@ -134,9 +141,7 @@ export class LoginService {
         let hasAccess = false;
 
         if (profile && profile.roles && profile.roles.length > 0) {
-            hasAccess = profile.roles.findIndex((papel: string) => {
-                return papel.includes('ROLE_COORDENADOR');
-            }) !== -1;
+            hasAccess = profile.roles.findIndex((papel: string) => papel.includes('ROLE_COORDENADOR')) !== -1;
         }
         if (hasAccess) {
             return profile.coordenadores.length > 0;
@@ -149,9 +154,7 @@ export class LoginService {
         let hasAccess = false;
 
         if (profile && profile.roles && profile.roles.length > 0) {
-            hasAccess = profile.roles.findIndex((papel: string) => {
-                return papel.includes('ROLE_ADMIN');
-            }) !== -1;
+            hasAccess = profile.roles.findIndex((papel: string) => papel.includes('ROLE_ADMIN')) !== -1;
         }
         return hasAccess;
     }
@@ -167,12 +170,23 @@ export class LoginService {
         return timestamp > expiration;
     }
 
-    private startCountdown(): void {
-        // Renova o token quando faltar 3 minutos para expirar
-        const timeExpToken = this.getExp() - this.getTimestamp();
-        if (timeExpToken > 0) {
-            const timeout = (timeExpToken > 180) ?  (timeExpToken - 180) * 1000 : 1;
-            setTimeout(() => {
+    removeTimeout(): void {
+        if (this._timeout) {
+            clearTimeout(this._timeout);
+        }
+    }
+
+    startCountdown(): void {
+        const duracaoPadrao = this.getExp() - this.getTimestamp();
+        // Renova o token quando faltar 15% do tempo de duração configurado no sistema
+        const proporcao = 0.15;
+        const renovacao = Math.round(duracaoPadrao * proporcao);
+        const browserExpiration = this.getLocalBrowserExp();
+        const duracaoRestante = browserExpiration - moment().unix();
+        if (renovacao) {
+            const timeout = ((duracaoRestante - renovacao) < 30 ? 1 : (duracaoRestante - renovacao)) * 1000;
+            this.removeTimeout();
+            this._timeout = setTimeout(() => {
                 this._store.dispatch(new fromLoginStore.LoginRefreshToken());
             }, timeout);
         }

@@ -49,27 +49,29 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
         {
             id: 1,
             descricao: 'Observação contém:',
-            mapeamento: "{'observacao':'like:%{placeholder}%'}"
+            mapeamento: '{\'observacao\':\'like:%{placeholder}%\'}'
         },
         {
             id: 2,
             descricao: 'Recebido de setor:',
-            mapeamento: "{'setorResponsavel.id':'eq:{placeholder}'}"
+            mapeamento: '{\'setorResponsavel.id\':\'eq:{placeholder}\'}'
         },
         {
             id: 3,
             descricao: 'Recebido de unidade:',
-            mapeamento: "{'unidadeResponsavel.id':'eq:{placeholder}'}"
+            mapeamento: '{\'unidadeResponsavel.id\':\'eq:{placeholder}\'}'
         },
         {
             id: 4,
             descricao: 'Recebido de usuário:',
-            mapeamento: "{'usuarioResponsavel.id':'eq:{placeholder}'}"
+            mapeamento: '{\'usuarioResponsavel.id\':\'eq:{placeholder}\'}'
         },
     ];
 
     /**
+     *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -95,7 +97,7 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
         this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
 
         this.criteriasTemplate.forEach((criteria) => {
-            let newCriteria = new Criteria();
+            const newCriteria = new Criteria();
             newCriteria.id = criteria.id;
             newCriteria.descricao = criteria.descricao;
             newCriteria.mapeamento = criteria.mapeamento;
@@ -104,7 +106,7 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -147,9 +149,9 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
     submit(values): void {
         const regraEtiqueta = new RegraEtiqueta();
 
-        let criterias: string[] = [];
-        values.criterias.forEach((criteria: Criteria) => {
-            const eachCriteria = criteria.mapeamento.replace('{placeholder}', criteria.valor);
+        const criterias: string[] = [];
+        values.criterias.forEach((aCriteria: Criteria) => {
+            const eachCriteria = aCriteria.mapeamento.replace('{placeholder}', aCriteria.valor);
             criterias.push(eachCriteria);
         });
 

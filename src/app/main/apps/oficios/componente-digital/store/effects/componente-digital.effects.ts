@@ -27,7 +27,7 @@ export class ComponenteDigitalEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -47,7 +48,7 @@ export class ComponenteDigitalEffect {
                     let handle = { id: '', value: '' };
                     let context = '{}';
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -56,7 +57,7 @@ export class ComponenteDigitalEffect {
                         }
                     });
                     const routeChaveAcessoParams = of('chaveAcessoHandle');
-                    routeChaveAcessoParams.subscribe(param => {
+                    routeChaveAcessoParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             context = JSON.stringify({chaveAcesso: this.routerState.params[param]});
                         }
@@ -83,6 +84,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -96,7 +98,7 @@ export class ComponenteDigitalEffect {
                         value: ''
                     };
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -114,8 +116,8 @@ export class ComponenteDigitalEffect {
                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                         }
                         const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                            URL = window.URL;
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                            const URL = window.URL;
                         const data = URL.createObjectURL(blob);
 
                         const link = document.createElement('a');

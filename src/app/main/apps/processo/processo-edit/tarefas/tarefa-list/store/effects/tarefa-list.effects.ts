@@ -12,7 +12,7 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Tarefa} from '@cdk/models';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class TarefaListEffect {
@@ -26,7 +26,7 @@ export class TarefaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class TarefaListEffect {
 
     /**
      * Get Tarefas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class TarefaListEffect {
         this._actions
             .pipe(
                 ofType<TarefaListActions.GetTarefas>(TarefaListActions.GET_TAREFAS),
-                switchMap((action) => {
-                    return this._tarefaService.query(
+                switchMap(action => this._tarefaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,9 +53,8 @@ export class TarefaListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)
-                    );
-                }),
-                mergeMap((response) => [
+                    )),
+                mergeMap(response => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
                     new TarefaListActions.GetTarefasSuccess({
                         entitiesId: response['entities'].map(tarefa => tarefa.id),
@@ -75,6 +74,7 @@ export class TarefaListEffect {
 
     /**
      * Delete Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class TarefaListEffect {
         this._actions
             .pipe(
                 ofType<TarefaListActions.DeleteTarefa>(TarefaListActions.DELETE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.destroy(action.payload).pipe(
-                        map((response) => new TarefaListActions.DeleteTarefaSuccess(response.id)),
+                mergeMap(action => this._tarefaService.destroy(action.payload).pipe(
+                        map(response => new TarefaListActions.DeleteTarefaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefaListActions.DeleteTarefaFailed(
@@ -93,8 +92,7 @@ export class TarefaListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 
 }

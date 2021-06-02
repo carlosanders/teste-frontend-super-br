@@ -3,8 +3,8 @@ import {getDadosBasicosAppState, DadosBasicosAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {configuracaoNup as configuracaoNupSchema} from '@cdk/normalizr';
-import {ConfiguracaoNup} from "@cdk/models/configuracao-nup.model";
-import {ConfiguracaoNupState} from "../reducers/configuracao-nup.reducer";
+import {ConfiguracaoNup} from '@cdk/models/configuracao-nup.model';
+import {ConfiguracaoNupState} from '../reducers/configuracao-nup.reducer';
 
 const schemaSelectors = createSchemaSelectors<ConfiguracaoNup>(configuracaoNupSchema);
 

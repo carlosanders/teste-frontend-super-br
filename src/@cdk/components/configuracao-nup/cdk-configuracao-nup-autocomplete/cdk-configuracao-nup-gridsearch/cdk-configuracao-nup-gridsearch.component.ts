@@ -15,7 +15,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {catchError, finalize} from 'rxjs/operators';
 
 import {Pagination, ConfiguracaoNup} from '@cdk/models';
-import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
+import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
 
 @Component({
     selector: 'cdk-configuracao-nup-gridsearch',
@@ -70,7 +70,7 @@ export class CdkConfiguracaoNupGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.configuracoesNup = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

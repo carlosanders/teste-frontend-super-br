@@ -1,5 +1,5 @@
 import * as NotificacaoActions from '../actions';
-import {Notificacao} from "@cdk/models";
+import {Notificacao} from '@cdk/models';
 
 export interface NotificacaoState {
     entitiesId: number[];
@@ -17,8 +17,8 @@ export interface NotificacaoState {
     deletingIds: number[];
     deletedIds: number[];
     snackbar: {
-        exibir: boolean,
-        notificacao: Notificacao
+        exibir: boolean;
+        notificacao: Notificacao;
     };
 }
 
@@ -86,6 +86,20 @@ export function NotificacaoReducer(
             };
         }
 
+        case NotificacaoActions.GET_NOTIFICACAO_SUCCESS: {
+            const entitiesId = [...state.entitiesId];
+            if (!state.entitiesId.includes(action.payload.id)) {
+                entitiesId.push(action.payload.id);
+            }
+
+            return {
+                ...state,
+                entitiesId,
+                loading: false,
+                loaded: true
+            };
+        }
+
         case NotificacaoActions.TOGGLE_LIDA_NOTIFICACAO: {
             return {
                 ...state,
@@ -127,6 +141,65 @@ export function NotificacaoReducer(
             return {
                 ...state,
                 snackbar: snackbar
+            };
+        }
+
+        case NotificacaoActions.REMOVE_ALL_NOTIFICACAO: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case NotificacaoActions.REMOVE_ALL_NOTIFICACAO_SUCCESS: {
+            return {
+                entitiesId: [],
+                pagination: {
+                    limit: 0,
+                    offset: 0,
+                    filter: {},
+                    gridFilter: {},
+                    populate: [],
+                    sort: {},
+                    total: 0,
+                },
+                loading: false,
+                loaded: true,
+                deletedIds: [],
+                deletingIds: [],
+                snackbar: {
+                    exibir: false,
+                    notificacao: null
+                }
+            };
+        }
+
+        case NotificacaoActions.REMOVE_ALL_NOTIFICACAO_FAILED: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
+        case NotificacaoActions.REMOVE_NOTIFICACAO: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case NotificacaoActions.REMOVE_NOTIFICACAO_SUCCESS: {
+            return {
+                ...state,
+                entitiesId: state.entitiesId.filter(item => item !== action.payload),
+                loading: false
+            };
+        }
+
+        case NotificacaoActions.REMOVE_NOTIFICACAO_FAILED: {
+            return {
+                ...state,
+                loading: false
             };
         }
 

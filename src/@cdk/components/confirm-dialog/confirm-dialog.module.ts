@@ -3,7 +3,7 @@ import { MatButtonModule } from '@cdk/angular/material';
 import { MatDialogModule } from '@cdk/angular/material';
 
 import { CdkConfirmDialogComponent} from './confirm-dialog.component';
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common';
 
 @NgModule({
     declarations: [

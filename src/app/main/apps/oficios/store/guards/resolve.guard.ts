@@ -12,7 +12,7 @@ import { getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors
 import { getRouterState } from 'app/store/reducers';
 import { LoginService } from '../../../../auth/login/login.service';
 import { Usuario, VinculacaoPessoaUsuario } from '@cdk/models';
-import {getIsLoading} from "app/main/apps/oficios/store";
+import {getIsLoading} from 'app/main/apps/oficios/store';
 
 
 @Injectable()
@@ -37,7 +37,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,17 +46,15 @@ export class ResolveGuard implements CanActivate {
         this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
 
         this._profile = _loginService.getUserProfile();
-        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios.filter((vinculacao) => {
-            return !!vinculacao.pessoa.pessoaConveniada;
-        });
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios.filter(vinculacao => !!vinculacao.pessoa.pessoaConveniada);
     }
 
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault()) {
@@ -70,13 +68,11 @@ export class ResolveGuard implements CanActivate {
     /**
      * check Role admin
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkRole(observable: Observable<any>): any {
         if (!this._loginService.isGranted('ROLE_PESSOA_VINCULADA')) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         return observable;
     }
@@ -84,7 +80,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get DocumentoAvulso
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getDocumentosAvulso(): any {
         return this._store.pipe(
@@ -119,7 +115,7 @@ export class ResolveGuard implements CanActivate {
                     };
 
                     const routeTypeParam = of('oficioTargetHandle');
-                    routeTypeParam.subscribe(typeParam => {
+                    routeTypeParam.subscribe((typeParam) => {
                         let documentoAvulsoFilter = {};
 
                         if (this.routerState.params[typeParam] === 'entrada') {
@@ -149,10 +145,8 @@ export class ResolveGuard implements CanActivate {
                     this.loading = true;
                 }
             }),
-            filter((loaded: any) => {
-                return this.loading || (this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value
-                    && this.routerState.params['oficioTargetHandle']);
-            }),
+            filter((loaded: any) => this.loading || (this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value
+                    && this.routerState.params['oficioTargetHandle'])),
             take(1)
         );
     }

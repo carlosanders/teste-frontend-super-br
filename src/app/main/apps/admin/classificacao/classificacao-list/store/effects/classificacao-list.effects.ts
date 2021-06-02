@@ -25,7 +25,7 @@ export class ClassificacaoListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class ClassificacaoListEffects {
 
     /**
      * Get Classificacao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class ClassificacaoListEffects {
         this._actions
             .pipe(
                 ofType<ClassificacaoListActions.GetClassificacao>(ClassificacaoListActions.GET_CLASSIFICACAO),
-                switchMap((action) => {
-                    return this._classificacaoService.query(
+                switchMap(action => this._classificacaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,7 +52,7 @@ export class ClassificacaoListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Classificacao>({data: response['entities'], schema: classificacaoSchema}),
                             new ClassificacaoListActions.GetClassificacaoSuccess({
                                 entitiesId: response['entities'].map(classificacao => classificacao.id),
@@ -67,12 +67,12 @@ export class ClassificacaoListEffects {
                             console.log(err);
                             return of(new ClassificacaoListActions.GetClassificacaoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Classificacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,9 +80,8 @@ export class ClassificacaoListEffects {
         this._actions
             .pipe(
                 ofType<ClassificacaoListActions.DeleteClassificacao>(ClassificacaoListActions.DELETE_CLASSIFICACAO),
-                mergeMap((action) => {
-                    return this._classificacaoService.destroy(action.payload).pipe(
-                        map((response) => new ClassificacaoListActions.DeleteClassificacaoSuccess(action.payload)),
+                mergeMap(action => this._classificacaoService.destroy(action.payload).pipe(
+                        map(response => new ClassificacaoListActions.DeleteClassificacaoSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
                             return of(new ClassificacaoListActions.DeleteClassificacaoFailed(
@@ -91,7 +90,6 @@ export class ClassificacaoListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

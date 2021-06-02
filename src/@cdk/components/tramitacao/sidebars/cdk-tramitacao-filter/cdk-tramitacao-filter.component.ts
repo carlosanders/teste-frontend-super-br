@@ -49,7 +49,7 @@ export class CdkTramitacaoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('observacao').value) {
-            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }

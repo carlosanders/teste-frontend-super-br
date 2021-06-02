@@ -1,5 +1,4 @@
 <form fxLayoutGap="16px" [formGroup]="form" *ngIf="formState === 'form'">
-    <label id="acoes-rg">Selecione o modelo</label>
     <mat-form-field>
         <input matInput placeholder="Modelo"
                formControlName="modelo"
@@ -21,7 +20,7 @@
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
+                [disabled]="form.invalid || !valid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

@@ -12,7 +12,7 @@ import {
 import {plainToClass} from 'class-transformer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
-import {SetCount, SnackbarExibirNotificacao} from '../actions';
+import { GetNotificacaoSuccess, SetCount, SnackbarExibirNotificacao } from '../actions';
 
 @Injectable()
 export class MercureEffects {
@@ -38,6 +38,8 @@ export class MercureEffects {
                                     data: [plainToClass(Notificacao, action.payload.content)],
                                     schema: notificacaoSchema
                                 }));
+
+                                this._store.dispatch(new GetNotificacaoSuccess(action.payload.content));
 
                                 if (action.payload.content.dataHoraLeitura == null) {
                                     this._store.dispatch(new SnackbarExibirNotificacao({

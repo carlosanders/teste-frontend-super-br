@@ -226,9 +226,6 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     ngOnChanges(): void {
-        if (this.usuarios) {
-            this.temDistribuidor = this.usuarios.some(item => item.isDisponivel);
-        }
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
         this.paginator.length = this.total;
     }
@@ -253,7 +250,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }

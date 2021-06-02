@@ -7,7 +7,7 @@ notification.config = {
     duration: 5000,
     horizontalPosition: 'center',
     verticalPosition: 'top',
-    panelClass: ['cdk-white-bg']
+    panelClass: ['notificacao-snackbar']
 };
 
 export const notificationConfig =

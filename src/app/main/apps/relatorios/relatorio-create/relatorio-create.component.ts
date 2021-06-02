@@ -76,7 +76,7 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -100,9 +100,9 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        let relatorio = new Relatorio();
-        var arrayParams: any;
-        var parametros: any;
+        const relatorio = new Relatorio();
+        let arrayParams: any;
+        let parametros: any;
 
         Object.entries(values).forEach(
             ([key, value]) => {

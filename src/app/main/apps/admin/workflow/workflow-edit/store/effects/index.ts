@@ -1,4 +1,4 @@
-import { WorkflowEditEffects } from './workflow-edit.effects';
+import {WorkflowEditEffects} from './workflow-edit.effects';
 
 export const effects = [
     WorkflowEditEffects

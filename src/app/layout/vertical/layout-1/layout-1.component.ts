@@ -1,6 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
 
 import { CdkConfigService } from '@cdk/services/config.service';
 import { navigation } from 'app/navigation/navigation';
@@ -15,6 +15,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
 {
     cdkConfig: any;
     navigation: any;
+    chatOpen: boolean = false;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -29,9 +30,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
     }
 
     /**
-     * Constructor
-     *
-     * @param {CdkConfigService} _cdkConfigService
+     * @param _cdkConfigService
      */
     constructor(
         private _cdkConfigService: CdkConfigService
@@ -39,7 +38,6 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
     {
         // Set the defaults
         this.navigation = navigation;
-
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -72,5 +70,10 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    toogleChat(isOpen:boolean) : void
+    {
+        this.chatOpen = isOpen;
     }
 }

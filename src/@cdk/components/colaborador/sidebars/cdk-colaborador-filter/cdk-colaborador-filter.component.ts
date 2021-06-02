@@ -40,7 +40,7 @@ export class CdkColaboradorFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('cargo').value) {
-            this.form.get('cargo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('cargo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'cargo': `like:%${bit}%`});
             });
         }

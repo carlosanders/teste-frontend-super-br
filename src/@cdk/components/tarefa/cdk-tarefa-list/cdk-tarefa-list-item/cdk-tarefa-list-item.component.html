@@ -24,6 +24,8 @@
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
                 </mat-icon>
+                <mat-icon class="s-14 mt-8" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
+                </mat-icon>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
                 </mat-icon>
@@ -48,18 +50,16 @@
 
             <div class="subtitle" *ngIf="isOpen">
                 <div class="assunto">
-                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1 || loadingInteressados">
                         <mat-spinner diameter=16></mat-spinner>
                     </div>
                     <div *ngIf="tarefa.processo?.assuntos?.length > 0">
                         <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
                     </div>
                 </div>
-                <div *ngIf="loadingInteressados">
-                    <mat-spinner diameter=16></mat-spinner>
-                </div>
                 <div class="interessados" *ngIf="!loadingInteressados && tarefa.processo?.interessados?.length > 0">
-                    <span *ngFor="let nomeInteressado of (tarefa.processo?.interessados | formatInteressados: totalInteressados)">
+                    <span
+                        *ngFor="let nomeInteressado of (tarefa.processo?.interessados | formatInteressados: totalInteressados)">
                         {{nomeInteressado}}
                     </span>
                 </div>
@@ -104,19 +104,35 @@
                 </mat-icon>
             </div>
 
-            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao" (click)="$event.stopPropagation()">
+            <div class="etiquetas">
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
+                     fxLayout="row" fxLayoutAlign="start center"
+                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                     [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
+                    <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
+                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                    <div
+                        class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                </div>
+            </div>
+
+            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao"
+                 (click)="$event.stopPropagation()">
                 <span *ngIf="editandoObservacao === false">{{tarefa.observacao}}</span>
                 <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Editar observação"
                           (click)="$event.stopPropagation(); doEditarObservacao()">
                     edit
                 </mat-icon>
-                <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
+            </div>
+            <div *ngIf="editandoObservacao === true" class="edit-observacao">
+                <mat-form-field (click)="$event.stopPropagation()">
                     <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
                               (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
                               upperCase>{{tarefa.observacao}}</textarea>
                 </mat-form-field>
-                <div class="actions" *ngIf="editandoObservacao === true">
-                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
+                <div class="actions">
+                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação"
+                            matTooltip="Salvar Observação" class="accent"
                             (click)="$event.stopPropagation();">
                         <mat-icon>edit</mat-icon>
                     </button>
@@ -124,37 +140,6 @@
                         <mat-spinner diameter="24"></mat-spinner>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="!tarefa.observacao" class="observacao" (click)="$event.stopPropagation()">
-                <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Inserir observação"
-                          (click)="$event.stopPropagation(); doEditarObservacao()">
-                    edit
-                </mat-icon>
-                <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
-                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
-                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
-                              upperCase></textarea>
-                </mat-form-field>
-                <div class="actions" *ngIf="editandoObservacao === true">
-                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
-                            (click)="$event.stopPropagation();">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <div class="spinner-container m-8" *ngIf="savingObservacao">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="etiquetas" fxHide fxShow.gt-sm>
-            <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                 fxLayout="row" fxLayoutAlign="start center"
-                 (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
-                 [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
-                <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
-                     [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
             </div>
         </div>
 
@@ -172,7 +157,8 @@
 
     <div class="actions">
 
-        <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
+        <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
+                (click)="doToggleUrgente(); $event.stopPropagation();"
                 aria-label="Toggle important" fxHide.xs>
             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
             <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
@@ -222,6 +208,15 @@
                 <ng-container>
                     <mat-icon>edit</mat-icon>
                     <span>Editar Tarefa</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="observação"
+                    *ngIf="!tarefa.observacao"
+                    (click)="doEditarObservacao()">
+                <ng-container>
+                    <span class="material-icons-outlined mat-icon mat-icon-no-color">edit_note</span>
+                    <span>Observação</span>
                 </ng-container>
             </button>
 

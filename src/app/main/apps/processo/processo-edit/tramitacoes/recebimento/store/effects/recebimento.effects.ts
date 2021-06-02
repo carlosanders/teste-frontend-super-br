@@ -26,7 +26,7 @@ export class RecebimentoEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class RecebimentoEffect {
 
     /**
      * Get Tramitacao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,16 +43,14 @@ export class RecebimentoEffect {
         this._actions
             .pipe(
                 ofType<RecebimentoActions.GetTramitacao>(RecebimentoActions.GET_TRAMITACAO),
-                switchMap((action) => {
-                    return this._tramitacaoService.query(
+                switchMap(action => this._tramitacaoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Tramitacao>({data: response['entities'], schema: tramitacaoSchema}),
                     new RecebimentoActions.GetTramitacaoSuccess({
@@ -71,6 +70,7 @@ export class RecebimentoEffect {
 
     /**
      * Save Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -78,8 +78,7 @@ export class RecebimentoEffect {
         this._actions
             .pipe(
                 ofType<RecebimentoActions.ReceberTramitacaoProcesso>(RecebimentoActions.RECEBER_TRAMITACAO_PROCESSO),
-                switchMap((action) => {
-                    return this._tramitacaoService.patch(action.payload.tramitacao, action.payload.changes).pipe(
+                switchMap(action => this._tramitacaoService.patch(action.payload.tramitacao, action.payload.changes).pipe(
                         mergeMap((response: Tramitacao) => [
                             new RecebimentoActions.ReceberTramitacaoProcessoSuccess(response),
                             new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema}),
@@ -93,8 +92,7 @@ export class RecebimentoEffect {
                             console.log (err);
                             return of(new RecebimentoActions.ReceberTramitacaoProcessoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

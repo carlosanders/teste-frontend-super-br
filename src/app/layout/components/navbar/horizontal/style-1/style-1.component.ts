@@ -23,9 +23,9 @@ export class NavbarHorizontalStyle1Component implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {CdkConfigService} _cdkConfigService
-     * @param {CdkNavigationService} _cdkNavigationService
-     * @param {CdkSidebarService} _cdkSidebarService
+     * @param _cdkConfigService
+     * @param _cdkNavigationService
+     * @param _cdkSidebarService
      */
     constructor(
         private _cdkConfigService: CdkConfigService,

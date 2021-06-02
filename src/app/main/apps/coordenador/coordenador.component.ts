@@ -24,8 +24,8 @@ export class CoordenadorComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {CdkSidebarService} _cdkSidebarService
+     * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

@@ -28,7 +28,7 @@ export class GarantiaEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class GarantiaEditEffect {
 
     /**
      * Get Garantia with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class GarantiaEditEffect {
         this._actions
             .pipe(
                 ofType<GarantiaEditActions.GetGarantia>(GarantiaEditActions.GET_GARANTIA),
-                switchMap((action) => {
-                    return this._garantiaService.query(
+                switchMap(action => this._garantiaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Garantia>({data: response['entities'], schema: garantiaSchema}),
                     new GarantiaEditActions.GetGarantiaSuccess({
@@ -73,6 +72,7 @@ export class GarantiaEditEffect {
 
     /**
      * Save Garantia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class GarantiaEditEffect {
         this._actions
             .pipe(
                 ofType<GarantiaEditActions.SaveGarantia>(GarantiaEditActions.SAVE_GARANTIA),
-                switchMap((action) => {
-                    return this._garantiaService.save(action.payload).pipe(
+                switchMap(action => this._garantiaService.save(action.payload).pipe(
                         mergeMap((response: Garantia) => [
                             new GarantiaEditActions.SaveGarantiaSuccess(),
                             new GarantiaListActions.ReloadGarantias(),
@@ -96,8 +95,7 @@ export class GarantiaEditEffect {
                             console.log (err);
                             return of(new GarantiaEditActions.SaveGarantiaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save Garantia Success

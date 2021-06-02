@@ -14,7 +14,7 @@ import {Compartilhamento, Tarefa} from '@cdk/models';
 import {compartilhamento as compartilhamentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {getBufferingDelete, getDeletingIds} from '../selectors';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class CompartilhamentoListEffect {
@@ -28,7 +28,7 @@ export class CompartilhamentoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class CompartilhamentoListEffect {
 
     /**
      * Get Compartilhamentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class CompartilhamentoListEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoListActions.GetCompartilhamentos>(CompartilhamentoListActions.GET_COMPARTILHAMENTOS),
-                exhaustMap((action) => {
-                    return this._compartilhamentoService.query(
+                exhaustMap(action => this._compartilhamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -55,9 +55,8 @@ export class CompartilhamentoListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Compartilhamento>({data: response['entities'], schema: compartilhamentoSchema}),
                     new CompartilhamentoListActions.GetCompartilhamentosSuccess({
                         entitiesId: response['entities'].map(compartilhamento => compartilhamento.id),
@@ -77,6 +76,7 @@ export class CompartilhamentoListEffect {
 
     /**
      * Delete Compartilhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()

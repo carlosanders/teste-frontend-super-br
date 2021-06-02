@@ -21,6 +21,17 @@ horizontal-layout-1 {
         z-index: -1;
     }
 
+    .chat-panel {
+        min-width: 300px !important;
+        max-width: 300px !important;
+        padding-right: 0 !important;
+
+        &.chat-open {
+            min-width: 600px !important;
+            max-width: 600px !important;
+        }
+    }
+
     #main {
         position: relative;
         display: flex;

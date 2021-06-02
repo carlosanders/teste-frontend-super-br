@@ -12,10 +12,10 @@ import {
 import {ModalidadeDestinacao, Pagination, Setor, Usuario} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {cdkAnimations} from '../../../animations';
-import {Contato} from "../../../models/contato.model";
-import {TipoContato} from "../../../models/tipo-contato.model";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {Contato} from '../../../models/contato.model';
+import {TipoContato} from '../../../models/tipo-contato.model';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-contato-form',
@@ -103,7 +103,7 @@ export class CdkContatoFormComponent implements OnChanges, OnDestroy, OnInit {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -128,7 +128,7 @@ export class CdkContatoFormComponent implements OnChanges, OnDestroy, OnInit {
                     if (value && typeof value === 'object') {
                         if (this.form.get('setor')) {
                             this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
-                            this.setorPagination.filter['parent'] = `isNotNull`;
+                            this.setorPagination.filter['parent'] = 'isNotNull';
                         }
                         this._changeDetectorRef.markForCheck();
                     }

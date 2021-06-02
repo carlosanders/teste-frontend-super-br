@@ -27,10 +27,10 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Constructor
      *
-     * @param {ElementRef} elementRef
-     * @param {CdkConfigService} _cdkConfigService
-     * @param {Platform} _platform
-     * @param {Router} _router
+     * @param elementRef
+     * @param _cdkConfigService
+     * @param _platform
+     * @param _router
      */
     constructor(
         public elementRef: ElementRef,
@@ -87,7 +87,7 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Is enabled
      *
-     * @param {boolean | ""} value
+     * @param value
      */
     @Input('cdkPerfectScrollbar')
     set enabled(value: boolean | '')
@@ -282,7 +282,7 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Document click
      *
-     * @param {Event} event
+     * @param event
      */
     @HostListener('document:click', ['$event'])
     documentClick(event: Event): void
@@ -389,8 +389,8 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Scroll to X
      *
-     * @param {number} x
-     * @param {number} speed
+     * @param x
+     * @param speed
      */
     scrollToX(x: number, speed?: number): void
     {
@@ -400,8 +400,8 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Scroll to Y
      *
-     * @param {number} y
-     * @param {number} speed
+     * @param y
+     * @param speed
      */
     scrollToY(y: number, speed?: number): void
     {
@@ -411,8 +411,8 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Scroll to top
      *
-     * @param {number} offset
-     * @param {number} speed
+     * @param offset
+     * @param speed
      */
     scrollToTop(offset?: number, speed?: number): void
     {
@@ -422,8 +422,8 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Scroll to left
      *
-     * @param {number} offset
-     * @param {number} speed
+     * @param offset
+     * @param speed
      */
     scrollToLeft(offset?: number, speed?: number): void
     {
@@ -433,8 +433,8 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Scroll to right
      *
-     * @param {number} offset
-     * @param {number} speed
+     * @param offset
+     * @param speed
      */
     scrollToRight(offset?: number, speed?: number): void
     {
@@ -445,8 +445,8 @@ export class CdkPerfectScrollbarDirective implements OnInit, AfterViewInit, OnDe
     /**
      * Scroll to bottom
      *
-     * @param {number} offset
-     * @param {number} speed
+     * @param offset
+     * @param speed
      */
     scrollToBottom(offset?: number, speed?: number): void
     {

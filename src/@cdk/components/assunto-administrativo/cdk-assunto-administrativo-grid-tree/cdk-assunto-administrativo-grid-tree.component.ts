@@ -1,5 +1,14 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChildren} from '@angular/core';
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChildren
+} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {AssuntoAdministrativoService} from '../../../services/assunto-administrativo.service';
 import {catchError, finalize} from 'rxjs/operators';
@@ -11,7 +20,8 @@ import {AssuntoAdministrativo, Pagination} from '../../../models';
 @Component({
     selector: 'cdk-assunto-administrativo-grid-tree',
     templateUrl: './cdk-assunto-administrativo-grid-tree.component.html',
-    styleUrls: ['./cdk-assunto-administrativo-grid-tree.component.scss']
+    styleUrls: ['./cdk-assunto-administrativo-grid-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
 
@@ -33,6 +43,7 @@ export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
     selected = new EventEmitter<AssuntoAdministrativo>();
 
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _serviceTree: CdkAssuntoAdministrativoGridTreeService,
         private _assuntoAdministrativoService: AssuntoAdministrativoService,
         private _formBuilder: FormBuilder,
@@ -72,10 +83,10 @@ export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
         this.assuntoAdministrativoMap.set(assuntoAdministrativo, node);
         this.nestedNodeMap.set(node, assuntoAdministrativo);
         return assuntoAdministrativo;
-    }
+    };
     ngOnInit(): void {
         this.initTree();
-        this._serviceTree.dataChange.subscribe(data => {
+        this._serviceTree.dataChange.subscribe((data) => {
             this.dataSource.data = data;
         });
     }
@@ -97,7 +108,7 @@ export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
      */
     initTree(): void {
         const assuntoAdministrativoPai = this.getAssuntoAdministrativo('isNull');
-        assuntoAdministrativoPai.subscribe(assuntoAdministrativoes => {
+        assuntoAdministrativoPai.subscribe((assuntoAdministrativoes) => {
             const data = this.montarArrayAssuntoAdministrativo(assuntoAdministrativoes);
             this._serviceTree.initialize(data);
         });
@@ -132,7 +143,10 @@ export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
             JSON.stringify(params.sort),
             JSON.stringify(params.populate)
         ).pipe(
-            finalize(() => this.loading = false),
+            finalize(() => {
+                this.loading = false;
+                this._changeDetectorRef.detectChanges();
+            }),
             catchError(() => of([]))
         );
 

@@ -16,7 +16,7 @@ import {getProcesso} from '../../../store';
 import {filter, switchMap} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {cdkAnimations} from '@cdk/animations';
-import {CdkSidebarService} from "../../../../../../../@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from '../../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -57,16 +57,16 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
 
         this.processo$.pipe(
-            filter((processo) => !!processo)
+            filter(processo => !!processo)
         ).subscribe(
-            processo => {
+            (processo) => {
                 this.processo = processo;
                 this._changeDetectorRef.markForCheck();
             }
@@ -169,17 +169,15 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Tramitações',
                 link: 'tramitacoes',
                 role: 'ROLE_COLABORADOR',
-                canShow: (processo$: Observable<Processo>): Observable<boolean> => {
-                    return processo$.pipe(
-                        filter((processo) => !!processo),
+                canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
+                        filter(processo => !!processo),
                         switchMap((processo) => {
                             if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
                                 return of(false);
                             }
                             return of(true);
                         })
-                    );
-                }
+                    )
             }
         );
 

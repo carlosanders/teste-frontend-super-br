@@ -28,7 +28,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,9 +38,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getVinculacoesModelo().pipe(
@@ -52,7 +52,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Afastamentos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getVinculacoesModelo(): any {
         return this._store.pipe(
@@ -89,9 +89,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetModelosEspecieSetor(params));
                 }
             }),
-            filter((loaded: any) => {
-                return loaded && this.routerState.params['modeloHandle'] && this.routerState.params['modeloHandle'] === loaded.value;
-            }),
+            filter((loaded: any) => loaded && this.routerState.params['modeloHandle'] && this.routerState.params['modeloHandle'] === loaded.value),
             take(1)
         );
     }

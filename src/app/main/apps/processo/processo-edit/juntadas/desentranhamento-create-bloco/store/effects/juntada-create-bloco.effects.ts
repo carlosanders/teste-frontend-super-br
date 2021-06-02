@@ -31,7 +31,7 @@ export class JuntadaCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -40,6 +40,7 @@ export class JuntadaCreateBlocoEffect {
 
     /**
      * Get Juntadas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -47,8 +48,7 @@ export class JuntadaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<JuntadaCreateBlocoActions.GetJuntadas>(JuntadaCreateBlocoActions.GET_JUNTADAS),
-                switchMap((action) => {
-                    return this._juntadaService.query(
+                switchMap(action => this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -57,9 +57,8 @@ export class JuntadaCreateBlocoEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new JuntadaCreateBlocoActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
@@ -79,6 +78,7 @@ export class JuntadaCreateBlocoEffect {
 
     /**
      * Save Desentranhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -145,7 +145,7 @@ export class JuntadaCreateBlocoEffect {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'desentranhamento',
-                                content: "Erro no desentranhamento da juntada id " + action.payload.desentranhamento.juntada.id + ": " +
+                                content: 'Erro no desentranhamento da juntada id ' + action.payload.desentranhamento.juntada.id + ': ' +
                                     serializedMessage,
                                 status: 2, // erro
                                 lote: action.payload.loteId,

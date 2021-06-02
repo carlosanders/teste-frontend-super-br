@@ -24,13 +24,12 @@ export class AuthGuard implements CanActivate {
             this._mercureService.subscribe(this._loginService.getUserProfile().username);
             const params = {
                 filter: {
-                    'destinatario.id': 'eq:' + this._loginService.getUserProfile().id,
-                    'dataHoraLeitura': 'isNull'
+                    'destinatario.id': 'eq:' + this._loginService.getUserProfile().id
                 },
                 gridFilter: {},
                 limit: 30,
                 offset: 0,
-                sort: {criadoEm: 'DESC'},
+                sort: {id: 'DESC'},
                 populate: ['populateAll']
             };
             this._store.dispatch(new GetNotificacoes(params));

@@ -1,6 +1,6 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter, HostListener,
@@ -19,7 +19,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Classificacao, ModalidadeDestinacao, Pagination, Processo} from '../../../models';
 import {ClassificacaoService} from '../../../services/classificacao.service';
-import {cdkAnimations} from "../../../animations";
+import {cdkAnimations} from '../../../animations';
 
 export class FlatNode {
     expandable: boolean;
@@ -108,6 +108,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
     }
 
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _serviceTree: CdkClassificacaoTreeFormService,
         private _classificacaoService: ClassificacaoService,
         private _formBuilder: FormBuilder,
@@ -119,7 +120,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
         this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
         this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
         this.initTree();
-        _serviceTree.dataChange.subscribe(data => {
+        _serviceTree.dataChange.subscribe((data) => {
             this.dataSource.data = data;
         });
     }
@@ -186,7 +187,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    }
+    };
 
     /**
      *
@@ -317,7 +318,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
      */
     initTree(): void {
         const classificacaoPai = this.getClassificacao('isNull');
-        classificacaoPai.subscribe(classificacoes => {
+        classificacaoPai.subscribe((classificacoes) => {
             const data = this.montarArrayClassificacao(classificacoes);
             this._serviceTree.initialize(data);
         });
@@ -360,7 +361,10 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
             JSON.stringify(params.sort),
             JSON.stringify(params.populate)
         ).pipe(
-            finalize(() => this.loading = false),
+            finalize(() => {
+                this.loading = false;
+                this._changeDetectorRef.detectChanges();
+            }),
             catchError(() => of([]))
         );
 
@@ -371,7 +375,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
 
         this.formClassificacao.get('classificacao').setValue(node.id);
         this.classSelect = 'selectedItem';
-        this.nestedNodeMap.forEach(value => {
+        this.nestedNodeMap.forEach((value) => {
             value.selected = false;
         });
         node.selected = !node.selected;
@@ -400,7 +404,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
         const filteredItems = this.treeControl.dataNodes.filter(
             x => x.nome.toLowerCase().indexOf(term.toLowerCase()) === -1
         );
-        filteredItems.map(x => {
+        filteredItems.map((x) => {
             x.visible = false;
         });
 
@@ -408,7 +412,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
             x => x.children &&
                 x.nome.toLowerCase().indexOf(term.toLowerCase()) > -1
         );
-        visibleItems.map(x => {
+        visibleItems.map((x) => {
             x.visible = true;
             this.getChildren(x);
         });

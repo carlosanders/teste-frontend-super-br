@@ -74,14 +74,14 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
             });
 
         this.juntada$.subscribe(
-            juntada => {
+            (juntada) => {
                 this.juntada = juntada;
                 this.vinculacaoDocumento = new VinculacaoDocumento();
                 this.vinculacaoDocumento.documento = this.juntada.documento;

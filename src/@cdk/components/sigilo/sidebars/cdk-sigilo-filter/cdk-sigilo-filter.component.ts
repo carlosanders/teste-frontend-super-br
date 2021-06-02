@@ -54,31 +54,31 @@ export class CdkSigiloFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('observacao').value) {
-            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('codigoIndexacao').value) {
-            this.form.get('codigoIndexacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('codigoIndexacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'codigoIndexacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('fundamentoLegal').value) {
-            this.form.get('fundamentoLegal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('fundamentoLegal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'fundamentoLegal': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('razoesClassificacaoSigilo').value) {
-            this.form.get('razoesClassificacaoSigilo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('razoesClassificacaoSigilo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'razoesClassificacaoSigilo': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('nivelAcesso').value) {
-            this.form.get('nivelAcesso').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nivelAcesso').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nivelAcesso': `like:%${bit}%`});
             });
         }

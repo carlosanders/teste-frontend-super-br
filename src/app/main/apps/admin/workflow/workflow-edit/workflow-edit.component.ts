@@ -1,14 +1,16 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {select, Store} from '@ngrx/store';
-import * as fromStore from './store';
-import {Router} from '@angular/router';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+
 import {cdkAnimations} from '@cdk/animations';
-import {Pagination, Workflow} from '@cdk/models';
-import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
-import {Back} from '../../../../../store/actions';
+import {select, Store} from '@ngrx/store';
+import * as fromStore from 'app/store';
+import {getRouterState} from 'app/store/reducers';
 
 @Component({
     selector: 'workflow-edit',
@@ -18,73 +20,43 @@ import {Back} from '../../../../../store/actions';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class WorkflowEditComponent implements OnInit {
+export class WorkflowEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
-    workflow: Workflow;
-    workflow$: Observable<Workflow>;
-    formWorkflow: FormGroup;
-    pagination: any;
 
-    especieTarefaPagination: Pagination;
-
-
+    /**
+     *
+     * @param _changeDetectorRef
+     * @param _store
+     */
     constructor(
-        private _store: Store<fromStore.WorkflowEditAppState>,
-        private _router: Router,
-        private _loginService: LoginService,
-        private _formBuilder: FormBuilder
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _store: Store<fromStore.State>
     ) {
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.workflow$ = this._store.pipe(select(fromStore.getWorkflow));
 
-        this.especieTarefaPagination = new Pagination();
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-
-        this.loadForm();
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
     ngOnInit(): void {
-    }
-
-    loadForm(): void {
-        this.formWorkflow = this._formBuilder.group({
-            id: [null],
-            especieTarefaInicial: [null, [Validators.required]],
-            nome: [null, [Validators.required, Validators.maxLength(255)]],
-            descricao: [null, [Validators.required, Validators.maxLength(255)]]
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe((routerState) => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
         });
     }
 
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    submitWorkflow(values): void {
-        const workflow = new Workflow();
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                workflow[key] = value;
-            }
-        );
-        this._store.dispatch(new fromStore.SaveWorkflow(workflow));
-
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
     }
-
-    doAbort(): void {
-        this._store.dispatch(new Back());
-    }
-
-
 }

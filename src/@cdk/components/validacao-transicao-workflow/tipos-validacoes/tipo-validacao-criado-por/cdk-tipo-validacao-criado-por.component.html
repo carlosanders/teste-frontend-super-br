@@ -1,7 +1,4 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
-    <label id="acoes-rg">Criado Por:</label>
-    
-
     <mat-form-field>
         <input matInput placeholder="Criado Por"
                formControlName="criadoPor"
@@ -10,10 +7,9 @@
         </cdk-usuario-autocomplete>
     </mat-form-field>
 
-
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
+                [disabled]="form.invalid || !selected" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

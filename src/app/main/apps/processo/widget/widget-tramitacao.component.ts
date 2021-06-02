@@ -53,7 +53,7 @@ export class WidgetTramitacaoComponent implements OnInit {
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
-            value => {
+            (value) => {
                 this.tramitacoesCount = value;
                 this._changeDetectorRef.markForCheck();
             }

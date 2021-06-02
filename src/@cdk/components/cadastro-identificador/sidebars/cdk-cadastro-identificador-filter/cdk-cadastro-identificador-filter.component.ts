@@ -44,7 +44,7 @@ export class CdkCadastroIdentificadorFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('numero').value) {
-            this.form.get('numero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('numero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'numero': `like:%${bit}%`});
             });
         }

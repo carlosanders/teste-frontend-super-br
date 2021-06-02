@@ -59,13 +59,13 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
                 byteNumbers[i] = byteCharacters.charCodeAt(i);
             }
             const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], {type: this.componenteDigital.mimetype}),
-                URL = window.URL;
+            const blob = new Blob([byteArray], {type: this.componenteDigital.mimetype});
+                const URL = window.URL;
             if (this.componenteDigital.mimetype === 'application/pdf' || this.componenteDigital.mimetype === 'text/html') {
                 this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
             } else {
-                const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
-                    downloadLink = document.createElement('a');
+                const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    const downloadLink = document.createElement('a');
                 const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                 downloadLink.target = '_blank';
                 downloadLink.href = sanitizedUrl;

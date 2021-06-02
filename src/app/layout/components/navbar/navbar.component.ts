@@ -14,8 +14,8 @@ export class NavbarComponent
     /**
      * Constructor
      *
-     * @param {ElementRef} _elementRef
-     * @param {Renderer2} _renderer
+     * @param _elementRef
+     * @param _renderer
      */
     constructor(
         private _elementRef: ElementRef,

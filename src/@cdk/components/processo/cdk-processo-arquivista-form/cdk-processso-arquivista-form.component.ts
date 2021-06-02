@@ -11,7 +11,7 @@ import {
 import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {Classificacao, Lembrete, Pagination, Processo} from '../../../models';
 import {cdkAnimations} from '../../../animations';
-import {classificacao} from "../../../normalizr";
+import {classificacao} from '../../../normalizr';
 
 @Component({
     selector: 'cdk-processo-arquivista-form',
@@ -160,7 +160,7 @@ export class CdkProcesssoArquivistaFormComponent implements OnInit, OnChanges {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

@@ -7,8 +7,8 @@ import {ProcessoAppState} from 'app/main/apps/processo/store/reducers';
 import * as fromStore from 'app/main/apps/processo/store';
 import {getProcessoLoaded} from 'app/main/apps/processo/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {Usuario} from "@cdk/models";
-import {LoginService} from "../../../../auth/login/login.service";
+import {Usuario} from '@cdk/models';
+import {LoginService} from '../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -32,7 +32,7 @@ export class ResolveGuard implements CanActivate {
         this.usuario = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.processoId = this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'];
@@ -43,9 +43,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getProcesso().pipe(
@@ -57,7 +57,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Processo
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getProcesso(): any {
         return this._store.pipe(
@@ -77,9 +77,7 @@ export class ResolveGuard implements CanActivate {
                     }
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

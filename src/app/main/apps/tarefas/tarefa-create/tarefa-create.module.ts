@@ -27,7 +27,7 @@ import * as fromGuards from './store/guards';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
 import {modulesConfig} from 'modules/modules-config';
-import {MatListModule} from "@angular/material/list";
+import {MatListModule} from '@angular/material/list';
 
 const routes: Routes = [
     {

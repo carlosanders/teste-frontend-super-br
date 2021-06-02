@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkClassificacaoTreeFormComponent} from './cdk-classificacao-tree-form.component';
 import {MatTreeModule} from '@angular/material/tree';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -20,7 +20,7 @@ import {CdkModalidadeDestinacaoAutocompleteModule} from '../../modalidade-destin
 import {CdkModalidadeDestinacaoGridsearchModule} from '../../modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-gridsearch/cdk-modalidade-destinacao-gridsearch.module';
 import {CdkClassificacaoGridsearchModule} from '../cdk-classificacao-autocomplete/cdk-classificacao-gridsearch/cdk-classificacao-gridsearch.module';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 
 
 @NgModule({

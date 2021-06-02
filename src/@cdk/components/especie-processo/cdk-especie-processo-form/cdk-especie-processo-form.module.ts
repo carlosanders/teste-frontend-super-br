@@ -11,7 +11,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkGeneroProcessoAutocompleteModule} from '../../genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-autocomplete.module';
 import {CdkEspecieProcessoGridsearchModule} from '../cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkGeneroProcessoGridsearchModule} from '../../genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-gridsearch/cdk-genero-processo-gridsearch.module';
 import {CdkClassificacaoAutocompleteModule} from '../../classificacao/cdk-classificacao-autocomplete/cdk-classificacao-autocomplete.module';

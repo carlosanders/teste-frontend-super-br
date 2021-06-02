@@ -46,7 +46,7 @@ export class CdkGridColsDirective implements OnInit {
             Breakpoints.Medium,
             Breakpoints.Large,
             Breakpoints.XLarge
-        ]).subscribe(result => {
+        ]).subscribe((result) => {
 
             if (result.breakpoints[Breakpoints.XSmall]) {
                 this.grid.cols = this.gridCols.xs;

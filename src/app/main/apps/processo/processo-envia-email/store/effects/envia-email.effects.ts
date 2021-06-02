@@ -28,7 +28,7 @@ export class EnviaEmailEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class EnviaEmailEffects {
 
     /**
      * Envia email Juntada
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -85,6 +86,7 @@ export class EnviaEmailEffects {
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -98,7 +100,7 @@ export class EnviaEmailEffects {
                         value: ''
                     };
                     const routeParams = of('juntadaHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,

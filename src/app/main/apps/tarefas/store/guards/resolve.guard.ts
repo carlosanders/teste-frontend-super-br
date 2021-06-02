@@ -13,7 +13,7 @@ import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 
-import {navigationConverter} from "../../../../../navigation/navigation";
+import {navigationConverter} from '../../../../../navigation/navigation';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -34,7 +34,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,7 +42,7 @@ export class ResolveGuard implements CanActivate {
 
         this._store
             .pipe(select(getIsLoading))
-            .subscribe(loading => {
+            .subscribe((loading) => {
                 this.loadingTarefas = loading;
             });
 
@@ -52,9 +52,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
@@ -69,7 +69,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin(
@@ -86,12 +86,12 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get folders
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getFolders(): any {
         return this._store.pipe(
             select(getFoldersLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 if (!loaded) {
                     this._store.dispatch(new fromStore.GetFolders([]));
                 }
@@ -104,7 +104,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Tarefas
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getTarefas(): any {
         return this._store.pipe(
@@ -143,14 +143,14 @@ export class ResolveGuard implements CanActivate {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
-                            'processo.especieProcesso.workflow',
+                            'processo.especieProcesso.workflow-edit',
                             'workflow'
                         ],
                         context: {}
                     };
 
                     const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
+                    routeTypeParam.subscribe((typeParam) => {
                         let tarefaFilter = {};
                         if (this.routerState.params[typeParam] === 'compartilhadas') {
                             tarefaFilter = {
@@ -164,7 +164,7 @@ export class ResolveGuard implements CanActivate {
                                 dataHoraConclusaoPrazo: 'isNull'
                             };
                             const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe(targetParam => {
+                            routeTargetParam.subscribe((targetParam) => {
                                 tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
                             });
                         }
@@ -174,7 +174,7 @@ export class ResolveGuard implements CanActivate {
                                 dataHoraConclusaoPrazo: 'isNull'
                             };
                             const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe(targetParam => {
+                            routeTargetParam.subscribe((targetParam) => {
                                 tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
                             });
                         }
@@ -191,7 +191,7 @@ export class ResolveGuard implements CanActivate {
                                 generoParam = navigationConverter[this.routerState.params['generoHandle']];
                             }
                             const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe(targetParam => {
+                            routeTargetParam.subscribe((targetParam) => {
                                 if (
                                     this.routerState.params[targetParam] !== 'entrada' &&
                                     this.routerState.params[targetParam] !== 'lixeira'
@@ -214,12 +214,12 @@ export class ResolveGuard implements CanActivate {
                                 params['folderFilter'] = {
                                     'folder.nome': folderFilter
                                 };
-                                params.context = {modulo: generoParam}
+                                params.context = {modulo: generoParam};
                             } else {
                                 params.context = {
                                     modulo: generoParam,
                                     mostrarApagadas: true
-                                }
+                                };
                             }
                         }
 
@@ -228,7 +228,7 @@ export class ResolveGuard implements CanActivate {
 
                     const routeGeneroParams = of('generoHandle');
 
-                    routeGeneroParams.subscribe(param => {
+                    routeGeneroParams.subscribe((param) => {
                         let generoParam = this.routerState.params[param];
                         if (navigationConverter.hasOwnProperty(this.routerState.params[param])) {
                             generoParam = navigationConverter[this.routerState.params[param]];
@@ -245,13 +245,11 @@ export class ResolveGuard implements CanActivate {
                     this.loadingTarefas = true;
                 }
             }),
-            filter((loaded: any) => {
-                return this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
+            filter((loaded: any) => this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
                     this.routerState.params['targetHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
                         this.routerState.params['targetHandle']) ===
-                    loaded.value);
-            }),
+                    loaded.value)),
             take(1)
         );
     }

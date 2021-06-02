@@ -22,7 +22,7 @@ export class ProcessoDownloadEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -32,6 +32,7 @@ export class ProcessoDownloadEffect {
 
     /**
      * Set downloadAsPdfProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -45,7 +46,7 @@ export class ProcessoDownloadEffect {
                         value: ''
                     };
                     const routeParams = of('processoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -53,7 +54,7 @@ export class ProcessoDownloadEffect {
                             };
                         }
                     });
-                    return this._processoService.downloadAsPdf(handle.value, action.payload);
+                    return this._processoService.downloadAsPdf(handle.value, (action.payload ? action.payload : 'all'));
                 }),
                 tap((response) => {
                     if (response && response.conteudo) {
@@ -64,8 +65,8 @@ export class ProcessoDownloadEffect {
                         }
                         const byteArray = new Uint8Array(byteNumbers);
                         // tslint:disable-next-line:one-variable-per-declaration
-                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                            URL = window.URL;
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                            const URL = window.URL;
                         const data = URL.createObjectURL(blob);
 
                         const link = document.createElement('a');
@@ -92,6 +93,7 @@ export class ProcessoDownloadEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -105,7 +107,7 @@ export class ProcessoDownloadEffect {
                         value: ''
                     };
                     const routeParams = of('processoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -113,7 +115,7 @@ export class ProcessoDownloadEffect {
                             };
                         }
                     });
-                    return this._processoService.downloadAsZip(handle.value, action.payload);
+                    return this._processoService.downloadAsZip(handle.value, (action.payload ? action.payload : 'all'));
                 }),
                 tap((response) => {
                     if (response && response.conteudo) {
@@ -124,8 +126,8 @@ export class ProcessoDownloadEffect {
                         }
                         const byteArray = new Uint8Array(byteNumbers);
                         // tslint:disable-next-line:one-variable-per-declaration
-                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                            URL = window.URL;
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                            const URL = window.URL;
                         const data = URL.createObjectURL(blob);
 
                         const link = document.createElement('a');

@@ -7,7 +7,7 @@ export interface AssinaturasState {
     assinandoTarefasEletronicamenteId: number[];
     documentosTarefa: { [id: number]: number[] };
     documentosId: number[];
-    errors: any
+    errors: any;
 }
 
 export const AssinaturasInitialState: AssinaturasState = {
@@ -33,7 +33,7 @@ export function AssinaturasReducer(
                     ...state.documentosTarefa,
                     [action.payload.tarefaId]: []
                 }
-            }
+            };
         }
 
         case AssinaturasActions.GET_DOCUMENTOS_SUCCESS: {
@@ -44,7 +44,7 @@ export function AssinaturasReducer(
                     ...state.documentosTarefa,
                     [action.payload.tarefaId]: action.payload.entitiesId
                 }
-            }
+            };
         }
 
         case AssinaturasActions.ASSINA_DOCUMENTO: {
@@ -60,7 +60,7 @@ export function AssinaturasReducer(
             let tarefaId = null;
             let documentosTarefa = [];
             let assinandoTarefasId = state.assinandoTarefasId;
-            Object.keys(state.documentosTarefa).forEach(tarefa => {
+            Object.keys(state.documentosTarefa).forEach((tarefa) => {
                 if (state.documentosTarefa[tarefa].indexOf(action.payload) > -1) {
                     // Documento assinado pertence a esta tarefa
                     console.log(tarefa);
@@ -91,12 +91,12 @@ export function AssinaturasReducer(
             let assinandoTarefasId = state.assinandoTarefasId;
             let assinandoDocumentosId = state.assinandoDocumentosId;
             if (tarefaId) {
-                state.documentosTarefa[tarefaId].forEach(documento => {
+                state.documentosTarefa[tarefaId].forEach((documento) => {
                     assinandoDocumentosId = assinandoDocumentosId.filter(id => id !== documento);
                 });
                 assinandoTarefasId = assinandoDocumentosId.filter(id => id !== tarefaId);
             } else {
-                Object.keys(state.documentosTarefa).forEach(tarefa => {
+                Object.keys(state.documentosTarefa).forEach((tarefa) => {
                     if (state.documentosTarefa[tarefa].indexOf(action.payload.documentoId) > -1) {
                         // Documento assinado pertence a esta tarefa
                         console.log(tarefa);
@@ -123,9 +123,9 @@ export function AssinaturasReducer(
         case AssinaturasActions.PREPARA_ASSINATURA_FAILED: {
             return {
                 ...state,
-                assinandoDocumentosId: state.assinandoDocumentosId.filter((el) => action.payload.ids.includes(el)),
+                assinandoDocumentosId: state.assinandoDocumentosId.filter(el => action.payload.ids.includes(el)),
                 errors: action.payload.error
-            }
+            };
         }
 
         case AssinaturasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
