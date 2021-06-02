@@ -16,7 +16,7 @@
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!processo?.acessoNegado && !isOpen">keyboard_arrow_down
                 </mat-icon>
-                <mat-icon class="s-14 mt-8" (click)="copiarParaAreaTrabalho(processo?.NUP); $event.stopPropagation();">file_copy
+                <mat-icon class="s-14 mt-8" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(processo?.NUP); $event.stopPropagation();">file_copy
                 </mat-icon>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!processo?.acessoNegado && isOpen">keyboard_arrow_up
