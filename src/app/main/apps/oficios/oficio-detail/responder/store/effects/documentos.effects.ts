@@ -7,7 +7,7 @@ import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as DocumentosActions from '../actions';
 import * as DocumentosComplementaresActions from '../../../complementar/store/actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoAvulso, Documento, Assinatura, ComponenteDigital} from '@cdk/models';
@@ -122,10 +122,14 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.ConverteToPdf>(DocumentosActions.CONVERTE_DOCUMENTO),
-                mergeMap(action => this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
                             .pipe(
                                 mergeMap(response => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new UpdateData<Documento>({
+                                        id: response.id,
+                                        schema: documentoSchema,
+                                        changes: {componentesDigitais: response.componentesDigitais}
+                                    }),
                                     new DocumentosActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {

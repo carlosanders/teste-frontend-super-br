@@ -353,10 +353,14 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.ConverteToPdf>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
-                mergeMap(action => this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
                             .pipe(
                                 mergeMap(response => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new UpdateData<Documento>({
+                                        id: response.id,
+                                        schema: documentoSchema,
+                                        changes: {componentesDigitais: response.componentesDigitais}
+                                    }),
                                     new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {
