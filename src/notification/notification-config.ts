@@ -4,12 +4,14 @@ import { notificationConfig as notificationConfigDefault } from 'notification/de
 import { notificationConfig as notificationConfigRelatorio } from 'notification/relatorio/notification-config';
 import { notificationConfig as notificationConfigProcesso } from 'notification/processo/notification-config';
 import { notificationConfig as notificationConfigTarefa } from 'notification/tarefa/notification-config';
+import { notificationConfig as notificationConfigDownloadProcesso } from 'notification/download-processo/notification-config';
 
 export let notificationConfig = [
     ...notificationConfigDefault,
     ...notificationConfigRelatorio,
     ...notificationConfigProcesso,
-    ...notificationConfigTarefa
+    ...notificationConfigTarefa,
+    ...notificationConfigDownloadProcesso,
 ];
 
 modulesConfig.forEach((modulo) => {

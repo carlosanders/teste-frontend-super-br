@@ -1,0 +1,19 @@
+<div class="notification">
+    <div class="identify">
+        <mat-icon>book</mat-icon>
+    </div>
+    <div class="content">
+        {{ data.conteudo }}
+    </div>
+    <div class="action">
+        <button mat-icon-button (click)="view()">
+            <mat-icon>search</mat-icon>
+        </button>
+        <button mat-icon-button (click)="download()">
+            <mat-icon>cloud_download</mat-icon>
+        </button>
+        <button mat-icon-button (click)="$event.stopPropagation(); close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>
