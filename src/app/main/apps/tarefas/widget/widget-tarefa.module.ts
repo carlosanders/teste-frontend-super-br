@@ -10,6 +10,7 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import {MatCardModule} from '@angular/material/card';
         MatIconModule,
         MatButtonModule,
         MatCardModule,
+        RouterModule,
     ],
     providers: [
         TarefaService,
