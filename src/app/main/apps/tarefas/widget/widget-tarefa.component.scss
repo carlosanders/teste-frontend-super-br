@@ -23,4 +23,19 @@ widget-tarefa {
             overflow-y: auto;
         }
     }
+
+    .card-tarefa {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+
+    .icone-tarefa {
+        margin-left: 50px;
+    }
+
+    .titulo {
+        text-transform:capitalize;
+    }
 }
