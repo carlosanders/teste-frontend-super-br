@@ -3,7 +3,7 @@
         <mat-icon class="s-52" mat-card-avatar>schedule</mat-icon>
         <mat-card-title>Minhas Tarefas</mat-card-title>
         <mat-card-subtitle>Pendentes de conclusão</mat-card-subtitle>
-        <mat-icon class="icone-tarefa" color="accent" (click)="trocarVisualizacao()">swap_horiz</mat-icon>
+        <mat-icon class="icone-tarefa" [ngStyle]="{'color': isContadorPrincipal ? '#03a9f4' : 'red'}" (click)="trocarVisualizacao()">swap_horiz</mat-icon>
     </mat-card-header>
     <mat-card-content>
         <div class="p-12" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
@@ -15,11 +15,12 @@
                 Todas as espécies
             </div>
         </div>
-        <div *ngIf="!isContadorPrincipal" class="card-tarefa">
+        <div class="card-tarefa"  *ngIf="!isContadorPrincipal" [@popOverState]="contagemTarefas.length">
             <div *ngFor="let item of contagemTarefas | keyvalue">
-                <a mat-button [routerLink]="'/apps/tarefas/' + item.key + '/minhas-tarefas/caixa_entrada'">
+                <button class="botao-link" mat-button [routerLink]="'/apps/tarefas/' + item.key + '/minhas-tarefas/caixa_entrada'">
+                    <span class="material-icons">link</span>
                     <span class="titulo">{{item.key}}</span>: {{item.value}}
-                </a>
+                </button>
             </div>
         </div>
     </mat-card-content>

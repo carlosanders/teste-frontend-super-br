@@ -8,7 +8,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {cdkAnimations} from '@cdk/animations';
+import {
+    trigger,
+    style,
+    animate,
+    transition, query, stagger
+} from '@angular/animations';
+
 import {Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -27,7 +33,17 @@ import {CdkNavigationItem} from '../../../../../@cdk/types';
     styleUrls: ['./widget-tarefa.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: cdkAnimations
+    animations: [
+        trigger('popOverState', [
+               transition('* => *', [
+                query('button',style({ transform: 'translateX(-100%)'})),
+                query('button',
+                    stagger('600ms', [
+                        animate('700ms', style({ transform: 'translateX(0)'}))
+                    ]))
+            ])
+        ])
+    ]
 })
 export class WidgetTarefaComponent implements OnInit, OnDestroy {
 
@@ -97,8 +113,8 @@ export class WidgetTarefaComponent implements OnInit, OnDestroy {
     }
 
     trocarVisualizacao(): void {
-        this.contagemTarefas = []
         this.isContadorPrincipal = !this.isContadorPrincipal;
+        this.contagemTarefas = []
         let modulos = this.recuperarModulos();
         for(const modulo of modulos) {
             this.contagemTarefas[modulo] = this.contarTarefas(modulo);
