@@ -3,3 +3,9 @@ processo-download {
     display: flex;
     flex-direction: column;
 }
+
+.processo-download-snackbar {
+    > * {
+        color: black;
+    }
+}

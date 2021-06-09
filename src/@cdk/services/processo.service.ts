@@ -18,14 +18,9 @@ export class ProcessoService extends ParentGenericService<Processo> {
         super(modelService, 'administrativo/processo', Processo);
     }
 
-    downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
+    download(id: number | string, sequencial: number | string, tipoDownload: string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}administrativo/processo/${id}/download_as_pdf/${sequencial}` + environment.xdebug, {params});
-    }
-
-    downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
-        params['context'] = context;
-        return this.http.get(`${environment.api_url}administrativo/processo/${id}/download_as_zip/${sequencial}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/processo/${id}/download/${tipoDownload}/${sequencial}` + environment.xdebug, {params});
     }
 
     getVisibilidade(id: number, context: any = '{}'): Observable<any> {

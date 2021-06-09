@@ -22,6 +22,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
 import {getIsLoading, getOperacoesEmProcessamento, getNotificacaoList} from '../../../store';
 import {getChatIsLoading} from '../chat-panel/store';
+import {ComponenteDigitalService} from "../../../../@cdk/services/componente-digital.service";
 
 @Component({
     selector: 'toolbar',
@@ -59,7 +60,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any>;
 
     /**
-     *
      * @param _cdkConfigService
      * @param _cdkSidebarService
      * @param _translateService
@@ -67,6 +67,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param _notificacaoService
      * @param _store
      * @param _router
+     * @param _componenteDigitalService
      */
     constructor(
         public _cdkConfigService: CdkConfigService,
@@ -75,7 +76,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         public _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
         private _store: Store<fromStore.State>,
-        private _router: Router
+        private _router: Router,
+        private _componenteDigitalService: ComponenteDigitalService
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -305,8 +307,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
     }
 
+    getNotificacaoContext(notificacao: Notificacao): any
+    {
+        return JSON.parse(notificacao.contexto);
+    }
+
     sendToTarget(notificacao: Notificacao): any {
-        const contexto = JSON.parse(notificacao.contexto);
+        const contexto = this.getNotificacaoContext(notificacao);
         switch (notificacao.tipoNotificacao.nome) {
             case 'RELATORIO':
                 return this._router
@@ -314,6 +321,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                         `/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`
                     ]);
             case 'PROCESSO':
+            case 'DOWNLOAD PROCESSO':
                 return this._router.navigate([`/apps/processo/${contexto.id}/visualizar/capa/mostrar`]);
             case 'TAREFA':
                 return this._router
@@ -322,6 +330,38 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 ]);
             default:
                 return;
+        }
+    }
+
+    download(notificacao: Notificacao): void
+    {
+        const contexto = this.getNotificacaoContext(notificacao);
+        if (contexto?.componente_digital_id) {
+            this._componenteDigitalService
+                .download(contexto.componente_digital_id)
+                .subscribe(response => {
+                    if (response && response.conteudo) {
+                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                        const URL = window.URL;
+                        const data = URL.createObjectURL(blob);
+
+                        const link = document.createElement('a');
+                        link.href = data;
+                        link.download = response.fileName;
+                        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+
+                        setTimeout( () => {
+                            window.URL.revokeObjectURL(data);
+                            link.remove();
+                        }, 100);
+                    }
+                });
         }
     }
 

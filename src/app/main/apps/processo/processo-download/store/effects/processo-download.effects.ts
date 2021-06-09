@@ -9,16 +9,24 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoDownloadActions from 'app/main/apps/processo/processo-download/store/actions/processo-download.actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Injectable()
 export class ProcessoDownloadEffect {
     routerState: any;
 
+    /**
+     * @param _actions
+     * @param _processoService
+     * @param _store
+     * @param _snackBar
+     */
     constructor(
         private _actions: Actions,
         private _processoService: ProcessoService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _snackBar: MatSnackBar
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -31,15 +39,13 @@ export class ProcessoDownloadEffect {
     }
 
     /**
-     * Set downloadAsPdfProcesso
-     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
-    downloadAsPdfProcesso: any =
+    downloadProcesso: any =
         this._actions
             .pipe(
-                ofType<ProcessoDownloadActions.DownloadAsPdfProcesso>(ProcessoDownloadActions.DOWNLOAD_AS_PDF_PROCESSO),
+                ofType<ProcessoDownloadActions.DownloadProcesso>(ProcessoDownloadActions.DOWNLOAD_PROCESSO),
                 switchMap((action) => {
                     let handle = {
                         id: '',
@@ -54,99 +60,28 @@ export class ProcessoDownloadEffect {
                             };
                         }
                     });
-                    return this._processoService.downloadAsPdf(handle.value, (action.payload ? action.payload : 'all'));
+                    return this._processoService.download(
+                        handle.value,
+                        (action.payload?.sequencial ? action.payload?.sequencial : 'all'),
+                        action.payload.tipoDownload
+                    );
                 }),
                 tap((response) => {
-                    if (response && response.conteudo) {
-                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
-                        const byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    this._store.dispatch(new ProcessoDownloadActions.DownloadProcessoSuccess(response));
+
+                    this._snackBar.open(
+                        'O download será gerado em segundo plano',
+                        'Fechar',
+                        {
+                            duration: 3000,
+                            horizontalPosition: 'center',
+                            verticalPosition: 'top',
+                            panelClass: ['cdk-white-bg', 'processo-download-snackbar']
                         }
-                        const byteArray = new Uint8Array(byteNumbers);
-                        // tslint:disable-next-line:one-variable-per-declaration
-                        const blob = new Blob([byteArray], {type: response.mimetype});
-                            const URL = window.URL;
-                        const data = URL.createObjectURL(blob);
-
-                        const link = document.createElement('a');
-                        link.href = data;
-                        link.download = response.fileName;
-                        // this is necessary as link.click() does not work on the latest firefox
-                        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-
-                        setTimeout( () => {
-                            // For Firefox it is necessary to delay revoking the ObjectURL
-                            window.URL.revokeObjectURL(data);
-                            link.remove();
-                        }, 100);
-
-                    }
-                    this._store.dispatch(new ProcessoDownloadActions.DownloadAsPdfProcessoSuccess(response));
+                    )
                 }),
                 catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessoDownloadActions.DownloadAsPdfProcessoFailed(err));
-                    return caught;
-                })
-            );
-
-    /**
-     * Set Current Step
-     *
-     * @type {Observable<any>}
-     */
-    @Effect({ dispatch: false })
-    downloadAsZipProcesso: any =
-        this._actions
-            .pipe(
-                ofType<ProcessoDownloadActions.DownloadAsPdfProcesso>(ProcessoDownloadActions.DOWNLOAD_AS_ZIP_PROCESSO),
-                switchMap((action) => {
-                    let handle = {
-                        id: '',
-                        value: ''
-                    };
-                    const routeParams = of('processoHandle');
-                    routeParams.subscribe((param) => {
-                        if (this.routerState.params[param]) {
-                            handle = {
-                                id: param,
-                                value: this.routerState.params[param]
-                            };
-                        }
-                    });
-                    return this._processoService.downloadAsZip(handle.value, (action.payload ? action.payload : 'all'));
-                }),
-                tap((response) => {
-                    if (response && response.conteudo) {
-                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
-                        const byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        const byteArray = new Uint8Array(byteNumbers);
-                        // tslint:disable-next-line:one-variable-per-declaration
-                        const blob = new Blob([byteArray], {type: response.mimetype});
-                            const URL = window.URL;
-                        const data = URL.createObjectURL(blob);
-
-                        const link = document.createElement('a');
-                        link.href = data;
-                        link.download = response.fileName;
-                        // this is necessary as link.click() does not work on the latest firefox
-                        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-
-                        setTimeout( () => {
-                            // For Firefox it is necessary to delay revoking the ObjectURL
-                            window.URL.revokeObjectURL(data);
-                            link.remove();
-                        }, 100);
-                        this._store.dispatch(new ProcessoDownloadActions.DownloadAsZipProcessoSuccess(response));
-                    }
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessoDownloadActions.DownloadAsPdfProcessoFailed(err));
+                    this._store.dispatch(new ProcessoDownloadActions.DownloadProcessoFailed(err));
                     return caught;
                 })
             );

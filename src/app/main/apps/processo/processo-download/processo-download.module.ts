@@ -9,6 +9,8 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkDownloadFormModule} from '@cdk/components/download/cdk-download-form/cdk-download-form.module';
 import {ProcessoDownloadStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
+import {SnackBarDesfazerModule} from "../../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 const routes: Routes = [
     {
@@ -47,7 +49,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatRippleModule,
         CdkDownloadFormModule,
-        ProcessoDownloadStoreModule
+        ProcessoDownloadStoreModule,
+        MatSnackBarModule,
     ],
     providers: [
 
