@@ -32,7 +32,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflows/transicao-workflow-edit/validacao-transicao-workflow-edit/validacao-transicao-workflow-edit/tipo-validacao-workflow-edit-form/tipo-validacao-workflow-edit-form-unidade';
+const path = 'app/main/apps/admin/workflow/workflow-edit/transicao-workflow/transicao-workflow-edit/validacao-transicao-workflow/validacao-transicao-workflow-edit/tipo-validacao-workflow-form/tipo-validacao-workflow-form-unidade';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

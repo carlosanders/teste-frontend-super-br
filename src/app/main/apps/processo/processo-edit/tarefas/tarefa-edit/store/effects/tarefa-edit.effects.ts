@@ -64,7 +64,7 @@ export class TarefaEditEffect {
                             'setorOrigem',
                             'setorOrigem.unidade',
                             'especieTarefa.generoTarefa',
-                            'processo.especieProcesso.workflow-edit',
+                            'processo.especieProcesso.workflow',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
                         ]))),

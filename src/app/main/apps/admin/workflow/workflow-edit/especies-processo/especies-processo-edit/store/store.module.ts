@@ -7,7 +7,7 @@ import { effects } from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('workflow-edit-especies-processo-edit-app', reducers),
+        StoreModule.forFeature('workflow-especies-processo-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []

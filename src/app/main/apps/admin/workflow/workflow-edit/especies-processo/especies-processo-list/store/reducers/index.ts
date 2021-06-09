@@ -7,7 +7,7 @@ export interface WorkflowEspecieProcessoListAppState
 }
 
 export const getEspecieProcessoListAppState = createFeatureSelector<WorkflowEspecieProcessoListAppState>(
-    'workflow-edit-especie-processo-list-app'
+    'workflow-especie-processo-list-app'
 );
 
 export const getAppState = createSelector(

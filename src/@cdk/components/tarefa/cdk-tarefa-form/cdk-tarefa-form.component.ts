@@ -185,8 +185,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.processoPagination = new Pagination();
         this.processoPagination.populate =
             ['especieProcesso', 'especieProcesso.generoProcesso',
-                'especieProcesso.workflow-edit', 'setorAtual', 'setorAtual.unidade'
-                , 'especieProcesso.workflow-edit.especieTarefaInicial',
+                'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade'
+                , 'especieProcesso.workflow.especieTarefaInicial',
                 'tarefaAtualWorkflow', 'tarefaAtualWorkflow.especieTarefa'];
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];

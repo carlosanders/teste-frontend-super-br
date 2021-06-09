@@ -7,7 +7,7 @@ import { effects } from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('admin-validacao-transicao-workflow-edit-list-app', reducers),
+        StoreModule.forFeature('admin-validacao-transicao-workflow-list-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
