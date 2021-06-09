@@ -20,7 +20,7 @@ import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {cdkAnimations} from '@cdk/animations';
-import {getRouterState} from '../../../store/reducers';
+import {getRouterState} from '../../../store';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
