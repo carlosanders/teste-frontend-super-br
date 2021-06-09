@@ -7,7 +7,7 @@ export interface WorkflowViewAppState
 }
 
 export const getWorkflowViewAppState = createFeatureSelector<WorkflowViewAppState>(
-    'workflow-edit-view-app'
+    'workflow-view-app'
 );
 
 export const getAppState = createSelector(

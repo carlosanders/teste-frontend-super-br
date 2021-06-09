@@ -34,7 +34,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflow-edit/workflow-dados-basicos';
+const path = 'app/main/apps/admin/workflow/workflow-dados-basicos';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

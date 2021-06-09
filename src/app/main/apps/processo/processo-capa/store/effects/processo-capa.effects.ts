@@ -74,7 +74,7 @@ export class ProcessoCapaEffect {
                             'especieProcesso.generoProcesso',
                             'classificacao.modalidadeDestinacao',
                             'processo.especieProcesso',
-                            'processo.especieProcesso.workflow-edit'
+                            'processo.especieProcesso.workflow'
                         ]),
                         JSON.stringify(contexto));
                 }),

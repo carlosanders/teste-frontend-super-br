@@ -133,7 +133,7 @@ export class TipoAcaoWorkflowEditEffects {
             .pipe(
                 ofType<TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflowSuccess>(TipoAcaoWorkflowEditActions.SAVE_TIPO_ACAO_WORKFLOW_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/admin/tipo-acao-workflow-edit/listar']).then();
+                    this._router.navigate(['apps/admin/tipo-acao-workflow/listar']).then();
                 })
             );
 

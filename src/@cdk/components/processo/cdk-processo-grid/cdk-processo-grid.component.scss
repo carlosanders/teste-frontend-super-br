@@ -34,7 +34,7 @@ cdk-processo-grid {
         > .responsive-grid {
             flex: 1 1 auto;
             display: flex;
-            flex-direction: column;
+            flex-direction: column !important;
             padding: 8px;
 
             > .actions {
@@ -104,7 +104,7 @@ cdk-processo-grid {
 
             flex: 1 1 auto;
             display: flex;
-            flex-direction: column;
+            flex-direction: column !important;
 
             .mat-elevation-z8 {
                 box-shadow: none;

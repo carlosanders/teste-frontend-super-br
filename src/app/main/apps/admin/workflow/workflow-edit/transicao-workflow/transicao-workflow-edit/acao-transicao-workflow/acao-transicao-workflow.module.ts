@@ -44,7 +44,7 @@ const routes: Routes = [
 
 ];
 
-const path = 'app/main/apps/admin/workflow-edit/transicao-workflow-edit/acao-transicao-workflow-edit';
+const path = 'app/main/apps/admin/workflow/workflow-edit/transicao-workflow/transicao-workflow-edit/acao-transicao-workflow';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

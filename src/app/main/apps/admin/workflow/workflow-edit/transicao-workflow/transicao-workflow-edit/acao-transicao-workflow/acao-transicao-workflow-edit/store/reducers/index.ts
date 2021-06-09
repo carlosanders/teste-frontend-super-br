@@ -9,7 +9,7 @@ export interface AcaoTransicaoWorkflowEditAppState
 }
 
 export const getAcaoEditAppState = createFeatureSelector<AcaoTransicaoWorkflowEditAppState>(
-    'admin-acao-transicao-workflow-edit-edit-app'
+    'admin-acao-transicao-workflow-edit-app'
 );
 
 export const getAppState = createSelector(
