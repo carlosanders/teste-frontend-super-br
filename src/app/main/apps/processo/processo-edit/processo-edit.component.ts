@@ -11,8 +11,12 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {getSteps} from '../store';
+import {Observable} from 'rxjs';
+import {Processo} from '../../../../../@cdk/models';
+import {getProcesso} from '../store';
+import {MercureService} from '../../../../../@cdk/services/mercure.service';
 
 @Component({
     selector: 'processo-edit',
@@ -24,20 +28,25 @@ import {getSteps} from '../store';
 })
 export class ProcessoEditComponent implements OnInit, OnDestroy {
 
+    processo$: Observable<Processo>;
+    processo: Processo;
+
     routerState: any;
     steps: any;
 
     /**
-     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _store
+     * @param _mercureService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _store: Store<fromStore.ProcessoAppState>
+        private _store: Store<fromStore.ProcessoAppState>,
+        private _mercureService: MercureService
     ) {
+        this.processo$ = this._store.pipe(select(getProcesso));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -66,12 +75,28 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
                     this.steps = steps;
                 }
             });
+
+        this.processo$.subscribe(
+            (processo) => {
+                if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
+                    this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+                }
+                if (processo?.origemDados) {
+                    this._mercureService.subscribe(processo.origemDados['@id']);
+                }
+                this.processo = processo;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        if (this.processo?.origemDados) {
+            this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------

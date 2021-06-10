@@ -71,10 +71,11 @@ export class ProcessoEffect {
                         action.payload.id,
                         JSON.stringify([
                             ...populate,
+                            'origemDados',
                             'especieProcesso',
                             'especieProcesso.generoProcesso',
-                            'especieProcesso.workflow-edit',
-                            'especieProcesso.workflow-edit.especieTarefaInicial',
+                            'especieProcesso.workflow',
+                            'especieProcesso.workflow.especieTarefaInicial',
                             'tarefaAtualWorkflow',
                             'tarefaAtualWorkflow.especieTarefa',
                             'vinculacoesEtiquetas',

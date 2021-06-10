@@ -26,6 +26,7 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     processo: Processo;
+    errors: any;
 
     loading$: Observable<boolean>;
     routerState: any;
@@ -33,7 +34,6 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
     saving$: Observable<boolean>;
 
     /**
-     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _storeProcesso
@@ -52,6 +52,9 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
         this.loading$ = this._storeProcesso.pipe(select(fromStoreProcesso.getProcessoIsLoading));
 
         this.saving$ = this._storeDownload.pipe(select(fromStoreDownload.getIsSaving));
+        this._storeProcesso
+            .pipe(select(fromStoreDownload.getErrors))
+            .subscribe(errors => this.errors = errors);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -83,17 +86,19 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
     }
 
     submitDownload(values): void {
-        let sequencial = '';
+        const params = {
+            sequencial: '',
+            tipoDownload: 'PDF'
+        };
         if (values['parcial']) {
-            sequencial = values['sequencial'];
+            params.sequencial = values['sequencial'];
         }
 
         if (values['tipo_download'] === 'processo_zip') {
-            this._storeDownload.dispatch(new fromStoreDownload.DownloadAsZipProcesso(sequencial));
-        } else {
-            this._storeDownload.dispatch(new fromStoreDownload.DownloadAsPdfProcesso(sequencial));
+            params.tipoDownload = 'ZIP';
         }
 
+        this._storeDownload.dispatch(new fromStoreDownload.DownloadProcesso(params));
     }
 
 }

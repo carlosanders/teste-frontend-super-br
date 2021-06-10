@@ -58,6 +58,9 @@ import {MatDialog} from '@cdk/angular/material';
 })
 export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    @ViewChild('stepper') stepper: MatStepper;
+    @ViewChild('ckdUpload', {static: false}) cdkUpload;
+
     routerState: any;
     procedencia: Pessoa;
     _profile: Usuario;
@@ -102,7 +105,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     interessadosLoading$: Observable<boolean>;
     interessadosPagination$: Observable<any>;
     interessadosPagination: any;
-    interessadoActivated = 'from';
+    interessadoActivated = 'form';
     temInteressados = false;
 
     juntadas$: Observable<Juntada[]>;
@@ -122,7 +125,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     vinculacoesProcessosPagination$: Observable<any>;
     screen$: Observable<any>;
     vinculacoesProcessosPagination: any;
-    vinculacaoProcessoActivated = 'from';
+    vinculacaoProcessoActivated = 'form';
     processoVinculadoPagination: Pagination;
 
     tarefa: Tarefa;
@@ -140,14 +143,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     isLinear: boolean;
     mobileMode: boolean = false;
 
-    private _unsubscribeAll: Subject<any>;
-
-    @ViewChild('stepper') stepper: MatStepper;
-    @ViewChild('ckdUpload', {static: false}) cdkUpload;
-
     genero = 'administrativo';
 
     pessoa: Pessoa;
+
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *
@@ -306,7 +306,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this.configuracaoNupList$.subscribe((configuracaoNupList) => {
             this.configuracaoNupList = configuracaoNupList;
-            if(configuracaoNupList.length == 1)
+            if(configuracaoNupList.length === 1)
             {
                 this.formProcesso.get('configuracaoNup').setValue(configuracaoNupList[0]);
             }
@@ -794,7 +794,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
     }
 
-    validateNup(values: any){
+    validateNup(values: any): void {
        this._store.dispatch(new fromStore.ValidaNup(values));
     }
 

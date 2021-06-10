@@ -42,7 +42,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/tipo-acao-workflow-edit';
+const path = 'app/main/apps/admin/tipo-acao-workflow';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

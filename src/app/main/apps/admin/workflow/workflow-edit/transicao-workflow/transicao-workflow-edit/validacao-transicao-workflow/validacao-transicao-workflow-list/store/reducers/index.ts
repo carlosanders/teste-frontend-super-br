@@ -7,7 +7,7 @@ export interface ValidacaoTransicaoWorkflowListAppState
 }
 
 export const getValidacaoTransicaoWorkflowListAppState = createFeatureSelector<ValidacaoTransicaoWorkflowListAppState>(
-    'admin-validacao-transicao-workflow-edit-list-app'
+    'admin-validacao-transicao-workflow-list-app'
 );
 
 export const getAppState = createSelector(

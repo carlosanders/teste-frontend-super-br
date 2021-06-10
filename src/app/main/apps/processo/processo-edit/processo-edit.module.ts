@@ -12,6 +12,8 @@ import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';
 
 import {modulesConfig} from 'modules/modules-config';
+import {MatCardModule} from "@angular/material/card";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const routes: Routes = [
     {
@@ -120,7 +122,9 @@ routes[0].children.push({
 
         CdkSharedModule,
         CdkSidebarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatCardModule,
+        MatProgressSpinnerModule
     ]
 })
 export class ProcessoEditModule {

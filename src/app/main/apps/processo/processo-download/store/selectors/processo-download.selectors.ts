@@ -21,3 +21,8 @@ export const getIsSaving = createSelector(
     (state: ProcessoDownloadState) => state.saving
 );
 
+export const getErrors = createSelector(
+    getProcessoDownloadState,
+    (state: ProcessoDownloadState) => state.errors
+);
+

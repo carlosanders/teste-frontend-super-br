@@ -37,7 +37,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflow-edit/especies-processo/especies-processo-list';
+const path = 'app/main/apps/admin/workflow/especies-processo/especies-processo-list';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

@@ -25,7 +25,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflow-edit/workflow-edit-view';
+const path = 'app/main/apps/admin/workflow/workflow-edit/workflow-view';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

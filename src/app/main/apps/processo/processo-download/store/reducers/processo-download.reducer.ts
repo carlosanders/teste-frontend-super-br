@@ -4,12 +4,14 @@ export interface ProcessoDownloadState {
     loading: boolean;
     loaded: any;
     saving: boolean;
+    errors: any;
 }
 
 export const ProcessoDownloadInitialState: ProcessoDownloadState = {
     loading: false,
     loaded: false,
-    saving: false
+    saving: false,
+    errors: false
 };
 
 export function ProcessoDownloadReducer(
@@ -19,57 +21,33 @@ export function ProcessoDownloadReducer(
 
     switch (action.type) {
 
-         case ProcessoDownloadActions.DOWNLOAD_AS_PDF_PROCESSO: {
+         case ProcessoDownloadActions.DOWNLOAD_PROCESSO: {
                 return {
                     ...state,
                     loading: false,
                     loaded: false,
-                    saving: true
+                    saving: true,
+                    errors: false
                 };
          }
 
-        case ProcessoDownloadActions.DOWNLOAD_AS_PDF_PROCESSO_SUCCESS: {
+        case ProcessoDownloadActions.DOWNLOAD_PROCESSO_SUCCESS: {
             return {
                 ...state,
                 loading: false,
                 loaded: false,
-                saving: false
+                saving: false,
+                errors: false
             };
         }
 
-        case ProcessoDownloadActions.DOWNLOAD_AS_PDF_PROCESSO_FAILED: {
+        case ProcessoDownloadActions.DOWNLOAD_PROCESSO_FAILED: {
             return {
                 ...state,
                 loading: false,
                 loaded: false,
-                saving: false
-            };
-        }
-
-        case ProcessoDownloadActions.DOWNLOAD_AS_ZIP_PROCESSO: {
-            return {
-                ...state,
-                loading: false,
-                loaded: false,
-                saving: true
-            };
-        }
-
-        case ProcessoDownloadActions.DOWNLOAD_AS_ZIP_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                loading: false,
-                loaded: false,
-                saving: false
-            };
-        }
-
-        case ProcessoDownloadActions.DOWNLOAD_AS_ZIP_PROCESSO_FAILED: {
-            return {
-                ...state,
-                loading: false,
-                loaded: false,
-                saving: false
+                saving: false,
+                errors: action.payload
             };
         }
 

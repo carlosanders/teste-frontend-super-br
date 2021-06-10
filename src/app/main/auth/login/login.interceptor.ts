@@ -77,7 +77,7 @@ export class LoginInterceptor implements HttpInterceptor {
             )
             .subscribe((config) => {
                 this.config = config;
-                if (this._router.url !== '/auth/login' && this.routerState.url.indexOf('/auth/login') === -1 && !this.loginProgress) {
+                if (this._router.url !== '/auth/login' && this.routerState?.url.indexOf('/auth/login') === -1 && !this.loginProgress) {
                     this.loginProgress = true;
                     this.openDialog();
                 }
@@ -109,7 +109,7 @@ export class LoginInterceptor implements HttpInterceptor {
                     }
                 });
                 return next.handle(request);
-            } else if (this._router.url === '/' && this.routerState.url.indexOf('auth') === -1) {
+            } else if (this._router.url === '/' && this.routerState?.url.indexOf('auth') === -1) {
                 // Esta requisição veio de um F5 com token inválido/URL compartilhada com token inválido, enviar para
                 // tela de login
                 request = request.clone({
