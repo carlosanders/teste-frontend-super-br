@@ -27,6 +27,11 @@ export const getRegraEtiquetaList = createSelector(
     schemaSelectors.entitiesProjector
 );
 
+export const getPagination = createSelector(
+    getRegraEtiquetaListState,
+    (state: RegraEtiquetaListState) => state.pagination
+);
+
 export const getRegraEtiquetaListLoaded = createSelector(
     getRegraEtiquetaListState,
     (state: RegraEtiquetaListState) => state.loaded
