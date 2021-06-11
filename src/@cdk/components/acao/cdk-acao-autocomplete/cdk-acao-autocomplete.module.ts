@@ -1,9 +1,5 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatSelectModule,
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule, MatSelectModule,} from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {AcaoService} from '@cdk/services/acao.service';

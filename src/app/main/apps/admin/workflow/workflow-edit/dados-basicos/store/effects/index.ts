@@ -1,4 +1,4 @@
-import { WorkflowDadosBasicosEffects } from './workflow-dados-basicos.effects';
+import {WorkflowDadosBasicosEffects} from './workflow-dados-basicos.effects';
 
 export const effects = [
     WorkflowDadosBasicosEffects

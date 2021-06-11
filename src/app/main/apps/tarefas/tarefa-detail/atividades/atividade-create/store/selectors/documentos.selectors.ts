@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getAtividadeCreateAppState, AtividadeCreateAppState, AtividadeCreateDocumentosState} from '../reducers';
+import {AtividadeCreateAppState, AtividadeCreateDocumentosState, getAtividadeCreateAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';

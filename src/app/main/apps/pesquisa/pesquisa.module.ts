@@ -1,9 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {
-    MatButtonModule,
-    MatIconModule, MatRippleModule,
-} from '@cdk/angular/material';
+import {MatButtonModule, MatIconModule, MatRippleModule,} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';

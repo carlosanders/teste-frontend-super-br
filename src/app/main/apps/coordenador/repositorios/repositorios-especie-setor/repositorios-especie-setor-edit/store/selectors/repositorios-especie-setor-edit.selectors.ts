@@ -1,14 +1,20 @@
 import {createSelector} from '@ngrx/store';
-import {getRepositoriosEspecieSetorEditAppState, RepositoriosEspecieSetorEditAppState, RepositoriosEspecieSetorEditState} from '../reducers';
+import {
+    getRepositoriosEspecieSetorEditAppState,
+    RepositoriosEspecieSetorEditAppState,
+    RepositoriosEspecieSetorEditState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
-import {vinculacaoRepositorio as vinculacaoRepositorioSchema} from '@cdk/normalizr';
+import {
+    modalidadeOrgaoCentral as schemaOrgaoCentral,
+    repositorio as schemaRepositorio,
+    vinculacaoRepositorio as vinculacaoRepositorioSchema
+} from '@cdk/normalizr';
 import {getRepositoriosEspecieSetorState} from '../../../store/selectors';
 import {getCoordenadorState} from '../../../../../store/selectors';
 import {RepositoriosEspecieSetorState} from '../../../store/reducers';
 import {ModalidadeOrgaoCentral, Repositorio} from '@cdk/models';
-import {repositorio as schemaRepositorio} from '@cdk/normalizr';
-import {modalidadeOrgaoCentral as schemaOrgaoCentral} from '@cdk/normalizr';
 import {CoordenadorState} from '../../../../../store/reducers';
 
 const schemaVinculacaoRepositorioSelectors = createSchemaSelectors<VinculacaoRepositorio>(vinculacaoRepositorioSchema);

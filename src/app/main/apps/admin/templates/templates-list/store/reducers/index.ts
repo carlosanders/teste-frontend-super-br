@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TemplatesListReducer, TemplatesListState } from './templates-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TemplatesListReducer, TemplatesListState} from './templates-list.reducer';
 
 export interface TemplatesListAppState
 {

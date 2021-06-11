@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkWidgetComponent } from './widget.component';
-import { CdkWidgetToggleDirective } from './widget-toggle.directive';
+import {CdkWidgetComponent} from './widget.component';
+import {CdkWidgetToggleDirective} from './widget-toggle.directive';
 
 @NgModule({
     declarations: [

@@ -25,7 +25,6 @@ import * as fromGuards from './store/guards';
 import {ResolveGuard} from './store/guards';
 import {MunicipioEditStoreModule} from './store/store.module';
 import {MunicipioService} from '@cdk/services/municipio.service';
-import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {CdkMunicipioFormModule} from '@cdk/components/municipio/cdk-municipio-form/cdk-municipio-form.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {CdkSharedModule} from '../../../shared.module';
 import {CdkLoginDialogComponent} from './cdk-login-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';

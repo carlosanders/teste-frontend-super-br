@@ -1,4 +1,4 @@
-import { AssinaturaListEffect } from './assinatura-list.effects';
+import {AssinaturaListEffect} from './assinatura-list.effects';
 
 export const effects = [
     AssinaturaListEffect

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as AtividadeDocumentoActions from '../actions/atividade-documento.actions';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {AddData} from '@cdk/ngrx-normalizr';

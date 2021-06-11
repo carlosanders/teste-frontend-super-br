@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Garantia } from '@cdk/models';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Garantia} from '@cdk/models';
+import {Observable} from 'rxjs';
 
 export class GarantiaDataSource extends DataSource<Garantia> {
 

@@ -3,7 +3,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as WorkflowEspecieProcessoEditActions from '../actions';
-import * as WorkflowEspecieProcessoListActions  from '../../../especies-processo-list/store/actions';
+import * as WorkflowEspecieProcessoListActions from '../../../especies-processo-list/store/actions';
 import {AddData, SetData} from '@cdk/ngrx-normalizr';
 import {especieProcesso as especieProcessoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';

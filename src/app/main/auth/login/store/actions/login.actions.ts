@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const LOGIN = '[Login] Login Attempt';
 export const LOGIN_LDAP = '[Login] Login LDAP Attempt';

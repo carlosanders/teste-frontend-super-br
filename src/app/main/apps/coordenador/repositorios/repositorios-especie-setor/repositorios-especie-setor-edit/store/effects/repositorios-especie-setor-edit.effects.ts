@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as RepositoriosEspecieSetorEditActions from '../actions/repositorios-especie-setor-edit.actions';
 import * as RepositoriosEspecieSetorListActions from '../../../repositorios-especie-setor-list/store/actions';

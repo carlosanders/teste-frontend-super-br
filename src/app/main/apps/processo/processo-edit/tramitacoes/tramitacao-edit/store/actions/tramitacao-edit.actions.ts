@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TRAMITACAO = '[TRAMITACAO] CREATE TRAMITACAO';
 export const CREATE_TRAMITACAO_SUCCESS = '[TRAMITACAO] CREATE TRAMITACAO SUCCESS';

@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getComponentesDigitaisAppState,
     ComponentesDigitaisAppState,
-    ComponentesDigitaisState
+    ComponentesDigitaisState,
+    getComponentesDigitaisAppState
 } from 'app/main/apps/pesquisa/componentes-digitais/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as VinculacaoPessoaUsuarioEditActions from '../actions/vinculacao-pessoa-usuario-edit.actions';
-import * as VinculacaoPessoaUsuarioListActions from '../../../vinculacao-pessoa-usuario-list/store/actions/vinculacao-pessoa-usuario-list.actions';
+import * as VinculacaoPessoaUsuarioListActions
+    from '../../../vinculacao-pessoa-usuario-list/store/actions/vinculacao-pessoa-usuario-list.actions';
 
 import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
 import {AddData} from '@cdk/ngrx-normalizr';

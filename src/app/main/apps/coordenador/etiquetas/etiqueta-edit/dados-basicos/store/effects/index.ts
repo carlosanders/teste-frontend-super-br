@@ -1,4 +1,4 @@
-import { EtiquetaEditEffect } from './dados-basicos.effects';
+import {EtiquetaEditEffect} from './dados-basicos.effects';
 
 export const effects = [
     EtiquetaEditEffect

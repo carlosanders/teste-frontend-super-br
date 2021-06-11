@@ -1,4 +1,4 @@
-import { RepositorioEditEffects } from './repositorio-edit.effects';
+import {RepositorioEditEffects} from './repositorio-edit.effects';
 
 export const effects = [
     RepositorioEditEffects,

@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentoIdentificadorEditActions from '../actions/documento-identificador-edit.actions';
-import * as DocumentoIdentificadorListActions from '../../../documento-identificador-list/store/actions/documento-identificador-list.actions';
+import * as DocumentoIdentificadorListActions
+    from '../../../documento-identificador-list/store/actions/documento-identificador-list.actions';
 
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
 import {AddData} from '@cdk/ngrx-normalizr';

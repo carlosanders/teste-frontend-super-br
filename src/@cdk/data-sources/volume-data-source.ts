@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Volume } from '../models/volume.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Volume} from '../models/volume.model';
 
 export class VolumeDataSource extends DataSource<Volume> {
 

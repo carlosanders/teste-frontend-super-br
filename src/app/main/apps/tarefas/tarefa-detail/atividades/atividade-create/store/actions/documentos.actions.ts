@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_DOCUMENTOS = '[ATIVIDADE CREATE] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_SUCCESS = '[ATIVIDADE CREATE] GET DOCUMENTOS SUCCESS';

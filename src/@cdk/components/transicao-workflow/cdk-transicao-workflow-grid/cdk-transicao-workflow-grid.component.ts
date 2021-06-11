@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -12,9 +18,8 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {TransicaoWorkflow} from '@cdk/models';
+import {Favorito, TransicaoWorkflow} from '@cdk/models';
 import {TransicaoWorkflowDataSource} from '@cdk/data-sources/transicao-workflow-data-source';
-import {Favorito} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -117,7 +122,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
 import * as fromStore from 'app/main/auth/esqueci-senha/store';
 import {Store} from '@ngrx/store';
-import {MatSnackBar,
-    MatSnackBarHorizontalPosition,
-    MatSnackBarVerticalPosition} from '@cdk/angular/material';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@cdk/angular/material';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

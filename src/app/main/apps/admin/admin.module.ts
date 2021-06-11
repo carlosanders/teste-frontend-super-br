@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@cdk/angular/material';
+import {MatExpansionModule, MatIconModule} from '@cdk/angular/material';
 import {RouterModule, Routes} from '@angular/router';
 
 import {CdkSidebarModule} from '@cdk/components';
@@ -11,7 +11,6 @@ import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {modulesConfig} from 'modules/modules-config';
 import * as fromGuards from './store/guards';
 import {MatRippleModule} from '@angular/material/core';
-import {MatExpansionModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {

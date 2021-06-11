@@ -346,3 +346,14 @@
 * Correção grid de usuários afastados ou não disponíveis
 * Correção estilos dos grids
 * Melhoria chat experimental
+
+1.4.2
+
+* Correçao erro na seleção de espécies de tarefas em processos com workflow #467
+* Correção erro ao exibir espécies de tarefas ao movimentar uma tarefa em um workflow #440
+* Correção regras/ações das etiquetas
+* Correção validações/ações do workflows
+* Correçao erro ao recarregar a lista de Regras de uma etiqueta #436 
+* Correção tarefas, criar Pasta gerando erro de 'campo não pode ser nulo' #432
+* Correçao ao criar tarefas como "Participar de Reunião" deveria criar um evento no calendário? #330
+* Correção calculo do prazo da tarefa

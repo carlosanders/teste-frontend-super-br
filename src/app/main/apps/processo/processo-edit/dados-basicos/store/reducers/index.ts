@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DadosBasicosReducer, DadosBasicosState } from './dados-basicos.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DadosBasicosReducer, DadosBasicosState} from './dados-basicos.reducer';
 
 export interface DadosBasicosAppState
 {

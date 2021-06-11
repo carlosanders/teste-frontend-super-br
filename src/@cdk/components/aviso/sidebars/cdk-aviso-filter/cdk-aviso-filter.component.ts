@@ -1,11 +1,11 @@
 import {
     ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
     Component,
+    EventEmitter,
+    Input,
+    OnInit,
     Output,
-    Input
+    ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';

@@ -1,4 +1,5 @@
-import * as CompartilhamentoCreateActions from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create/store/actions/compartilhamento-create.actions';
+import * as CompartilhamentoCreateActions
+    from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create/store/actions/compartilhamento-create.actions';
 
 export interface CompartilhamentoCreateState {
     saving: boolean;

@@ -9,8 +9,8 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';
 import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
 import {CdkGarantiaFilterComponent} from './cdk-garantia-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';

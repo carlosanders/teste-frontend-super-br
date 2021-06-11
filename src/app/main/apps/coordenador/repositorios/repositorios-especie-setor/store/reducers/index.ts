@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RepositoriosEspecieSetorReducer, RepositoriosEspecieSetorState } from './repositorios-especie-setor.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RepositoriosEspecieSetorReducer, RepositoriosEspecieSetorState} from './repositorios-especie-setor.reducer';
 
 export interface RepositoriosEspecieSetorAppState
 {

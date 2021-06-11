@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const DISTRIBUIR_TAREFAS_USUARIO = '[ADMIN USUARIO LIST] DISTRIBUIR TAREFAS USUARIO';
 export const DISTRIBUIR_TAREFAS_USUARIO_SUCCESS = '[ADMIN USUARIO LIST] DISTRIBUIR TAREFAS USUARIO SUCCESS';

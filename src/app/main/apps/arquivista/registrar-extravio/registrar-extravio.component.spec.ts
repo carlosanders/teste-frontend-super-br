@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RealizarDesarquivamentoComponent } from './realizar-transicao.component';
+import {RealizarDesarquivamentoComponent} from './realizar-transicao.component';
 
 describe('RealizarTransicaoComponent', () => {
   let component: RealizarDesarquivamentoComponent;

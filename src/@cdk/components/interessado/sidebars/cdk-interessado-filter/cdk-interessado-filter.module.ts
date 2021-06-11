@@ -9,9 +9,9 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeInteressadoService } from '@cdk/services/modalidade-interessado.service';
-import { CdkInteressadoFilterComponent } from './cdk-interessado-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeInteressadoService} from '@cdk/services/modalidade-interessado.service';
+import {CdkInteressadoFilterComponent} from './cdk-interessado-filter.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';

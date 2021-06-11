@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {ProtocoloCreateReducer, ProtocoloCreateState} from './protocolo-create.reducer';
 import {ProcessoReducer, ProcessoState} from './processo.reducer';
 import {ProtocoloDocumentoReducer, ProtocoloDocumentoState} from './protocolo-documento.reducer';

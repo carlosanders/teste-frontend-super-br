@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    AcompanhamentoState,
-    getProcessoCapaAppState,
-    ProcessoCapaAppState
-} from '../reducers';
+import {AcompanhamentoState, getProcessoCapaAppState, ProcessoCapaAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';

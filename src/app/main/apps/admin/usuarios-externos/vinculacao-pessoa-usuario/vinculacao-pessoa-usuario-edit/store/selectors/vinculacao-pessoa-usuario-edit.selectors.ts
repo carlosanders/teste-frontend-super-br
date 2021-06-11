@@ -1,9 +1,13 @@
 import {createSelector} from '@ngrx/store';
-import {getVinculacaoPessoaUsuarioEditAppState, VinculacaoPessoaUsuarioEditAppState, VinculacaoPessoaUsuarioEditState} from '../reducers';
+import {
+    getVinculacaoPessoaUsuarioEditAppState,
+    VinculacaoPessoaUsuarioEditAppState,
+    VinculacaoPessoaUsuarioEditState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {VinculacaoPessoaUsuario} from '@cdk/models/vinculacao-pessoa-usuario.model';
 import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr';
-import {getVinculacaoPessoaUsuarioAppState, VinculacaoPessoaUsuarioAppState, VinculacaoPessoaUsuarioState} from '../../../store/reducers';
+import {getVinculacaoPessoaUsuarioAppState, VinculacaoPessoaUsuarioAppState} from '../../../store/reducers';
 
 const schemaVinculacaoPessoaUsuarioSelectors = createSchemaSelectors<VinculacaoPessoaUsuario>(vinculacaoPessoaUsuarioSchema);
 

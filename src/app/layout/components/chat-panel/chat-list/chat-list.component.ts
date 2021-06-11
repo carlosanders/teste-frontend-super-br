@@ -1,8 +1,10 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    EventEmitter, Input,
-    OnInit, Output,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 import {Chat} from "@cdk/models";

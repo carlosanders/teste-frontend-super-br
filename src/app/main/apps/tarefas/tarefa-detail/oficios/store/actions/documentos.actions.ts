@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_DOCUMENTOS = '[TAREFA DETAIL OFICIOS] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_SUCCESS = '[TAREFA DETAIL OFICIOS] GET DOCUMENTOS SUCCESS';

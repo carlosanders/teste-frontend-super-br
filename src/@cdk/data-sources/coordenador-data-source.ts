@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Coordenador } from '../models/coordenador.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Coordenador} from '../models/coordenador.model';
 
 export class CoordenadorDataSource extends DataSource<Coordenador> {
 

@@ -1,12 +1,15 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Platform } from '@angular/cdk/platform';
-import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, filter, takeUntil } from 'rxjs/operators';
+import {AfterViewInit, Directive, ElementRef, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Platform} from '@angular/cdk/platform';
+import {fromEvent, Subject} from 'rxjs';
+import {debounceTime, filter, takeUntil} from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
 import * as _ from 'lodash';
-import { CdkPerfectScrollbarGeometry, CdkPerfectScrollbarPosition } from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.interfaces';
-import { CdkConfigService } from '@cdk/services/config.service';
+import {
+    CdkPerfectScrollbarGeometry,
+    CdkPerfectScrollbarPosition
+} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.interfaces';
+import {CdkConfigService} from '@cdk/services/config.service';
 
 @Directive({
     selector: '[cdkPerfectScrollbar]'

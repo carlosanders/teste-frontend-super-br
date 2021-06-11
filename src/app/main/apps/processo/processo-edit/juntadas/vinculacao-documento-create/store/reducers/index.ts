@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { VinculacaoDocumentoCreateReducer, VinculacaoDocumentoCreateState } from './juntada.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {VinculacaoDocumentoCreateReducer, VinculacaoDocumentoCreateState} from './juntada.reducer';
 
 export interface VinculacaoDocumentoCreateAppState
 {

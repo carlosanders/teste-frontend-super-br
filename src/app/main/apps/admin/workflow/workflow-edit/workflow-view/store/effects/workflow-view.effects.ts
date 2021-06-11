@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import * as WorkflowViewActions from '../actions/workflow-view.actions';

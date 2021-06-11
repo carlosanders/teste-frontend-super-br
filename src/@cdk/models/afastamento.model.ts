@@ -1,9 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
-import {ModalidadeAfastamento} from '@cdk/models';
-import {Colaborador} from '@cdk/models';
+import {Colaborador, ModalidadeAfastamento, Usuario} from '@cdk/models';
 
 export class Afastamento {
 

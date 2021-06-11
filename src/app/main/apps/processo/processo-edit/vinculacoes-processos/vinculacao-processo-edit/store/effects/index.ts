@@ -1,4 +1,4 @@
-import { VinculacaoProcessoEditEffect } from './vinculacao-processo-edit.effects';
+import {VinculacaoProcessoEditEffect} from './vinculacao-processo-edit.effects';
 
 export const effects = [
     VinculacaoProcessoEditEffect

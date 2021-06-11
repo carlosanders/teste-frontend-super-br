@@ -2,15 +2,15 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as TipoValidacaoWorkflowEditActions from '../actions/tipo-validacao-workflow-edit.actions';
-import * as TipoValidacaoWorkflowListActions from '../../../tipo-validacao-workflow-list/store/actions/tipo-validacao-workflow-list.actions';
+import * as TipoValidacaoWorkflowListActions
+    from '../../../tipo-validacao-workflow-list/store/actions/tipo-validacao-workflow-list.actions';
 import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tipoValidacaoWorkflow as tipoValidacaoWorkflowSchema} from '@cdk/normalizr';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr';
-import {TipoValidacaoWorkflow, Colaborador} from '@cdk/models';
+import {TipoValidacaoWorkflow} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

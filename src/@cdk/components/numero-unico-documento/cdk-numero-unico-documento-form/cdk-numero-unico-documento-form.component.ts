@@ -1,15 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {NumeroUnicoDocumento, TipoDocumento, Setor, Pagination} from '@cdk/models';
+import {NumeroUnicoDocumento, Pagination, Setor, TipoDocumento} from '@cdk/models';
 
 @Component({
     selector: 'cdk-numero-unico-documento-form',

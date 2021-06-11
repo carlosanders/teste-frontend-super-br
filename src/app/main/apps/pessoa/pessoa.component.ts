@@ -1,21 +1,26 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, EventEmitter, OnDestroy, OnInit, Output,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
+import {UnloadPessoas} from 'app/main/apps/pessoa/pessoa-list/store';
 import {getRouterState} from '../../../store';
 import {Router} from '@angular/router';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
-import {filter, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {PessoaEditService} from './pessoa-edit/pessoa-edit.service';
-import {UnloadPessoas} from 'app/main/apps/pessoa/pessoa-list/store';
 
 @Component({
     selector: 'pessoa',

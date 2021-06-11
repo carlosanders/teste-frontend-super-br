@@ -1,4 +1,4 @@
-import { RecebimentoEffect } from './recebimento.effects';
+import {RecebimentoEffect} from './recebimento.effects';
 
 export const effects = [
     RecebimentoEffect

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_PERFIL = '[PERFIL] SAVE PERFIL';
 export const SAVE_PERFIL_SUCCESS = '[PERFIL] SAVE PERFIL SUCCESS';

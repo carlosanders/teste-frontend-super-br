@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getAtividadeListAppState,
     AtividadeListAppState,
-    AtividadeListState
+    AtividadeListState,
+    getAtividadeListAppState
 } from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

@@ -1,11 +1,11 @@
-import { Directive, Input, OnInit, HostListener, OnDestroy, HostBinding } from '@angular/core';
-import { MatSidenav } from '@cdk/angular/material';
-import { MediaObserver } from '@angular/flex-layout';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {Directive, HostBinding, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import {MatSidenav} from '@cdk/angular/material';
+import {MediaObserver} from '@angular/flex-layout';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
-import { CdkMatchMediaService } from '@cdk/services/match-media.service';
-import { CdkMatSidenavHelperService } from '@cdk/directives/cdk-mat-sidenav/cdk-mat-sidenav.service';
+import {CdkMatchMediaService} from '@cdk/services/match-media.service';
+import {CdkMatSidenavHelperService} from '@cdk/directives/cdk-mat-sidenav/cdk-mat-sidenav.service';
 
 @Directive({
     selector: '[cdkMatSidenavHelper]'

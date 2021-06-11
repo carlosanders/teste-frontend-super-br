@@ -1,8 +1,10 @@
 import {
     ChangeDetectionStrategy,
-    Component, ElementRef,
+    Component,
+    ElementRef,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,6 +14,7 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
+import {getImgChancela, getImgPerfil, UploadImagemChancela, UploadImagemPerfil} from './store';
 import {LoginService} from '../../../auth/login/login.service';
 import {ComponenteDigital, Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
@@ -20,7 +23,6 @@ import {Back} from "../../../../store";
 import {filter} from "rxjs/operators";
 import {ComponenteDigitalService} from "../../../../../@cdk/services/componente-digital.service";
 import {ImageCropperComponent} from "ngx-image-cropper";
-import {getImgChancela, getImgPerfil, UploadImagemChancela, UploadImagemPerfil} from "./store";
 
 @Component({
     selector: 'perfil',

@@ -11,9 +11,8 @@ import * as ProcessoActions from '../actions/processo.actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models';
+import {Colaborador, Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
-import {Colaborador} from '@cdk/models';
 
 
 @Injectable()

@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {DocumentoEditComponentesDigitaisAppState, getDocumentoEditComponentesDigitaisAppState, ComponenteDigitalState} from '../reducers';
+import {
+    ComponenteDigitalState,
+    DocumentoEditComponentesDigitaisAppState,
+    getDocumentoEditComponentesDigitaisAppState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';

@@ -7,9 +7,9 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CampoService } from '@cdk/services/campo.service';
-import { CdkCampoFilterComponent } from './cdk-campo-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CampoService} from '@cdk/services/campo.service';
+import {CdkCampoFilterComponent} from './cdk-campo-filter.component';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 
 @NgModule({

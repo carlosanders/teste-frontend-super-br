@@ -1,9 +1,11 @@
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef, EventEmitter,
+    ElementRef,
+    EventEmitter,
     OnDestroy,
-    OnInit, Output,
+    OnInit,
+    Output,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -20,15 +22,16 @@ import {
     GetChat,
     GetChatIncrement,
     GetMensagens,
-    GetMensagensIncrement, LimparMensagensNaoLidas,
-    OpenChat, UnloadChatMensagens
-} from "./store";
+    GetMensagensIncrement,
+    LimparMensagensNaoLidas,
+    OpenChat,
+    UnloadChatMensagens
+} from './store';
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
 import {filter, takeUntil} from "rxjs/operators";
 import {MercureService} from "@cdk/services/mercure.service";
-import * as loginStoreSelectores from "../../../main/auth/login/store/selectors";
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
 import {ChatUtils} from "./utils/chat.utils";
 

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { PerfilReducer, ProfileState } from './perfil.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {PerfilReducer, ProfileState} from './perfil.reducer';
 
 export interface ProfileAppState
 {

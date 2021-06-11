@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as VisibilidadeEditActions from '../actions/visibilidade-edit.actions';
 import * as VisibilidadeListActions from '../../../visibilidade-list/store/actions/visibilidade-list.actions';

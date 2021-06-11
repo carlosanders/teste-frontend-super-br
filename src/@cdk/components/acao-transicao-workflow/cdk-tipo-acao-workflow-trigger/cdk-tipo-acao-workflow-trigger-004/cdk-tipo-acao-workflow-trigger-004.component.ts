@@ -1,10 +1,15 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnDestroy, OnInit,
-    ViewEncapsulation,
-    OnChanges, SimpleChange, EventEmitter, Output
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
 
 import {Observable} from 'rxjs';

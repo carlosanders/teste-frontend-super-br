@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_WORKFLOW = '[ADMIN WORKFLOW DADOS BASICOS] SAVE WORKFLOW';
 export const SAVE_WORKFLOW_SUCCESS = '[ADMIN WORKFLOW DADOS BASICOS] SAVE WORKFLOW SUCCESS';

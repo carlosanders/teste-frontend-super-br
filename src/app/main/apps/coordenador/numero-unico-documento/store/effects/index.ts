@@ -1,4 +1,4 @@
-import { NumeroUnicoDocumentoEffects } from './numero-unico-documento.effects';
+import {NumeroUnicoDocumentoEffects} from './numero-unico-documento.effects';
 
 export const effects = [
     NumeroUnicoDocumentoEffects

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {EventSourcePolyfill} from 'event-source-polyfill';
 import {LoginService} from '../../app/main/auth/login/login.service';
 import {Store} from '@ngrx/store';
-import {State} from '../../app/store/reducers';
+import {State} from '../../app/store';
 import {HttpClient} from '@angular/common/http';
 import * as fromStore from 'app/store';
 

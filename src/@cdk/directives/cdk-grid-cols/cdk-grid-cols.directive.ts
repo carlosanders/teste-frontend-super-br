@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, Input, Output, OnInit} from '@angular/core';
+import {Directive, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatGridList} from '@angular/material/grid-list';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 

@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -20,7 +20,8 @@ import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {RouterModule, Routes} from '@angular/router';
 import {DocumentoAvulsoListStoreModule} from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list/store/store.module';
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
-import * as fromGuards from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list/store/guards';
+import * as fromGuards
+    from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list/store/guards';
 import {CdkDocumentoAvulsoGridModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid.module';
 import {modulesConfig} from 'modules/modules-config';
 

@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {TipoRelatorioListReducer, TipoRelatorioListState} from './tipo-relatorio-list.reducer';
 
 export interface TipoRelatorioListAppState

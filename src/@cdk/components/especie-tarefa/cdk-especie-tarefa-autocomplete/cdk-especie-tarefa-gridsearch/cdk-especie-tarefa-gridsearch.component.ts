@@ -2,9 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
+    OnInit,
     Output,
-    ViewEncapsulation, EventEmitter, OnInit
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -13,8 +15,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {catchError, finalize} from 'rxjs/operators';
 
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
-import {EspecieTarefa} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {EspecieTarefa, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-tarefa-gridsearch',

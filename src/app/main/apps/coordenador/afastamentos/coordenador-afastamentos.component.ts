@@ -1,6 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, OnDestroy, OnInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,7 +15,6 @@ import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Usuario} from '@cdk/models';
 import {cdkAnimations} from '@cdk/animations';
-import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'coordenador-afastamentos',

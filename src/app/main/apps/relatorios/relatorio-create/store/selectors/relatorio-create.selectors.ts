@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getRelatorioCreateAppState, RelatorioCreateAppState, RelatorioCreateState} from 'app/main/apps/relatorios/relatorio-create/store/reducers';
+import {
+    getRelatorioCreateAppState,
+    RelatorioCreateAppState,
+    RelatorioCreateState
+} from 'app/main/apps/relatorios/relatorio-create/store/reducers';
 
 export const getRelatorioCreateState = createSelector(
     getRelatorioCreateAppState,

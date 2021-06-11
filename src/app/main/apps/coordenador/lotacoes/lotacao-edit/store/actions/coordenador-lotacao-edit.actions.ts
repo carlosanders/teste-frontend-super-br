@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_LOTACAO = '[COORDENADOR LOTACAO EDIT] CREATE LOTACAO';
 export const CREATE_LOTACAO_SUCCESS = '[COORDENADOR LOTACAO EDIT] CREATE LOTACAO SUCCESS';

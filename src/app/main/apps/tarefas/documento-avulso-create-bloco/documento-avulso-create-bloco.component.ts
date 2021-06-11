@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -9,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {DocumentoAvulso} from '@cdk/models';
+import {DocumentoAvulso, Pagination, Tarefa, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -18,9 +19,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
-import {Tarefa} from '@cdk/models';
 import {Back} from '../../../../store/actions';
-import {Pagination, Usuario} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 
 @Component({

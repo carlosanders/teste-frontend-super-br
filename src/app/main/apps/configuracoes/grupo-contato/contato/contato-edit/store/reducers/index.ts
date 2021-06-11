@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ContatoEditReducer, ContatoEditState } from './contato-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ContatoEditReducer, ContatoEditState} from './contato-edit.reducer';
 
 export interface ContatoEditAppState
 {

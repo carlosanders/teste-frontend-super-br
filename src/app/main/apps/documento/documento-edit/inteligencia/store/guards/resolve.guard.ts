@@ -3,13 +3,14 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {DocumentoEditInteligenciaAppState} from '../reducers';
 import * as fromStore from '../';
-import {getRouterState} from 'app/store/reducers';
 import {getRepositoriosLoaded, getRepositoriosPagination} from '../';
+import {getRouterState} from 'app/store/reducers';
+
 @Injectable()
 export class ResolveGuard implements CanActivate {
 

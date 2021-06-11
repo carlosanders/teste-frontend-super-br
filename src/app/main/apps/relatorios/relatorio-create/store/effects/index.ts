@@ -1,4 +1,4 @@
-import { RelatorioCreateEffect } from './relatorio-create.effects';
+import {RelatorioCreateEffect} from './relatorio-create.effects';
 import {GeneroRelatoriosEffects} from './genero-relatorio.effects';
 
 export const effects = [

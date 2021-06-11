@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TRANSICAO = '[TRANSICAO] CREATE TRANSICAO';
 export const CREATE_TRANSICAO_SUCCESS = '[TRANSICAO] CREATE TRANSICAO SUCCESS';

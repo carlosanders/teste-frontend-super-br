@@ -1,4 +1,4 @@
-import { SigilosEffects } from './sigilos.effects';
+import {SigilosEffects} from './sigilos.effects';
 
 export const effects = [
     SigilosEffects

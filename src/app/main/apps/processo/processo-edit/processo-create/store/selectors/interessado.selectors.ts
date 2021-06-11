@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getDadosBasicosAppState, DadosBasicosAppState, InteressadoState} from '../reducers';
+import {DadosBasicosAppState, getDadosBasicosAppState, InteressadoState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {interessado as interessadoSchema} from '@cdk/normalizr';

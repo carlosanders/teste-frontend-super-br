@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 
@@ -12,13 +12,14 @@ import * as ProcessoDetailActions from '../actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {VinculacaoEtiqueta} from '@cdk/models';
+import {Documento, Processo, VinculacaoEtiqueta} from '@cdk/models';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
-import {processo as processoSchema} from '@cdk/normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {
+    documento as documentoSchema,
+    processo as processoSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {Processo, Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()

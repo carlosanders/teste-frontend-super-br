@@ -1,4 +1,4 @@
-import { TransicaoEditEffect } from './transicao-edit.effects';
+import {TransicaoEditEffect} from './transicao-edit.effects';
 
 export const effects = [
     TransicaoEditEffect

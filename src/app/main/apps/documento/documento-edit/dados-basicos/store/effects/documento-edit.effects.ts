@@ -3,20 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoEditActions from '../actions';
 
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as DocumentoActions from '../../../../store/actions/documento.actions';
-import * as fromStore from '../../../../componente-digital/store';
-import {DownloadComponenteDigital} from '../../../../componente-digital/store';
 
 @Injectable()
 export class DocumentoEditEffects {

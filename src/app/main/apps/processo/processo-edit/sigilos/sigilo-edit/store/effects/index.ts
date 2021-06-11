@@ -1,4 +1,4 @@
-import { SigiloEditEffect } from './sigilo-edit.effects';
+import {SigiloEditEffect} from './sigilo-edit.effects';
 
 export const effects = [
     SigiloEditEffect

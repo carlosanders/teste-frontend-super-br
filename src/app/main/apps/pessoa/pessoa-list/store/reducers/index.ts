@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { PessoaListReducer, PessoaListState } from './pessoa-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {PessoaListReducer, PessoaListState} from './pessoa-list.reducer';
 
 export interface PessoaListAppState
 {

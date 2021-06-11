@@ -1,4 +1,4 @@
-import { DocumentoIdentificadorEditEffect } from './documento-identificador-edit.effects';
+import {DocumentoIdentificadorEditEffect} from './documento-identificador-edit.effects';
 
 export const effects = [
     DocumentoIdentificadorEditEffect

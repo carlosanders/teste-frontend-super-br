@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { NotificacaoListReducer, NotificacaoListState } from './notificacao-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {NotificacaoListReducer, NotificacaoListState} from './notificacao-list.reducer';
 
 export interface NotificacaoListAppState
 {

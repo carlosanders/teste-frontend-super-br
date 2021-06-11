@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_RELATORIOS = '[RELATORIO VIEW] GET RELATORIOS';
 export const GET_RELATORIOS_SUCCESS = '[RELATORIO VIEW] GET RELATORIOS SUCCESS';

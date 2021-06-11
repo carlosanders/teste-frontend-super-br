@@ -1,4 +1,4 @@
-import { VolumeEditEffect } from './volume-edit.effects';
+import {VolumeEditEffect} from './volume-edit.effects';
 
 export const effects = [
     VolumeEditEffect

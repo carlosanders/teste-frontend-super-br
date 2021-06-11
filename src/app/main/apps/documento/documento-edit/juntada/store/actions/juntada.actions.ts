@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_JUNTADA = '[DOCUMENTO EDIT JUNTADA] GET JUNTADAS';
 export const GET_JUNTADA_SUCCESS = '[DOCUMENTO EDIT JUNTADA] GET JUNTADAS SUCCESS';

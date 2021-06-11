@@ -2,9 +2,9 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    OnDestroy,
     OnInit,
     ViewEncapsulation,
-    OnDestroy,
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
@@ -14,7 +14,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {UnloadUnidades} from './store';
 
 @Component({
     selector: 'unidades-list',

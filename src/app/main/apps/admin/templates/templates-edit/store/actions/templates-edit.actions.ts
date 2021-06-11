@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TEMPLATES = '[TEMPLATES EDIT] CREATE TEMPLATES';
 export const CREATE_TEMPLATES_SUCCESS = '[TEMPLATES EDIT] CREATE TEMPLATES SUCCESS';

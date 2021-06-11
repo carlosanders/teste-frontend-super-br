@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ArquivistaEditBlocoComponent } from './arquivista-edit-bloco.component';
+import {ArquivistaEditBlocoComponent} from './arquivista-edit-bloco.component';
 
 describe('ArquivistaEditBlocoComponent', () => {
   let component: ArquivistaEditBlocoComponent;

@@ -4,12 +4,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkComponenteDigitalCkeditorComponent} from './cdk-componente-digital-ckeditor.component';
-import { CKEditorModule } from 'ng2-ckeditor';
+import {CKEditorModule} from 'ng2-ckeditor';
 import {MatButtonModule, MatDialogModule, MatIconModule} from '@cdk/angular/material';
 import {CdkCampoPluginModule} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.module';
 import {CdkRepositorioPluginModule} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.module';
 import {CdkAssinaturaEletronicaPluginModule} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
-import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 
 const routes: Routes = [
     {

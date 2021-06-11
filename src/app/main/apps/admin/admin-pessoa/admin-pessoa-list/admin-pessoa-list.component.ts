@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
@@ -6,7 +13,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
-import {UnloadPessoa} from './store';
 
 @Component({
     selector: 'admin-pessoa-list',

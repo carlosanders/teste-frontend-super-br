@@ -1,12 +1,14 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component,
+    EventEmitter,
     OnDestroy,
-    OnInit, Output,
+    OnInit,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {ValidacaoTransicaoWorkflow, TipoValidacaoWorkflow, TransicaoWorkflow, Pagination} from '@cdk/models';
+import {Pagination, TipoValidacaoWorkflow, TransicaoWorkflow, ValidacaoTransicaoWorkflow} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';

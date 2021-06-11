@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getCoordenadorSetorAppState, CoordenadorSetorAppState, CoordenadorSetorState} from '../reducers';
+import {CoordenadorSetorAppState, CoordenadorSetorState, getCoordenadorSetorAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models';
 import {setor as setorSchema} from '@cdk/normalizr';

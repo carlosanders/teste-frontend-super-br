@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AssinaturasReducer, AssinaturasState } from './assinaturas.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AssinaturasReducer, AssinaturasState} from './assinaturas.reducer';
 
 export interface DocumentoEditAssinaturasAppState
 {

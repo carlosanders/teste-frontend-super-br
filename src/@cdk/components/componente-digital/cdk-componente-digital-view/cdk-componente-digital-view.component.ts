@@ -2,8 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Input,
+    OnChanges,
     OnInit,
-    ViewEncapsulation, Input, OnChanges, SecurityContext
+    SecurityContext,
+    ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';

@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { WorkflowService } from '@cdk/services/workflow.service';
-import { CdkWorkflowGridsearchComponent } from './cdk-workflow-gridsearch.component';
-import { CdkWorkflowGridModule } from '@cdk/components/workflow/cdk-workflow-grid/cdk-workflow-grid.module';
+import {WorkflowService} from '@cdk/services/workflow.service';
+import {CdkWorkflowGridsearchComponent} from './cdk-workflow-gridsearch.component';
+import {CdkWorkflowGridModule} from '@cdk/components/workflow/cdk-workflow-grid/cdk-workflow-grid.module';
 
 @NgModule({
     declarations: [

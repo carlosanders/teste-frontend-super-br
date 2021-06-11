@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProtocolosExternosReducer, ProcessosState } from './protocolos-externos.reducer';
-import { PessoaReducer, PessoaState } from './pessoa.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ProcessosState, ProtocolosExternosReducer} from './protocolos-externos.reducer';
+import {PessoaReducer, PessoaState} from './pessoa.reducer';
 
 export interface ProcessosAppState
 {

@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { ModalidadeColaborador } from '@cdk/models';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {ModalidadeColaborador} from '@cdk/models';
 
 export class ModalidadeColaboradorDataSource extends DataSource<ModalidadeColaborador> {
 

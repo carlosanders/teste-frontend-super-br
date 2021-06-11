@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getGrupoContatoListAppState,
-    GrupoContatoListAppState,
-    GrupoContatoListState
-} from '../reducers';
+import {getGrupoContatoListAppState, GrupoContatoListAppState, GrupoContatoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {grupoContato as grupoContatoSchema} from '@cdk/normalizr';

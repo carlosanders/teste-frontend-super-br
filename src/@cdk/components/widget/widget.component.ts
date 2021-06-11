@@ -9,7 +9,7 @@ import {
     Renderer2,
     ViewEncapsulation
 } from '@angular/core';
-import { CdkWidgetToggleDirective } from './widget-toggle.directive';
+import {CdkWidgetToggleDirective} from './widget-toggle.directive';
 import {cdkAnimations} from '../../animations';
 
 @Component({

@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
@@ -13,11 +7,10 @@ import {Relatorio} from '@cdk/models/relatorio.model';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/relatorios/relatorio-detail/store';
-import { SaveRelatorio } from 'app/main/apps/relatorios/relatorio-detail/store';
+import {SaveRelatorio} from 'app/main/apps/relatorios/relatorio-detail/store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'relatorio-edit',

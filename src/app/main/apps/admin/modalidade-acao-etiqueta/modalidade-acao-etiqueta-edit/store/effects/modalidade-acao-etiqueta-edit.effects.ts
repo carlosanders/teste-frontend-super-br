@@ -2,15 +2,15 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as ModalidadeAcaoEtiquetaEditActions from '../actions/modalidade-acao-etiqueta-edit.actions';
-import * as ModalidadeAcaoEtiquetaListActions from '../../../modalidade-acao-etiqueta-list/store/actions/modalidade-acao-etiqueta-list.actions';
+import * as ModalidadeAcaoEtiquetaListActions
+    from '../../../modalidade-acao-etiqueta-list/store/actions/modalidade-acao-etiqueta-list.actions';
 import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr';
-import {ModalidadeAcaoEtiqueta, Colaborador} from '@cdk/models';
+import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_COMPONENTE_DIGITAL = '[DOCUMENTO REPOSITORIO] SAVE COMPONENTE DIGITAL';
 export const SAVE_COMPONENTE_DIGITAL_SUCCESS = '[DOCUMENTO REPOSITORIO] SAVE COMPONENTE DIGITAL SUCCESS';

@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getModalidadeOrgaoCentralEditAppState, ModalidadeOrgaoCentralEditAppState, ModalidadeOrgaoCentralEditState} from '../reducers';
+import {
+    getModalidadeOrgaoCentralEditAppState,
+    ModalidadeOrgaoCentralEditAppState,
+    ModalidadeOrgaoCentralEditState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ModalidadeOrgaoCentral} from '@cdk/models';
 import {modalidadeOrgaoCentral as modalidadeOrgaoCentralSchema} from '@cdk/normalizr';

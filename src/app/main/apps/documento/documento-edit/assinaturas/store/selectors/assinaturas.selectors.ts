@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {DocumentoEditAssinaturasAppState, getDocumentoEditAssinaturasAppState, AssinaturasState} from '../reducers';
+import {AssinaturasState, DocumentoEditAssinaturasAppState, getDocumentoEditAssinaturasAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {assinatura as schemaAssinatura} from '@cdk/normalizr';

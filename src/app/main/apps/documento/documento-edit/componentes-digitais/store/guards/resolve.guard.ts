@@ -4,12 +4,13 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {DocumentoEditComponentesDigitaisAppState} from '../reducers';
 import * as fromStore from '../';
+import {getComponenteDigitalLoaded} from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getComponenteDigitalLoaded, getComponenteDigitalPagination} from '../';
+
 @Injectable()
 export class ResolveGuard implements CanActivate {
 

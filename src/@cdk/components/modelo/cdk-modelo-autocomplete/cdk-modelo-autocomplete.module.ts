@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModeloService } from '@cdk/services/modelo.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModeloService} from '@cdk/services/modelo.service';
 import {CdkModeloAutocompleteComponent} from './cdk-modelo-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

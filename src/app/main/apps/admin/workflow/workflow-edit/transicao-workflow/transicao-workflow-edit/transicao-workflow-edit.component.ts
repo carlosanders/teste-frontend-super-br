@@ -1,14 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Router} from '@angular/router';
 import {cdkAnimations} from '@cdk/animations';
-import {Pagination, TransicaoWorkflow, Workflow} from '@cdk/models';
-import {LoginService} from '../../../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../../../store';
-import {Back} from '../../../../../../../store';
 
 @Component({
     selector: 'transicao-workflow-edit',

@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {TipoValidacaoWorkflow} from '../models/tipo-validacao-workflow.model';
 
 export class TipoValidacaoWorkflowDataSource extends DataSource<TipoValidacaoWorkflow> {

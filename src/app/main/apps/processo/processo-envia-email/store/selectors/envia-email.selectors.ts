@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getEnviaEmailAppState, EnviaEmailAppState, EnviaEmailState} from '../reducers';
+import {EnviaEmailAppState, EnviaEmailState, getEnviaEmailAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr';

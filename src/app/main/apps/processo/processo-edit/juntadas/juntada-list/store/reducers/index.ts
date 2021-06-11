@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { JuntadaListReducer, JuntadaListState } from './juntada-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {JuntadaListReducer, JuntadaListState} from './juntada-list.reducer';
 
 export interface JuntadaListAppState
 {

@@ -1,23 +1,23 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Atividade} from '@cdk/models';
-import {EspecieAtividade} from '@cdk/models';
-import {Usuario} from '@cdk/models';
+import {Atividade, DocumentoAvulso, EspecieAtividade, Pagination, Setor, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Pagination} from '@cdk/models';
-import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {DocumentoAvulso} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 
 @Component({

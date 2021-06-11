@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const UNDELETE_DOCUMENTO = '[RESTAURAR] UNDELETE DOCUMENTO';
 export const UNDELETE_DOCUMENTO_SUCCESS = '[RESTAURAR] UNDELETE DOCUMENTO SUCCESS';

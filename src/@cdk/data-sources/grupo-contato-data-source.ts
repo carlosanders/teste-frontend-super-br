@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { GrupoContato } from '@cdk/models/grupo-contato.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {GrupoContato} from '@cdk/models/grupo-contato.model';
 
 export class GrupoContatoDataSource extends DataSource<GrupoContato> {
 

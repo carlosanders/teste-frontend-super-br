@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getTipoDocumentoListAppState,
-    TipoDocumentoListAppState,
-    TipoDocumentoListState
-} from '../reducers';
+import {getTipoDocumentoListAppState, TipoDocumentoListAppState, TipoDocumentoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';

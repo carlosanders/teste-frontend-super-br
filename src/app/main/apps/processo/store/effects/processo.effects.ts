@@ -8,14 +8,13 @@ import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Compartilhamento, Processo} from '@cdk/models';
+import {Compartilhamento, Processo, VinculacaoEtiqueta} from '@cdk/models';
 import {
     compartilhamento as acompanhamentoSchema,
-    processo as processoSchema
+    processo as processoSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {VinculacaoEtiqueta} from '@cdk/models';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';

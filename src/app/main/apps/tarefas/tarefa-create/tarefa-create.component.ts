@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -9,22 +10,18 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models';
+import {Colaborador, Pagination, Processo, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import * as fromStoreSidebar from 'app/main/apps/tarefas/store';
-import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
-import {Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Processo} from '@cdk/models';
 import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
-import {getOperacoesState, getRouterState} from '../../../../store';
-import {Back} from '../../../../store';
+import {Back, getOperacoesState, getRouterState} from '../../../../store';
 
 @Component({
     selector: 'tarefa-create',
@@ -187,6 +184,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.isClearForm$.subscribe((limpaForm) => {
             if (limpaForm) {
                 this.isClearForm = true;
+                this.operacoes = [];
             }
         });
     }

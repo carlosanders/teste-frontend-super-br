@@ -1,4 +1,4 @@
-import { ModalidadeOrgaoCentralListEffects } from './modalidade-orgao-central-list.effects';
+import {ModalidadeOrgaoCentralListEffects} from './modalidade-orgao-central-list.effects';
 
 export const effects = [
     ModalidadeOrgaoCentralListEffects

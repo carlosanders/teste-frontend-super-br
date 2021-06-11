@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getValidacaoEditAppState, ValidacaoTransicaoWorkflowEditState, ValidacaoTransicaoWorkflowEditAppState} from '../reducers';
+import {
+    getValidacaoEditAppState,
+    ValidacaoTransicaoWorkflowEditAppState,
+    ValidacaoTransicaoWorkflowEditState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
 import {validacaoTransicaoWorkflow as validacaoSchema} from '@cdk/normalizr';

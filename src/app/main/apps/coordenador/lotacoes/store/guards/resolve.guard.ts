@@ -4,12 +4,11 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {select, Store} from '@ngrx/store';
 
 import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {LotacoesAppState} from '../reducers';
 import * as fromStore from '../';
-import {getHasLoadedUsuario} from '../selectors';
-import {getHasLoadedSetor} from '../selectors';
+import {getHasLoadedSetor, getHasLoadedUsuario} from '../selectors';
 import {getHasLoaded} from '../../../setor/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 

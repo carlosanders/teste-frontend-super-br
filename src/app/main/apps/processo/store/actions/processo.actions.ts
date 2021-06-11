@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_PROCESSO = '[PROCESSO] CREATE PROCESSO';
 export const UNLOAD_PROCESSO = '[PROCESSO] UNLOAD PROCESSO';

@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatDatepickerModule
+    MatProgressSpinnerModule
 } from '@cdk/angular/material';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkEtiquetaFormComponent} from './cdk-etiqueta-form.component';

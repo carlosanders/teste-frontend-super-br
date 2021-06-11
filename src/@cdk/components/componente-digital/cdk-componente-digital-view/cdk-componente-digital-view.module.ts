@@ -1,17 +1,18 @@
 import {NgModule} from '@angular/core';
 import {
     MatButtonModule,
+    MatCheckboxModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatProgressBarModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule,
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkComponenteDigitalViewComponent} from './cdk-componente-digital-view.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkComponenteDigitalViewComponent} from './cdk-componente-digital-view.component';
 import {CdkDocumentoFormModule} from '../../documento/cdk-documento-form/cdk-documento-form.module';
 
 @NgModule({

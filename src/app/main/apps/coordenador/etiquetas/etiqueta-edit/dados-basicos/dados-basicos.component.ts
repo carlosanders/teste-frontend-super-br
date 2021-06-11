@@ -1,25 +1,16 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Etiqueta, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
+import {Etiqueta, ModalidadeOrgaoCentral, Pagination, Setor, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
-import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../store';
-import {Back} from '../../../../../../store';
+import {Back, getRouterState} from '../../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({

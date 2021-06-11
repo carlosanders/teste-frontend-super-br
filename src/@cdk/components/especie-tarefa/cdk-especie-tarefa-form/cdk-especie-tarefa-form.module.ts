@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CdkEspecieTarefaFormComponent } from './cdk-especie-tarefa-form.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CdkEspecieTarefaFormComponent} from './cdk-especie-tarefa-form.component';
 import {CdkSharedModule} from '../../../shared.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -14,7 +14,6 @@ import {CdkEspecieTarefaGridsearchModule} from '../cdk-especie-tarefa-autocomple
 import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkGeneroTarefaGridsearchModule} from '../../genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-gridsearch/cdk-genero-tarefa-gridsearch.module';
-
 
 
 @NgModule({

@@ -1,8 +1,8 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { ResolveEnd, Router } from '@angular/router';
-import { Platform } from '@angular/cdk/platform';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {Inject, Injectable, InjectionToken} from '@angular/core';
+import {ResolveEnd, Router} from '@angular/router';
+import {Platform} from '@angular/cdk/platform';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {filter} from 'rxjs/operators';
 import * as _ from 'lodash';
 
 // Create the injection token for the custom settings

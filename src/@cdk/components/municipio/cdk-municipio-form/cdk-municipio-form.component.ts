@@ -7,7 +7,8 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange, ViewEncapsulation
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
 import {Municipio, Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';

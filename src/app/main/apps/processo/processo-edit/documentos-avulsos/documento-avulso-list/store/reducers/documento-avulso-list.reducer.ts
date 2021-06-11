@@ -1,5 +1,4 @@
 import * as DocumentoAvulsoListActions from '../actions';
-import * as JuntadaListActions from '../../../../juntadas/juntada-list/store/actions';
 import * as _ from 'lodash';
 
 export interface DocumentoAvulsoListState {

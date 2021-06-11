@@ -2,8 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getLotacoesAppState, LotacoesAppState, LotacoesState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Setor, Usuario} from '@cdk/models';
-import {setor as setorSchema} from '@cdk/normalizr';
-import {usuario as usuarioSchema} from '@cdk/normalizr';
+import {setor as setorSchema, usuario as usuarioSchema} from '@cdk/normalizr';
 
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(usuarioSchema);

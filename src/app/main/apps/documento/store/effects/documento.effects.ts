@@ -12,10 +12,13 @@ import * as DocumentoSelectors from '../selectors/documento.selectors';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
-import {template as templateSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    documento as documentoSchema,
+    template as templateSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+} from '@cdk/normalizr';
 import {Assinatura, Documento, Template, VinculacaoEtiqueta} from '@cdk/models';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ModeloService} from '@cdk/services/modelo.service';
@@ -24,7 +27,6 @@ import {environment} from 'environments/environment';
 import {UnloadDocumento} from '../actions';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../../../processo/processo-view/store';
 import {GetDocumentos as GetDocumentosAtividade} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';

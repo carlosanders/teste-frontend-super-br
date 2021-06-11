@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_ESPECIE_SETOR = '[SUPERADMIN ESPECIE SETOR LIST] GET ESPECIE_SETOR';
 export const GET_ESPECIE_SETOR_SUCCESS = '[SUPERADMIN ESPECIE SETOR LIST] GET ESPECIE_SETOR SUCCESS';

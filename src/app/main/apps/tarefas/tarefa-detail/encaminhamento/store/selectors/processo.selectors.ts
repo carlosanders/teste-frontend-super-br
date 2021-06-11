@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getEncaminhamentoAppState, EncaminhamentoAppState, ProcessoState} from '../reducers';
+import {EncaminhamentoAppState, getEncaminhamentoAppState, ProcessoState} from '../reducers';
 
 export const getProcessoState = createSelector(
     getEncaminhamentoAppState,

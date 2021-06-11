@@ -1,4 +1,4 @@
-import { LocalizadorEditEffect } from './localizador-edit.effects';
+import {LocalizadorEditEffect} from './localizador-edit.effects';
 
 export const effects = [
     LocalizadorEditEffect

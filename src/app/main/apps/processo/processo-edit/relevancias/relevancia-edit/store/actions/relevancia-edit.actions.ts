@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_RELEVANCIA = '[RELEVANCIA] CREATE RELEVANCIA';
 export const CREATE_RELEVANCIA_SUCCESS = '[RELEVANCIA] CREATE RELEVANCIA SUCCESS';

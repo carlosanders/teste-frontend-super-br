@@ -1,4 +1,4 @@
-import { OficioDetailEffect } from './oficio-detail.effects';
+import {OficioDetailEffect} from './oficio-detail.effects';
 
 export const effects = [
     OficioDetailEffect

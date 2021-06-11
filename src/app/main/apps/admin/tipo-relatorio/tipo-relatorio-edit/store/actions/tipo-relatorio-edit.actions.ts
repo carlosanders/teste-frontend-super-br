@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TIPO_RELATORIO = '[ADMIN TIPO_RELATORIO EDIT] CREATE TIPO_RELATORIO';
 export const CREATE_TIPO_RELATORIO_SUCCESS = '[ADMIN TIPO_RELATORIO EDIT] CREATE TIPO_RELATORIO SUCCESS';

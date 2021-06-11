@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_CONTATOS = '[CONTATO LIST] GET CONTATOS';
 export const GET_CONTATOS_SUCCESS = '[CONTATO LIST] GET CONTATOS SUCCESS';

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getVinculacaoUsuarioListAppState,
-    VinculacaoUsuarioListAppState,
-    VinculacaoUsuarioListState
-} from '../reducers';
+import {getVinculacaoUsuarioListAppState, VinculacaoUsuarioListAppState, VinculacaoUsuarioListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';

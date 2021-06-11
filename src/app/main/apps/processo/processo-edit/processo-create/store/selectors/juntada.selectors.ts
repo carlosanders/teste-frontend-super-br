@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getDadosBasicosAppState, DadosBasicosAppState, JuntadaState} from '../reducers';
+import {DadosBasicosAppState, getDadosBasicosAppState, JuntadaState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr';

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoEditDadosBasicosReducer, DocumentoEditDadosBasicosState } from './documento-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DocumentoEditDadosBasicosReducer, DocumentoEditDadosBasicosState} from './documento-edit.reducer';
 
 export interface DocumentoEditDadosBasicosAppState
 {

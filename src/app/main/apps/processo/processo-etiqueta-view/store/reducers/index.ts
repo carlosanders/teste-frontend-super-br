@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProcessoEtiquetaViewReducer, ProcessoEtiquetaViewState } from './processo-etiqueta-view.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ProcessoEtiquetaViewReducer, ProcessoEtiquetaViewState} from './processo-etiqueta-view.reducer';
 
 export interface ProcessoEtiquetaViewAppState
 {

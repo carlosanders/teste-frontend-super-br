@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -9,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Pagination, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Pagination, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -19,7 +20,6 @@ import * as fromStoreRelatorio from '../store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Etiqueta} from '@cdk/models';
 
 @Component({
     selector: 'vinculacao-etiqueta-create',

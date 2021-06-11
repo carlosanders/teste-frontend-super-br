@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentosReducer, DocumentosState } from './documentos.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DocumentosReducer, DocumentosState} from './documentos.reducer';
 import {ResponderReducer, ResponderState} from './responder.reducer';
 
 export interface ResponderAppState

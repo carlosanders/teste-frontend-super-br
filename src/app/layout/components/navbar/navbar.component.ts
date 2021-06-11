@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer2, ViewEncapsulation } from '@angular/core';
+import {Component, ElementRef, Input, Renderer2, ViewEncapsulation} from '@angular/core';
 
 @Component({
     selector     : 'navbar',

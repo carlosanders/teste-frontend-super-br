@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {AcaoTransicaoWorkflowEditReducer, AcaoTransicaoWorkflowEditState} from './acao-transicao-workflow-edit.reducer';
 import {TipoAcaoWorkflowReducer, TipoAcaoWorkflowState} from './tipo-acao-transicao-workflow.reducer';
 

@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getVinculacaoProcessoEditAppState, VinculacaoProcessoEditAppState, VinculacaoProcessoEditState} from '../reducers';
+import {
+    getVinculacaoProcessoEditAppState,
+    VinculacaoProcessoEditAppState,
+    VinculacaoProcessoEditState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';

@@ -1,4 +1,5 @@
-import * as RelatorioViewActions from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/actions/relatorio-view.actions';
+import * as RelatorioViewActions
+    from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/actions/relatorio-view.actions';
 
 export interface RelatorioViewState {
     entitiesId: number[];

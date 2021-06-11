@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ModelosEspecieSetorEditReducer, ModelosEspecieSetorEditState } from './modelos-especie-setor-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ModelosEspecieSetorEditReducer, ModelosEspecieSetorEditState} from './modelos-especie-setor-edit.reducer';
 
 export interface ModelosEspecieSetorEditAppState
 {
