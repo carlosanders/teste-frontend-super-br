@@ -133,6 +133,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     form: FormGroup;
 
+    @Input()
+    fromProcesso: boolean = false;
+
     activeCard = 'form';
 
     processos: Processo[] = [];
@@ -715,7 +718,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (changes['tarefa'] && this.tarefa && (!this.tarefa.id || (this.tarefa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.tarefa});
 
-            this.inputProcesso = !!this.tarefa.id;
+            this.inputProcesso = !!this.tarefa.id || this.fromProcesso;
 
             if (this.tarefa.especieTarefa) {
                 this.evento = this.tarefa.especieTarefa.evento;
