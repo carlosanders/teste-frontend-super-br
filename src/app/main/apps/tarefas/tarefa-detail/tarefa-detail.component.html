@@ -38,8 +38,13 @@
             <mat-icon class="black-fg">edit</mat-icon>
         </button>
 
+        <div class="spinner-container m-8" *ngIf="(pluginLoading$ | async)?.length">
+            <mat-spinner diameter="20"></mat-spinner>
+        </div>
+
         <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
                 (click)="$event.stopPropagation()"
+                *ngIf="(pluginLoading$ | async)?.length === 0"
                 fxHide.xs>
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>

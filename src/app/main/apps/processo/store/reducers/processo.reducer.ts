@@ -6,6 +6,7 @@ export interface ProcessoState {
     loaded: any;
     errors: any;
     savingVinculacaoEtiquetaId: number;
+    pluginLoading: string[];
     steps: boolean;
     expandir: boolean;
     acompanhamentoId: number;
@@ -23,6 +24,7 @@ export const ProcessoInitialState: ProcessoState = {
     loaded: false,
     errors: false,
     savingVinculacaoEtiquetaId: null,
+    pluginLoading: [],
     steps: false,
     expandir: false,
     entityId: null,
@@ -198,6 +200,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.SAVE_ACOMPANHAMENTO: {
             return {
                 ...state,
+                loadingAcompanhamento: true,
                 saving: true,
                 errors: false
             };
@@ -208,6 +211,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 ...state,
                 entityId: action.payload.id,
                 saving: false,
+                loadingAcompanhamento: false,
                 errors: false
             };
         }
@@ -216,6 +220,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 saving: false,
+                loadingAcompanhamento: false,
                 errors: action.payload
             };
         }
@@ -223,6 +228,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.DELETE_ACOMPANHAMENTO: {
             return {
                 ...state,
+                loadingAcompanhamento: true,
                 deletingIds: [...state.deletingIds, action.payload]
             };
         }
@@ -230,6 +236,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.DELETE_ACOMPANHAMENTO_SUCCESS: {
             return {
                 ...state,
+                loadingAcompanhamento: false,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload]
             };
@@ -238,23 +245,24 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.DELETE_ACOMPANHAMENTO_FAILED: {
             return {
                 ...state,
+                loadingAcompanhamento: false,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
-        case ProcessoActions.SET_TOGGLE_ACOMPANHAMENTO: {
+
+        case ProcessoActions.ADD_PLUGIN_LOADING: {
             return {
                 ...state,
-                loadingAcompanhamento: action.payload.loadingAcompanhamento
+                pluginLoading: [...state.pluginLoading, action.payload]
             };
         }
 
-        case ProcessoActions.SET_TOGGLE_ACOMPANHAMENTO_SUCCESS: {
+        case ProcessoActions.REMOVE_PLUGIN_LOADING: {
             return {
                 ...state,
-                loadingAcompanhamento: action.payload.loadingAcompanhamento
+                pluginLoading: state.pluginLoading.filter(value => value !== action.payload)
             };
         }
-
 
         default:
             return state;

@@ -33,6 +33,7 @@ export class LoginService {
 
     removeUserProfile(): void {
         localStorage.removeItem('userProfile');
+        this._userProfileSubject.next(null);
     }
 
     setToken(action): void {

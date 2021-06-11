@@ -62,10 +62,6 @@ export class ProcessoEffect {
                     contexto['compartilhamentoUsuario'] = 'processo';
 
                     const populate = action.payload.populate ? [...action.payload.populate] : [];
-                    this._store.dispatch(new ProcessoActions.SetToggleAcompanhamento({
-                        loadingAcompanhamento: true
-                    }));
-
                     return this._processoService.get(
                         action.payload.id,
                         JSON.stringify([
@@ -336,9 +332,6 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.DeleteAcompanhamento>(ProcessoActions.DELETE_ACOMPANHAMENTO),
                 mergeMap((action) => {
-                    this._store.dispatch(new ProcessoActions.SetToggleAcompanhamento({
-                        loadingAcompanhamento: true
-                    }));
                     return this._acompanhamentoService.destroy(action.payload.acompanhamentoId).pipe(
                         mergeMap(response =>
                             [
@@ -348,12 +341,7 @@ export class ProcessoEffect {
                                     parentSchema: processoSchema,
                                     parentId: action.payload.processoId
                                 }),
-                                new ProcessoActions.DeleteAcompanhamentoSuccess(response.id),
-                                new ProcessoActions.SetToggleAcompanhamentoSuccess(
-                                    {
-                                        loadingAcompanhamento: false
-                                    }
-                                ),
+                                new ProcessoActions.DeleteAcompanhamentoSuccess(response.id)
                             ],
                         ),
                         catchError((err) => {

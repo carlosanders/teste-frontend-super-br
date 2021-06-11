@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoProcessos">
+    <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular' && !fromProcesso" formControlName="blocoProcessos">
         Bloco de Processos
     </mat-slide-toggle>
 
@@ -15,7 +15,7 @@
             [control]="form.get('processo')"
             [pagination]="processoPagination">
         </cdk-processo-autocomplete>
-        <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+        <button *ngIf="!inputProcesso" matSuffix mat-button mat-icon-button
                 (click)="showProcessoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
