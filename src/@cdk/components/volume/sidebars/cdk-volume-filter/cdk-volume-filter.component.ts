@@ -114,8 +114,6 @@ export class CdkVolumeFilterComponent {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
-        this.filterCriadoEm = [];
-        this.filterAtualizadoEm = [];
         this.emite();
     }
 

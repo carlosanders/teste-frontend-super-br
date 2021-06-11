@@ -60,23 +60,8 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
             fixed: false
         },
         {
-            id: 'origemDados',
-            label: 'Origem dos Dados',
-            fixed: false
-        },
-        {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
             id: 'assinadoPor',
             label: 'Assinado Por',
-            fixed: false
-        },
-        {
-            id: 'criadoEm',
-            label: 'Criado Em',
             fixed: false
         },
         {
@@ -311,6 +296,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCreate(): void {
         this.create.emit();
+        
     }
 
     getProp(obj, prop) {
