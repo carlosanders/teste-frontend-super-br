@@ -1,28 +1,28 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
     Input,
+    OnChanges,
+    OnInit,
     Output,
-    ViewChild,
-    ViewEncapsulation,
     SimpleChange,
-    ChangeDetectorRef, OnInit, OnChanges
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {
+    MatAutocomplete,
     MatAutocompleteSelectedEvent,
     MatChipInputEvent,
-    MatAutocomplete,
     MatDialog,
     MatDialogRef
 } from '@cdk/angular/material';
 import {cdkAnimations} from '@cdk/animations';
-import {Etiqueta} from '@cdk/models';
-import {VinculacaoEtiqueta} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {Etiqueta, Pagination, VinculacaoEtiqueta} from '@cdk/models';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
 import {CdkUtils} from '../../../utils';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';

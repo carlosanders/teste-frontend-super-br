@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoCapaActions from '../actions';
@@ -10,11 +10,13 @@ import * as ProcessoCapaActions from '../actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
 import {Assunto, Compartilhamento, Interessado, Processo, Usuario, VinculacaoProcesso} from '@cdk/models';
-import {compartilhamento as acompanhamentoSchema, processo as processoSchema} from '@cdk/normalizr';
-
-import {assunto as assuntoSchema} from '@cdk/normalizr';
-import {interessado as interessadoSchema} from '@cdk/normalizr';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
+import {
+    assunto as assuntoSchema,
+    compartilhamento as acompanhamentoSchema,
+    interessado as interessadoSchema,
+    processo as processoSchema,
+    vinculacaoProcesso as vinculacaoProcessoSchema
+} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';

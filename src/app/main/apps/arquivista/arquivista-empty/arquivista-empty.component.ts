@@ -1,8 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 
 import * as fromStore from 'app/store';
 import {cdkAnimations} from '@cdk/animations';

@@ -1,8 +1,12 @@
-import { createSelector } from '@ngrx/store';
-import { getArquivistaAppState, ArquivistaAppState, ArquivistaState } from 'app/main/apps/arquivista/arquivista-list/store/reducers';
+import {createSelector} from '@ngrx/store';
+import {
+    ArquivistaAppState,
+    ArquivistaState,
+    getArquivistaAppState
+} from 'app/main/apps/arquivista/arquivista-list/store/reducers';
 
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { processo as processoSchema } from '@cdk/normalizr';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {Processo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);

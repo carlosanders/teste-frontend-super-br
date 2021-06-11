@@ -1,4 +1,4 @@
-import { DocumentoCopiaCreateBlocoEffect } from './documento-copia-create-bloco.effects';
+import {DocumentoCopiaCreateBlocoEffect} from './documento-copia-create-bloco.effects';
 
 export const effects = [
     DocumentoCopiaCreateBlocoEffect

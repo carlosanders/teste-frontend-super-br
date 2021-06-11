@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RelacionamentoListReducer, RelacionamentoListState } from './relacionamento-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RelacionamentoListReducer, RelacionamentoListState} from './relacionamento-list.reducer';
 
 export interface RelacionamentoListAppState
 {

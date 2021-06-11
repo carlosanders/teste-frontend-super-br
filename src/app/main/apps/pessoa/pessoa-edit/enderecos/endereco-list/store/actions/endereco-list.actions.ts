@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_ENDERECOS = '[ENDERECO LIST] GET ENDERECOS';
 export const GET_ENDERECOS_SUCCESS = '[ENDERECO LIST] GET ENDERECOS SUCCESS';

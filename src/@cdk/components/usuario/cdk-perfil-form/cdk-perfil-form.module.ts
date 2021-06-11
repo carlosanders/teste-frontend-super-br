@@ -1,23 +1,23 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
-    MatExpansionModule, MatSlideToggleModule
-
+    MatProgressSpinnerModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeColaboradorService } from '@cdk/services/modalidade-colaborador.service';
-import { CdkPerfilFormComponent } from './cdk-perfil-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeColaboradorService} from '@cdk/services/modalidade-colaborador.service';
+import {CdkPerfilFormComponent} from './cdk-perfil-form.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {PipesModule} from "../../../pipes/pipes.module";
 
 @NgModule({
     declarations: [
@@ -36,6 +36,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         MatDatetimepickerModule,
         MatNativeDatetimeModule,
         MatExpansionModule,
+        PipesModule,
 
         CdkSharedModule,
         NgxUpperCaseDirectiveModule,

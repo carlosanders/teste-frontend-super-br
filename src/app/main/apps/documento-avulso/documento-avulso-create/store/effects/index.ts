@@ -1,4 +1,4 @@
-import { DocumentoAvulsoCreateEffect } from './documento-avulso-create.effects';
+import {DocumentoAvulsoCreateEffect} from './documento-avulso-create.effects';
 
 export const effects = [
     DocumentoAvulsoCreateEffect

@@ -4,8 +4,7 @@ import {CdkCriarLembreteChipsComponent} from './cdk-criar-lembrete-chips.compone
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatChipsModule} from '@cdk/angular/material';
-import {MatIconModule} from '@cdk/angular/material';
+import {MatChipsModule, MatIconModule} from '@cdk/angular/material';
 import {CdkLembreteAutocompleteModule} from '../cdk-lembrete-autocomplete/cdk-lembrete-autocomplete.module';
 import {CdkSharedModule} from '../../../shared.module';
 import {LembreteService} from '../../../services/lembrete.service';

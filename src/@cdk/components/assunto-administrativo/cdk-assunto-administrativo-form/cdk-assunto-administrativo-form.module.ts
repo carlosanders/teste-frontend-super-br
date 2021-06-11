@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CdkAssuntoAdministrativoFormComponent } from './cdk-assunto-administrativo-form.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CdkAssuntoAdministrativoFormComponent} from './cdk-assunto-administrativo-form.component';
 import {CdkSharedModule} from '../../../shared.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -15,7 +15,6 @@ import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkAssuntoAdministrativoGridsearchModule} from '../cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-gridsearch/cdk-assunto-administrativo-gridsearch.module';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '../cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
-
 
 
 @NgModule({

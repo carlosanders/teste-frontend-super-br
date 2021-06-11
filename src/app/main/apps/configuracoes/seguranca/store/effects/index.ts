@@ -1,4 +1,4 @@
-import { SegurancaEffect } from './seguranca.effects';
+import {SegurancaEffect} from './seguranca.effects';
 
 export const effects = [
     SegurancaEffect

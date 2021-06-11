@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap, withLatestFrom, map} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
-import * as InteressadoEditActions from 'app/main/apps/processo/processo-edit/interessados/interessado-edit/store/actions/interessado-edit.actions';
-import * as InteressadoListActions from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions/interessado-list.actions';
+import * as InteressadoEditActions
+    from 'app/main/apps/processo/processo-edit/interessados/interessado-edit/store/actions/interessado-edit.actions';
+import * as InteressadoListActions
+    from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions/interessado-list.actions';
 
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {AddData} from '@cdk/ngrx-normalizr';

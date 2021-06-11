@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_ESPECIE_SETOR = '[ADMIN ESPECIE_SETOR EDIT] CREATE ESPECIE_SETOR';
 export const CREATE_ESPECIE_SETOR_SUCCESS = '[ADMIN ESPECIE_SETOR EDIT] CREATE ESPECIE_SETOR SUCCESS';

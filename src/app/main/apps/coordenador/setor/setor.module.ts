@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -68,6 +68,10 @@ const routes: Routes = [
             {
                 path       : 'numeros-unicos-documentos',
                 loadChildren: () => import('../numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
+            },
+            {
+                path       : 'avisos',
+                loadChildren: () => import('../avisos/aviso.module').then(m => m.AvisoModule),
             },
             {
                 path: '**',

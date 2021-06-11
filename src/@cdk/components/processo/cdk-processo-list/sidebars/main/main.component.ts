@@ -7,12 +7,11 @@ import {
     Output,
     ViewEncapsulation
 } from '@angular/core';
-import { cdkAnimations } from '@cdk/animations';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {cdkAnimations} from '@cdk/animations';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MAT_LABEL_GLOBAL_OPTIONS} from '@angular/material/core';
-import {map, startWith} from 'rxjs/operators';
-import {Interessado, Pagination, Processo} from '../../../../../models';
+import {Pagination} from '../../../../../models';
 
 @Component({
     selector   : 'cdk-processo-list-filter',

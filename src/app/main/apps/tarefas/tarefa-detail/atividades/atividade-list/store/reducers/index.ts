@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AtividadeListReducer, AtividadeListState } from './atividade-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AtividadeListReducer, AtividadeListState} from './atividade-list.reducer';
 
 export interface AtividadeListAppState
 {

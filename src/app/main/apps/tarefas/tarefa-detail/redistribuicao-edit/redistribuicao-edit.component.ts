@@ -1,15 +1,9 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models';
+import {Colaborador, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
@@ -18,10 +12,9 @@ import {
     RedistribuirTarefaCancel,
     RedistribuirTarefaFlush
 } from 'app/main/apps/tarefas/tarefa-detail/store';
-import {filter, skip, take, takeUntil, tap} from 'rxjs/operators';
+import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Colaborador} from '@cdk/models';
-import {getOperacoesState, getRouterState} from '../../../../../store';
+import {Back, getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {CdkUtils} from '@cdk/utils';
@@ -29,7 +22,6 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
-import {Back} from '../../../../../store';
 
 @Component({
     selector: 'redistribuicao-edit',

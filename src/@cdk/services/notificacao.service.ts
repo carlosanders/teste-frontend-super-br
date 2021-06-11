@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Notificacao} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
+import {classToPlain, plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {ParentGenericService} from './parent-generic.service';
 
@@ -34,12 +34,22 @@ export class NotificacaoService extends ParentGenericService<Notificacao> {
         );
     }
 
-    marcarTodas(context: any = '{}') {
+    marcarTodas(context: any = '{}'): any {
         const params = {};
         params['context'] = context;
 
         return this.http.patch(
             `${environment.api_url}${'administrativo/notificacao'}/marcar_todas` + environment.xdebug,
+            params
+        );
+    }
+
+    excluirTodas(context: any = '{}'): any {
+        const params = {};
+        params['context'] = context;
+
+        return this.http.patch(
+            `${environment.api_url}${'administrativo/notificacao'}/excluir_todas` + environment.xdebug,
             params
         );
     }

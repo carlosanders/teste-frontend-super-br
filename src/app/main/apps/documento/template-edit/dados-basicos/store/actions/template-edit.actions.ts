@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TEMPLATE = '[DOCUMENTO EDIT TEMPLATE] GET TEMPLATE';
 export const GET_TEMPLATE_SUCCESS = '[DOCUMENTO EDIT TEMPLATE] GET TEMPLATE SUCCESS';

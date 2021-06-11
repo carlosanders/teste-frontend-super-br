@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {of, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, switchMap, takeUntil} from 'rxjs/operators';
 import {CdkConfigService} from '@cdk/services/config.service';
-import {Pagination, Processo} from '../../models';
+import {Pagination} from '../../models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkChaveAcessoPluginComponent} from '../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 import {LoginService} from '../../../app/main/auth/login/login.service';

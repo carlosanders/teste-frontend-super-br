@@ -1,4 +1,4 @@
-import { DocumentosVinculadosEffects } from './documentos-vinculados.effects';
+import {DocumentosVinculadosEffects} from './documentos-vinculados.effects';
 
 export const effects = [
     DocumentosVinculadosEffects

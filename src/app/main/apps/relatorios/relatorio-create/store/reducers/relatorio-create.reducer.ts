@@ -1,4 +1,5 @@
-import * as RelatorioCreateActions from 'app/main/apps/relatorios/relatorio-create/store/actions/relatorio-create.actions';
+import * as RelatorioCreateActions
+    from 'app/main/apps/relatorios/relatorio-create/store/actions/relatorio-create.actions';
 
 export interface RelatorioCreateState {
     saving: boolean;

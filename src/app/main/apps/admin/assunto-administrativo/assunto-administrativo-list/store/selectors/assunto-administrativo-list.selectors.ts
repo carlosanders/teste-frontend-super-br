@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getAssuntoAdministrativoListAppState,
     AssuntoAdministrativoListAppState,
-    AssuntoAdministrativoListState
+    AssuntoAdministrativoListState,
+    getAssuntoAdministrativoListAppState
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

@@ -1,4 +1,4 @@
-import { CoordenadorSetorEffects } from './setor.effects';
+import {CoordenadorSetorEffects} from './setor.effects';
 
 export const effects = [
     CoordenadorSetorEffects

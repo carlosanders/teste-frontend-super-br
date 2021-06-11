@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_REPOSITORIOS = '[DOCUMENTO EDIT] GET REPOSITORIOS';
 export const GET_REPOSITORIOS_SUCCESS = '[DOCUMENTO EDIT] GET REPOSITORIOS SUCCESS';

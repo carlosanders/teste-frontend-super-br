@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_PROCESSO = '[PROTOCOLO CREATE] CREATE PROCESSO';
 export const CREATE_PROCESSO_SUCCESS = '[PROTOCOLO CREATE] CREATE PROCESSO SUCCESS';

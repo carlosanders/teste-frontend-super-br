@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { OrigemDados } from '../models/origem-dados.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {OrigemDados} from '../models/origem-dados.model';
 
 export class OrigemDadosDataSource extends DataSource<OrigemDados> {
 

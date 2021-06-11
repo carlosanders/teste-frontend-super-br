@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getDadosPessoaEditAppState, DadosPessoaEditAppState, DadosPessoaEditState} from '../reducers';
+import {DadosPessoaEditAppState, DadosPessoaEditState, getDadosPessoaEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Pessoa} from '@cdk/models';
 import {pessoa as pessoaSchema} from '@cdk/normalizr';

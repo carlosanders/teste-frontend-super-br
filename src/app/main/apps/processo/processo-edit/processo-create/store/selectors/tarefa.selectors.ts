@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getDadosBasicosAppState, DadosBasicosAppState, TarefaState} from '../reducers';
+import {DadosBasicosAppState, getDadosBasicosAppState, TarefaState} from '../reducers';
 
 export const getTarefaState = createSelector(
     getDadosBasicosAppState,

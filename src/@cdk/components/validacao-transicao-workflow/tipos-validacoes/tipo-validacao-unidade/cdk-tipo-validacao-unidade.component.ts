@@ -1,9 +1,14 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -11,8 +16,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
 import {Pagination, Setor} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-tipo-validacao-unidade',
@@ -39,9 +44,6 @@ export class CdkTipoValidacaoUnidadeComponent implements OnInit, OnChanges, OnDe
     @Output()
     abort = new EventEmitter<any>();
 
-    form: FormGroup;
-
-
     @Input()
     unidadeRecebidoPagination: Pagination;
 
@@ -51,7 +53,11 @@ export class CdkTipoValidacaoUnidadeComponent implements OnInit, OnChanges, OnDe
     @Input()
     setorOrigemPagination: Pagination;
 
+    form: FormGroup;
+
     activeCard = 'form';
+
+    selected = false;
 
     /**
      * Constructor
@@ -69,9 +75,6 @@ export class CdkTipoValidacaoUnidadeComponent implements OnInit, OnChanges, OnDe
             descricao: ['descricao', [Validators.required]]
         });
 
-        this.setorRecebidoPagination = new Pagination();
-        this.setorRecebidoPagination.filter = {parent: 'isNotNull'};
-        this.setorOrigemPagination = new Pagination();
         this.unidadeRecebidoPagination = new Pagination();
         this.unidadeRecebidoPagination.filter = {parent: 'isNull'};
     }
@@ -84,7 +87,24 @@ export class CdkTipoValidacaoUnidadeComponent implements OnInit, OnChanges, OnDe
      * On change
      */
     ngOnInit(): void {
+        if (this.form.get('unidade').value) {
+            this.selected = true;
+        }
 
+        this.form.get('unidade').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.selected = false;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**

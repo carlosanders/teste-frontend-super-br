@@ -13,6 +13,9 @@
                 <span>PROCESSO {{documentoAvulso.processo?.NUP | formatNup}}</span>
             </div>
 
+            <mat-icon (click)="copiarParaAreaTrabalho(documentoAvulso.processo?.NUP); $event.stopPropagation();">file_copy
+            </mat-icon>
+
             <div class="subtitle">
                 <span>{{documentoAvulso.processo?.modalidadeMeio?.valor }}
                     {{documentoAvulso.processo?.especieProcesso?.nome }}</span>

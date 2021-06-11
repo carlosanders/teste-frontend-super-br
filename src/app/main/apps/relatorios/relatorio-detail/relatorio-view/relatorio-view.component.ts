@@ -21,7 +21,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
 import {getRouterState} from '../../../../../store/reducers';
 

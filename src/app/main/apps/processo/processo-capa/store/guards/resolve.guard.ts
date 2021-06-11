@@ -4,13 +4,18 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {select, Store} from '@ngrx/store';
 
 import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {ProcessoCapaAppState} from '../reducers';
 import * as fromStore from '../index';
+import {
+    getAcompanhamentoProcessoLoaded,
+    getAssuntosLoaded,
+    getInteressadosLoaded,
+    getVinculacoesProcessosLoaded
+} from '../index';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getAcompanhamentoProcessoLoaded,getAssuntosLoaded,getInteressadosLoaded,getVinculacoesProcessosLoaded} from '../index';
 import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../../../auth/login/login.service';
 

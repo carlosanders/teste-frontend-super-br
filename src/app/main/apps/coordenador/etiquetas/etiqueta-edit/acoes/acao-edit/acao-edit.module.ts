@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
     MatRadioModule,
     MatTooltipModule
 } from '@cdk/angular/material';
@@ -24,6 +24,11 @@ import {PathModule} from '@cdk/components/path/path.module';
 import {CommonModule} from '@angular/common';
 import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
+import {MatSelectModule} from '@angular/material/select';
+import {CdkAcaoTrigger001Module} from '@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-001/cdk-acao-trigger-001.module';
+import {CdkAcaoTrigger002Module} from '@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-002/cdk-acao-trigger-002.module';
+import {CdkAcaoTrigger003Module} from '@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-003/cdk-acao-trigger-003.module';
+import {CdkAcaoTrigger004Module} from '@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-004/cdk-acao-trigger-004.module';
 
 const routes: Routes = [
     {
@@ -32,24 +37,8 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
-                path: '1',
-                loadChildren: () => import('./acao-trigger/acao-trigger-001/acao-trigger-001.module')
-                    .then(m => m.AcaoTrigger001Module),
-            },
-            {
-                path: '2',
-                loadChildren: () => import('./acao-trigger/acao-trigger-002/acao-trigger-002.module')
-                    .then(m => m.AcaoTrigger002Module),
-            },
-            {
-                path: '3',
-                loadChildren: () => import('./acao-trigger/acao-trigger-003/acao-trigger-003.module')
-                    .then(m => m.AcaoTrigger003Module),
-            },
-            {
-                path: '4',
-                loadChildren: () => import('./acao-trigger/acao-trigger-004/acao-trigger-004.module')
-                    .then(m => m.AcaoTrigger004Module),
+                path       : 'pessoa',
+                loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
             }
         ]
     }
@@ -87,6 +76,11 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         PathModule,
+        MatSelectModule,
+        CdkAcaoTrigger001Module,
+        CdkAcaoTrigger002Module,
+        CdkAcaoTrigger003Module,
+        CdkAcaoTrigger004Module,
     ],
     providers: [
         AcaoService,

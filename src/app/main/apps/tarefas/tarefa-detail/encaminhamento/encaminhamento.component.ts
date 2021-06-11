@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -94,10 +95,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
         if (values.options === 'criar_tarefa') {
-            this._router.navigate([
-                this.routerState.url.split('/encaminhamento')[0] + '/criar/' + this.tarefa.processo.id
-            ]).then();
-
+            this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id]).then();
         }
         if (values.options === 'arquivar') {
             this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {

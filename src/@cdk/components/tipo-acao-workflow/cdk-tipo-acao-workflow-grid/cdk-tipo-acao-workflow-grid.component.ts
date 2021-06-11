@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -123,7 +123,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -229,7 +229,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
 
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-acao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

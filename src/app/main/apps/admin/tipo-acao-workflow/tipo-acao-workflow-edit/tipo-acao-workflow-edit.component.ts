@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {TipoAcaoWorkflow, Pagination} from '@cdk/models';
+import {TipoAcaoWorkflow} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';

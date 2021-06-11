@@ -2,30 +2,15 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {WorkflowEditComponent} from './workflow-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-import {
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatTooltipModule
-} from '@cdk/angular/material';
+import {MatButtonModule, MatIconModule, MatRippleModule,} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-import {MatStepperModule} from '@angular/material/stepper';
+
 import * as fromGuards from './store/guards';
-import {ResolveGuard} from './store/guards';
 import {WorkflowEditStoreModule} from './store/store.module';
+
 import {WorkflowService} from '@cdk/services/workflow.service';
-import {CdkWorkflowFormModule} from '@cdk/components/workflow/cdk-workflow-form/cdk-workflow-form.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
 
@@ -33,7 +18,33 @@ const routes: Routes = [
     {
         path: ':workflowHandle',
         component: WorkflowEditComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard],
+        children: [
+            {
+                path: 'dados-basicos',
+                loadChildren: () => import('./dados-basicos/workflow-dados-basicos.module')
+                    .then(m => m.WorkflowDadosBasicosModule)
+            },
+            {
+                path: 'transicoes',
+                loadChildren: () => import('./transicao-workflow/transicao-workflow.module')
+                    .then(m => m.TransicaoWorkflowModule)
+            },
+            {
+                path: 'especies-processo',
+                loadChildren: () => import('./especies-processo/especies-processo.module')
+                    .then(m => m.EspeciesProcessoModule)
+            },
+            {
+                path: 'visualizar',
+                loadChildren: () => import('./workflow-view/workflow-view.module')
+                    .then(m => m.WorkflowViewModule),
+            },
+            {
+                path: '**',
+                redirectTo: 'dados-basicos'
+            }
+        ]
     }
 ];
 
@@ -51,33 +62,19 @@ modulesConfig.forEach((module) => {
         CommonModule,
         RouterModule.forChild(routes),
 
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
         MatRippleModule,
-        MatSelectModule,
-        MatToolbarModule,
-        MatAutocompleteModule,
-        MatProgressSpinnerModule,
-        MatDatepickerModule,
-        MatTooltipModule,
-
+        MatIconModule,
+        MatButtonModule,
 
         TranslateModule,
+        WorkflowEditStoreModule,
 
         CdkSharedModule,
         CdkSidebarModule,
-        MatStepperModule,
-        WorkflowEditStoreModule,
-        CdkWorkflowFormModule,
         PathModule
-
     ],
     providers: [
-        ResolveGuard,
+        fromGuards.ResolveGuard,
         WorkflowService,
     ]
 })

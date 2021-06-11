@@ -12,7 +12,6 @@ import {UpdateData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ComponenteDigitalEffect {

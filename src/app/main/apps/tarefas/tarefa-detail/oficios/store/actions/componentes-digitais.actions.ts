@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_COMPONENTE_DIGITAL = '[TAREFA DETAIL OFICIOS] CREATE COMPONENTE DIGITAL';
 export const CREATE_COMPONENTE_DIGITAL_SUCCESS = '[TAREFA DETAIL OFICIOS] CREATE COMPONENTE DIGITAL SUCCESS';

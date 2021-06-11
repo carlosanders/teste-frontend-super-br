@@ -9,8 +9,8 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { UsuarioService } from '@cdk/services/usuario.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkAcompanhamentoFilterComponent} from './cdk-acompanhamento-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';

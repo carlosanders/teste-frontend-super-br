@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getCargoEditAppState, CargoEditAppState, CargoEditState} from '../reducers';
+import {CargoEditAppState, CargoEditState, getCargoEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Cargo} from '@cdk/models';
 import {cargo as cargoSchema} from '@cdk/normalizr';

@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {CompartilhamentoListAppState} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';

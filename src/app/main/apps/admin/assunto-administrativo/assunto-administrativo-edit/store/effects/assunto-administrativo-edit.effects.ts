@@ -5,7 +5,8 @@ import {Observable} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as AssuntoAdministrativoEditActions from '../actions/assunto-administrativo-edit.actions';
-import * as AssuntoAdministrativoListActions from '../../../assunto-administrativo-list/store/actions/assunto-administrativo-list.actions';
+import * as AssuntoAdministrativoListActions
+    from '../../../assunto-administrativo-list/store/actions/assunto-administrativo-list.actions';
 
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {AddData} from '@cdk/ngrx-normalizr';

@@ -1,21 +1,4 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
-
-    <div *ngIf="this.processo?.id && this.processo?.origemDados">
-        <mat-card *showIfRole="'ROLE_COLABORADOR'">
-            <mat-card-subtitle>Integração</mat-card-subtitle>
-            <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>
-            <div>ÚLTIMA
-                SINCRONIZAÇÃO:
-                {{this.processo?.origemDados.dataHoraUltimaConsulta?.toDate() | date: 'dd/MM/yyyy HH:mm'}}</div>
-            <div *ngIf="this.processo?.origemDados.status === 1">STATUS: SUCESSO</div>
-            <div *ngIf="this.processo?.origemDados.status >= 2">STATUS: ERRO!</div>
-            <div *ngIf="this.processo?.origemDados.status === 0" class="spinner-wrapper">
-                <span>STATUS: </span>
-                <mat-spinner diameter="14"></mat-spinner>
-            </div>
-        </mat-card>
-    </div>
-
     <mat-card *showIfRole="'ROLE_COLABORADOR'">
 
         <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>

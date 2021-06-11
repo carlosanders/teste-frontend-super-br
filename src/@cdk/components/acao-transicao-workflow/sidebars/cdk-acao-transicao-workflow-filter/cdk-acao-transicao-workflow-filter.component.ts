@@ -86,7 +86,7 @@ export class CdkAcaoTransicaoWorkflowFilterComponent {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-acao-transicao-workflow-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-acao-transicao-workflow-edit-filter').close();
     }
 
     filtraCriadoEm(value: any): void {

@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatTooltipModule,
-    MatDatepickerModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';

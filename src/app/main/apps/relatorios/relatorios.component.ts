@@ -2,9 +2,11 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ElementRef,
+    Component,
+    ElementRef,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
@@ -17,22 +19,19 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 import {Relatorio} from '@cdk/models/relatorio.model';
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import * as fromStore from 'app/main/apps/relatorios/store';
+import {LoadRelatorioSuccess, ToggleMaximizado} from 'app/main/apps/relatorios/store';
 
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/relatorios/i18n/en';
 
-import {Folder} from '@cdk/models';
+import {Etiqueta, Folder, Pagination, Usuario} from '@cdk/models';
 
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
-import {LoadRelatorioSuccess, ToggleMaximizado} from 'app/main/apps/relatorios/store';
-import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'relatorios',

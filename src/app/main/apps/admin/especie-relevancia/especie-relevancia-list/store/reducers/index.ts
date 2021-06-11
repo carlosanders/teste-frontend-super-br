@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {EspecieRelevanciaListReducer, EspecieRelevanciaListState} from './especie-relevancia-list.reducer';
 
 export interface EspecieRelevanciaListAppState

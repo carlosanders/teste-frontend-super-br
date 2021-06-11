@@ -1,12 +1,15 @@
 import {NgModule} from '@angular/core';
 import {
-    MatButtonModule, MatFormFieldModule,
-    MatIconModule, MatProgressSpinnerModule, MatRadioModule
-
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatRadioModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkEncaminhamentoFormComponent } from './cdk-encaminhamento-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkEncaminhamentoFormComponent} from './cdk-encaminhamento-form.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
     declarations: [
@@ -20,6 +23,7 @@ import { CdkEncaminhamentoFormComponent } from './cdk-encaminhamento-form.compon
         MatIconModule,
         CdkSharedModule,
         MatRadioModule,
+        MatCardModule,
     ],
     providers: [
 

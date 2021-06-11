@@ -1,4 +1,4 @@
-import { ActivateEffects } from './activate.effects';
+import {ActivateEffects} from './activate.effects';
 
 export const effects = [
     ActivateEffects

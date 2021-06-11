@@ -1,12 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
-import { Pais } from '@cdk/models';
-import { ModalidadeGeneroPessoa } from '@cdk/models';
-import { Municipio } from '@cdk/models';
-import { ModalidadeQualificacaoPessoa } from '@cdk/models';
-import { OrigemDados } from '@cdk/models';
+import {ModalidadeGeneroPessoa, ModalidadeQualificacaoPessoa, Municipio, OrigemDados, Pais, Usuario} from '@cdk/models';
 
 export class Pessoa {
 

@@ -1,5 +1,15 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
+    <ng-container>
+        <div class="image-box-perfil">
+            <img class="img-perfil" [src]="usuario.imgPerfil.conteudo|safeResourceUrl" *ngIf="!!usuario.imgPerfil?.id === true">
+            <img class="img-perfil" src="assets/images/avatars/User.png" *ngIf="!!usuario.imgPerfil?.id === false">
+            <button mat-icon-button (click)="doUploadImagemPerfil()" [ngSwitch]="!!usuario.imgPerfil">
+                <mat-icon *ngSwitchCase="true">mode_edit</mat-icon>
+                <mat-icon *ngSwitchCase="false">photo</mat-icon>
+            </button>
+        </div>
+    </ng-container>
     <mat-form-field>
         <mat-label>CPF</mat-label>
         <input matInput #username
@@ -57,6 +67,28 @@
             {{form.get('assinaturaHTML').errors.formError}}
         </mat-error>
     </mat-form-field>
+
+    <ng-container>
+        <span class="secondary-text">
+            Chancela
+        </span>
+        <div class="chancela">
+            <div class="image-box-chancela" *ngIf="!!usuario.imgChancela?.id === true">
+                <img class="img-chancela" [src]="usuario.imgChancela.conteudo|safeResourceUrl" >
+                <button mat-icon-button (click)="doUploadImagemChancela()">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+            </div>
+            <div class="img-chancela-empty"
+                 (click)="doUploadImagemChancela()"
+                 *ngIf="!!usuario.imgChancela?.id === false">
+                <span>
+                    Clique para adicionar uma imagem de chancela...
+                </span>
+            </div>
+
+        </div>
+    </ng-container>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

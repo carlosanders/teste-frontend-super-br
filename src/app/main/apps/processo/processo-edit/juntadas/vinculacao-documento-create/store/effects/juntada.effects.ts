@@ -11,7 +11,7 @@ import * as VinculacaoDocumentoCreateActions from '../actions';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada, VinculacaoDocumento} from '@cdk/models';
-import {vinculacaoDocumento as vinculacaoDocumentoSchema, juntada as juntadaSchema} from '@cdk/normalizr';
+import {juntada as juntadaSchema, vinculacaoDocumento as vinculacaoDocumentoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as JuntadaListActions from '../../../juntada-list/store/actions/juntada-list.actions';

@@ -1,5 +1,4 @@
 import * as EtiquetaActions from '../actions/etiqueta.actions';
-import {Etiqueta} from '@cdk/models';
 
 export interface EtiquetaState {
     etiquetaId: number;

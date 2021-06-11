@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SET_PROCESSO = '[DADOS BASICOS] SET PROCESSO';
 export const GET_PROCESSO = '[DADOS BASICOS] GET PROCESSO';

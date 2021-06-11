@@ -1,4 +1,4 @@
-import { DocumentoAvulsoCreateBlocoEffect } from './documento-avulso-create-bloco.effects';
+import {DocumentoAvulsoCreateBlocoEffect} from './documento-avulso-create-bloco.effects';
 
 export const effects = [
     DocumentoAvulsoCreateBlocoEffect

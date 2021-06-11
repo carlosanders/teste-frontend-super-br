@@ -1,20 +1,22 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Lotacao, Tarefa} from '@cdk/models';
-import {Usuario} from '@cdk/models';
+import {Colaborador, Lotacao, Pagination, Setor, Tarefa, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
@@ -65,11 +67,16 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
     @Input()
     valid = true;
 
+    @Input()
+    form: FormGroup;
+
     @Output()
     save = new EventEmitter<Tarefa>();
 
     @Output()
     abort = new EventEmitter<any>();
+
+    selected = false;
 
     usuarioResponsavelList: Usuario[] = [];
 
@@ -89,8 +96,6 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
 
     _profile: Colaborador;
 
-    @Input()
-    form: FormGroup;
     activeCard = 'form';
 
     /**
@@ -158,7 +163,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                         // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                         if (this.form.get('setorResponsavel').value.apenasDistribuidor) {
                             const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id);
-                            if(lotacoes.length === 0) {
+                            if (lotacoes.length === 0) {
                                 this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = this.form.get('setorResponsavel').value.id;
                             }
                         }
@@ -171,10 +176,10 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
         ).subscribe();
 
         this.form.get('unidadeResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value && typeof value === 'object') {
+                        this.selected = true;
                         this.form.get('setorResponsavel').enable();
                         this.form.get('setorResponsavel').reset();
                         this.form.get('usuarioResponsavel').reset();
@@ -197,6 +202,8 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                         }
 
                         this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.selected = false;
                     }
                     return of([]);
                 }
@@ -204,12 +211,16 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
         ).subscribe();
 
         this.form.get('setorResponsavel').valueChanges.pipe(
-            debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
                     delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
 
+                    if (value && typeof value === 'object' && this.form.get('distribuicaoAutomatica').value) {
+                        this.selected = true;
+                    }
+
                     if (value && typeof value === 'object' && !this.form.get('distribuicaoAutomatica').value) {
+                        this.selected = false;
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
@@ -218,7 +229,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor) {
                         const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id);
-                        if(lotacoes.length === 0) {
+                        if (lotacoes.length === 0) {
                             this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
                         }
                     }
@@ -229,6 +240,12 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                 }
             )
         ).subscribe();
+
+        this.form.get('usuarioResponsavel').valueChanges
+            .subscribe(((value) => {
+                this.selected = value && typeof value === 'object';
+            }
+        ));
     }
 
     /**

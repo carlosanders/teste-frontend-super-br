@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import {Injectable} from '@angular/core';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import { Observable, of } from 'rxjs';
+import {Observable} from 'rxjs';
 import {catchError, exhaustMap, mergeMap} from 'rxjs/operators';
 
 import * as FoldersActions from 'app/main/apps/relatorios/store/actions/folders.actions';
-import { FolderService } from '@cdk/services/folder.service';
-import { LoginService } from 'app/main/auth/login/login.service';
+import {FolderService} from '@cdk/services/folder.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {folder as folderSchema} from '@cdk/normalizr';
-import {Folder} from '@cdk/models';
+import {Folder, Usuario} from '@cdk/models';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Store} from '@ngrx/store';
 import {FoldersState} from '../reducers';
-import {Usuario} from '@cdk/models';
 
 @Injectable()
 export class FoldersEffect

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getCoordenadoresListAppState,
-    CoordenadoresListAppState,
-    CoordenadoresListState
-} from '../reducers';
+import {CoordenadoresListAppState, CoordenadoresListState, getCoordenadoresListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {coordenador as coordenadoreschema} from '@cdk/normalizr';

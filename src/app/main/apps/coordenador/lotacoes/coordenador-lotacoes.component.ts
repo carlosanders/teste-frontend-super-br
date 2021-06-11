@@ -1,6 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, OnDestroy, OnInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -11,8 +14,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {Setor, Usuario} from '@cdk/models';
-import {Back} from 'app/store/actions';
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'coordenador-lotacoes',

@@ -1,4 +1,4 @@
-import { EtiquetaEffect } from './etiqueta.effects';
+import {EtiquetaEffect} from './etiqueta.effects';
 
 export const effects = [
     EtiquetaEffect

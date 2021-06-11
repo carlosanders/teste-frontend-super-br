@@ -1,21 +1,13 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {RelacionamentoPessoal} from '@cdk/models';
+import {Pagination, Pessoa, RelacionamentoPessoal} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store';
-import {Pagination} from '@cdk/models';
 import {Back} from '../../../../../../store';
 
 @Component({

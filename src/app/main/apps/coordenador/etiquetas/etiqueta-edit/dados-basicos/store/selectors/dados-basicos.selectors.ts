@@ -1,17 +1,16 @@
 import {createSelector} from '@ngrx/store';
-import {getEtiquetaEditAppState, EtiquetaEditAppState, EtiquetaEditState} from '../reducers';
+import {EtiquetaEditAppState, EtiquetaEditState, getEtiquetaEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Etiqueta, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
-import {etiqueta as etiquetaSchema, modalidadeOrgaoCentral as orgaoSchema, setor as setorSchema} from '@cdk/normalizr';
+import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
+import {modalidadeOrgaoCentral as orgaoSchema, setor as setorSchema} from '@cdk/normalizr';
 import {
     getModalidadeOrgaoCentralId,
     getSetorHandleId,
     getSetorId,
     getUnidadeHandleId,
     getUnidadeId
-} from '../../../../../modelos/modelos-edit/store/selectors';
+} from '../../../../../modelos/modelos-edit/store';
 
-const schemaEtiquetaSelectors = createSchemaSelectors<Etiqueta>(etiquetaSchema);
 const schemaOrgaoSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(orgaoSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
@@ -20,25 +19,9 @@ export const getEtiquetaEditState = createSelector(
     (state: EtiquetaEditAppState) => state.etiqueta
 );
 
-export const getEtiquetaId = createSelector(
-    getEtiquetaEditState,
-    (state: EtiquetaEditState) => state.loaded ? state.loaded.value : null
-);
-
-export const getEtiqueta = createSelector(
-    schemaEtiquetaSelectors.getNormalizedEntities,
-    getEtiquetaId,
-    schemaEtiquetaSelectors.entityProjector
-);
-
 export const getIsSaving = createSelector(
     getEtiquetaEditState,
     (state: EtiquetaEditState) => state.saving
-);
-
-export const getHasLoaded = createSelector(
-    getEtiquetaEditState,
-    (state: EtiquetaEditState) => state.loaded
 );
 
 export const getErrors = createSelector(

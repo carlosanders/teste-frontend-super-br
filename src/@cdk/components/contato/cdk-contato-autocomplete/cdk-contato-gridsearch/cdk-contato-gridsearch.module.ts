@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { ContatoService } from '@cdk/services/contato.service';
-import { CdkContatoGridsearchComponent } from './cdk-contato-gridsearch.component';
-import { CdkContatoGridModule } from '@cdk/components/contato/cdk-contato-grid/cdk-contato-grid.module';
+import {ContatoService} from '@cdk/services/contato.service';
+import {CdkContatoGridsearchComponent} from './cdk-contato-gridsearch.component';
+import {CdkContatoGridModule} from '@cdk/components/contato/cdk-contato-grid/cdk-contato-grid.module';
 
 @NgModule({
     declarations: [

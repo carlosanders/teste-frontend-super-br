@@ -1,7 +1,7 @@
-import { EtiquetaEditEffect } from './dados-basicos.effects';
+import {EtiquetaDadosBasicosEffects} from './dados-basicos.effects';
 
 export const effects = [
-    EtiquetaEditEffect
+    EtiquetaDadosBasicosEffects
 ];
 
 export * from './dados-basicos.effects';

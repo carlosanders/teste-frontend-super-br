@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, ViewChild, ViewEncapsulation} from '@angular/core';
-import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import {JsonEditorComponent, JsonEditorOptions} from 'ang-jsoneditor';
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({

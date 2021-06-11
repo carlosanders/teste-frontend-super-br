@@ -2,11 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
-    Output,
-    ViewEncapsulation,
     EventEmitter,
-    OnInit
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';

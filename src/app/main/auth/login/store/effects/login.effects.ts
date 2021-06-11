@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {tap, map, catchError} from 'rxjs/operators';
-import {switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import * as LoginActions from '../actions/login.actions';
 import {LoginService} from '../../login.service';
 

@@ -1,4 +1,4 @@
-import { DadosPessoaEditEffect } from './dados-pessoa-edit.effects';
+import {DadosPessoaEditEffect} from './dados-pessoa-edit.effects';
 
 export const effects = [
     DadosPessoaEditEffect

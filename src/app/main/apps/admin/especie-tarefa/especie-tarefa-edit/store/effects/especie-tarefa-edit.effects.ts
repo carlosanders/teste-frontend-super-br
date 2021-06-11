@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as EspecieTarefaEditActions from '../actions/especie-tarefa-edit.actions';
 import * as EspecieTarefaListActions from '../../../especie-tarefa-list/store/actions/especie-tarefa-list.actions';
@@ -11,8 +11,7 @@ import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr';
-import {EspecieTarefa, Colaborador} from '@cdk/models';
+import {EspecieTarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

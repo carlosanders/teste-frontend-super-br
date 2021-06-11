@@ -1,12 +1,14 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
-    Input, OnInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
 
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 
 @Component({
     selector: 'cdk-documento-avulso-list-item',
@@ -48,5 +50,14 @@ export class CdkDocumentoAvulsoListItemComponent implements OnInit {
 
     onSelectedChange(): void {
         this.toggleInSelectedDocumentosAvulso.emit(this.documentoAvulso.id);
+    }
+
+    copiarParaAreaTrabalho(nup): void {
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (nup));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
     }
 }

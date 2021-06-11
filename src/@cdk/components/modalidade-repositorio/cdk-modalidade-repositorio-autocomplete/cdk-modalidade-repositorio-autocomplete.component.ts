@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component,
+    Input,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ModalidadeRepositorio} from '@cdk/models';
+import {ModalidadeRepositorio, Pagination} from '@cdk/models';
 import {ModalidadeRepositorioService} from '@cdk/services/modalidade-repositorio.service';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-repositorio-autocomplete',

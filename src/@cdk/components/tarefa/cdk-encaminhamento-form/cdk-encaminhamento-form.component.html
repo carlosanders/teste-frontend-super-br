@@ -1,34 +1,46 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form">
-
-    <h2>Encaminhamento do Processo</h2>
-
-    <div class="responsive-group">
-        <mat-radio-group formControlName="options">
-            <mat-radio-button [value]="'criar_tarefa'">
-                Criar nova tarefa
-            </mat-radio-button>
-            <mat-radio-button [value]="'arquivar'">
-                Arquivar o processo
-            </mat-radio-button>
-            <mat-radio-button [value]="'remeter'">
-                Remeter para outro órgão
-            </mat-radio-button>
-            <ng-template #dynamicComponent></ng-template>
-        </mat-radio-group>
+<div class="responsive-group">
+    <div class="encaminhamento-card"  (click)="submit('criar_tarefa')">
+        <mat-card>
+            <mat-card-header>
+                <mat-icon class="s-52" mat-card-avatar>check_box</mat-icon>
+                <mat-card-title>Tarefa</mat-card-title>
+                <mat-card-subtitle>Abrir a próxima tarefa do NUP no processo de trabalho</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+            </mat-card-content>
+        </mat-card>
     </div>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-    <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
-            SALVAR
-        </button>
-        <button mat-raised-button color="warn" (click)="doAbort()"
-                [disabled]="form.invalid" *ngIf="!saving">
-            CANCELAR
-        </button>
-        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    <div class="encaminhamento-card"  (click)="submit('arquivar')">
+        <mat-card>
+            <mat-card-header>
+                <mat-icon class="s-52" mat-card-avatar>folder</mat-icon>
+                <mat-card-title>Arquivar</mat-card-title>
+                <mat-card-subtitle>Remeter o NUP para o arquivo corrente</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+            </mat-card-content>
+        </mat-card>
     </div>
 
-</form>
+    <div class="encaminhamento-card"  (click)="submit('remeter')">
+        <mat-card>
+            <mat-card-header>
+                <mat-icon class="s-52" mat-card-avatar>email</mat-icon>
+                <mat-card-title>Remeter</mat-card-title>
+                <mat-card-subtitle>Realizar a remessa do NUP para outro orgão ou sistema</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <ng-template #dynamicComponent></ng-template>
+</div>
+
+<div class="actions">
+    <button mat-raised-button color="warn" (click)="doAbort()"
+            [disabled]="form.invalid" *ngIf="!saving">
+        CANCELAR
+    </button>
+</div>

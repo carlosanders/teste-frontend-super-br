@@ -32,18 +32,11 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
-
-    filterCriadoEm = [];
-    filterAtualizadoEm = [];
-
-    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     @Input()
     unidadeResponsavelPagination: Pagination;
@@ -56,6 +49,13 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
     @Input()
     setorOrigemPagination: Pagination;
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
+    form: FormGroup;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -143,7 +143,22 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             return;
         }
 
+        this._cdkTarefaFilterService.isValid = true;
+
+        this._cdkTarefaFilterService.filters = [];
+
+        this._cdkTarefaFilterService.emite.next();
+
+        if (!this._cdkTarefaFilterService.isValid) {
+            return;
+        }
+
         const andXFilter = [];
+
+        this._cdkTarefaFilterService.filters
+            .forEach((andXFilterPlugin) => {
+                andXFilter.push(andXFilterPlugin);
+            });
 
         if (this.form.get('observacao').value) {
             this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
@@ -245,6 +260,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
+        this._cdkTarefaFilterService.clear.next();
         this.emite();
     }
 }

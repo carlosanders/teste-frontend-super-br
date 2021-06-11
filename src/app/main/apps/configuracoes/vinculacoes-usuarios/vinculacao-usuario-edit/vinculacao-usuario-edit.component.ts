@@ -1,24 +1,15 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {VinculacaoUsuario} from '@cdk/models';
+import {Pagination, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Usuario} from '@cdk/models';
-import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../store';
+import {Back, getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'vinculacao-usuario-edit',

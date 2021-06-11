@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { UnidadesOrgaoCentralListReducer, UnidadesOrgaoCentralListState } from './unidades-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {UnidadesOrgaoCentralListReducer, UnidadesOrgaoCentralListState} from './unidades-list.reducer';
 
 export interface UnidadesOrgaoCentralListAppState
 {

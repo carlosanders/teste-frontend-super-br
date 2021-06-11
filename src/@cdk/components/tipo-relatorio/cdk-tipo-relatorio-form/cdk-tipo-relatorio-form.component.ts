@@ -1,19 +1,23 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {EspecieRelatorio} from '@cdk/models/especie-relatorio.model';
-import {Usuario} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {Pagination, Usuario} from '@cdk/models';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';

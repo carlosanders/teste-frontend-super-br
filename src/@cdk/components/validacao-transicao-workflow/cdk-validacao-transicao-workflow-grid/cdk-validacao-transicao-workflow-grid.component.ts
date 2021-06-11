@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
@@ -115,7 +115,7 @@ export class CdkValidacaoTransicaoWorkflowGridComponent implements AfterViewInit
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -221,7 +221,7 @@ export class CdkValidacaoTransicaoWorkflowGridComponent implements AfterViewInit
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-validacao-transicao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-validacao-transicao-workflow-edit-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

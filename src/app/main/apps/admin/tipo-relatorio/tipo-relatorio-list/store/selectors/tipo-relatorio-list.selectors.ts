@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getTipoRelatorioListAppState,
-    TipoRelatorioListAppState,
-    TipoRelatorioListState
-} from '../reducers';
+import {getTipoRelatorioListAppState, TipoRelatorioListAppState, TipoRelatorioListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';

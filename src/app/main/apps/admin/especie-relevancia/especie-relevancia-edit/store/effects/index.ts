@@ -1,4 +1,4 @@
-import { EspecieRelevanciaEditEffects } from './especie-relevancia-edit.effects';
+import {EspecieRelevanciaEditEffects} from './especie-relevancia-edit.effects';
 
 export const effects = [
     EspecieRelevanciaEditEffects

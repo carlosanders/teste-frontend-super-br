@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ModalidadeOrgaoCentralEditReducer, ModalidadeOrgaoCentralEditState } from './modalidade-orgao-central-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    ModalidadeOrgaoCentralEditReducer,
+    ModalidadeOrgaoCentralEditState
+} from './modalidade-orgao-central-edit.reducer';
 
 export interface ModalidadeOrgaoCentralEditAppState
 {

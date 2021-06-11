@@ -13,7 +13,6 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoUsuario} from '@cdk/models';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
-import * as TipoDocumentoListActions from '../../../../../admin/tipo-documento/tipo-documento-list/store/actions';
 
 @Injectable()
 export class VinculacaoUsuarioListEffect {

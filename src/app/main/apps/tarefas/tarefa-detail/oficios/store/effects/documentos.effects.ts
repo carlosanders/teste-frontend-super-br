@@ -9,7 +9,11 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
+    documento as documentoSchema
+} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
@@ -331,10 +335,14 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<OficiosDocumentosActions.ConverteToPdf>(OficiosDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
-                mergeMap(action => this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
                             .pipe(
                                 mergeMap(response => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new UpdateData<Documento>({
+                                        id: response.id,
+                                        schema: documentoSchema,
+                                        changes: {componentesDigitais: response.componentesDigitais}
+                                    }),
                                     new OficiosDocumentosActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {

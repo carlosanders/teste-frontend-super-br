@@ -8,8 +8,8 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkGrupoContatoFilterComponent } from './cdk-grupo-contato-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkGrupoContatoFilterComponent} from './cdk-grupo-contato-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {GrupoContatoService} from '../../../../services/grupo-contato.service';

@@ -6,7 +6,8 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    QueryList, SecurityContext,
+    QueryList,
+    SecurityContext,
     ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
@@ -17,16 +18,17 @@ import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollba
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {Juntada} from '@cdk/models';
+import {ComponenteDigital, Juntada, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import {expandirTela} from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
-import {ComponenteDigital} from '@cdk/models';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {expandirTela} from './store';
+import {getProcesso} from '../store';
+import {MercureService} from "../../../../../@cdk/services/mercure.service";
 
 @Component({
     selector: 'processo-view',
@@ -38,14 +40,22 @@ import {expandirTela} from './store';
 })
 export class ProcessoViewComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @Output()
+    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+
+    @ViewChildren(CdkPerfectScrollbarDirective)
+    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
+
+    processo$: Observable<Processo>;
+    processo: Processo;
+
     binary$: Observable<any>;
 
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
 
     index$: Observable<any>;
-    index: {};
+    index = {};
 
     totalSteps = 0;
 
@@ -55,9 +65,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     currentStep: any;
 
     animationDirection: 'left' | 'right' | 'none';
-
-    @ViewChildren(CdkPerfectScrollbarDirective)
-    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
 
     fileName = '';
 
@@ -91,11 +98,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     zoom: number = 0;
     expandirTela: boolean = false;
 
-    @Output()
-    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
-     *
      * @param _juntadaService
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -104,6 +109,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _router
      * @param _activatedRoute
+     * @param _mercureService
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -113,7 +119,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _sanitizer: DomSanitizer,
         private _store: Store<fromStore.ProcessoViewAppState>,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _mercureService: MercureService
     ) {
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
@@ -137,6 +144,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.totalSteps = juntadas.length;
             }
         );
+
+        this.processo$ = this._store.pipe(select(getProcesso));
 
         this.currentStep$
             .pipe(
@@ -232,6 +241,19 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
+        this.processo$.subscribe(
+            (processo) => {
+                if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
+                    this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+                }
+                if (processo?.origemDados) {
+                    this._mercureService.subscribe(processo.origemDados['@id']);
+                }
+                this.processo = processo;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
         if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
@@ -282,6 +304,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         }
         if (this.tarefa) {
             this._store.dispatch(new fromStore.UnloadDocumentos());
+        }
+        if (this.processo?.origemDados) {
+            this._mercureService.unsubscribe(this.processo.origemDados['@id']);
         }
     }
 

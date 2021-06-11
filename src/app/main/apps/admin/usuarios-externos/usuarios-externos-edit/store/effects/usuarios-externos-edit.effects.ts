@@ -16,8 +16,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import * as EspecieRelevanciaEditActions
-    from '../../../../especie-relevancia/especie-relevancia-edit/store/actions/especie-relevancia-edit.actions';
 
 @Injectable()
 export class UsuariosExternosEditEffects {

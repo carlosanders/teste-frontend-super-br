@@ -2,8 +2,8 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
     OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -15,8 +15,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
-
-import {UnloadRepositorios} from './store';
 
 
 @Component({

@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getRedistribuicaoEditBlocoAppState, RedistribuicaoEditBlocoAppState, RedistribuicaoEditBlocoState} from '../reducers';
+import {
+    getRedistribuicaoEditBlocoAppState,
+    RedistribuicaoEditBlocoAppState,
+    RedistribuicaoEditBlocoState
+} from '../reducers';
 
 export const getRedistribuicaoEditBlocoState = createSelector(
     getRedistribuicaoEditBlocoAppState,

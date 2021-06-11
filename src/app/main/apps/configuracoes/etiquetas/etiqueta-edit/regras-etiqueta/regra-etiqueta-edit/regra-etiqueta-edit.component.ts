@@ -1,20 +1,11 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {RegraEtiqueta} from '@cdk/models';
+import {Criteria, Etiqueta, Pagination, RegraEtiqueta, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models';
-import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../../store/selectors';
-import {Criteria, Usuario} from '@cdk/models';
 import {Back} from 'app/store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store/reducers';
@@ -69,7 +60,9 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
     ];
 
     /**
+     *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -148,8 +141,8 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
         const regraEtiqueta = new RegraEtiqueta();
 
         const criterias: string[] = [];
-        values.criterias.forEach((criteria: Criteria) => {
-            const eachCriteria = criteria.mapeamento.replace('{placeholder}', criteria.valor);
+        values.criterias.forEach((aCriteria: Criteria) => {
+            const eachCriteria = aCriteria.mapeamento.replace('{placeholder}', aCriteria.valor);
             criterias.push(eachCriteria);
         });
 

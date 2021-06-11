@@ -1,11 +1,12 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefaDetailAppState, TarefaDetailAppState, TarefaDetailState} from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
+import {
+    getTarefaDetailAppState,
+    TarefaDetailAppState,
+    TarefaDetailState
+} from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
-import {Tarefa} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {getRedistribuicaoEditBlocoState, RedistribuicaoEditBlocoState} from '../../../redistribuicao-edit-bloco/store';
+import {documento as documentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
+import {Documento, Tarefa} from '@cdk/models';
 
 const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);

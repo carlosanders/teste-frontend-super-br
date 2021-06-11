@@ -1,24 +1,25 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
-import { CdkConfigService } from '@cdk/services/config.service';
-import { cdkAnimations } from '@cdk/animations';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
-import { getLoginAppState } from 'app/main/auth/login/store';
+import {getLoginAppState} from 'app/main/auth/login/store';
 import {environment} from '../../../../environments/environment';
 import {getRouterState} from '../../../store';
 import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
 import {LoginService} from './login.service';
+import {filter} from 'rxjs/operators';
+import packageInfo from '../../../../../package.json';
 
 @Component({
-    selector     : 'login',
-    templateUrl  : './login.component.html',
-    styleUrls    : ['./login.component.scss'],
+    selector: 'login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : cdkAnimations
+    animations: cdkAnimations
 })
-export class LoginComponent implements OnInit
-{
+export class LoginComponent implements OnInit {
     getLoginState: Observable<any>;
     errorMessage$: Observable<any>;
     loadingConfig$: Observable<boolean>;
@@ -29,6 +30,8 @@ export class LoginComponent implements OnInit
     config$: Observable<any>;
 
     config: any;
+
+    version: string = packageInfo.version;
 
     /**
      *
@@ -43,13 +46,13 @@ export class LoginComponent implements OnInit
     ) {
         this.cdkConfigService.config = {
             layout: {
-                navbar   : {
+                navbar: {
                     hidden: true
                 },
-                toolbar  : {
+                toolbar: {
                     hidden: true
                 },
-                footer   : {
+                footer: {
                     hidden: true
                 },
                 sidepanel: {
@@ -79,8 +82,7 @@ export class LoginComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this.store.dispatch(new fromStore.Unload());
 
         this.loading$.next(false);
@@ -89,7 +91,9 @@ export class LoginComponent implements OnInit
             this.loading$.next(false);
         });
 
-        this.config$.subscribe((config) => {
+        this.config$.pipe(
+            filter(config => !!config)
+        ).subscribe((config) => {
             this.config = config;
             window.document.title = config.sigla;
             this.cdkConfigService.logo = config.logo;
@@ -136,7 +140,7 @@ export class LoginComponent implements OnInit
 
     onSubmitExterno(values): void {
         const payload = {
-            username: values.username.replace(/\D/g,''),
+            username: values.username.replace(/\D/g, ''),
             password: values.password
         };
         this.store.dispatch(new fromStore.Login(payload));

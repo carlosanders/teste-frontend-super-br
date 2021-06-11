@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import { modulesConfig } from '../../../modules/modules-config';
+import {modulesConfig} from '../../../modules/modules-config';
 import {RoleGuard} from './role.guard';
 
 const routes = [

@@ -1,4 +1,4 @@
-import { MunicipioListEffects } from './municipio-list.effects';
+import {MunicipioListEffects} from './municipio-list.effects';
 
 export const effects = [
     MunicipioListEffects

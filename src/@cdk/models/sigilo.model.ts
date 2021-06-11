@@ -1,12 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
-import {ModalidadeCategoriaSigilo} from '@cdk/models';
-import {TipoSigilo} from '@cdk/models';
-import {Processo} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {OrigemDados} from '@cdk/models';
+import {Documento, ModalidadeCategoriaSigilo, OrigemDados, Processo, TipoSigilo, Usuario} from '@cdk/models';
 
 export class Sigilo {
 

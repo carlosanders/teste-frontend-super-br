@@ -1,0 +1,20 @@
+<div class="header" *ngIf="routerState.url.includes('acoes')">
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
+</div>
+<div class="content">
+    <cdk-acao-transicao-workflow-list
+            [loading]="(loading$ | async)"
+            [acoes]="acoes"
+            [deletingIds]="(deletingIds$ | async)"
+            [deletingErrors]="(deletingErrors$ | async)"
+            [deletedIds]="(deletedIds$ | async)"
+            [actions]="['create', 'delete']"
+            (reload)="reload($event)"
+            (excluded)="excluded($event)"
+            (create)="create()"
+            (delete)="delete($event)">
+    </cdk-acao-transicao-workflow-list>
+</div>

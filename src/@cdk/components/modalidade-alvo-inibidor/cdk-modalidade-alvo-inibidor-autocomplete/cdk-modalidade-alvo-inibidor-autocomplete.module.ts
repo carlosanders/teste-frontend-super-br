@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeAlvoInibidorService } from '@cdk/services/modalidade-alvo-inibidor.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
 import {CdkModalidadeAlvoInibidorAutocompleteComponent} from './cdk-modalidade-alvo-inibidor-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

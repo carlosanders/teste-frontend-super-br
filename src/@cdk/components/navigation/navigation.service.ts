@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import * as _ from 'lodash';
 
-import { CdkNavigationItem } from '@cdk/types';
+import {CdkNavigationItem} from '@cdk/types';
 
 @Injectable({
     providedIn: 'root'

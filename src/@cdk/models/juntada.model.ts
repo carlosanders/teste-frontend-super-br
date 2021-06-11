@@ -1,13 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {OrigemDados} from '@cdk/models';
-import {Volume} from '@cdk/models';
-import {DocumentoAvulso} from '@cdk/models';
-import {Atividade} from '@cdk/models';
-import {Tarefa} from '@cdk/models';
+import {Atividade, Documento, DocumentoAvulso, OrigemDados, Tarefa, Usuario, Volume} from '@cdk/models';
 
 export class Juntada {
 

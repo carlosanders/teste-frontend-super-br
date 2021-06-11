@@ -1,12 +1,7 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
+
 @Component({
     selector: 'componente-digital-empty',
     templateUrl: './componente-digital-empty.component.html',

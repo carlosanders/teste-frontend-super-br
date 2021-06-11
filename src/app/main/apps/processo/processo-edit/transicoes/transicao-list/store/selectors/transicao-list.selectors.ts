@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getTransicaoListAppState,
-    TransicaoListAppState,
-    TransicaoListState
-} from '../reducers';
+import {getTransicaoListAppState, TransicaoListAppState, TransicaoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {transicao as transicaoSchema} from '@cdk/normalizr';

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TRAMITACAO = '[REMESSA] CREATE TRAMITACAO';
 export const CREATE_TRAMITACAO_SUCCESS = '[REMESSA] CREATE TRAMITACAO SUCCESS';

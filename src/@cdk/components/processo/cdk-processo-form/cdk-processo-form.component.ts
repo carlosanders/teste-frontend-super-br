@@ -1,21 +1,34 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ConfiguracaoNup, EspecieProcesso, EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
+import {
+    Classificacao,
+    ConfiguracaoNup,
+    EspecieProcesso,
+    EspecieSetor,
+    Estado,
+    GeneroSetor,
+    ModalidadeFase,
+    ModalidadeMeio,
+    Pagination,
+    Pessoa,
+    Processo,
+    Setor,
+    Usuario
+} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {ModalidadeFase} from '@cdk/models';
-import {ModalidadeMeio} from '@cdk/models';
-import {Classificacao} from '@cdk/models';
-import {Setor} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
 import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '../../../services/favorito.service';

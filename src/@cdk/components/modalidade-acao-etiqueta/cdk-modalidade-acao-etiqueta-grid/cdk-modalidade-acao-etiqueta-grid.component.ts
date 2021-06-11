@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -128,7 +128,7 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

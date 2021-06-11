@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getClassificacaoEditAppState, ClassificacaoEditAppState, ClassificacaoEditState} from '../reducers';
+import {ClassificacaoEditAppState, ClassificacaoEditState, getClassificacaoEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Classificacao} from '@cdk/models';
 import {classificacao as classificacaoSchema} from '@cdk/normalizr';

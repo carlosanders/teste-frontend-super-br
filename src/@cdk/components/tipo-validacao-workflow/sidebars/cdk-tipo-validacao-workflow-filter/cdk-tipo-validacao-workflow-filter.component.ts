@@ -80,7 +80,7 @@ export class CdkTipoValidacaoWorkflowFilterComponent {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-tipo-validacao-workflow-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-tipo-validacao-workflow-edit-filter').close();
     }
 
     verificarValor(objeto): void {

@@ -1,16 +1,13 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-    MatButtonModule,
-    MatIconModule, MatRippleModule
-} from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {MatButtonModule, MatIconModule, MatRippleModule} from '@cdk/angular/material';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSidebarModule } from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
-import { EtiquetaEditComponent } from './etiqueta-edit.component';
-import { CommonModule } from '@angular/common';
+import {EtiquetaEditComponent} from './etiqueta-edit.component';
+import {CommonModule} from '@angular/common';
 import * as fromGuards from './store/guards';
 import {EtiquetaStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';

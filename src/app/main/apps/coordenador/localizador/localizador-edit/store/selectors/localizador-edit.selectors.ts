@@ -2,8 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getLocalizadorEditAppState, LocalizadorEditAppState, LocalizadorEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
-import {localizador as localizadorSchema} from '@cdk/normalizr';
-import {setor as setorSchema} from '@cdk/normalizr';
+import {localizador as localizadorSchema, setor as setorSchema} from '@cdk/normalizr';
 import {Setor} from '@cdk/models';
 import {
     CoordenadorSetorAppState,

@@ -1,4 +1,4 @@
-import { DocumentoAvulsoListEffect } from './documento-avulso-list.effects';
+import {DocumentoAvulsoListEffect} from './documento-avulso-list.effects';
 
 export const effects = [
     DocumentoAvulsoListEffect

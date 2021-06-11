@@ -18,7 +18,7 @@
             'mobile-processo-lista-off': (mobileMode && !processos),
             'mobile-processo-lista-on': (mobileMode && !!processos)
         }">
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+        <div class="actions">
 
             <button class="back" mat-icon-button *ngIf="mobileMode"
                     (click)="cssPesquisaOn()"
@@ -81,13 +81,13 @@
             </button>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+        <div class="loading" *ngIf="loading">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
         <div class="content" cdkPerfectScrollbar>
 
-            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">
@@ -437,13 +437,13 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let processo; columns: displayedColumns;">
                 </tr>
             </table>
         </div>
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <div class="footer">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
         </div>
     </div>

@@ -1,6 +1,6 @@
-import { ArquivistaEffect } from './arquivista.effects';
-import { LembreteEffects } from './lembrete.effects';
-import { ModalidadeTransicaoEffects } from './modalidade-transicao.effects';
+import {ArquivistaEffect} from './arquivista.effects';
+import {LembreteEffects} from './lembrete.effects';
+import {ModalidadeTransicaoEffects} from './modalidade-transicao.effects';
 
 export const effects = [
     ArquivistaEffect,

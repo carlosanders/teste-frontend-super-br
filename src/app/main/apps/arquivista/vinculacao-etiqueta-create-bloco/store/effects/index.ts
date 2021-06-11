@@ -1,4 +1,4 @@
-import { VinculacaoEtiquetaCreateBlocoEffect } from './vinculacao-etiqueta-create-bloco.effects';
+import {VinculacaoEtiquetaCreateBlocoEffect} from './vinculacao-etiqueta-create-bloco.effects';
 
 export const effects = [
     VinculacaoEtiquetaCreateBlocoEffect

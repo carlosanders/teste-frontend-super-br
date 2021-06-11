@@ -2,12 +2,18 @@ import {createSelector} from '@ngrx/store';
 import {getModeloEditAppState, ModeloEditAppState, ModeloEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ModalidadeOrgaoCentral, Modelo, Setor} from '@cdk/models';
-import {modelo as modeloSchema} from '@cdk/normalizr';
-import {modalidadeOrgaoCentral as orgaoSchema} from '@cdk/normalizr';
-import {setor as setorSchema} from '@cdk/normalizr';
+import {modalidadeOrgaoCentral as orgaoSchema, modelo as modeloSchema, setor as setorSchema} from '@cdk/normalizr';
 import {CoordenadorAppState, CoordenadorState, getCoordenadorAppState} from '../../../../store/reducers';
-import {UnidadesOrgaoCentralAppState, getUnidadesOrgaoCentralAppState, UnidadesOrgaoCentralState} from '../../../../unidades/store/reducers';
-import {CoordenadorSetorAppState, getCoordenadorSetorAppState, CoordenadorSetorState} from '../../../../setor/store/reducers';
+import {
+    getUnidadesOrgaoCentralAppState,
+    UnidadesOrgaoCentralAppState,
+    UnidadesOrgaoCentralState
+} from '../../../../unidades/store/reducers';
+import {
+    CoordenadorSetorAppState,
+    CoordenadorSetorState,
+    getCoordenadorSetorAppState
+} from '../../../../setor/store/reducers';
 
 const schemaModeloSelectors = createSchemaSelectors<Modelo>(modeloSchema);
 const schemaOrgaoSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(orgaoSchema);

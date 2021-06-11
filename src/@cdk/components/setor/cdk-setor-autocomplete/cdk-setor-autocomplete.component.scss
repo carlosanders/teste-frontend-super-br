@@ -4,7 +4,7 @@ cdk-setor-autocomplete {
 
 .mat-option {
     &.multiline {
-        height: 90px !important;
+        height: auto !important;
         line-height: 30px !important;
         .strong {
             font-weight: bold;

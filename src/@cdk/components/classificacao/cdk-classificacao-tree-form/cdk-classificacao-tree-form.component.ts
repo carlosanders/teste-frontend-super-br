@@ -1,23 +1,24 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter, HostListener,
-    Input, OnInit,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnInit,
     Output,
-    ViewChildren, ViewEncapsulation
+    ViewChildren,
+    ViewEncapsulation
 } from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {catchError, finalize} from 'rxjs/operators';
 import {Observable, of, Subject} from 'rxjs';
-import {
-    CdkClassificacaoTreeFormService,
-    ClassificacaoNode
-} from './services/cdk-classificacao-tree-form.service';
+import {CdkClassificacaoTreeFormService, ClassificacaoNode} from './services/cdk-classificacao-tree-form.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Classificacao, ModalidadeDestinacao, Pagination, Processo} from '../../../models';
+import {Classificacao, ModalidadeDestinacao, Pagination} from '../../../models';
 import {ClassificacaoService} from '../../../services/classificacao.service';
 import {cdkAnimations} from '../../../animations';
 
@@ -108,6 +109,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
     }
 
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _serviceTree: CdkClassificacaoTreeFormService,
         private _classificacaoService: ClassificacaoService,
         private _formBuilder: FormBuilder,
@@ -360,7 +362,10 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
             JSON.stringify(params.sort),
             JSON.stringify(params.populate)
         ).pipe(
-            finalize(() => this.loading = false),
+            finalize(() => {
+                this.loading = false;
+                this._changeDetectorRef.detectChanges();
+            }),
             catchError(() => of([]))
         );
 

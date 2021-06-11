@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { FavoritoEditReducer, FavoritoEditState } from './favorito-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {FavoritoEditReducer, FavoritoEditState} from './favorito-edit.reducer';
 
 export interface FavoritoEditAppState
 {

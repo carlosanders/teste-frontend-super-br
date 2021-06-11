@@ -1,7 +1,7 @@
-import { ProcessoViewEffect } from './processo-view.effects';
-import { ProcessoViewDocumentosEffects } from './documentos.effects';
-import { ComponentesDigitaisEffects } from './componentes-digitais.effects';
-import { VolumesEffects } from './volumes.effects';
+import {ProcessoViewEffect} from './processo-view.effects';
+import {ProcessoViewDocumentosEffects} from './documentos.effects';
+import {ComponentesDigitaisEffects} from './componentes-digitais.effects';
+import {VolumesEffects} from './volumes.effects';
 
 export const effects = [
     ProcessoViewEffect,

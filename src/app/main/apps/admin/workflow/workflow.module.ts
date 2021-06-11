@@ -31,20 +31,8 @@ const routes: Routes = [
             },
             {
                 path: 'editar',
-                loadChildren: () => import('./workflow-edit/workflow-edit.module').then(m => m.WorkflowEditModule),
-            },
-            {
-                path: ':workflowHandle/transicoes',
-                loadChildren: () => import('./transicao-workflow/transicao-workflow.module').then(m => m.TransicaoWorkflowModule)
-            },
-            {
-                path: ':workflowHandle/especies-processo',
-                loadChildren: () => import('./especies-processo/especies-processo.module')
-                    .then(m => m.EspeciesProcessoModule)
-            },
-            {
-                path: 'visualizar/:workflowViewHandle',
-                loadChildren: () => import('./workflow-view/workflow-view.module').then(m => m.WorkflowViewModule),
+                loadChildren: () => import('./workflow-edit/workflow-edit.module')
+                    .then(m => m.WorkflowEditModule),
             },
             {
                 path: '**',

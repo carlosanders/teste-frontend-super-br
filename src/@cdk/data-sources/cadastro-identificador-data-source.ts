@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {CadastroIdentificador} from '../models/cadastro-identificador.model';
 
 export class CadastroIdentificadorDataSource extends DataSource<CadastroIdentificador> {

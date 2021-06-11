@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SET_PROCESSO = '[DADOS BASICOS STEPS] SET PROCESSO';
 export const UNLOAD_PROCESSO = '[DADOS BASICOS STEPS] UNLOAD PROCESSO';

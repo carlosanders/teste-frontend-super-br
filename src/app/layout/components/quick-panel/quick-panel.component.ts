@@ -8,14 +8,17 @@ import {
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {debounceTime, distinctUntilChanged, switchMap, takeUntil} from 'rxjs/operators';
 import {
-    getCurrentLote, getLotes,
-    getOperacoes, getOperacoesDesfazerLoteAtual,
+    getCurrentLote,
+    getLotes,
+    getOperacoes,
+    getOperacoesDesfazerLoteAtual,
     getOperacoesEmProcessamento,
-    getOperacoesLoteAtual, getOperacoesRefazerLoteAtual,
+    getOperacoesLoteAtual,
+    getOperacoesRefazerLoteAtual,
     SetCurrentLote
 } from 'app/store';
+import {debounceTime, distinctUntilChanged, switchMap, takeUntil} from 'rxjs/operators';
 import {Observable, of, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Lote} from '../../../store/reducers/operacoes.reducer';

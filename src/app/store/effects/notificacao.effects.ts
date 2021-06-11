@@ -105,4 +105,36 @@ export class NotificacaoEffect {
                         .marcarTodas()
                         .subscribe())
             );
+
+    @Effect()
+    removeAllNotificacao: any =
+        this._actions
+            .pipe(
+                ofType<NotificacaoListActions.RemoveAllNotificacao>(NotificacaoListActions.REMOVE_ALL_NOTIFICACAO),
+                mergeMap(() => this._notificacaoService.excluirTodas().pipe(
+                    mergeMap(() => [
+                        new NotificacaoListActions.RemoveAllNotificacaoSuccess()
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new NotificacaoListActions.RemoveAllNotificacaoFailed());
+                    })
+                ))
+            );
+
+    @Effect()
+    removeNotificacao: any =
+        this._actions
+            .pipe(
+                ofType<NotificacaoListActions.RemoveNotificacao>(NotificacaoListActions.REMOVE_NOTIFICACAO),
+                mergeMap(action => this._notificacaoService.destroy(action.payload).pipe(
+                    mergeMap(response => [
+                        new NotificacaoListActions.RemoveNotificacaoSuccess(response.id),
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new NotificacaoListActions.RemoveNotificacaoFailed());
+                    })
+                ))
+            );
 }

@@ -1,4 +1,4 @@
-import { ProfileEffect } from './perfil.effects';
+import {ProfileEffect} from './perfil.effects';
 
 export const effects = [
     ProfileEffect

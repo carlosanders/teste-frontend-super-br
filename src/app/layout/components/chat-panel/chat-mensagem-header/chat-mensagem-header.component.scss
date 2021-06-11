@@ -1,0 +1,10 @@
+chat-mensagem-header {
+    display: flex;
+
+    mat-toolbar {
+        border-bottom: 1px solid;
+        min-height: 64px;
+        max-height: 64px;
+        height: 64px;
+    }
+}

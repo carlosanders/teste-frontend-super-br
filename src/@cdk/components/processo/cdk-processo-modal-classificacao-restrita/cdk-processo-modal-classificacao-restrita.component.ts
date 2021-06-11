@@ -2,9 +2,10 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Inject,
     Input,
-    ViewEncapsulation,
-    OnInit, Inject
+    OnInit,
+    ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';

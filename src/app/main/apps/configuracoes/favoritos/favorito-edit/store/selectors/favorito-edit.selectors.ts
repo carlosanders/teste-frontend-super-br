@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getFavoritoEditAppState, FavoritoEditAppState, FavoritoEditState} from '../reducers';
+import {FavoritoEditAppState, FavoritoEditState, getFavoritoEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Favorito} from '@cdk/models';
 import {favorito as favoritoSchema} from '@cdk/normalizr';

@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { VinculacaoEtiquetaCreateBlocoReducer, VinculacaoEtiquetaCreateBlocoState } from './vinculacao-etiqueta-create-bloco.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    VinculacaoEtiquetaCreateBlocoReducer,
+    VinculacaoEtiquetaCreateBlocoState
+} from './vinculacao-etiqueta-create-bloco.reducer';
 
 export interface VinculacaoEtiquetaCreateBlocoAppState
 {

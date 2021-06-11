@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as RelacionamentoEditActions from '../actions/relacionamento-edit.actions';
 import * as RelacionamentoListActions from '../../../relacionamento-list/store/actions/relacionamento-list.actions';

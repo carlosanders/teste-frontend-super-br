@@ -1,4 +1,4 @@
-import { InteressadoEditEffect } from './interessado-edit.effects';
+import {InteressadoEditEffect} from './interessado-edit.effects';
 
 export const effects = [
     InteressadoEditEffect

@@ -2,11 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
-    Output,
-    ViewEncapsulation,
     EventEmitter,
-    OnInit
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -14,10 +14,9 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models';
+import {Modelo, Pagination} from '@cdk/models';
 
 import {ModeloService} from '@cdk/services/modelo.service';
-import {Modelo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modelo-gridsearch',
@@ -34,6 +33,9 @@ export class CdkModeloGridsearchComponent implements OnInit {
 
     @Input()
     andxFilter: any;
+
+    @Input()
+    mode = 'query';
 
     @Output()
     selected = new EventEmitter();
@@ -74,11 +76,10 @@ export class CdkModeloGridsearchComponent implements OnInit {
             andX: this.andxFilter
         };
 
-        let mode = 'query';
         if (filterParam.hasOwnProperty('documento.componentesDigitais.conteudo')) {
-            mode = 'search';
+            this.mode = 'search';
         }
-        this._modeloService[`${mode}`](
+        this._modeloService[`${this.mode}`](
             JSON.stringify(filterParam),
             params.limit,
             params.offset,

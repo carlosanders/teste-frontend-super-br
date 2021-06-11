@@ -1,4 +1,4 @@
-import { EnviaEmailEffects } from './envia-email.effects';
+import {EnviaEmailEffects} from './envia-email.effects';
 
 export const effects = [
     EnviaEmailEffects

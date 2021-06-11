@@ -1,17 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Sigilo} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {TipoSigilo} from '@cdk/models';
-import {ModalidadeCategoriaSigilo} from '@cdk/models';
+import {ModalidadeCategoriaSigilo, Pagination, Sigilo, TipoSigilo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 
 @Component({

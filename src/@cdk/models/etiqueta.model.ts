@@ -1,8 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import {ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoEtiqueta, VinculacaoModelo} from '@cdk/models';
-import {ModalidadeEtiqueta} from '@cdk/models';
+import {ModalidadeEtiqueta, ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 
 export class Etiqueta {
 

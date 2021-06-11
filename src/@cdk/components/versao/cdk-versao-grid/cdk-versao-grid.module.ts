@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {
     MatButtonModule,
+    MatCheckboxModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
+    MatTableModule,
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';

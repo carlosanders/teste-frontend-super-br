@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TipoDocumentoEditReducer, TipoDocumentoEditState } from './tipo-documento-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TipoDocumentoEditReducer, TipoDocumentoEditState} from './tipo-documento-edit.reducer';
 
 export interface TipoDocumentoEditAppState
 {

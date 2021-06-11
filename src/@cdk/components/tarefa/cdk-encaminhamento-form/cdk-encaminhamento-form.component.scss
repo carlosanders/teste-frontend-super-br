@@ -4,4 +4,30 @@ cdk-encaminhamento-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    > .responsive-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        > .encaminhamento-card {
+            margin: 8px;
+            cursor: pointer;
+            flex: 1 0;
+
+            > .mat-card {
+                height: 120px;
+            }
+        }
+    }
+
+    > .actions {
+        margin-top: 16px;
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
 }

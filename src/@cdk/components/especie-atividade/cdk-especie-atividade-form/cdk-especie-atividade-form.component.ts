@@ -7,9 +7,10 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange, ViewEncapsulation
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
-import {EspecieAtividade, GeneroAtividade, Pagination, Pessoa} from '../../../models';
+import {EspecieAtividade, GeneroAtividade, Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {cdkAnimations} from '../../../animations';
 

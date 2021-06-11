@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CdkTransicaoWorkflowFormComponent } from './cdk-transicao-workflow-form.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CdkTransicaoWorkflowFormComponent} from './cdk-transicao-workflow-form.component';
 import {CdkSharedModule} from '../../../shared.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';

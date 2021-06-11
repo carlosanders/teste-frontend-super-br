@@ -1,13 +1,18 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnInit, Output, ViewChild,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento, Pagination, Tarefa} from '@cdk/models';
+import {Documento, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 

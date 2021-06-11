@@ -10,11 +10,10 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
-import {Back, getRouterState} from 'app/store';
-import {ComponenteDigital, Pagination} from '@cdk/models';
-import {Observable} from 'rxjs';
-import {Documento} from '@cdk/models';
 import {getCurrentComponenteDigitalId} from '../store';
+import {getRouterState} from 'app/store';
+import {ComponenteDigital, Documento} from '@cdk/models';
+import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UnloadJuntadas} from '../../processo/processo-view/store';
 

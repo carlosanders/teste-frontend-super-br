@@ -1,4 +1,4 @@
-import {AddChildData, AddData, RemoveData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
     assunto as assuntoSchema,
     interessado as interessadoSchema,
@@ -12,16 +12,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 import {Observable, of} from 'rxjs';
-import {
-    buffer,
-    catchError,
-    concatMap,
-    map, mergeAll,
-    mergeMap,
-    switchMap,
-    tap,
-    withLatestFrom
-} from 'rxjs/operators';
+import {buffer, catchError, concatMap, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';

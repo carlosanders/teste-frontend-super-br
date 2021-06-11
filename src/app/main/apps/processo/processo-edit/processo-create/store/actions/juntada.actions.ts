@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_JUNTADAS = '[DADOS BASICOS STEPS] GET JUNTADAS';
 export const GET_JUNTADAS_SUCCESS = '[DADOS BASICOS STEPS] GET JUNTADAS SUCCESS';
@@ -59,4 +59,3 @@ export type JuntadaActionsAll
     | GetJuntadasSuccess
     | GetJuntadasFailed
     | UnloadJuntadas;
-

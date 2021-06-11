@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_FOLDERS = '[FOLDERS] GET FOLDERS';
 export const GET_FOLDERS_SUCCESS = '[FOLDERS] GET FOLDERS SUCCESS';

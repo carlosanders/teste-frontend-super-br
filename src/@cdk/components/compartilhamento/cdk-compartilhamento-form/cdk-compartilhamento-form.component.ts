@@ -1,17 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Compartilhamento } from '@cdk/models';
-import { Usuario } from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {Compartilhamento, Pagination, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-compartilhamento-form',
@@ -31,6 +33,8 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
 
     @Input()
     valid = true;
+
+    selected = false;
 
     @Input()
     errors: any;
@@ -63,6 +67,10 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
             usuario: [null, [Validators.required]]
         });
         this.usuarioPagination = new Pagination();
+
+        this.form.get('usuario').valueChanges.subscribe((valor) => {
+            this.selected = typeof valor === 'object';
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

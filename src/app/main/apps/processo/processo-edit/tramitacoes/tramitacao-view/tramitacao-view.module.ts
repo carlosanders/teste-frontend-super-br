@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {
     MatButtonModule,
+    MatExpansionModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatSortModule,
-    MatExpansionModule
+    MatSortModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 

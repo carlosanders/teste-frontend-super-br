@@ -3,7 +3,7 @@
  */
 
 import {Action} from '@ngrx/store';
-import {schema, normalize} from '@cdk/normalizr-src';
+import {normalize, schema} from '@cdk/normalizr-src';
 import {EntityMap} from '../reducers/normalize';
 
 /**

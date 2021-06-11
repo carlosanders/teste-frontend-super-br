@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {ModalidadeDocumentoIdentificador} from '../models/modalidade-documento-identificador.model';
 
 export class ModalidadeDocumentoIdentificadorDataSource extends DataSource<ModalidadeDocumentoIdentificador> {

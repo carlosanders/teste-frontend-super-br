@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {EtiquetaListAppState} from '../reducers';
 import * as fromStore from '../';
@@ -58,7 +58,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getEtiquetaListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (this._loginService.getUserProfile() && this._loginService.getUserProfile().id != loaded.value) {
                     const params = {
                         filter: {
                             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._loginService.getUserProfile().id
@@ -75,7 +75,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetEtiquetas(params));
                 }
             }),
-            filter((loaded: any) => !!loaded),
+            filter((loaded: any) => this._loginService.getUserProfile().id == loaded.value),
             take(1)
         );
     }

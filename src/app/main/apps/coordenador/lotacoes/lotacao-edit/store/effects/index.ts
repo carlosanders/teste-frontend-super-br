@@ -1,4 +1,4 @@
-import { CoordenadorLotacaoEditEffects } from './coordenador-lotacao-edit.effects';
+import {CoordenadorLotacaoEditEffects} from './coordenador-lotacao-edit.effects';
 
 export const effects = [
     CoordenadorLotacaoEditEffects

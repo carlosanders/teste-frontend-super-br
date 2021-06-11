@@ -1,4 +1,4 @@
-import { TramitacaoEditEffect } from './tramitacao-edit.effects';
+import {TramitacaoEditEffect} from './tramitacao-edit.effects';
 
 export const effects = [
     TramitacaoEditEffect

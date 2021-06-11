@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getVinculacaoEtiquetaCreateBlocoAppState, VinculacaoEtiquetaCreateBlocoAppState, VinculacaoEtiquetaCreateBlocoState} from '../reducers';
+import {
+    getVinculacaoEtiquetaCreateBlocoAppState,
+    VinculacaoEtiquetaCreateBlocoAppState,
+    VinculacaoEtiquetaCreateBlocoState
+} from '../reducers';
 
 export const getVinculacaoEtiquetaCreateBlocoState = createSelector(
     getVinculacaoEtiquetaCreateBlocoAppState,

@@ -329,3 +329,31 @@
 * Correção bug ao editar juntada
 * Melhoria atualizar a etiqueta de oficio remetido
 * Melhoria tornar lixeira área de drag and drop
+
+1.4.1
+
+* Correção após movimentar Processo encerrando a tarefa, o sistema retorna para uma tela de edição da tarefa encerrada #451
+* Melhoria estilização da tela de encaminhando pós encerramento de tarefa
+* Correção filtros de classificação por datas 'Criado em', 'Atualizado em', 'Apagado em' falhando #110
+* Correção não aparece os botões de Salvar/Cancelar ao editar vinculação de processo #240
+* Correção erro ao fazer download de um processo em ZIP/PDF #248
+* Correção após movimentar processo encerrando a tarefa, o sistema retorna para uma tela de edição da tarefa encerrada #451
+* Correção falha na Atribuição de Espécie de Setor aos Modelos Nacionais #452
+* Correção falha na Atribuição de Espécies de Setor para um Modelo de Unidade #453
+* Correção erro no filtro de Modelos (recuperando modelos de outros setores e unidades) #369
+* Correção para autocomplete de setores
+* Correção para processos vinculados que não estão listados
+* Correção grid de usuários afastados ou não disponíveis
+* Correção estilos dos grids
+* Melhoria chat experimental
+
+1.4.2
+
+* Correçao erro na seleção de espécies de tarefas em processos com workflow #467
+* Correção erro ao exibir espécies de tarefas ao movimentar uma tarefa em um workflow #440
+* Correção regras/ações das etiquetas
+* Correção validações/ações do workflows
+* Correçao erro ao recarregar a lista de Regras de uma etiqueta #436 
+* Correção tarefas, criar Pasta gerando erro de 'campo não pode ser nulo' #432
+* Correçao ao criar tarefas como "Participar de Reunião" deveria criar um evento no calendário? #330
+* Correção calculo do prazo da tarefa

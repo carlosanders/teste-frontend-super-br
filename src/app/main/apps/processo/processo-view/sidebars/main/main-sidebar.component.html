@@ -195,8 +195,7 @@
     <div *ngIf="tarefa">
         <mat-expansion-panel class="mat-elevation-z0" expanded="true" (closed)="onCloseMinutas()"
                              (opened)="onOpenMinutas()">
-            <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'"
-                                        style="background-color: whitesmoke;">
+            <mat-expansion-panel-header class="minutas-tarefa" [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
                 <mat-panel-title>
                     Minutas da Tarefa
                 </mat-panel-title>
@@ -255,7 +254,8 @@
                             </div>
                         </div>
                     </div>
-                    <mat-icon *ngIf="minuta.assinado" class="ml-8 mr-8">lock</mat-icon>
+                    <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4">attach_file</mat-icon>
+                    <mat-icon *ngIf="minuta.assinado" [matTooltip]="'Assinado'" class="ml-4 mr-4">lock</mat-icon>
                     <div class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="minutasMenu"
                                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
@@ -415,7 +415,7 @@
                             </div>
                         </div>
                     </div>
-                    <mat-icon *ngIf="oficio.assinado" class="ml-8 mr-8">lock</mat-icon>
+                    <mat-icon *ngIf="oficio.assinado" class="ml-4 mr-4">lock</mat-icon>
                     <div class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="oficiosMenu"
                                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
@@ -538,7 +538,7 @@
         </mat-expansion-panel>
     </div>
 
-    <div class="documentos-juntados-title" style="background-color: whitesmoke;" fxFlex="0 0 auto"
+    <div class="documentos-juntados-title" fxFlex="0 0 auto"
          fxLayoutAlign="start center">
         <div class="ml-24">Documentos Juntados</div>
     </div>
@@ -656,7 +656,7 @@
                         </div>
                     </div>
                 </div>
-                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
+                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-4 mr-4">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                             *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
@@ -733,7 +733,7 @@
             </div>
             <div class="separador-volume"
                  *ngIf="juntadasByVolume.get(juntada.volume.numeracaoSequencial)[juntadasByVolume.get(juntada.volume.numeracaoSequencial).length - 1].id === juntada.id">
-                <div class="documentos-juntados-title" style="background-color: whitesmoke;" fxFlex="0 0 auto"
+                <div class="documentos-juntados-title" fxFlex="0 0 auto"
                      fxLayoutAlign="start center" aria-label="Volume">
                     <div class="ml-24">Volume {{juntada.volume.numeracaoSequencial}}</div>
                 </div>

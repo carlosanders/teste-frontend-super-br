@@ -1,5 +1,5 @@
-import { DocumentosEffects } from './documentos.effects';
-import { ComplementarEffects } from './complementar.effects';
+import {DocumentosEffects} from './documentos.effects';
+import {ComplementarEffects} from './complementar.effects';
 
 export const effects = [
     DocumentosEffects,

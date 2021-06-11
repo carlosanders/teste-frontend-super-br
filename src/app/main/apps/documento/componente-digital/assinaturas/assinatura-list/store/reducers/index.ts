@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AssinaturaListReducer, AssinaturaListState } from './assinatura-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AssinaturaListReducer, AssinaturaListState} from './assinatura-list.reducer';
 
 export interface AssinaturaListAppState
 {

@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
 
@@ -25,7 +33,7 @@ export class CdkAcaoTransicaoWorkflowListComponent {
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     actions: string[] = ['delete'];

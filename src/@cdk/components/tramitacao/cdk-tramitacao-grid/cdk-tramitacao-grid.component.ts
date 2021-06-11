@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -12,12 +18,10 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Lotacao, Tramitacao, Usuario} from '@cdk/models';
+import {Tramitacao, Usuario} from '@cdk/models';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {lotacao} from '../../../normalizr';
 
 @Component({
     selector: 'cdk-tramitacao-grid',
@@ -143,7 +147,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

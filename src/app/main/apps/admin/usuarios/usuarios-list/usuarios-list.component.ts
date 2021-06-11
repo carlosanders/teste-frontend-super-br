@@ -1,7 +1,8 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, OnDestroy,
+    Component,
+    OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -14,9 +15,8 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Usuario} from '@cdk/models';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import { take, tap } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import {UnloadUsuarios} from './store';
+import {take, tap} from 'rxjs/operators';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'usuarios-list',

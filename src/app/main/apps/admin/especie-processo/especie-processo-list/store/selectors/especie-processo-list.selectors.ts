@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getEspecieProcessoListAppState,
-    EspecieProcessoListAppState,
-    EspecieProcessoListState
-} from '../reducers';
+import {EspecieProcessoListAppState, EspecieProcessoListState, getEspecieProcessoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {especieProcesso as especieProcessoSchema} from '@cdk/normalizr';

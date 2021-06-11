@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_RELATORIO = '[RELATORIO CREATE] CREATE RELATORIO';
 export const CREATE_RELATORIO_SUCCESS = '[RELATORIO CREATE] CREATE RELATORIO SUCCESS';

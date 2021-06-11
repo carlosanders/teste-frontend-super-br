@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as EspecieSetorEditActions from '../actions/especie-setor-edit.actions';
 import * as EspecieSetorListActions from '../../../especie-setor-list/store/actions/especie-setor-list.actions';
 import {EspecieSetorService} from '@cdk/services/especie-setor.service';

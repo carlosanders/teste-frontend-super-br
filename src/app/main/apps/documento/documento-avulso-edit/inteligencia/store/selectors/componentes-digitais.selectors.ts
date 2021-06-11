@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {DocumentoAvulsoEditInteligenciaAppState, getDocumentoAvulsoEditInteligenciaAppState, ComponenteDigitalState} from '../reducers';
+import {
+    ComponenteDigitalState,
+    DocumentoAvulsoEditInteligenciaAppState,
+    getDocumentoAvulsoEditInteligenciaAppState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';

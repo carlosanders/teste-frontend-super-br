@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as EtiquetaEditActions from '../actions/dados-basicos.actions';
 import * as EtiquetaListActions from '../../../../etiqueta-list/store/actions/etiqueta-list.actions';
@@ -17,7 +17,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
-export class EtiquetaEditEffect {
+export class EtiquetaDadosBasicosEffects {
     routerState: any;
 
     constructor(

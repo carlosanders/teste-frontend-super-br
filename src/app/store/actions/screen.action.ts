@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SET_SCREEN = '[SCREEN] SET SCREEN';
 

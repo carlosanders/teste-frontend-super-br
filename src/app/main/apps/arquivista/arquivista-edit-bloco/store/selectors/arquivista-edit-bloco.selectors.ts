@@ -3,11 +3,7 @@ import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
 import {processo as processoShema} from '@cdk/normalizr';
-import {
-    getArquivistaEditBlocoAppState,
-    ArquivistaEditBlocoAppState,
-    ArquivistaEditBlocoState
-} from '../reducers';
+import {ArquivistaEditBlocoAppState, ArquivistaEditBlocoState, getArquivistaEditBlocoAppState} from '../reducers';
 import {getProcessosIds} from '../../../arquivista-list/store/selectors';
 
 const schemaArquivistaEditBlocoSelectors = createSchemaSelectors<Processo>(processoShema);

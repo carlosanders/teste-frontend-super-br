@@ -1,4 +1,4 @@
-import { ModelosListEffect } from './modelos-list.effects';
+import {ModelosListEffect} from './modelos-list.effects';
 
 export const effects = [
     ModelosListEffect

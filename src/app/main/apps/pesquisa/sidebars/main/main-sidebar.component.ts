@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 

@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ViewEncapsulation,
-    OnInit, Inject
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';
@@ -65,7 +59,7 @@ export class CdkLoginDialogComponent implements OnInit {
 
         this.form = this._formBuilder.group({
             tipoLogin: [this.tipoLogin, [Validators.required]],
-            username: ['', [Validators.required]],
+            username: [data.username, [Validators.required]],
             password: ['', Validators.required]
         });
     }

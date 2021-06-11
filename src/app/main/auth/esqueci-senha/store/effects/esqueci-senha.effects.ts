@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {tap, map, catchError} from 'rxjs/operators';
-import {switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import * as EsqueciSenhaActions from '../actions/esqueci-senha.actions';
 import {EsqueciSenhaService} from '../../esqueci-senha.service';
 

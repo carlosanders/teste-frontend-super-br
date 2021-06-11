@@ -27,7 +27,9 @@ import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistri
 import {
     DarCienciaTarefa,
     RedistribuirTarefa,
-    RedistribuirTarefaCancelSuccess, RedistribuirTarefaFailed, RedistribuirTarefaSuccess
+    RedistribuirTarefaCancelSuccess,
+    RedistribuirTarefaFailed,
+    RedistribuirTarefaSuccess
 } from '../../../store';
 
 @Injectable()

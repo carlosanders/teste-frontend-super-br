@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_REPOSITORIO = '[DOCUMENTO EDIT REPOSITORIO] SAVE REPOSITORIO';
 export const SAVE_REPOSITORIO_SUCCESS = '[DOCUMENTO EDIT REPOSITORIO] SAVE REPOSITORIO SUCCESS';

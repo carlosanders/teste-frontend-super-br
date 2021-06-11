@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getAvisoListAppState,
-    AvisoListAppState,
-    AvisoListState
-} from '../reducers';
+import {AvisoListAppState, AvisoListState, getAvisoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {aviso as avisoSchema} from '@cdk/normalizr';

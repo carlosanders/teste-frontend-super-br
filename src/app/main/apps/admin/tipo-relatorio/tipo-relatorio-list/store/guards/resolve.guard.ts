@@ -4,12 +4,12 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStore from '../';
+import {getTipoRelatorioListLoaded} from '../';
 import {getRouterState} from 'app/store/reducers';
 import {TipoRelatorioListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getTipoRelatorioListLoaded} from '../';
 
 
 @Injectable()

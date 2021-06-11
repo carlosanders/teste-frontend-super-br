@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {LoginService} from '../auth/login/login.service';
 import {Store} from '@ngrx/store';
 import {GetNotificacoes, State} from '../../store';
@@ -24,13 +24,12 @@ export class AuthGuard implements CanActivate {
             this._mercureService.subscribe(this._loginService.getUserProfile().username);
             const params = {
                 filter: {
-                    'destinatario.id': 'eq:' + this._loginService.getUserProfile().id,
-                    'dataHoraLeitura': 'isNull'
+                    'destinatario.id': 'eq:' + this._loginService.getUserProfile().id
                 },
                 gridFilter: {},
                 limit: 30,
                 offset: 0,
-                sort: {criadoEm: 'DESC'},
+                sort: {id: 'DESC'},
                 populate: ['populateAll']
             };
             this._store.dispatch(new GetNotificacoes(params));

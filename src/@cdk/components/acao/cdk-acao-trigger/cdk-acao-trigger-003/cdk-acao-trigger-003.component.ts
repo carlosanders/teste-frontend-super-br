@@ -1,17 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnDestroy, OnInit,
-    ViewEncapsulation,
-    OnChanges, SimpleChange, EventEmitter, Output
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
 
-import {Observable} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {Acao, Compartilhamento, Pagination, Usuario} from '../../../../models';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Acao, Compartilhamento, ModalidadeAcaoEtiqueta, Pagination} from '../../../../models';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 // @ts-ignore
 @Component({
@@ -23,11 +25,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
     animations: cdkAnimations
 })
 
-export class CdkAcaoTrigger003Component implements OnInit, OnDestroy, OnChanges {
-
-    compartilhamento: Compartilhamento;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
+export class CdkAcaoTrigger003Component implements OnInit, OnDestroy {
 
     @Input()
     usuarioPagination: Pagination;
@@ -36,13 +34,18 @@ export class CdkAcaoTrigger003Component implements OnInit, OnDestroy, OnChanges 
     saving: boolean;
 
     @Input()
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
+
+    @Input()
     errors: any;
 
     @Output()
     save = new EventEmitter<Acao>();
+
     @Output()
     abort = new EventEmitter<any>();
 
+    compartilhamento: Compartilhamento;
     routerState: any;
     form: FormGroup;
     activeCard: string = 'form';
@@ -69,13 +72,6 @@ export class CdkAcaoTrigger003Component implements OnInit, OnDestroy, OnChanges 
     }
 
     /**
-     * On change
-     */
-    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-
-    }
-
-    /**
      * On destroy
      */
     ngOnDestroy(): void {
@@ -90,6 +86,7 @@ export class CdkAcaoTrigger003Component implements OnInit, OnDestroy, OnChanges 
     }
 
     submit(values): void {
+        values['modalidadeAcaoEtiqueta'] = this.modalidadeAcaoEtiqueta;
         this.save.emit(values);
     }
 

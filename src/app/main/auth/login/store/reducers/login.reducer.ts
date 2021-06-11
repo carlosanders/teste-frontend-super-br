@@ -50,6 +50,12 @@ export function LoginReducers(state = LoginInicialState, action: LoginActions.Lo
                 errorMessage: action.payload.error
             };
         }
+        case LoginActions.LOGIN_REFRESH_TOKEN_SUCCESS: {
+            return {
+                ...state,
+                token: action.payload.token
+            };
+        }
         case LoginActions.GET_CONFIG: {
             return {
                 ...state,

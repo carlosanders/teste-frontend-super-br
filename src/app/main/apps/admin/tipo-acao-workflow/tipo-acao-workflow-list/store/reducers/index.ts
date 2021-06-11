@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {TipoAcaoWorkflowListReducer,TipoAcaoWorkflowListState} from './tipo-acao-workflow-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TipoAcaoWorkflowListReducer, TipoAcaoWorkflowListState} from './tipo-acao-workflow-list.reducer';
 
 export interface TipoAcaoWorkflowListAppState
 {

@@ -1,13 +1,17 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {Aviso, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';

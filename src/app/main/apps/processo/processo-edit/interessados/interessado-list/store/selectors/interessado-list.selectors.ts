@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getInteressadoListAppState,
-    InteressadoListAppState,
-    InteressadoListState
-} from '../reducers';
+import {getInteressadoListAppState, InteressadoListAppState, InteressadoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {interessado as interessadoSchema} from '@cdk/normalizr';

@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -9,17 +10,16 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Compartilhamento} from '@cdk/models';
+import {Compartilhamento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models';
-import {getTarefa} from '../../store/selectors';
+import {getTarefa} from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models/colaborador.model';
-import {Back} from '../../../../../../store/actions';
+import {Back} from '../../../../../../store';
 
 @Component({
     selector: 'compartilhamento-create',
@@ -38,9 +38,11 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    private _profile: Colaborador;
-
     routerState: any;
+
+    usuarioPagination: Pagination;
+
+    private _profile: Colaborador;
 
     /**
      *
@@ -59,6 +61,12 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
+
+        this.usuarioPagination = new Pagination();
+        this.usuarioPagination.filter = {
+            'id': `neq:${this._loginService.getUserProfile().id}`,
+            'colaborador.id': 'isNotNull'
+        };
 
         this._store
             .pipe(select(getRouterState))

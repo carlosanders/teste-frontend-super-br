@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { LogEntry } from '../models/logentry.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {LogEntry} from '../models/logentry.model';
 
 export class LogEntryDataSource extends DataSource<LogEntry> {
 

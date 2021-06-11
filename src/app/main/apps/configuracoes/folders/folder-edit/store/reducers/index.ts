@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { FolderEditReducer, FolderEditState } from './folder-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {FolderEditReducer, FolderEditState} from './folder-edit.reducer';
 
 export interface FolderEditAppState
 {

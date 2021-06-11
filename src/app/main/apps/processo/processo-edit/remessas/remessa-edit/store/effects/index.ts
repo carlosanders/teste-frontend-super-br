@@ -1,4 +1,4 @@
-import { RemessaEditEffect } from './remessa-edit.effects';
+import {RemessaEditEffect} from './remessa-edit.effects';
 
 export const effects = [
     RemessaEditEffect

@@ -2,9 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
+    OnInit,
     Output,
-    ViewEncapsulation, EventEmitter, OnInit
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -12,10 +14,9 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models';
+import {AssuntoAdministrativo, Pagination} from '@cdk/models';
 
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
-import {AssuntoAdministrativo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-assunto-administrativo-gridsearch',

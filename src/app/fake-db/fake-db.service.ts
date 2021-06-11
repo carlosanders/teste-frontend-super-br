@@ -1,6 +1,6 @@
 import {InMemoryDbService} from 'angular-in-memory-web-api';
 
-import { TodoFakeDb } from 'app/fake-db/todo';
+import {TodoFakeDb} from 'app/fake-db/todo';
 
 export class FakeDbService implements InMemoryDbService
 {

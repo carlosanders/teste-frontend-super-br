@@ -1,10 +1,9 @@
-import { Component, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {Component, HostBinding, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
-import { cdkAnimations } from '@cdk/animations';
-import { CdkConfigService } from '@cdk/services/config.service';
-import {Router} from '@angular/router';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkConfigService} from '@cdk/services/config.service';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({

@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -12,9 +18,9 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Pagination, Coordenador} from '@cdk/models';
+import {Coordenador, Pagination} from '@cdk/models';
 import {FormControl} from '@angular/forms';
-import { CoordenadorDataSource } from '@cdk/data-sources/coordenador-data-source';
+import {CoordenadorDataSource} from '@cdk/data-sources/coordenador-data-source';
 
 @Component({
     selector: 'cdk-coordenador-grid',
@@ -133,7 +139,7 @@ export class CdkCoordenadorGridComponent implements AfterViewInit, OnInit, OnCha
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

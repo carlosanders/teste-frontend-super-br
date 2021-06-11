@@ -1,67 +1,83 @@
 acao-edit {
     flex: 1 1 auto;
     display: flex;
+    flex-direction: column;
 
-    > .content {
-        padding: 8px;
-        flex: 1 1 auto;
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    > .border-bottom {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    > .items {
+        flex: 0 1 auto;
+        flex-direction: column;
+        display: flex;
+        margin-top: 16px;
+        padding: 16px;
+
+        > .trigger-acao-item {
+            display: flex;
+            flex: 1 1 auto;
+            padding: 16px 16px 16px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            text-transform: none;
+            cursor: pointer;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            align-content: flex-start;
+
+            > .actions {
+                display: flex;
+                flex-direction: row;
+                flex: 0 0 auto;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    > .triggers {
         display: flex;
         flex-direction: column;
+        flex: 1 1 auto;
+        padding: 0 16px 16px;
 
-        > .header {
-            flex: 1 1 auto;
-            display: flex;
-            path {
-                padding: 16px;
-                align-items: self-start;
-            }
+        .responsive-grid .content {
+            height: 0 !important;
+        }
+    }
+
+    > .actions {
+        display: flex;
+        flex: 0 1 auto;
+        align-items: center;
+        justify-content: center;
+        margin-top: 8px;
+    }
+}
+
+.mat-option {
+    &.multiline {
+        height: 90px !important;
+        line-height: 30px !important;
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
         }
 
-        > .border-bottom {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-        }
-
-        > .items {
-            flex: 0 1 auto;
-            flex-direction: column;
-            display: flex;
-
-            > .trigger-acao-item {
-                display: flex;
-                flex: 1 1 auto;
-                padding: 16px 16px 16px 24px;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-                text-transform: none;
-                cursor: pointer;
-                justify-content: space-between;
-                align-items: center;
-                flex-direction: row;
-                align-content: flex-start;
-
-                > .actions {
-                    display: flex;
-                    flex-direction: row;
-                    flex: 0 0 auto;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                > .info {
-                    display: flex;
-                    flex: 1 1 auto;
-                    flex-direction: column;
-                    margin: 0 16px 0 8px;
-
-                    .title {
-                        font-size: 15px;
-                        font-weight: 600;
-                    }
-
-                    .body {
-                        margin-top: 6px;
-                    }
-                }
-            }
+        .strong {
+            font-weight: bold;
         }
     }
 }

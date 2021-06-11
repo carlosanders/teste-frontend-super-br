@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { LoginReducers, LoginState } from './login.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {LoginReducers, LoginState} from './login.reducer';
 
 export interface LoginAppState
 {

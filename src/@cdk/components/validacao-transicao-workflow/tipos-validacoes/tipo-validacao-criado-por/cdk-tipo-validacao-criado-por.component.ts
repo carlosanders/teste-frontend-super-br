@@ -1,9 +1,14 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -11,7 +16,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
 import {Pagination} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 @Component({
@@ -39,15 +44,15 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
     @Output()
     abort = new EventEmitter<any>();
 
+    @Input()
     form: FormGroup;
 
     @Input()
-
-    @Input()
-    usuarioRecebidoPagination: Pagination;
-
+    usuarioPagination: Pagination;
 
     activeCard = 'form';
+
+    selected = false;
 
     /**
      * Constructor
@@ -65,6 +70,7 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
             descricao: ['descricao', [Validators.required]],
         });
 
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -75,7 +81,24 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
      * On change
      */
     ngOnInit(): void {
+        if (this.form.get('criadoPor').value) {
+            this.selected = true;
+        }
 
+        this.form.get('criadoPor').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.selected = true;
+
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.selected = false;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
 

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RelatorioViewReducer, RelatorioViewState } from './relatorio-view.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RelatorioViewReducer, RelatorioViewState} from './relatorio-view.reducer';
 
 export interface RelatorioViewAppState
 {

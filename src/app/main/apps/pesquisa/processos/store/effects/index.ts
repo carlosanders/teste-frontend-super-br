@@ -1,4 +1,4 @@
-import { ProcessosEffect } from './processos.effects';
+import {ProcessosEffect} from './processos.effects';
 
 export const effects = [
     ProcessosEffect

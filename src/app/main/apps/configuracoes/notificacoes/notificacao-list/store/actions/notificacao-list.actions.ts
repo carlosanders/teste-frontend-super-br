@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_NOTIFICACOES = '[NOTIFICACAO LIST] GET NOTIFICACOES';
 export const GET_NOTIFICACOES_SUCCESS = '[NOTIFICACAO LIST] GET NOTIFICACOES SUCCESS';

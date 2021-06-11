@@ -1,9 +1,5 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatSelectModule,
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule, MatSelectModule,} from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ValidacaoTransicaoWorkflowService} from '@cdk/services/validacao-transicao-workflow.service';

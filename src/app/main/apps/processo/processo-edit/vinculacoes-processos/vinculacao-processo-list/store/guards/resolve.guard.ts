@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {VinculacaoProcessoListAppState} from '../reducers';
 import * as fromStore from '../';
@@ -67,7 +67,15 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'processo.id': processoId
+                            orX: [
+                                {
+                                    'processo.id': processoId
+                                },
+                                {
+                                    'processoVinculado.id':
+                                        `eq:${processoId}`
+                                }
+                            ]
                         },
                         gridFilter: {},
                         limit: 10,

@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {AfastamentoListAppState} from '../reducers';
 import * as fromStore from '../';
@@ -68,7 +68,8 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {id: 'DESC'},
                         populate: [
-                            'populateAll'
+                            'populateAll',
+                            'colaborador.usuario'
                         ]
                     };
 

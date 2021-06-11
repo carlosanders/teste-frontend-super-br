@@ -1,9 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Documento} from '@cdk/models';
-import {documento as documentoSchema} from '@cdk/normalizr';
-import {ComponenteDigital} from '@cdk/models';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {ComponenteDigital, Documento} from '@cdk/models';
+import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
 import {getDocumentoState} from '../../../../store/selectors';
 import {DocumentoState} from '../../../../store/reducers';
 

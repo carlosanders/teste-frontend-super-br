@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_GRUPO_CONTATO = '[GRUPO CONTATO] CREATE GRUPO CONTATO';
 export const CREATE_GRUPO_CONTATO_SUCCESS = '[GRUPO CONTATO] CREATE GRUPO CONTATO SUCCESS';

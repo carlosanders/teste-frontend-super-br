@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getFavoritoListAppState,
-    FavoritoListAppState,
-    FavoritoListState
-} from '../reducers';
+import {FavoritoListAppState, FavoritoListState, getFavoritoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {favorito as favoritoSchema} from '@cdk/normalizr';

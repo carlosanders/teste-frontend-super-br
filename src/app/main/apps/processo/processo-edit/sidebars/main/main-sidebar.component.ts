@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../store';
+import {getProcesso} from '../../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Observable, of, Subject} from 'rxjs';
 import {Processo} from '@cdk/models';
 import {modulesConfig} from 'modules/modules-config';
-import {getProcesso} from '../../../store';
 import {filter, switchMap} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {cdkAnimations} from '@cdk/animations';

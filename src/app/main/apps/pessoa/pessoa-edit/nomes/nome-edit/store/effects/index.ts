@@ -1,4 +1,4 @@
-import { NomeEditEffect } from './nome-edit.effects';
+import {NomeEditEffect} from './nome-edit.effects';
 
 export const effects = [
     NomeEditEffect

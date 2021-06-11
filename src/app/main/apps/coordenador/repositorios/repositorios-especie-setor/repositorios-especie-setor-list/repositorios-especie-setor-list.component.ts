@@ -1,7 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, OnInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
     OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -11,9 +13,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {VinculacaoRepositorio, Pagination} from '@cdk/models';
-
-import {UnloadRepositoriosEspecieSetor} from './store';
+import {Pagination, VinculacaoRepositorio} from '@cdk/models';
 
 
 @Component({

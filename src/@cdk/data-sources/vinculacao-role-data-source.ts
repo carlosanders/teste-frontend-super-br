@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {VinculacaoRole} from '../models/vinculacao-role.model';
 
 export class VinculacaoRoleDataSource extends DataSource<VinculacaoRole> {

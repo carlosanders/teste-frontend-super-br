@@ -15,7 +15,7 @@ import * as JuntadaCreateBlocoActions
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {getBufferingDesentranhamento, getSavingIds} from '../selectors';
-import {DesentranhaJuntada, DesentranhaJuntadaCancel, UnloadJuntadas} from '../../../juntada-list/store';
+import {DesentranhaJuntada, DesentranhaJuntadaCancel} from '../../../juntada-list/store';
 
 @Injectable()
 export class JuntadaCreateBlocoEffect {

@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -122,7 +122,7 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

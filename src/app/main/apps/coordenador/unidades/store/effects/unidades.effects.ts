@@ -8,8 +8,7 @@ import * as UnidadesOrgaoCentralActions from '../actions/unidades.actions';
 
 import {SetorService} from '@cdk/services/setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {setor as setorSchema} from '@cdk/normalizr';
-import {modalidadeOrgaoCentral as modalidadeOrgaoCentralSchema} from '@cdk/normalizr';
+import {modalidadeOrgaoCentral as modalidadeOrgaoCentralSchema, setor as setorSchema} from '@cdk/normalizr';
 import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

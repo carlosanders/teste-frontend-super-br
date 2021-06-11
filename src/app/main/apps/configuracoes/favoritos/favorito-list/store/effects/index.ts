@@ -1,4 +1,4 @@
-import { FavoritoListEffect } from './favorito-list.effects';
+import {FavoritoListEffect} from './favorito-list.effects';
 
 export const effects = [
     FavoritoListEffect

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Effect, Actions, ofType} from '@ngrx/effects';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 import {tap} from 'rxjs/operators';
 import * as CounterActions from 'app/store/actions/counter.action';
 import {Observable} from 'rxjs';

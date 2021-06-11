@@ -2,20 +2,19 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, OnDestroy,
+    Component,
+    OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Modelo} from '@cdk/models';
+import {Modelo, Processo, Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {Processo} from '@cdk/models';
-import {Tarefa} from '@cdk/models';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {filter, takeUntil} from 'rxjs/operators';

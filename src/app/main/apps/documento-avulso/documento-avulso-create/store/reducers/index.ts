@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoAvulsoCreateReducer, DocumentoAvulsoCreateState } from './documento-avulso-create.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DocumentoAvulsoCreateReducer, DocumentoAvulsoCreateState} from './documento-avulso-create.reducer';
 
 export interface DocumentoAvulsoCreateAppState
 {

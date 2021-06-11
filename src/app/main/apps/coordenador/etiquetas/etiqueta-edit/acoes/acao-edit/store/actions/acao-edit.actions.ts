@@ -1,15 +1,15 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
-export const CREATE_ACAO = '[ACAO] CREATE ACAO';
-export const CREATE_ACAO_SUCCESS = '[ACAO] CREATE ACAO SUCCESS';
+export const CREATE_ACAO = '[ACAO COORDENACAO] CREATE ACAO';
+export const CREATE_ACAO_SUCCESS = '[ACAO COORDENACAO] CREATE ACAO SUCCESS';
 
-export const SAVE_ACAO = '[ACAO] SAVE ACAO';
-export const SAVE_ACAO_SUCCESS = '[ACAO] SAVE ACAO SUCCESS';
-export const SAVE_ACAO_FAILED = '[ACAO] SAVE ACAO FAILED';
+export const SAVE_ACAO = '[ACAO COORDENACAO] SAVE ACAO';
+export const SAVE_ACAO_SUCCESS = '[ACAO COORDENACAO] SAVE ACAO SUCCESS';
+export const SAVE_ACAO_FAILED = '[ACAO COORDENACAO] SAVE ACAO FAILED';
 
-export const GET_ACAO = '[ACAO] GET ACAO';
-export const GET_ACAO_SUCCESS = '[ACAO] GET ACAO SUCCESS';
-export const GET_ACAO_FAILED = '[ACAO] GET ACAO FAILED';
+export const GET_ACAO = '[ACAO COORDENACAO] GET ACAO';
+export const GET_ACAO_SUCCESS = '[ACAO COORDENACAO] GET ACAO SUCCESS';
+export const GET_ACAO_FAILED = '[ACAO COORDENACAO] GET ACAO FAILED';
 
 /**
  * Get Acao

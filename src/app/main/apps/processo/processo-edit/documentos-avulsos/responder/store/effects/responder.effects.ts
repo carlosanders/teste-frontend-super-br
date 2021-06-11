@@ -2,17 +2,17 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap, map} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentoAvulsoReponderActions from '../actions/responder.actions';
 
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
     assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
     documento as documentoSchema,
-    documentoAvulso as documentoAvulsoSchema,
-    componenteDigital as componenteDigitalSchema
+    documentoAvulso as documentoAvulsoSchema
 } from '@cdk/normalizr';
 import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
 import {Router} from '@angular/router';
@@ -21,7 +21,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import { getDocumentoAvulso } from '../selectors';
+import {getDocumentoAvulso} from '../selectors';
 import {environment} from 'environments/environment';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
@@ -156,10 +156,14 @@ export class DocumentoAvulsoResponderEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoReponderActions.ConverteToPdf>(DocumentoAvulsoReponderActions.CONVERTE_DOCUMENTO),
-                mergeMap(action => this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
                             .pipe(
                                 mergeMap(response => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new UpdateData<Documento>({
+                                        id: response.id,
+                                        schema: documentoSchema,
+                                        changes: {componentesDigitais: response.componentesDigitais}
+                                    }),
                                     new DocumentoAvulsoReponderActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {

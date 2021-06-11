@@ -1,7 +1,9 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
-    Input, OnInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
@@ -156,6 +158,15 @@ export class CdkProcessoListItemComponent implements OnInit {
             this.loadInteressados.emit(this.processo);
         }
         this.isOpen = !this.isOpen;
+    }
+
+    copiarParaAreaTrabalho(nup): void {
+        document.addEventListener('copy', (e: ClipboardEvent) => {
+            e.clipboardData.setData('text/plain', (nup));
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
     }
 }
 

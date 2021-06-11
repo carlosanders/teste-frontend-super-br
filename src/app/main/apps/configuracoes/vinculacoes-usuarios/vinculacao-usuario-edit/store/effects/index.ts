@@ -1,4 +1,4 @@
-import { VinculacaoUsuarioEditEffect } from './vinculacao-usuario-edit.effects';
+import {VinculacaoUsuarioEditEffect} from './vinculacao-usuario-edit.effects';
 
 export const effects = [
     VinculacaoUsuarioEditEffect

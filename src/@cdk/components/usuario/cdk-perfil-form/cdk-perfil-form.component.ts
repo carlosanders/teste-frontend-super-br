@@ -1,15 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Usuario} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-perfil-form',
@@ -36,6 +40,12 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
+    @Output()
+    uploadImagemPerfilHandler = new EventEmitter();
+
+    @Output()
+    uploadImagemChancelaHandler = new EventEmitter();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -55,7 +65,9 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             cargo: [null, [Validators.required, Validators.maxLength(255)]],
             modalidadeColaborador: [null, [Validators.required, Validators.maxLength(255)]],
-            assinaturaHTML: [null, [Validators.required]]
+            assinaturaHTML: [null, [Validators.required]],
+            imgPerfil: [null],
+            imgChancela: [null]
         });
     }
 
@@ -127,6 +139,16 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    doUploadImagemPerfil(): void
+    {
+        this.uploadImagemPerfilHandler.emit();
+    }
+
+    doUploadImagemChancela(): void
+    {
+        this.uploadImagemChancelaHandler.emit();
     }
 
 }

@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { ModalidadeRepresentanteService } from '@cdk/services/modalidade-representante.service';
-import { CdkModalidadeRepresentanteGridsearchComponent } from './cdk-modalidade-representante-gridsearch.component';
-import { CdkModalidadeRepresentanteGridModule } from '@cdk/components/modalidade-representante/cdk-modalidade-representante-grid/cdk-modalidade-representante-grid.module';
+import {ModalidadeRepresentanteService} from '@cdk/services/modalidade-representante.service';
+import {CdkModalidadeRepresentanteGridsearchComponent} from './cdk-modalidade-representante-gridsearch.component';
+import {CdkModalidadeRepresentanteGridModule} from '@cdk/components/modalidade-representante/cdk-modalidade-representante-grid/cdk-modalidade-representante-grid.module';
 
 @NgModule({
     declarations: [

@@ -1,15 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnDestroy, OnInit,
-    ViewEncapsulation,
-    OnChanges, SimpleChange, EventEmitter, Output
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {Acao, Modelo, Pagination} from '../../../../models';
+import {Acao, ModalidadeAcaoEtiqueta, Modelo, Pagination} from '../../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -25,17 +30,24 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
 
     @Input()
     modeloPagination: Pagination;
+
     @Input()
     saving: boolean;
+
     @Input()
     errors: any;
+
     @Input()
     modeloAndx: any = [];
+
+    valid: boolean = false;
+
     @Input()
-    modalidadeAcaoEtiqueta;
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
 
     @Output()
     save = new EventEmitter<Acao>();
+
     @Output()
     abort = new EventEmitter<any>();
 
@@ -72,6 +84,13 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
      * On init
      */
     ngOnInit(): void {
+        this.form.get('modelo').valueChanges.subscribe((valor) => {
+            if (typeof valor === 'object') {
+                this.valid = true;
+            } else {
+                this.valid = false;
+            }
+        });
     }
 
     /**

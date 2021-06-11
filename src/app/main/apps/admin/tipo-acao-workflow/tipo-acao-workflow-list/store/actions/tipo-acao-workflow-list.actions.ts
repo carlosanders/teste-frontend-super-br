@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TIPO_ACAO_WORKFLOW = '[SUPERADMIN ESPECIE PROCESSO LIST] GET TIPO_ACAO_WORKFLOW';
 export const GET_TIPO_ACAO_WORKFLOW_SUCCESS = '[SUPERADMIN ESPECIE PROCESSO LIST] GET TIPO_ACAO_WORKFLOW SUCCESS';

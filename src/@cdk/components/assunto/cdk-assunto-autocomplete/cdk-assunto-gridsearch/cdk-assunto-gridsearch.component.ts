@@ -2,19 +2,20 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
+    OnInit,
     Output,
-    ViewEncapsulation, EventEmitter, OnInit
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
+import {Assunto, Pagination} from '@cdk/models';
 
 import {AssuntoService} from '@cdk/services/assunto.service';
-import {Assunto} from '@cdk/models';
 
 
 @Component({

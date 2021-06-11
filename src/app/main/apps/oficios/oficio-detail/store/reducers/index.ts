@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { OficioDetailReducer, OficioDetailState } from './oficio-detail.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {OficioDetailReducer, OficioDetailState} from './oficio-detail.reducer';
 
 export interface OficioDetailAppState
 {

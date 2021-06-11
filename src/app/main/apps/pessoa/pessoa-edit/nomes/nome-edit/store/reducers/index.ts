@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { NomeEditReducer, NomeEditState } from './nome-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {NomeEditReducer, NomeEditState} from './nome-edit.reducer';
 
 export interface NomeEditAppState
 {

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TAREFA = '[TAREFA CREATE BLOCO] CREATE TAREFA';
 export const CREATE_TAREFA_SUCCESS = '[TAREFA CREATE BLOCO] CREATE TAREFA SUCCESS';

@@ -8,7 +8,6 @@ import * as TipoDocumentoEditActions from '../actions/tipo-documento-edit.action
 import * as TipoDocumentoListActions from '../../../tipo-documento-list/store/actions/tipo-documento-list.actions';
 
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
-import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
 import {TipoDocumento} from '@cdk/models';

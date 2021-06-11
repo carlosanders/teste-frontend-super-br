@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getDocumentoAvulsoResponderAppState, DocumentoAvulsoResponderAppState, DocumentoAvulsoResponderState} from '../reducers';
+import {
+    DocumentoAvulsoResponderAppState,
+    DocumentoAvulsoResponderState,
+    getDocumentoAvulsoResponderAppState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento, DocumentoAvulso} from '@cdk/models';
 import {documento as documentoSchema, documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';

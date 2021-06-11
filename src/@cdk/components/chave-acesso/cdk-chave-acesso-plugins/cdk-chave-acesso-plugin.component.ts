@@ -1,13 +1,15 @@
 import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
-    Output,
-    ViewEncapsulation,
     EventEmitter,
-    OnInit, ChangeDetectorRef, ChangeDetectionStrategy
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
-import { cdkAnimations } from '../../../animations';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import {cdkAnimations} from '../../../animations';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'cdk-chave-acesso-plugin',

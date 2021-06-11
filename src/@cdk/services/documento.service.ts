@@ -2,12 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Documento, Tarefa} from '@cdk/models';
+import {Documento, Visibilidade} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
-import {Visibilidade} from '@cdk/models';
-import {ComponenteDigital} from '@cdk/models';
 
 import {ParentGenericService} from './parent-generic.service';
 
@@ -83,6 +81,19 @@ export class DocumentoService extends ParentGenericService<Documento> {
                 Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Documento(), {...documento, ...response});
             })
+        );
+    }
+
+    convertToPdf(id: number, changes: any, populate: any = '[]', context: any = '{}'): Observable<Documento> {
+        const params = {};
+        params['populate'] = JSON.stringify(populate);
+        params['context'] = context;
+
+        return this.modelService.patch(
+            'administrativo/documento/convertToPdf',
+            id,
+            changes,
+            new HttpParams({fromObject: params})
         );
     }
 }

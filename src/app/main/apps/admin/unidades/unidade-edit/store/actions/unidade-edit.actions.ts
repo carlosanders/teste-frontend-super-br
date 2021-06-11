@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_UNIDADE = '[ADMIN UNIDADE EDIT] CREATE UNIDADE';
 export const CREATE_UNIDADE_SUCCESS = '[ADMIN UNIDADE EDIT] CREATE UNIDADE SUCCESS';
