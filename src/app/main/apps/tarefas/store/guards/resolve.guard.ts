@@ -14,6 +14,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 
 import {navigationConverter} from '../../../../../navigation/navigation';
+import * as moment from 'moment';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -204,7 +205,7 @@ export class ResolveGuard implements CanActivate {
                                 if (this.routerState.params[targetParam] === 'lixeira') {
                                     tarefaFilter = {
                                         'usuarioResponsavel.id': 'eq:' + this._profile.id,
-                                        'apagadoEm': 'isNotNull'
+                                        'apagadoEm': 'gt:' + moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')
                                     };
                                 }
 
