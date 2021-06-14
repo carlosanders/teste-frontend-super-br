@@ -347,8 +347,7 @@ export class ProcessoViewDocumentosEffects {
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new ProcessoViewDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                                    return caught;
+                                    return of(new ProcessoViewDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
                             )
                 ));
