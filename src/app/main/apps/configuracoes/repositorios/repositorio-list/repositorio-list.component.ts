@@ -89,7 +89,7 @@ export class RepositorioListComponent implements OnInit, OnDestroy {
             populate: [
                 ...this.pagination.populate
             ],
-            context: this.pagination.context
+            context: params.context
         }));
     }
 
@@ -105,6 +105,21 @@ export class RepositorioListComponent implements OnInit, OnDestroy {
             offset: params.offset,
             populate: this.pagination.populate,
             context: params.context
+        }));
+    }
+
+    inatived(params): void {
+        this._store.dispatch(new fromStore.GetRepositorios({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context,
         }));
     }
 

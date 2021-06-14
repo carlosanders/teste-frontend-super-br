@@ -105,7 +105,22 @@ export class ModelosListComponent implements OnInit, OnDestroy {
             limit: params.limit,
             offset: params.offset,
             populate: this.pagination.populate,
-            context: this.pagination.context
+            context: params.context
+        }));
+    }
+
+    inatived(params): void {
+        this._store.dispatch(new fromStore.GetModelos({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context,
         }));
     }
 

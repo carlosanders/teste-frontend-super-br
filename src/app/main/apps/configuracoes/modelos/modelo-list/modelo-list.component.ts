@@ -15,7 +15,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
-
 @Component({
     selector: 'modelo-list',
     templateUrl: './modelo-list.component.html',
@@ -89,7 +88,7 @@ export class ModeloListComponent implements OnInit, OnDestroy {
             populate: [
                 ...this.pagination.populate
             ],
-            context: this.pagination.context
+            context: this.pagination.context,
         }));
     }
 
@@ -104,7 +103,22 @@ export class ModeloListComponent implements OnInit, OnDestroy {
             limit: params.limit,
             offset: params.offset,
             populate: this.pagination.populate,
-            context: params.context
+            context: params.context,
+        }));
+    }
+
+    inatived(params): void {
+        this._store.dispatch(new fromStore.GetModelos({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context,
         }));
     }
 

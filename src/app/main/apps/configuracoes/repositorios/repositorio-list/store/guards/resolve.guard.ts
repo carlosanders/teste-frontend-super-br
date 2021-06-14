@@ -73,7 +73,6 @@ export class ResolveGuard implements CanActivate {
                             'documento.componentesDigitais',
                             'modalidadeRepositorio'
                         ],
-                        context: {isAdmin: true}
                     };
 
                     this._store.dispatch(new fromStore.GetRepositorios(params));
