@@ -1,24 +1,30 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, ElementRef, EventEmitter, Input, OnChanges,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    OnInit, Output, SimpleChange,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {
+    MatDialog,
     MatSnackBar,
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition
 } from '@cdk/angular/material';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ComponenteDigital} from '@cdk/models';
-import {MatDialog} from '@cdk/angular/material';
+import {ComponenteDigital, Pagination} from '@cdk/models';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
-import {Pagination} from '@cdk/models';
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 

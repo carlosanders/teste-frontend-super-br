@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const RESULTADO = '[OPERACOES] RESULTADO';
 export const OPERACAO = '[OPERACOES] OPERACAO';

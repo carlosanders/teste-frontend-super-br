@@ -3,7 +3,12 @@ import {RouterModule, Routes} from '@angular/router';
 import {
     MatAutocompleteModule,
     MatButtonModule,
-    MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatRippleModule, MatTooltipModule
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatRippleModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -12,7 +17,6 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import {RelatorioViewComponent} from './relatorio-view.component';
 import {RelatorioService} from '@cdk/services/relatorio.service';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {RelatorioViewStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';

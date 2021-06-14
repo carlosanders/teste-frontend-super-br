@@ -1,9 +1,11 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input, OnChanges,
+    Input,
+    OnChanges,
     OnInit,
     Output,
     ViewChild,

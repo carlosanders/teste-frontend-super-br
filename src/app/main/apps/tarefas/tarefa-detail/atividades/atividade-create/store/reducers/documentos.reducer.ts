@@ -1,4 +1,5 @@
-import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
+import * as AtividadeCreateDocumentosActions
+    from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 
 export interface AtividadeCreateDocumentosState {
     documentosId: number[];

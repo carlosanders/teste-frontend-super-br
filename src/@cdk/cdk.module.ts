@@ -1,6 +1,6 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
 
-import { CDK_CONFIG } from '@cdk/services/config.service';
+import {CDK_CONFIG} from '@cdk/services/config.service';
 
 @NgModule()
 export class CdkModule

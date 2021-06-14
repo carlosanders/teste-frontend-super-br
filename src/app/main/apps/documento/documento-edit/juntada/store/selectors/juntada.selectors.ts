@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getDocumentoEditJuntadaAppState, DocumentoEditJuntadaAppState, JuntadaState} from '../reducers';
+import {DocumentoEditJuntadaAppState, getDocumentoEditJuntadaAppState, JuntadaState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr';

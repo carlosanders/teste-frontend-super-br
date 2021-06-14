@@ -1,8 +1,5 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';

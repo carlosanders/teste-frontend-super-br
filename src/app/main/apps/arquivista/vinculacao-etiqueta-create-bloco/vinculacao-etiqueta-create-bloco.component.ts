@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,18 +11,15 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Pagination, VinculacaoEtiqueta} from '@cdk/models';
+import {Etiqueta, Pagination, Processo, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Processo} from '@cdk/models';
 import {getSelectedProcessos} from '../arquivista-list/store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Etiqueta} from '@cdk/models';
-import {ChangeSelectedProcessos} from '../arquivista-list/store';
 import {CdkUtils} from '@cdk/utils';
 
 @Component({

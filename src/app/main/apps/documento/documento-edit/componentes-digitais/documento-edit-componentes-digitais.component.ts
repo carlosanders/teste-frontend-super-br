@@ -1,9 +1,12 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -17,7 +20,7 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {ComponenteDigital, Documento, Sigilo, Usuario} from '@cdk/models';
+import {ComponenteDigital, Documento, Usuario} from '@cdk/models';
 import {GetDocumento, SetCurrentStep} from '../../store';
 
 @Component({

@@ -1,4 +1,4 @@
-import { LoginEffects } from './login.effects';
+import {LoginEffects} from './login.effects';
 
 export const effects = [
     LoginEffects

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaEditReducer, TarefaEditState } from './tarefa-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TarefaEditReducer, TarefaEditState} from './tarefa-edit.reducer';
 
 export interface TarefaEditAppState
 {

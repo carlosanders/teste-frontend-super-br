@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefaCreateAppState, TarefaCreateAppState, TarefaCreateState} from 'app/main/apps/tarefas/tarefa-create/store/reducers';
+import {
+    getTarefaCreateAppState,
+    TarefaCreateAppState,
+    TarefaCreateState
+} from 'app/main/apps/tarefas/tarefa-create/store/reducers';
 
 export const getTarefaCreateState = createSelector(
     getTarefaCreateAppState,

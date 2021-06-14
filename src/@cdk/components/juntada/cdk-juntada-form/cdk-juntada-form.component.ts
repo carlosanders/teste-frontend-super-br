@@ -1,22 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Juntada} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {OrigemDados} from '@cdk/models';
-import {DocumentoAvulso} from '@cdk/models';
-import {Atividade} from '@cdk/models';
-import {Tarefa} from '@cdk/models';
-import {Volume} from '@cdk/models';
+import {Atividade, Documento, DocumentoAvulso, Juntada, OrigemDados, Pagination, Tarefa, Volume} from '@cdk/models';
 
 @Component({
     selector: 'cdk-juntada-form',

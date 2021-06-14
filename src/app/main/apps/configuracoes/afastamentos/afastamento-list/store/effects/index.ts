@@ -1,4 +1,4 @@
-import { AfastamentoListEffect } from './afastamento-list.effects';
+import {AfastamentoListEffect} from './afastamento-list.effects';
 
 export const effects = [
     AfastamentoListEffect

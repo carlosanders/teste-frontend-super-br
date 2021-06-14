@@ -1,4 +1,4 @@
-import { AtividadeCreateBlocoEffect } from './upload-bloco.effects';
+import {AtividadeCreateBlocoEffect} from './upload-bloco.effects';
 
 export const effects = [
     AtividadeCreateBlocoEffect

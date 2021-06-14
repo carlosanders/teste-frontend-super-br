@@ -1,4 +1,4 @@
-import { FolderEditEffect } from './folder-edit.effects';
+import {FolderEditEffect} from './folder-edit.effects';
 
 export const effects = [
     FolderEditEffect

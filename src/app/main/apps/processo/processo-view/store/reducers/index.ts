@@ -1,8 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProcessoViewReducer, ProcessoViewState } from './processo-view.reducer';
-import { ComponenteDigitalReducer, ComponenteDigitalState } from './componentes-digitais.reducer';
-import { ProcessoViewDocumentosReducer, ProcessoViewDocumentosState } from './documentos.reducer';
-import { VolumesReducer, VolumesState } from './volumes.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ProcessoViewReducer, ProcessoViewState} from './processo-view.reducer';
+import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
+import {ProcessoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
+import {VolumesReducer, VolumesState} from './volumes.reducer';
 
 export interface ProcessoViewAppState
 {

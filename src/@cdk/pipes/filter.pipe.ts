@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { CdkUtils } from '@cdk/utils';
+import {Pipe, PipeTransform} from '@angular/core';
+import {CdkUtils} from '@cdk/utils';
 
 @Pipe({name: 'filter'})
 export class FilterPipe implements PipeTransform

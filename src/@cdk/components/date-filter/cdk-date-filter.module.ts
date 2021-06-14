@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
     MatSlideToggleModule,
-    MatDatepickerModule,
     MatTooltipModule
 } from '@cdk/angular/material';
 

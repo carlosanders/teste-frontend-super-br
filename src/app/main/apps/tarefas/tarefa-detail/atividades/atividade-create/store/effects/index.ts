@@ -1,6 +1,6 @@
-import { AtividadeCreateEffect } from './atividade-create.effects';
-import { AtividadeCreateDocumentosEffect } from './documentos.effects';
-import { ComponentesDigitaisEffects } from './componentes-digitais.effects';
+import {AtividadeCreateEffect} from './atividade-create.effects';
+import {AtividadeCreateDocumentosEffect} from './documentos.effects';
+import {ComponentesDigitaisEffects} from './componentes-digitais.effects';
 
 export const effects = [
     AtividadeCreateEffect,

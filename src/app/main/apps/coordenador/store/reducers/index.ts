@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CoordenadorReducer, CoordenadorState } from './coordenador.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {CoordenadorReducer, CoordenadorState} from './coordenador.reducer';
 
 export interface CoordenadorAppState
 {

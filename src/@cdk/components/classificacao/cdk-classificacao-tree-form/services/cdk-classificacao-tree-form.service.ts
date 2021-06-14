@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {FlatNode} from '../cdk-classificacao-tree-form.component';
+import {BehaviorSubject} from 'rxjs';
 
 export class ClassificacaoNode {
     id?: number;

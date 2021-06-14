@@ -9,9 +9,9 @@ import {
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
+import {getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {getRouterState} from 'app/store';
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({

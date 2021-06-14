@@ -10,8 +10,6 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {id} from "@swimlane/ngx-charts";
-import {RemoveNotificacao} from "../actions";
 
 @Injectable()
 export class NotificacaoEffect {

@@ -1,7 +1,10 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter, Input,
-    OnInit, Output,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 

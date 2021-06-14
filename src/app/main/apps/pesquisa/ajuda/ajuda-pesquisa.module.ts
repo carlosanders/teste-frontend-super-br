@@ -1,8 +1,8 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 import {MatExpansionModule} from '@cdk/angular/material';
 
-import { AjudaPesquisaComponent } from './ajuda-pesquisa.component';
-import { CdkSharedModule } from '@cdk/shared.module';
+import {AjudaPesquisaComponent} from './ajuda-pesquisa.component';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 
 @NgModule({

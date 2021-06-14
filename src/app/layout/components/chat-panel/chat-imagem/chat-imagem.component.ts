@@ -1,8 +1,4 @@
-import {
-    Component,
-    Input,
-    ViewEncapsulation
-} from '@angular/core';
+import {Component, Input, ViewEncapsulation} from '@angular/core';
 import {Chat} from "@cdk/models";
 import {LoginService} from "../../../../main/auth/login/login.service";
 import {ChatUtils} from "../utils/chat.utils";

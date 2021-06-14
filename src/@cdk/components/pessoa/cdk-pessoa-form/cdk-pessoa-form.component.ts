@@ -1,21 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Pessoa} from '@cdk/models';
+import {ModalidadeGeneroPessoa, ModalidadeQualificacaoPessoa, Municipio, Pagination, Pais, Pessoa} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {ModalidadeQualificacaoPessoa} from '@cdk/models';
-import {ModalidadeGeneroPessoa} from '@cdk/models';
-import {Pais} from '@cdk/models';
-import {Municipio} from '@cdk/models';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 

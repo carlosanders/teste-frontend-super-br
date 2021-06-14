@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_ACOES = '[ACAO TRANSICAO WORKFLOW LIST] GET ACOES';
 export const GET_ACOES_SUCCESS = '[ACAO TRANSICAO WORKFLOW LIST] GET ACOES SUCCESS';

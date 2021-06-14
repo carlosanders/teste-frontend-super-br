@@ -1,17 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Volume} from '@cdk/models';
-import {ModalidadeMeio} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {ModalidadeMeio, Pagination, Volume} from '@cdk/models';
 
 @Component({
     selector: 'cdk-volume-form',

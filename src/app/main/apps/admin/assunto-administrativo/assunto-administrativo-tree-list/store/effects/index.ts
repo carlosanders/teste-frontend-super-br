@@ -1,4 +1,4 @@
-import { AssuntoAdministrativoTreeListEffects } from './assunto-administrativo-tree-list.effects';
+import {AssuntoAdministrativoTreeListEffects} from './assunto-administrativo-tree-list.effects';
 
 export const effects = [
     AssuntoAdministrativoTreeListEffects

@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -7,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {ValidacaoTransicaoWorkflow, TransicaoWorkflow, TipoValidacaoWorkflow, Pessoa} from '@cdk/models';
+import {TipoValidacaoWorkflow, ValidacaoTransicaoWorkflow} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../../../../../store';

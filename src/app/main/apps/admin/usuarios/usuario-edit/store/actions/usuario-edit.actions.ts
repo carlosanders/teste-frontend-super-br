@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_USUARIO = '[COORDENADOR USUARIO EDIT] CREATE USUARIO';
 export const CREATE_USUARIO_SUCCESS = '[COORDENADOR USUARIO EDIT] CREATE USUARIO SUCCESS';

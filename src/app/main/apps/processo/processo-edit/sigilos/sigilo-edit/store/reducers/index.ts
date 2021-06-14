@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { SigiloEditReducer, SigiloEditState } from './sigilo-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {SigiloEditReducer, SigiloEditState} from './sigilo-edit.reducer';
 
 export interface SigiloEditAppState
 {

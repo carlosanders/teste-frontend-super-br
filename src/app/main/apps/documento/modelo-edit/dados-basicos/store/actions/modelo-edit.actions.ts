@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_MODELO = '[DOCUMENTO EDIT MODELO] SAVE MODELO';
 export const SAVE_MODELO_SUCCESS = '[DOCUMENTO EDIT MODELO] SAVE MODELO SUCCESS';

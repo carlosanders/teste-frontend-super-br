@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
@@ -14,8 +8,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../../../store';
-import {getRouterState} from '../../../../../store';
+import {Back, getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'dados-pessoa-edit',

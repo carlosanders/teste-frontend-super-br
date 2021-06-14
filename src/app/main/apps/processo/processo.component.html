@@ -40,13 +40,14 @@
 
             </div>
 
-            <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async)">
+            <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
                 <mat-spinner diameter="20"></mat-spinner>
             </div>
 
             <div class="actions" *ngIf="processo !== null">
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                        (click)="$event.stopPropagation()" *ngIf="(processo$ | async)">
+                        (click)="$event.stopPropagation()"
+                        *ngIf="(processo$ | async) && (togglingAcompanharProcesso$ | async) === false && (pluginLoading$ | async)?.length === 0">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
@@ -81,7 +82,7 @@
                             <span>Abrir nova aba</span>
                         </ng-container>
                     </button>
-                    <button mat-menu-item aria-label="abrir nova aba" *ngIf="processo" (click)="acompanharProcesso(processo)" >
+                    <button mat-menu-item aria-label="alterar acompanhamento" *ngIf="processo" (click)="acompanharProcesso(processo)" >
                         <ng-container>
                             <mat-icon>done</mat-icon>
                             <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo'  : 'Acompanhar Processo'}}</span>

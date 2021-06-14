@@ -2,9 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
+    OnInit,
     Output,
-    ViewEncapsulation, EventEmitter, OnInit
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -13,8 +15,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {catchError, finalize} from 'rxjs/operators';
 
 import {AreaTrabalhoService} from '@cdk/services/area-trabalho.service';
-import {AreaTrabalho} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {AreaTrabalho, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-area-trabalho-gridsearch',

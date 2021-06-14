@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ModeloListReducer, ModeloListState } from './modelo-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ModeloListReducer, ModeloListState} from './modelo-list.reducer';
 
 export interface ModeloListAppState
 {

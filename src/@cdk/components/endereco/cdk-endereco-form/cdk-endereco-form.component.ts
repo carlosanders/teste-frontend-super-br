@@ -1,21 +1,22 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Endereco } from '@cdk/models';
-import { Municipio } from '@cdk/models';
-import {Pais} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {Endereco, Municipio, Pagination, Pais} from '@cdk/models';
 import {EnderecoService} from '@cdk/services/endereco.service';
 import {catchError} from 'rxjs/operators';
-import {of, throwError} from 'rxjs';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-endereco-form',

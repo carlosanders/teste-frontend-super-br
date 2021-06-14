@@ -1,5 +1,5 @@
 # build
-FROM node:14.17.0-alpine AS build
+FROM node:12.22.1-alpine AS build
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
@@ -9,9 +9,9 @@ COPY package.json /var/www/html/package.json
 
 RUN npm config set unsafe-perm true
 
-RUN npm install npm@7.15.1 -g
+RUN npm install npm@7.16.0 -g
 
-RUN npm install -g @angular/cli@12.0.3
+RUN npm install -g @angular/cli@12.0.4
 
 RUN npm install --legacy-peer-deps
 

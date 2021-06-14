@@ -1,4 +1,4 @@
-import { EspecieTarefaEditEffects } from './especie-tarefa-edit.effects';
+import {EspecieTarefaEditEffects} from './especie-tarefa-edit.effects';
 
 export const effects = [
     EspecieTarefaEditEffects

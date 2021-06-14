@@ -1,6 +1,6 @@
 import {ActionReducerMap, createFeatureSelector} from '@ngrx/store';
-import {ChatState, ChatReducer} from "./chat.reducer";
-import {ChatMensagemState, ChatMensagemReducer} from "./chat-mensagem.reducer";
+import {ChatReducer, ChatState} from "./chat.reducer";
+import {ChatMensagemReducer, ChatMensagemState} from "./chat-mensagem.reducer";
 
 export interface ChatAppState
 {

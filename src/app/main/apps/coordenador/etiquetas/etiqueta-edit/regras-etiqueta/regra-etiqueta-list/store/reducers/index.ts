@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RegraEtiquetaListReducer, RegraEtiquetaListState } from './regra-etiqueta-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RegraEtiquetaListReducer, RegraEtiquetaListState} from './regra-etiqueta-list.reducer';
 
 export interface RegraEtiquetaListAppState
 {

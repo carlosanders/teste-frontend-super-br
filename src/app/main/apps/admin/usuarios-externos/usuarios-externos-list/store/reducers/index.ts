@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {UsuariosExternosListReducer, UsuariosExternosListState} from './usuarios-externos-list.reducer';
 
 export interface UsuariosExternosListAppState

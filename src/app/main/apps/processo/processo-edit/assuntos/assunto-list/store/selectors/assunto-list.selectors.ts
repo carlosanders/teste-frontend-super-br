@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getAssuntoListAppState,
-    AssuntoListAppState,
-    AssuntoListState
-} from '../reducers';
+import {AssuntoListAppState, AssuntoListState, getAssuntoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {assunto as assuntoSchema} from '@cdk/normalizr';

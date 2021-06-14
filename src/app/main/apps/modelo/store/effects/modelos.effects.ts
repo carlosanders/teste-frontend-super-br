@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, switchMap, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as ModelosActions from 'app/main/apps/modelo/store/actions/modelos.actions';
 import {ModeloService} from '@cdk/services/modelo.service';
@@ -43,7 +43,7 @@ export class ModelosEffect {
                         ...action.payload.filter,
                         ...action.payload.gridFilter,
                     };
-                    let mode = 'query';
+                    let mode = 'search';
                     if (filter.hasOwnProperty('documento.componentesDigitais.conteudo')) {
                         mode = 'search';
                     }

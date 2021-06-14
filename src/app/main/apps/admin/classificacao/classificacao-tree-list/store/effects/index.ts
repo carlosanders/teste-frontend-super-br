@@ -1,4 +1,4 @@
-import { ClassificacaoTreeListEffects } from './classificacao-tree-list.effects';
+import {ClassificacaoTreeListEffects} from './classificacao-tree-list.effects';
 
 export const effects = [
     ClassificacaoTreeListEffects

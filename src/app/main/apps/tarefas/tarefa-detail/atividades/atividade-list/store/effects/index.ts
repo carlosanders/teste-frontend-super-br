@@ -1,4 +1,4 @@
-import { AtividadeListEffect } from './atividade-list.effects';
+import {AtividadeListEffect} from './atividade-list.effects';
 
 export const effects = [
     AtividadeListEffect

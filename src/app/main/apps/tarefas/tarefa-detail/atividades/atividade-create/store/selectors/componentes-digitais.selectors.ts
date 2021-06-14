@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getAtividadeCreateAppState,
-    AtividadeCreateAppState,
-    ComponenteDigitalState
-} from '../reducers';
+import {AtividadeCreateAppState, ComponenteDigitalState, getAtividadeCreateAppState} from '../reducers';
 
 export const getComponenteDigitalState = createSelector(
     getAtividadeCreateAppState,

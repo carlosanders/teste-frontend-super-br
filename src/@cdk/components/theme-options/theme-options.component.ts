@@ -1,13 +1,13 @@
-import { Component, HostBinding, Inject, OnDestroy, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DOCUMENT } from '@angular/common';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {Component, HostBinding, Inject, OnDestroy, OnInit, Renderer2, ViewEncapsulation} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {DOCUMENT} from '@angular/common';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
-import { cdkAnimations } from '@cdk/animations';
-import { CdkConfigService } from '@cdk/services/config.service';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
-import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector     : 'cdk-theme-options',

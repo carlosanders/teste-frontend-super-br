@@ -11,9 +11,8 @@ import * as ProcessoActions from '../actions/processo.actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models';
+import {Colaborador, Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
-import {Colaborador} from '@cdk/models';
 
 
 @Injectable()
@@ -56,7 +55,7 @@ export class ProcessoEffect {
                         JSON.stringify([
                             'populateAll',
                             'especieProcesso', 'especieProcesso.generoProcesso',
-                            'especieProcesso.workflow-edit', 'setorAtual', 'setorAtual.unidade', 'especieProcesso.workflow-edit.especieTarefaInicial',
+                            'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade', 'especieProcesso.workflow.especieTarefaInicial',
                             'tarefaAtualWorkflow', 'tarefaAtualWorkflow.especieTarefa',
 
                         ]))),

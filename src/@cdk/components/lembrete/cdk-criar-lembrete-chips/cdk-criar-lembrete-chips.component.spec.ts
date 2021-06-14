@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CdkCriarLembreteChipsComponent } from './cdk-criar-lembrete-chips.component';
+import {CdkCriarLembreteChipsComponent} from './cdk-criar-lembrete-chips.component';
 
 describe('CdkCriarLembreteChipsComponent', () => {
   let component: CdkCriarLembreteChipsComponent;

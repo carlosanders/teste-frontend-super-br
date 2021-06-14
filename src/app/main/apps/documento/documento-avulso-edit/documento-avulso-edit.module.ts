@@ -6,7 +6,14 @@ import {TranslateModule} from '@ngx-translate/core';
 import {DocumentoAvulsoEditComponent} from './documento-avulso-edit.component';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkDocumentoAvulsoFormModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form.module';
-import {MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatSlideToggleModule, MatTooltipModule} from '@cdk/angular/material';
+import {
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
+    MatTooltipModule
+} from '@cdk/angular/material';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';

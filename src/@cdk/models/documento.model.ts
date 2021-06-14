@@ -1,21 +1,22 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
 import {
-    Usuario,
-    Processo,
-    Pessoa,
-    TipoDocumento,
-    Setor,
-    Tarefa,
-    OrigemDados,
     ComponenteDigital,
-    VinculacaoDocumento,
     DocumentoAvulso,
-    Modelo,
-    Repositorio,
     Juntada,
-    Sigilo, VinculacaoEtiqueta
+    Modelo,
+    OrigemDados,
+    Pessoa,
+    Processo,
+    Repositorio,
+    Setor,
+    Sigilo,
+    Tarefa,
+    TipoDocumento,
+    Usuario,
+    VinculacaoDocumento,
+    VinculacaoEtiqueta
 } from '@cdk/models';
 
 export class Documento {

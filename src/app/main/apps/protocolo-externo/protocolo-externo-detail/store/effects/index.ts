@@ -1,4 +1,4 @@
-import { ProcessoDetailEffect } from './protocolo-externo-detail.effects';
+import {ProcessoDetailEffect} from './protocolo-externo-detail.effects';
 
 export const effects = [
     ProcessoDetailEffect

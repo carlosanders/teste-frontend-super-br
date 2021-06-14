@@ -1,4 +1,4 @@
-import { UnidadesOrgaoCentralEffects } from './unidades.effects';
+import {UnidadesOrgaoCentralEffects} from './unidades.effects';
 
 export const effects = [
     UnidadesOrgaoCentralEffects

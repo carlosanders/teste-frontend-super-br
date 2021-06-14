@@ -1,20 +1,22 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Lotacao, Tarefa} from '@cdk/models';
-import {Usuario} from '@cdk/models';
+import {Colaborador, Lotacao, Pagination, Setor, Tarefa, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';

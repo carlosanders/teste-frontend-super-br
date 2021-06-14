@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getRepositorioListAppState,
-    RepositorioListAppState,
-    RepositorioListState
-} from '../reducers';
+import {getRepositorioListAppState, RepositorioListAppState, RepositorioListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {repositorio as repositorioSchema} from '@cdk/normalizr';

@@ -1,18 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import {Injectable} from '@angular/core';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import { Observable, of } from 'rxjs';
-import { catchError, mergeMap, tap } from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, mergeMap} from 'rxjs/operators';
 
 import * as ResponderComplementarCreateBlocoActions from '../actions/responder-complementar-create-bloco.actions';
 
-import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
-import { AddData } from '@cdk/ngrx-normalizr';
-import { documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
-import { Documento } from '@cdk/models';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { getRouterState, State } from 'app/store/reducers';
+import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Router} from '@angular/router';
+import {select, Store} from '@ngrx/store';
+import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 

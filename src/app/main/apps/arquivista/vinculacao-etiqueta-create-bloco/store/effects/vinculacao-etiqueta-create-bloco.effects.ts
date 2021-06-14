@@ -8,16 +8,14 @@ import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-eti
 
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {AddChildData} from '@cdk/ngrx-normalizr';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
+import {processo as processoSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
-import {processo as processoSchema} from '@cdk/normalizr';
 import {CdkUtils} from '@cdk/utils';
-import {ChangeSelectedProcessos, getSelectedProcessoIds, ReloadProcessos} from '../../../arquivista-list/store';
+import {ChangeSelectedProcessos, getSelectedProcessoIds} from '../../../arquivista-list/store';
 
 @Injectable()
 export class VinculacaoEtiquetaCreateBlocoEffect {

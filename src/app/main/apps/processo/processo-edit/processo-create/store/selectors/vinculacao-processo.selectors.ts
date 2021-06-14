@@ -1,9 +1,10 @@
 import {createSelector} from '@ngrx/store';
-import {getDadosBasicosAppState, DadosBasicosAppState, VinculacaoProcessoState} from '../reducers';
+import {DadosBasicosAppState, getDadosBasicosAppState, VinculacaoProcessoState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
+
 const schemaSelectors = createSchemaSelectors<VinculacaoProcesso>(vinculacaoProcessoSchema);
 
 export const getVinculacaoProcessoState = createSelector(

@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentosReducer, DocumentosState } from './documentos.reducer';
-import { DocumentosComplementaresReducer, DocumentosComplementaresState } from './documentos-complentares.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DocumentosReducer, DocumentosState} from './documentos.reducer';
+import {DocumentosComplementaresReducer, DocumentosComplementaresState} from './documentos-complentares.reducer';
 
 export interface ComplementarAppState
 {

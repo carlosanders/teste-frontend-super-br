@@ -1,4 +1,4 @@
-import { ModeloEditEffects } from './modelo-edit.effects';
+import {ModeloEditEffects} from './modelo-edit.effects';
 
 export const effects = [
     ModeloEditEffects,

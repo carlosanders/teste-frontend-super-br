@@ -7,7 +7,8 @@ import {
     OnChanges,
     OnInit,
     Output,
-    SimpleChange, ViewEncapsulation
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
 import {ModalidadeTransicao, Pagination, Processo, Transicao} from '../../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';

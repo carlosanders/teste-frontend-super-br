@@ -1,9 +1,12 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 

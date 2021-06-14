@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Endereco } from '@cdk/models';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Endereco} from '@cdk/models';
 
 export class EnderecoDataSource extends DataSource<Endereco> {
 

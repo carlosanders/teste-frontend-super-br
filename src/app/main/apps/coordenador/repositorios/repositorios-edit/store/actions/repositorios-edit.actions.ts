@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_REPOSITORIO = '[COORDENADOR REPOSITORIO EDIT] CREATE REPOSITORIO';
 export const CREATE_REPOSITORIO_SUCCESS = '[COORDENADOR REPOSITORIO EDIT] CREATE REPOSITORIO SUCCESS';

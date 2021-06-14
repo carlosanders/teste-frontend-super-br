@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_PESSOAS = '[PESSOA LIST] GET PESSOAS';
 export const GET_PESSOAS_SUCCESS = '[PESSOA LIST] GET PESSOAS SUCCESS';

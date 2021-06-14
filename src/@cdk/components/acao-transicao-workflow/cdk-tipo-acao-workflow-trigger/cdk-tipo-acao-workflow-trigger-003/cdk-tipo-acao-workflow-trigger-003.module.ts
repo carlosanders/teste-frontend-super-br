@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
     MatRadioModule,
     MatTooltipModule
 } from '@cdk/angular/material';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RouterModule} from '@angular/router';
 import {CdkTipoAcaoWorkflowTrigger003Component} from './cdk-tipo-acao-workflow-trigger-003.component';

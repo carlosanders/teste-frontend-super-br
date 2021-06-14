@@ -1,10 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MatButtonModule} from '@cdk/angular/material';
-import {MatIconModule} from '@cdk/angular/material';
-import {MatMenuModule} from '@cdk/angular/material';
-import {MatTooltipModule} from '@cdk/angular/material';
+import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@cdk/angular/material';
 
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

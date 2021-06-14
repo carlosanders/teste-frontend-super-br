@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getRelacionamentoListAppState,
-    RelacionamentoListAppState,
-    RelacionamentoListState
-} from '../reducers';
+import {getRelacionamentoListAppState, RelacionamentoListAppState, RelacionamentoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr';

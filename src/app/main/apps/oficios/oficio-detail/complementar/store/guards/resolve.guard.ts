@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
-import { switchMap, catchError, tap, take, filter } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStore from '../../store';
-import { DocumentosState } from '../reducers';
-import { getRouterState } from 'app/store/reducers';
-import { getDocumentosHasLoaded } from '../selectors';
+import {DocumentosState} from '../reducers';
+import {getRouterState} from 'app/store/reducers';
+import {getDocumentosHasLoaded} from '../selectors';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {

@@ -1,4 +1,4 @@
-import { AssuntoAdministrativoListEffects } from './assunto-administrativo-list.effects';
+import {AssuntoAdministrativoListEffects} from './assunto-administrativo-list.effects';
 
 export const effects = [
     AssuntoAdministrativoListEffects

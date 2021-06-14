@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getEspecieTarefaListAppState,
-    EspecieTarefaListAppState,
-    EspecieTarefaListState
-} from '../reducers';
+import {EspecieTarefaListAppState, EspecieTarefaListState, getEspecieTarefaListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';

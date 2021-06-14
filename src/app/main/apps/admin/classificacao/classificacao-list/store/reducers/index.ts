@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {ClassificacaoListReducer, ClassificacaoListState} from './classificacao-list.reducer';
 
 export interface ClassificacaoListAppState

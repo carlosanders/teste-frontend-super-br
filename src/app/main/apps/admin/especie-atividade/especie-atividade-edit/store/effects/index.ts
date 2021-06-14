@@ -1,4 +1,4 @@
-import { EspecieAtividadeEditEffects } from './especie-atividade-edit.effects';
+import {EspecieAtividadeEditEffects} from './especie-atividade-edit.effects';
 
 export const effects = [
     EspecieAtividadeEditEffects

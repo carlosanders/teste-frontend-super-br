@@ -1,13 +1,9 @@
-import { createSelector } from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { modalidadeTransicao as modalidadeTransicaoSchema } from '@cdk/normalizr';
-import { ModalidadeTransicao } from '@cdk/models';
-import {
-    getRegistrarExtravioAppState,
-    ModalidadeExtravioState,
-    RegistrarExtravioAppState
-} from '../reducers';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {modalidadeTransicao as modalidadeTransicaoSchema} from '@cdk/normalizr';
+import {ModalidadeTransicao} from '@cdk/models';
+import {getRegistrarExtravioAppState, ModalidadeExtravioState, RegistrarExtravioAppState} from '../reducers';
 
 const schemaSelectors = createSchemaSelectors<ModalidadeTransicao>(modalidadeTransicaoSchema);
 

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_VISIBILIDADES_PROCESSO = '[PROCESSO VISIBILIDADE] GET VISIBILIDADES';
 export const GET_VISIBILIDADES_PROCESSO_SUCCESS = '[PROCESSO VISIBILIDADE] GET VISIBILIDADES SUCCESS';

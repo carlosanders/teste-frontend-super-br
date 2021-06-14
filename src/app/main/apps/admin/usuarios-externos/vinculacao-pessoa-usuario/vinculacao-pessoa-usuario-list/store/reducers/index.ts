@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {VinculacaoPessoaUsuarioListReducer, VinculacaoPessoaUsuarioListState} from './vinculacao-pessoa-usuario-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    VinculacaoPessoaUsuarioListReducer,
+    VinculacaoPessoaUsuarioListState
+} from './vinculacao-pessoa-usuario-list.reducer';
 
 export interface VinculacaoPessoaUsuarioListAppState
 {

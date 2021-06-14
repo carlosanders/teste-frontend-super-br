@@ -2,11 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {WorkflowEditComponent} from './workflow-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-import {
-    MatButtonModule,
-    MatIconModule,
-    MatRippleModule,
-} from '@cdk/angular/material';
+import {MatButtonModule, MatIconModule, MatRippleModule,} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
@@ -52,7 +48,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflow-edit/workflow-edit-edit';
+const path = 'app/main/apps/admin/workflow/workflow-edit';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

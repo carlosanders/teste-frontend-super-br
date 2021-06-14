@@ -11,19 +11,20 @@ import {Observable, of, Subject} from 'rxjs';
 
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import * as fromStore from 'app/main/apps/documento/store';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ComponenteDigital} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
-    GetDocumentos as GetDocumentosProcesso, GetJuntadas,
+    GetDocumentos as GetDocumentosProcesso,
+    GetJuntadas,
     SetCurrentStep,
-    UnloadDocumentos, UnloadJuntadas
+    UnloadDocumentos,
+    UnloadJuntadas
 } from '../processo/processo-view/store/actions';
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';

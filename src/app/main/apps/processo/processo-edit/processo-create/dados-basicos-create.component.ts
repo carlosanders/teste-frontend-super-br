@@ -3,7 +3,9 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, Renderer2, ViewChild,
+    OnInit,
+    Renderer2,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -11,35 +13,39 @@ import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {
-    Processo,
-    Pessoa,
-    Usuario,
     Assunto,
+    Classificacao,
+    ConfiguracaoNup,
     Interessado,
-    VinculacaoProcesso,
-    Tarefa,
     Juntada,
-    ConfiguracaoNup, Classificacao
+    Pagination,
+    Pessoa,
+    Processo,
+    Tarefa,
+    Usuario,
+    VinculacaoProcesso
 } from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
+import {
+    getConfiguracaoNup,
+    getTarefaIsSaving,
+    getVinculacaoProcessoIsSaving,
+    SaveAssunto,
+    SaveInteressado,
+    SaveTarefa,
+    SaveVinculacaoProcesso
+} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {getConfiguracaoNup, SaveAssunto} from './store';
-import {SaveInteressado} from './store';
-import {SaveVinculacaoProcesso} from './store';
-import {SaveTarefa} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
-import {getVinculacaoProcessoIsSaving} from './store';
-import {getTarefaIsSaving} from './store';
 import {getProcesso} from '../../store';
 import {configuracaoNup} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
@@ -57,6 +63,9 @@ import {MatDialog} from '@cdk/angular/material';
     animations: cdkAnimations
 })
 export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @ViewChild('stepper') stepper: MatStepper;
+    @ViewChild('ckdUpload', {static: false}) cdkUpload;
 
     routerState: any;
     procedencia: Pessoa;
@@ -102,7 +111,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     interessadosLoading$: Observable<boolean>;
     interessadosPagination$: Observable<any>;
     interessadosPagination: any;
-    interessadoActivated = 'from';
+    interessadoActivated = 'form';
     temInteressados = false;
 
     juntadas$: Observable<Juntada[]>;
@@ -122,7 +131,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     vinculacoesProcessosPagination$: Observable<any>;
     screen$: Observable<any>;
     vinculacoesProcessosPagination: any;
-    vinculacaoProcessoActivated = 'from';
+    vinculacaoProcessoActivated = 'form';
     processoVinculadoPagination: Pagination;
 
     tarefa: Tarefa;
@@ -140,14 +149,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     isLinear: boolean;
     mobileMode: boolean = false;
 
-    private _unsubscribeAll: Subject<any>;
-
-    @ViewChild('stepper') stepper: MatStepper;
-    @ViewChild('ckdUpload', {static: false}) cdkUpload;
-
     genero = 'administrativo';
 
     pessoa: Pessoa;
+
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *
@@ -306,7 +312,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this.configuracaoNupList$.subscribe((configuracaoNupList) => {
             this.configuracaoNupList = configuracaoNupList;
-            if(configuracaoNupList.length == 1)
+            if(configuracaoNupList.length === 1)
             {
                 this.formProcesso.get('configuracaoNup').setValue(configuracaoNupList[0]);
             }
@@ -794,7 +800,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
     }
 
-    validateNup(values: any){
+    validateNup(values: any): void {
        this._store.dispatch(new fromStore.ValidaNup(values));
     }
 

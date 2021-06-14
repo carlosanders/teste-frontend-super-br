@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getEtiquetaListAppState,
-    EtiquetaListAppState,
-    EtiquetaListState
-} from '../reducers';
+import {EtiquetaListAppState, EtiquetaListState, getEtiquetaListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr';

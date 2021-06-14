@@ -1,4 +1,4 @@
-import { RepositoriosEspecieSetorEditEffects } from './repositorios-especie-setor-edit.effects';
+import {RepositoriosEspecieSetorEditEffects} from './repositorios-especie-setor-edit.effects';
 
 export const effects = [
     RepositoriosEspecieSetorEditEffects

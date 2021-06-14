@@ -1,8 +1,12 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ViewContainerRef, OnDestroy,
-    OnInit, ViewChild, AfterViewInit,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,21 +16,17 @@ import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models';
-import {VinculacaoEtiqueta} from '@cdk/models';
 import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
-import {Documento} from '@cdk/models';
+import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {getMaximizado} from '../store/selectors';
 import {ToggleMaximizado} from '../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
-import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'relatorio-detail',

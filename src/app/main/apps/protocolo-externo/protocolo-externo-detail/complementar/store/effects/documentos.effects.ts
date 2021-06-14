@@ -1,18 +1,22 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions';
 
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import { select, Store } from '@ngrx/store';
-import { getRouterState, State } from 'app/store/reducers';
+import {select, Store} from '@ngrx/store';
+import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
-import { DocumentoService } from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import { Router } from '@angular/router';
-import { environment } from 'environments/environment';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {
+    assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
+    documento as documentoSchema
+} from '@cdk/normalizr';
+import {Router} from '@angular/router';
+import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';

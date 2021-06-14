@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as ValidacaoEditActions from '../actions/validacao-transicao-workflow-edit.actions';
-import * as ValidacaoListActions from '../../../validacao-transicao-workflow-list/store/actions/validacao-transicao-workflow-list.actions';
+import * as ValidacaoListActions
+    from '../../../validacao-transicao-workflow-list/store/actions/validacao-transicao-workflow-list.actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {validacaoTransicaoWorkflow as validacaoSchema} from '@cdk/normalizr';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';

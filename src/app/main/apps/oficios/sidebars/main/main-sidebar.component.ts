@@ -1,10 +1,11 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, OnDestroy,
+    Component,
+    Input,
+    OnDestroy,
     OnInit,
-    ViewEncapsulation,
-    Input
+    ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Subject} from 'rxjs';

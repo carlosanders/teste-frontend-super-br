@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CdkDataPrevistaTransicaoComponent } from './cdk-data-prevista-transicao.component';
+import {CdkDataPrevistaTransicaoComponent} from './cdk-data-prevista-transicao.component';
 
 describe('DataPrevistaTransicaoComponent', () => {
   let component: CdkDataPrevistaTransicaoComponent;

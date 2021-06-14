@@ -1,4 +1,4 @@
-import { UsuariosListEffects } from './usuarios-list.effects';
+import {UsuariosListEffects} from './usuarios-list.effects';
 
 export const effects = [
     UsuariosListEffects

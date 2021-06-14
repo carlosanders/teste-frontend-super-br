@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
-    OnChanges,
-    EventEmitter,
     Component,
+    EventEmitter,
     Input,
-    Output
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
@@ -115,7 +115,7 @@ export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChange
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

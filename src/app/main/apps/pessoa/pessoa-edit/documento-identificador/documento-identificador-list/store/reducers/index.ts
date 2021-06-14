@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoIdentificadorListReducer, DocumentoIdentificadorListState } from './documento-identificador-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    DocumentoIdentificadorListReducer,
+    DocumentoIdentificadorListState
+} from './documento-identificador-list.reducer';
 
 export interface DocumentoIdentificadorListAppState
 {

@@ -3,12 +3,10 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ParentGenericService} from './parent-generic.service';
-import {ComponenteDigital} from '@cdk/models';
+import {ComponenteDigital, PaginatedResponse, Pessoa} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models';
+import {classToPlain, plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
-import {Pessoa} from '@cdk/models';
 
 @Injectable({
     providedIn: 'root',

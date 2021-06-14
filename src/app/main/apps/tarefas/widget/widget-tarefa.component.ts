@@ -8,12 +8,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {
-    trigger,
-    style,
-    animate,
-    transition, query, stagger
-} from '@angular/animations';
+import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 
 import {Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';

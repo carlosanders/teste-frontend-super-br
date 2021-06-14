@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {LoginService} from '../auth/login/login.service';
 import {Store} from '@ngrx/store';
 import {GetNotificacoes, State} from '../../store';

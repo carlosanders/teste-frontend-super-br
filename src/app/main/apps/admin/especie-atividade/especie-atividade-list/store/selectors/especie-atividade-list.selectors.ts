@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getEspecieAtividadeListAppState,
-    EspecieAtividadeListAppState,
-    EspecieAtividadeListState
-} from '../reducers';
+import {EspecieAtividadeListAppState, EspecieAtividadeListState, getEspecieAtividadeListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {especieAtividade as especieAtividadeSchema} from '@cdk/normalizr';

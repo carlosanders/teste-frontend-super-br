@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RepositoriosListReducer, RepositoriosListState } from './repositorios-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RepositoriosListReducer, RepositoriosListState} from './repositorios-list.reducer';
 
 export interface RepositoriosListAppState
 {

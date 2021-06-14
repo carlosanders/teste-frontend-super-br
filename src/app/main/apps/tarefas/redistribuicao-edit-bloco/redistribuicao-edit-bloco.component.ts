@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -13,6 +14,7 @@ import {Processo, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
+import {getTarefasProcessoRestritoValidadas} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
@@ -22,7 +24,6 @@ import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {Back} from 'app/store/actions';
 import {MatDialog} from '@cdk/angular/material';
 import {ModalAvisoRestricaoNupComponent} from '../modal-aviso-restricao-nup/modal-aviso-restricao-nup.component';
-import {getTarefasProcessoRestritoValidadas} from './store';
 
 @Component({
     selector: 'redistribuicao-edit-bloco',

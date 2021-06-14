@@ -1,21 +1,20 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
 import {ComponentesDigitaisComponent} from './componentes-digitais.component';

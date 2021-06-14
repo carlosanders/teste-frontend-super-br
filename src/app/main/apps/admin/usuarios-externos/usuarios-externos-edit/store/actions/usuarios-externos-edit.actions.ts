@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_USUARIOS_EXTERNOS = '[ADMIN USUARIOS_EXTERNOS EDIT] SAVE USUARIOS_EXTERNOS';
 export const SAVE_USUARIOS_EXTERNOS_SUCCESS = '[ADMIN USUARIOS_EXTERNOS EDIT] SAVE USUARIOS_EXTERNOS SUCCESS';

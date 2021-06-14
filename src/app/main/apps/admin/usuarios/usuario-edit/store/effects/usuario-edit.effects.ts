@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as UsuarioEditActions from '../actions/usuario-edit.actions';
 import * as UsuariosListActions from '../../../usuarios-list/store/actions/usuarios-list.actions';
@@ -10,9 +10,8 @@ import * as UsuariosListActions from '../../../usuarios-list/store/actions/usuar
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {usuario as usuarioSchema} from '@cdk/normalizr';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr';
-import {Usuario, Colaborador} from '@cdk/models';
+import {colaborador as colaboradorSchema, usuario as usuarioSchema} from '@cdk/normalizr';
+import {Colaborador, Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

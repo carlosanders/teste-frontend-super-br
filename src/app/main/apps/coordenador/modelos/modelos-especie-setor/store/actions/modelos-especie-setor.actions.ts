@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_MODELO = '[COORDENADOR MODELOS ESPECIE SETOR] GET MODELO';
 export const GET_MODELO_SUCCESS = '[COORDENADOR MODELOS ESPECIE SETOR] GET MODELO SUCCESS';

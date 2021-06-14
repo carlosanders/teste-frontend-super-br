@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ViewEncapsulation,
-    OnInit, Inject
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_MODALIDADES_ACAO_ETIQUETA = '[ACAO EDIT] GET MODALIDADES ACAO ETIQUETA';
 export const GET_MODALIDADES_ACAO_ETIQUETA_SUCCESS = '[ACAO EDIT] GET MODALIDADES ACAO ETIQUETA SUCCESS';

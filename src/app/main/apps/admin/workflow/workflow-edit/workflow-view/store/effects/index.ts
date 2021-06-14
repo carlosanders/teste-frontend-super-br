@@ -1,4 +1,4 @@
-import { WorkflowViewEffect } from './workflow-view.effects';
+import {WorkflowViewEffect} from './workflow-view.effects';
 
 export const effects = [
     WorkflowViewEffect

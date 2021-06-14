@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component,
+    Input,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {EspecieSetor} from '@cdk/models';
+import {EspecieSetor, Pagination} from '@cdk/models';
 import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-setor-autocomplete',

@@ -10,16 +10,19 @@ import * as DocumentosComplementaresActions from '../../../complementar/store/ac
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {DocumentoAvulso, Documento, Assinatura, ComponenteDigital} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
+    documento as documentoSchema,
+    documentoAvulso as documentoAvulsoSchema
+} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {getDocumentoAvulso} from '../../../store/selectors';
 import {environment} from 'environments/environment';
 import * as DocumentoAvulsoDetailActions from '../../../store/actions';
-import {documentoAvulso as documentoAvulsoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';

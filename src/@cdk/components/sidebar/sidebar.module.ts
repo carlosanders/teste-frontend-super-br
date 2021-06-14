@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkSidebarComponent } from './sidebar.component';
+import {CdkSidebarComponent} from './sidebar.component';
 
 @NgModule({
     declarations: [

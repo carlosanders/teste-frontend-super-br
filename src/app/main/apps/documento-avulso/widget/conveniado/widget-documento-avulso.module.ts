@@ -1,11 +1,10 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
-import {MatExpansionModule} from '@cdk/angular/material';
+import {MatExpansionModule, MatIconModule} from '@cdk/angular/material';
 
-import { WidgetDocumentoAvulsoComponent } from './widget-documento-avulso.component';
+import {WidgetDocumentoAvulsoComponent} from './widget-documento-avulso.component';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkWidgetModule} from '@cdk/components';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatIconModule} from '@cdk/angular/material';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {MatCardModule} from '@angular/material/card';

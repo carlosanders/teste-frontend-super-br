@@ -1,7 +1,9 @@
 import {NgModule} from '@angular/core';
 import {
     MatButtonModule,
+    MatCardModule,
     MatCheckboxModule,
+    MatDividerModule,
     MatIconModule,
     MatInputModule,
     MatPaginatorModule,
@@ -10,8 +12,6 @@ import {
     MatSortModule,
     MatTableModule,
     MatTooltipModule,
-    MatDividerModule,
-    MatCardModule,
 } from '@cdk/angular/material';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarModule} from '@cdk/components/index';

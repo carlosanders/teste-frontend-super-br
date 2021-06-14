@@ -7,8 +7,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store';
-import {Back} from '../../../../../store';
+import {Back, getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'municipio-edit',

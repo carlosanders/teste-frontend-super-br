@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Actions, ofType, createEffect} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, concatMap, mergeMap} from 'rxjs/operators';
 import * as ChatParticipanteActions from '../actions/chat-participante.actions';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {ChatParticipante} from '@cdk/models';
-import {
-    chatParticipante as chatParticipanteSchema
-} from '@cdk/normalizr';
+import {chatParticipante as chatParticipanteSchema} from '@cdk/normalizr';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
 import {ChatParticipanteService} from "@cdk/services/chat-participante.service";

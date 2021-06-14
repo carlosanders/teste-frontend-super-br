@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AtividadeDocumentoReducer, AtividadeDocumentoState } from './atividade-documento.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AtividadeDocumentoReducer, AtividadeDocumentoState} from './atividade-documento.reducer';
 
 export interface DocumentoEditAtividadeAppState
 {

@@ -1,4 +1,4 @@
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 import {GeneroRelatorio} from './genero-relatorio.model';
 
 export class EspecieRelatorio {

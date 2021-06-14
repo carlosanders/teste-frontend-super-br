@@ -1,8 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { modalidadeTransicao as modalidadeTransicaoSchema } from '@cdk/normalizr';
-import { ModalidadeTransicao } from '@cdk/models';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {modalidadeTransicao as modalidadeTransicaoSchema} from '@cdk/normalizr';
+import {ModalidadeTransicao} from '@cdk/models';
 import {
     getRealizarDesarquivamentoAppState,
     ModalidadeDesarquivamentoState,

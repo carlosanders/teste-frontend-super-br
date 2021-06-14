@@ -9,7 +9,11 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
+    documento as documentoSchema
+} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';

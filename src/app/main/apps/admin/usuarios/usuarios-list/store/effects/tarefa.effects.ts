@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap} from 'rxjs/operators';
 
-import {getRouterState, State} from 'app/store/reducers';
+import {State} from 'app/store/reducers';
 import * as TarefaActions from '../actions';
 
 import {TarefaService} from '@cdk/services/tarefa.service';

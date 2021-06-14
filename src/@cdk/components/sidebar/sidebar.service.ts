@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { CdkSidebarComponent } from './sidebar.component';
+import {CdkSidebarComponent} from './sidebar.component';
 
 @Injectable({
     providedIn: 'root'

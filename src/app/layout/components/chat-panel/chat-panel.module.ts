@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatRippleModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import {NgModule} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatRippleModule} from '@angular/material/core';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
-import { ChatPanelComponent } from 'app/layout/components/chat-panel/chat-panel.component';
+import {ChatPanelComponent} from 'app/layout/components/chat-panel/chat-panel.component';
 import {ChatStoreModule} from "./store/store.module";
 import {LoginService} from "../../../main/auth/login/login.service";
 import {ChatService} from "../../../../@cdk/services/chat.service";

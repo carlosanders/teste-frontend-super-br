@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_VISIBILIDADE = '[VISIBILIDADE] CREATE VISIBILIDADE';
 export const CREATE_VISIBILIDADE_SUCCESS = '[VISIBILIDADE] CREATE VISIBILIDADE SUCCESS';

@@ -1,8 +1,8 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 import {MatExpansionModule} from '@cdk/angular/material';
 
-import { AjudaCoordenadorComponent } from './ajuda-coordenador.component';
-import { CdkSharedModule } from '@cdk/shared.module';
+import {AjudaCoordenadorComponent} from './ajuda-coordenador.component';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 
 @NgModule({

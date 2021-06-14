@@ -1,4 +1,4 @@
-import { CoordenadorEffect } from './coordenador.effects';
+import {CoordenadorEffect} from './coordenador.effects';
 
 export const effects = [
     CoordenadorEffect

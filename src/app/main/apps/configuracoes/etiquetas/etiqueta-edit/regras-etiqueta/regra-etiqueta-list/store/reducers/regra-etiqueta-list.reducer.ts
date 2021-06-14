@@ -4,6 +4,16 @@ import * as _ from 'lodash';
 export interface RegraEtiquetaListState {
     entitiesId: number[];
     etiquetaId: number;
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        gridFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+        context: any;
+    };
     loading: boolean;
     loaded: any;
     deletingIds: number[];
@@ -14,6 +24,16 @@ export interface RegraEtiquetaListState {
 export const RegraEtiquetaListInitialState: RegraEtiquetaListState = {
     entitiesId: [],
     etiquetaId: null,
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        gridFilter: {},
+        populate: [],
+        sort: {},
+        total: 0,
+        context: {}
+    },
     loading: false,
     loaded: false,
     deletedIds: [],
@@ -31,7 +51,17 @@ export function RegraEtiquetaListReducer(
             return {
                 ...state,
                 loading: true,
-                etiquetaId: action.payload
+                etiquetaId: action.payload,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    gridFilter: action.payload.gridFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total,
+                    context: action.payload.context
+                }
             };
         }
 
@@ -42,6 +72,10 @@ export function RegraEtiquetaListReducer(
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                },
                 deletingErrors: {},
                 loading: false,
                 loaded
@@ -57,6 +91,11 @@ export function RegraEtiquetaListReducer(
             };
         }
 
+        case RegraEtiquetaListActions.UNLOAD_REGRAS_ETIQUETA: {
+            return {
+                ...RegraEtiquetaListInitialState
+            };
+        }
         case RegraEtiquetaListActions.GET_REGRAS_ETIQUETA_FAILED: {
             return {
                 ...state,

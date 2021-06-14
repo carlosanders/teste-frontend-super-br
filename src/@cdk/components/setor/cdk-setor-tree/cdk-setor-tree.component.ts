@@ -1,6 +1,7 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,

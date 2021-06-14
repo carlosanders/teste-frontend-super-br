@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getAcaoEditAppState, AcaoTransicaoWorkflowEditState, AcaoTransicaoWorkflowEditAppState} from '../reducers';
+import {AcaoTransicaoWorkflowEditAppState, AcaoTransicaoWorkflowEditState, getAcaoEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
 import {acaoTransicaoWorkflow as acaoSchema} from '@cdk/normalizr';

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getTarefaOficiosAppState,
-    TarefaOficiosAppState,
-    ComponenteDigitalState
-} from '../reducers';
+import {ComponenteDigitalState, getTarefaOficiosAppState, TarefaOficiosAppState} from '../reducers';
 
 export const getComponenteDigitalState = createSelector(
     getTarefaOficiosAppState,

@@ -1,6 +1,5 @@
-import {ProcessoState} from '../reducers';
+import {getTarefaDetailAppState, ProcessoState, TarefaDetailAppState} from '../reducers';
 import {createSelector} from '@ngrx/store';
-import {getTarefaDetailAppState, TarefaDetailAppState} from '../reducers';
 
 export const getProcessoState = createSelector(
     getTarefaDetailAppState,

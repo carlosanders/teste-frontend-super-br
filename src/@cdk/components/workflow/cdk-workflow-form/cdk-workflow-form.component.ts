@@ -7,7 +7,8 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange, ViewEncapsulation
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
 import {EspecieTarefa, Pagination, Workflow} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';

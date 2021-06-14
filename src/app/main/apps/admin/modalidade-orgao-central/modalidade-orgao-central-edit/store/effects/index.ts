@@ -1,4 +1,4 @@
-import { ModalidadeOrgaoCentralEditEffects } from './modalidade-orgao-central-edit.effects';
+import {ModalidadeOrgaoCentralEditEffects} from './modalidade-orgao-central-edit.effects';
 
 export const effects = [
     ModalidadeOrgaoCentralEditEffects

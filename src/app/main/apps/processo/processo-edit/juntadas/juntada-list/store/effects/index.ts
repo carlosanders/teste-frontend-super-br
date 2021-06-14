@@ -1,4 +1,4 @@
-import { JuntadaListEffect } from './juntada-list.effects';
+import {JuntadaListEffect} from './juntada-list.effects';
 
 export const effects = [
     JuntadaListEffect

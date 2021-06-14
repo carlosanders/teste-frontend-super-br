@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 
-import {ModalidadeAcaoEtiqueta, Usuario} from '@cdk/models';
+import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';

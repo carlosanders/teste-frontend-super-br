@@ -7,7 +7,7 @@ export interface WorkflowEspeciesProcessoEditAppState {
 }
 
 export const getWorkflowEspeciesEditAppState = createFeatureSelector<WorkflowEspeciesProcessoEditAppState>(
-    'workflow-edit-especies-processo-edit-app'
+    'workflow-especies-processo-edit-app'
 );
 
 export const getAppState = createSelector(

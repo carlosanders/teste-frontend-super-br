@@ -1,7 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import {TipoDocumento, Usuario, Setor, Documento} from '@cdk/models';
+import {Documento, Setor, TipoDocumento, Usuario} from '@cdk/models';
 
 export class NumeroUnicoDocumento {
 

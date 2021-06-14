@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Tramitacao } from '../models/tramitacao.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Tramitacao} from '../models/tramitacao.model';
 
 export class TramitacaoDataSource extends DataSource<Tramitacao> {
 

@@ -1,9 +1,12 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -21,9 +24,9 @@ import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreProcessos from '../arquivista-list/store';
+import {getModalidadeTransicao} from '../arquivista-list/store';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {getModalidadeTransicao} from '../arquivista-list/store';
 
 @Component({
     selector: 'arquivista-operacoes-bloco',

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_PESSOA = '[PESSOA] CREATE PESSOA';
 export const CREATE_PESSOA_SUCCESS = '[PESSOA] CREATE PESSOA SUCCESS';

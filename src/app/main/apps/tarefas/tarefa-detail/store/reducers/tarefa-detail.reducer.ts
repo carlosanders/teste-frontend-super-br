@@ -1,7 +1,4 @@
 import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
-import * as TarefasActions from '../../../store/actions/tarefas.actions';
-import * as RedistribuicaoEditBlocoActions
-    from '../../../redistribuicao-edit-bloco/store/actions/redistribuicao-edit-bloco.actions';
 
 export interface TarefaDetailState {
     tarefaId: number;

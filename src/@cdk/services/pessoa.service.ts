@@ -2,10 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Classificacao, Pessoa} from '@cdk/models';
+import {PaginatedResponse, Pessoa} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models';
+import {plainToClass} from 'class-transformer';
 import {ParentGenericService} from './parent-generic.service';
 import {environment} from '../../environments/environment';
 

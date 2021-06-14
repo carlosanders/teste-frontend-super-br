@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { GarantiaEditReducer, GarantiaEditState } from './garantia-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {GarantiaEditReducer, GarantiaEditState} from './garantia-edit.reducer';
 
 export interface GarantiaEditAppState
 {

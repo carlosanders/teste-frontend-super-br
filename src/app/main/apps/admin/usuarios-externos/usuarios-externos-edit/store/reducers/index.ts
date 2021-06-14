@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { UsuariosExternosEditReducer, UsuariosExternosEditState } from './usuarios-externos-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {UsuariosExternosEditReducer, UsuariosExternosEditState} from './usuarios-externos-edit.reducer';
 
 export interface UsuariosExternosEditAppState
 {

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaListReducer, TarefaListState } from './tarefa-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TarefaListReducer, TarefaListState} from './tarefa-list.reducer';
 
 export interface TarefaListAppState
 {

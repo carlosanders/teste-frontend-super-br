@@ -1,4 +1,4 @@
-import {Directive, ElementRef, AfterViewInit, Input} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
 
 @Directive({
     selector: 'input[cdkInputAutoFocus]'

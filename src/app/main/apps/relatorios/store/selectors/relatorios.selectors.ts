@@ -1,8 +1,8 @@
-import { createSelector } from '@ngrx/store';
-import { getRelatoriosAppState, RelatoriosAppState, RelatoriosState } from 'app/main/apps/relatorios/store/reducers';
+import {createSelector} from '@ngrx/store';
+import {getRelatoriosAppState, RelatoriosAppState, RelatoriosState} from 'app/main/apps/relatorios/store/reducers';
 
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { relatorio as relatorioSchema } from '@cdk/normalizr';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {relatorio as relatorioSchema} from '@cdk/normalizr';
 import {Relatorio} from '@cdk/models/relatorio.model';
 
 const schemaSelectors = createSchemaSelectors<Relatorio>(relatorioSchema);

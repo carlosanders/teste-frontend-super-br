@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefaCreateAppState, TarefaCreateAppState, ProcessoState} from '../reducers';
+import {getTarefaCreateAppState, ProcessoState, TarefaCreateAppState} from '../reducers';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

@@ -1,21 +1,20 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
     ViewEncapsulation
-
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Processo, Pessoa, Usuario, Classificacao} from '@cdk/models';
+import {Classificacao, Pagination, Pessoa, Processo, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {MercureService} from '@cdk/services/mercure.service';

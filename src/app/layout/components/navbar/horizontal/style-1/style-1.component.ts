@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
 
-import { CdkConfigService } from '@cdk/services/config.service';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
-import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector     : 'navbar-horizontal-style-1',

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { NomeListReducer, NomeListState } from './nome-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {NomeListReducer, NomeListState} from './nome-list.reducer';
 
 export interface NomeListAppState
 {

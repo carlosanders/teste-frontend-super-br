@@ -1,6 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, OnDestroy, OnInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 

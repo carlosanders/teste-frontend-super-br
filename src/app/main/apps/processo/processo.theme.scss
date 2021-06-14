@@ -130,6 +130,20 @@
                         }
                     }
                 }
+
+                .minutas-tarefa {
+                    background: map-get($background, background) !important;
+                }
+
+                .documentos-juntados-title {
+                    background: map-get($background, background);
+                }
+
+                .volume {
+                    .separador-volume {
+                        background: map-get($background, background);
+                    }
+                }
             }
         }
 

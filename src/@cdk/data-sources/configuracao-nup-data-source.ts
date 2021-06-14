@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {ConfiguracaoNup} from '@cdk/models';
 
 export class ConfiguracaoNupDataSource extends DataSource<ConfiguracaoNup> {

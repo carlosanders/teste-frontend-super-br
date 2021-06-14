@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {ComplementarState, getComplementarAppState, ComplementarAppState} from '../reducers';
+import {ComplementarAppState, ComplementarState, getComplementarAppState} from '../reducers';
 
 export const getComplementarState = createSelector(
     getComplementarAppState,

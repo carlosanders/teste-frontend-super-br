@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -31,7 +31,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflow-edit/transicao-workflow-edit/validacao-transicao-workflow-edit/validacao-transicao-workflow-edit-list';
+const path = 'app/main/apps/admin/workflow/workflow-edit/transicao-workflow/transicao-workflow-edit/validacao-transicao-workflow/validacao-transicao-workflow-list';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

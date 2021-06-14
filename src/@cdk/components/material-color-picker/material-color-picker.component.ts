@@ -1,8 +1,8 @@
-import { Component, EventEmitter, forwardRef, Input, Output, ViewEncapsulation } from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, Output, ViewEncapsulation} from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
-import { MatColors } from '@cdk/mat-colors';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {cdkAnimations} from '@cdk/animations';
+import {MatColors} from '@cdk/mat-colors';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export const CDK_MATERIAL_COLOR_PICKER_VALUE_ACCESSOR: any = {
     provide    : NG_VALUE_ACCESSOR,

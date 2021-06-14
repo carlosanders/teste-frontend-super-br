@@ -1,10 +1,11 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
-    OnInit,
     OnChanges,
-    ViewEncapsulation,
-    SimpleChange, ChangeDetectorRef
+    OnInit,
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
@@ -13,8 +14,7 @@ import {Router} from '@angular/router';
 import {cdkAnimations} from '@cdk/animations';
 import {EspecieProcesso, Pagination} from '@cdk/models';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../../../store';
-import {Back} from '../../../../../../../store';
+import {Back, getRouterState} from '../../../../../../../store';
 
 @Component({
     selector: 'workflow-especies-processo-edit',

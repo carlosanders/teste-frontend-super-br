@@ -1,13 +1,13 @@
-import { StoreModule } from '@ngrx/store';
-import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {NgModule} from '@angular/core';
+import {EffectsModule} from '@ngrx/effects';
 
-import { reducers } from './reducers';
-import { effects } from './effects';
+import {reducers} from './reducers';
+import {effects} from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('admin-validacao-transicao-workflow-edit-list-app', reducers),
+        StoreModule.forFeature('admin-validacao-transicao-workflow-list-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []

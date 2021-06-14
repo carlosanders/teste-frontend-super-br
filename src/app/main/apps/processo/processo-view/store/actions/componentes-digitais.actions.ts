@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_COMPONENTE_DIGITAL = '[PROCESSO VIEW] CREATE COMPONENTE DIGITAL';
 export const CREATE_COMPONENTE_DIGITAL_SUCCESS = '[PROCESSO VIEW] CREATE COMPONENTE DIGITAL SUCCESS';

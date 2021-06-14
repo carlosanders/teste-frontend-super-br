@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getProtocoloCreateAppState, ProtocoloCreateAppState, EstadoState} from '../reducers';
+import {EstadoState, getProtocoloCreateAppState, ProtocoloCreateAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Estado} from '@cdk/models';
 import {estado as estadoSchema} from '@cdk/normalizr';

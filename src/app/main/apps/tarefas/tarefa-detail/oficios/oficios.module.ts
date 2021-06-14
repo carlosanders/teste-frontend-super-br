@@ -1,17 +1,19 @@
 import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatBadgeModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';

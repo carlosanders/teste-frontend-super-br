@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_MODELOS = '[DOCUMENTO AVULSO EDIT] GET MODELOS';
 export const GET_MODELOS_SUCCESS = '[DOCUMENTO AVULSO EDIT] GET MODELOS SUCCESS';

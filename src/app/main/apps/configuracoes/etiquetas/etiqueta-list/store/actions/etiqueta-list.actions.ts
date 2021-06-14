@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_ETIQUETAS = '[ETIQUETA LIST] GET ETIQUETAS';
 export const GET_ETIQUETAS_SUCCESS = '[ETIQUETA LIST] GET ETIQUETAS SUCCESS';

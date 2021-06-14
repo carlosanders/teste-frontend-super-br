@@ -8,14 +8,13 @@ import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Compartilhamento, Processo} from '@cdk/models';
+import {Compartilhamento, Processo, VinculacaoEtiqueta} from '@cdk/models';
 import {
     compartilhamento as acompanhamentoSchema,
-    processo as processoSchema
+    processo as processoSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {VinculacaoEtiqueta} from '@cdk/models';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
@@ -63,18 +62,15 @@ export class ProcessoEffect {
                     contexto['compartilhamentoUsuario'] = 'processo';
 
                     const populate = action.payload.populate ? [...action.payload.populate] : [];
-                    this._store.dispatch(new ProcessoActions.SetToggleAcompanhamento({
-                        loadingAcompanhamento: true
-                    }));
-
                     return this._processoService.get(
                         action.payload.id,
                         JSON.stringify([
                             ...populate,
+                            'origemDados',
                             'especieProcesso',
                             'especieProcesso.generoProcesso',
-                            'especieProcesso.workflow-edit',
-                            'especieProcesso.workflow-edit.especieTarefaInicial',
+                            'especieProcesso.workflow',
+                            'especieProcesso.workflow.especieTarefaInicial',
                             'tarefaAtualWorkflow',
                             'tarefaAtualWorkflow.especieTarefa',
                             'vinculacoesEtiquetas',
@@ -336,9 +332,6 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.DeleteAcompanhamento>(ProcessoActions.DELETE_ACOMPANHAMENTO),
                 mergeMap((action) => {
-                    this._store.dispatch(new ProcessoActions.SetToggleAcompanhamento({
-                        loadingAcompanhamento: true
-                    }));
                     return this._acompanhamentoService.destroy(action.payload.acompanhamentoId).pipe(
                         mergeMap(response =>
                             [
@@ -348,12 +341,7 @@ export class ProcessoEffect {
                                     parentSchema: processoSchema,
                                     parentId: action.payload.processoId
                                 }),
-                                new ProcessoActions.DeleteAcompanhamentoSuccess(response.id),
-                                new ProcessoActions.SetToggleAcompanhamentoSuccess(
-                                    {
-                                        loadingAcompanhamento: false
-                                    }
-                                ),
+                                new ProcessoActions.DeleteAcompanhamentoSuccess(response.id)
                             ],
                         ),
                         catchError((err) => {

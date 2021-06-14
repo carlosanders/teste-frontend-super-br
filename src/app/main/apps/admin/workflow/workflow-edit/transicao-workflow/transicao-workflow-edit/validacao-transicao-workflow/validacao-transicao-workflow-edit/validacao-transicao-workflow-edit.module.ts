@@ -1,18 +1,19 @@
-import { TipoValidacaoWorkflowService } from '@cdk/services/tipo-validacao-workflow.service';
+import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
 import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -60,7 +61,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflow-edit/transicao-workflow-edit/validacao-transicao-workflow-edit/validacao-transicao-workflow-edit';
+const path = 'app/main/apps/admin/workflow/workflow-edit/transicao-workflow/transicao-workflow-edit/validacao-transicao-workflow/validacao-transicao-workflow-edit';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

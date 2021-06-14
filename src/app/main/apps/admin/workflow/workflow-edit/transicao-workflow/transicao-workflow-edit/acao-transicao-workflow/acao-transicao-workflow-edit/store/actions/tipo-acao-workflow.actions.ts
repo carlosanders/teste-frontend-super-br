@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TIPO_ACAO_WORKFLOW = '[TIPO ACAO WORKFLOW EDIT] GET TIPO ACAO WORKFLOW';
 export const GET_TIPO_ACAO_WORKFLOW_SUCCESS = '[TIPO ACAO WORKFLOW EDIT] GET TIPO ACAO WORKFLOW SUCCESS';

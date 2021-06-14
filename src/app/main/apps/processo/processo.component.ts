@@ -20,7 +20,7 @@ import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {cdkAnimations} from '@cdk/animations';
-import {getRouterState} from '../../../store/reducers';
+import {getRouterState} from '../../../store';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
@@ -38,8 +38,6 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
     animations: cdkAnimations
 })
 export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
@@ -62,10 +60,16 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('dynamicComponent', {read: ViewContainerRef})
     container: ViewContainerRef;
 
-    private _profile: Usuario;
+    pluginLoading$: Observable<string[]>;
+    pluginLoading: string[];
+
     expandir$: Observable<boolean>;
 
     togglingAcompanharProcesso$: Observable<boolean>;
+
+    private _profile: Usuario;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -124,6 +128,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.steps$ = this._store.pipe(select(fromStore.getSteps));
         this.expandir$ = this._store.pipe(select(fromStore.getExpandirTela));
+        this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoadingProcesso));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -152,6 +157,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.processo$.subscribe((processo) => {
             this.processo = processo;
         });
+
+        this.pluginLoading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            pluginLoading => this.pluginLoading = pluginLoading
+        );
     }
 
     ngAfterViewInit(): void {

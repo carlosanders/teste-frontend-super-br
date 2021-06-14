@@ -1,4 +1,4 @@
-import { DadosBasicosEffect } from './dados-basicos.effects';
+import {DadosBasicosEffect} from './dados-basicos.effects';
 
 export const effects = [
     DadosBasicosEffect

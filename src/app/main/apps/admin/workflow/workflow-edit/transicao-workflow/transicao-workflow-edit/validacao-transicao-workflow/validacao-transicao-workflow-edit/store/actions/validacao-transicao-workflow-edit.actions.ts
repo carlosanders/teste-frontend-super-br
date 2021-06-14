@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_VALIDACAO = '[VALIDACAO TRANSICAO WORKFLOW] CREATE VALIDACAO';
 export const CREATE_VALIDACAO_SUCCESS = '[VALIDACAO TRANSICAO WORKFLOW] CREATE VALIDACAO SUCCESS';

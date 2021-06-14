@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {ModalidadeCategoriaSigilo} from '../models/modalidade-categoria-sigilo.model';
 
 export class ModalidadeCategoriaSigiloDataSource extends DataSource<ModalidadeCategoriaSigilo> {

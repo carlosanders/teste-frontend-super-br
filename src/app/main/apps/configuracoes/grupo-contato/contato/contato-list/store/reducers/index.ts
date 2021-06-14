@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ContatoListReducer, ContatoListState } from './contato-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ContatoListReducer, ContatoListState} from './contato-list.reducer';
 
 export interface ContatoListAppState
 {

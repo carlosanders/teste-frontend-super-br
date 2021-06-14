@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_ASSINATURAS_DOCUMENTO = '[DOCUMENTO ASSINATURA] GET ASSINATURAS';
 export const GET_ASSINATURAS_DOCUMENTO_SUCCESS = '[DOCUMENTO ASSINATURA] GET ASSINATURAS SUCCESS';

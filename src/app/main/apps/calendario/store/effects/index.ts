@@ -1,4 +1,4 @@
-import { TarefasEffect } from './tarefas.effects';
+import {TarefasEffect} from './tarefas.effects';
 
 export const effects = [
     TarefasEffect

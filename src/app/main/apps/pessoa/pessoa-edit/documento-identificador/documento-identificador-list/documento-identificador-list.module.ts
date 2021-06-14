@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -19,7 +19,8 @@ import {DocumentoIdentificadorListComponent} from './documento-identificador-lis
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
 import {RouterModule, Routes} from '@angular/router';
 import {DocumentoIdentificadorListStoreModule} from 'app/main/apps/pessoa/pessoa-edit/documento-identificador/documento-identificador-list/store/store.module';
-import * as fromGuards from 'app/main/apps/pessoa/pessoa-edit/documento-identificador/documento-identificador-list/store/guards';
+import * as fromGuards
+    from 'app/main/apps/pessoa/pessoa-edit/documento-identificador/documento-identificador-list/store/guards';
 import {CdkDocumentoIdentificadorGridModule} from '@cdk/components/documento-identificador/cdk-documento-identificador-grid/cdk-documento-identificador-grid.module';
 import {modulesConfig} from 'modules/modules-config';
 

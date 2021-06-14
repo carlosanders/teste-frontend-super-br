@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TIPO_RELATORIO = '[SUPERADMIN TIPO RELATORIO LIST] GET TIPO_RELATORIO';
 export const GET_TIPO_RELATORIO_SUCCESS = '[SUPERADMIN TIPO RELATORIO LIST] GET TIPO_RELATORIO SUCCESS';

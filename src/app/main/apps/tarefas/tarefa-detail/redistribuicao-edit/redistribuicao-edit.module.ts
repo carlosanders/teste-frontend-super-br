@@ -1,29 +1,31 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatDialogModule
+    MatTooltipModule
 } from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSidebarModule } from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
-import { PipesModule } from '@cdk/pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
-import { RedistribuicaoEditComponent } from './redistribuicao-edit.component';
-import { RouterModule, Routes } from '@angular/router';
-import { TarefasStoreModule } from '../../store/store.module';
-import { CdkTarefaFormModule } from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
+import {RedistribuicaoEditComponent} from './redistribuicao-edit.component';
+import {RouterModule, Routes} from '@angular/router';
+import {TarefasStoreModule} from '../../store/store.module';
+import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
 import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
 
 const routes: Routes = [

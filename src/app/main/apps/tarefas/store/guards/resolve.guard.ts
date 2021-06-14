@@ -3,12 +3,12 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, forkJoin, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {forkJoin, Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {getFoldersLoaded, getTarefasLoaded, getIsLoading} from 'app/main/apps/tarefas/store/selectors';
+import {getFoldersLoaded, getIsLoading, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -143,7 +143,7 @@ export class ResolveGuard implements CanActivate {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
-                            'processo.especieProcesso.workflow-edit',
+                            'processo.especieProcesso.workflow',
                             'workflow'
                         ],
                         context: {}

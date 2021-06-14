@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoIdentificadorEditReducer, DocumentoIdentificadorEditState } from './documento-identificador-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    DocumentoIdentificadorEditReducer,
+    DocumentoIdentificadorEditState
+} from './documento-identificador-edit.reducer';
 
 export interface DocumentoIdentificadorEditAppState
 {

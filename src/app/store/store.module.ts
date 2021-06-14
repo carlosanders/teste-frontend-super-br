@@ -5,8 +5,7 @@ import {NgModule} from '@angular/core';
 import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 
 import {environment} from 'environments/environment';
-import {reducers, effects, CustomSerializer} from 'app/store';
-import {clearState} from 'app/store';
+import {clearState, CustomSerializer, effects, reducers} from 'app/store';
 
 @NgModule({
     imports: [

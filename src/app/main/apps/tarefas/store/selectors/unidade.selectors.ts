@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefasAppState, TarefasAppState, RootUnidadeState} from '../reducers';
+import {getTarefasAppState, RootUnidadeState, TarefasAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {unidade as unidadeSchema} from '@cdk/normalizr';

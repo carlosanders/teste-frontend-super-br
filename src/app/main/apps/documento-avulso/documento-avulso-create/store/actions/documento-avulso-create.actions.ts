@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_DOCUMENTO_AVULSO = '[DOCUMENTO AVULSO] CREATE DOCUMENTO AVULSO';
 export const CREATE_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO AVULSO] CREATE DOCUMENTO AVULSO SUCCESS';

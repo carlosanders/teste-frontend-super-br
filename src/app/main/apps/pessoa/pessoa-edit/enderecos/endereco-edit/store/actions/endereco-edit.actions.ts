@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_ENDERECO = '[ENDERECO] CREATE ENDERECO';
 export const CREATE_ENDERECO_SUCCESS = '[ENDERECO] CREATE ENDERECO SUCCESS';

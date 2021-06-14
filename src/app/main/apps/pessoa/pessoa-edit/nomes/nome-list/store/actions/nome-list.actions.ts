@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_NOMES = '[NOME LIST] GET NOMES';
 export const GET_NOMES_SUCCESS = '[NOME LIST] GET NOMES SUCCESS';

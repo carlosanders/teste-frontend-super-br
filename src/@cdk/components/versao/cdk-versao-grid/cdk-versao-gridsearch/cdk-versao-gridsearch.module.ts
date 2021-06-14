@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { LogEntryService } from '@cdk/services/logentry.service';
-import { CdkVersaoGridsearchComponent } from './cdk-versao-gridsearch.component';
+import {LogEntryService} from '@cdk/services/logentry.service';
+import {CdkVersaoGridsearchComponent} from './cdk-versao-gridsearch.component';
 import {CdkVersaoGridModule} from '../cdk-versao-grid.module';
 
 @NgModule({

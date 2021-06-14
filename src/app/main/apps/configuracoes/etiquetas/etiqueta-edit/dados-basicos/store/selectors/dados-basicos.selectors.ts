@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getEtiquetaEditAppState, EtiquetaEditAppState, EtiquetaEditState} from '../reducers';
+import {EtiquetaEditAppState, EtiquetaEditState, getEtiquetaEditAppState} from '../reducers';
 
 export const getEtiquetaEditState = createSelector(
     getEtiquetaEditAppState,

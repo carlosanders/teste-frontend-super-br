@@ -1,11 +1,15 @@
 import {NgModule} from '@angular/core';
 import {
-    MatButtonModule, MatCheckboxModule, MatIconModule,
-    MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkComponenteDigitalCardComponent } from './cdk-componente-digital-card.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkComponenteDigitalCardComponent} from './cdk-componente-digital-card.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatFormFieldModule} from '@angular/material/form-field';

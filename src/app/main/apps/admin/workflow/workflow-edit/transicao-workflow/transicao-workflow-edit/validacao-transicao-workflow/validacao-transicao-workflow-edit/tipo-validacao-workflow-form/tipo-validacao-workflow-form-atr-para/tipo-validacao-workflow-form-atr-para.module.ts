@@ -3,15 +3,16 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -33,7 +34,7 @@ const routes: Routes = [
 ];
 
 // eslint-disable-next-line max-len
-const path = 'app/main/apps/admin/workflows/transicao-workflow-edit/validacao-transicao-workflow-edit/validacao-transicao-workflow-edit/tipo-validacao-workflow-edit-form/tipo-validacao-workflow-edit-form-atr-para';
+const path = 'app/main/apps/admin/workflow/workflow-edit/transicao-workflow/transicao-workflow-edit/validacao-transicao-workflow/validacao-transicao-workflow-edit/tipo-validacao-workflow-form/tipo-validacao-workflow-form-atr-para';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { EspecieDocumentoService } from '@cdk/services/especie-documento.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {EspecieDocumentoService} from '@cdk/services/especie-documento.service';
 import {CdkEspecieDocumentoAutocompleteComponent} from './cdk-especie-documento-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

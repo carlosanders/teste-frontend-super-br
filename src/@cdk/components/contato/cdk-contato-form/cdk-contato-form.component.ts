@@ -5,11 +5,13 @@ import {
     EventEmitter,
     Input,
     OnChanges,
-    OnDestroy, OnInit,
+    OnDestroy,
+    OnInit,
     Output,
-    SimpleChange, ViewEncapsulation
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
-import {ModalidadeDestinacao, Pagination, Setor, Usuario} from '../../../models';
+import {Pagination, Setor, Usuario} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {cdkAnimations} from '../../../animations';
 import {Contato} from '../../../models/contato.model';

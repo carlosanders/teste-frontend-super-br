@@ -1,6 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, OnDestroy, OnInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,7 +15,6 @@ import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Setor} from '@cdk/models';
-import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'coordenador-localizador',

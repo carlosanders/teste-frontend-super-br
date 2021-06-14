@@ -1,21 +1,13 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Endereco} from '@cdk/models';
+import {Endereco, Pagination, Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
-import {Pagination} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../../store/actions';
 

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getProcessoDownloadAppState,
-    ProcessoDownloadAppState,
-    ProcessoDownloadState
-} from '../reducers';
+import {getProcessoDownloadAppState, ProcessoDownloadAppState, ProcessoDownloadState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr';

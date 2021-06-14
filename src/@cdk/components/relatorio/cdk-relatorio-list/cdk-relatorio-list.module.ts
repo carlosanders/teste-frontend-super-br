@@ -1,12 +1,15 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
-    MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
-    MatExpansionModule
+    MatRippleModule,
+    MatSortModule
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
