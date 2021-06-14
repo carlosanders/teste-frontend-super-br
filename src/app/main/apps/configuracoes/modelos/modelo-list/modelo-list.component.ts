@@ -14,10 +14,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-<<<<<<< HEAD
-=======
-
->>>>>>> 58b69d60d796a3e08e0a7376ac68e6a0373c752e
 
 @Component({
     selector: 'modelo-list',
