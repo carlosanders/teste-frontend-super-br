@@ -68,7 +68,6 @@ export class ResolveGuard implements CanActivate {
                         populate: [
                             'populateAll'
                         ],
-                        context: {isAdmin: true}
                     };
                     this._store.dispatch(new fromStore.GetEspecieAtividade(params));
                 }

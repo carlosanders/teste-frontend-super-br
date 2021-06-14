@@ -69,7 +69,6 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesAvisos.modalidadeOrgaoCentral',
                             'vinculacoesAvisos.unidade'
                         ],
-                        context: {isAdmin: true}
                     };
                     this._store.dispatch(new fromStore.GetAviso(params));
                 }

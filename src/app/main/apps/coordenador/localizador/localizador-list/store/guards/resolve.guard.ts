@@ -77,9 +77,6 @@ export class ResolveGuard implements CanActivate {
                             'setor.generoSetor',
                             'setor.parent',
                         ],
-                        context: {
-                            isAdmin: true
-                        }
                     };
 
                     this._store.dispatch(new fromStore.GetLocalizadores(params));

@@ -91,9 +91,6 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesEtiquetas.modalidadeOrgaoCentral',
                             'vinculacoesEtiquetas.unidade',
                         ],
-                        context: {
-                            isAdmin: true
-                        }
                     };
 
                     if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {

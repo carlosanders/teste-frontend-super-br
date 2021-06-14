@@ -196,6 +196,9 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     excluded = new EventEmitter<any>();
 
     @Output()
+    inatived = new EventEmitter<any>();
+
+    @Output()
     edit = new EventEmitter<number>();
 
     @Output()
@@ -219,6 +222,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -286,7 +290,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -307,6 +311,23 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
                 context: {mostrarApagadas: true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
             });
         }
         else {

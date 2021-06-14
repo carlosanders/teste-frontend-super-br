@@ -51,7 +51,6 @@ export class ModeloEditEffect {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true})
                     )),
                 switchMap(response => [
                     new AddData<Modelo>({data: [response], schema: modeloSchema}),

@@ -35,11 +35,11 @@ import {CdkNavigationItem} from '../../../../../@cdk/types';
     encapsulation: ViewEncapsulation.None,
     animations: [
         trigger('popOverState', [
-               transition('* => *', [
-                query('button',style({ transform: 'translateX(-100%)'})),
+            transition('void => *', [
+                query('button', style({transform: 'translateX(-100%)'})),
                 query('button',
                     stagger('600ms', [
-                        animate('700ms', style({ transform: 'translateX(0)'}))
+                        animate('700ms', style({transform: 'translateX(0)'}))
                     ]))
             ])
         ])
@@ -52,6 +52,7 @@ export class WidgetTarefaComponent implements OnInit, OnDestroy {
     tarefasCount: any = false;
     tarefasVencidasCount: any = false;
     isContadorPrincipal: boolean = true;
+    hasTarefaAberta: boolean = false;
     loaded: any;
     contagemTarefas: any;
 
@@ -116,15 +117,19 @@ export class WidgetTarefaComponent implements OnInit, OnDestroy {
         this.isContadorPrincipal = !this.isContadorPrincipal;
         this.contagemTarefas = []
         let modulos = this.recuperarModulos();
-        for(const modulo of modulos) {
-            this.contagemTarefas[modulo] = this.contarTarefas(modulo);
+        for (const modulo of modulos) {
+            const totalTarefaModulo = this.contarTarefas(modulo);
+            if (totalTarefaModulo > 0) {
+                this.hasTarefaAberta = true;
+                this.contagemTarefas[modulo] = totalTarefaModulo;
+            }
         }
     }
 
     recuperarModulos(): any {
         let modulos = [];
         for (const key of Object.keys(this.counterState)) {
-            if(key.includes('caixa_entrada')) {
+            if (key.includes('caixa_entrada')) {
                 modulos.push(key.split('_')[2]);
             }
         }
@@ -135,7 +140,7 @@ export class WidgetTarefaComponent implements OnInit, OnDestroy {
         let valor = 0;
         valor += this.counterState['caixa_entrada_' + modulo]
         for (const key of Object.keys(this.counterState)) {
-            if(key.includes('folder_' + modulo)) {
+            if (key.includes('folder_' + modulo)) {
                 valor += this.counterState[key]
             }
         }
