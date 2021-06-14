@@ -1,4 +1,4 @@
-import { PessoaListEffect } from './pessoa-list.effects';
+import {PessoaListEffect} from './pessoa-list.effects';
 
 export const effects = [
     PessoaListEffect

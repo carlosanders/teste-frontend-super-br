@@ -1,9 +1,11 @@
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef, EventEmitter,
+    ElementRef,
+    EventEmitter,
     OnDestroy,
-    OnInit, Output,
+    OnInit,
+    Output,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -20,15 +22,16 @@ import {
     GetChat,
     GetChatIncrement,
     GetMensagens,
-    GetMensagensIncrement, LimparMensagensNaoLidas,
-    OpenChat, UnloadChatMensagens
-} from "./store";
+    GetMensagensIncrement,
+    LimparMensagensNaoLidas,
+    OpenChat,
+    UnloadChatMensagens
+} from './store';
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
 import {filter, takeUntil} from "rxjs/operators";
 import {MercureService} from "@cdk/services/mercure.service";
-import * as loginStoreSelectores from "../../../main/auth/login/store/selectors";
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
 import {ChatUtils} from "./utils/chat.utils";
 
@@ -145,8 +148,16 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this._loginService.getUserProfileChanges()
             .pipe(
                 takeUntil(this._unsubscribeAll),
-                filter(profile => !!profile)
-            ).subscribe(profile => this.getChatsUsuario(profile));
+            ).subscribe(profile => {
+                this.usuarioLogado = profile;
+                this.usuarioAutenticado = !!profile;
+                if (this.usuarioAutenticado === true) {
+                    this.getChatsUsuario();
+                }else {
+                    this.chatList = [];
+                    this.chatMensagens = [];
+                }
+        });
 
         this.chatMensagemForm = this._formBuilder.group({
             mensagem: [null, [Validators.required]]
@@ -209,7 +220,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 // Envio de uma nova mensagem...
                 this.chatMensagensBuffer = chatMensagens;
                 this.recarregaMensagens = true;
-                if (chatMensagens.length) {
+                if (!!chatMensagens && chatMensagens.length) {
                     let mensagensSemId = this.chatMensagens.filter(chatMensagem => !chatMensagem.id);
 
                     mensagensSemId.forEach((chatMensagemSemId, index) => {
@@ -257,15 +268,15 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
 
         if (!!this._loginService.getUserProfile()) {
-            this.getChatsUsuario(this._loginService.getUserProfile());
+            this.usuarioLogado = this._loginService.getUserProfile();
+            this.usuarioAutenticado = true;
+            this.getChatsUsuario();
         }
     }
 
-    private getChatsUsuario(usuario: Usuario, keyword:string = ''): void
+    private getChatsUsuario(keyword:string = ''): void
     {
-        this._mercureService.subscribe(usuario.username+'/chat');
-        this.usuarioLogado = usuario;
-        this.usuarioAutenticado = true;
+        this._mercureService.subscribe(this.usuarioLogado.username+'/chat');
         let gridFilter = {};
 
         if (keyword.length > 0) {
@@ -333,7 +344,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         if (this.chatOpen && this.chatOpen.id) {
             this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
             this.activeCard = 'chat-list';
-            this.getChatsUsuario(this.usuarioLogado);
+            this.getChatsUsuario();
             this._store.dispatch(new LimparMensagensNaoLidas(
                 this.chatUtils.getParticipante(this.chatOpen.participantes))
             );
@@ -371,7 +382,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
     pesquisaChat(keyword: string = ''): void
     {
-        this.getChatsUsuario(this.usuarioLogado, keyword);
+        this.getChatsUsuario(keyword);
     }
 
     onScrollChatList(scrollEvent: IInfiniteScrollEvent): void

@@ -1,4 +1,4 @@
-import { ComponentesDigitaisEffect } from './componentes-digitais.effects';
+import {ComponentesDigitaisEffect} from './componentes-digitais.effects';
 
 export const effects = [
     ComponentesDigitaisEffect

@@ -1,4 +1,4 @@
-import { GrupoContatoEditEffect } from './grupo-contato-edit.effects';
+import {GrupoContatoEditEffect} from './grupo-contato-edit.effects';
 
 export const effects = [
     GrupoContatoEditEffect

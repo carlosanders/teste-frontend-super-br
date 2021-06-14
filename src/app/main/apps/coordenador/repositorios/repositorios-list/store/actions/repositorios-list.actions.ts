@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_REPOSITORIOS = '[COORDENADOR REPOSITORIO LIST] GET REPOSITORIOS';
 export const GET_REPOSITORIOS_SUCCESS = '[COORDENADOR REPOSITORIO LIST] GET REPOSITORIOS SUCCESS';

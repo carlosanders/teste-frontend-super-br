@@ -8,6 +8,7 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {Juntada} from '@cdk/models';
+
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
 export const getVinculacaoDocumentoCreateState = createSelector(

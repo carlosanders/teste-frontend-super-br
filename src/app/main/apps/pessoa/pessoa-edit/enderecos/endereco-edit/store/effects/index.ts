@@ -1,4 +1,4 @@
-import { EnderecoEditEffect } from './endereco-edit.effects';
+import {EnderecoEditEffect} from './endereco-edit.effects';
 
 export const effects = [
     EnderecoEditEffect

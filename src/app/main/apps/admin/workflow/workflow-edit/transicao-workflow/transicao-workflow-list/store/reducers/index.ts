@@ -6,7 +6,7 @@ export interface TransicaoWorkflowListAppState {
 }
 
 export const getTransicaoWorkflowListAppState = createFeatureSelector<TransicaoWorkflowListAppState>(
-    'transicao-workflow-edit-list'
+    'transicao-workflow-list'
 );
 
 export const getAppState = createSelector(

@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { interval, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {interval, Subject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Component({

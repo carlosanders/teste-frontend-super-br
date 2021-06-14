@@ -1,4 +1,5 @@
-import * as InteressadoListActions from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions';
+import * as InteressadoListActions
+    from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions';
 import * as _ from 'lodash';
 
 export interface InteressadoListState {

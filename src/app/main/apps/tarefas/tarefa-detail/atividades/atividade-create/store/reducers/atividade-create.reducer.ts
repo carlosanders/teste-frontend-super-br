@@ -1,4 +1,5 @@
-import * as AtividadeCreateActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/atividade-create.actions';
+import * as AtividadeCreateActions
+    from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/atividade-create.actions';
 
 export interface AtividadeCreateState {
     saving: boolean;

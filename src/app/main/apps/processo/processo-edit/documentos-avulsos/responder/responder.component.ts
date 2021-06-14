@@ -1,8 +1,11 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -16,8 +19,7 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {Router} from '@angular/router';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
 import {getMercureState, getRouterState} from '../../../../../../store/reducers';
-import { getDocumentoAvulso } from './store/selectors';
-import { getDocumentosComplementares } from './store/selectors';
+import {getDocumentoAvulso, getDocumentosComplementares} from './store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';

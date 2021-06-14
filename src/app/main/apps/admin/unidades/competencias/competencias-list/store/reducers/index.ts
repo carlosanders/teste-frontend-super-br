@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CompetenciasListReducer, CompetenciasListState } from './competencias-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {CompetenciasListReducer, CompetenciasListState} from './competencias-list.reducer';
 
 export interface CompetenciasListAppState
 {

@@ -6,7 +6,7 @@ export interface WorkflowListAppState {
 }
 
 export const getWorkflowListAppState = createFeatureSelector<WorkflowListAppState>(
-    'workflow-edit-list'
+    'workflow-list'
 );
 
 export const getAppState = createSelector(

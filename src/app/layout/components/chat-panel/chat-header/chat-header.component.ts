@@ -1,8 +1,13 @@
 import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
+    ElementRef,
+    EventEmitter,
     OnInit,
-    ViewEncapsulation,
-    EventEmitter, Output, ChangeDetectorRef, ViewChild, ElementRef, ChangeDetectionStrategy
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {Pagination} from "@cdk/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getNomeListAppState,
-    NomeListAppState,
-    NomeListState
-} from '../reducers';
+import {getNomeListAppState, NomeListAppState, NomeListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {nome as nomeSchema} from '@cdk/normalizr';

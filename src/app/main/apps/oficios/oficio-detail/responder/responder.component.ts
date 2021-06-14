@@ -4,25 +4,26 @@ import {
     Component,
     OnDestroy,
     OnInit,
-    ViewChild, ViewContainerRef,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
-import { Observable, Subject } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import {cdkAnimations} from '@cdk/animations';
+import {Observable, Subject} from 'rxjs';
+import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import { LoginService } from 'app/main/auth/login/login.service';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Documento } from '@cdk/models/documento.model';
-import { getMercureState, getRouterState } from 'app/store/reducers';
-import { Router } from '@angular/router';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Documento} from '@cdk/models/documento.model';
+import {getMercureState, getRouterState} from 'app/store/reducers';
+import {Router} from '@angular/router';
 import {Assinatura, DocumentoAvulso, Usuario} from '@cdk/models';
-import { getDocumentoAvulso } from '../store/selectors';
-import { UpdateData } from '@cdk/ngrx-normalizr';
-import { documento as documentoSchema } from '@cdk/normalizr';
-import { getDocumentosComplementares } from '../complementar/store/selectors';
+import {getDocumentoAvulso} from '../store/selectors';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr';
+import {getDocumentosComplementares} from '../complementar/store/selectors';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 

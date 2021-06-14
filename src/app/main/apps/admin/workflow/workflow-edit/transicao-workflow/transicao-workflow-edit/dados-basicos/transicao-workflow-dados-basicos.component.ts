@@ -7,8 +7,7 @@ import {Router} from '@angular/router';
 import {cdkAnimations} from '@cdk/animations';
 import {Pagination, TransicaoWorkflow, Workflow} from '@cdk/models';
 import {LoginService} from '../../../../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../../../../store';
-import {Back} from '../../../../../../../../store';
+import {Back, getRouterState} from '../../../../../../../../store';
 import {getTransicaoWorkflow} from '../store';
 
 @Component({

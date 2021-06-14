@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { MunicipioEditReducer, MunicipioEditState } from './municipio-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {MunicipioEditReducer, MunicipioEditState} from './municipio-edit.reducer';
 
 export interface MunicipioEditAppState
 {

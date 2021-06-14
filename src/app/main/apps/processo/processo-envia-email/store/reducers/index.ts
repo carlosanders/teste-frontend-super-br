@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EnviaEmailReducer, EnviaEmailState } from './envia-email.reducer';
+import {ActionReducerMap, createFeatureSelector} from '@ngrx/store';
+import {EnviaEmailReducer, EnviaEmailState} from './envia-email.reducer';
 
 export interface EnviaEmailAppState
 {

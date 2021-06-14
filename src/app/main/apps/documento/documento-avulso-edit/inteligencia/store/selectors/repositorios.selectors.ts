@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {DocumentoAvulsoEditInteligenciaAppState, getDocumentoAvulsoEditInteligenciaAppState, RepositoriosState} from '../reducers';
+import {
+    DocumentoAvulsoEditInteligenciaAppState,
+    getDocumentoAvulsoEditInteligenciaAppState,
+    RepositoriosState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {repositorio as schemaRepositorio} from '@cdk/normalizr';
 import {Repositorio} from '@cdk/models';

@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {VisibilidadeAppState, getVisibilidadeAppState, VisibilidadeState} from '../reducers';
+import {getVisibilidadeAppState, VisibilidadeAppState, VisibilidadeState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr';

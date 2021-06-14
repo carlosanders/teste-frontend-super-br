@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_MUNICIPIO = '[ADMIN MUNICIPIO EDIT] CREATE MUNICIPIO';
 export const CREATE_MUNICIPIO_SUCCESS = '[ADMIN MUNICIPIO EDIT] CREATE MUNICIPIO SUCCESS';

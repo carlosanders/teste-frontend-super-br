@@ -1,4 +1,4 @@
-import { EspecieSetorListEffects } from './especie-setor-list.effects';
+import {EspecieSetorListEffects} from './especie-setor-list.effects';
 
 export const effects = [
     EspecieSetorListEffects

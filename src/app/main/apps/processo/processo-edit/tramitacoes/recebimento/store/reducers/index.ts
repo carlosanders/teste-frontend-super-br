@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RecebimentoReducer, RecebimentoTramitacaoState } from './recebimento.reducer';
+import {ActionReducerMap, createFeatureSelector} from '@ngrx/store';
+import {RecebimentoReducer, RecebimentoTramitacaoState} from './recebimento.reducer';
 
 export interface RecebimentoAppState
 {

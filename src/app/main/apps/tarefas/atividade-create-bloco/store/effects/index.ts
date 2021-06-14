@@ -1,5 +1,5 @@
-import { AtividadeCreateBlocoEffect } from './atividade-create-bloco.effects';
-import { AtividadeCreateBlocoDocumentosEffect } from './documentos.effects';
+import {AtividadeCreateBlocoEffect} from './atividade-create-bloco.effects';
+import {AtividadeCreateBlocoDocumentosEffect} from './documentos.effects';
 
 export const effects = [
     AtividadeCreateBlocoEffect,

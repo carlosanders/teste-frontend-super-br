@@ -19,8 +19,7 @@ import {
     ChangeProcessos,
     ChangeSelectedProcessos,
     getProcessosIds,
-    getSelectedProcessoIds,
-    ReloadProcessos
+    getSelectedProcessoIds
 } from '../../../arquivista-list/store';
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { ProcessoDownloadEffect } from './processo-download.effects';
+import {ProcessoDownloadEffect} from './processo-download.effects';
 
 export const effects = [
     ProcessoDownloadEffect

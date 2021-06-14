@@ -1,9 +1,12 @@
-import {createSelector, select} from '@ngrx/store';
-import {getNumeroUnicoDocumentoEditAppState, NumeroUnicoDocumentoEditAppState, NumeroUnicoDocumentoEditState} from '../reducers';
+import {createSelector} from '@ngrx/store';
+import {
+    getNumeroUnicoDocumentoEditAppState,
+    NumeroUnicoDocumentoEditAppState,
+    NumeroUnicoDocumentoEditState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {NumeroUnicoDocumento, Setor} from '@cdk/models';
-import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
-import {setor as schemaSetor} from '@cdk/normalizr';
+import {numeroUnicoDocumento as numeroUnicoDocumentoSchema, setor as schemaSetor} from '@cdk/normalizr';
 import {getNumeroUnicoDocumentoState} from '../../../store/selectors';
 import {NumeroUnicoDocumentoState} from '../../../store/reducers';
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as ProfileActions from '../actions/perfil.actions';
@@ -12,7 +12,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ComponenteDigital, Usuario} from '@cdk/models';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {usuario as usuarioSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {componenteDigital as componenteDigitalSchema, usuario as usuarioSchema} from '@cdk/normalizr';
 import * as LoginActions from '../../../../../auth/login/store/actions/login.actions';
 import {ComponenteDigitalService} from "../../../../../../../@cdk/services/componente-digital.service";
 

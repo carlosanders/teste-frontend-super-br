@@ -9,8 +9,8 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { TipoDocumentoService } from '@cdk/services/tipo-documento.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {CdkDocumentoFilterComponent} from './cdk-documento-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';

@@ -1,7 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import {TransicaoWorkflow, Usuario, TipoValidacaoWorkflow} from '@cdk/models';
+import {TipoValidacaoWorkflow, TransicaoWorkflow, Usuario} from '@cdk/models';
 
 export class ValidacaoTransicaoWorkflow {
 

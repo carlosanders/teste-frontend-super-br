@@ -5,7 +5,7 @@ import {ModelService} from '@cdk/services/model.service';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
-import {classToPlain, plainToClass} from 'class-transformer';
+import {plainToClass} from 'class-transformer';
 import {Chat, PaginatedResponse, Usuario} from "../models";
 
 @Injectable()

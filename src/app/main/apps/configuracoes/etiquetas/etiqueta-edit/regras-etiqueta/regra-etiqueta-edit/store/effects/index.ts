@@ -1,4 +1,4 @@
-import { RegraEtiquetaEditEffect } from './regra-etiqueta-edit.effects';
+import {RegraEtiquetaEditEffect} from './regra-etiqueta-edit.effects';
 
 export const effects = [
     RegraEtiquetaEditEffect

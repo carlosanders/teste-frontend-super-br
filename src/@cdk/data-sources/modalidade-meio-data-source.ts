@@ -1,8 +1,8 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { ModalidadeMeio } from '@cdk/models';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
-import { ModalidadeMeioService } from '@cdk/services/modalidade-meio.service';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {ModalidadeMeio} from '@cdk/models';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {catchError, finalize} from 'rxjs/operators';
+import {ModalidadeMeioService} from '@cdk/services/modalidade-meio.service';
 
 export class ModalidadeMeioDataSource implements DataSource<ModalidadeMeio> {
 

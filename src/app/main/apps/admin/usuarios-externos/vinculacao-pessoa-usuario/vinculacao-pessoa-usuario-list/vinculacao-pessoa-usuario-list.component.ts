@@ -11,7 +11,7 @@ import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
-import {Store, select} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {getRouterState} from '../../../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';

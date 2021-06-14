@@ -1,8 +1,8 @@
-import { TarefasEffect } from './tarefas.effects';
-import { FoldersEffect } from './folders.effects';
-import { LotacaoListEffect } from './lotacao.effects';
-import { SetorEffects } from './setor.effects';
-import { UnidadeEffects } from './unidade.effects';
+import {TarefasEffect} from './tarefas.effects';
+import {FoldersEffect} from './folders.effects';
+import {LotacaoListEffect} from './lotacao.effects';
+import {SetorEffects} from './setor.effects';
+import {UnidadeEffects} from './unidade.effects';
 import {AssinaturasEffects} from './assinaturas.effects';
 
 

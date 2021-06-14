@@ -27,7 +27,9 @@ import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistri
 import {
     DarCienciaTarefa,
     RedistribuirTarefa,
-    RedistribuirTarefaCancelSuccess, RedistribuirTarefaFailed, RedistribuirTarefaSuccess
+    RedistribuirTarefaCancelSuccess,
+    RedistribuirTarefaFailed,
+    RedistribuirTarefaSuccess
 } from '../../../store';
 
 @Injectable()
@@ -74,8 +76,8 @@ export class TarefaDetailEffect {
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
                             'processo.especieProcesso.generoProcesso',
-                            'processo.especieProcesso.workflow-edit',
-                            'processo.especieProcesso.workflow-edit.especieTarefaInicial',
+                            'processo.especieProcesso.workflow',
+                            'processo.especieProcesso.workflow.especieTarefaInicial',
                             'processo.tarefaAtualWorkflow',
                             'processo.tarefaAtualWorkflow.especieTarefa',
                             'setorResponsavel.unidade',

@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {ModalidadeTransicao, Pagination, Processo, Transicao} from '@cdk/models';
+import {ModalidadeTransicao, Processo, Transicao} from '@cdk/models';
 import * as fromStore from './store';
-import {RouterStateUrl, getRouterState, getOperacoes} from '../../../../store';
+import {getOperacoes, getRouterState, RouterStateUrl} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';

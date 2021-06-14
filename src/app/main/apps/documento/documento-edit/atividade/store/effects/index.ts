@@ -1,4 +1,4 @@
-import { AtividadeDocumentoEffects } from './atividade-documento.effects';
+import {AtividadeDocumentoEffects} from './atividade-documento.effects';
 
 export const effects = [
     AtividadeDocumentoEffects,

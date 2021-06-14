@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_VOLUMES = '[PROCESSO VIEW] GET VOLUMES';
 export const GET_VOLUMES_SUCCESS = '[PROCESSO VIEW] GET VOLUMES SUCCESS';

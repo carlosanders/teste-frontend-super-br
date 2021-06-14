@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { NumeroUnicoDocumento } from '../models';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {NumeroUnicoDocumento} from '../models';
 
 export class NumeroUnicoDocumentoDataSource extends DataSource<NumeroUnicoDocumento> {
 

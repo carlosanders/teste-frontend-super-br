@@ -1,9 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import {TipoDocumento, Usuario} from '@cdk/models';
-import {ModalidadeTemplate} from '@cdk/models';
-import {Documento} from '@cdk/models';
+import {Documento, ModalidadeTemplate, TipoDocumento, Usuario} from '@cdk/models';
 
 export class Template {
 

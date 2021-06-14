@@ -1,4 +1,4 @@
-import { GarantiaListEffect } from './garantia-list.effects';
+import {GarantiaListEffect} from './garantia-list.effects';
 
 export const effects = [
     GarantiaListEffect

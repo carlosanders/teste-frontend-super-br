@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {ModalidadeAlvoInibidor} from '../models/modalidade-alvo-inibidor.model';
 
 export class ModalidadeAlvoInibidorDataSource extends DataSource<ModalidadeAlvoInibidor> {

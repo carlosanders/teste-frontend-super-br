@@ -1,4 +1,4 @@
-import { EsqueciSenhaEffects } from './esqueci-senha.effects';
+import {EsqueciSenhaEffects} from './esqueci-senha.effects';
 
 export const effects = [
     EsqueciSenhaEffects

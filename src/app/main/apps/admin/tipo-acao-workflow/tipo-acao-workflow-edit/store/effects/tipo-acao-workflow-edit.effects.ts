@@ -2,15 +2,15 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as TipoAcaoWorkflowEditActions from '../actions/tipo-acao-workflow-edit.actions';
-import * as TipoAcaoWorkflowListActions from '../../../tipo-acao-workflow-list/store/actions/tipo-acao-workflow-list.actions';
+import * as TipoAcaoWorkflowListActions
+    from '../../../tipo-acao-workflow-list/store/actions/tipo-acao-workflow-list.actions';
 import {TipoAcaoWorkflowService} from '@cdk/services/tipo-acao-workflow.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tipoAcaoWorkflow as tipoAcaoWorkflowSchema} from '@cdk/normalizr';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr';
-import {TipoAcaoWorkflow, Colaborador} from '@cdk/models';
+import {TipoAcaoWorkflow} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -133,7 +133,7 @@ export class TipoAcaoWorkflowEditEffects {
             .pipe(
                 ofType<TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflowSuccess>(TipoAcaoWorkflowEditActions.SAVE_TIPO_ACAO_WORKFLOW_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/admin/tipo-acao-workflow-edit/listar']).then();
+                    this._router.navigate(['apps/admin/tipo-acao-workflow/listar']).then();
                 })
             );
 

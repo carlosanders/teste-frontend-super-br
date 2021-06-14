@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {VinculacaoProcesso} from '../models/vinculacao-processo.model';
 
 export class VinculacaoProcessoDataSource extends DataSource<VinculacaoProcesso> {

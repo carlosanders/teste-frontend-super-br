@@ -1,4 +1,4 @@
-import { AfastamentosEffects } from './afastamentos.effects';
+import {AfastamentosEffects} from './afastamentos.effects';
 
 export const effects = [
     AfastamentosEffects

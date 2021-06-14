@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EnderecoEditReducer, EnderecoEditState } from './endereco-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {EnderecoEditReducer, EnderecoEditState} from './endereco-edit.reducer';
 
 export interface EnderecoEditAppState
 {

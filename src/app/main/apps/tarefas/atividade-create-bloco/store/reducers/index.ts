@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AtividadeCreateBlocoReducer, AtividadeCreateBlocoState } from './atividade-create-bloco.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AtividadeCreateBlocoReducer, AtividadeCreateBlocoState} from './atividade-create-bloco.reducer';
 import {AtividadeBlocoCreateDocumentosReducer, AtividadeBlocoCreateDocumentosState} from './documentos.reducer';
 
 export interface AtividadeCreateBlocoAppState

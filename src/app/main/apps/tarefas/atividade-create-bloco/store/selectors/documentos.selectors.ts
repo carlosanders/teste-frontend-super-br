@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getAtividadeCreateBlocoAppState, AtividadeCreateBlocoAppState, AtividadeBlocoCreateDocumentosState} from '../reducers';
+import {
+    AtividadeBlocoCreateDocumentosState,
+    AtividadeCreateBlocoAppState,
+    getAtividadeCreateBlocoAppState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';

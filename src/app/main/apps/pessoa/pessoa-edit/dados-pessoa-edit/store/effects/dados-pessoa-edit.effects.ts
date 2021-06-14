@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DadosPessoaEditActions from '../actions/dados-pessoa-edit.actions';
 import * as PessoaListActions from '../../../../pessoa-list/store/actions/pessoa-list.actions';

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_PROCESSO = '[PROCESSO] CREATE PROCESSO';
 export const UNLOAD_PROCESSO = '[PROCESSO] UNLOAD PROCESSO';
@@ -49,8 +49,8 @@ export const DELETE_ACOMPANHAMENTO = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO'
 export const DELETE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO SUCCESS';
 export const DELETE_ACOMPANHAMENTO_FAILED = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO FAILED';
 
-export const SET_TOGGLE_ACOMPANHAMENTO = '[PROCESSO] SET TOGGLE ACOMPANHAMENTO PROCESSO';
-export const SET_TOGGLE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] SET TOGGLE ACOMPANHAMENTO PROCESSO SUCCESS';
+export const ADD_PLUGIN_LOADING = '[PROCESSO] ADD PLUGIN LOADING';
+export const REMOVE_PLUGIN_LOADING = '[PROCESSO] REMOVE PLUGIN LOADING';
 
 
 /**
@@ -455,17 +455,27 @@ export class DeleteAcompanhamentoFailed implements Action
     }
 }
 
-export class SetToggleAcompanhamento implements Action {
-    readonly type = SET_TOGGLE_ACOMPANHAMENTO;
+/**
+ * Add Plugin Loading
+ */
+export class AddPluginLoading implements Action
+{
+    readonly type = ADD_PLUGIN_LOADING;
 
-    constructor(public payload: any) {
+    constructor(public payload: any)
+    {
     }
 }
 
-export class SetToggleAcompanhamentoSuccess implements Action {
-    readonly type = SET_TOGGLE_ACOMPANHAMENTO_SUCCESS;
+/**
+ * Remove Plugin Loading
+ */
+export class RemovePluginLoading implements Action
+{
+    readonly type = REMOVE_PLUGIN_LOADING;
 
-    constructor(public payload: any) {
+    constructor(public payload: any)
+    {
     }
 }
 
@@ -504,5 +514,5 @@ export type ProcessoActionsAll
     | DeleteAcompanhamento
     | DeleteAcompanhamentoSuccess
     | DeleteAcompanhamentoFailed
-    | SetToggleAcompanhamento
-    | SetToggleAcompanhamentoSuccess;
+    | AddPluginLoading
+    | RemovePluginLoading;

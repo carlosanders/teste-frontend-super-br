@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RedistribuicaoEditBlocoReducer, RedistribuicaoEditBlocoState } from './redistribuicao-edit-bloco.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RedistribuicaoEditBlocoReducer, RedistribuicaoEditBlocoState} from './redistribuicao-edit-bloco.reducer';
 
 export interface RedistribuicaoEditBlocoAppState
 {

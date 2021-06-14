@@ -1,4 +1,4 @@
-import { RelatorioDetailEffect } from './relatorio-detail.effects';
+import {RelatorioDetailEffect} from './relatorio-detail.effects';
 
 export const effects = [
     RelatorioDetailEffect

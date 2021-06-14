@@ -12,7 +12,8 @@
     [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'valor', 'descricao', 'modalidadeEtiqueta.valor', 'actions']"
-    [actions]="['edit', 'create']"
+    [actions]="['edit', 'create', 'showInatived']"
+    (inatived)="inatived($event)"
     (reload)="reload($event)"
     (edit)="edit($event)"
     (create)="create()">

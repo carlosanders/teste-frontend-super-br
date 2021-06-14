@@ -10,7 +10,7 @@ import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Classificacao} from '@cdk/models';
 import {classificacao as classificacaoSchema} from '@cdk/normalizr';
-import { CdkUtils } from '@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class ClassificacaoListEffects {

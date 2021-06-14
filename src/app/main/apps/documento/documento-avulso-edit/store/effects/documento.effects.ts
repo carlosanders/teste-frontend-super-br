@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions} from '@ngrx/effects';
 
 import {getRouterState, State} from 'app/store/reducers';
 

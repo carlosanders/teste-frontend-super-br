@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, ofType, createEffect} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {tap, withLatestFrom} from 'rxjs/operators';
 import * as MercureActions from 'app/store/actions/mercure.action';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -12,7 +12,7 @@ import {
 import {plainToClass} from 'class-transformer';
 import {select, Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
-import {ChatUpdatedBroadcast, MensagemRecebida, LimparMensagensNaoLidas} from "../actions";
+import {ChatUpdatedBroadcast, LimparMensagensNaoLidas, MensagemRecebida} from "../actions";
 import {LoginService} from "../../../../../main/auth/login/login.service";
 import {getChatOpen} from "../selectors";
 import {ChatUtils} from "../../utils/chat.utils";

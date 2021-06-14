@@ -1,6 +1,10 @@
 import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {getTemplateEditDadosBasicosAppState, TemplateEditDadosBasicosAppState, TemplateEditDadosBasicosState} from '../reducers';
+import {
+    getTemplateEditDadosBasicosAppState,
+    TemplateEditDadosBasicosAppState,
+    TemplateEditDadosBasicosState
+} from '../reducers';
 import {Template} from '@cdk/models';
 import {template as templateSchema} from '@cdk/normalizr';
 

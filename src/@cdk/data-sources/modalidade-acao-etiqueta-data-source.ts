@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {ModalidadeAcaoEtiqueta} from '../models/modalidade-acao-etiqueta.model';
 
 export class ModalidadeAcaoEtiquetaDataSource extends DataSource<ModalidadeAcaoEtiqueta> {

@@ -1,4 +1,4 @@
-import { RelevanciaEditEffect } from './relevancia-edit.effects';
+import {RelevanciaEditEffect} from './relevancia-edit.effects';
 
 export const effects = [
     RelevanciaEditEffect

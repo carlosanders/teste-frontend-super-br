@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getTemplatesListAppState,
-    TemplatesListAppState,
-    TemplatesListState
-} from '../reducers';
+import {getTemplatesListAppState, TemplatesListAppState, TemplatesListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {template as templatesSchema} from '@cdk/normalizr';

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {catchError, switchMap} from 'rxjs/operators';
 
 
 import {AddData} from '@cdk/ngrx-normalizr';

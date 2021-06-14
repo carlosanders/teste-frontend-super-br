@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RegisterReducer, RegisterState } from './register.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RegisterReducer, RegisterState} from './register.reducer';
 
 export interface RegisterAppState
 {

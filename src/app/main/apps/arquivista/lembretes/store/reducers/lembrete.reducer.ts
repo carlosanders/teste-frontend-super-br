@@ -1,5 +1,4 @@
 import * as LembreteActions from '../actions';
-import {Etiqueta} from '@cdk/models';
 
 export interface LembreteState {
     entitiesId: number;

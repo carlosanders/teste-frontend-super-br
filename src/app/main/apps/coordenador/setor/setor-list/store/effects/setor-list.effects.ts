@@ -9,11 +9,10 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as SetorListActions from '../actions';
 
 import {SetorService} from '@cdk/services/setor.service';
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models/setor.model';
 import {setor as setorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()

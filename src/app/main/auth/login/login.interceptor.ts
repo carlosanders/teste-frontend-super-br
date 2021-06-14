@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/common/http';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 import {LoginService} from './login.service';
-import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkLoginDialogComponent} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.component';
 import {select, Store} from '@ngrx/store';
@@ -77,7 +76,7 @@ export class LoginInterceptor implements HttpInterceptor {
             )
             .subscribe((config) => {
                 this.config = config;
-                if (this._router.url !== '/auth/login' && this.routerState.url.indexOf('/auth/login') === -1 && !this.loginProgress) {
+                if (this._router.url !== '/auth/login' && this.routerState?.url.indexOf('/auth/login') === -1 && !this.loginProgress) {
                     this.loginProgress = true;
                     this.openDialog();
                 }
@@ -109,7 +108,7 @@ export class LoginInterceptor implements HttpInterceptor {
                     }
                 });
                 return next.handle(request);
-            } else if (this._router.url === '/' && this.routerState.url.indexOf('auth') === -1) {
+            } else if (this._router.url === '/' && this.routerState?.url.indexOf('auth') === -1) {
                 // Esta requisição veio de um F5 com token inválido/URL compartilhada com token inválido, enviar para
                 // tela de login
                 request = request.clone({

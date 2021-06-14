@@ -1,8 +1,10 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -13,12 +15,11 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from '../store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models';
+import {ComponenteDigital, Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {ComponenteDigital} from '@cdk/models';
 
 @Component({
     selector: 'upload-bloco',

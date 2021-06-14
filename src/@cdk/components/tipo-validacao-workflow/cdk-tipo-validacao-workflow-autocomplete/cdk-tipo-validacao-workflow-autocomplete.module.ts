@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { TipoValidacaoWorkflowService } from '@cdk/services/tipo-validacao-workflow.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
 import {CdkTipoValidacaoWorkflowAutocompleteComponent} from './cdk-tipo-validacao-workflow-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

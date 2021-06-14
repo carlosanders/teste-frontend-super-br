@@ -1,5 +1,5 @@
-import { AcaoListEffect } from './acao-list.effects';
-import { EtiquetaEffect } from './etiqueta.effects';
+import {AcaoListEffect} from './acao-list.effects';
+import {EtiquetaEffect} from './etiqueta.effects';
 
 export const effects = [
     AcaoListEffect,

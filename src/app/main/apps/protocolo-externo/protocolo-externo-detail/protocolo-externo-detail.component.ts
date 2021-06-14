@@ -1,32 +1,27 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, OnDestroy,
-    OnInit, AfterViewInit,
+    Component,
+    OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
-import {Processo} from '@cdk/models';
+import {Documento, Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models';
-import {VinculacaoEtiqueta} from '@cdk/models';
 import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
-import {Documento} from '@cdk/models';
-import {getMaximizado} from '../store';
-import {ToggleMaximizado} from '../store';
+import {getMaximizado, ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
-import {modulesConfig} from 'modules/modules-config';
-import {Usuario} from '@cdk/models';
 import {expandirTela} from './store/selectors/processo.selectors';
 
 @Component({

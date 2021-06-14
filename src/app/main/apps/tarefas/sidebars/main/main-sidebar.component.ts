@@ -20,11 +20,12 @@ import {getCounterState, getRouterState} from 'app/store/reducers';
 import {
     Coordenador,
     Folder,
-    Setor,
-    Usuario,
-    VinculacaoUsuario,
     Lotacao,
-    ModalidadeOrgaoCentral, Tarefa
+    ModalidadeOrgaoCentral,
+    Setor,
+    Tarefa,
+    Usuario,
+    VinculacaoUsuario
 } from '@cdk/models';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';

@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getDocumentoCopiaCreateBlocoAppState, DocumentoCopiaCreateBlocoAppState, DocumentoCopiaCreateBlocoState} from '../reducers';
+import {
+    DocumentoCopiaCreateBlocoAppState,
+    DocumentoCopiaCreateBlocoState,
+    getDocumentoCopiaCreateBlocoAppState
+} from '../reducers';
 
 export const getDocumentoCopiaCreateBlocoState = createSelector(
     getDocumentoCopiaCreateBlocoAppState,

@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {TipoValidacaoWorkflowAppState, TipoValidacaoWorkflowState, getValidacaoFormAppState} from '../reducers';
+import {getValidacaoFormAppState, TipoValidacaoWorkflowAppState, TipoValidacaoWorkflowState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {TipoValidacaoWorkflow} from '@cdk/models';
 import {tipoValidacaoWorkflow as schema} from '@cdk/normalizr';

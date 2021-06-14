@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -20,7 +20,8 @@ import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.servi
 import {RouterModule, Routes} from '@angular/router';
 import {VinculacaoProcessoListStoreModule} from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-list/store/store.module';
 import {ModalidadeVinculacaoProcessoService} from '@cdk/services/modalidade-vinculacao-processo.service';
-import * as fromGuards from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-list/store/guards';
+import * as fromGuards
+    from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-list/store/guards';
 import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module';
 import {modulesConfig} from 'modules/modules-config';
 

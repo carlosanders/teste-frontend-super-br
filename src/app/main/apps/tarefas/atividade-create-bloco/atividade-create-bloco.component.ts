@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,18 +11,15 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade, Pagination} from '@cdk/models';
+import {Atividade, Colaborador, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models';
-import {getRouterState, getMercureState, getOperacoesState} from 'app/store/reducers';
+import {getMercureState, getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store/actions';

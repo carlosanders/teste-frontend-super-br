@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_RELEVANCIAS = '[RELEVANCIA LIST] GET RELEVANCIAS';
 export const GET_RELEVANCIAS_SUCCESS = '[RELEVANCIA LIST] GET RELEVANCIAS SUCCESS';

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getEspecieSetorListAppState,
-    EspecieSetorListAppState,
-    EspecieSetorListState
-} from '../reducers';
+import {EspecieSetorListAppState, EspecieSetorListState, getEspecieSetorListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {especieSetor as especieSetorSchema} from '@cdk/normalizr';

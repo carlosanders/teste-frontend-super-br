@@ -1,4 +1,4 @@
-import { EspecieAtividadeListEffects } from './especie-atividade-list.effects';
+import {EspecieAtividadeListEffects} from './especie-atividade-list.effects';
 
 export const effects = [
     EspecieAtividadeListEffects

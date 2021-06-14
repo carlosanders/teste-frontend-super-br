@@ -23,4 +23,35 @@ widget-tarefa {
             overflow-y: auto;
         }
     }
+
+    .card-tarefa {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+
+    .icone-tarefa {
+        margin-left: auto;
+    }
+
+    .titulo {
+        text-transform: capitalize;
+        padding-left: 8px;
+        color: #03a9f4;
+    }
+
+    .botao-link {
+        display: flex;
+        width: 300px;
+        color: #03a9f4 !important;
+    }
+
+    .mensagem-aviso {
+        display: flex;
+        justify-content: center;
+        color: #03a9f4;
+        font-size: 15px;
+        padding: 40px;
+    }
 }

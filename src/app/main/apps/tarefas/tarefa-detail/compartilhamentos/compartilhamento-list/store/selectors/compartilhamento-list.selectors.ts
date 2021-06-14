@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getCompartilhamentoListAppState,
     CompartilhamentoListAppState,
-    CompartilhamentoListState
+    CompartilhamentoListState,
+    getCompartilhamentoListAppState
 } from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

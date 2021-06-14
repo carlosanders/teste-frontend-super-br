@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_FOLDER = '[FOLDER] CREATE FOLDER';
 export const CREATE_FOLDER_SUCCESS = '[FOLDER] CREATE FOLDER SUCCESS';

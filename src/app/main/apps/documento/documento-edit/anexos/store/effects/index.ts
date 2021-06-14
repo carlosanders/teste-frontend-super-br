@@ -1,5 +1,5 @@
-import { DocumentosVinculadosEffects } from './documentos-vinculados.effects';
-import { ComponenteDigitalEffects } from './componentes-digitais.effects';
+import {DocumentosVinculadosEffects} from './documentos-vinculados.effects';
+import {ComponenteDigitalEffects} from './componentes-digitais.effects';
 
 export const effects = [
     ComponenteDigitalEffects,

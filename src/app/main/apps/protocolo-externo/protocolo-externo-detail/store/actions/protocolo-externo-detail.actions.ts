@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_PROCESSO = '[PROTOCOLO EXTERNO DETAIL] GET PROCESSO';
 export const GET_PROCESSO_SUCCESS = '[PROTOCOLO EXTERNO DETAIL] GET PROCESSO SUCCESS';

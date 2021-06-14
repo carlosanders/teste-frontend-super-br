@@ -4,12 +4,12 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStore from '../';
+import {getTipoDocumentoListLoaded} from '../';
 import {getRouterState} from 'app/store/reducers';
 import {TipoDocumentoListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getTipoDocumentoListLoaded} from '../';
 
 
 @Injectable()
@@ -68,7 +68,6 @@ export class ResolveGuard implements CanActivate {
                         populate: [
                             'populateAll'
                         ],
-                        context: {isAdmin: true}
                     };
 
                     this._store.dispatch(new fromStore.GetTipoDocumento(params));

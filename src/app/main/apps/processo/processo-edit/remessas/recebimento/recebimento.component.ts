@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -12,7 +13,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState} from 'app/store/reducers';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
-import {Pagination, Tarefa, Tramitacao, Usuario} from '@cdk/models';
+import {Pagination, Tramitacao, Usuario} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {Back} from '../../../../../../store/actions';

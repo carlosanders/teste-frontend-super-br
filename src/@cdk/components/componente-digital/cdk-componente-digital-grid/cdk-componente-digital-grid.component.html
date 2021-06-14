@@ -10,7 +10,7 @@
         name="cdk-componente-digital-filter"
         position="left">
         <cdk-componente-digital-filter (selected)="setFilter($event)"
-                                       [mode]="this.mode"></cdk-componente-digital-filter>
+                                       [mode]="this.mode" [isColaborador]="isColaborador"></cdk-componente-digital-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -426,16 +426,14 @@
                             <mat-icon>remove_red_eye</mat-icon>
                         </button>
 
-                        <span *showIfRole="'ROLE_COLABORADOR'">
-                            <button mat-icon-button
-                                    *ngIf="actions.indexOf('edit') > -1"
-                                    [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1 && !hasExcluded"
-                                    (click)="editComponenteDigital(componenteDigital)"
-                                    aria-label="editar"
-                                    matTooltip="Editar">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                        </span>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1 && !hasExcluded"
+                                (click)="editComponenteDigital(componenteDigital)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
 
                         <span class="spinner-container m-8" *ngIf="deletingIds?.indexOf(componenteDigital.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>

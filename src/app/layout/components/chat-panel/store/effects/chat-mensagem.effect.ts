@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Actions, ofType, createEffect} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, concatMap, mergeMap, switchMap} from 'rxjs/operators';
 import * as ChatMensagemActions from '../actions/chat-mensagem.actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ChatMensagem} from '@cdk/models';
-import {
-    chatMensagem as chatMensagemSchema
-} from '@cdk/normalizr';
+import {chatMensagem as chatMensagemSchema} from '@cdk/normalizr';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
 import {ChatMensagemService} from "@cdk/services/chat-mensagem.service";

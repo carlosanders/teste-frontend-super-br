@@ -50,7 +50,7 @@ export class CdkBlocoDestinatarioGridComponent implements OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

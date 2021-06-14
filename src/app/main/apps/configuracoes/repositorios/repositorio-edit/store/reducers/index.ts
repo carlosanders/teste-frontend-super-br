@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RepositorioEditReducer, RepositorioEditState } from './repositorio-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RepositorioEditReducer, RepositorioEditState} from './repositorio-edit.reducer';
 
 export interface RepositorioEditAppState
 {

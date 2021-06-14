@@ -3,6 +3,7 @@
         [tarefa]="tarefa"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        [fromProcesso]="true"
         [especieTarefaPagination]="especieTarefaPagination"
         [logEntryPagination]="logEntryPagination"
         (save)="submit($event)"

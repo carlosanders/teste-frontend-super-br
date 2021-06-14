@@ -1,7 +1,7 @@
-import { DocumentoEffect } from './documento.effects';
-import { RepositoriosEffect } from './repositorios.effects';
-import { DocumentosVinculadosEffect } from './documentos-vinculados.effects';
-import { ComponenteDigitalEffect } from './componentes-digitais.effects';
+import {DocumentoEffect} from './documento.effects';
+import {RepositoriosEffect} from './repositorios.effects';
+import {DocumentosVinculadosEffect} from './documentos-vinculados.effects';
+import {ComponenteDigitalEffect} from './componentes-digitais.effects';
 import {AssinaturaEffect} from './assinaturas.effects';
 
 export const effects = [

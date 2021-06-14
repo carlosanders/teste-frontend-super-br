@@ -1,11 +1,7 @@
 import {NgModule} from '@angular/core';
-import {
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule, MatCheckboxModule, MatMenuModule,
-} from '@cdk/angular/material';
+import {MatButtonModule, MatCardModule, MatCheckboxModule, MatIconModule, MatMenuModule,} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkDocumentoAvulsoCardListComponent} from './cdk-documento-avulso-card-list.component';
 import {CdkDocumentoAvulsoCardModule} from './cdk-documento-avulso-card/cdk-documento-avulso-card.module';
 

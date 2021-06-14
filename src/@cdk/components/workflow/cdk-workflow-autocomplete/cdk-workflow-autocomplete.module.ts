@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { WorkflowService } from '@cdk/services/workflow.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {WorkflowService} from '@cdk/services/workflow.service';
 import {CdkWorkflowAutocompleteComponent} from './cdk-workflow-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

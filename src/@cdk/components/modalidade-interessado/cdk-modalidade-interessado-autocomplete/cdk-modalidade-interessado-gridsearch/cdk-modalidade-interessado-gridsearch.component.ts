@@ -2,11 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
-    Output,
-    ViewEncapsulation,
     EventEmitter,
-    OnInit
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -14,10 +14,9 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models';
+import {ModalidadeInteressado, Pagination} from '@cdk/models';
 
 import {ModalidadeInteressadoService} from '@cdk/services/modalidade-interessado.service';
-import {ModalidadeInteressado} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-interessado-gridsearch',

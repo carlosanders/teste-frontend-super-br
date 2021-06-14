@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import * as RegisterActions from '../actions';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {usuario as usuarioSchema} from '@cdk/normalizr';

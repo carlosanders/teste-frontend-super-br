@@ -5,7 +5,6 @@ import {compartilhamento as acompanhamentoSchema, processo as processoSchema} fr
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {AcompanhamentoState} from '../../processo-capa/store';
 
-
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 const schemaAcompanhamentoSelectors = createSchemaSelectors<Compartilhamento>(acompanhamentoSchema);
 
@@ -48,6 +47,11 @@ export const getProcessoLoaded = createSelector(
 export const getProcessoIsLoading = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loading
+);
+
+export const getPluginLoadingProcesso = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.pluginLoading
 );
 
 export const getSteps = createSelector(

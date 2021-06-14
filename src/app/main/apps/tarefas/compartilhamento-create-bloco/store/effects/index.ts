@@ -1,4 +1,4 @@
-import { CompartilhamentoCreateBlocoEffect } from './compartilhamento-create-bloco.effects';
+import {CompartilhamentoCreateBlocoEffect} from './compartilhamento-create-bloco.effects';
 
 export const effects = [
     CompartilhamentoCreateBlocoEffect

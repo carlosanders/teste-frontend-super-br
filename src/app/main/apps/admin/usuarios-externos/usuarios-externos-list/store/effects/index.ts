@@ -1,4 +1,4 @@
-import { UsuariosExternosListEffects } from './usuarios-externos-list.effects';
+import {UsuariosExternosListEffects} from './usuarios-externos-list.effects';
 
 export const effects = [
     UsuariosExternosListEffects

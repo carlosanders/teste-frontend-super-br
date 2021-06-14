@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProcessoDownloadReducer, ProcessoDownloadState } from './processo-download.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ProcessoDownloadReducer, ProcessoDownloadState} from './processo-download.reducer';
 
 export interface ProcessoDownloadAppState
 {

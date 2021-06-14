@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CalendarioReducer, CalendarioState } from './tarefas.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {CalendarioReducer, CalendarioState} from './tarefas.reducer';
 
 export interface CalendarioAppState
 {

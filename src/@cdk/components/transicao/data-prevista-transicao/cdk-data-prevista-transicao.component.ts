@@ -3,9 +3,11 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input, OnChanges,
+    Input,
+    OnChanges,
     OnInit,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {Pagination, Processo} from '../../../models';

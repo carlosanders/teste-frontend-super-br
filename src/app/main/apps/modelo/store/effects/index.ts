@@ -1,4 +1,4 @@
-import { ModelosEffect } from './modelos.effects';
+import {ModelosEffect} from './modelos.effects';
 import {ComponenteDigitalEffect} from './componentes-digitais.effects';
 
 export const effects = [

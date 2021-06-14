@@ -1,6 +1,4 @@
 import * as ArquivistaEditBlocoActions from '../actions/arquivista-edit-bloco.actions';
-import * as moment from 'moment';
-import {ReloadProcessos} from '../../../arquivista-list/store';
 
 export interface ArquivistaEditBlocoState {
     savingId: number[];

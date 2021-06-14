@@ -1,4 +1,4 @@
-import { AvisoEditEffects } from './aviso-edit.effects';
+import {AvisoEditEffects} from './aviso-edit.effects';
 
 export const effects = [
     AvisoEditEffects

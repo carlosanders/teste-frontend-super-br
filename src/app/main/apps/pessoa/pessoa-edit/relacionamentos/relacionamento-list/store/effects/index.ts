@@ -1,4 +1,4 @@
-import { RelacionamentoListEffect } from './relacionamento-list.effects';
+import {RelacionamentoListEffect} from './relacionamento-list.effects';
 
 export const effects = [
     RelacionamentoListEffect

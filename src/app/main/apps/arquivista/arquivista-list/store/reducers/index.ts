@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ArquivistaReducer, ArquivistaState } from './arquivista.reducer';
-import { ModalidadeTransicaoReducer, ModalidadeTransicaoState } from './modalidade-transicao.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ArquivistaReducer, ArquivistaState} from './arquivista.reducer';
+import {ModalidadeTransicaoReducer, ModalidadeTransicaoState} from './modalidade-transicao.reducer';
 
 export interface ArquivistaAppState
 {

@@ -1,6 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {
-    DocumentoEditDadosBasicosAppState, DocumentoEditDadosBasicosState,
+    DocumentoEditDadosBasicosAppState,
+    DocumentoEditDadosBasicosState,
     getDocumentoEditDadosBasicosAppState
 } from '../../../dados-basicos/store/reducers';
 import {DocumentoAppState, DocumentoState, getDocumentoAppState} from '../../../../store/reducers';

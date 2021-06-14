@@ -1,89 +1,38 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
-export const DOWNLOAD_AS_PDF_PROCESSO = '[PROCESSO DOWNLOAD] DOWNLOAD AS PDF';
-export const DOWNLOAD_AS_PDF_PROCESSO_SUCCESS = '[PROCESSO DOWNLOAD] DOWNLOAD AS PDF PROCESSO SUCCESS';
-export const DOWNLOAD_AS_PDF_PROCESSO_FAILED = '[PROCESSO DOWNLOAD] DOWNLOAD AS PDF PROCESSO FAILED';
+export const DOWNLOAD_PROCESSO = '[PROCESSO DOWNLOAD] DOWNLOAD';
+export const DOWNLOAD_PROCESSO_SUCCESS = '[PROCESSO DOWNLOAD] DOWNLOAD SUCCESS';
+export const DOWNLOAD_PROCESSO_FAILED = '[PROCESSO DOWNLOAD] DOWNLOAD FAILED';
 
-export const DOWNLOAD_AS_ZIP_PROCESSO = '[PROCESSO DOWNLOAD] DOWNLOAD AS ZIP';
-export const DOWNLOAD_AS_ZIP_PROCESSO_SUCCESS = '[PROCESSO DOWNLOAD] DOWNLOAD AS ZIP PROCESSO SUCCESS';
-export const DOWNLOAD_AS_ZIP_PROCESSO_FAILED = '[PROCESSO DOWNLOAD] DOWNLOAD AS ZIP PROCESSO FAILED';
-
-/**
- * DownloadAsPdf Processo
- */
-export class DownloadAsPdfProcesso implements Action
+export class DownloadProcesso implements Action
 {
-    readonly type = DOWNLOAD_AS_PDF_PROCESSO;
+    readonly type = DOWNLOAD_PROCESSO;
 
     constructor(public payload: any)
     {
     }
 }
 
-/**
- * DownloadAsPdf Processo Success
- */
-export class DownloadAsPdfProcessoSuccess implements Action
+export class DownloadProcessoSuccess implements Action
 {
-    readonly type = DOWNLOAD_AS_PDF_PROCESSO_SUCCESS;
+    readonly type = DOWNLOAD_PROCESSO_SUCCESS;
 
     constructor(public payload: any)
     {
     }
 }
 
-/**
- * DownloadAsPdf Processo Failed
- */
-export class DownloadAsPdfProcessoFailed implements Action
+export class DownloadProcessoFailed implements Action
 {
-    readonly type = DOWNLOAD_AS_PDF_PROCESSO_FAILED;
-
-    constructor(public payload: string)
-    {
-    }
-}
-
-/**
- * DownloadAsZip Processo
- */
-export class DownloadAsZipProcesso implements Action
-{
-    readonly type = DOWNLOAD_AS_ZIP_PROCESSO;
+    readonly type = DOWNLOAD_PROCESSO_FAILED;
 
     constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * DownloadAsZip Processo Success
- */
-export class DownloadAsZipProcessoSuccess implements Action
-{
-    readonly type = DOWNLOAD_AS_ZIP_PROCESSO_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * DownloadAsZip Processo Failed
- */
-export class DownloadAsZipProcessoFailed implements Action
-{
-    readonly type = DOWNLOAD_AS_ZIP_PROCESSO_FAILED;
-
-    constructor(public payload: string)
     {
     }
 }
 
 export type ProcessoDownloadActionsAll
-    =  DownloadAsPdfProcesso
-    | DownloadAsPdfProcessoSuccess
-    | DownloadAsPdfProcessoFailed
-    | DownloadAsZipProcesso
-    | DownloadAsZipProcessoSuccess
-    | DownloadAsZipProcessoFailed;
+    =  DownloadProcesso
+    | DownloadProcessoSuccess
+    | DownloadProcessoFailed
+    ;

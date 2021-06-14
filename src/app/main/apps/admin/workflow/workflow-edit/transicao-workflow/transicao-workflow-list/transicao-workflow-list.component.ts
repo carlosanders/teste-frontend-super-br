@@ -4,9 +4,8 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {TransicaoWorkflow} from '@cdk/models/transicao-workflow.model';
-import {getRouterState} from '../../../../../../../store';
+import {Back, getRouterState} from '../../../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
-import {Back} from '../../../../../../../store';
 
 @Component({
     selector: 'transicao-workflow-list',

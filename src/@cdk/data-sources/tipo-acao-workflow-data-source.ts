@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {TipoAcaoWorkflow} from '../models/tipo-acao-workflow.model';
 
 export class TipoAcaoWorkflowDataSource extends DataSource<TipoAcaoWorkflow> {

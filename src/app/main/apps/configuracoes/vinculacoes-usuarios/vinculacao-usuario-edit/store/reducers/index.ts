@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { VinculacaoUsuarioEditReducer, VinculacaoUsuarioEditState } from './vinculacao-usuario-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {VinculacaoUsuarioEditReducer, VinculacaoUsuarioEditState} from './vinculacao-usuario-edit.reducer';
 
 export interface VinculacaoUsuarioEditAppState
 {

@@ -1,6 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import { MatDialogRef } from '@cdk/angular/material';
-import {MAT_DIALOG_DATA} from '@cdk/angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';
 
 @Component({
     selector   : 'cdk-confirm-dialog',

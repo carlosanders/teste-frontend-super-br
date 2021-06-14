@@ -1,4 +1,4 @@
-import { TipoValidacaoWorkflowEffects } from './tipo-validacao-workflow.effects';
+import {TipoValidacaoWorkflowEffects} from './tipo-validacao-workflow.effects';
 
 export const effects = [
     TipoValidacaoWorkflowEffects

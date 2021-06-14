@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CargoEditReducer, CargoEditState } from './cargo-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {CargoEditReducer, CargoEditState} from './cargo-edit.reducer';
 
 export interface CargoEditAppState
 {

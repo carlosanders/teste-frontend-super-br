@@ -1,7 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 
-import { CdkConfigService } from '@cdk/services/config.service';
-import { cdkAnimations } from '@cdk/animations';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector     : 'certificado',

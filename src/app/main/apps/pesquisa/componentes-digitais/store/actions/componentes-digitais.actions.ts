@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_COMPONENTES_DIGITAIS = '[DOCUMENTO LIST] GET COMPONENTES DIGITAIS';
 export const GET_COMPONENTES_DIGITAIS_SUCCESS = '[DOCUMENTO LIST] GET COMPONENTES DIGITAIS SUCCESS';

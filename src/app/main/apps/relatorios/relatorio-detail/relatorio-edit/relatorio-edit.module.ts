@@ -1,29 +1,30 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSidebarModule } from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
-import { PipesModule } from '@cdk/pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
-import { RelatorioEditComponent } from './relatorio-edit.component';
-import { RouterModule, Routes } from '@angular/router';
-import { RelatoriosStoreModule } from '../../store/store.module';
-import { CdkRelatorioFormModule } from '@cdk/components/relatorio/cdk-relatorio-form/cdk-relatorio-form.module';
+import {RelatorioEditComponent} from './relatorio-edit.component';
+import {RouterModule, Routes} from '@angular/router';
+import {RelatoriosStoreModule} from '../../store/store.module';
+import {CdkRelatorioFormModule} from '@cdk/components/relatorio/cdk-relatorio-form/cdk-relatorio-form.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [

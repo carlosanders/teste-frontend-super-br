@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_ACAO = '[ACAO COORDENACAO] CREATE ACAO';
 export const CREATE_ACAO_SUCCESS = '[ACAO COORDENACAO] CREATE ACAO SUCCESS';

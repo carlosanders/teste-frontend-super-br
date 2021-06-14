@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getActivateAppState, ActivateAppState, ActivateState} from '../reducers';
+import {ActivateAppState, ActivateState, getActivateAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Usuario} from '@cdk/models';
 import {usuario as usuarioSchema} from '@cdk/normalizr';

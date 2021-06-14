@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CdkLembreteHistoricoComponent } from './cdk-lembrete-historico.component';
+import {CdkLembreteHistoricoComponent} from './cdk-lembrete-historico.component';
 
 describe('CdkLembreteHistoricoComponent', () => {
   let component: CdkLembreteHistoricoComponent;

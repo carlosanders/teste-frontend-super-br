@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_DOCUMENTOS_VINCULADOS = '[DOCUMENTO] GET DOCUMENTOS VINCULADOS';
 export const GET_DOCUMENTOS_VINCULADOS_SUCCESS = '[DOCUMENTO] GET DOCUMENTOS VINCULADOS SUCCESS';

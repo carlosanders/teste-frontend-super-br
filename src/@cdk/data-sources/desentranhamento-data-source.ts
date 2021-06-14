@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Desentranhamento } from '../models/desentranhamento.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Desentranhamento} from '../models/desentranhamento.model';
 
 export class DesentranhamentoDataSource extends DataSource<Desentranhamento> {
 

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {WorkflowEspeciesProcessoListReducer, WorkflowEspecieProcessoListState} from './especies-processo-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {WorkflowEspecieProcessoListState, WorkflowEspeciesProcessoListReducer} from './especies-processo-list.reducer';
 
 export interface WorkflowEspecieProcessoListAppState
 {
@@ -7,7 +7,7 @@ export interface WorkflowEspecieProcessoListAppState
 }
 
 export const getEspecieProcessoListAppState = createFeatureSelector<WorkflowEspecieProcessoListAppState>(
-    'workflow-edit-especie-processo-list-app'
+    'workflow-especie-processo-list-app'
 );
 
 export const getAppState = createSelector(

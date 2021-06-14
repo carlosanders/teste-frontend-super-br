@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_JUNTADAS = '[JUNTADA DESENTRANHAMENTO LIST] GET JUNTADAS';
 export const GET_JUNTADAS_SUCCESS = '[JUNTADA DESENTRANHAMENTO LIST] GET JUNTADAS SUCCESS';

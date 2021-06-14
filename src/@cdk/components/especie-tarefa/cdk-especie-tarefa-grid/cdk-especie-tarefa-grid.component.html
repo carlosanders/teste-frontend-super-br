@@ -56,6 +56,13 @@
                 <mat-icon>filter_list</mat-icon>
             </button>
 
+            <button mat-icon-button [ngClass]="{'warn': hasInatived}" *ngIf="actions.indexOf('showInatived') > -1"
+                    (click)="loadInatived()"
+                    aria-label="mostrar inativo"
+                    matTooltip="Mostrar Inativos">
+                <mat-icon>visibility_off</mat-icon>
+            </button>
+
             <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="selectedIds.length > 1 && actions.indexOf('showDeleted') > -1"
                     (click)="loadExcluded()"
                     aria-label="mostrar apagados"

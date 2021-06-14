@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EtiquetaReducer, EtiquetaState } from './etiqueta.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {EtiquetaReducer, EtiquetaState} from './etiqueta.reducer';
 
 export interface EtiquetaAppState
 {

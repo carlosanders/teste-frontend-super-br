@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getDocumentoEditAnexosAppState, DocumentoEditAnexosAppState, DocumentosVinculadosState} from '../reducers';
+import {DocumentoEditAnexosAppState, DocumentosVinculadosState, getDocumentoEditAnexosAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';

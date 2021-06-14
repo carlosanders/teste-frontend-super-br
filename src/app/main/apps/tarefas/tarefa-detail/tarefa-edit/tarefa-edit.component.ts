@@ -1,23 +1,15 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models';
+import {Colaborador, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
-import { SaveTarefa } from 'app/main/apps/tarefas/tarefa-detail/store';
+import {SaveTarefa} from 'app/main/apps/tarefas/tarefa-detail/store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Colaborador} from '@cdk/models';
-import {Pagination} from '@cdk/models';
 import {Back} from '../../../../../store/actions';
 
 @Component({

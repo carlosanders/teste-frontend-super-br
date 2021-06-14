@@ -1,4 +1,4 @@
-import { NomeListEffect } from './nome-list.effects';
+import {NomeListEffect} from './nome-list.effects';
 
 export const effects = [
     NomeListEffect

@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CompartilhamentoCreateBlocoReducer, CompartilhamentoCreateBlocoState } from './compartilhamento-create-bloco.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    CompartilhamentoCreateBlocoReducer,
+    CompartilhamentoCreateBlocoState
+} from './compartilhamento-create-bloco.reducer';
 
 export interface CompartilhamentoCreateBlocoAppState
 {

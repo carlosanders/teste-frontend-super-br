@@ -1,4 +1,4 @@
-import { RelacionamentoEditEffect } from './relacionamento-edit.effects';
+import {RelacionamentoEditEffect} from './relacionamento-edit.effects';
 
 export const effects = [
     RelacionamentoEditEffect

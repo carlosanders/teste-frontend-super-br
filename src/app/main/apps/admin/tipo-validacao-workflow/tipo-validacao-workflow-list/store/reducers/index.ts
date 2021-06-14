@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {TipoValidacaoWorkflowListReducer,TipoValidacaoWorkflowListState} from './tipo-validacao-workflow-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TipoValidacaoWorkflowListReducer, TipoValidacaoWorkflowListState} from './tipo-validacao-workflow-list.reducer';
 
 export interface TipoValidacaoWorkflowListAppState
 {
@@ -7,7 +7,7 @@ export interface TipoValidacaoWorkflowListAppState
 }
 
 export const getTipoValidacaoWorkflowListAppState = createFeatureSelector<TipoValidacaoWorkflowListAppState>(
-    'tipo-validacao-workflow-edit-list'
+    'tipo-validacao-workflow-list'
 );
 
 export const getAppState = createSelector(

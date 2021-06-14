@@ -10,8 +10,7 @@ import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Classificacao} from '@cdk/models';
 import {classificacao as classificacaoSchema} from '@cdk/normalizr';
-import * as ClassificacaoListActions
-    from '../../../classificacao-list/store/actions/classificacao-list.actions';
+import * as ClassificacaoListActions from '../../../classificacao-list/store/actions/classificacao-list.actions';
 
 
 @Injectable()

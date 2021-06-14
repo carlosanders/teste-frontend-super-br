@@ -1,15 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Pagination, EspecieSetor, VinculacaoAviso} from '@cdk/models';
+import {EspecieSetor, Pagination, VinculacaoAviso} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-aviso-especie-setor-form',

@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule,
     MatRadioModule,
     MatTooltipModule
 } from '@cdk/angular/material';

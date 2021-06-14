@@ -20,7 +20,6 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {AcompanhamentoDataSource} from '@cdk/data-sources/acompanhamento-data-source';
 import {Compartilhamento, Processo} from '@cdk/models';
 import {FormControl} from '@angular/forms';
-import {CdkChaveAcessoPluginComponent} from "../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component";
 
 @Component({
     selector: 'cdk-acompanhamento-grid',
@@ -125,7 +124,7 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

@@ -1,13 +1,13 @@
-import { StoreModule } from '@ngrx/store';
-import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {NgModule} from '@angular/core';
+import {EffectsModule} from '@ngrx/effects';
 
-import {reducers } from './reducers';
-import { effects } from './effects';
+import {reducers} from './reducers';
+import {effects} from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('tipo-acao-workflow-edit-edit-app', reducers),
+        StoreModule.forFeature('tipo-acao-workflow-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []

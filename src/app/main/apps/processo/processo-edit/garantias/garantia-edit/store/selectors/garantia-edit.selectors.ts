@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getGarantiaEditAppState, GarantiaEditAppState, GarantiaEditState} from '../reducers';
+import {GarantiaEditAppState, GarantiaEditState, getGarantiaEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Garantia} from '@cdk/models';
 import {garantia as garantiaSchema} from '@cdk/normalizr';

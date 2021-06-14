@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getNotificacaoListAppState,
-    NotificacaoListAppState,
-    NotificacaoListState
-} from '../reducers';
+import {getNotificacaoListAppState, NotificacaoListAppState, NotificacaoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr';

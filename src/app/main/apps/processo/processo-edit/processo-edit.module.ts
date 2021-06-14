@@ -1,9 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {
-    MatButtonModule,
-    MatIconModule, MatRippleModule, MatTooltipModule
-} from '@cdk/angular/material';
+import {MatButtonModule, MatIconModule, MatRippleModule, MatTooltipModule} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
@@ -12,6 +9,8 @@ import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';
 
 import {modulesConfig} from 'modules/modules-config';
+import {MatCardModule} from "@angular/material/card";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const routes: Routes = [
     {
@@ -120,7 +119,9 @@ routes[0].children.push({
 
         CdkSharedModule,
         CdkSidebarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatCardModule,
+        MatProgressSpinnerModule
     ]
 })
 export class ProcessoEditModule {

@@ -4,11 +4,21 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import {ProcessoDownloadComponent} from './processo-download.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatAutocompleteModule, MatButtonModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatRippleModule, MatTooltipModule} from '@cdk/angular/material';
+import {
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatRippleModule,
+    MatTooltipModule
+} from '@cdk/angular/material';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkDownloadFormModule} from '@cdk/components/download/cdk-download-form/cdk-download-form.module';
 import {ProcessoDownloadStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 const routes: Routes = [
     {
@@ -47,7 +57,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatRippleModule,
         CdkDownloadFormModule,
-        ProcessoDownloadStoreModule
+        ProcessoDownloadStoreModule,
+        MatSnackBarModule,
     ],
     providers: [
 

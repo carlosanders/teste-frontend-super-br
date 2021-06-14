@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TIPO_DOCUMENTO = '[SUPERADMIN TIPO DOCUMENTO LIST] GET TIPO_DOCUMENTO';
 export const GET_TIPO_DOCUMENTO_SUCCESS = '[SUPERADMIN TIPO DOCUMENTO LIST] GET TIPO_DOCUMENTO SUCCESS';

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_CARGO = '[ADMIN CARGO EDIT] CREATE CARGO';
 export const CREATE_CARGO_SUCCESS = '[ADMIN CARGO EDIT] CREATE CARGO SUCCESS';

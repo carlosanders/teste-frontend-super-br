@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TRAMITACOES = '[REMESSA LIST] GET TRAMITACOES';
 export const GET_TRAMITACOES_SUCCESS = '[REMESSA LIST] GET TRAMITACOES SUCCESS';

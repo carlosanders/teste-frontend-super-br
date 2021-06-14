@@ -1,5 +1,4 @@
-import {Setor} from '@cdk/models';
-import {Usuario} from '@cdk/models';
+import {Setor, Usuario} from '@cdk/models';
 
 export class Responsavel {
     public usuario?: Usuario;

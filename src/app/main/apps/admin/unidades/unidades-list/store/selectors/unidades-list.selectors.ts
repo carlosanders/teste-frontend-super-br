@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getUnidadesListAppState,
-    UnidadesListAppState,
-    UnidadesListState
-} from '../reducers';
+import {getUnidadesListAppState, UnidadesListAppState, UnidadesListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {setor as setorSchema} from '@cdk/normalizr';

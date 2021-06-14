@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { UnidadeEditReducer, UnidadeEditState } from './unidade-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {UnidadeEditReducer, UnidadeEditState} from './unidade-edit.reducer';
 
 export interface UnidadeEditAppState
 {
