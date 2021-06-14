@@ -12,14 +12,14 @@
             <mat-label>Conteúdo</mat-label>
             <input matInput #conteudo
                    name="conteudo"
-                   required
+                   [required]="isColaborador"
                    formControlName="conteudo">
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_USUARIO_EXTERNO'">
             <mat-label>Código da Assinatura Digital</mat-label>
             <input matInput #codigo
-                   required
+                   [required]="!isColaborador"
                    name="codigo"
                    formControlName="codigo">
         </mat-form-field>
@@ -103,7 +103,7 @@
 </div>
 
 <div class="footer">
-    <button mat-raised-button color="accent" (click)="buscar()">
+    <button [disabled]="form.invalid" mat-raised-button color="accent" (click)="buscar()">
         Buscar
     </button>
     <button mat-raised-button color="warn" (click)="limpar()">

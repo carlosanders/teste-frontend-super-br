@@ -349,6 +349,7 @@
 
 1.4.2
 
+* Melhoria para exibir ou não registros inativos em um grid (configurações, admin e coordenador)
 * Correçao erro na seleção de espécies de tarefas em processos com workflow #467
 * Correção erro ao exibir espécies de tarefas ao movimentar uma tarefa em um workflow #440
 * Correção regras/ações das etiquetas
@@ -357,3 +358,5 @@
 * Correção tarefas, criar Pasta gerando erro de 'campo não pode ser nulo' #432
 * Correçao ao criar tarefas como "Participar de Reunião" deveria criar um evento no calendário? #330
 * Correção calculo do prazo da tarefa
+* Correçao modulo do usuario externo na pesquisa de processos e validaçao de assinatura digital 
+* Correção erro na remoção de assintura de outra pessoa, que causava loop

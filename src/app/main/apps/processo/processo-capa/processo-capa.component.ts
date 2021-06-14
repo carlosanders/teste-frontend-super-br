@@ -16,7 +16,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {Router} from '@angular/router';
 
 @Component({
@@ -230,8 +230,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     }
 
     view(emissao: {id: number; chaveAcesso?: string}): void {
-        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
-        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
+        const chaveAcesso = emissao.chaveAcesso ? '/chave/' + emissao.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']);
     }
 
     acompanharProcesso(checked, processo): void {
