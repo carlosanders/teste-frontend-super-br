@@ -19,6 +19,10 @@ import {MatRadioModule} from '@angular/material/radio';
 import {CdkLoginFormModule} from '@cdk/components/login/cdk-login-form/cdk-login-form.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CdkLoginDialogComponent} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.component';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkConfirmDialogModule} from '@cdk/components';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
 
 const routes = [
     {
@@ -47,6 +51,8 @@ const routes = [
         MatProgressSpinnerModule,
         MatRadioModule,
         MatDialogModule,
+        CdkConfirmDialogModule,
+        SnackBarDesfazerModule,
 
         CdkLoginFormModule
     ],
@@ -55,7 +61,9 @@ const routes = [
         fromGuards.ResolveGuard
     ],
     entryComponents: [
-        CdkLoginDialogComponent
+        CdkLoginDialogComponent,
+        CdkConfirmDialogComponent,
+        SnackBarDesfazerComponent
     ]
 })
 export class LoginModule {
