@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {State} from 'app/store';
 import {environment} from '../../../../environments/environment';
 import * as fromLoginStore from 'app/main/auth/login/store';

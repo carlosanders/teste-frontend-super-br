@@ -7,14 +7,14 @@ import * as fromStore from 'app/main/auth/login/store';
 import {getLoginAppState} from 'app/main/auth/login/store';
 import {environment} from '../../../../environments/environment';
 import {getRouterState} from '../../../store';
-import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
+import {getConfig, getErrorMessage, getLoadingConfig} from './store';
 import {LoginService} from './login.service';
-import {distinctUntilChanged, filter} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import packageInfo from '../../../../../package.json';
 import * as LoginActions from "./store/actions/login.actions";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {CdkConfirmDialogComponent} from "../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'login',
@@ -34,6 +34,8 @@ export class LoginComponent implements OnInit {
     config$: Observable<any>;
 
     config: any;
+
+    version: string = packageInfo.version;
 
     versionChanged$: Observable<string>;
 
@@ -119,7 +121,7 @@ export class LoginComponent implements OnInit {
 
         this.loading$.next(false);
 
-        this.getLoginState.subscribe((state) => {
+        this.getLoginState.subscribe(() => {
             this.loading$.next(false);
         });
 
