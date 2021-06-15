@@ -81,7 +81,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         RegraEtiquetaService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

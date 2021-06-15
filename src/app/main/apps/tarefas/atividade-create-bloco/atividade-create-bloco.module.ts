@@ -93,7 +93,6 @@ modulesConfig.forEach((module) => {
     providers: [
         AtividadeService,
         DocumentoService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

@@ -53,7 +53,6 @@ const routes: Routes = [
     ],
     providers: [
         TarefaService,
-        LoginService,
     ]
 })
 export class TarefasOperacoesBlocoModule {

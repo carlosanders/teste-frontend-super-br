@@ -8,7 +8,7 @@ import {environment} from '../../../../environments/environment';
 import * as fromLoginStore from 'app/main/auth/login/store';
 import * as moment from 'moment';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LoginService {
 
     private _timeout;

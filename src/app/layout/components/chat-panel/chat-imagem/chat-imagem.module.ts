@@ -33,7 +33,6 @@ import {ChatUtils} from "../utils/chat.utils";
         PipesModule
     ],
     providers: [
-        LoginService,
         ChatUtils
     ],
     exports: [

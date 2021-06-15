@@ -79,7 +79,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AfastamentoService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

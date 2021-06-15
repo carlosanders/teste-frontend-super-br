@@ -71,7 +71,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         LotacaoService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

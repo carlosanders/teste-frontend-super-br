@@ -71,7 +71,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         GrupoContatoService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

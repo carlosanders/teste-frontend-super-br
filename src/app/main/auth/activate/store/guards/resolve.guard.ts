@@ -5,7 +5,7 @@ import {ActivateAppState} from '../reducers';
 import {getHasLoaded} from '../selectors';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import * as fromStore from '../../../../auth/activate/store';
 
 @Injectable({ providedIn: 'root' })

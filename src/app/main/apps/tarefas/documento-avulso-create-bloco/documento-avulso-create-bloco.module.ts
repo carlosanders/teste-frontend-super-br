@@ -76,8 +76,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        DocumentoAvulsoService,
-        LoginService,
+        DocumentoAvulsoService
     ]
 })
 export class DocumentoAvulsoCreateBlocoModule {

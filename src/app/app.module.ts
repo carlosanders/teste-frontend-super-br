@@ -101,7 +101,6 @@ const routingConfiguration: ExtraOptions = {
         ModelModule
     ],
     providers: [
-        LoginService,
         {provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

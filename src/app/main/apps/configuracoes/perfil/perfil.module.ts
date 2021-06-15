@@ -79,7 +79,6 @@ modulesConfig.forEach((module) => {
         PathModule,
     ],
     providers: [
-        LoginService,
         UsuarioService,
         ComponenteDigitalService
     ]

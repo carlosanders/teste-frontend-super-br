@@ -77,7 +77,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         CompartilhamentoService,
-        LoginService,
     ]
 })
 export class CompartilhamentoCreateBlocoModule {

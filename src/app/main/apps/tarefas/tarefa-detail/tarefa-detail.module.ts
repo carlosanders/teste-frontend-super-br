@@ -123,7 +123,6 @@ routes[0].children.push({
         AcompanhamentoService,
         TarefaService,
         VinculacaoEtiquetaService,
-        LoginService,
         DocumentoService,
         fromGuards.ResolveGuard,
         ModalidadeEtiquetaService,

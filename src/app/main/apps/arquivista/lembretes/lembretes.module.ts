@@ -45,7 +45,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         LembreteService,
-        LoginService,
         ProcessoService
     ],
 })

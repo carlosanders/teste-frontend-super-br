@@ -79,7 +79,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         VinculacaoSetorMunicipioService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

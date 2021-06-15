@@ -51,7 +51,6 @@ const routes = [
         CdkLoginFormModule
     ],
     providers      : [
-        LoginService,
         fromGuards.ResolveGuard
     ],
     entryComponents: [

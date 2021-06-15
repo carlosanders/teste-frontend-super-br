@@ -68,7 +68,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         UsuarioService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

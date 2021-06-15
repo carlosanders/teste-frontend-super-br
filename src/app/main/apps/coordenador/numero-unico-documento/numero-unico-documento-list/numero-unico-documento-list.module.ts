@@ -70,7 +70,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         NumeroUnicoDocumentoService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [
