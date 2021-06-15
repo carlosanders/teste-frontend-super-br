@@ -108,7 +108,7 @@ export class LoginEffects {
                     .pipe(
                         map(data => {
                             if ((!this.loginService.getVersion() && data.version === config.version) || (this.loginService.getVersion() && this.loginService.getVersion() === data.version)) {
-                                new LoginActions.LoginRefreshTokenSuccess(data);
+                                return new LoginActions.LoginRefreshTokenSuccess(data);
                             }
                             return new LoginActions.VersionChanged(data.version);
                         }),
