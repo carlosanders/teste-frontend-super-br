@@ -30,3 +30,13 @@ export const getLoadingConfig = createSelector(
     getLoginState,
     (login: LoginState) => login.loadingConfig
 );
+
+export const getVersion = createSelector(
+    getLoginState,
+    (login: LoginState) => login.version
+);
+
+export const getVersionChanged = createSelector(
+    getLoginState,
+    (login: LoginState) => login.versionChange
+);

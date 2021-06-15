@@ -23,22 +23,23 @@ export class LoginService {
     }
 
     getUserProfile(): Usuario {
-        return JSON.parse(localStorage.getItem('userProfile'));
+        return JSON.parse(sessionStorage.getItem('userProfile'));
     }
 
     setUserProfile(userProfile: any): void {
-        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         this._userProfileSubject.next(userProfile);
     }
 
     removeUserProfile(): void {
-        localStorage.removeItem('userProfile');
+        sessionStorage.removeItem('userProfile');
         this._userProfileSubject.next(null);
     }
 
     setToken(action): void {
         this.removeToken();
-        localStorage.setItem('token', action.payload.token);
+        this.setVersion(action.payload.version);
+        sessionStorage.setItem('token', action.payload.token);
         this.setTimestamp(action);
         this.setExp(action);
         this.setLocalBrowserExpiration(action);
@@ -46,60 +47,68 @@ export class LoginService {
     }
 
     setLoginType(type): void {
-        localStorage.setItem('loginType', type);
+        sessionStorage.setItem('loginType', type);
     }
 
     setExp(action): void {
-        localStorage.setItem('exp', action.payload.exp);
+        sessionStorage.setItem('exp', action.payload.exp);
     }
 
     setTimestamp(action): void {
-        localStorage.setItem('timestamp', action.payload.timestamp);
+        sessionStorage.setItem('timestamp', action.payload.timestamp);
     }
 
     setLocalBrowserExpiration(action): void {
         const duration = Number(action.payload.exp) - Number(action.payload.timestamp);
         const expiration = moment().add(duration, 'seconds').unix();
-        localStorage.setItem('localBrowserExp', expiration.toString());
+        sessionStorage.setItem('localBrowserExp', expiration.toString());
+    }
+
+    setVersion(version): void {
+        sessionStorage.setItem('version', version);
     }
 
     getLoginType(): string {
-        return localStorage.getItem('loginType');
+        return sessionStorage.getItem('loginType');
     }
 
     getExp(): number {
-        return Number(localStorage.getItem('exp'));
+        return Number(sessionStorage.getItem('exp'));
     }
 
     getTimestamp(): number {
-        return Number(localStorage.getItem('timestamp'));
+        return Number(sessionStorage.getItem('timestamp'));
     }
 
     getLocalBrowserExp(): number {
-        return Number(localStorage.getItem('localBrowserExp'));
+        return Number(sessionStorage.getItem('localBrowserExp'));
     }
 
     getToken(): string {
-        return localStorage.getItem('token');
+        return sessionStorage.getItem('token');
+    }
+
+    getVersion(): string {
+        return sessionStorage.getItem('version');
     }
 
     removeToken(): void {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         this.removeExp();
         this.removeTimestamp();
         this.removeLocalBrowserExp();
     }
 
     removeExp(): void {
-        localStorage.removeItem('exp');
+        sessionStorage.removeItem('exp');
     }
 
     removeTimestamp(): void {
-        localStorage.removeItem('timestamp');
+        sessionStorage.removeItem('timestamp');
     }
 
     removeLocalBrowserExp(): void {
-        localStorage.removeItem('localBrowserExp');
+        sessionStorage.removeItem('localBrowserExp');
     }
 
     login(username: string, password: string): Observable<any> {

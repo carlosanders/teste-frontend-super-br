@@ -86,7 +86,6 @@
             <span class="text">Ainda não tem uma conta?</span>
             <a class="link" [routerLink]="'/auth/register'">Criar uma conta</a>
         </div>
-
         <div *ngIf="!version || (version && (version === config.version))" class="subtitle mb-8">{{config.version}}</div>
         <div *ngIf="version && version !== config.version" class="subtitle mb-8">{{version}}f/{{config.version}}b</div>
     </div>
