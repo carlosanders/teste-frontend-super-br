@@ -52,8 +52,7 @@ const routes: Routes = [
         CdkSidebarModule
     ],
     providers: [
-        ProcessoService,
-        LoginService,
+        ProcessoService
     ]
 })
 export class ArquivistaOperacoesBlocoModule {

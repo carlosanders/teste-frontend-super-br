@@ -116,7 +116,6 @@ routes[0].children.push({
     providers: [
         ProcessoService,
         VinculacaoEtiquetaService,
-        LoginService,
         AcompanhamentoService,
         fromGuards.ResolveGuard
     ],

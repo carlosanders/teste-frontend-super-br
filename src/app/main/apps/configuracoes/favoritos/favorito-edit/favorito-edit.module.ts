@@ -71,7 +71,6 @@ const routes: Routes = [
     ],
     providers: [
         FavoritoService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

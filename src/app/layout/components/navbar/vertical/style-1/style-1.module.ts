@@ -22,9 +22,6 @@ import {TourModule} from '../../../../../../ajuda/tour/tour.module';
     ],
     exports: [
         NavbarVerticalStyle1Component
-    ],
-    providers: [
-        LoginService,
     ]
 })
 export class NavbarVerticalStyle1Module {

@@ -84,7 +84,6 @@ modulesConfig.forEach((module) => {
     providers: [
         UsuarioService,
         ColaboradorService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

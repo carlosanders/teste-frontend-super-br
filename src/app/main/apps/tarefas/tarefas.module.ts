@@ -178,7 +178,6 @@ modulesConfig.forEach((module) => {
         EspecieTarefaService,
         SetorService,
         UsuarioService,
-        LoginService,
         LotacaoService,
         fromGuards.ResolveGuard,
         AssuntoService,

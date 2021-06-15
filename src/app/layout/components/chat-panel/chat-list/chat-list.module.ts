@@ -35,7 +35,6 @@ import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
         ChatImagemModule
     ],
     providers: [
-        LoginService,
         ChatUtils
     ],
     exports: [

@@ -58,7 +58,6 @@ const routes: Routes = [
     ],
     providers: [
         UsuarioService,
-        LoginService,
         TarefaService,
         fromGuards.ResolveGuard
     ],

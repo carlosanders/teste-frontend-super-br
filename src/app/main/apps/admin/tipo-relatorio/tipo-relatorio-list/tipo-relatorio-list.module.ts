@@ -65,7 +65,6 @@ const routes: Routes = [
         PathModule
     ],
     providers: [
-        LoginService,
         fromGuards.ResolveGuard,
         TipoRelatorioService
     ]

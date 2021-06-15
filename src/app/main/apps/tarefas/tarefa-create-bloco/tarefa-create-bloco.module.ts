@@ -76,8 +76,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        TarefaService,
-        LoginService,
+        TarefaService
     ]
 })
 export class TarefaCreateBlocoModule {

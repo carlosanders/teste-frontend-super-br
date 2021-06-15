@@ -61,7 +61,6 @@ const routes: Routes = [
     ],
     providers: [
         AfastamentoService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

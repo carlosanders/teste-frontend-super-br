@@ -80,7 +80,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         RepositorioService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

@@ -74,8 +74,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        CompartilhamentoService,
-        LoginService,
+        CompartilhamentoService
     ]
 })
 export class CompartilhamentoCreateModule {

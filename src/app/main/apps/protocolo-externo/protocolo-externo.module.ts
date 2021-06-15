@@ -123,7 +123,6 @@ modulesConfig.forEach((module) => {
         EspecieProcessoService,
         SetorService,
         UsuarioService,
-        LoginService,
         fromGuards.ResolveGuard,
         AssuntoService,
         AssinaturaService,
