@@ -7,8 +7,7 @@
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
-                    "style": "scss",
-                    "styles": "node_modules/shepherd.js/dist/css/shepherd.css"
+                    "style": "scss"
                 }
             },
             "root": "",
@@ -53,8 +52,7 @@
                             "optimization": false,
                             "vendorChunk": true,
                             "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true
+                            "sourceMap": true
                         },
                         "production": {
                             "fileReplacements": [
