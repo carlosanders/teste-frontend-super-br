@@ -60,6 +60,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('dynamicComponent', {read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @ViewChild('dynamicComponentConverter', {read: ViewContainerRef})
+    containerConverter: ViewContainerRef;
+
     pluginLoading$: Observable<string[]>;
     pluginLoading: string[];
 
@@ -70,6 +73,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     private _profile: Usuario;
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    temConverter = false;
 
     /**
      *
@@ -166,13 +171,25 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/processo';
+        let path = 'app/main/apps/processo';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     if (this.container !== undefined) {
                         this._dynamicService.loadComponent(c)
                             .then(componentFactory => this.container.createComponent(componentFactory));
+                    }
+                }));
+            }
+        });
+        path = 'app/main/apps/processo#converter';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach(((c) => {
+                    if (this.containerConverter !== undefined) {
+                        this.temConverter = true;
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.containerConverter.createComponent(componentFactory));
                     }
                 }));
             }

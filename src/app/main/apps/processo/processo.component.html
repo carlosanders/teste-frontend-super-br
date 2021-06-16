@@ -88,8 +88,19 @@
                             <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo'  : 'Acompanhar Processo'}}</span>
                         </ng-container>
                     </button>
-                    <ng-template #dynamicComponent></ng-template>
+                    <button mat-menu-item *ngIf="temConverter"
+                            [matMenuTriggerFor]="moreMenuConverter" aria-label="converter"
+                            (click)="$event.stopPropagation()">
+                        <ng-container>
+                            <mat-icon>swap_horiz</mat-icon>
+                            <span>Converter</span>
+                        </ng-container>
+                    </button>
+                    <mat-menu #moreMenuConverter="matMenu">
+                            <ng-template #dynamicComponentConverter></ng-template>
+                    </mat-menu>
 
+                    <ng-template #dynamicComponent></ng-template>
                 </mat-menu>
             </div>
         </div>
