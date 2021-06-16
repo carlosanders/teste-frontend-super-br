@@ -8,7 +8,7 @@ import {CdkLoginDialogComponent} from '@cdk/components/login/cdk-login-dialog/cd
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
-import {getConfig, getErrorMessage, getLoadingConfig, getToken} from './store/selectors';
+import {getConfig, getErrorMessage, getLoadingConfig, getToken} from './store';
 import {environment} from '../../../../environments/environment';
 import {distinctUntilChanged, filter, switchMap, take} from 'rxjs/operators';
 import {getRouterState} from '../../../store';

@@ -11,6 +11,8 @@ export class CdkConfirmDialogComponent
 
     public confirmMessage: string;
 
+    showCancel = true;
+
     /**
      *
      * @param dialogRef
@@ -19,6 +21,10 @@ export class CdkConfirmDialogComponent
     constructor(
         public dialogRef: MatDialogRef<CdkConfirmDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
-    ) {}
+    ) {
+        if (this.data?.hideCancel) {
+            this.showCancel = false;
+        }
+    }
 
 }
