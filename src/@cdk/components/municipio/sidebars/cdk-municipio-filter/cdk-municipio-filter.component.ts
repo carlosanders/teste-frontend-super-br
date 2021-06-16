@@ -71,6 +71,15 @@ export class CdkMunicipioFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         const request = {
             filters: {},
         };
