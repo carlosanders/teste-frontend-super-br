@@ -4,6 +4,7 @@
 // import {modulesConfigEcarta} from './ecarta/modules-config';
 // import {modulesConfigBarramento} from './barramento/modules-config';
 // import {modulesConfigDivida} from './divida/modules-config';
+import {modulesConfigCalculo} from './calculo/modules-config';
 
 export const modulesConfig = [
     // modulesConfigJudicial,
@@ -12,6 +13,7 @@ export const modulesConfig = [
     // modulesConfigEcarta,
     // modulesConfigBarramento,
     // modulesConfigDivida,
+    modulesConfigCalculo,
 ];
 
 
