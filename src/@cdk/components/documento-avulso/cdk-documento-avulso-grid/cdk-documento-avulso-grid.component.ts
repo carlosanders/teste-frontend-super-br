@@ -15,6 +15,7 @@ import {DocumentoAvulsoDataSource} from '@cdk/data-sources/documento-avulso-data
 import {FormControl} from '@angular/forms';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'cdk-documento-avulso-grid',
@@ -289,6 +290,11 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     isIndeterminate = false;
     hasExcluded = false;
 
+    barramento = false;
+
+    @Output()
+    statusBarramento = new EventEmitter<number[]>();
+
     @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>;
 
     /**
@@ -326,6 +332,8 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new DocumentoAvulsoDataSource(of(this.documentosAvulsos));
+
+        this.barramento = environment.barramento;
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -434,6 +442,10 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     responderDocumentosAvulsos(documentosAvulsosId: number[]): void {
         this.responder.emit(documentosAvulsosId);
+    }
+
+    verificaStatusBarramento(documentosAvulsosId: number[]): void {
+        this.statusBarramento.emit(documentosAvulsosId);
     }
 
     /**

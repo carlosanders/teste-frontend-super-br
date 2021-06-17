@@ -1,0 +1,66 @@
+<div class="page-layout left-sidebar">
+
+    <div class="responsive-grid">
+
+        <div class="actions">
+
+            <div class="back">
+                <button mat-icon-button
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="loading" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <div class="content" cdkPerfectScrollbar>
+
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> Id
+                    </th>
+                    <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Id: '
+                        > {{repositorio.id}} </td>
+                </ng-container>
+
+                <!-- Repositorio Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('repositorio') > -1"
+                              matColumnDef="repositorio">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Repositório
+                    </th>
+                    <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile'
+                        data-label='Repositorio: '> {{repositorio.nome}} </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let repositorio">
+
+                        <button mat-icon-button
+                                (click)="selectRepositorioBarramento(repositorio)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let vinculacaoPessoaBarramento; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

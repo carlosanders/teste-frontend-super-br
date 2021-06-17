@@ -37,6 +37,12 @@ const routes: Routes = [
             {
                 path       : 'recebimento',
                 loadChildren: () => import('./recebimento/recebimento.module').then(m => m.RecebimentoModule),
+            },
+            {
+                path: 'status-barramento-processo',
+                loadChildren: () => import(
+                    './status-barramento-processo/status-barramento-processo.module'
+                    ).then(m => m.StatusBarramentoProcessoModule)
             }
         ]
     }

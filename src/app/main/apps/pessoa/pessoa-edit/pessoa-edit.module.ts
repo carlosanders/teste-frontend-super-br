@@ -47,6 +47,12 @@ const routes: Routes = [
                 path       : 'nomes',
                 loadChildren: () => import('./nomes/nomes.module').then(m => m.NomesModule),
                 canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'vinculacao-pessoa-barramento',
+                loadChildren: () => import(
+                    './vinculacao-pessoa-barramento/vinculacao-pessoa-barramento.module'
+                    ).then(m => m.VinculacaoPessoaBarramentoModule)
             }
         ]
     }

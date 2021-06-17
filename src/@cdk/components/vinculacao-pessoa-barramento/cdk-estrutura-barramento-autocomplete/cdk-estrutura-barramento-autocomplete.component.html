@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayEstruturaBarramentoFn">
+    <mat-option *ngFor="let estruturaBarramento of estruturaBarramentoList"
+                [value]="estruturaBarramento">
+        <span [innerHTML]="displayEstruturaBarramentoFn(estruturaBarramento) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="estruturaBarramentoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

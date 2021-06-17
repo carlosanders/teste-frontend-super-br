@@ -1,0 +1,86 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-form-field>
+        <mat-label>Nome do Repositório</mat-label>
+        <input matInput
+               formControlName="nomeRepositorio"
+               [matAutocomplete]="nomeRepositorio.autocomplete"
+               (blur)="checkNomeRepositorio()"
+        >
+        <cdk-repositorio-barramento-autocomplete
+            #nomeRepositorio="repositorioBarramentoAutocomplete"
+            [control]="form.get('nomeRepositorio')">
+        </cdk-repositorio-barramento-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showRepositorioGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>ID do Repositório</mat-label>
+        <input matInput #repositorio
+               name="repositorio"
+               formControlName="repositorio"
+               readonly
+               required
+               maxlength="255">
+        <mat-error>Campo obrigatório!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Nome da Estrutura</mat-label>
+        <input matInput formControlName="nomeEstrutura"
+               [matAutocomplete]="nomeEstrutura.autocomplete"
+               (blur)="checkNomeEstrutura()"
+               [readonly]="!this.form.get('repositorio').value"
+               maxlength="255">
+        <cdk-estrutura-barramento-autocomplete
+            #nomeEstrutura="estruturaBarramentoAutocomplete"
+            [control]="form.get('nomeEstrutura')"
+            [pagination]="estruturaBarramentoPagination">
+        </cdk-estrutura-barramento-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                *ngIf="this.form.get('repositorio').value"
+                (click)="showEstruturaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>ID da Estrutura</mat-label>
+        <input matInput #estrutura
+               name="estrutura"
+               formControlName="estrutura"
+               readonly
+               required
+               maxlength="255">
+        <mat-error>Campo obrigatório!</mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
+
+<cdk-repositorio-barramento-gridsearch
+    *ngIf="activeCard === 'repositorio-barramento-gridsearch'"
+    (selected)="selectRepositorio($event)"
+    (cancel)="cancel()">
+</cdk-repositorio-barramento-gridsearch>
+
+<cdk-estrutura-barramento-gridsearch
+    *ngIf="activeCard === 'estrutura-barramento-gridsearch'"
+    [pagination]="estruturaBarramentoPagination"
+    (selected)="selectEstrutura($event)"
+    (cancel)="cancel()">
+</cdk-estrutura-barramento-gridsearch>

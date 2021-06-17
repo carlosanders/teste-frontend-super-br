@@ -83,6 +83,12 @@ export class PessoaListComponent implements OnInit, OnDestroy {
     }
 
     reload(params): void {
+        if (this.routerState?.queryParams?.mecanismoRemessa) {
+            this.pagination.filter.push = {
+                vinculacaoPessoaBarramento: 'isNotNull'
+            }
+        }
+
         this._store.dispatch(new fromStore.GetPessoas({
             ...this.pagination,
             filter: {

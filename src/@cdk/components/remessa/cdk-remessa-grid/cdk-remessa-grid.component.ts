@@ -18,6 +18,7 @@ import {FormControl} from '@angular/forms';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -189,6 +190,11 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
     hasExcluded = false;
 
+    barramento = false;
+
+    @Output()
+    statusBarramento = new EventEmitter<number[]>();
+
     @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>;
 
     /**
@@ -226,6 +232,8 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new TramitacaoDataSource(of(this.remessas));
+
+        this.barramento = environment.barramento;
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -403,6 +411,10 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     editRecebimento(tramitacaoId): void {
         this.recebimento.emit(tramitacaoId);
+    }
+
+    verificaStatusBarramento(documentosAvulsosId: number[]): void {
+        this.statusBarramento.emit(documentosAvulsosId);
     }
 
 }

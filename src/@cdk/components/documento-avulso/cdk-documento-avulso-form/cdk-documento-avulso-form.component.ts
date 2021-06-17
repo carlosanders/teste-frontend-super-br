@@ -22,6 +22,7 @@ import {Pessoa} from '@cdk/models';
 import {FavoritoService} from '../../../services/favorito.service';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'cdk-documento-avulso-form',
@@ -148,6 +149,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     generoProcessos: any[] = [];
 
+    barramento = false;
+
     /**
      * Constructor
      */
@@ -197,6 +200,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
      * On init
      */
     ngOnInit(): void {
+
+        this.barramento = environment.barramento;
 
         if (this.mode === 'trigger-etiqueta') {
             this.form.get('dataHoraInicioPrazo').setValidators(null);

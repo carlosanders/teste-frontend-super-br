@@ -57,6 +57,9 @@
             <mat-radio-button value="manual">
                 Manual
             </mat-radio-button>
+            <mat-radio-button [value]="'barramento'" *ngIf="barramento">
+                Barramento
+            </mat-radio-button>
 
             <ng-template #dynamicComponent></ng-template>
         </mat-radio-group>

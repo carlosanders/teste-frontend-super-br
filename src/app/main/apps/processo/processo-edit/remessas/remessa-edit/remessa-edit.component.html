@@ -5,6 +5,7 @@
         [errors]="(errors$ | async)"
         (gerirPessoaDestino)="gerirPessoaDestino()"
         (editPessoaDestino)="editPessoaDestino($event)"
+        (editMecanismoRemessa)="editMecanismoRemessa($event)"
         [pessoaDestino]="pessoaDestino"
         (save)="submit($event)"
         (abort)="doAbort()"
