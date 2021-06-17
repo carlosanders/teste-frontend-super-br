@@ -17,6 +17,46 @@ export const ASSINA_DOCUMENTO_BLOCO_FAILED = '[BLOCO ATIVIDADE CREATE] ASSINA DO
 export const CLICKED_DOCUMENTO_BLOCO = '[BLOCO ATIVIDADE CREATE] CLICKED DOCUMENTO';
 export const COMPLETE_DOCUMENTO_BLOCO = '[BLOCO ATIVIDADE CREATE] COMPLETE DOCUMENTO';
 
+export const UPDATE_DOCUMENTO_BLOCO = '[BLOCO ATIVIDADE CREATE] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_BLOCO_SUCCESS = '[BLOCO ATIVIDADE CREATE] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_BLOCO_FAILED = '[BLOCO ATIVIDADE CREATE] UPDATE DOCUMENTO FAILED';
+
+/**
+ * Update Documento Bloco
+ */
+export class UpdateDocumentoBloco implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_BLOCO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Bloco Success
+ */
+export class UpdateDocumentoBlocoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_BLOCO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Documento Bloco Failed
+ */
+export class UpdateDocumentoBlocoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_BLOCO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export const CHANGE_SELECTED_DOCUMENTOS_BLOCO = '[BLOCO ATIVIDADE CREATE] CHANGE SELECTED DOCUMENTOS';
 
 /**
@@ -177,6 +217,9 @@ export type AtividadeBlocoCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
     | GetDocumentosFailed
+    | UpdateDocumentoBloco
+    | UpdateDocumentoBlocoSuccess
+    | UpdateDocumentoBlocoFailed
     | UnloadDocumentos
     | ClickedDocumento
     | CompleteDocumento

@@ -61,6 +61,8 @@ export class AtividadeCreateBlocoDocumentosEffect {
                         populate: [
                             'tipoDocumento',
                             'tarefaOrigem',
+                            'tarefaOrigem.vinculacoesEtiquetas',
+                            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                         ]
                     };
 
@@ -170,4 +172,25 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 })
             );
 
+    /**
+     * Update Documento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    updateDocumento: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeBlocoCreateDocumentosActionsAll.UpdateDocumentoBloco>(AtividadeBlocoCreateDocumentosActionsAll.UPDATE_DOCUMENTO_BLOCO),
+                mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+                    mergeMap((response: Documento) => [
+                        new AtividadeBlocoCreateDocumentosActionsAll.UpdateDocumentoBlocoSuccess(response.id),
+                        new AddData<Documento>({data: [response], schema: documentoSchema})
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new AtividadeBlocoCreateDocumentosActionsAll.UpdateDocumentoBlocoFailed(err));
+                    })
+                ))
+            );
 }

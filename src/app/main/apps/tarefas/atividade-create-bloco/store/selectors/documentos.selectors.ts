@@ -41,6 +41,11 @@ export const getAssinandoDocumentosId = createSelector(
     (state: AtividadeBlocoCreateDocumentosState) => state.assinandoDocumentoIds
 );
 
+export const getConvertendoDocumentosId = createSelector(
+    getAtividadeCreateBlocoDocumentosState,
+    (state: AtividadeBlocoCreateDocumentosState) => state.convertendoDocumentoIds
+);
+
 export const getSelectedDocumentoIds = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.selectedDocumentosId

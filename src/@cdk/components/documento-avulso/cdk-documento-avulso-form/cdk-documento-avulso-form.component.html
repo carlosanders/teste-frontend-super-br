@@ -228,7 +228,7 @@
 
     <div class="actions">
         <button type="submit" mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid || !valid || !selected" *ngIf="!saving">
+                [disabled]="form.invalid || !valid || (!documentoAvulso.id && !selected)" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

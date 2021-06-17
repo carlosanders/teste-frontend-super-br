@@ -1,15 +1,14 @@
 <!-- SIDEBAR HEADER -->
-<div class="header">
+<div class="header mb-8">
     <div class="logo" fxLayout="row" fxLayoutAlign="start center">
         <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{label}}</span>
     </div>
     <div class="logo-nup" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{nup}}</div>
-
+    <div class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{generoProcesso | titleCasePipe}}</div>
 </div>
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-
 <div class="content" cdkPerfectScrollbar>
     <div class="nav material2">
         <div class="nav-item" *ngFor="let link of links">
@@ -17,7 +16,7 @@
                class="nav-link" matRipple [routerLink]="link.link"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                <span>{{link.nome | titlecase}}</span> 
+                <span>{{link.nome | titlecase}}</span>
             </a>
         </div>
     </div>
