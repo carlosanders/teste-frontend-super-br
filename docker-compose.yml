@@ -9,6 +9,7 @@ services:
             - 4200:4200
         volumes:
             - '.:/app'
+            - '/home/anilton/WebstormProjects/supp-calculo-frontend/src:/app/src/modules/calculo'
         tty: true
         command: tail -f /dev/null
         networks:
