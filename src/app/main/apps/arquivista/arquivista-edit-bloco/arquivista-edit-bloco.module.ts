@@ -47,7 +47,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         ProcessoService,
-        LoginService,
         CdkClassificacaoTreeService,
         CdkClassificacaoGridTreeService
     ]

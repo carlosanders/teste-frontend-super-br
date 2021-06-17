@@ -92,9 +92,6 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesRepositorios.modalidadeOrgaoCentral',
                             'vinculacoesRepositorios.unidade',
                         ],
-                        context: {
-                            isAdmin: true
-                        }
                     };
 
 

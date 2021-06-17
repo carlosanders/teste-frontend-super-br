@@ -73,8 +73,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        AtividadeService,
-        LoginService,
+        AtividadeService
     ]
 })
 export class ResponderComplementarCreateBlocoModule {

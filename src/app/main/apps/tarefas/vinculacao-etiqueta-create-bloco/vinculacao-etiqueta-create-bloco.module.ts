@@ -76,8 +76,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        VinculacaoEtiquetaService,
-        LoginService,
+        VinculacaoEtiquetaService
     ]
 })
 export class VinculacaoEtiquetaCreateBlocoModule {

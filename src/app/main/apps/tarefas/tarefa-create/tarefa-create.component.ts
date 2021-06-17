@@ -22,6 +22,7 @@ import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {Back, getOperacoesState, getRouterState} from '../../../../store';
+import {CdkUtils} from "../../../../../@cdk/utils";
 
 @Component({
     selector: 'tarefa-create',
@@ -57,6 +58,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     isClearForm = false;
 
     operacoes: any[] = [];
+    operacaoId?: string;
 
     /**
      * @param _store
@@ -100,6 +102,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.operacaoId = null;
         this.operacoes = [];
 
         this._store
@@ -109,7 +112,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.operacoes = [];
             }
         });
 
@@ -172,7 +174,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesState),
                 takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'tarefa')
+                filter(op => this.operacaoId && !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
                 (operacao) => {
@@ -184,7 +186,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.isClearForm$.subscribe((limpaForm) => {
             if (limpaForm) {
                 this.isClearForm = true;
-                this.operacoes = [];
             }
         });
     }
@@ -195,7 +196,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        this.operacoes = [];
 
         this._store.dispatch(new fromStore.UnloadProcesso());
 
@@ -216,10 +216,9 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
-        this.operacoes = [];
-
         const tarefa = new Tarefa();
+
+        this.operacaoId = CdkUtils.makeId();
 
         Object.entries(values).forEach(
             ([key, value]) => {

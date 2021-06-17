@@ -73,7 +73,6 @@ export class ResolveGuard implements CanActivate {
                             'modalidadeModelo',
                             'documento.componentesDigitais'
                         ],
-                        context: {isAdmin: true}
                     };
 
                     this._store.dispatch(new fromStore.GetModelos(params));

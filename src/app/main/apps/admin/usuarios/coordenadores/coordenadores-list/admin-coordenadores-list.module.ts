@@ -61,7 +61,6 @@ const routes: Routes = [
     ],
     providers: [
         CoordenadorService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

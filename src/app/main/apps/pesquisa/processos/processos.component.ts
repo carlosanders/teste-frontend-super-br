@@ -116,8 +116,8 @@ export class ProcessosComponent implements OnInit, OnDestroy {
     }
 
     view(emissao: {id: number; chaveAcesso?: string}): void {
-        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
-        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
+        const chaveAcesso = emissao.chaveAcesso ? '/chave/' + emissao.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']);
     }
 
     edit(processoId: number): void {

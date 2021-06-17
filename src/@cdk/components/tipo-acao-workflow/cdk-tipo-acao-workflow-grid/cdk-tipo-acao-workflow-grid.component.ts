@@ -144,6 +144,9 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
     excluded = new EventEmitter<any>();
 
     @Output()
+    inatived = new EventEmitter<any>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
@@ -165,6 +168,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -235,7 +239,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -256,6 +260,23 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
                 context: {mostrarApagadas: true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
             });
         }
         else {

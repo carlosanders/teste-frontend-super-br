@@ -70,7 +70,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         VinculacaoModeloService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

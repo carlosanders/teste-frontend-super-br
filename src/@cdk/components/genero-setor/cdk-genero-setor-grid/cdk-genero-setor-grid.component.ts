@@ -141,6 +141,9 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
     excluded = new EventEmitter<any>();
 
     @Output()
+    inatived = new EventEmitter<any>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
@@ -164,6 +167,7 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -232,7 +236,7 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -253,6 +257,23 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
                 context: {mostrarApagadas: true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
             });
         }
         else {

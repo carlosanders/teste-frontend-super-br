@@ -50,11 +50,9 @@ import {ChatParticipanteService} from "../../../../@cdk/services/chat-participan
         ChatMensagemHeaderModule
     ],
     providers: [
-        LoginService,
         ChatService,
         ChatMensagemService,
-        ChatParticipanteService,
-        MercureService
+        ChatParticipanteService
     ],
     exports: [
         ChatPanelComponent

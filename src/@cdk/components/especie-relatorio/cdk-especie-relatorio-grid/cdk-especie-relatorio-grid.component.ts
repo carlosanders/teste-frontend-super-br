@@ -154,6 +154,9 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
     selected = new EventEmitter<EspecieRelatorio>();
 
     @Output()
+    inatived = new EventEmitter<any>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: EspecieRelatorioDataSource;
@@ -164,6 +167,8 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
 
     hasSelected = false;
     isIndeterminate = false;
+    hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -231,12 +236,33 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
+        this.hasExcluded = false;
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
     }
 
     editEspecieRelatorio(especieRelatorioId): void {

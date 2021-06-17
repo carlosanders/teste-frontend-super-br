@@ -68,7 +68,6 @@ const routes: Routes = [
     ],
     providers: [
         TemplateService,
-        // LoginService,
         fromGuards.ResolveGuard
     ]
 })

@@ -36,13 +36,22 @@ widget-tarefa {
     }
 
     .titulo {
-        text-transform:capitalize;
+        text-transform: capitalize;
         padding-left: 8px;
+        color: #03a9f4;
     }
 
     .botao-link {
         display: flex;
         width: 300px;
         color: #03a9f4 !important;
+    }
+
+    .mensagem-aviso {
+        display: flex;
+        justify-content: center;
+        color: #03a9f4;
+        font-size: 15px;
+        padding: 40px;
     }
 }

@@ -44,7 +44,6 @@ modulesConfig.forEach((module) => {
     providers: [
         ProcessoService,
         TransicaoService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

@@ -68,7 +68,6 @@ const routes: Routes = [
         PathModule
     ],
     providers: [
-        LoginService,
         fromGuards.ResolveGuard,
         ClassificacaoService,
         CdkClassificacaoTreeService

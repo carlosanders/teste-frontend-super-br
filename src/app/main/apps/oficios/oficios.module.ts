@@ -128,7 +128,6 @@ modulesConfig.forEach((module) => {
         DocumentoService,
         SetorService,
         UsuarioService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

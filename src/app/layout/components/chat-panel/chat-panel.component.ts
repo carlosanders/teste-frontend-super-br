@@ -256,27 +256,13 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             this.scrollChatMensagensToBottom();
         });
 
-        // this._cdkSidebarService.getSidebar('chatPanel').openedChanged.subscribe((isOpen) => {
-        //     if (!isOpen) {
-        //         this.fecharChat();
-        //     }
-        // });
-
         this.chatList$.subscribe(chatList => this.chatList = chatList);
-
         this.chatPaginator$.subscribe(paginator => this.chatPaginator = paginator);
         this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
-
-        if (!!this._loginService.getUserProfile()) {
-            this.usuarioLogado = this._loginService.getUserProfile();
-            this.usuarioAutenticado = true;
-            this.getChatsUsuario();
-        }
     }
 
     private getChatsUsuario(keyword:string = ''): void
     {
-        this._mercureService.subscribe(this.usuarioLogado.username+'/chat');
         let gridFilter = {};
 
         if (keyword.length > 0) {
