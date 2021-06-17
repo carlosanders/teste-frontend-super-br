@@ -36,6 +36,8 @@ export class LoginInterceptor implements HttpInterceptor {
 
     subscribers: any;
 
+    configUrl: string = environment.base_url + 'config';
+
     routerState: any;
     private loginProgress = false;
 
@@ -99,7 +101,7 @@ export class LoginInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        if (this.token && (request.url !== environment.base_url + '/config') && request.url.indexOf('get_token') === -1) {
+        if (this.token && request.url.startsWith(this.configUrl) === false && request.url.indexOf('get_token') === -1) {
             if (!this.loginService.isExpired()) {
                 // Existe um token e ele ainda é válido
                 request = request.clone({
