@@ -15,6 +15,8 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -35,6 +37,8 @@ import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         ConfiguracaoNupService,

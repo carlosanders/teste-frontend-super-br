@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
+import { Pagination } from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-identificador-filter',
@@ -20,6 +22,13 @@ export class CdkDocumentoIdentificadorFilterComponent {
 
     @Input()
     mode = 'list';
+    pagination: Pagination;
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterDataEmissao = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -74,12 +83,16 @@ export class CdkDocumentoIdentificadorFilterComponent {
             andXFilter.push({'dataEmissao': `eq:${this.form.get('dataEmissao').value}`});
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
-        }
+        if (this.filterDataEmissao.length > 0) {
+            andXFilter.push(this.filterDataEmissao[0]);
+        };
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterCriadoEm.length > 0) {
+            andXFilter.push(this.filterCriadoEm[0]);
+        };
+
+        if (this.filterAtualizadoEm.length > 0) {
+            andXFilter.push(this.filterAtualizadoEm[0]);
         }
 
         if (this.form.get('criadoPor').value) {
@@ -102,6 +115,21 @@ export class CdkDocumentoIdentificadorFilterComponent {
         this._cdkSidebarService.getSidebar('cdk-documento-identificador-filter').close();
     }
 
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataEmissao(value: any): void {
+        this.filterDataEmissao = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
@@ -115,6 +143,7 @@ export class CdkDocumentoIdentificadorFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

@@ -29,6 +29,10 @@ export class CdkAfastamentoFilterComponent {
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
+    filterDataInicio = [];
+    filterDataInicioBloqueio = [];
+    filterFim = [];
+    filterFimBloqueio = [];
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
@@ -65,20 +69,20 @@ export class CdkAfastamentoFilterComponent {
             andXFilter.push({'modalidadeAfastamento.id': `eq:${this.form.get('modalidadeAfastamento').value.id}`});
         }
 
-        if (this.form.get('dataInicio').value) {
-            andXFilter.push({'dataInicio': `eq:${this.form.get('dataInicio').value}`});
+        if (this.filterDataInicio.length > 0) {
+            andXFilter.push(this.filterDataInicio[0]);
         }
 
-        if (this.form.get('dataInicioBloqueio').value) {
-            andXFilter.push({'dataInicioBloqueio': `eq:${this.form.get('dataInicioBloqueio').value}`});
+        if (this.filterDataInicioBloqueio.length > 0) {
+            andXFilter.push(this.filterDataInicioBloqueio[0]);
         }
 
-        if (this.form.get('dataFim').value) {
-            andXFilter.push({'dataFim': `eq:${this.form.get('dataFim').value}`});
+        if (this.filterFim.length > 0) {
+            andXFilter.push(this.filterFim[0]);
         }
 
-        if (this.form.get('dataFimBloqueio').value) {
-            andXFilter.push({'dataFimBloqueio': `eq:${this.form.get('dataFimBloqueio').value}`});
+        if (this.filterFimBloqueio.length > 0) {
+            andXFilter.push(this.filterFimBloqueio[0]);
         }
 
         if (this.filterCriadoEm.length > 0) {
@@ -111,6 +115,26 @@ export class CdkAfastamentoFilterComponent {
 
     filtraCriadoEm(value: any): void {
         this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataInicio(value: any): void {
+        this.filterDataInicio = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataInicioBloqueio(value: any): void {
+        this.filterDataInicio = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraFim(value: any): void {
+        this.filterFim = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraFimBloqueio(value: any): void {
+        this.filterFimBloqueio = value;
         this.limparFormFiltroDatas$.next(false);
     }
 

@@ -57,7 +57,6 @@ export class CdkAssinaturaFilterComponent {
             andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
-
         if (this.filterAssinadoEm.length > 0) {
             andXFilter.push(this.filterAssinadoEm[0]);
         }
@@ -76,11 +75,6 @@ export class CdkAssinaturaFilterComponent {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-assinatura-filter').close();
-    }
-
-    filtraCriadoEm(value: any): void {
-        this.filterCriadoEm = value;
-        this.limparFormFiltroDatas$.next(false);
     }
 
     filtraAssinadoEm(value: any): void {

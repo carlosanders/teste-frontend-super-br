@@ -29,36 +29,69 @@
             </cdk-colaborador-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Data de Início</mat-label>
-            <input matInput formControlName="dataInicio" [matDatetimepicker]="dataInicio">
-            <mat-datetimepicker-toggle matSuffix [for]="dataInicio"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataInicio type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataInicio?.length}">Data de Início</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataInicio"
+                    [ngClass]="{'filtrado': filterDataInicio?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataInicio="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataInicio"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataInicio($event)">
+            </cdk-date-filter>
+        </mat-menu>
 
-        <mat-form-field>
-            <mat-label>Data de Início do Bloqueio</mat-label>
-            <input matInput formControlName="dataInicioBloqueio" [matDatetimepicker]="dataInicioBloqueio">
-            <mat-datetimepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataInicioBloqueio type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataInicioBloqueio?.length}">Data de Início do Bloqueio</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataInicioBloqueio"
+                    [ngClass]="{'filtrado': filterDataInicioBloqueio?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataInicioBloqueio="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataInicioBloqueio"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataInicioBloqueio($event)">
+            </cdk-date-filter>
+        </mat-menu>
 
-        <mat-form-field>
-            <mat-label>Data Fim</mat-label>
-            <input matInput formControlName="dataFim" [matDatetimepicker]="dataFim">
-            <mat-datetimepicker-toggle matSuffix [for]="dataFim"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataFim type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterFim?.length}">Data Fim</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroFim"
+                    [ngClass]="{'filtrado': filterFim?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroFim="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataFim"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraFim($event)">
+            </cdk-date-filter>
+        </mat-menu>
 
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterFimBloqueio?.length}">Data Fim do Bloqueio</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroFimBloqueio"
+                    [ngClass]="{'filtrado': filterFimBloqueio?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroFimBloqueio="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataFimBloqueio"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraFimBloqueio($event)">
+            </cdk-date-filter>
+        </mat-menu>
+        
         <mat-form-field>
-            <mat-label>Data Fim do Bloqueio</mat-label>
-            <input matInput formControlName="dataFimBloqueio" [matDatetimepicker]="dataFimBloqueio">
-            <mat-datetimepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataFimBloqueio type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuarioCriadoPor.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
         </mat-form-field>
 
         <div class="filtro-data">
@@ -74,15 +107,6 @@
                              (filtra)="this.filtraCriadoEm($event)">
             </cdk-date-filter>
         </mat-menu>
-
-        <mat-form-field>
-            <input matInput placeholder="Criado Por"
-                   formControlName="criadoPor"
-                   [matAutocomplete]="usuarioCriadoPor.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
 
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"

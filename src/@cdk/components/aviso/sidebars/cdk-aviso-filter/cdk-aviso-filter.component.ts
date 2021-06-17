@@ -3,13 +3,14 @@ import {
     Component,
     EventEmitter,
     Input,
-    OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Pagination} from '../../../../models';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-aviso-filter',
@@ -19,7 +20,7 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkAvisoFilterComponent implements OnInit {
+export class CdkAvisoFilterComponent{
 
     @Output()
     selected = new EventEmitter<any>();
@@ -30,6 +31,13 @@ export class CdkAvisoFilterComponent implements OnInit {
 
     @Input()
     mode = 'list';
+    pagination: Pagination;
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterApagadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     /**
      * Constructor
@@ -48,144 +56,108 @@ export class CdkAvisoFilterComponent implements OnInit {
             atualizadoEm: [null],
             apagadoPor: [null],
             apagadoEm: [null],
+            setor: [null],
+            unidade: [null],
+            modalidadeOrgaoCentral: [null],
         });
+
+        this.pagination = new Pagination()
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+   emite(): void {
+        if (!this.form.valid) {
+            return;
+        }
 
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('nome').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                    andxFilter.push({nome: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('nome')) {
-                        delete this.filters['nome'];
-                    }
-                }
-            }
-        });
+        const andXFilter = [];
 
-        this.form.get('descricao').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                    andxFilter.push({descricao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('descricao')) {
-                        delete this.filters['descricao'];
-                    }
-                }
-            }
-        });
 
-        this.form.get('ativo').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    ativo: `eq:${value}`
-                };
+        if (this.form.get('nome').value) {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'nome': `like:%${bit}%`});
+            });
+        }
 
-            }
-        });
+        if (this.form.get('descricao').value) {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'descricao': `like:%${bit}%`});
+            });
+        }
 
-        this.form.get('criadoEm').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
+        if (this.form.get('setor').value) {
+            andXFilter.push({'vinculacoesAvisos.setor.nome': `eq:${this.form.get('setor').value}`});
+        }
 
-        this.form.get('atualizadoEm').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
+        if (this.form.get('unidade').value) {
+            this.form.get('unidade').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'vinculacoesAvisos.unidade.nome': `like:%${bit}%`});
+            });
+        }
 
-        this.form.get('apagadoEm').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
+        if (this.form.get('modalidadeOrgaoCentral').value) {
+            andXFilter.push({'vinculacoesAvisos.modalidadeOrgaoCentral.valor': `eq:${this.form.get('modalidadeOrgaoCentral').value}`});
+        } 
+        
+        if (this.form.get('ativo').value) {
+            andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+        }   
 
-        this.form.get('criadoPor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
-        });
-    }
-
-    emite(): void {
-        const request = {
-            filters: this.filters
+        if (this.filterCriadoEm.length > 0) {
+            andXFilter.push(this.filterCriadoEm[0]);
         };
+
+        if (this.filterAtualizadoEm.length > 0) {
+            andXFilter.push(this.filterAtualizadoEm[0]);
+        }
+
+        if (this.filterApagadoEm.length > 0) {
+            andXFilter.push(this.filterApagadoEm[0]);
+        }
+
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
+        const request = {
+            filters: {},
+        };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = andXFilter;
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-aviso-filter').close();
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {
@@ -193,8 +165,8 @@ export class CdkAvisoFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
+        this.emite();
     }
 }

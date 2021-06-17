@@ -18,6 +18,8 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
 import {CdkTarefaAutocompleteModule} from '../../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
 import {CdkDocumentoAutocompleteModule} from '../../../documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/
         CdkTarefaAutocompleteModule,
         CdkDocumentoAutocompleteModule,
         CdkSetorAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         DistribuicaoService,
