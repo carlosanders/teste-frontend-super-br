@@ -94,7 +94,7 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const relatorio = new Relatorio();
-        let arrayParams: any;
+        let arrayParams: any = {};
         let parametros: any;
 
         Object.entries(values).forEach(

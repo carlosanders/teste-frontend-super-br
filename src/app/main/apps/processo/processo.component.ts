@@ -74,8 +74,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    temConverter = false;
-
     /**
      *
      * @param _changeDetectorRef
@@ -161,6 +159,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.processo$.subscribe((processo) => {
             this.processo = processo;
+            this.refresh();
         });
 
         this.pluginLoading$.pipe(
@@ -187,7 +186,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     if (this.containerConverter !== undefined) {
-                        this.temConverter = true;
                         this._dynamicService.loadComponent(c)
                             .then(componentFactory => this.containerConverter.createComponent(componentFactory));
                     }

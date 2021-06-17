@@ -10,7 +10,7 @@ import {AtividadeCreateBlocoAppState} from 'app/main/apps/tarefas/atividade-crea
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
-import {getSelectedTarefas} from '../../../store/selectors';
+import {getSelectedTarefas} from '../../../store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -58,7 +58,7 @@ export class ResolveGuard implements CanActivate {
             select(getDocumentosHasLoaded),
             withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
             tap(([loaded, tarefas]) => {
-                if (!loaded && tarefas.length) {
+                if (!loaded && tarefas?.length) {
                     this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
                 }
             }),

@@ -128,6 +128,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             }else{
                 this.estaNumProcessoWorkflow = 'NÃO';
             }
+
+            this._changeDetectorRef.markForCheck();
         });
 
 

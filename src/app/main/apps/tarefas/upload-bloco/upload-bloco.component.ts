@@ -16,7 +16,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ComponenteDigital, Tarefa} from '@cdk/models';
-import {getSelectedTarefas} from '../store/selectors';
+import {getSelectedTarefas} from '../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';

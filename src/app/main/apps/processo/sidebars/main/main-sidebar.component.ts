@@ -31,6 +31,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
     label = 'Protocolo';
     nup = '';
+    generoProcesso = '';
 
     /**
      * @param _router
@@ -106,18 +107,22 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 case 1:
                     this.label = 'Processo';
                     this.nup = this.processo?.NUPFormatado;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
                     break;
                 case 2:
                     this.label = 'Documento Avulso';
                     this.nup = this.processo?.NUPFormatado;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
                     break;
                 case 3:
                     this.label = 'Pasta';
                     this.nup = this.processo?.outroNumero;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
                     break;
                 default:
                     this.label = 'Protocolo';
                     this.nup = '';
+                    this.generoProcesso = '';
             }
         });
 

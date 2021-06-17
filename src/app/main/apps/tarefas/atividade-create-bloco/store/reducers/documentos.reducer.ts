@@ -6,6 +6,8 @@ export interface AtividadeBlocoCreateDocumentosState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    convertendoDocumentoIds: number[];
+    alterandoDocumentoIds: number[];
 }
 
 export const AtividadeBlocoCreateDocumentosInitialState: AtividadeBlocoCreateDocumentosState = {
@@ -13,7 +15,9 @@ export const AtividadeBlocoCreateDocumentosInitialState: AtividadeBlocoCreateDoc
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
-    assinandoDocumentoIds: []
+    assinandoDocumentoIds: [],
+    convertendoDocumentoIds: [],
+    alterandoDocumentoIds: [],
 };
 
 export function AtividadeBlocoCreateDocumentosReducer(
@@ -90,6 +94,29 @@ export function AtividadeBlocoCreateDocumentosReducer(
             return {
                 ...state,
                 selectedDocumentosId: action.payload
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.UPDATE_DOCUMENTO_BLOCO: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id]
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.UPDATE_DOCUMENTO_BLOCO_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+                documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.UPDATE_DOCUMENTO_BLOCO_FAILED: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
             };
         }
 

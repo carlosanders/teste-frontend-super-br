@@ -22,8 +22,8 @@ import {getMercureState, getOperacoesState, getRouterState} from 'app/store/redu
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../store/actions';
-import {getSelectedTarefas} from '../store/selectors';
+import {Back} from '../../../../store';
+import {getSelectedTarefas} from '../store';
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -111,6 +111,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
@@ -267,6 +268,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     changedSelectedIds(selectedIds): void {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
+    doAlterarTipoDocumento(values): void {
+        this._store.dispatch(new fromStore.UpdateDocumentoBloco(values));
     }
 
     doDelete(documentoId): void {
