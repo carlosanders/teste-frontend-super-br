@@ -2,9 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
+    OnInit,
     Output,
-    ViewEncapsulation, EventEmitter, OnInit
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 

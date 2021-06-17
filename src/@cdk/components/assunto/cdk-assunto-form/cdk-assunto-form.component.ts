@@ -1,16 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Assunto, AssuntoAdministrativo} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {Assunto, AssuntoAdministrativo, Pagination} from '@cdk/models';
 import {FavoritoService} from '../../../services/favorito.service';
 import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';

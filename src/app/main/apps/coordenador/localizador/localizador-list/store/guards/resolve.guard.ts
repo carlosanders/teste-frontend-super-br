@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {LocalizadorListAppState} from '../reducers';
 import * as fromStore from '../';
@@ -77,9 +77,6 @@ export class ResolveGuard implements CanActivate {
                             'setor.generoSetor',
                             'setor.parent',
                         ],
-                        context: {
-                            isAdmin: true
-                        }
                     };
 
                     this._store.dispatch(new fromStore.GetLocalizadores(params));

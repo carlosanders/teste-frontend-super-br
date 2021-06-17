@@ -3,15 +3,18 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
+    MatSlideToggleModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatListModule, MatRadioModule, MatSlideToggleModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -75,8 +78,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        TarefaService,
-        LoginService,
+        TarefaService
     ]
 })
 export class TarefaEditBlocoModule {

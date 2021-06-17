@@ -4,6 +4,7 @@ import {
     MatButtonModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -25,7 +26,6 @@ import {CdkProcessoAutocompleteModule} from '../../cdk-processo-autocomplete/cdk
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {MatExpansionModule} from '@cdk/angular/material';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';

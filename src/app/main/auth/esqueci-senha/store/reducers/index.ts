@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EsqueciSenhaReducers, EsqueciSenhaState } from './esqueci-senha.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {EsqueciSenhaReducers, EsqueciSenhaState} from './esqueci-senha.reducer';
 
 export interface EsqueciSenhaAppState
 {

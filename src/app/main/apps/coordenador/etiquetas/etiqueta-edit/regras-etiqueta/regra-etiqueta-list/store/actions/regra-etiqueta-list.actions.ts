@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_REGRAS_ETIQUETA = '[REGRA ETIQUETA COORDENADOR LIST] GET REGRAS ETIQUETA';
 export const GET_REGRAS_ETIQUETA_SUCCESS = '[REGRA ETIQUETA COORDENADOR LIST] GET REGRAS ETIQUETA SUCCESS';

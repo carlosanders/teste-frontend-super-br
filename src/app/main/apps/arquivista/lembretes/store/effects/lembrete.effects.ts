@@ -15,7 +15,6 @@ import {LembreteService} from '@cdk/services/lembrete.service';
 import {getRouterState, State} from '../../../../../../store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as LembreteActions from '../actions/lembrete.actions';
-import * as fromStore from '../../store';
 import {GetProcessos} from '../../../arquivista-list/store';
 
 @Injectable()

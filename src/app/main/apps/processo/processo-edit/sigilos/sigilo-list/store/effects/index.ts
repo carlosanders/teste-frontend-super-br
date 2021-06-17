@@ -1,4 +1,4 @@
-import { SigiloListEffect } from './sigilo-list.effects';
+import {SigiloListEffect} from './sigilo-list.effects';
 
 export const effects = [
     SigiloListEffect

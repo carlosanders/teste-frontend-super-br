@@ -1,10 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Documento} from '@cdk/models';
-import {documento as documentoSchema} from '@cdk/normalizr';
-import {ComponenteDigital} from '@cdk/models';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {DocumentoAppState, getDocumentoAppState, DocumentoState} from '../../../store/reducers';
+import {ComponenteDigital, Documento} from '@cdk/models';
+import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {DocumentoAppState, DocumentoState, getDocumentoAppState} from '../../../store/reducers';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);

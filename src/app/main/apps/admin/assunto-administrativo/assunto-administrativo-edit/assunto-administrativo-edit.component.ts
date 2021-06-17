@@ -1,14 +1,13 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {AssuntoAdministrativo, Pagination, Usuario} from '@cdk/models';
+import {AssuntoAdministrativo, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store';
-import {Back} from '../../../../../store';
+import {Back, getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'assunto-administrativo-edit',

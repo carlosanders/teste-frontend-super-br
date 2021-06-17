@@ -1,27 +1,27 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
-import {ComponenteDigital, Documento, Etiqueta, VinculacaoEtiqueta} from '@cdk/models';
+import {ComponenteDigital, Documento, Etiqueta, Pagination, Tarefa, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getRouterState} from 'app/store/reducers';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
-import {Usuario} from '@cdk/models';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';

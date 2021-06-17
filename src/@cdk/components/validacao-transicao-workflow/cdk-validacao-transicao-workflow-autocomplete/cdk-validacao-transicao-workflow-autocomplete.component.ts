@@ -1,8 +1,10 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component,
+    Input,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,8 +14,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models';
-import {ValidacaoTransicaoWorkflow} from '@cdk/models';
+import {Pagination, ValidacaoTransicaoWorkflow} from '@cdk/models';
 
 
 @Component({

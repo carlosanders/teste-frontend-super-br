@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_ESPECIE_TAREFA = '[SUPERADMIN ESPECIE TAREFA LIST] GET ESPECIE_TAREFA';
 export const GET_ESPECIE_TAREFA_SUCCESS = '[SUPERADMIN ESPECIE TAREFA LIST] GET ESPECIE_TAREFA SUCCESS';

@@ -9,8 +9,8 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { AssuntoAdministrativoService } from '@cdk/services/assunto-administrativo.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {CdkAssuntoFilterComponent} from './cdk-assunto-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';

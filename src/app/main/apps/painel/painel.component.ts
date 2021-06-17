@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 

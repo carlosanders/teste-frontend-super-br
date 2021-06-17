@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 
-import {TipoAcaoWorkflow, Usuario} from '@cdk/models';
+import {TipoAcaoWorkflow} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
@@ -67,7 +67,22 @@ export class TipoAcaoWorkflowListComponent implements OnInit {
             limit: params.limit,
             offset: params.offset,
             populate: this.pagination.populate,
-            context: this.pagination.context
+            context: params.context
+        }));
+    }
+
+    inatived(params): void {
+        this._store.dispatch(new fromStore.GetTipoAcaoWorkflow({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context,
         }));
     }
 

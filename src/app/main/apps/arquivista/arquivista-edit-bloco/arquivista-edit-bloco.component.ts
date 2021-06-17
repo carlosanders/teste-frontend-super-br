@@ -9,14 +9,13 @@ import {
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {Processo} from '@cdk/models';
-import {RouterStateUrl, getRouterState,  getOperacoesState} from '../../../../store';
+import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {getSelectedProcessos} from '../arquivista-list/store';
 import {Router} from '@angular/router';
 import * as fromStore from './store';
 import {CdkUtils} from '@cdk/utils';
-import * as OperacoesActions from '../../../../store/actions/operacoes.actions';
 
 @Component({
     selector: 'arquivista-edit-bloco',

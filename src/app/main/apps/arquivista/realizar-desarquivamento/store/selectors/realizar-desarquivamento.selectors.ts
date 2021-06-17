@@ -4,7 +4,11 @@ import {Processo} from '@cdk/models';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {processo as processoShema} from '@cdk/normalizr';
-import {getRealizarDesarquivamentoAppState, RealizarDesarquivamentoAppState, RealizarDesarquivamentoState} from '../reducers';
+import {
+    getRealizarDesarquivamentoAppState,
+    RealizarDesarquivamentoAppState,
+    RealizarDesarquivamentoState
+} from '../reducers';
 import {getProcessosIds} from '../../../arquivista-list/store';
 
 const schemaRealizarDesarquivamentoSelectors = createSchemaSelectors<Processo>(processoShema);

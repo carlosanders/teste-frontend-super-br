@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {WorkflowListAppState, WorkflowListState, getWorkflowListAppState} from '../reducers';
+import {getWorkflowListAppState, WorkflowListAppState, WorkflowListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {workflow as workflowSchema} from '@cdk/normalizr/index';

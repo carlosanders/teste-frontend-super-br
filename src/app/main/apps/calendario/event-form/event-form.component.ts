@@ -1,9 +1,9 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CalendarEvent } from 'angular-calendar';
+import {Component, Inject, ViewEncapsulation} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {CalendarEvent} from 'angular-calendar';
 
-import { CalendarEventModel } from 'app/main/apps/calendario/event.model';
+import {CalendarEventModel} from 'app/main/apps/calendario/event.model';
 
 @Component({
     selector     : 'calendar-event-form-dialog',

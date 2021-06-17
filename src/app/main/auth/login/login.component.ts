@@ -7,10 +7,14 @@ import * as fromStore from 'app/main/auth/login/store';
 import {getLoginAppState} from 'app/main/auth/login/store';
 import {environment} from '../../../../environments/environment';
 import {getRouterState} from '../../../store';
-import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
+import {getConfig, getErrorMessage, getLoadingConfig} from './store';
 import {LoginService} from './login.service';
 import {filter} from 'rxjs/operators';
 import packageInfo from '../../../../../package.json';
+import * as LoginActions from "./store/actions/login.actions";
+import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'login',
@@ -33,15 +37,21 @@ export class LoginComponent implements OnInit {
 
     version: string = packageInfo.version;
 
+    versionChanged$: Observable<string>;
+
     /**
      *
      * @param cdkConfigService
      * @param store
+     * @param _dialog
+     * @param _router
      * @param _loginService
      */
     constructor(
         private cdkConfigService: CdkConfigService,
         private store: Store<fromStore.LoginState>,
+        private _dialog: MatDialog,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.cdkConfigService.config = {
@@ -73,6 +83,7 @@ export class LoginComponent implements OnInit {
         this.config$ = this.store.pipe(select(getConfig));
         this.errorMessage$ = this.store.pipe(select(getErrorMessage));
         this.loadingConfig$ = this.store.pipe(select(getLoadingConfig));
+        this.versionChanged$ = this.store.pipe(select(fromStore.getVersionChanged));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -83,11 +94,34 @@ export class LoginComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        this.versionChanged$.pipe(
+            filter(changed => !!changed)
+        ).subscribe(versionChanged => {
+            const dialogRef = this._dialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Nova versão lançada',
+                    confirmLabel: 'Recarregar',
+                    hideCancel: true
+                },
+                disableClose: true
+            });
+
+            dialogRef
+                .componentInstance
+                .confirmMessage = 'Uma nova versão do sistema (' + versionChanged + ') está disponível. O sistema precisa ser recarregado.';
+
+            dialogRef.afterClosed().subscribe((result) => {
+                if (result) {
+                    this.store.dispatch(new LoginActions.Logout({url: this.routerState?.url}));
+                }
+            });
+        });
+
         this.store.dispatch(new fromStore.Unload());
 
         this.loading$.next(false);
 
-        this.getLoginState.subscribe((state) => {
+        this.getLoginState.subscribe(() => {
             this.loading$.next(false);
         });
 

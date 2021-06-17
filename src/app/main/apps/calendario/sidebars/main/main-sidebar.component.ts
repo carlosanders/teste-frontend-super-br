@@ -1,15 +1,21 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/calendario/store';
-import {Coordenador, Folder} from '@cdk/models';
+import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({

@@ -1,4 +1,4 @@
-import { CompartilhamentoListEffect } from './compartilhamento-list.effects';
+import {CompartilhamentoListEffect} from './compartilhamento-list.effects';
 
 export const effects = [
     CompartilhamentoListEffect

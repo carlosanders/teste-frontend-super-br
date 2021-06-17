@@ -4,11 +4,10 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {VinculacaoPessoaUsuarioAppState} from '../reducers';
 import * as fromStore from '../';
-import {getHasLoadedVinculacaoPessoaUsuario} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {getVinculacaoPessoaUsuarioListLoaded} from '../../vinculacao-pessoa-usuario-list/store/selectors';
 

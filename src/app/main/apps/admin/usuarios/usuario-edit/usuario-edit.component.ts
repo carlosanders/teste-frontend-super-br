@@ -1,8 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -13,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
-import {Usuario, Colaborador} from '@cdk/models';
+import {Colaborador, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';

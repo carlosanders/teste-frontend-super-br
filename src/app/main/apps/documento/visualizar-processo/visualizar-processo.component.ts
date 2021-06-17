@@ -11,9 +11,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {Back} from 'app/store';
-import {ComponenteDigital} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {Observable} from 'rxjs';
-import {Documento} from '@cdk/models';
 
 @Component({
     selector: 'visualizar-processo',

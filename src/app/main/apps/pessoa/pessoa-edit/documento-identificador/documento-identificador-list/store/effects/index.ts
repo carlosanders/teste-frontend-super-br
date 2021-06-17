@@ -1,4 +1,4 @@
-import { DocumentoIdentificadorListEffect } from './documento-identificador-list.effects';
+import {DocumentoIdentificadorListEffect} from './documento-identificador-list.effects';
 
 export const effects = [
     DocumentoIdentificadorListEffect

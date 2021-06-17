@@ -1,5 +1,5 @@
-import { CalendarEventAction } from 'angular-calendar';
-import { startOfDay, endOfDay } from 'date-fns';
+import {CalendarEventAction} from 'angular-calendar';
+import {endOfDay, startOfDay} from 'date-fns';
 import {Tarefa} from '@cdk/models';
 
 export class CalendarEventModel

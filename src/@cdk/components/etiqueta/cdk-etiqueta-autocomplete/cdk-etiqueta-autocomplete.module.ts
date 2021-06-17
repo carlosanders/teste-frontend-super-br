@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { EtiquetaService } from '@cdk/services/etiqueta.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {CdkEtiquetaAutocompleteComponent} from './cdk-etiqueta-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

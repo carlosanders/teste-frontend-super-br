@@ -1,11 +1,14 @@
 import {NgModule} from '@angular/core';
 import {
-    MatButtonModule, MatCheckboxModule, MatIconModule,
-    MatMenuModule, MatProgressSpinnerModule
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkDocumentoAvulsoCardComponent } from './cdk-documento-avulso-card.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkDocumentoAvulsoCardComponent} from './cdk-documento-avulso-card.component';
 
 @NgModule({
     declarations: [

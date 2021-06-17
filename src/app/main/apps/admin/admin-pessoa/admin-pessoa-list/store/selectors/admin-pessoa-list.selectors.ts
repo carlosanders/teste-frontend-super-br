@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getPessoaListAppState,
-    PessoaListAppState,
-    PessoaListState
-} from '../reducers';
+import {getPessoaListAppState, PessoaListAppState, PessoaListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {pessoa as pessoaSchema} from '@cdk/normalizr';

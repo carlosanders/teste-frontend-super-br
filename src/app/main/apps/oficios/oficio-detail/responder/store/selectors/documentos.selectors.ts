@@ -1,8 +1,8 @@
-import { createSelector } from '@ngrx/store';
-import { DocumentosState, getResponderAppState, ResponderAppState } from '../reducers';
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { Documento } from '@cdk/models';
-import { documento as documentoSchema } from '@cdk/normalizr';
+import {createSelector} from '@ngrx/store';
+import {DocumentosState, getResponderAppState, ResponderAppState} from '../reducers';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {Documento} from '@cdk/models';
+import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 

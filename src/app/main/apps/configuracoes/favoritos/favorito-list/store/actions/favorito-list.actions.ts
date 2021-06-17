@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_FAVORITOS = '[FAVORITO LIST] GET FAVORITOS';
 export const GET_FAVORITOS_SUCCESS = '[FAVORITO LIST] GET FAVORITOS SUCCESS';

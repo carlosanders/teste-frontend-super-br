@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefasAppState, TarefasAppState, RootSetorState} from '../reducers';
+import {getTarefasAppState, RootSetorState, TarefasAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {setor as setorSchema} from '@cdk/normalizr';

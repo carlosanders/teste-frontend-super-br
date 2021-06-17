@@ -1,9 +1,14 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import {ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoRepositorio} from '@cdk/models';
-import {ModalidadeRepositorio} from '@cdk/models';
-import {Documento} from '@cdk/models';
+import {
+    Documento,
+    ModalidadeOrgaoCentral,
+    ModalidadeRepositorio,
+    Setor,
+    Usuario,
+    VinculacaoRepositorio
+} from '@cdk/models';
 
 export class Repositorio {
 

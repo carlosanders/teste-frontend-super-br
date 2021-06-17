@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { GeneroRelatorio } from '../models/genero-relatorio.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {GeneroRelatorio} from '../models/genero-relatorio.model';
 
 export class GeneroRelatorioDataSource extends DataSource<GeneroRelatorio> {
 

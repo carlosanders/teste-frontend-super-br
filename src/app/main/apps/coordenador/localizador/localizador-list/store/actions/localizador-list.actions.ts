@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_LOCALIZADORES = '[COORDENADOR LOCALIZADOR LIST] GET LOCALIZADORES';
 export const GET_LOCALIZADORES_SUCCESS = '[COORDENADOR LOCALIZADOR LIST] GET LOCALIZADORES SUCCESS';

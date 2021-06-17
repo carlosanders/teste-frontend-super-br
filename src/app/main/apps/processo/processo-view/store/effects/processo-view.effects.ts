@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, withLatestFrom, switchMap, tap, concatMap} from 'rxjs/operators';
+import {catchError, concatMap, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
@@ -12,7 +12,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex, getPagination, getDocumentos} from '../selectors';
+import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 

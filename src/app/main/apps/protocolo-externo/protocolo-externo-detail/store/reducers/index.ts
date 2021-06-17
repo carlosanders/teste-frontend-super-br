@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoDetailReducer, ProcessoDetailState } from './Documento-detail.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DocumentoDetailReducer, ProcessoDetailState} from './Documento-detail.reducer';
 import {ProcessoReducer, ProcessoState} from './processo.reducer';
 
 export interface ProcessoDetailAppState

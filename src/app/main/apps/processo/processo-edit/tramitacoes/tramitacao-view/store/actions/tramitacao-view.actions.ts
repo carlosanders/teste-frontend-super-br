@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_GUIA_TRAMITACAO = '[TRAMITACAO] GET GUIA TRAMITACAO';
 export const GET_GUIA_TRAMITACAO_SUCCESS = '[TRAMITACAO] GET GUIA TRAMITACAO SUCCESS';

@@ -4,14 +4,15 @@ import {
     Component,
     EventEmitter,
     Input,
-    OnChanges, OnInit,
+    OnChanges,
+    OnInit,
     Output,
-    SimpleChange, ViewEncapsulation
+    SimpleChange,
+    ViewEncapsulation
 } from '@angular/core';
-import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Classificacao, Lembrete, Pagination, Processo} from '../../../models';
 import {cdkAnimations} from '../../../animations';
-import {classificacao} from '../../../normalizr';
 
 @Component({
     selector: 'cdk-processo-arquivista-form',

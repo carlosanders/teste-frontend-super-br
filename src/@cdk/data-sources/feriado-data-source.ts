@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Feriado } from '../models/feriado.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Feriado} from '../models/feriado.model';
 
 export class FeriadoDataSource extends DataSource<Feriado> {
 

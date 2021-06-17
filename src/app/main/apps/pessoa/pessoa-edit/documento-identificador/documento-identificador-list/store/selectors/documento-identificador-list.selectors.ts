@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getDocumentoIdentificadorListAppState,
     DocumentoIdentificadorListAppState,
-    DocumentoIdentificadorListState
+    DocumentoIdentificadorListState,
+    getDocumentoIdentificadorListAppState
 } from 'app/main/apps/pessoa/pessoa-edit/documento-identificador/documento-identificador-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

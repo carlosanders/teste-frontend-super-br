@@ -22,7 +22,6 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as fromGuards from './store/guards';
-import {ResolveGuard} from './store/guards';
 import {AssuntoAdministrativoEditStoreModule} from './store/store.module';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';

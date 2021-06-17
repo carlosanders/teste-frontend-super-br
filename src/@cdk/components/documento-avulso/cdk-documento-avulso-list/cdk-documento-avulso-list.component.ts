@@ -10,9 +10,9 @@ import {
     Output,
     ViewEncapsulation
 } from '@angular/core';
-import { cdkAnimations } from '@cdk/animations';
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
-import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-documento-avulso-list',

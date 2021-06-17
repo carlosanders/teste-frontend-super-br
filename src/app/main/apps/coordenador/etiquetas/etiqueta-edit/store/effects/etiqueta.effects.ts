@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, switchMap, tap} from 'rxjs/operators';
+import {catchError, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as EtiquetaActions from '../actions/etiqueta.actions';

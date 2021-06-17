@@ -110,7 +110,7 @@ export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, O
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

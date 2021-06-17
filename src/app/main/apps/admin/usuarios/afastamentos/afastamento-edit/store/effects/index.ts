@@ -1,4 +1,4 @@
-import { AfastamentoEditEffects } from './afastamento-edit.effects';
+import {AfastamentoEditEffects} from './afastamento-edit.effects';
 
 export const effects = [
     AfastamentoEditEffects

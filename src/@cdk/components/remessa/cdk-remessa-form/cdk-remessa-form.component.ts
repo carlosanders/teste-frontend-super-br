@@ -2,19 +2,22 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange, ViewChild, ViewContainerRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tramitacao} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {Processo} from '@cdk/models';
-import {Setor} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
+import {Pagination, Pessoa, Processo, Setor, Tramitacao} from '@cdk/models';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';

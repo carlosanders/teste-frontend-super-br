@@ -1,28 +1,30 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatListModule
+    MatTooltipModule
 } from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSidebarModule } from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
-import { ResponderComplementarCreateBlocoComponent } from './responder-complementar-create-bloco.component';
-import { RouterModule, Routes } from '@angular/router';
-import { AtividadeService } from '@cdk/services/atividade.service';
-import { LoginService } from 'app/main/auth/login/login.service';
-import { CdkComponenteDigitalCardListModule } from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {ResponderComplementarCreateBlocoComponent} from './responder-complementar-create-bloco.component';
+import {RouterModule, Routes} from '@angular/router';
+import {AtividadeService} from '@cdk/services/atividade.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
@@ -71,8 +73,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        AtividadeService,
-        LoginService,
+        AtividadeService
     ]
 })
 export class ResponderComplementarCreateBlocoModule {

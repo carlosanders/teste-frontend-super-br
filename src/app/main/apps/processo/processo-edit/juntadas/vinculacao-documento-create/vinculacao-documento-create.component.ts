@@ -1,22 +1,14 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Juntada, VinculacaoDocumento} from '@cdk/models';
+import {Juntada, Pagination, VinculacaoDocumento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store';
-import {Back} from '../../../../../../store';
+import {Back, getRouterState} from '../../../../../../store';
 
 @Component({
     selector: 'vinculacao-documento-create',

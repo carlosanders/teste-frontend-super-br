@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TemplatesEditReducer, TemplatesEditState } from './templates-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TemplatesEditReducer, TemplatesEditState} from './templates-edit.reducer';
 
 export interface TemplatesEditAppState
 {

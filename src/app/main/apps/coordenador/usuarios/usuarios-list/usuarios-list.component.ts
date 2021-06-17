@@ -2,8 +2,8 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
     OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -17,8 +17,6 @@ import {Usuario} from '@cdk/models';
 import {take, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-
-import {UnloadUsuarios} from './store';
 
 
 @Component({

@@ -6,7 +6,8 @@ import {Observable, of} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as ProcessoDownloadActions from 'app/main/apps/processo/processo-download/store/actions/processo-download.actions';
+import * as ProcessoDownloadActions
+    from 'app/main/apps/processo/processo-download/store/actions/processo-download.actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -70,7 +71,7 @@ export class ProcessoDownloadEffect {
                     this._store.dispatch(new ProcessoDownloadActions.DownloadProcessoSuccess(response));
 
                     this._snackBar.open(
-                        'O download será gerado em segundo plano',
+                        'O download será gerado em segundo plano e você será notificado quando pronto!',
                         'Fechar',
                         {
                             duration: 3000,

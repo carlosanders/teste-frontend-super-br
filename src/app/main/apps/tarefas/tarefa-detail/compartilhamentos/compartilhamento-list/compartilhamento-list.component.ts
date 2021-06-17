@@ -1,22 +1,22 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, OnDestroy,
+    Component,
+    OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Compartilhamento, Documento} from '@cdk/models';
+import {Compartilhamento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
+import {getCompartilhamentoListLoaded} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
 import {getRouterState} from '../../../../../../store/reducers';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {LoginService} from '../../../../../auth/login/login.service';
-import {getCompartilhamentoListLoaded} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
 import {CdkUtils} from '@cdk/utils';
 
 @Component({

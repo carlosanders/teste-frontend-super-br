@@ -6,9 +6,10 @@ import {
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatToolbarModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -51,8 +52,7 @@ const routes: Routes = [
         CdkSidebarModule
     ],
     providers: [
-        ProcessoService,
-        LoginService,
+        ProcessoService
     ]
 })
 export class ArquivistaOperacoesBlocoModule {

@@ -1,12 +1,14 @@
 import {NgModule} from '@angular/core';
 import {
-    MatButtonModule, MatFormFieldModule,
-    MatIconModule, MatProgressSpinnerModule, MatRadioModule
-
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatRadioModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkRecebimentoFormComponent } from './cdk-recebimento-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkRecebimentoFormComponent} from './cdk-recebimento-form.component';
 import {MatOptionModule} from '@angular/material/core';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';

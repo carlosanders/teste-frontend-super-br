@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { VisibilidadeEditReducer, VisibilidadeEditState } from './visibilidade-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {VisibilidadeEditReducer, VisibilidadeEditState} from './visibilidade-edit.reducer';
 
 export interface VisibilidadeEditAppState
 {

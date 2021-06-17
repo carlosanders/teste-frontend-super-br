@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { NumeroUnicoDocumentoEditReducer, NumeroUnicoDocumentoEditState } from './numero-unico-documento-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {NumeroUnicoDocumentoEditReducer, NumeroUnicoDocumentoEditState} from './numero-unico-documento-edit.reducer';
 
 export interface NumeroUnicoDocumentoEditAppState
 {

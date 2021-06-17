@@ -1,7 +1,7 @@
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {MediaChange, MediaObserver} from '@angular/flex-layout';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'

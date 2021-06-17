@@ -1,11 +1,6 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
-import {Usuario, Workflow} from '@cdk/models';
-import {EspecieTarefa} from '@cdk/models';
-import {Processo} from '@cdk/models';
-import {Setor} from '@cdk/models';
-import {VinculacaoEtiqueta} from '@cdk/models';
-import {Folder} from '@cdk/models';
+import {Exclude, Transform, Type} from 'class-transformer';
+import {EspecieTarefa, Folder, Processo, Setor, Usuario, VinculacaoEtiqueta, Workflow} from '@cdk/models';
 
 export class Tarefa {
 

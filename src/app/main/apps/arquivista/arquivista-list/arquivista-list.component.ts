@@ -2,9 +2,11 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ElementRef,
+    Component,
+    ElementRef,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
@@ -12,9 +14,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
-import {Lembrete, ModalidadeTransicao, Processo} from '@cdk/models';
+import {ModalidadeTransicao, Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
+import {ToggleMaximizado} from 'app/main/apps/arquivista/arquivista-list/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/arquivista/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
@@ -22,7 +25,6 @@ import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
-import {ToggleMaximizado} from 'app/main/apps/arquivista/arquivista-list/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {getTransicaoProcessoIds} from '../transicao-arquivista-bloco/store';
 

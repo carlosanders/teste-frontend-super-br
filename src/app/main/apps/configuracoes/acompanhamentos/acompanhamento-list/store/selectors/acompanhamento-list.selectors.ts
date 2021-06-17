@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getAcompanhamentoListAppState,
-    AcompanhamentoListAppState,
-    AcompanhamentoListState
-} from '../reducers';
+import {AcompanhamentoListAppState, AcompanhamentoListState, getAcompanhamentoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';

@@ -1,15 +1,21 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
-import {Colaborador, Coordenador} from '@cdk/models';
+import {Colaborador, Lotacao, Setor, Usuario} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Lotacao, Setor, Usuario} from '@cdk/models';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 

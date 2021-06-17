@@ -1,4 +1,5 @@
-import * as RelatorioDetailActions from 'app/main/apps/relatorios/relatorio-detail/store/actions/relatorio-detail.actions';
+import * as RelatorioDetailActions
+    from 'app/main/apps/relatorios/relatorio-detail/store/actions/relatorio-detail.actions';
 
 export interface RelatorioDetailState {
     relatorioId: number;

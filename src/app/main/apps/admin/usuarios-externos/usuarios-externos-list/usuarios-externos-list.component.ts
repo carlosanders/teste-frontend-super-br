@@ -1,13 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import * as fromStorePessoaUsuarioList from '../vinculacao-pessoa-usuario/vinculacao-pessoa-usuario-list/store';
 import {getRouterState} from '../../../../../store/reducers';
-import {UnloadUsuariosExternos} from './store';
 
 @Component({
     selector: 'usuarios-externos-list',

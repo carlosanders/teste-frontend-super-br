@@ -1,4 +1,15 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeTransicao, Processo} from '@cdk/models';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';

@@ -1,4 +1,4 @@
-import { VisibilidadeListEffect } from './visibilidade-list.effects';
+import {VisibilidadeListEffect} from './visibilidade-list.effects';
 
 export const effects = [
     VisibilidadeListEffect

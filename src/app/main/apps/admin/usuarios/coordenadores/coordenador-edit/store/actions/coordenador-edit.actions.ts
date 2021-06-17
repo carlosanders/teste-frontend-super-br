@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_COORDENADOR = '[ADMIN COORDENADOR EDIT] CREATE COORDENADOR';
 export const CREATE_COORDENADOR_SUCCESS = '[ADMIN COORDENADOR EDIT] CREATE COORDENADOR SUCCESS';

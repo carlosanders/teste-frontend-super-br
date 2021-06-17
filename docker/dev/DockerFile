@@ -1,5 +1,5 @@
 # pulled from ubuntu
-FROM node:12.22.1-alpine as base
+FROM node:14.15.5-alpine as base
 
 RUN apk add tzdata
 

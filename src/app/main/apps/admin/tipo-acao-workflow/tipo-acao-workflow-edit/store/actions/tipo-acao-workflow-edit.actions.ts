@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TIPO_ACAO_WORKFLOW = '[ADMIN TIPO_ACAO_WORKFLOW EDIT] CREATE TIPO_ACAO_WORKFLOW';
 export const CREATE_TIPO_ACAO_WORKFLOW_SUCCESS = '[ADMIN TIPO_ACAO_WORKFLOW EDIT] CREATE TIPO_ACAO_WORKFLOW SUCCESS';

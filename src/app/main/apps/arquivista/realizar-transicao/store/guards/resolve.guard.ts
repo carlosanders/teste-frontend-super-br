@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStoreProcesso from 'app/main/apps/processo/store';
 import {getRouterState} from 'app/store/reducers';
 import {getProcessoLoaded} from '../../../../processo/store';

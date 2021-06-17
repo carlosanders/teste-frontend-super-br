@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -131,7 +137,7 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -150,6 +156,9 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -175,6 +184,7 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -244,7 +254,7 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -265,6 +275,23 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
                 context: {mostrarApagadas: true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
             });
         }
         else {

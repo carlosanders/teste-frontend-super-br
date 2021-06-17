@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CdkModalidadeAcaoEtiquetaFormComponent } from './cdk-modalidade-acao-etiqueta-form.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CdkModalidadeAcaoEtiquetaFormComponent} from './cdk-modalidade-acao-etiqueta-form.component';
 import {CdkSharedModule} from '../../../shared.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -15,7 +15,6 @@ import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkModalidadeEtiquetaAutocompleteModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
 import {CdkModalidadeEtiquetaGridsearchModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-gridsearch/cdk-modalidade-etiqueta-gridsearch.module';
-
 
 
 @NgModule({

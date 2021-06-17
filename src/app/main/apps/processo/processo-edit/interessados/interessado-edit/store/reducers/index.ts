@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { InteressadoEditReducer, InteressadoEditState } from './interessado-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {InteressadoEditReducer, InteressadoEditState} from './interessado-edit.reducer';
 
 export interface InteressadoEditAppState
 {

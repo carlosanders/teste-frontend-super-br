@@ -1,20 +1,12 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-import {Processo} from '@cdk/models';
+import {Colaborador, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {SaveProcesso} from '../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Colaborador} from '@cdk/models';
-import {Pagination} from '@cdk/models';
 import {Back} from '../../../../../store';
 import {getProcesso} from '../../../processo/store';
 

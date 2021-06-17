@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -16,8 +17,14 @@ import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store';
 import {getRepositorioComponenteDigital} from '../../documento-edit/inteligencia/store';
 import {getRepositorioComponenteDigital as getRepositorioComponenteDigitalAvulso} from '../../documento-avulso-edit/inteligencia/store/selectors';
-import {SetQueryRepositorios, SetRepositorioComponenteDigital} from 'app/main/apps/documento/documento-edit/inteligencia/store/actions';
-import {SetQueryRepositorios as SetQueryRepositoriosAvulso, SetRepositorioComponenteDigital as SetRepositorioComponenteDigitalAvulso} from 'app/main/apps/documento/documento-avulso-edit/inteligencia/store/actions';
+import {
+    SetQueryRepositorios,
+    SetRepositorioComponenteDigital
+} from 'app/main/apps/documento/documento-edit/inteligencia/store/actions';
+import {
+    SetQueryRepositorios as SetQueryRepositoriosAvulso,
+    SetRepositorioComponenteDigital as SetRepositorioComponenteDigitalAvulso
+} from 'app/main/apps/documento/documento-avulso-edit/inteligencia/store/actions';
 import {Pagination} from '@cdk/models/pagination';
 
 @Component({

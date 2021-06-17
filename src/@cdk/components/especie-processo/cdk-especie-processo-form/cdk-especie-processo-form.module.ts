@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CdkEspecieProcessoFormComponent } from './cdk-especie-processo-form.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CdkEspecieProcessoFormComponent} from './cdk-especie-processo-form.component';
 import {CdkSharedModule} from '../../../shared.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -18,7 +18,6 @@ import {CdkClassificacaoAutocompleteModule} from '../../classificacao/cdk-classi
 import {CdkClassificacaoGridsearchModule} from '../../classificacao/cdk-classificacao-autocomplete/cdk-classificacao-gridsearch/cdk-classificacao-gridsearch.module';
 import {CdkModalidadeMeioAutocompleteModule} from '../../modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
 import {CdkModalidadeMeioGridsearchModule} from '../../modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-gridsearch/cdk-modalidade-meio-gridsearch.module';
-
 
 
 @NgModule({

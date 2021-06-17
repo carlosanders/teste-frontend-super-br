@@ -1,14 +1,25 @@
 import {
-    ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output, Renderer2, ViewEncapsulation
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    HostListener,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+    Renderer2,
+    ViewEncapsulation
 } from '@angular/core';
-import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations';
-import { MediaObserver } from '@angular/flex-layout';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {animate, AnimationBuilder, AnimationPlayer, style} from '@angular/animations';
+import {MediaObserver} from '@angular/flex-layout';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
-import { CdkSidebarService } from './sidebar.service';
-import { CdkMatchMediaService } from '@cdk/services/match-media.service';
-import { CdkConfigService } from '@cdk/services/config.service';
+import {CdkSidebarService} from './sidebar.service';
+import {CdkMatchMediaService} from '@cdk/services/match-media.service';
+import {CdkConfigService} from '@cdk/services/config.service';
 
 @Component({
     selector     : 'cdk-sidebar',

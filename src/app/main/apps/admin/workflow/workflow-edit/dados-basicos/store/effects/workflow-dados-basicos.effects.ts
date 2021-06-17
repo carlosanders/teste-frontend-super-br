@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as WorkflowDadosBasicos from '../actions/workflow-dados-basicos.actions';
-import * as WorkflowListActions from '../../../../workflow-list/store/actions/workflow-list.actions';
 
-import {AddData, SetData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {workflow as workflowSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

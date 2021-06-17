@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
     MatRadioModule,
-    MatTooltipModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RegraEtiquetaService} from '@cdk/services/regra-etiqueta.service';

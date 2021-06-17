@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as AcaoEditActions from '../actions/acao-transicao-workflow-edit.actions';
-import * as AcaoListActions from '../../../acao-transicao-workflow-list/store/actions/acao-transicao-workflow-list.actions';
+import * as AcaoListActions
+    from '../../../acao-transicao-workflow-list/store/actions/acao-transicao-workflow-list.actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {acaoTransicaoWorkflow as acaoSchema} from '@cdk/normalizr';
 import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';

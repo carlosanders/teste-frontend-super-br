@@ -1,4 +1,4 @@
-import { NotificacaoListEffect } from './notificacao-list.effects';
+import {NotificacaoListEffect} from './notificacao-list.effects';
 
 export const effects = [
     NotificacaoListEffect

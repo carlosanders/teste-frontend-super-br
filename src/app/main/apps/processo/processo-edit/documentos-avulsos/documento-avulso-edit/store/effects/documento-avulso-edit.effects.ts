@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentoAvulsoEditActions from '../actions/documento-avulso-edit.actions';
-import * as DocumentoAvulsoListActions from '../../../documento-avulso-list/store/actions/documento-avulso-list.actions';
+import * as DocumentoAvulsoListActions
+    from '../../../documento-avulso-list/store/actions/documento-avulso-list.actions';
 
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {AddData} from '@cdk/ngrx-normalizr';

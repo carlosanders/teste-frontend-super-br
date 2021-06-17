@@ -1,14 +1,15 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
-    Input, OnInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
 
-import {Acao} from '@cdk/models';
+import {Acao, Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-acao-list-item',

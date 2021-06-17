@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getProcessoCapaAppState, ProcessoCapaAppState, InteressadoState} from '../reducers';
+import {getProcessoCapaAppState, InteressadoState, ProcessoCapaAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {interessado as interessadoSchema} from '@cdk/normalizr';

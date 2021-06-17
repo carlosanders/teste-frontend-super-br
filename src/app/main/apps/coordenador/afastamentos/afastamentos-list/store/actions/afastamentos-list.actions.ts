@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_AFASTAMENTOS = '[COORDENADOR AFASTAMENTOS LIST] GET AFASTAMENTOS';
 export const GET_AFASTAMENTOS_SUCCESS = '[COORDENADOR AFASTAMENTOS LIST] GET AFASTAMENTOS SUCCESS';

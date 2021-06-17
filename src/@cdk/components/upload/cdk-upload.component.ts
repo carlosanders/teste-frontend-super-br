@@ -1,26 +1,22 @@
 import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    ViewChild,
     ChangeDetectionStrategy,
-    ViewEncapsulation, ChangeDetectorRef
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
-import {
-    HttpClient, HttpRequest,
-    HttpEventType, HttpErrorResponse
-} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
 import {of, Subscription} from 'rxjs';
 import {catchError, last, map, tap} from 'rxjs/operators';
 import {MatPaginator, MatSort, MatTableDataSource} from '@cdk/angular/material';
 import {cdkAnimations} from '@cdk/animations';
 import {environment} from 'environments/environment';
 import {classToPlain} from 'class-transformer';
-import {ComponenteDigital} from '@cdk/models';
-import {Processo} from '@cdk/models';
-import {Tarefa} from '@cdk/models';
+import {ComponenteDigital, Processo, Tarefa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-upload',

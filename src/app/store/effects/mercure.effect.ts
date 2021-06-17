@@ -1,18 +1,15 @@
 import {Injectable} from '@angular/core';
-import {Effect, Actions, ofType} from '@ngrx/effects';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 import {tap} from 'rxjs/operators';
 import * as MercureActions from 'app/store/actions/mercure.action';
 import {Observable} from 'rxjs';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Notificacao, OrigemDados} from '@cdk/models';
-import {
-    notificacao as notificacaoSchema,
-    origemDados as origemDadosSchema
-} from '@cdk/normalizr';
+import {notificacao as notificacaoSchema, origemDados as origemDadosSchema} from '@cdk/normalizr';
 import {plainToClass} from 'class-transformer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
-import { GetNotificacaoSuccess, SetCount, SnackbarExibirNotificacao } from '../actions';
+import {GetNotificacaoSuccess, SetCount, SnackbarExibirNotificacao} from '../actions';
 
 @Injectable()
 export class MercureEffects {

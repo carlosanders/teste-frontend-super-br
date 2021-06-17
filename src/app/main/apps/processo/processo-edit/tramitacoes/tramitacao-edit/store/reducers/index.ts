@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TramitacaoEditReducer, TramitacaoEditState } from './tramitacao-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TramitacaoEditReducer, TramitacaoEditState} from './tramitacao-edit.reducer';
 
 export interface TramitacaoEditAppState
 {

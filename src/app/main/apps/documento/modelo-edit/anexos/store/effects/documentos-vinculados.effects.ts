@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.actions';
 
@@ -11,10 +11,9 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 

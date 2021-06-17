@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
-import { CookieService } from 'ngx-cookie-service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {MediaObserver} from '@angular/flex-layout';
+import {CookieService} from 'ngx-cookie-service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
-import { CdkMatchMediaService } from '@cdk/services/match-media.service';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
+import {CdkMatchMediaService} from '@cdk/services/match-media.service';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
 
 @Component({
     selector   : 'cdk-shortcuts',

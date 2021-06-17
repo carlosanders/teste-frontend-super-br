@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getRepositoriosEspecieSetorAppState, RepositoriosEspecieSetorAppState, RepositoriosEspecieSetorState} from '../reducers';
+import {
+    getRepositoriosEspecieSetorAppState,
+    RepositoriosEspecieSetorAppState,
+    RepositoriosEspecieSetorState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Repositorio} from '@cdk/models';
 import {repositorio as repositorioSchema} from '@cdk/normalizr';

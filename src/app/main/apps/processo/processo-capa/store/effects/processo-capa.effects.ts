@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoCapaActions from '../actions';
@@ -10,11 +10,13 @@ import * as ProcessoCapaActions from '../actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
 import {Assunto, Compartilhamento, Interessado, Processo, Usuario, VinculacaoProcesso} from '@cdk/models';
-import {compartilhamento as acompanhamentoSchema, processo as processoSchema} from '@cdk/normalizr';
-
-import {assunto as assuntoSchema} from '@cdk/normalizr';
-import {interessado as interessadoSchema} from '@cdk/normalizr';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
+import {
+    assunto as assuntoSchema,
+    compartilhamento as acompanhamentoSchema,
+    interessado as interessadoSchema,
+    processo as processoSchema,
+    vinculacaoProcesso as vinculacaoProcessoSchema
+} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
@@ -109,7 +111,11 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.GetAssuntos>(ProcessoCapaActions.GET_ASSUNTOS),
-                switchMap(action => this._assuntoService.query(
+                switchMap(action => {
+                    const contexto = this.routerState.params.chaveAcessoHandle ? {
+                        chaveAcesso: this.routerState.params.chaveAcessoHandle
+                    } : {};
+                    return this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -117,7 +123,9 @@ export class ProcessoCapaEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))),
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(contexto));
+                }),
                 mergeMap(response => [
                     new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
                     new ProcessoCapaActions.GetAssuntosSuccess({
@@ -148,7 +156,11 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.GetInteressados>(ProcessoCapaActions.GET_INTERESSADOS),
-                switchMap(action => this._interessadoService.query(
+                switchMap(action => {
+                    const contexto = this.routerState.params.chaveAcessoHandle ? {
+                        chaveAcesso: this.routerState.params.chaveAcessoHandle
+                    } : {};
+                    return this._interessadoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -156,7 +168,9 @@ export class ProcessoCapaEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))),
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(contexto));
+                }),
                 mergeMap(response => [
                     new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
                     new ProcessoCapaActions.GetInteressadosSuccess({
@@ -187,7 +201,11 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.GetVinculacoesProcessos>(ProcessoCapaActions.GET_VINCULACOES_PROCESSOS),
-                switchMap(action => this._vinculacaoProcessoService.query(
+                switchMap(action => {
+                    const contexto = this.routerState.params.chaveAcessoHandle ? {
+                        chaveAcesso: this.routerState.params.chaveAcessoHandle
+                    } : {};
+                    return this._vinculacaoProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -195,7 +213,9 @@ export class ProcessoCapaEffect {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))),
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(contexto));
+                }),
                 mergeMap(response => [
                     new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
                     new ProcessoCapaActions.GetVinculacoesProcessosSuccess({

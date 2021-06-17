@@ -6,11 +6,7 @@ import {createSelector, MemoizedSelector} from '@ngrx/store';
 import {denormalize, schema} from '@cdk/normalizr-src';
 
 import {NormalizeActionTypes} from '../actions/normalize';
-import {
-    NormalizeChildActionPayload,
-    NormalizeRemoveChildActionPayload
-} from '../index';
-import {type} from 'os';
+import {NormalizeChildActionPayload, NormalizeRemoveChildActionPayload} from '../index';
 
 /**
  * The state key under which the normalized state will be stored

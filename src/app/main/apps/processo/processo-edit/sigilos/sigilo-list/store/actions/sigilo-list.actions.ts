@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_SIGILOS = '[SIGILO LIST] GET SIGILOS';
 export const GET_SIGILOS_SUCCESS = '[SIGILO LIST] GET SIGILOS SUCCESS';

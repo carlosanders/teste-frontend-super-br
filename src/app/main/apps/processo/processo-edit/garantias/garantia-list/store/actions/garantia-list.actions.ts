@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_GARANTIAS = '[GARANTIA LIST] GET GARANTIAS';
 export const GET_GARANTIAS_SUCCESS = '[GARANTIA LIST] GET GARANTIAS SUCCESS';

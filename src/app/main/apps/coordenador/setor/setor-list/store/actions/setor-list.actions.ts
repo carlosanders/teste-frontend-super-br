@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_SETORES = '[COORDENADOR SETOR LIST] GET SETORES';
 export const GET_SETORES_SUCCESS = '[COORDENADOR SETOR LIST] GET SETORES SUCCESS';

@@ -1,10 +1,6 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 
-import { Topico } from 'ajuda/topico';
+import {Topico} from 'ajuda/topico';
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({

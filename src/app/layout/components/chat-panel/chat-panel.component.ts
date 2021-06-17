@@ -1,9 +1,11 @@
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef, EventEmitter,
+    ElementRef,
+    EventEmitter,
     OnDestroy,
-    OnInit, Output,
+    OnInit,
+    Output,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -20,15 +22,16 @@ import {
     GetChat,
     GetChatIncrement,
     GetMensagens,
-    GetMensagensIncrement, LimparMensagensNaoLidas,
-    OpenChat, UnloadChatMensagens
-} from "./store";
+    GetMensagensIncrement,
+    LimparMensagensNaoLidas,
+    OpenChat,
+    UnloadChatMensagens
+} from './store';
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
 import {filter, takeUntil} from "rxjs/operators";
 import {MercureService} from "@cdk/services/mercure.service";
-import * as loginStoreSelectores from "../../../main/auth/login/store/selectors";
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
 import {ChatUtils} from "./utils/chat.utils";
 
@@ -253,27 +256,13 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             this.scrollChatMensagensToBottom();
         });
 
-        // this._cdkSidebarService.getSidebar('chatPanel').openedChanged.subscribe((isOpen) => {
-        //     if (!isOpen) {
-        //         this.fecharChat();
-        //     }
-        // });
-
         this.chatList$.subscribe(chatList => this.chatList = chatList);
-
         this.chatPaginator$.subscribe(paginator => this.chatPaginator = paginator);
         this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
-
-        if (!!this._loginService.getUserProfile()) {
-            this.usuarioLogado = this._loginService.getUserProfile();
-            this.usuarioAutenticado = true;
-            this.getChatsUsuario();
-        }
     }
 
     private getChatsUsuario(keyword:string = ''): void
     {
-        this._mercureService.subscribe(this.usuarioLogado.username+'/chat');
         let gridFilter = {};
 
         if (keyword.length > 0) {

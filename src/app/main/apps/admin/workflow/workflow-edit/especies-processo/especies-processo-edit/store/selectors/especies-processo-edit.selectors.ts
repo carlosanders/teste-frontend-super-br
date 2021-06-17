@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getWorkflowEspeciesEditAppState, WorkflowEspeciesProcessoEditAppState, WorkflowEspeciesProcessoEditState} from '../reducers';
+import {
+    getWorkflowEspeciesEditAppState,
+    WorkflowEspeciesProcessoEditAppState,
+    WorkflowEspeciesProcessoEditState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {transicaoWorkflow as transicaoWorkflowSchema} from '@cdk/normalizr';
 import {Workflow} from '@cdk/models';

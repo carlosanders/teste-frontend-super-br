@@ -8,7 +8,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {ComponenteDigitalStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {MatButtonModule, MatIconModule} from '@cdk/angular/material';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {modulesConfig} from 'modules/modules-config';
 import {MatTooltipModule} from '@angular/material/tooltip';
 

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_VINCULACOES_USUARIOS = '[VINCULACAO USUARIO LIST] GET VINCULACOES USUARIOS';
 export const GET_VINCULACOES_USUARIOS_SUCCESS = '[VINCULACAO USUARIO LIST] GET VINCULACOES USUARIOS SUCCESS';

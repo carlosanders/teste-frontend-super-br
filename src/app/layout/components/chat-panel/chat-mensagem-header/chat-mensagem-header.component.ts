@@ -1,7 +1,13 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnInit, Output, SimpleChanges,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
 import {Chat} from "../../../../../@cdk/models";

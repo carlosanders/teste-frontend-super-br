@@ -2,17 +2,17 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as EspecieProcessoEditActions from '../actions/especie-processo-edit.actions';
-import * as EspecieProcessoListActions from '../../../especie-processo-list/store/actions/especie-processo-list.actions';
+import * as EspecieProcessoListActions
+    from '../../../especie-processo-list/store/actions/especie-processo-list.actions';
 
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {especieProcesso as especieProcessoSchema} from '@cdk/normalizr';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr';
-import {EspecieProcesso, Colaborador} from '@cdk/models';
+import {EspecieProcesso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getMunicipioListAppState,
-    MunicipioListAppState,
-    MunicipioListState
-} from '../reducers';
+import {getMunicipioListAppState, MunicipioListAppState, MunicipioListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {municipio as municipioSchema} from '@cdk/normalizr';

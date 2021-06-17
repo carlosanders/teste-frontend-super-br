@@ -1,4 +1,4 @@
-import { JuntadaCreateBlocoEffect } from './juntada-create-bloco.effects';
+import {JuntadaCreateBlocoEffect} from './juntada-create-bloco.effects';
 
 export const effects = [
     JuntadaCreateBlocoEffect

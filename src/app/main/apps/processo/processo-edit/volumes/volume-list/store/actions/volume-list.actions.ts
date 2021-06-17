@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_VOLUMES = '[VOLUME LIST] GET VOLUMES';
 export const GET_VOLUMES_SUCCESS = '[VOLUME LIST] GET VOLUMES SUCCESS';

@@ -4,18 +4,18 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatDividerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule,
-    MatTooltipModule,
-    MatDividerModule,
-    MatProgressBarModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -178,7 +178,6 @@ modulesConfig.forEach((module) => {
         EspecieTarefaService,
         SetorService,
         UsuarioService,
-        LoginService,
         LotacaoService,
         fromGuards.ResolveGuard,
         AssuntoService,

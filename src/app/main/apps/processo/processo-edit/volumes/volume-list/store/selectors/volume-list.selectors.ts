@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getVolumeListAppState,
-    VolumeListAppState,
-    VolumeListState
-} from '../reducers';
+import {getVolumeListAppState, VolumeListAppState, VolumeListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {volume as volumeSchema} from '@cdk/normalizr';

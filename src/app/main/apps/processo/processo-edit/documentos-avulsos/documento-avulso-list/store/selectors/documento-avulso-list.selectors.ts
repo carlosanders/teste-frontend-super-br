@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getDocumentoAvulsoListAppState,
     DocumentoAvulsoListAppState,
-    DocumentoAvulsoListState
+    DocumentoAvulsoListState,
+    getDocumentoAvulsoListAppState
 } from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

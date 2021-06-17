@@ -1,12 +1,14 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
-    Input, OnInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
 
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 
 @Component({
     selector: 'cdk-documento-avulso-list-item',

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { SegurancaReducer, SegurancaState } from './seguranca.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {SegurancaReducer, SegurancaState} from './seguranca.reducer';
 
 export interface SegurancaAppState
 {

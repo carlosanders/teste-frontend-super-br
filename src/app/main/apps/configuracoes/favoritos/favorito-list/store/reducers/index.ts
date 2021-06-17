@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { FavoritoListReducer, FavoritoListState } from './favorito-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {FavoritoListReducer, FavoritoListState} from './favorito-list.reducer';
 
 export interface FavoritoListAppState
 {

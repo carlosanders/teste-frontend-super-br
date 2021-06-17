@@ -1,8 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoReducer, DocumentoState } from './documento.reducer';
-import { RepositoriosReducer, RepositoriosState } from './repositorios.reducer';
-import { DocumentosVinculadosReducer, DocumentosVinculadosState } from './documentos-vinculados.reducer';
-import { ComponenteDigitalReducer, ComponenteDigitalState } from './componentes-digitais.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DocumentoReducer, DocumentoState} from './documento.reducer';
+import {RepositoriosReducer, RepositoriosState} from './repositorios.reducer';
+import {DocumentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
+import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
 import {AssinaturasReducer, AssinaturasState} from './assinaturas.reducer';
 
 export interface DocumentoAppState

@@ -8,19 +8,19 @@ import {
     Input,
     OnInit,
     Output,
-    Renderer2,
-    ViewChildren, ViewEncapsulation
+    ViewChildren,
+    ViewEncapsulation
 } from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
-import {catchError, debounceTime, distinctUntilChanged, finalize} from 'rxjs/operators';
+import {catchError, finalize} from 'rxjs/operators';
 import {Observable, of, Subject} from 'rxjs';
 import {
-    CdkAssuntoAdministrativoTreeService,
-    AssuntoAdministrativoNode
+    AssuntoAdministrativoNode,
+    CdkAssuntoAdministrativoTreeService
 } from './services/cdk-assunto-administrativo-tree.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AssuntoAdministrativo, Pagination, Processo} from '../../../models';
+import {AssuntoAdministrativo, Pagination} from '../../../models';
 import {AssuntoAdministrativoService} from '../../../services/assunto-administrativo.service';
 import {cdkAnimations} from '../../../animations';
 

@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefasAppState, TarefasAppState, RootLotacaoListState} from '../reducers';
+import {getTarefasAppState, RootLotacaoListState, TarefasAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr';

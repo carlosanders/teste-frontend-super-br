@@ -1,4 +1,4 @@
-import { AdminPessoaEditEffects } from './admin-pessoa-edit.effects';
+import {AdminPessoaEditEffects} from './admin-pessoa-edit.effects';
 
 export const effects = [
     AdminPessoaEditEffects

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_RELACIONAMENTO = '[RELACIONAMENTO] CREATE RELACIONAMENTO';
 export const CREATE_RELACIONAMENTO_SUCCESS = '[RELACIONAMENTO] CREATE RELACIONAMENTO SUCCESS';

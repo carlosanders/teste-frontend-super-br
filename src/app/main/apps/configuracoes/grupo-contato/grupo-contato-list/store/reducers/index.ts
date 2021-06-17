@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { GrupoContatoListReducer, GrupoContatoListState } from './grupo-contato-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {GrupoContatoListReducer, GrupoContatoListState} from './grupo-contato-list.reducer';
 
 export interface GrupoContatoListAppState
 {

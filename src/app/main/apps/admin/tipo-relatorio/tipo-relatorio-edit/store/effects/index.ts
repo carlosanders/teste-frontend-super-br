@@ -1,4 +1,4 @@
-import { TipoRelatorioEditEffects } from './tipo-relatorio-edit.effects';
+import {TipoRelatorioEditEffects} from './tipo-relatorio-edit.effects';
 
 export const effects = [
     TipoRelatorioEditEffects

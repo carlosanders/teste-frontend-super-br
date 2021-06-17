@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {RepositoriosReducer, RepositoriosState} from './repositorios.reducer';
 import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
 

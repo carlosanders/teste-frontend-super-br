@@ -75,7 +75,6 @@ const routes: Routes = [
     providers: [
         CalendarService,
         TarefaService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     entryComponents: [

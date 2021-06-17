@@ -9,16 +9,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Tarefa} from '@cdk/models';
+import {Assunto, Processo, Tarefa} from '@cdk/models';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-
-import {Assunto, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {Router} from '@angular/router';
 
 @Component({
@@ -232,8 +230,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     }
 
     view(emissao: {id: number; chaveAcesso?: string}): void {
-        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
-        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
+        const chaveAcesso = emissao.chaveAcesso ? '/chave/' + emissao.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']);
     }
 
     acompanharProcesso(checked, processo): void {

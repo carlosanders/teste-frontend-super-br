@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
 import {GrupoContato, Setor, Usuario} from '@cdk/models';
 import {TipoContato} from './tipo-contato.model';

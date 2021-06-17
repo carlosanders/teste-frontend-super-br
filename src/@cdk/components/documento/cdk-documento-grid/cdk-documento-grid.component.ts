@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -11,9 +17,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {DocumentoDataSource} from '@cdk/data-sources/documento-data-source';
-import {Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {ComponenteDigital} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
@@ -228,7 +233,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

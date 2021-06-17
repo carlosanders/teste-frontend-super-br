@@ -2,19 +2,17 @@ import {Injectable, SecurityContext} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap, map} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {ComponenteDigital} from '@cdk/models';
+import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../actions';

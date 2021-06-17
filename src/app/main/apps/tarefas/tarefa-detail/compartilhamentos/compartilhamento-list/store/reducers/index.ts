@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CompartilhamentoListReducer, CompartilhamentoListState } from './compartilhamento-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {CompartilhamentoListReducer, CompartilhamentoListState} from './compartilhamento-list.reducer';
 
 export interface CompartilhamentoListAppState
 {

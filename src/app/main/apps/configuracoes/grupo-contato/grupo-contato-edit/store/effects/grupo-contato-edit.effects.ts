@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as GrupoContatoEditActions from '../actions/grupo-contato-edit.actions';
 import * as GrupoContatoListActions from '../../../grupo-contato-list/store/actions/grupo-contato-list.actions';

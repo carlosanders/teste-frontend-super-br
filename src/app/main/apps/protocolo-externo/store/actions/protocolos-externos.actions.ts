@@ -1,4 +1,3 @@
-
 import {Action} from '@ngrx/store';
 
 export const UNLOAD_PROCESSOS = '[PROTOCOLO EXTERNO] UNLOAD PROCESSOS';

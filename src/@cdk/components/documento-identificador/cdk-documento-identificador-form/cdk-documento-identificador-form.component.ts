@@ -1,17 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { DocumentoIdentificador } from '@cdk/models';
-import {ModalidadeDocumentoIdentificador} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {DocumentoIdentificador, ModalidadeDocumentoIdentificador, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-identificador-form',

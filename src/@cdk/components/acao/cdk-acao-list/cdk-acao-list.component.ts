@@ -1,4 +1,15 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Acao} from '@cdk/models';
 
@@ -25,7 +36,7 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     actions: string[] = ['delete'];

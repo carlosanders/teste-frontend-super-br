@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {ModalidadeOrgaoCentralListReducer, ModalidadeOrgaoCentralListState} from './modalidade-orgao-central-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    ModalidadeOrgaoCentralListReducer,
+    ModalidadeOrgaoCentralListState
+} from './modalidade-orgao-central-list.reducer';
 
 export interface ModalidadeOrgaoCentralListAppState
 {

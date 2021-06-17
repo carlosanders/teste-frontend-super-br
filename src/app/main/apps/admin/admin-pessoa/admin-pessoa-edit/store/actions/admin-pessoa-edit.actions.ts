@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_PESSOA = '[ADMIN PESSOA EDIT] SAVE PESSOA';
 export const SAVE_PESSOA_SUCCESS = '[ADMIN PESSOA EDIT] SAVE PESSOA SUCCESS';

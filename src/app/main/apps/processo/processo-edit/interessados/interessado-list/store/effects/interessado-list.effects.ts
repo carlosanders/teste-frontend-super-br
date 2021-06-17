@@ -6,7 +6,8 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as InteressadoListActions from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions';
+import * as InteressadoListActions
+    from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions';
 
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {AddData} from '@cdk/ngrx-normalizr';

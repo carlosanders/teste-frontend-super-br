@@ -2,8 +2,8 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
     OnDestroy,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -15,8 +15,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
-
-import {UnloadModelos} from './store';
 
 
 @Component({
@@ -67,16 +65,16 @@ export class ModelosListComponent implements OnInit, OnDestroy {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'delete', 'showInatived'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
                     }
                     if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
                         (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.unidade.nome', 'template.nome', 'ativo', 'actions'];
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.nome', 'template.nome', 'ativo', 'actions'];
                     }
                 }
@@ -107,7 +105,22 @@ export class ModelosListComponent implements OnInit, OnDestroy {
             limit: params.limit,
             offset: params.offset,
             populate: this.pagination.populate,
-            context: this.pagination.context
+            context: params.context
+        }));
+    }
+
+    inatived(params): void {
+        this._store.dispatch(new fromStore.GetModelos({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context,
         }));
     }
 

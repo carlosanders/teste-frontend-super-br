@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getCompartilhamentoCreateBlocoAppState, CompartilhamentoCreateBlocoAppState, CompartilhamentoCreateBlocoState} from '../reducers';
+import {
+    CompartilhamentoCreateBlocoAppState,
+    CompartilhamentoCreateBlocoState,
+    getCompartilhamentoCreateBlocoAppState
+} from '../reducers';
 
 export const getCompartilhamentoCreateBlocoState = createSelector(
     getCompartilhamentoCreateBlocoAppState,

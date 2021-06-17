@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getCompetenciasListAppState,
-    CompetenciasListAppState,
-    CompetenciasListState
-} from '../reducers';
+import {CompetenciasListAppState, CompetenciasListState, getCompetenciasListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr';

@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as AcompanhamentoEditActions from '../actions/acompanhamento-edit.actions';
 import * as AcompanhamentoListActions from '../../../acompanhamento-list/store/actions/acompanhamento-list.actions';
+import {GetAcompanhamentos} from '../../../acompanhamento-list/store/actions/acompanhamento-list.actions';
 
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -15,7 +16,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {GetAcompanhamentos} from '../../../acompanhamento-list/store/actions/acompanhamento-list.actions';
 
 @Injectable()
 export class AcompanhamentoEditEffect {

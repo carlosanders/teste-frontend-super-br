@@ -1,29 +1,30 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
-    ViewChild, ViewContainerRef,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade, ComponenteDigital, Pagination} from '@cdk/models';
+import {Assinatura, Atividade, Colaborador, ComponenteDigital, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
+import {getDocumentosHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models';
+import * as fromStoreTarefaDetail from '../../store';
 import {getTarefa} from '../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models';
-import {getRouterState, getMercureState, getScreenState} from 'app/store/reducers';
+import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../../../store';
@@ -34,8 +35,6 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkUtils} from '@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {getDocumentosHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
-import * as fromStoreTarefaDetail from '../../store';
 
 @Component({
     selector: 'atividade-create',

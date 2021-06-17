@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncap
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../../store';
-import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
+import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 

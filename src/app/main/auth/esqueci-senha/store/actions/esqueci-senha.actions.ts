@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const ESQUECI_SENHA = '[ESQUECI-SENHA] Esqueci Senha Attempt';
 export const ESQUECI_SENHA_SUCCESS = '[ESQUECI-SENHA] Esqueci Senha Success';

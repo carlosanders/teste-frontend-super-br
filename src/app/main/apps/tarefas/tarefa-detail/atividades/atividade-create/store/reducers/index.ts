@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AtividadeCreateReducer, AtividadeCreateState } from './atividade-create.reducer';
-import { AtividadeCreateDocumentosReducer, AtividadeCreateDocumentosState } from './documentos.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AtividadeCreateReducer, AtividadeCreateState} from './atividade-create.reducer';
+import {AtividadeCreateDocumentosReducer, AtividadeCreateDocumentosState} from './documentos.reducer';
 import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
 
 export interface AtividadeCreateAppState

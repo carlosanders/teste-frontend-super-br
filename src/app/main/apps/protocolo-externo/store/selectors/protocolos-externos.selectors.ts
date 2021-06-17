@@ -1,10 +1,10 @@
-import { createSelector } from '@ngrx/store';
-import { getProtocoloExternoAppState, ProcessosAppState, ProcessosState } from '../reducers';
+import {createSelector} from '@ngrx/store';
+import {getProtocoloExternoAppState, ProcessosAppState, ProcessosState} from '../reducers';
 
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { Processo } from '@cdk/models';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {Processo} from '@cdk/models';
 
-import { processo as processoSchema } from '@cdk/normalizr';
+import {processo as processoSchema} from '@cdk/normalizr';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 

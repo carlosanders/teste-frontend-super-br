@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EspecieProcessoEditReducer, EspecieProcessoEditState } from './especie-processo-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {EspecieProcessoEditReducer, EspecieProcessoEditState} from './especie-processo-edit.reducer';
 
 export interface EspecieProcessoEditAppState
 {

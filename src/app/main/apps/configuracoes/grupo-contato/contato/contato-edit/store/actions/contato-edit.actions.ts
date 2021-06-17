@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_CONTATO = '[CONTATO] CREATE CONTATO';
 export const CREATE_CONTATO_SUCCESS = '[CONTATO] CREATE CONTATO SUCCESS';

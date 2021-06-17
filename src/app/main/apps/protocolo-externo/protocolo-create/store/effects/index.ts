@@ -1,5 +1,5 @@
-import { ProtocoloCreateEffects } from './protocolo-create.effects';
-import { ProcessoEffect } from './processo.effects';
+import {ProtocoloCreateEffects} from './protocolo-create.effects';
+import {ProcessoEffect} from './processo.effects';
 import {ProtocoloDocumentoEffects} from './protocolo-documento.effects';
 import {EstadosEffects} from './estados.effects';
 

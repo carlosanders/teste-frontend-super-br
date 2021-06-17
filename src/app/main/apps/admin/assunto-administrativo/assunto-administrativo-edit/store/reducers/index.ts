@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AssuntoAdministrativoEditReducer, AssuntoAdministrativoEditState } from './assunto-administrativo-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AssuntoAdministrativoEditReducer, AssuntoAdministrativoEditState} from './assunto-administrativo-edit.reducer';
 
 export interface AssuntoAdministrativoEditAppState
 {

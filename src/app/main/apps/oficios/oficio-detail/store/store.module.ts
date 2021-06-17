@@ -1,9 +1,9 @@
-import { StoreModule } from '@ngrx/store';
-import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {NgModule} from '@angular/core';
+import {EffectsModule} from '@ngrx/effects';
 
-import { reducers, OficioDetailState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
-import { effects } from 'app/main/apps/oficios/oficio-detail/store/effects';
+import {reducers} from 'app/main/apps/oficios/oficio-detail/store/reducers';
+import {effects} from 'app/main/apps/oficios/oficio-detail/store/effects';
 
 @NgModule({
     imports  : [

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DadosPessoaEditReducer, DadosPessoaEditState } from './dados-pessoa-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {DadosPessoaEditReducer, DadosPessoaEditState} from './dados-pessoa-edit.reducer';
 
 export interface DadosPessoaEditAppState
 {

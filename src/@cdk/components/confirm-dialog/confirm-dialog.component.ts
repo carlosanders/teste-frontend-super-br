@@ -1,6 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import { MatDialogRef } from '@cdk/angular/material';
-import {MAT_DIALOG_DATA} from '@cdk/angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';
 
 @Component({
     selector   : 'cdk-confirm-dialog',
@@ -12,6 +11,8 @@ export class CdkConfirmDialogComponent
 
     public confirmMessage: string;
 
+    showCancel = true;
+
     /**
      *
      * @param dialogRef
@@ -20,6 +21,10 @@ export class CdkConfirmDialogComponent
     constructor(
         public dialogRef: MatDialogRef<CdkConfirmDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
-    ) {}
+    ) {
+        if (this.data?.hideCancel) {
+            this.showCancel = false;
+        }
+    }
 
 }

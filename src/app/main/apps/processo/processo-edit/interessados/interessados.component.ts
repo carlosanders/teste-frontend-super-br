@@ -1,8 +1,4 @@
-import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';

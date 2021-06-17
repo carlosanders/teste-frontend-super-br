@@ -1,4 +1,4 @@
-import { ModelosEspecieSetorListEffects } from './modelos-especie-setor-list.effects';
+import {ModelosEspecieSetorListEffects} from './modelos-especie-setor-list.effects';
 
 export const effects = [
     ModelosEspecieSetorListEffects

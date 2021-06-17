@@ -4,7 +4,6 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {DocumentoStoreModule} from '../store/store.module';
 import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@cdk/angular/material';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';

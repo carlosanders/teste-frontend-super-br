@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ActivateReducer, ActivateState } from './activate.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ActivateReducer, ActivateState} from './activate.reducer';
 
 export interface ActivateAppState
 {

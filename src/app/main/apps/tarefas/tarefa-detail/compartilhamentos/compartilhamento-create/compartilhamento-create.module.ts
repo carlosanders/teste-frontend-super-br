@@ -3,15 +3,16 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -73,8 +74,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        CompartilhamentoService,
-        LoginService,
+        CompartilhamentoService
     ]
 })
 export class CompartilhamentoCreateModule {

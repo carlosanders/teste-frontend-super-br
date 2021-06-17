@@ -1,4 +1,4 @@
-import { TarefaEditEffect } from './tarefa-edit.effects';
+import {TarefaEditEffect} from './tarefa-edit.effects';
 
 export const effects = [
     TarefaEditEffect

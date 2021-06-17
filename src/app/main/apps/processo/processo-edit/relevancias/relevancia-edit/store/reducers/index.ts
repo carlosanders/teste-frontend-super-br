@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RelevanciaEditReducer, RelevanciaEditState } from './relevancia-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RelevanciaEditReducer, RelevanciaEditState} from './relevancia-edit.reducer';
 
 export interface RelevanciaEditAppState
 {

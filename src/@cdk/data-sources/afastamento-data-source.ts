@@ -1,5 +1,5 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
 import {Afastamento} from '../models/afastamento.model';
 
 export class AfastamentoDataSource extends DataSource<Afastamento> {

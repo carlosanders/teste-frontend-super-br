@@ -8,7 +8,8 @@
     [loading]="(loading$ | async)"
     [cargos]="(cargos$ | async)"
     [total]="(pagination$ | async)?.total"
-    [actions]="['edit', 'create']"
+    [actions]="['edit', 'create', 'showInatived']"
+    (inatived)="inatived($event)"
     (reload)="reload($event)"
     (edit)="edit($event)"
     (create)="create()">

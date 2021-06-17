@@ -6,9 +6,10 @@ import {
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatToolbarModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -52,7 +53,6 @@ const routes: Routes = [
     ],
     providers: [
         TarefaService,
-        LoginService,
     ]
 })
 export class TarefasOperacoesBlocoModule {

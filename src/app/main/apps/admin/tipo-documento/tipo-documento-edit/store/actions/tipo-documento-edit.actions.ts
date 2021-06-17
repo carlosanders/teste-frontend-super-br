@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_TIPO_DOCUMENTO = '[ADMIN TIPO_DOCUMENTO EDIT] CREATE TIPO_DOCUMENTO';
 export const CREATE_TIPO_DOCUMENTO_SUCCESS = '[ADMIN TIPO_DOCUMENTO EDIT] CREATE TIPO_DOCUMENTO SUCCESS';

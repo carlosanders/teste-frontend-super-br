@@ -14,6 +14,7 @@
         [displayedColumns]="colunas"
         [actions]="actions"
         [mode]="'search'"
+        (inatived)="inatived($event)"
         (reload)="reload($event)"
         (create)="create()"
         (edit)="edit($event)"

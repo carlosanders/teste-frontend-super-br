@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_USUARIO = '[ADMIN AFASTAMENTOS] GET USUARIO';
 export const GET_USUARIO_SUCCESS = '[ADMIN AFASTAMENTOS] GET USUARIO SUCCESS';

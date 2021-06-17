@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getModelosAppState,
-    ModelosAppState,
-    ModelosState
-} from '../reducers';
+import {getModelosAppState, ModelosAppState, ModelosState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {modelo as schemaModelo} from '@cdk/normalizr';

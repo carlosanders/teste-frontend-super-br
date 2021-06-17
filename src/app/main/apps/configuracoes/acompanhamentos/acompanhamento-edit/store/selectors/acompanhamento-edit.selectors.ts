@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getAcompanhamentoEditAppState, AcompanhamentoEditAppState, AcompanhamentoEditState} from '../reducers';
+import {AcompanhamentoEditAppState, AcompanhamentoEditState, getAcompanhamentoEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Compartilhamento} from '@cdk/models';
 import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';

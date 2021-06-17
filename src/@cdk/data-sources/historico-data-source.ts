@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Historico } from '../models/historico.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Historico} from '../models/historico.model';
 
 export class HistoricoDataSource extends DataSource<Historico> {
 

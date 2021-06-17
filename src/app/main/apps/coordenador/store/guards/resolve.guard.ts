@@ -4,12 +4,12 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of, throwError} from 'rxjs';
-import {switchMap, catchError, tap, filter, take} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {CoordenadorAppState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {ModalidadeOrgaoCentral, Setor, Usuario, Coordenador} from '@cdk/models';
+import {Coordenador, ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
 import {getHasLoaded} from '../selectors';
 import * as fromStore from '../';
 

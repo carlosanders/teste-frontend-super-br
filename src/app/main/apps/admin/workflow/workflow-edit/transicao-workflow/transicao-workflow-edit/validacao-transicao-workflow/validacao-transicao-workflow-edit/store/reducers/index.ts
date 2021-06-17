@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {ValidacaoTransicaoWorkflowEditReducer, ValidacaoTransicaoWorkflowEditState} from './validacao-transicao-workflow-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    ValidacaoTransicaoWorkflowEditReducer,
+    ValidacaoTransicaoWorkflowEditState
+} from './validacao-transicao-workflow-edit.reducer';
 import {TipoValidacaoWorkflowReducer, TipoValidacaoWorkflowState} from './tipo-validacao-transicao-workflow.reducer';
 
 export interface ValidacaoTransicaoWorkflowEditAppState

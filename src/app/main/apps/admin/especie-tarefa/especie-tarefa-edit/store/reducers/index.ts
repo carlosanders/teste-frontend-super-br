@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EspecieTarefaEditReducer, EspecieTarefaEditState } from './especie-tarefa-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {EspecieTarefaEditReducer, EspecieTarefaEditState} from './especie-tarefa-edit.reducer';
 
 export interface EspecieTarefaEditAppState
 {

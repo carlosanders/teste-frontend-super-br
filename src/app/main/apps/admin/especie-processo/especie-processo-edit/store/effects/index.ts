@@ -1,4 +1,4 @@
-import { EspecieProcessoEditEffects } from './especie-processo-edit.effects';
+import {EspecieProcessoEditEffects} from './especie-processo-edit.effects';
 
 export const effects = [
     EspecieProcessoEditEffects

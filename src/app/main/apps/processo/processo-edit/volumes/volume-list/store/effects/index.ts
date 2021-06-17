@@ -1,4 +1,4 @@
-import { VolumeListEffect } from './volume-list.effects';
+import {VolumeListEffect} from './volume-list.effects';
 
 export const effects = [
     VolumeListEffect

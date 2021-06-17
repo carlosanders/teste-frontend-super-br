@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const DOWNLOAD_PROCESSO = '[PROCESSO DOWNLOAD] DOWNLOAD';
 export const DOWNLOAD_PROCESSO_SUCCESS = '[PROCESSO DOWNLOAD] DOWNLOAD SUCCESS';

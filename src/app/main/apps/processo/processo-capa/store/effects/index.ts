@@ -1,4 +1,4 @@
-import { ProcessoCapaEffect } from './processo-capa.effects';
+import {ProcessoCapaEffect} from './processo-capa.effects';
 
 export const effects = [
     ProcessoCapaEffect

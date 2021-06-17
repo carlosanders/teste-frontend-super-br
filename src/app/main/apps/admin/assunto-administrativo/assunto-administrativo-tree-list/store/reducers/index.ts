@@ -1,5 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {AssuntoAdministrativoTreeListReducer, AssuntoAdministrativoTreeListState} from './assunto-administrativo-tree-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {
+    AssuntoAdministrativoTreeListReducer,
+    AssuntoAdministrativoTreeListState
+} from './assunto-administrativo-tree-list.reducer';
 
 export interface AssuntoAdministrativoTreeListAppState
 {

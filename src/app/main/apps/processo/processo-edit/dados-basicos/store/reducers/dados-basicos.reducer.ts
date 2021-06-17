@@ -1,5 +1,4 @@
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
-import { isUndefined } from 'util';
 
 export interface DadosBasicosState {
     saving: boolean;

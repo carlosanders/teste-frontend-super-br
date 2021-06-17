@@ -3,7 +3,9 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, Renderer2, ViewChild,
+    OnInit,
+    Renderer2,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -11,35 +13,39 @@ import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {
-    Processo,
-    Pessoa,
-    Usuario,
     Assunto,
+    Classificacao,
+    ConfiguracaoNup,
     Interessado,
-    VinculacaoProcesso,
-    Tarefa,
     Juntada,
-    ConfiguracaoNup, Classificacao
+    Pagination,
+    Pessoa,
+    Processo,
+    Tarefa,
+    Usuario,
+    VinculacaoProcesso
 } from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
+import {
+    getConfiguracaoNup,
+    getTarefaIsSaving,
+    getVinculacaoProcessoIsSaving,
+    SaveAssunto,
+    SaveInteressado,
+    SaveTarefa,
+    SaveVinculacaoProcesso
+} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {getConfiguracaoNup, SaveAssunto} from './store';
-import {SaveInteressado} from './store';
-import {SaveVinculacaoProcesso} from './store';
-import {SaveTarefa} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
-import {getVinculacaoProcessoIsSaving} from './store';
-import {getTarefaIsSaving} from './store';
 import {getProcesso} from '../../store';
 import {configuracaoNup} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';

@@ -8,7 +8,8 @@ import {
     KeyValueDiffers,
     OnChanges,
     Output,
-    SimpleChange, ViewChild,
+    SimpleChange,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 

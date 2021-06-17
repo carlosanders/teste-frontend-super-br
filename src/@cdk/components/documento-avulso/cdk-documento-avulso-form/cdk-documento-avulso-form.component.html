@@ -250,6 +250,7 @@
     [hidden]="activeCard !== 'modelo-gridsearch'"
     [pagination]="modeloPagination"
     [andxFilter]="modeloPaginationAndx"
+    [mode]="'search'"
     (selected)="selectModelo($event)"
     (cancel)="cancel()">
 </cdk-modelo-gridsearch>

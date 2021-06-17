@@ -1,4 +1,4 @@
-import { AcaoEditEffect } from './acao-edit.effects';
+import {AcaoEditEffect} from './acao-edit.effects';
 import {ModalidadeAcaoEtiquetaEffects} from './modalidade-acao-etiqueta.effects';
 
 export const effects = [

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaEditBlocoReducer, TarefaEditBlocoState } from './tarefa-edit-bloco.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TarefaEditBlocoReducer, TarefaEditBlocoState} from './tarefa-edit-bloco.reducer';
 
 export interface TarefaEditBlocoAppState
 {

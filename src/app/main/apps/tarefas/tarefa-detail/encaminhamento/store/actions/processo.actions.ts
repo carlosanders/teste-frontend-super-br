@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_PROCESSO = '[ENCAMINHAMENTO TAREFA] SAVE PROCESSO';
 export const SAVE_PROCESSO_SUCCESS = '[ENCAMINHAMENTO TAREFA] SAVE PROCESSO SUCCESS';

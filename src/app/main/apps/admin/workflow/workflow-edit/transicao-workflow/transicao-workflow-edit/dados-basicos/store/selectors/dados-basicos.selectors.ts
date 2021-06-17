@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getTransicaoWorkflowDadosBasicosAppState, TransicaoWorkflowDadosBasicosAppState, TransicaoWorkflowDadosBasicosState} from '../reducers';
+import {
+    getTransicaoWorkflowDadosBasicosAppState,
+    TransicaoWorkflowDadosBasicosAppState,
+    TransicaoWorkflowDadosBasicosState
+} from '../reducers';
 
 export const getTransicaoWorkflowDadosBasicosState = createSelector(
     getTransicaoWorkflowDadosBasicosAppState,

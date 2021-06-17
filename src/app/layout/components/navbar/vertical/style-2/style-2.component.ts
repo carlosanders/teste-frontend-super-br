@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { delay, filter, take, takeUntil } from 'rxjs/operators';
+import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {delay, filter, take, takeUntil} from 'rxjs/operators';
 
-import { CdkConfigService } from '@cdk/services/config.service';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
-import { CdkPerfectScrollbarDirective } from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
-import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
+import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector     : 'navbar-vertical-style-2',

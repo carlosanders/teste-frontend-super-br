@@ -4,6 +4,7 @@ import {
     MatButtonModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
@@ -18,7 +19,6 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {MatExpansionModule} from '@cdk/angular/material';
 import {MatDividerModule} from '@angular/material/divider';
 import {CdkPessoaAutocompleteModule} from '../../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkAssuntoAutocompleteModule} from '../../../assunto/cdk-assunto-autocomplete/cdk-assunto-autocomplete.module';
