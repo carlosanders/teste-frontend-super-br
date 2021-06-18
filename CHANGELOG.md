@@ -370,3 +370,4 @@
 * Correçao modulo do usuario externo na pesquisa de processos e validaçao de assinatura digital 
 * Correção erro na remoção de assintura de outra pessoa, que causava loop
 * Correção de erro ao tentar abrir o componente de protocolo-externo
+* Implementada tela de encaminhamento de processos em bloco após uma movimentação que encerra as tarefas

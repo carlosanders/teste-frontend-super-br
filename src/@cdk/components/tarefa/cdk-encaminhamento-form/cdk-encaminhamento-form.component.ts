@@ -34,6 +34,9 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    mode: string = 'regular';
+
     @Output()
     save = new EventEmitter();
 
