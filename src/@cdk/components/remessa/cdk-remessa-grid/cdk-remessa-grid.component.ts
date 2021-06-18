@@ -26,7 +26,7 @@ import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
-import {environment} from "../../../../environments/environment";
+import {CdkConfigService} from "../../../services/config.service";
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -198,8 +198,6 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
     hasExcluded = false;
 
-    barramento = false;
-
     @Output()
     statusBarramento = new EventEmitter<number[]>();
 
@@ -209,11 +207,13 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _dynamicService
+     * @param _cdkConfigService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        public _cdkConfigService: CdkConfigService
     ) {
         this.gridFilter = {};
         this.remessas = [];
@@ -241,8 +241,6 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
         this.dataSource = new TramitacaoDataSource(of(this.remessas));
 
-        this.barramento = environment.barramento;
-
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
         this.columns.valueChanges.pipe(
@@ -259,7 +257,6 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
                 return of([]);
             })
         ).subscribe();
-
     }
 
     ngAfterViewInit(): void {

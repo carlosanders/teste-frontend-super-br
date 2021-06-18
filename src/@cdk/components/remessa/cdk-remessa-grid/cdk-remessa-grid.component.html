@@ -276,7 +276,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <button mat-icon-button *ngIf="barramento && remessa.mecanismoRemessa === 'barramento'"
+                        <button mat-icon-button *ngIf="_cdkConfigService.barramento === '1' &&
+                        remessa['mecanismoRemessa'] === 'barramento'"
                                 [disabled]="deletedIds?.indexOf(remessa.id) > -1"
                                 aria-label="status"
                                 matTooltip="Status Barramento"

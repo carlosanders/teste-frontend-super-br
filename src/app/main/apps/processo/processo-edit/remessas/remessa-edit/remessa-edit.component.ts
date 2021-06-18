@@ -8,7 +8,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {getProcesso} from '../../../store/selectors';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -39,17 +39,17 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
     setorOrigemPagination: Pagination;
     setorOrigemPaginationTree: Pagination;
 
-    mecanismoRemessa = '';
-
     /**
      * @param _store
      * @param _router
      * @param _loginService
+     * @param activatedRoute
      */
     constructor(
         private _store: Store<fromStore.RemessaEditAppState>,
         private _router: Router,
         public _loginService: LoginService,
+        public activatedRoute: ActivatedRoute
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -109,13 +109,8 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
     onActivate(componentReference): void  {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
-                const extras = {
-                    queryParams: {
-                        mecanismoRemessa: this.mecanismoRemessa
-                    }
-                };
                 this.pessoaDestino = pessoa;
-                this._router.navigate([this.routerState.url.split('/pessoa')[0], extras]).then();
+                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
             });
         }
     }
@@ -127,25 +122,11 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
     }
 
     gerirPessoaDestino(): void {
-        const extras = {
-            queryParams: {
-                mecanismoRemessa: this.mecanismoRemessa
-            }
-        };
-        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa'], extras).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa']).then();
     }
 
     editPessoaDestino(pessoaId: number): void {
-        const extras = {
-            queryParams: {
-                mecanismoRemessa: this.mecanismoRemessa
-            }
-        };
-        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId, extras]).then();
-    }
-
-    editMecanismoRemessa(mecanismoRemessa): void {
-        this.mecanismoRemessa = mecanismoRemessa;
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
     submit(values): void {

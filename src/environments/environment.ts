@@ -11,8 +11,7 @@ export const environment = {
     jnlp: 'jnlp://localhost:8000/',
     api_url: 'http://localhost:8000/v1/',
     mercure_hub: 'http://localhost:4000/.well-known/mercure',
-    xdebug: '?XDEBUG_SESSION_START=docker',
-    barramento: true
+    xdebug: '?XDEBUG_SESSION_START=docker'
 };
 
 /*

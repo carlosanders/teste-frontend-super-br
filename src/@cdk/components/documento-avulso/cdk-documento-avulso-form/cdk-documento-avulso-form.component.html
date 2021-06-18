@@ -102,7 +102,7 @@
             <mat-radio-button [value]="'externa'">
                 Externa
             </mat-radio-button>
-            <mat-radio-button [value]="'barramento'" *ngIf="barramento">
+            <mat-radio-button [value]="'barramento'" *ngIf="_cdkConfigService.barramento === '1'">
                 Barramento
             </mat-radio-button>
 

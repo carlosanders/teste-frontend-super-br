@@ -508,7 +508,8 @@
                             {{ getProp(deletingErrors, documentoAvulso.id) }}
                         </mat-error>
 
-                        <button mat-icon-button *ngIf="barramento && documentoAvulso.mecanismoRemessa === 'barramento'"
+                        <button mat-icon-button *ngIf="_cdkConfigService.barramento === '1' &&
+                        documentoAvulso.mecanismoRemessa === 'barramento'"
                                 [disabled]="deletedIds?.indexOf(documentoAvulso.id) > -1"
                                 aria-label="status"
                                 matTooltip="Status Barramento"

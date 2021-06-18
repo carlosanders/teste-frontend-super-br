@@ -67,9 +67,6 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     if (this.isCnpjValid(value)) {
                         context['cnpj'] = value;
                     }
-                    if (this.pagination['context']) {
-                        context['mecanismoRemessa'] = this.pagination['context']['mecanismoRemessa'];
-                    }
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         termFilterNome.push({
                             nome: `like:%${bit}%`
@@ -96,8 +93,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate),
-                            JSON.stringify(context))
+                            JSON.stringify(this.pagination.populate))
                             .pipe(
                                 finalize(() => this.pessoaListIsLoading = false),
                                 catchError(() => of([]))
