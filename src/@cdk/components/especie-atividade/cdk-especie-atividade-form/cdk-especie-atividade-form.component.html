@@ -43,6 +43,9 @@
                 (click)="showGeneroAtividadeGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('generoAtividade').hasError('formError')">
+            {{form.get('generoAtividade').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo">
