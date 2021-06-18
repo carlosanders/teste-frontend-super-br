@@ -50,6 +50,15 @@ export class CdkGarantiaFilterComponent {
             andXFilter.push({'processo.id': `eq:${this.form.get('processo').value.id}`});
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         if (this.form.get('criadoEm').value) {
             andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }

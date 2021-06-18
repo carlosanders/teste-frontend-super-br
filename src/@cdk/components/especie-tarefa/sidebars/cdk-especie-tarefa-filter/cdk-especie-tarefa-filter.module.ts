@@ -14,6 +14,7 @@ import {CdkEspecieTarefaFilterComponent} from './cdk-especie-tarefa-filter.compo
 import {CdkGeneroTarefaAutocompleteModule} from '@cdk/components/genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -32,6 +33,7 @@ import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 
         CdkGeneroTarefaAutocompleteModule,
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         EspecieTarefaService,

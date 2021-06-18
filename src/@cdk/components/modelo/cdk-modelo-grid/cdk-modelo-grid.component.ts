@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Documento, Modelo} from '@cdk/models';
 import {ModeloDataSource} from '@cdk/data-sources/modelo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-modelo-grid',
@@ -218,6 +219,10 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
+
+
     @Output()
     reload = new EventEmitter<any>();
 
@@ -353,7 +358,6 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
-        this.hasExcluded = false;
     }
 
     loadExcluded(): void {
@@ -386,6 +390,8 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

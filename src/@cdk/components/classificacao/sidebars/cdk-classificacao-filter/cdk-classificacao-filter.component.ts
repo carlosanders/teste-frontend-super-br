@@ -126,6 +126,15 @@ export class CdkClassificacaoFilterComponent {
             });
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         if (this.form.get('parent').value) {
             andXFilter.push({'parent.id': `eq:${this.form.get('parent').value.id}`});
         }

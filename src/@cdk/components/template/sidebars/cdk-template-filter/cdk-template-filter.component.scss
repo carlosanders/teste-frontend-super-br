@@ -24,6 +24,19 @@ cdk-template-filter {
             flex: 0 1 auto;
             display: flex;
             flex-direction: column;
+
+            .mat-button-toggle-label-content {
+                line-height: 15px !important;
+            }
+
+            .button-toggle-custom {
+                width: 100%;
+            }
+
+            .mat-button-toggle-group-custom {
+                margin-top: 7px;
+                margin-bottom: 20px;
+            }
         }
     }
 
