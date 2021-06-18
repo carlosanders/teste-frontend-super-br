@@ -63,8 +63,7 @@ const routes: Routes = [
             },
             {
                 path       : 'vincular',
-                loadChildren: () => import('app/main/apps/processo/processo-edit/juntadas/vinculacao-documento-create/vinculacao-documento-create.module')
-                    .then(m => m.VinculacaoDocumentoCreateModule)
+                loadChildren: () => import('./vinculacao-documento/vinculacao-documento.module').then(m => m.VinculacaoDocumentoModule)
             }
         ]
     },
