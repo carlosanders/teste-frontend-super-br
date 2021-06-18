@@ -201,8 +201,7 @@ export class DocumentosEffects {
                                 map(response => new DocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentosActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new DocumentosActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));

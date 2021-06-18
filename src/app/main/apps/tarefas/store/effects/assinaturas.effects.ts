@@ -97,8 +97,7 @@ export class AssinaturasEffects {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AssinaturaActions.GetDocumentosFailed(err));
-                    return caught;
+                    return of(new AssinaturaActions.GetDocumentosFailed(err));
                 })
             );
 
@@ -162,8 +161,7 @@ export class AssinaturasEffects {
                                         error: err
                                     };
                                     console.log(err);
-                                    this._store.dispatch(new AssinaturaActions.PreparaAssinaturaFailed(payload));
-                                    return caught;
+                                    return of(new AssinaturaActions.PreparaAssinaturaFailed(payload));
                                 })
                             )
                 ));

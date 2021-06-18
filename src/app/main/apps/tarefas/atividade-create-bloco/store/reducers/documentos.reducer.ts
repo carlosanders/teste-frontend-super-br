@@ -6,7 +6,10 @@ export interface AtividadeBlocoCreateDocumentosState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    convertendoDocumentoHtmlIds: number[];
+    downloadDocumentosP7SIds: number[];
     alterandoDocumentoIds: number[];
 }
 
@@ -16,7 +19,10 @@ export const AtividadeBlocoCreateDocumentosInitialState: AtividadeBlocoCreateDoc
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    convertendoDocumentoHtmlIds: [],
+    downloadDocumentosP7SIds: [],
     alterandoDocumentoIds: [],
 };
 
@@ -90,10 +96,88 @@ export function AtividadeBlocoCreateDocumentosReducer(
             };
         }
 
+        case AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
         case AtividadeBlocoCreateDocumentosActionsAll.CHANGE_SELECTED_DOCUMENTOS_BLOCO: {
             return {
                 ...state,
                 selectedDocumentosId: action.payload
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.CONVERTE_DOCUMENTO_ATIVIDADE: {
+            return {
+                ...state,
+                convertendoDocumentoIds: [...state.convertendoDocumentoIds, action.payload],
+            };
+        }
+        case AtividadeBlocoCreateDocumentosActionsAll.CONVERTE_DOCUMENTO_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+        case AtividadeBlocoCreateDocumentosActionsAll.CONVERTE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.CONVERTE_DOCUMENTO_ATIVIDADE_HTML: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoHtmlIds, action.payload],
+            };
+        }
+        case AtividadeBlocoCreateDocumentosActionsAll.CONVERTE_DOCUMENTO_HTML_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
+            };
+        }
+        case AtividadeBlocoCreateDocumentosActionsAll.CONVERTE_DOCUMENTO_HTML_FAILED: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.DOWNLOAD_DOCUMENTO_P7S: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: [...state.downloadDocumentosP7SIds, action.payload],
+            };
+        }
+        case AtividadeBlocoCreateDocumentosActionsAll.DOWNLOAD_DOCUMENTO_P7S_SUCCESS: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
+            };
+        }
+        case AtividadeBlocoCreateDocumentosActionsAll.DOWNLOAD_DOCUMENTO_P7S_FAILED: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
             };
         }
 

@@ -117,8 +117,7 @@ export class AtividadeCreateDocumentosEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AtividadeCreateDocumentosActions.GetDocumentosFailed(err));
-                    return caught;
+                    return of(new AtividadeCreateDocumentosActions.GetDocumentosFailed(err));
                 })
             );
 
@@ -233,8 +232,7 @@ export class AtividadeCreateDocumentosEffect {
                                 map(response => new AtividadeCreateDocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -252,8 +250,7 @@ export class AtividadeCreateDocumentosEffect {
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                                    return caught;
+                                    return of(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
                             )
                 ));
@@ -366,7 +363,8 @@ export class AtividadeCreateDocumentosEffect {
                                         schema: documentoSchema,
                                         changes: {componentesDigitais: response.componentesDigitais}
                                     }),
-                                    new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload)
+                                    new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload),
+                                    new AtividadeCreateDocumentosActions.GetDocumentos()
                                 ]),
                                 catchError((err) => {
                                     console.log(err);
@@ -391,7 +389,8 @@ export class AtividadeCreateDocumentosEffect {
                             .pipe(
                                 mergeMap(response => [
                                     new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
-                                    new AtividadeCreateDocumentosActions.ConverteToHtmlSucess(action.payload)
+                                    new AtividadeCreateDocumentosActions.ConverteToHtmlSucess(action.payload),
+                                    new AtividadeCreateDocumentosActions.GetDocumentos()
                                 ]),
                                 catchError(err => of(new AtividadeCreateDocumentosActions.ConverteToHtmlFailed(action.payload)))
                             )
@@ -409,7 +408,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.DownloadP7S>(AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
-                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload)
                             .pipe(
                                 map((response) => {
                                     if (response) {

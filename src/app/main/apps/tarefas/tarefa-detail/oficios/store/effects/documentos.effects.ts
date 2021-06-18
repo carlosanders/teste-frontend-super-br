@@ -102,8 +102,7 @@ export class AtividadeCreateDocumentosEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new OficiosDocumentosActions.GetDocumentosFailed(err));
-                    return caught;
+                    return of(new OficiosDocumentosActions.GetDocumentosFailed(err));
                 })
             );
 
@@ -217,8 +216,7 @@ export class AtividadeCreateDocumentosEffect {
                                 map(response => new OficiosDocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new OficiosDocumentosActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new OficiosDocumentosActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -236,8 +234,7 @@ export class AtividadeCreateDocumentosEffect {
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new OficiosDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                                    return caught;
+                                    return of(new OficiosDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
                             )
                 ));

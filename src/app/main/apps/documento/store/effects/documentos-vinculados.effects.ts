@@ -133,8 +133,7 @@ export class DocumentosVinculadosEffect {
                                 map(response => new DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
-                                    return caught;
+                                    return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
                                 })
                             )
                 ));

@@ -98,8 +98,7 @@ export class TarefasEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefasActions.GetTarefasFailed(err));
-                    return caught;
+                    return of(new TarefasActions.GetTarefasFailed(err));
                 })
             );
 
@@ -542,8 +541,7 @@ export class TarefasEffect {
                         ]),
                         catchError((err, caught) => {
                             console.log(err);
-                            this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
-                            return caught;
+                            return of(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
                         })
                     )),
             );
@@ -581,8 +579,7 @@ export class TarefasEffect {
                         ]),
                         catchError((err, caught) => {
                             console.log(err);
-                            this._store.dispatch(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
-                            return caught;
+                            return of(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
                         })
                     )),
             );

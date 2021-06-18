@@ -109,8 +109,7 @@ export class JuntadaListEffect {
                                 map(response => new JuntadaListActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new JuntadaListActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new JuntadaListActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));

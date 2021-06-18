@@ -98,8 +98,7 @@ export class TarefaDetailEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefaDetailActions.GetTarefaFailed(err));
-                    return caught;
+                    return of(new TarefaDetailActions.GetTarefaFailed(err));
                 })
             );
 
@@ -475,8 +474,7 @@ export class TarefaDetailEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefaDetailActions.GetDocumentosFailed(err));
-                    return caught;
+                    return of(new TarefaDetailActions.GetDocumentosFailed(err));
                 })
             );
 }
