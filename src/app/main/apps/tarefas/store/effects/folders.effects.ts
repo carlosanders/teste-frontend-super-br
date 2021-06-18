@@ -64,8 +64,7 @@ export class FoldersEffect
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new FoldersActions.GetFoldersFailed(err));
-                    return caught;
+                    return of(new FoldersActions.GetFoldersFailed(err));
                 })
             );
 
@@ -89,8 +88,7 @@ export class FoldersEffect
                     )),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new FoldersActions.SaveFolderFailed(err));
-                    return caught;
+                    return of(new FoldersActions.SaveFolderFailed(err));
                 })
             );
 

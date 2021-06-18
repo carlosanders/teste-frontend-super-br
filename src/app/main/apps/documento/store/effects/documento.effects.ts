@@ -327,8 +327,7 @@ export class DocumentoEffect {
                                 }),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentoActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new DocumentoActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));

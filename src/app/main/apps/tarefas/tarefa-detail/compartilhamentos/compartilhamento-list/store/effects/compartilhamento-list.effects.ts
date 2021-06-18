@@ -70,8 +70,7 @@ export class CompartilhamentoListEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new CompartilhamentoListActions.GetCompartilhamentosFailed(err));
-                    return caught;
+                    return of(new CompartilhamentoListActions.GetCompartilhamentosFailed(err));
                 })
             );
 

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -71,8 +71,7 @@ export class ProcessoEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new ProcessoActions.GetProcessoFailed(err));
-                    return caught;
+                    return of(new ProcessoActions.GetProcessoFailed(err));
                 })
             );
 
@@ -101,8 +100,7 @@ export class ProcessoEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log (err);
-                    this._store.dispatch(new ProcessoActions.GetVisibilidadesFailed(err));
-                    return caught;
+                    return of(new ProcessoActions.GetVisibilidadesFailed(err));
                 })
 
             );

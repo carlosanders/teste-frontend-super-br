@@ -229,8 +229,7 @@ export class DocumentoAvulsoResponderEffect {
                                 map(response => new DocumentoAvulsoReponderActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentoAvulsoReponderActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new DocumentoAvulsoReponderActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));

@@ -11,13 +11,13 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade, Colaborador, Documento, Pagination, Tarefa} from '@cdk/models';
+import {Assinatura, Atividade, Colaborador, ComponenteDigital, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {getMercureState, getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
@@ -60,6 +60,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
     @ViewChild('ckdUpload', {static: false})
@@ -112,6 +115,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
@@ -199,8 +205,14 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
+            console.log (assinandoDocumentosId);
             if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
@@ -270,6 +282,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
     doAlterarTipoDocumento(values): void {
         this._store.dispatch(new fromStore.UpdateDocumentoBloco(values));
     }
@@ -282,8 +298,24 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
-    doAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura
+                }));
+            });
+        }
     }
 
     onClicked(documento): void {
@@ -291,7 +323,17 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     }
 
     doConverte(documentoId): void {
-        // this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doConverteHtml(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
+    }
+
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadP7S(componenteDigital.id));
+        });
     }
 
     doAbort(): void {

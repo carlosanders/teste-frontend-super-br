@@ -14,6 +14,26 @@ export const ASSINA_DOCUMENTO_BLOCO = '[BLOCO ATIVIDADE CREATE] ASSINA DOCUMENTO
 export const ASSINA_DOCUMENTO_BLOCO_SUCCESS = '[BLOCO ATIVIDADE CREATE] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_BLOCO_FAILED = '[BLOCO ATIVIDADE CREATE] ASSINA DOCUMENTO FAILED';
 
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[BLOCO ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[BLOCO ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[BLOCO ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
+export const CONVERTE_DOCUMENTO_ATIVIDADE = '[BLOCO ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE';
+export const CONVERTE_DOCUMENTO_SUCESS = '[BLOCO ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
+export const CONVERTE_DOCUMENTO_FAILED = '[BLOCO ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE FAILED';
+
+export const CONVERTE_DOCUMENTO_ATIVIDADE_HTML = '[BLOCO ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE HTML';
+export const CONVERTE_DOCUMENTO_HTML_SUCESS = '[BLOCO ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE HTML SUCCESS';
+export const CONVERTE_DOCUMENTO_HTML_FAILED = '[BLOCO ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE HTML FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO = '[BLOCO ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[BLOCO ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[BLOCO ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO FAILED';
+
+export const DOWNLOAD_DOCUMENTO_P7S = '[BLOCO ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S ATIVIDADE';
+export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[BLOCO ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S ATIVIDADE SUCCESS';
+export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[BLOCO ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S FAILED';
+
 export const CLICKED_DOCUMENTO_BLOCO = '[BLOCO ATIVIDADE CREATE] CLICKED DOCUMENTO';
 export const COMPLETE_DOCUMENTO_BLOCO = '[BLOCO ATIVIDADE CREATE] COMPLETE DOCUMENTO';
 
@@ -190,6 +210,168 @@ export class ChangeSelectedDocumentos implements Action {
 }
 
 /**
+ * Converte Documento
+ */
+export class ConverteToPdf implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_ATIVIDADE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToPdfSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToPdfFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Converte Documento HTML
+ */
+export class ConverteToHtml implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_ATIVIDADE_HTML;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente
+ */
+export class AssinaDocumentoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Success
+ */
+export class AssinaDocumentoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Failed
+ */
+export class AssinaDocumentoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Download Documento P7S
+ */
+export class DownloadP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Clicked Documento
  */
 export class ClickedDocumento implements Action
@@ -222,10 +404,25 @@ export type AtividadeBlocoCreateDocumentosActionsAll
     | UpdateDocumentoBlocoFailed
     | UnloadDocumentos
     | ClickedDocumento
+    | ConverteToPdf
+    | ConverteToPdfSucess
+    | ConverteToPdfFailed
+    | ConverteToHtml
+    | ConverteToHtmlSucess
+    | ConverteToHtmlFailed
+    | DownloadP7S
+    | DownloadP7SFailed
+    | DownloadP7SSuccess
     | CompleteDocumento
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | AssinaDocumentoEletronicamente
+    | AssinaDocumentoEletronicamenteSuccess
+    | AssinaDocumentoEletronicamenteFailed
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoSuccess
+    | RemoveAssinaturaDocumentoFailed
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed

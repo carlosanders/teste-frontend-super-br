@@ -301,8 +301,7 @@ export class ProcessoViewDocumentosEffects {
                                         error: err
                                     };
                                     console.log(err);
-                                    this._store.dispatch(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
-                                    return caught;
+                                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
                                 })
                             )
                 ));
@@ -328,8 +327,7 @@ export class ProcessoViewDocumentosEffects {
                                         error: err
                                     };
                                     console.log(err);
-                                    this._store.dispatch(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
-                                    return caught;
+                                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
                                 })
                             )
                 ));

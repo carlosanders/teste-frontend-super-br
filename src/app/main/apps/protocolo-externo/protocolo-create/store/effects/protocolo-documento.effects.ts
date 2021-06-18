@@ -119,8 +119,7 @@ export class ProtocoloDocumentoEffects {
                                 map(response => new ProtocoloDocumentoActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new ProtocoloDocumentoActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new ProtocoloDocumentoActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));

@@ -64,7 +64,7 @@
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)"
                         mat-menu-item
-                        *ngIf="documento.assinado && _loginService.isGranted('ROLE_COLABORADOR') && actions.indexOf('removerAssinatura') > -1">
+                        *ngIf="documento.assinado && _loginService.isGranted('ROLE_COLABORADOR')">
                     <mat-icon color="accent">lock_open</mat-icon>
                     <span>Remover Assinatura</span>
                 </button>

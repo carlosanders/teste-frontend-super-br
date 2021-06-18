@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, exhaustMap, mergeMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -66,8 +66,7 @@ export class AtividadeListEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AtividadeListActions.GetAtividadesFailed(err));
-                    return caught;
+                    return of(new AtividadeListActions.GetAtividadesFailed(err));
                 })
             );
 }
