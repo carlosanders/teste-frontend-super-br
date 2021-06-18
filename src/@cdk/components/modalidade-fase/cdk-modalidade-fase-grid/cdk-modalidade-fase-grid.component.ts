@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeFase} from '@cdk/models';
 import {ModalidadeFaseDataSource} from '@cdk/data-sources/modalidade-fase-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-modalidade-fase-grid',
@@ -135,6 +136,9 @@ export class CdkModalidadeFaseGridComponent implements AfterViewInit, OnInit, On
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

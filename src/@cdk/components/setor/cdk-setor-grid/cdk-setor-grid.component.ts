@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Setor} from '@cdk/models';
 import {SetorDataSource} from '@cdk/data-sources/setor-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-setor-grid',
@@ -223,6 +224,9 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

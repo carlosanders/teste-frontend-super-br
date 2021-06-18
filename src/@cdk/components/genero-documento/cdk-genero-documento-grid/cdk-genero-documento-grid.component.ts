@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroDocumento} from '@cdk/models';
 import {GeneroDocumentoDataSource} from '@cdk/data-sources/genero-documento-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-genero-documento-grid',
@@ -135,6 +136,9 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {AssuntoAdministrativo} from '@cdk/models';
 import {AssuntoAdministrativoDataSource} from '@cdk/data-sources/assunto-administrativo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-assunto-administrativo-grid',
@@ -150,6 +151,9 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

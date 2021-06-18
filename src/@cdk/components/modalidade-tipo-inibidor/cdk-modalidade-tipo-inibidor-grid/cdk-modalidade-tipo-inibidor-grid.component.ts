@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeTipoInibidor} from '@cdk/models';
 import {ModalidadeTipoInibidorDataSource} from '@cdk/data-sources/modalidade-tipo-inibidor-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-modalidade-tipo-inibidorgrid',
@@ -135,6 +136,9 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

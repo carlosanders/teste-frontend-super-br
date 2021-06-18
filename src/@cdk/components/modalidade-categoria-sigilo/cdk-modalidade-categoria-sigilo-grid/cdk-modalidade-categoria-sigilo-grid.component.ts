@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeCategoriaSigilo} from '@cdk/models';
 import {ModalidadeCategoriaSigiloDataSource} from '@cdk/data-sources/modalidade-categoria-sigilo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-modalidade-categoria-sigilo-grid',
@@ -135,6 +136,9 @@ export class CdkModalidadeCategoriaSigiloGridComponent implements AfterViewInit,
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

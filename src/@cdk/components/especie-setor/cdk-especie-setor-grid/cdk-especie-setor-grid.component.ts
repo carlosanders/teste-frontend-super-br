@@ -23,6 +23,7 @@ import {EspecieSetor} from '@cdk/models';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
 import {FormControl} from '@angular/forms';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-especie-setor-grid',
@@ -148,6 +149,9 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

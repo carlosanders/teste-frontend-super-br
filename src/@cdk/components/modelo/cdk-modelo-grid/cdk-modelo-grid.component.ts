@@ -222,7 +222,6 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     @ViewChild(CdkModeloFilterComponent)
     cdkModeloFilterComponent: CdkModeloFilterComponent;
 
-
     @Output()
     reload = new EventEmitter<any>();
 

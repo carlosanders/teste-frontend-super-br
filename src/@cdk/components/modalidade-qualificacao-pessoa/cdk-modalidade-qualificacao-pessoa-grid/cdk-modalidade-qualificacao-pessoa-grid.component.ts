@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeQualificacaoPessoa} from '@cdk/models';
 import {ModalidadeQualificacaoPessoaDataSource} from '@cdk/data-sources/modalidade-qualificacao-pessoa-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-modalidade-qualificacao-pessoa-grid',
@@ -135,6 +136,9 @@ export class CdkModalidadeQualificacaoPessoaGridComponent implements AfterViewIn
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

@@ -19,6 +19,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroProcesso} from '@cdk/models';
 import {GeneroProcessoDataSource} from '@cdk/data-sources/genero-processo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-genero-processo-grid',
@@ -133,6 +134,9 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

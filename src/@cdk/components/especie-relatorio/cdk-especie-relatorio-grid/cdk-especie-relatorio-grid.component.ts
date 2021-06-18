@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieRelatorio} from '@cdk/models/especie-relatorio.model';
 import {EspecieRelatorioDataSource} from '@cdk/data-sources/especie-relatorio-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-especie-relatorio-grid',
@@ -137,6 +138,9 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

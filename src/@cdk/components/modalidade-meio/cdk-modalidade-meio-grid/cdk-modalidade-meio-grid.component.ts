@@ -19,6 +19,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeMeio} from '@cdk/models';
 import {ModalidadeMeio2DataSource} from '@cdk/data-sources/modalidade-meio2-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-modalidade-meio-grid',
@@ -133,6 +134,9 @@ export class CdkModalidadeMeioGridComponent implements AfterViewInit, OnInit, On
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

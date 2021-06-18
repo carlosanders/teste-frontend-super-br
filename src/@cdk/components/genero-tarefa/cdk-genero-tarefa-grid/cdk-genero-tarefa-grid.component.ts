@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroTarefa} from '@cdk/models';
 import {GeneroTarefaDataSource} from '@cdk/data-sources/genero-tarefa-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-genero-tarefa-grid',
@@ -135,6 +136,9 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();

@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeRelacionamentoPessoal} from '@cdk/models';
 import {ModalidadeRelacionamentoPessoalDataSource} from '@cdk/data-sources/modalidade-relacionamento-pessoal-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
 
 @Component({
     selector: 'cdk-modalidade-relacionamento-pessoal-grid',
@@ -135,6 +136,9 @@ export class CdkModalidadeRelacionamentoPessoalGridComponent implements AfterVie
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
