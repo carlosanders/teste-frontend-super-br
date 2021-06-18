@@ -12,6 +12,7 @@
                              [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                              [downloadId] ="(downloadP7SDocumentosId$ | async)"
                              (delete)="doDelete($event)"
+                             (deleteBloco)="doDeleteBloco($event)"
                              (assinatura)="doAssinatura($event)"
                              (removeAssinatura)="doRemoveAssinatura($event)"
                              (converte)="doConverte($event)"

@@ -200,7 +200,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     doAssinaturaDocumentoBloco(): void {
-        this.doAssinatura(this.selectedIds);
+        this.selectedIds.forEach(documentoId => this.doAssinatura(documentoId));
     }
 
     doRemoveAssinaturaDocumentoBloco(): void {
