@@ -21,6 +21,9 @@ export class CdkModalidadeAcaoEtiquetaFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    hasInatived = false;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -29,11 +32,13 @@ export class CdkModalidadeAcaoEtiquetaFilterComponent {
             valor: [null],
             descricao: [null],
             modalidadeEtiqueta: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -84,8 +89,11 @@ export class CdkModalidadeAcaoEtiquetaFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -108,8 +116,13 @@ export class CdkModalidadeAcaoEtiquetaFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }
 

@@ -22,6 +22,9 @@ export class CdkClassificacaoFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    hasInatived = false;
+
     filterCriadoEm = [];
     filterAtualizadoEm = [];
 
@@ -46,11 +49,13 @@ export class CdkClassificacaoFilterComponent {
             permissaoUso: [null],
             observacao: [null],
             parent: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -163,8 +168,11 @@ export class CdkClassificacaoFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -195,9 +203,13 @@ export class CdkClassificacaoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
-        this.limparFormFiltroDatas$.next(true);
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }
 

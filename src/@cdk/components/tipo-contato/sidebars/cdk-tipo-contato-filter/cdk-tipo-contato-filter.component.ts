@@ -23,6 +23,9 @@ export class CdkTipoContatoFilterComponent {
     mode = 'list';
 
     @Input()
+    hasInatived = false;
+
+    @Input()
     usuarioPagination: Pagination;
 
     constructor(
@@ -32,11 +35,13 @@ export class CdkTipoContatoFilterComponent {
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
 
         this.usuarioPagination = new Pagination();
     }
@@ -85,8 +90,11 @@ export class CdkTipoContatoFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -109,8 +117,13 @@ export class CdkTipoContatoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }
 
