@@ -44,6 +44,12 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
     @Input()
     errors: any;
 
+    @Input()
+    valid = true;
+
+    @Input()
+    mode = 'regular';
+
     @Output()
     save = new EventEmitter<Tramitacao>();
 
@@ -83,6 +89,9 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @Input()
+    processos: Processo[] = [];
+
     extensoes: any[] = [];
 
     /**
@@ -98,6 +107,7 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
         this.form = this._formBuilder.group({
             id: [null],
             externa: [null],
+            processos: [null],
             processo: [null],
             mecanismoRemessa: ['manual'],
             urgente: [null],
