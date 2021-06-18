@@ -302,6 +302,8 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -284,6 +284,8 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -292,6 +292,8 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

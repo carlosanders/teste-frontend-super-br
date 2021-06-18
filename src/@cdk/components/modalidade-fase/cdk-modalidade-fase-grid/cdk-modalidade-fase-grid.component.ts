@@ -283,6 +283,8 @@ export class CdkModalidadeFaseGridComponent implements AfterViewInit, OnInit, On
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

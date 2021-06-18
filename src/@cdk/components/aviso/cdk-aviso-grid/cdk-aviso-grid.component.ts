@@ -298,6 +298,8 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

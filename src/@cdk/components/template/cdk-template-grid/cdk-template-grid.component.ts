@@ -297,6 +297,8 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

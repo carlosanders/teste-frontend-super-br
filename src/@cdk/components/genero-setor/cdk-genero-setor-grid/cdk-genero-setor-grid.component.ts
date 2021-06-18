@@ -281,6 +281,8 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

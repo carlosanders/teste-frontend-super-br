@@ -283,6 +283,8 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -283,6 +283,8 @@ export class CdkModalidadeCategoriaSigiloGridComponent implements AfterViewInit,
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

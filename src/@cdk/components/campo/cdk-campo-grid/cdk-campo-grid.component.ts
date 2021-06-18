@@ -266,6 +266,8 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

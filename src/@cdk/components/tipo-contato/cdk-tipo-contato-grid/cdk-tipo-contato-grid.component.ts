@@ -284,6 +284,8 @@ export class CdkTipoContatoGridComponent implements AfterViewInit, OnInit, OnCha
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

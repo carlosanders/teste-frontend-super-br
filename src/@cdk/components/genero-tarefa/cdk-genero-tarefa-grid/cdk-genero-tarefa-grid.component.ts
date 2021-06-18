@@ -283,6 +283,8 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

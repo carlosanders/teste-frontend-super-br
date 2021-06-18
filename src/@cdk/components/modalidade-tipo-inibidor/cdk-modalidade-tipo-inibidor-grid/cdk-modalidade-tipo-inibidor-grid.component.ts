@@ -283,6 +283,8 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -284,6 +284,8 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

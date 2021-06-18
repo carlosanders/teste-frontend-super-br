@@ -288,6 +288,8 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

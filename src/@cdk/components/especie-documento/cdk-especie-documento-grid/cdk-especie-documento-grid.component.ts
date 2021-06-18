@@ -288,6 +288,8 @@ export class CdkEspecieDocumentoGridComponent implements AfterViewInit, OnInit, 
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -291,6 +291,8 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

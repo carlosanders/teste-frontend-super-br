@@ -299,6 +299,8 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

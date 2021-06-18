@@ -341,6 +341,8 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -283,6 +283,8 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

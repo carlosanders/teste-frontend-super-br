@@ -292,6 +292,8 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

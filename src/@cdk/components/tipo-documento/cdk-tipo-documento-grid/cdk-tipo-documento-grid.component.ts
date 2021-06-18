@@ -294,6 +294,8 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

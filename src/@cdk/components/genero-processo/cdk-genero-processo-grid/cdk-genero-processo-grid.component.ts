@@ -281,6 +281,8 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

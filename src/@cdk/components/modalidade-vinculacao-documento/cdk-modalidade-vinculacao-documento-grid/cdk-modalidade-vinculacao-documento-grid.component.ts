@@ -284,6 +284,8 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

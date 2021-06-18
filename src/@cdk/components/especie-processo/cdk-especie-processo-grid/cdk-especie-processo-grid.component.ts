@@ -279,6 +279,8 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

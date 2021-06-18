@@ -294,6 +294,8 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

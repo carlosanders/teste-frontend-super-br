@@ -284,6 +284,8 @@ export class CdkModalidadeQualificacaoPessoaGridComponent implements AfterViewIn
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

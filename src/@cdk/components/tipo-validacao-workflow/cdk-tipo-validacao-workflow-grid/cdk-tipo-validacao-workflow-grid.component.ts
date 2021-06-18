@@ -284,6 +284,8 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -31,6 +31,9 @@ export class CdkAvisoFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    hasInatived = false;
+
     /**
      * Constructor
      */
@@ -47,6 +50,7 @@ export class CdkAvisoFilterComponent {
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -93,8 +97,11 @@ export class CdkAvisoFilterComponent {
             andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -110,7 +117,12 @@ export class CdkAvisoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }

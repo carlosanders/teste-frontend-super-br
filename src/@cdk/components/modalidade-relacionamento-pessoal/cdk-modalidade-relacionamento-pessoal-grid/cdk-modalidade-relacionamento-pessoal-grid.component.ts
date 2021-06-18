@@ -283,6 +283,8 @@ export class CdkModalidadeRelacionamentoPessoalGridComponent implements AfterVie
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -283,6 +283,8 @@ export class CdkConfiguracaoNupGridComponent implements AfterViewInit, OnInit, O
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModeloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }
