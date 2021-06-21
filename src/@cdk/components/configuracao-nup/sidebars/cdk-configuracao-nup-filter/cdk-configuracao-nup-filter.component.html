@@ -27,12 +27,34 @@
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         </mat-form-field>
 
+        <mat-checkbox formControlName="ativo">
+            Ativo
+        </mat-checkbox>
+
+        <mat-form-field>
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
                    [matAutocomplete]="usuario.autocomplete"
                    (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Apagado Por"
+                   formControlName="apagadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
@@ -61,6 +83,20 @@
             <cdk-date-filter [datetime]="true" campo="atualizadoEm"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraAtualizadoEm($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterApagadoEm?.length}">Apagado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroApagadoEm"
+                    [ngClass]="{'filtrado': filterApagadoEm?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroApagadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="apagadoEm"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraApagadoEm($event)">
             </cdk-date-filter>
         </mat-menu>
 

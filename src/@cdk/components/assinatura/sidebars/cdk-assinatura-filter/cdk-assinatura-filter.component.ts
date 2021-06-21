@@ -58,7 +58,7 @@ export class CdkAssinaturaFilterComponent {
         }
 
         if (this.filterAssinadoEm.length > 0) {
-            andXFilter.push(this.filterAssinadoEm[0]);
+            this.filterAssinadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
 
         if (this.form.get('assinadorPor').value) {

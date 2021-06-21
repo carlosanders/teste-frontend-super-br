@@ -79,20 +79,22 @@ export class CdkDocumentoIdentificadorFilterComponent {
             andXFilter.push({'pessoa.id': `eq:${this.form.get('pessoa').value.id}`});
         }
 
-        if (this.form.get('dataEmissao').value) {
-            andXFilter.push({'dataEmissao': `eq:${this.form.get('dataEmissao').value}`});
+        if (this.filterDataEmissao?.length) {
+            this.filterDataEmissao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterDataEmissao.length > 0) {
-            andXFilter.push(this.filterDataEmissao[0]);
-        };
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
 
-        if (this.filterCriadoEm.length > 0) {
-            andXFilter.push(this.filterCriadoEm[0]);
-        };
-
-        if (this.filterAtualizadoEm.length > 0) {
-            andXFilter.push(this.filterAtualizadoEm[0]);
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {

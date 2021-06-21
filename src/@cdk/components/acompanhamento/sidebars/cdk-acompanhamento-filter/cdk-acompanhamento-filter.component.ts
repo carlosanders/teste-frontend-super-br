@@ -64,11 +64,11 @@ export class CdkAcompanhamentoFilterComponent {
         }
 
         if (this.filterCriadoEm.length > 0) {
-            andXFilter.push(this.filterCriadoEm[0]);
+            this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
 
         if (this.filterAtualizadoEm.length > 0) {
-            andXFilter.push(this.filterAtualizadoEm[0]);
+            this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
 
         if (this.form.get('criadoPor').value) {

@@ -105,13 +105,6 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Criado Em</mat-label>
-            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-        </mat-form-field>
-
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"

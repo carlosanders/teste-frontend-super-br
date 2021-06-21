@@ -69,28 +69,40 @@ export class CdkAfastamentoFilterComponent {
             andXFilter.push({'modalidadeAfastamento.id': `eq:${this.form.get('modalidadeAfastamento').value.id}`});
         }
 
-        if (this.filterDataInicio.length > 0) {
-            andXFilter.push(this.filterDataInicio[0]);
+        if (this.filterDataInicio?.length) {
+            this.filterDataInicio.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterDataInicioBloqueio.length > 0) {
-            andXFilter.push(this.filterDataInicioBloqueio[0]);
+        if (this.filterDataInicioBloqueio?.length) {
+            this.filterDataInicioBloqueio.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterFim.length > 0) {
-            andXFilter.push(this.filterFim[0]);
+        if (this.filterFim?.length) {
+            this.filterFim.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterFimBloqueio.length > 0) {
-            andXFilter.push(this.filterFimBloqueio[0]);
+        if (this.filterFimBloqueio?.length) {
+            this.filterFimBloqueio.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterCriadoEm.length > 0) {
-            andXFilter.push(this.filterCriadoEm[0]);
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterAtualizadoEm.length > 0) {
-            andXFilter.push(this.filterAtualizadoEm[0]);
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {

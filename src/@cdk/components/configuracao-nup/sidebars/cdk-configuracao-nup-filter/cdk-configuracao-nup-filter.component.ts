@@ -24,6 +24,8 @@ export class CdkConfiguracaoNupFilterComponent {
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
+    filterApagadoEm = [];
+
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
@@ -34,10 +36,12 @@ export class CdkConfiguracaoNupFilterComponent {
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
         });
     }
 
@@ -60,12 +64,20 @@ export class CdkConfiguracaoNupFilterComponent {
             });
         }
 
-        if (this.filterCriadoEm.length > 0) {
-            andXFilter.push(this.filterCriadoEm[0]);
+        if (this.form.get('ativo').value) {
+            andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+        } 
+
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterAtualizadoEm.length > 0) {
-            andXFilter.push(this.filterAtualizadoEm[0]);
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -95,6 +107,11 @@ export class CdkConfiguracaoNupFilterComponent {
 
     filtraAtualizadoEm(value: any): void {
         this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
         this.limparFormFiltroDatas$.next(false);
     }
 

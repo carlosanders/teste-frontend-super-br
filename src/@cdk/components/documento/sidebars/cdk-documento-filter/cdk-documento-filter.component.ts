@@ -175,16 +175,22 @@ export class CdkDocumentoFilterComponent {
             andXFilter.push({'dataHoraProducao': `eq:${this.form.get('dataHoraProducao').value}`});
         }
 
-        if (this.filterDataProducao.length > 0) {
-            andXFilter.push(this.filterDataProducao[0]);
-        };
+        if (this.filterDataProducao?.length) {
+            this.filterDataProducao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
 
-        if (this.filterCriadoEm.length > 0) {
-            andXFilter.push(this.filterCriadoEm[0]);
-        };
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
 
-        if (this.filterAtualizadoEm.length > 0) {
-            andXFilter.push(this.filterAtualizadoEm[0]);
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {

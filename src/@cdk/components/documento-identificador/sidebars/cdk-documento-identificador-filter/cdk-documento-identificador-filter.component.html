@@ -7,8 +7,9 @@
 
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+
         <mat-form-field>
-            <mat-label>Cóodigo do Documento</mat-label>
+            <mat-label>Número</mat-label>
             <input matInput #codigoDocumento
                    name="codigoDocumento"
                    formControlName="codigoDocumento">
@@ -43,6 +44,13 @@
         </mat-form-field>
 
         <mat-form-field>
+            <mat-label>Pessoa</mat-label>
+            <input matInput #pessoa
+                   name="pessoa"
+                   formControlName="pessoa">
+        </mat-form-field>
+
+        <mat-form-field>
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
                    [matAutocomplete]="usuario.autocomplete"
@@ -62,30 +70,16 @@
         </mat-form-field>
 
         <div class="filtro-data">
-            <span [ngClass]="{'filtrado': filterDataEmissao?.length}">Data de Emissao</span>
+            <span [ngClass]="{'filtrado': filterDataEmissao?.length}">Data de Emissão</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataEmissao"
                     [ngClass]="{'filtrado': filterDataEmissao?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
         <mat-menu #filtroDataEmissao="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="dataEmissao"
+            <cdk-date-filter [datetime]="false" campo="dataEmissao"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraDataEmissao($event)">
-            </cdk-date-filter>
-        </mat-menu>
-
-        <div class="filtro-data">
-            <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
-                    [ngClass]="{'filtrado': filterCriadoEm?.length}">
-                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
-            </button>
-        </div>
-        <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="criadoEm"
-                             [limparForm]="this.limparFormFiltroDatas$"
-                             (filtra)="this.filtraCriadoEm($event)">
             </cdk-date-filter>
         </mat-menu>
 

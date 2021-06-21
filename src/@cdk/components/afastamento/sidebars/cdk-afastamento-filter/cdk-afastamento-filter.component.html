@@ -29,6 +29,24 @@
             </cdk-colaborador-autocomplete>
         </mat-form-field>
 
+        <mat-form-field>
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuarioCriadoPor.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterDataInicio?.length}">Data de Início</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataInicio"
@@ -37,7 +55,7 @@
             </button>
         </div>
         <mat-menu #filtroDataInicio="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="dataInicio"
+            <cdk-date-filter [datetime]="false" campo="dataInicio"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraDataInicio($event)">
             </cdk-date-filter>
@@ -51,7 +69,7 @@
             </button>
         </div>
         <mat-menu #filtroDataInicioBloqueio="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="dataInicioBloqueio"
+            <cdk-date-filter [datetime]="false" campo="dataInicioBloqueio"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraDataInicioBloqueio($event)">
             </cdk-date-filter>
@@ -65,7 +83,7 @@
             </button>
         </div>
         <mat-menu #filtroFim="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="dataFim"
+            <cdk-date-filter [datetime]="false" campo="dataFim"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraFim($event)">
             </cdk-date-filter>
@@ -79,20 +97,11 @@
             </button>
         </div>
         <mat-menu #filtroFimBloqueio="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="dataFimBloqueio"
+            <cdk-date-filter [datetime]="false" campo="dataFimBloqueio"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraFimBloqueio($event)">
             </cdk-date-filter>
         </mat-menu>
-        
-        <mat-form-field>
-            <input matInput placeholder="Criado Por"
-                   formControlName="criadoPor"
-                   [matAutocomplete]="usuarioCriadoPor.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
 
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
@@ -108,15 +117,6 @@
             </cdk-date-filter>
         </mat-menu>
 
-        <mat-form-field>
-            <input matInput placeholder="Atualizado Por"
-                   formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterAtualizadoEm?.length}">Atualizado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm"
@@ -130,7 +130,6 @@
                              (filtra)="this.filtraAtualizadoEm($event)">
             </cdk-date-filter>
         </mat-menu>
-
     </form>
 </div>
 

@@ -17,7 +17,7 @@
             </button>
         </div>
         <mat-menu #filtroAssinadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="assinadoEm"
+            <cdk-date-filter [datetime]="false" campo="assinadoEm"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraAssinadoEm($event)">
             </cdk-date-filter>

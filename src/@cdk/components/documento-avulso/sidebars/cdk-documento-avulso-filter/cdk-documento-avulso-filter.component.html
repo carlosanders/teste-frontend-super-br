@@ -10,42 +10,15 @@
     <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
-            <mat-label>Observação</mat-label>
-            <input matInput #observacao
-                   name="observacao"
-                   formControlName="observacao">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Post It</mat-label>
-            <input matInput #postIt
-                   name="postIt"
-                   formControlName="postIt">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Auditoria de Distribuição</mat-label>
-            <input matInput #auditoriaDistribuicao
-                   name="auditoriaDistribuicao"
-                   formControlName="auditoriaDistribuicao">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Tipo de Distribuição</mat-label>
-            <input matInput #tipoDistribuicao
-                   name="tipoDistribuicao"
-                   formControlName="tipoDistribuicao">
-        </mat-form-field>
-
-        <mat-form-field>
             <input matInput placeholder="Setor de Origem"
                    formControlName="setorOrigem"
                    [matAutocomplete]="setor.autocomplete"
                    (change)="verificarValor($event)">
-            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
+            <cdk-setor-autocomplete #setorOrigem="setorAutocomplete" [control]="form.get('setorOrigem')">
             </cdk-setor-autocomplete>
         </mat-form-field>
 
+        
         <mat-form-field>
             <input matInput placeholder="Espécie de Documento Avulso"
                    formControlName="especieDocumentoAvulso"
@@ -56,6 +29,17 @@
             </cdk-especie-documento-avulso-autocomplete>
         </mat-form-field>
 
+        <mat-form-field>
+            <mat-label>Observação</mat-label>
+            <input matInput #observacao
+                   name="observacao"
+                   formControlName="observacao">
+        </mat-form-field>
+
+        <mat-checkbox formControlName="urgente">
+            Urgente
+        </mat-checkbox>    
+        
         <mat-form-field>
             <input matInput placeholder="Modelo"
                    formControlName="modelo"
@@ -112,6 +96,15 @@
         </mat-form-field>
 
         <mat-form-field>
+            <input matInput placeholder="Setor Responsável"
+                   formControlName="setorResponsavel"
+                   [matAutocomplete]="setor.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorResponsavel')">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
             <input matInput placeholder="UsuárioResposta"
                    formControlName="usuarioResposta"
                    [matAutocomplete]="usuario.autocomplete"
@@ -129,25 +122,23 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
-            <input matInput placeholder="Setor Responsável"
-                   formControlName="setorResponsavel"
-                   [matAutocomplete]="setor.autocomplete"
+        <mat-form-field>        
+            <input matInput placeholder="Processo"
+                   formControlName="processo"
+                   [matAutocomplete]="processo.autocomplete"
                    (change)="verificarValor($event)">
-            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorResponsavel')">
-            </cdk-setor-autocomplete>
+            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
+            </cdk-processo-autocomplete>
         </mat-form-field>
 
-        <!--        <mat-form-field>-->
-        <!---->
-        <!--                <input matInput placeholder="Processo"-->
-        <!--                       formControlName="processo"-->
-        <!--                       [matAutocomplete]="processo.autocomplete"
-                   (change)="verificarValor($event)">-->
-        <!--            </div>-->
-        <!--            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">-->
-        <!--            </cdk-processo-autocomplete>-->
-        <!--        </mat-form-field>-->
+        <mat-form-field>        
+            <input matInput placeholder="Processo de Destino"
+                   formControlName="processoDestino"
+                   [matAutocomplete]="processo.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-processo-autocomplete #processoDestino="processoAutocomplete" [control]="form.get('processoDestino')">
+            </cdk-processo-autocomplete>
+        </mat-form-field>
 
         <mat-form-field>
             <input matInput placeholder="Origem do Documento Avulso"
@@ -169,6 +160,41 @@
         </mat-form-field>
 
         <mat-form-field>
+            <mat-label>Post It</mat-label>
+            <input matInput #postIt
+                   name="postIt"
+                   formControlName="postIt">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Distribuição Automática</mat-label>
+            <input matInput #distribuicaoAutomatica
+                   name="distribuicaoAutomatica"
+                   formControlName="distribuicaoAutomatica">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Livre Balanceamento</mat-label>
+            <input matInput #livreBalanceamento
+                   name="livreBalanceamento"
+                   formControlName="livreBalanceamento">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Auditoria de Distribuição</mat-label>
+            <input matInput #auditoriaDistribuicao
+                   name="auditoriaDistribuicao"
+                   formControlName="auditoriaDistribuicao">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Tipo de Distribuição</mat-label>
+            <input matInput #tipoDistribuicao
+                   name="tipoDistribuicao"
+                   formControlName="tipoDistribuicao">
+        </mat-form-field>       
+
+        <mat-form-field>
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
                    [matAutocomplete]="usuario.autocomplete"
@@ -185,7 +211,105 @@
                    (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
-        </mat-form-field>        
+        </mat-form-field>
+        
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraEncerramento?.length}">Data de Encerramento</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraEncerramento"
+                    [ngClass]="{'filtrado': filterDataHoraEncerramento?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraEncerramento="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataHoraEncerramento"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraEncerramento($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraInicioPrazo?.length}">Data de Ínicio do Prazo</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraInicioPrazo"
+                    [ngClass]="{'filtrado': filterDataHoraInicioPrazo?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraInicioPrazo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataHoraInícioPrazo"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraInicioPrazo($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraFinalPrazo?.length}">Data de Final do Prazo</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraFinalPrazo"
+                    [ngClass]="{'filtrado': filterDataHoraFinalPrazo?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraFinalPrazo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataHoraFinalPrazo"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraFinalPrazo($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraConclusaoPrazo?.length}">Data de Conclusão do Prazo</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraConclusaoPrazo"
+                    [ngClass]="{'filtrado': filterDataHoraConclusaoPrazo?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraConclusaoPrazo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataHoraConclusaoPrazo"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraConclusaoPrazo($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraRemessa?.length}">Data da Remessa</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraRemessa"
+                    [ngClass]="{'filtrado': filterDataHoraRemessa?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraRemessa="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataHoraRemessa"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraRemessa($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraResposta?.length}">Data da Resposta</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraResposta"
+                    [ngClass]="{'filtrado': filterDataHoraResposta?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraResposta="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataHoraResposta"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraResposta($event)">
+            </cdk-date-filter>
+        </mat-menu>
+        
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraReiteracao?.length}">Data da Reiteração</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraReiteracao"
+                    [ngClass]="{'filtrado': filterDataHoraReiteracao?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraReiteracao="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="dataHoraReiteracao"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraReiteracao($event)">
+            </cdk-date-filter>
+        </mat-menu>
 
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
