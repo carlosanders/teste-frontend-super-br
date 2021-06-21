@@ -1,6 +1,6 @@
 /*
  * @file Zoom plugin for CKEditor
- * Copyright (C) 2008-2013 Alfonso Martínez de Lizarrondo
+ * Copyright (C) 2008-2013 Alfonso Mart�nez de Lizarrondo
  * Upgrade to CKEditor 4 sponsored by Solution architects gmbh
  *
  * == BEGIN LICENSE ==
@@ -21,86 +21,99 @@
  *
  */
 
-CKEDITOR.plugins.add( "zoom",
-    {
-        requires : [ "richcombo" ],
+CKEDITOR.plugins.add( 'zoom',
+{
+	requires : [ 'richcombo' ],
 
-        init : function( editor ) {
-            var config = editor.config;
+	init : function( editor )
+	{
 
-            // Inject basic sizing for the pane as the richCombo doesn't allow to specify it
-            var node = CKEDITOR.document.getHead().append( "style" );
-            node.setAttribute( "type", "text/css" );
-            var content = ".cke_combopanel__zoom { height: 200px; width: 100px; }" +
-                ".cke_combo__zoom .cke_combo_text { width: 40px;}";
+                var config = editor.config;
 
-            if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-                node.$.styleSheet.cssText = content;
-            } else {
-                node.$.innerHTML = content;
-            }
+		// Inject basic sizing for the pane as the richCombo doesn't allow to specify it
+		var node = CKEDITOR.document.getHead().append( 'style' );
+		node.setAttribute( 'type', 'text/css' );
+		var content = '.cke_combopanel__zoom { height: 200px; width: 100px; }' +
+					'.cke_combo__zoom .cke_combo_text { width: 40px;}';
 
-            editor.ui.addRichCombo( "Zoom",
-                {
-                    label : "Zoom",
-                    title : "Zoom",
-                    multiSelect : false,
-                    className : "zoom",
-                    modes: {wysiwyg: 1, source: 1 },
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version<11 )
+			node.$.styleSheet.cssText = content;
+		else
+			node.$.innerHTML = content;
 
-                    panel :
-                        {
-                            css : [ CKEDITOR.skin.getPath( "editor" ) ],
-                        },
+		editor.ui.addRichCombo( 'Zoom',
+			{
+				label : 'Zoom',
+				title : 'Zoom',
+				multiSelect : false,
+				className : 'zoom',
+				modes:{wysiwyg:1,source:1 },
 
-                    init : function() {
-                        var zoomOptions = [50, 75, 100, 125, 150, 200],
-                            zoom;
+				panel :
+				{
+					css : [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss )
+				},
 
-                        this.startGroup( "Zoom" );
-                        // Loop over the Array, adding all items to the combo.
-                        for ( var i = 0 ; i < zoomOptions.length ; i++ ) {
-                            zoom = zoomOptions[ i ];
-                            // value, html, text
-                            this.add( zoom + "", zoom + " %", zoom + " %" );
-                        }
-                        // Default value on first click
-                        this.setValue("100", "100 %");
-                    },
+				init : function()
+				{
+					var zoomOptions = [50, 75, 100, 125, 150, 200, 400],
+						zoom;
 
-                    onClick : function( sValue ) {
-                        var body = editor.editable().$;
-                        var value = parseInt(sValue);
+					this.startGroup( 'Zoom level' );
+					// Loop over the Array, adding all items to the combo.
+					for ( var i = 0 ; i < zoomOptions.length ; i++ )
+					{
+						zoom = zoomOptions[ i ];
+						// value, html, text
+						this.add( zoom + "", zoom + " %", zoom + " %" );
+					}
 
-                        body.style.MozTransformOrigin = "top left";
-                        body.style.MozTransform = "scale(" + (value / 100)  + ")";
+					// Default value on first click
+					this.setValue("100", "100 %");
+				},
 
-                        body.style.WebkitTransformOrigin = "top left";
-                        body.style.WebkitTransform = "scale(" + (value / 100)  + ")";
+				onClick : function( sValue )
+				{
 
-                        body.style.OTransformOrigin = "top left";
-                        body.style.OTransform = "scale(" + (value / 100)  + ")";
+					var body = editor.editable().$;
+					var value = parseInt(sValue);
 
-                        body.style.TransformOrigin = "top left";
-                        body.style.Transform = "scale(" + (value / 100)  + ")";
-                        // IE
-                        body.style.zoom = value / 100;
+					body.style.MozTransformOrigin = "top left";
+					body.style.MozTransform = "scale(" + (value/100)  + ")";
 
-                        this.setValue( sValue, sValue + " %");
-                        this.lastValue = sValue;
-                    },
+					body.style.WebkitTransformOrigin = "top left";
+					body.style.WebkitTransform = "scale(" + (value/100)  + ")";
 
-                    onRender: function() {
-                        editor.on( "mode", function( ev ) {
-                            // Restore zoom level after switching from Source mode
-                            if (this.lastValue) {
-                                this.onClick( this.lastValue );
-                            }
+					body.style.OTransformOrigin = "top left";
+					body.style.OTransform = "scale(" + (value/100)  + ")";
 
-                        }, this );
-                    },
-                });
-            // End of richCombo element
+					body.style.TransformOrigin = "top left";
+					body.style.Transform = "scale(" + (value/100)  + ")";
+					// IE
+					body.style.zoom = value/100;
 
-        }, //Init
-    } );
+					this.setValue( sValue, sValue + " %");
+					this.lastValue = sValue;
+				},
+
+				onRender: function() {
+
+					editor.on( 'mode', function( ev ) {
+                                                if (this.lastValue)
+							this.onClick( this.lastValue );
+
+					}, this );
+
+                                        editor.on( 'dataReady', function( ev ) {
+                                            var z = 100;
+                                            if (z){
+                                                this.onClick( z );
+                                            }
+					}, this );
+				}
+			});
+		// End of richCombo element
+
+	} //Init
+} );
+
