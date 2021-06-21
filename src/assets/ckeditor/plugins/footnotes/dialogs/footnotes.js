@@ -16,7 +16,7 @@
             editor_name: false,
             // Basic properties of the dialog window: title, minimum size.
             title: 'Gerenciador de Notas',
-            minWidth: 700,
+            minWidth: 400,
             minHeight: 200,
             footnotes_el: false,
 
@@ -35,7 +35,7 @@
                             id: 'new_footnote',
                             'class': 'footnote_text',
                             label: 'Nova Nota:',
-                            inputStyle: 'height: 400px',
+                            inputStyle: 'height: 100px',
                         },
                         {
                             // Text input field for the footnotes title (explanation).
@@ -48,7 +48,7 @@
                             // Called by the main setupContent call on dialog initialization.
                             setup: function( element ) {
                                 var dialog = this.getDialog(),
-                                    // $el = Ext.get('#' + this.domId),
+                                   // $el = Ext.get('#' + this.domId),
                                     $el = $('#' + this.domId),
                                     $footnotes, $this;
 
@@ -57,8 +57,8 @@
                                 editor = dialog.getParentEditor();
                                 // Dynamically add existing footnotes:
                                 $footnotes = $(editor.editable().$).find('.footnotes ol');
-                                /* var $foot = Ext.Element(editor.editable().$);
-                                 $footnotes = Ext.query('.footnotes ol',$foot);*/
+                               /* var $foot = Ext.Element(editor.editable().$);
+                                $footnotes = Ext.query('.footnotes ol',$foot);*/
                                 $this = this;
 
                                 if ($footnotes.length > 0) {
@@ -102,7 +102,7 @@
                 // Allow page to scroll with dialog to allow for many/long footnotes
                 // (https://github.com/andykirk/CKEditorFootnotes/issues/12)
                 jQuery('.cke_dialog').css({'position': 'absolute', 'top': '2%'});
-                jQuery('.cke_dialog_ui_text').css({'overflow': 'scroll', 'height': '200px'});
+                jQuery('.cke_dialog_ui_text').css({'overflow': 'scroll', 'height': '400px'});
 
                 var current_editor_id = dialog.getParentEditor().id;
 
@@ -126,9 +126,9 @@
                     config.allowedContent = 'br em strong; a[!href]';
                     config.enterMode = CKEDITOR.ENTER_BR;
                     config.autoParagraph = false;
-                    config.height = 400;
+                    config.height = 80;
                     config.resize_enabled = false;
-                    config.autoGrow_minHeight = 200;
+                    config.autoGrow_minHeight = 80;
                     config.removePlugins = 'footnotes,printsemzoom,salvar,assinar,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,placeholder,campos,specialchar,fastimage,elementspath';
                     config.removeButtons = 'Cut,Copy,Paste,PasteText,Undo,Redo,Find,Maximize,Replace';
                     config.on = {

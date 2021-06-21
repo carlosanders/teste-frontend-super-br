@@ -83,14 +83,15 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Input()
     config = {
-        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,' +
+        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,placeholder,citacao,titulo,subtitulo,texttransform,zoom,footnotes,' +
             'pastebase64,sourcearea,imageresizerowandcolumn',
         language: 'pt-br',
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
         contentsCss: '/assets/ckeditor/contents.css',
-        justifyClasses: ['esquerda', 'centralizado', 'direita', 'justificado', 'paragrafo'],
+        justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
         resize_enabled: false,
+        removePlugins: 'elementspath',
 
         width: '100%',
         height: '100%',
@@ -102,9 +103,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         pasteFromWordRemoveStyles: false,
         pasteFromWordRemoveFontStyles: false,
 
-        htmlEncodeOutput: false,
-        entities: false,
-        basicEntities: false,
+        extraAllowedContent: 'table(*);td{*}(*)[*];col[*](*){*}',
 
         toolbar:
             [
