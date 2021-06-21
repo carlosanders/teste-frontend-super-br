@@ -83,7 +83,13 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Outros Nomes',
                 link: 'nomes',
                 pessoa: true
-            }
+            },
+            {
+                nome: 'Vinculação Pessoa Barramento',
+                link: 'vinculacao-pessoa-barramento',
+                pessoa: true,
+                role: 'ROLE_ADMIN'
+            },
         );
 
         this.links = CdkUtils.sortArraySideBar(this.links);

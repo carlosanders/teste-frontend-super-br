@@ -128,12 +128,13 @@ export class LoginComponent implements OnInit {
         this.config$.pipe(
             filter(config => !!config)
         ).subscribe((config) => {
-            this.config = config;
             window.document.title = config.sigla;
             this.cdkConfigService.logo = config.logo;
             this.cdkConfigService.icone = config.icone;
             this.cdkConfigService.nome = config.name;
             this.cdkConfigService.sigla = config.sigla;
+            this.cdkConfigService.barramento = config.barramento;
+            localStorage.setItem('barramento', config.barramento);
         });
 
         if (environment.base_url_x509) {

@@ -17,6 +17,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
 import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -37,11 +38,13 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
+<<<<<<< HEAD
         MatMenuModule,
         CdkDateFilterModule,
+        MatButtonToggleModule,
+>>>>>>> develop
     ],
     providers: [
-        ConfiguracaoNupService,
     ],
     exports: [
         CdkConfiguracaoNupFilterComponent

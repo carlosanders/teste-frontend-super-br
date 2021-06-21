@@ -20,6 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {CargoDataSource} from '@cdk/data-sources/cargo-data-source';
 import {Cargo} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {CdkCargoFilterComponent} from '../sidebars/cdk-cargo-filter/cdk-cargo-filter.component';
 
 @Component({
     selector: 'cdk-cargo-grid',
@@ -134,6 +135,9 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkCargoFilterComponent)
+    cdkCargoFilterComponent: CdkCargoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -277,6 +281,8 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkCargoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

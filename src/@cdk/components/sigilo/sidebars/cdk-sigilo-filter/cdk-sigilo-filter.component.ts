@@ -127,6 +127,15 @@ export class CdkSigiloFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        if (this.form.get('desclassificado').value) {
+            if(this.form.get('desclassificado').value !== 'todos') {
+                andXFilter.push({'desclassificado': `eq:${this.form.get('desclassificado').value}`});
+            }
+            else {
+                delete andXFilter['desclassificado'];
+            }
+        }
+
         const request = {
             filters: {},
         };

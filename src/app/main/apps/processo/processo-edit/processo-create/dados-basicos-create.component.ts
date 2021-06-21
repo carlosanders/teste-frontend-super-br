@@ -346,7 +346,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
                 this.tarefa.dataHoraInicioPrazo = moment();
                 this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
-                this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
+                this.tarefa.setorOrigem = processo.setorAtual;
 
                 this.assuntoActivated = 'form';
                 this.interessadoActivated = 'form';

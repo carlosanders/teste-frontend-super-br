@@ -45,9 +45,9 @@
             <textarea matInput formControlName="DQL" required></textarea>
         </mat-form-field>
 
-        <mat-slide-toggle formControlName="ativo">
+        <mat-checkbox formControlName="ativo">
             Ativo
-        </mat-slide-toggle>
+        </mat-checkbox>
     </mat-card>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

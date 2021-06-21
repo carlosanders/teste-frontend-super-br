@@ -15,6 +15,7 @@ import {CdkTipoAcaoWorkflowFilterComponent} from './cdk-tipo-acao-workflow-filte
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         TipoAcaoWorkflowService,

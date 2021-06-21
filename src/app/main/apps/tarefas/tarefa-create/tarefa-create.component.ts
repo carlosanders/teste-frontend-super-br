@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Colaborador, Pagination, Processo, Tarefa} from '@cdk/models';
+import {Colaborador, Pagination, Processo, Setor, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -126,7 +126,9 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
         this.tarefa.dataHoraInicioPrazo = moment();
         this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
-        this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
+        let lotacaoPrincipal: Setor = null;
+        this._profile.lotacoes.filter(lotacao => lotacao.principal ? lotacaoPrincipal = lotacao.setor : null);
+        this.tarefa.setorOrigem = lotacaoPrincipal ? lotacaoPrincipal : this._profile.lotacoes[0].setor;
 
         if (this.processo) {
             this.tarefa.processo = this.processo;

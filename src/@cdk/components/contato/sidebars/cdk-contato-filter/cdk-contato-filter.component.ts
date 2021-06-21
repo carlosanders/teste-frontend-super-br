@@ -26,6 +26,8 @@ export class CdkContatoFilterComponent {
     filterAtualizadoEm = [];
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+    @Input()
+    hasInatived = false;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -34,11 +36,13 @@ export class CdkContatoFilterComponent {
         this.form = this._formBuilder.group({
             tipoContato: [null],
             contato: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -80,6 +84,15 @@ export class CdkContatoFilterComponent {
             });
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         if (this.filterCriadoEm?.length) {
             this.filterCriadoEm.forEach((filter) => {
                 andXFilter.push(filter);
@@ -100,9 +113,13 @@ export class CdkContatoFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
+
 
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
@@ -136,7 +153,13 @@ export class CdkContatoFilterComponent {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }
 

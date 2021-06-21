@@ -4,8 +4,7 @@
         Urgente
     </mat-slide-toggle>
 
-    <mat-form-field>
-
+    <mat-form-field *ngIf="mode === 'regular'">
         <input matInput placeholder="Processo"
                formControlName="processo"
                [matAutocomplete]="processo.autocomplete" required
@@ -57,6 +56,9 @@
             <mat-radio-button value="manual">
                 Manual
             </mat-radio-button>
+            <mat-radio-button [value]="'barramento'" *ngIf="_cdkConfigService.barramento === '1'">
+                Barramento
+            </mat-radio-button>
 
             <ng-template #dynamicComponent></ng-template>
         </mat-radio-group>
@@ -72,14 +74,23 @@
             [control]="form.get('pessoaDestino')"
             [pagination]="pessoaDestinoPagination">
         </cdk-pessoa-autocomplete>
-        <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button
+        <button *ngIf="form.get('pessoaDestino').value &&
+                form.get('pessoaDestino').value.id &&
+                form.get('mecanismoRemessa').value !== 'barramento'"
+                matSuffix mat-button
                 mat-icon-button
                 (click)="doEditPessoaDestino()">
             <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button
+                *ngIf="form.get('mecanismoRemessa').value !== 'barramento'"
                 (click)="doGerirPessoaDestino()">
             <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                *ngIf="form.get('mecanismoRemessa').value === 'barramento'"
+                (click)="showPessoaDestinoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
             {{form.get('pessoaDestino').errors.formError}}
@@ -97,7 +108,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="!valid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
@@ -128,3 +139,10 @@
     (selected)="selectSetorOrigem($event)"
     (cancel)="cancel()">
 </cdk-setor-tree>
+
+<cdk-pessoa-gridsearch
+    *ngIf="activeCard === 'pessoa-gridsearch'"
+    [pagination]="pessoaDestinoPagination"
+    (selected)="selectPessoaDestino($event)"
+    (cancel)="cancel()">
+</cdk-pessoa-gridsearch>

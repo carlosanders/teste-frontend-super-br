@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeQualificacaoPessoa} from '@cdk/models';
 import {ModalidadeQualificacaoPessoaDataSource} from '@cdk/data-sources/modalidade-qualificacao-pessoa-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeQualificacaoPessoaFilterComponent} from '../sidebars/cdk-modalidade-qualificacao-pessoa-filter/cdk-modalidade-qualificacao-pessoa-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-qualificacao-pessoa-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeQualificacaoPessoaGridComponent implements AfterViewIn
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeQualificacaoPessoaFilterComponent)
+    cdkModalidadeQualificacaoPessoaFilterComponent: CdkModalidadeQualificacaoPessoaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -280,6 +285,8 @@ export class CdkModalidadeQualificacaoPessoaGridComponent implements AfterViewIn
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeQualificacaoPessoaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

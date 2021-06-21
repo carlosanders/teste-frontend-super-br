@@ -17,13 +17,14 @@ import * as moment from 'moment';
 
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {getMercureState, getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store/actions';
 import {getSelectedTarefas} from '../store/selectors';
+import {getProcessosIdsEncaminhar} from "../encaminhamento-bloco/store";
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -39,6 +40,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
+
+    processosIdsEncaminhar$: Observable<number[]>;
+    processosIdsEncaminhar: number[];
 
     operacoes: any[] = [];
 
@@ -69,13 +73,15 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     assinaturaInterval = null;
 
-        /**
-         *
-         * @param _store
-         * @param _loginService
-         * @param _router
-         * @param _changeDetectorRef
-         */
+    encerraTarefa: boolean;
+
+    /**
+     *
+     * @param _store
+     * @param _loginService
+     * @param _router
+     * @param _changeDetectorRef
+     */
     constructor(
         private _store: Store<fromStore.AtividadeCreateBlocoAppState>,
         public _loginService: LoginService,
@@ -83,12 +89,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
-
-        this.tarefas$.pipe(
-            takeUntil(this._unsubscribeAll),
-        ).subscribe((tarefas) => {
-            this.tarefas = tarefas;
-        });
+        this.processosIdsEncaminhar$ = this._store.pipe(select(getProcessosIdsEncaminhar));
 
         this._store
             .pipe(
@@ -129,26 +130,38 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
 
-        this.tarefas$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((tarefas) => {
-            this.tarefas = tarefas;
-            this.atividade.usuario = tarefas[0].usuarioResponsavel;
-            this.atividade.setor = tarefas[0].setorResponsavel;
-
-            if (tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
-                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
-            } else {
-                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
-            }
-        });
-
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
         ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+            }
+        });
+
+        this.processosIdsEncaminhar$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((ids) => {
+            this.processosIdsEncaminhar = ids;
+        });
+
+        this.tarefas$.pipe(
+            distinctUntilChanged(),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((tarefas) => {
+            this.tarefas = tarefas;
+            if (tarefas.length) {
+                this.atividade.usuario = tarefas[0].usuarioResponsavel;
+                this.atividade.setor = tarefas[0].setorResponsavel;
+
+                if (tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+                } else {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
+                }
+            } else if (this.processosIdsEncaminhar.length > 0) {
+                // tslint:disable-next-line:max-line-length
+                this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/encaminhamento-bloco']).then();
             }
         });
 
@@ -173,7 +186,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     case 'assinatura_finalizada':
                         this.javaWebStartOK = false;
                         this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
                         break;
                 }
             }
@@ -234,6 +251,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         delete values.unidadeAprovacao;
 
         this.operacoes = [];
+
+        this.encerraTarefa = values.encerraTarefa;
 
         this.tarefas.forEach((tarefa) => {
             const atividade = new Atividade();

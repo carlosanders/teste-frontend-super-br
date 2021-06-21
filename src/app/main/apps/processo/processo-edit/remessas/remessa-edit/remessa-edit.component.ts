@@ -8,7 +8,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {getProcesso} from '../../../store/selectors';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -43,11 +43,13 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _router
      * @param _loginService
+     * @param activatedRoute
      */
     constructor(
         private _store: Store<fromStore.RemessaEditAppState>,
         private _router: Router,
         public _loginService: LoginService,
+        public activatedRoute: ActivatedRoute
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));

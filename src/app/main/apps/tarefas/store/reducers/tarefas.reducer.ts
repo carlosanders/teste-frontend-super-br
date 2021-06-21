@@ -91,7 +91,7 @@ export const TarefasInitialState: TarefasState = {
     errorRedistribuir: [],
     errorDistribuir: [],
     clearForm: false,
-    savingObservacao: false
+    savingObservacao: false,
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {

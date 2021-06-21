@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieTarefa} from '@cdk/models';
 import {EspecieTarefaDataSource} from '@cdk/data-sources/especie-tarefa-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkEspecieTarefaFilterComponent} from '../sidebars/cdk-especie-tarefa-filter/cdk-especie-tarefa-filter.component';
+
 
 @Component({
     selector: 'cdk-especie-tarefa-grid',
@@ -146,6 +148,9 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkEspecieTarefaFilterComponent)
+    cdkEspecieTarefaFilterComponent: CdkEspecieTarefaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -292,6 +297,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkEspecieTarefaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

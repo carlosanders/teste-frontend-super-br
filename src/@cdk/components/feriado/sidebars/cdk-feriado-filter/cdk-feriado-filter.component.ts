@@ -21,6 +21,9 @@ export class CdkFeriadoFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    hasInatived = false;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -30,11 +33,13 @@ export class CdkFeriadoFilterComponent {
             dataFeriado: [null],
             municipio: [null],
             estado: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -52,6 +57,15 @@ export class CdkFeriadoFilterComponent {
 
         if (this.form.get('municipio').value) {
             andXFilter.push({'municipio.id': `eq:${this.form.get('municipio').value.id}`});
+        }
+
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
         }
 
         if (this.form.get('criadoEm').value) {
@@ -74,8 +88,11 @@ export class CdkFeriadoFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -98,7 +115,12 @@ export class CdkFeriadoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }

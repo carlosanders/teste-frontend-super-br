@@ -39,6 +39,9 @@ export class CdkAvisoFilterComponent{
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
+    @Input()
+    hasInatived = false;
+
     /**
      * Constructor
      */
@@ -61,10 +64,11 @@ export class CdkAvisoFilterComponent{
             modalidadeOrgaoCentral: [null],
         });
 
-        this.pagination = new Pagination()
-    }
+        this.pagination = new Pagination();
+        this.form.controls.ativo.setValue("todos");
+    }   
 
-   emite(): void {
+    emite(): void {
         if (!this.form.valid) {
             return;
         }
@@ -84,6 +88,15 @@ export class CdkAvisoFilterComponent{
             });
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter['ativo'] = `eq:${this.form.get('ativo').value}`;
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         if (this.form.get('setor').value) {
             andXFilter.push({'vinculacoesAvisos.setor.nome': `eq:${this.form.get('setor').value}`});
         }
@@ -94,13 +107,14 @@ export class CdkAvisoFilterComponent{
             });
         }
 
-        if (this.form.get('modalidadeOrgaoCentral').value) {
-            andXFilter.push({'vinculacoesAvisos.modalidadeOrgaoCentral.valor': `eq:${this.form.get('modalidadeOrgaoCentral').value}`});
-        } 
-        
         if (this.form.get('ativo').value) {
-            andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
-        }   
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
 
         if (this.filterCriadoEm.length > 0) {
             this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
@@ -119,24 +133,30 @@ export class CdkAvisoFilterComponent{
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
         }
+
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
 
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = andXFilter;
+            request['filters']['andX'] = [andXFilter];
         }
 
         this.selected.emit(request);
-        console.log(request);
         this._cdkSidebarService.getSidebar('cdk-aviso-filter').close();
+    }
+
+    buscar(): void {
+        this.emite();
     }
 
     filtraCriadoEm(value: any): void {
@@ -161,13 +181,15 @@ export class CdkAvisoFilterComponent{
         }
     }
 
-    buscar(): void {
-        this.emite();
-    }
-
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
         this.emite();
+        this.resetarFormulario();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }

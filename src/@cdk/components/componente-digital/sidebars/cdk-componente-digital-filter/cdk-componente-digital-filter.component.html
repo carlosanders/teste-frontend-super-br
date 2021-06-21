@@ -96,9 +96,12 @@
             </cdk-date-filter>
         </mat-menu>
 
-        <mat-checkbox formControlName="editavel" *showIfRole="'ROLE_COLABORADOR'">
-            Editor de Textos
-        </mat-checkbox>
+        Editor de Textos
+        <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="editavel" *showIfRole="'ROLE_COLABORADOR'">
+            <mat-button-toggle value="true" class="button-toggle-custom">Sim</mat-button-toggle>
+            <mat-button-toggle value="todos" [checked]=true class="button-toggle-custom">Todos</mat-button-toggle>
+            <mat-button-toggle value="false" class="button-toggle-custom">Não</mat-button-toggle>
+        </mat-button-toggle-group>
     </form>
 </div>
 

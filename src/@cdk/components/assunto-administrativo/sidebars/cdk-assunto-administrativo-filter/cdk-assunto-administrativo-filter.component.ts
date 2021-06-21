@@ -26,6 +26,8 @@ export class CdkAssuntoAdministrativoFilterComponent {
     filterAtualizadoEm = [];
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+    @Input()
+    hasInatived = false;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -37,11 +39,13 @@ export class CdkAssuntoAdministrativoFilterComponent {
             dispositivoLegal: [null],
             codigoCNJ: [null],
             parent: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -82,6 +86,14 @@ export class CdkAssuntoAdministrativoFilterComponent {
         if (this.filterCriadoEm.length > 0) {
             this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
 
         if (this.filterAtualizadoEm.length > 0) {
             this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit)});
@@ -95,8 +107,11 @@ export class CdkAssuntoAdministrativoFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -131,6 +146,12 @@ export class CdkAssuntoAdministrativoFilterComponent {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }

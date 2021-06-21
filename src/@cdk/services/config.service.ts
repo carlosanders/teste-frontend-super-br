@@ -21,6 +21,7 @@ export class CdkConfigService
     public icone = 'assets/images/logos/supp.png';
     public nome = 'SISTEMA ÚNICO DE PROCURADORIAS PÚBLICAS';
     public sigla = 'SUPP';
+    public barramento = localStorage.getItem('barramento');
 
     /**
      * Constructor

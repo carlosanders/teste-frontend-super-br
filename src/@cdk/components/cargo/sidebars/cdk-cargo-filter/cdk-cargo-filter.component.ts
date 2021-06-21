@@ -26,6 +26,8 @@ export class CdkCargoFilterComponent {
     filterAtualizadoEm = [];
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+    @Input()
+    hasInatived = false;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -34,6 +36,7 @@ export class CdkCargoFilterComponent {
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -60,6 +63,15 @@ export class CdkCargoFilterComponent {
             });
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         if (this.filterCriadoEm.length > 0) {
             this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
@@ -76,8 +88,14 @@ export class CdkCargoFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        this.form.controls.ativo.setValue("todos");
+
+
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -112,6 +130,12 @@ export class CdkCargoFilterComponent {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }

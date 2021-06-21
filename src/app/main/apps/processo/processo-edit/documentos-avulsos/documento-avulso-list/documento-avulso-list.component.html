@@ -6,6 +6,7 @@
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         (responder)="responder($event)"
+        (statusBarramento)="verificaStatusBarramento($event)"
         [actions]="['showDeleted']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
