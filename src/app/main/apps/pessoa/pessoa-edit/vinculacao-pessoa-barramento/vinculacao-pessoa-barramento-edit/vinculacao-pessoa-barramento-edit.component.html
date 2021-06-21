@@ -1,0 +1,8 @@
+<cdk-vinculacao-pessoa-barramento-form
+        [modalidadeVinculacaoPessoaBarramentoPagination]="vinculacaoPessoaBarramentoPagination"
+        [vinculacaoPessoaBarramento]="vinculacaoPessoaBarramento"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (abort)="cancel()"
+        (save)="submit($event)">
+</cdk-vinculacao-pessoa-barramento-form>

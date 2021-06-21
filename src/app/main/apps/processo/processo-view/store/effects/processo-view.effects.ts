@@ -15,6 +15,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import * as fromStore from "../index";
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -104,6 +105,52 @@ export class ProcessoViewEffect {
                     console.log(err);
                     this._store.dispatch(new ProcessoViewActions.GetJuntadasFailed(err));
                     return caught;
+                })
+            );
+
+    /**
+     * Reload Juntadas with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    reloadJuntadas: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewActions.ReloadJuntadas>(ProcessoViewActions.RELOAD_JUNTADAS),
+                map(() => {
+                    let processoFilter = null;
+
+                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoFilter = `eq:${this.routerState.params[param]}`;
+                    });
+
+                    const params = {
+                        filter: {
+                            'volume.processo.id': processoFilter,
+                            'vinculada': 'eq:0'
+                        },
+                        listFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                        populate: [
+                            'volume',
+                            'documento',
+                            'documento.origemDados',
+                            'documento.juntadaAtual',
+                            'documento.tipoDocumento',
+                            'documento.componentesDigitais',
+                            'documento.vinculacoesDocumentos',
+                            'documento.vinculacoesDocumentos.documentoVinculado',
+                            'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                            'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                            'documento.vinculacoesEtiquetas',
+                            'documento.vinculacoesEtiquetas.etiqueta'
+                        ]
+                    };
+                    this._store.dispatch(new fromStore.GetJuntadas(params));
                 })
             );
 

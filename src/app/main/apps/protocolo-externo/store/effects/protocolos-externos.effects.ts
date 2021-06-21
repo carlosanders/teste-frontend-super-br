@@ -169,7 +169,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetPessoa>(ProcessosActions.GET_PESSOA),
-                switchMap(action => this._pessoaService.query(
+                switchMap(action => this._pessoaService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter

@@ -1,0 +1,10 @@
+<cdk-vinculacao-pessoa-barramento-grid
+        [loading]="loading"
+        [vinculacaoPessoaBarramentos]="vinculacaoPessoaBarramentos"
+        [displayedColumns]="['id', 'pessoa.nome', 'repositorio', 'estrutura', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-pessoa-barramento-grid>

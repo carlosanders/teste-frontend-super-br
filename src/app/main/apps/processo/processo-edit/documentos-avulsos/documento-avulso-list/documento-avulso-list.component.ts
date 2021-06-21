@@ -107,4 +107,9 @@ export class DocumentoAvulsoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'responder/') + oficioId]);
     }
 
+    verificaStatusBarramento(documentoAvulsoId: number[]): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'status-barramento-oficio/') +
+        documentoAvulsoId]);
+    }
+
 }

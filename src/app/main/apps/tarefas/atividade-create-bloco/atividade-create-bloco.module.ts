@@ -23,9 +23,12 @@ import {CdkSidebarModule} from '@cdk/components';
 import {AtividadeCreateBlocoComponent} from './atividade-create-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
+
 import {AtividadeCreateBlocoStoreModule} from './store/store.module';
+import {EncaminhamentoBlocoStoreModule} from '../encaminhamento-bloco/store/store.module';
+
 import {AtividadeService} from '@cdk/services/atividade.service';
-import {LoginService} from 'app/main/auth/login/login.service';
+
 import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {MatCardModule} from '@angular/material/card';
@@ -82,6 +85,7 @@ modulesConfig.forEach((module) => {
         CdkAtividadeFormModule,
 
         AtividadeCreateBlocoStoreModule,
+        EncaminhamentoBlocoStoreModule,
 
         TranslateModule,
 
