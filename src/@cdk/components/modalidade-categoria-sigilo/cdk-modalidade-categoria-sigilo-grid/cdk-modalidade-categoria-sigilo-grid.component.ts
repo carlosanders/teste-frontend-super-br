@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeCategoriaSigilo} from '@cdk/models';
 import {ModalidadeCategoriaSigiloDataSource} from '@cdk/data-sources/modalidade-categoria-sigilo-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeCategoriaSigiloFilterComponent} from '../sidebars/cdk-modalidade-categoria-sigilo-filter/cdk-modalidade-categoria-sigilo-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-categoria-sigilo-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeCategoriaSigiloGridComponent implements AfterViewInit,
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeCategoriaSigiloFilterComponent)
+    cdkModalidadeCategoriaSigiloFilterComponent: CdkModalidadeCategoriaSigiloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeCategoriaSigiloGridComponent implements AfterViewInit,
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeCategoriaSigiloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeGarantia} from '@cdk/models';
 import {ModalidadeGarantiaDataSource} from '@cdk/data-sources/modalidade-garantia-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeGarantiaFilterComponent} from '../sidebars/cdk-modalidade-garantia-filter/cdk-modalidade-garantia-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-garantia-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeGarantiaGridComponent implements AfterViewInit, OnInit
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeGarantiaFilterComponent)
+    cdkModalidadeGarantiaFilterComponent: CdkModalidadeGarantiaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeGarantiaGridComponent implements AfterViewInit, OnInit
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeGarantiaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

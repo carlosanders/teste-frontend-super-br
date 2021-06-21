@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeOrgaoCentral} from '@cdk/models';
 import {ModalidadeOrgaoCentralDataSource} from '@cdk/data-sources/modalidade-orgao-central-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeOrgaoCentralFilterComponent} from '../sidebars/cdk-modalidade-orgao-central-filter/cdk-modalidade-orgao-central-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-orgao-central-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeOrgaoCentralFilterComponent)
+    cdkModalidadeOrgaoCentralFilterComponent: CdkModalidadeOrgaoCentralFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeOrgaoCentralFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Municipio} from '@cdk/models';
 import {MunicipioDataSource} from '@cdk/data-sources/municipio-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkMunicipioFilterComponent} from '../sidebars/cdk-municipio-filter/cdk-municipio-filter.component';
+
 
 @Component({
     selector: 'cdk-municipio-grid',
@@ -142,8 +143,8 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkMunicipioFilterComponent)
+    cdkMunicipioFilterComponent: CdkMunicipioFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -289,7 +290,7 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkMunicipioFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

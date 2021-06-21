@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoSigilo} from '@cdk/models';
 import {TipoSigiloDataSource} from '@cdk/data-sources/tipo-sigilo-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkTipoSigiloFilterComponent} from '../sidebars/cdk-tipo-sigilo-filter/cdk-tipo-sigilo-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-sigilo-grid',
@@ -152,8 +153,8 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkTipoSigiloFilterComponent)
+    cdkTipoSigiloFilterComponent: CdkTipoSigiloFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -300,7 +301,7 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkTipoSigiloFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

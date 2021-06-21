@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroDocumentoAvulso} from '@cdk/models';
 import {GeneroDocumentoAvulsoDataSource} from '@cdk/data-sources/genero-documento-avulso-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkGeneroDocumentoAvulsoFilterComponent} from '../sidebars/cdk-genero-documento-avulso-filter/cdk-genero-documento-avulso-filter.component';
+
 
 @Component({
     selector: 'cdk-genero-documento-avulso-grid',
@@ -137,8 +138,8 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkGeneroDocumentoAvulsoFilterComponent)
+    cdkGeneroDocumentoAvulsoFilterComponent: CdkGeneroDocumentoAvulsoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkGeneroDocumentoAvulsoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

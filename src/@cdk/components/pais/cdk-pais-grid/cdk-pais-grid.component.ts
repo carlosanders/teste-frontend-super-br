@@ -21,7 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Pais} from '@cdk/models';
 import {PaisDataSource} from '@cdk/data-sources/pais-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkPaisFilterComponent} from '../sidebars/cdk-pais-filter/cdk-pais-filter.component';
 
 @Component({
     selector: 'cdk-pais-grid',
@@ -137,8 +137,8 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkPaisFilterComponent)
+    cdkPaisFilterComponent: CdkPaisFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -285,7 +285,7 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkPaisFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

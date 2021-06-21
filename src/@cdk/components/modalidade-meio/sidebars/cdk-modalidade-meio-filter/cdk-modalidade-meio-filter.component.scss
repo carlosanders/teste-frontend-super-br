@@ -25,17 +25,20 @@ cdk-modalidade-meio-filter {
             display: flex;
             flex-direction: column;
 
-            .mat-button-toggle-label-content {
-                line-height: 15px !important;
-            }
+            >.botao-toggle {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: column;
+                margin-bottom: 18px;
+                margin-top: 12px;
 
-            .button-toggle-custom {
-                width: 100%;
-            }
+                .mat-button-toggle-label-content {
+                    line-height: 15px !important;
+                }
 
-            .mat-button-toggle-group-custom {
-                margin-top: 7px;
-                margin-bottom: 20px;
+                .button-toggle-custom {
+                    width: 100%;
+                }
             }
         }
     }

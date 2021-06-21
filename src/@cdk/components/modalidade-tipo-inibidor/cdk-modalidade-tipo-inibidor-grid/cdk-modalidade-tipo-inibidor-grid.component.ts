@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeTipoInibidor} from '@cdk/models';
 import {ModalidadeTipoInibidorDataSource} from '@cdk/data-sources/modalidade-tipo-inibidor-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeTipoInibidorFilterComponent} from '../sidebars/cdk-modalidade-tipo-inibidor-filter/cdk-modalidade-tipo-inibidor-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-tipo-inibidorgrid',
@@ -137,8 +138,8 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeTipoInibidorFilterComponent)
+    cdkModalidadeTipoInibidorFilterComponent: CdkModalidadeTipoInibidorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeTipoInibidorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

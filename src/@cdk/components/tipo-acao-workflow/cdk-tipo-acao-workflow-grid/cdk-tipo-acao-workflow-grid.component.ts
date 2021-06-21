@@ -20,7 +20,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoAcaoWorkflow} from '@cdk/models';
 import {TipoAcaoWorkflowDataSource} from '@cdk/data-sources/tipo-acao-workflow-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkTipoAcaoWorkflowFilterComponent} from '../sidebars/cdk-tipo-acao-workflow-filter/cdk-tipo-acao-workflow-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-acao-workflow-grid',
@@ -138,8 +139,8 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkTipoAcaoWorkflowFilterComponent)
+    cdkTipoAcaoWorkflowFilterComponent: CdkTipoAcaoWorkflowFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -285,7 +286,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkTipoAcaoWorkflowFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -21,7 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieDocumento} from '@cdk/models';
 import {EspecieDocumentoDataSource} from '@cdk/data-sources/especie-documento-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkEspecieDocumentoFilterComponent} from '../sidebars/cdk-especie-documento-filter/cdk-especie-documento-filter.component';
 
 @Component({
     selector: 'cdk-especie-documento-grid',
@@ -142,8 +142,8 @@ export class CdkEspecieDocumentoGridComponent implements AfterViewInit, OnInit, 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkEspecieDocumentoFilterComponent)
+    cdkEspecieDocumentoFilterComponent: CdkEspecieDocumentoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -289,7 +289,7 @@ export class CdkEspecieDocumentoGridComponent implements AfterViewInit, OnInit, 
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkEspecieDocumentoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeRelacionamentoPessoal} from '@cdk/models';
 import {ModalidadeRelacionamentoPessoalDataSource} from '@cdk/data-sources/modalidade-relacionamento-pessoal-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeRelacionamentoPessoalFilterComponent} from '../sidebars/cdk-modalidade-relacionamento-pessoal-filter/cdk-modalidade-relacionamento-pessoal-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-relacionamento-pessoal-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeRelacionamentoPessoalGridComponent implements AfterVie
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeRelacionamentoPessoalFilterComponent)
+    cdkModalidadeRelacionamentoPessoalFilterComponent: CdkModalidadeRelacionamentoPessoalFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeRelacionamentoPessoalGridComponent implements AfterVie
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeRelacionamentoPessoalFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -21,7 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Campo} from '@cdk/models';
 import {CampoDataSource} from '@cdk/data-sources/campo-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkCampoFilterComponent} from '../sidebars/cdk-campo-filter/cdk-campo-filter.component';
 
 @Component({
     selector: 'cdk-campo-grid',
@@ -137,8 +137,8 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkCampoFilterComponent)
+    cdkCampoFilterComponent: CdkCampoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -267,7 +267,7 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkCampoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

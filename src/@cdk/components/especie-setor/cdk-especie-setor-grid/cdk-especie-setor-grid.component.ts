@@ -23,7 +23,8 @@ import {EspecieSetor} from '@cdk/models';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
 import {FormControl} from '@angular/forms';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkEspecieSetorFilterComponent} from '../sidebars/cdk-especie-setor-filter/cdk-especie-setor-filter.component';
+
 
 @Component({
     selector: 'cdk-especie-setor-grid',
@@ -150,8 +151,8 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkEspecieSetorFilterComponent)
+    cdkEspecieSetorFilterComponent: CdkEspecieSetorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -292,7 +293,7 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkEspecieSetorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -16,6 +16,7 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '../../cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import {CdkAssuntoAdministrativoAutocompleteModule} from '../../cdk-assunto-admi
 
         CdkUsuarioAutocompleteModule,
         CdkAssuntoAdministrativoAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         AssuntoAdministrativoService,

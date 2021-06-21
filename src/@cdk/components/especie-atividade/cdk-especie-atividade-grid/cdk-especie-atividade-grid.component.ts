@@ -21,7 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieAtividade, Favorito} from '@cdk/models';
 import {EspecieAtividadeDataSource} from '@cdk/data-sources/especie-atividade-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkEspecieAtividadeFilterComponent} from '../sidebars/cdk-especie-atividade-filter/cdk-especie-atividade-filter.component';
 
 @Component({
     selector: 'cdk-especie-atividade-grid',
@@ -142,8 +142,8 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkEspecieAtividadeFilterComponent)
+    cdkEspecieAtividadeFilterComponent: CdkEspecieAtividadeFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -293,7 +293,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkEspecieAtividadeFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

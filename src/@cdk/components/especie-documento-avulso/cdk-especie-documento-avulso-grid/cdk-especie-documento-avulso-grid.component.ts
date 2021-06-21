@@ -21,7 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieDocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulsoDataSource} from '@cdk/data-sources/especie-documento-avulso-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkEspecieDocumentoAvulsoFilterComponent} from '../sidebars/cdk-especie-documento-avulso-filter/cdk-especie-documento-avulso-filter.component';
 
 @Component({
     selector: 'cdk-especie-documento-avulso-grid',
@@ -142,8 +142,8 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkEspecieDocumentoAvulsoFilterComponent)
+    cdkEspecieDocumentoAvulsoFilterComponent: CdkEspecieDocumentoAvulsoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -289,7 +289,7 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkEspecieDocumentoAvulsoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

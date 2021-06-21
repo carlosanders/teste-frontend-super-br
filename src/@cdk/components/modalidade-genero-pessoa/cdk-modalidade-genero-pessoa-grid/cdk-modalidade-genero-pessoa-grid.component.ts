@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeGeneroPessoa} from '@cdk/models';
 import {ModalidadeGeneroPessoaDataSource} from '@cdk/data-sources/modalidade-genero-pessoa-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeGeneroPessoaFilterComponent} from '../sidebars/cdk-modalidade-genero-pessoa-filter/cdk-modalidade-genero-pessoa-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-genero-pessoa-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeGeneroPessoaFilterComponent)
+    cdkModalidadeGeneroPessoaFilterComponent: CdkModalidadeGeneroPessoaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -285,7 +286,7 @@ export class CdkModalidadeGeneroPessoaGridComponent implements AfterViewInit, On
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeGeneroPessoaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

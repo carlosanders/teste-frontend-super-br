@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoContato} from '@cdk/models/tipo-contato.model';
 import {TipoContatoDataSource} from '@cdk/data-sources/tipo-contato-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkTipoContatoFilterComponent} from '../sidebars/cdk-tipo-contato-filter/cdk-tipo-contato-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-contato-grid',
@@ -137,8 +138,8 @@ export class CdkTipoContatoGridComponent implements AfterViewInit, OnInit, OnCha
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkTipoContatoFilterComponent)
+    cdkTipoContatoFilterComponent: CdkTipoContatoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -285,7 +286,7 @@ export class CdkTipoContatoGridComponent implements AfterViewInit, OnInit, OnCha
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkTipoContatoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

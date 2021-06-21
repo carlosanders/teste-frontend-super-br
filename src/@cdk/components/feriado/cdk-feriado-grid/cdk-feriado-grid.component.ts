@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Feriado} from '@cdk/models';
 import {FeriadoDataSource} from '@cdk/data-sources/feriado-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkFeriadoFilterComponent} from '../sidebars/cdk-feriado-filter/cdk-feriado-filter.component';
+
 
 @Component({
     selector: 'cdk-feriado-grid',
@@ -147,8 +148,8 @@ export class CdkFeriadoGridComponent implements AfterViewInit, OnInit, OnChanges
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkFeriadoFilterComponent)
+    cdkFeriadoFilterComponent: CdkFeriadoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -294,7 +295,7 @@ export class CdkFeriadoGridComponent implements AfterViewInit, OnInit, OnChanges
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkFeriadoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

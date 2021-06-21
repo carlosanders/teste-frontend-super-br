@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Localizador, Pagination} from '@cdk/models';
 import {LocalizadorDataSource} from '@cdk/data-sources/localizador-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkLocalizadorFilterComponent} from '../sidebars/cdk-localizador-filter/cdk-localizador-filter.component';
+
 
 @Component({
     selector: 'cdk-localizador-grid',
@@ -142,8 +143,8 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkLocalizadorFilterComponent)
+    cdkLocalizadorFilterComponent: CdkLocalizadorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -293,7 +294,7 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkLocalizadorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

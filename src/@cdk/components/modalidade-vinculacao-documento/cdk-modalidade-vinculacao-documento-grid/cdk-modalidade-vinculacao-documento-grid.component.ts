@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeVinculacaoDocumento} from '@cdk/models';
 import {ModalidadeVinculacaoDocumentoDataSource} from '@cdk/data-sources/modalidade-vinculacao-documento-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeVinculacaoDocumentoFilterComponent} from '../sidebars/cdk-modalidade-vinculacao-documento-filter/cdk-modalidade-vinculacao-documento-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-vinculacao-documento-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeVinculacaoDocumentoFilterComponent)
+    cdkModalidadeVinculacaoDocumentoFilterComponent: CdkModalidadeVinculacaoDocumentoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -285,7 +286,7 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeVinculacaoDocumentoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

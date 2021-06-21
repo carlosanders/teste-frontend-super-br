@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeDocumentoIdentificador} from '@cdk/models';
 import {ModalidadeDocumentoIdentificadorDataSource} from '@cdk/data-sources/modalidade-documento-identificador-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeDocumentoIdentificadorFilterComponent} from '../sidebars/cdk-modalidade-documento-identificador-filter/cdk-modalidade-documento-identificador-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-documento-identificador-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeDocumentoIdentificadorFilterComponent)
+    cdkModalidadeDocumentoIdentificadorFilterComponent: CdkModalidadeDocumentoIdentificadorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -285,7 +286,7 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeDocumentoIdentificadorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeEtiqueta} from '@cdk/models';
 import {ModalidadeEtiquetaDataSource} from '@cdk/data-sources/modalidade-etiqueta-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeEtiquetaFilterComponent} from '../sidebars/cdk-modalidade-etiqueta-filter/cdk-modalidade-etiqueta-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-etiqueta-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeEtiquetaGridComponent implements AfterViewInit, OnInit
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeEtiquetaFilterComponent)
+    cdkModalidadeEtiquetaFilterComponent: CdkModalidadeEtiquetaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeEtiquetaGridComponent implements AfterViewInit, OnInit
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeEtiquetaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -21,7 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ConfiguracaoNup} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 import {ConfiguracaoNupDataSource} from '../../../data-sources/configuracao-nup-data-source';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkConfiguracaoNupFilterComponent} from '../sidebars/cdk-configuracao-nup-filter/cdk-configuracao-nup-filter.component';
 
 @Component({
     selector: 'cdk-configuracao-nup-grid',
@@ -137,8 +137,8 @@ export class CdkConfiguracaoNupGridComponent implements AfterViewInit, OnInit, O
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkConfiguracaoNupFilterComponent)
+    cdkConfiguracaoNupFilterComponent: CdkConfiguracaoNupFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +284,7 @@ export class CdkConfiguracaoNupGridComponent implements AfterViewInit, OnInit, O
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkConfiguracaoNupFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

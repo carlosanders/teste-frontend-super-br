@@ -20,7 +20,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {ModalidadeAcaoEtiquetaDataSource} from '@cdk/data-sources/modalidade-acao-etiqueta-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeAcaoEtiquetaFilterComponent} from '../sidebars/cdk-modalidade-acao-etiqueta-filter/cdk-modalidade-acao-etiqueta-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-acao-etiqueta-grid',
@@ -143,8 +144,8 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeAcaoEtiquetaFilterComponent)
+    cdkModalidadeAcaoEtiquetaFilterComponent: CdkModalidadeAcaoEtiquetaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -290,7 +291,7 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeAcaoEtiquetaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

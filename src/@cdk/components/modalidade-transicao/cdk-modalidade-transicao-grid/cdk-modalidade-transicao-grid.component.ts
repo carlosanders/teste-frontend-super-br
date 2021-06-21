@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeTransicao} from '@cdk/models';
 import {ModalidadeTransicaoDataSource} from '@cdk/data-sources/modalidade-transicao-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeTransicaoFilterComponent} from '../sidebars/cdk-modalidade-transicao-filter/cdk-modalidade-transicao-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-transicao-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeTransicaoFilterComponent)
+    cdkModalidadeTransicaoFilterComponent: CdkModalidadeTransicaoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeTransicaoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

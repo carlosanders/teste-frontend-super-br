@@ -20,7 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieProcesso} from '@cdk/models';
 import {EspecieProcessoDataSource} from '@cdk/data-sources/especie-processo-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkEspecieProcessoFilterComponent} from '../sidebars/cdk-especie-processo-filter/cdk-especie-processo-filter.component';
 
 @Component({
     selector: 'cdk-especie-processo-grid',
@@ -133,8 +133,8 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkEspecieProcessoFilterComponent)
+    cdkEspecieProcessoFilterComponent: CdkEspecieProcessoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -280,7 +280,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkEspecieProcessoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

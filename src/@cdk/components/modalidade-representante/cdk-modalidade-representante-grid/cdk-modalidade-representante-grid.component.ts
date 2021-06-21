@@ -21,7 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeRepresentante} from '@cdk/models';
 import {ModalidadeRepresentanteDataSource} from '@cdk/data-sources/modalidade-representante-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkModalidadeRepresentanteFilterComponent} from '../sidebars/cdk-modalidade-representante-filter/cdk-modalidade-representante-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-representante-grid',
@@ -137,8 +138,8 @@ export class CdkModalidadeRepresentanteGridComponent implements AfterViewInit, O
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkModalidadeRepresentanteFilterComponent)
+    cdkModalidadeRepresentanteFilterComponent: CdkModalidadeRepresentanteFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -284,7 +285,7 @@ export class CdkModalidadeRepresentanteGridComponent implements AfterViewInit, O
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkModalidadeRepresentanteFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -20,7 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ClassificacaoDataSource} from '@cdk/data-sources/classificacao-data-source';
 import {Classificacao} from '@cdk/models';
 import {FormControl} from '@angular/forms';
-import {CdkModeloFilterComponent} from '../../modelo/sidebars/cdk-modelo-filter/cdk-modelo-filter.component';
+import {CdkClassificacaoFilterComponent} from '../sidebars/cdk-classificacao-filter/cdk-classificacao-filter.component';
 
 @Component({
     selector: 'cdk-classificacao-grid',
@@ -196,8 +196,8 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
+    @ViewChild(CdkClassificacaoFilterComponent)
+    cdkClassificacaoFilterComponent: CdkClassificacaoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -342,7 +342,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
         }
         else {
             this.gridFilter = {};
-            this.cdkModeloFilterComponent.resetarFormulario();
+            this.cdkClassificacaoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }
