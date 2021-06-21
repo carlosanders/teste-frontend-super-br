@@ -39,10 +39,14 @@
     <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
                              [deletingId]="(deletingDocumentosVinculadosId$ | async)"
                              [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
+                             [alterandoId]="(alterandoDocumentosId$ | async)"
+                             [downloadId] ="(downloadP7SDocumentosId$ | async)"
                              (delete)="doDeleteDocumentoVinculado($event)"
                              (deleteBloco)="doDeleteBloco($event)"
                              (assinatura)="doAssinaturaDocumentoVinculado($event)"
                              (clicked)="onClickedDocumentoVinculado($event)"
+                             (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                             (downloadP7S)="doDownloadP7S($event)"
                              (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
     </cdk-documento-card-list>
 
