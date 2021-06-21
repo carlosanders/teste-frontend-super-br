@@ -24,7 +24,6 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store';
 import {getSelectedTarefas} from '../store';
 import {getProcessosIdsEncaminhar} from "../encaminhamento-bloco/store";
-import {CdkUtils} from "../../../../../@cdk/utils";
 
 @Component({
     selector: 'atividade-create-bloco',

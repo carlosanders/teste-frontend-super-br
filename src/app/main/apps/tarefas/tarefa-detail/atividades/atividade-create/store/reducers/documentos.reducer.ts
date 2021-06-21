@@ -182,28 +182,16 @@ export function AtividadeCreateDocumentosReducer(
         }
 
         case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
-            const assinandoDocumentoIdsNovo = [];
-            state.assinandoDocumentoIds.forEach((assinandoDocumentoId) => {
-                if (action.payload.indexOf(assinandoDocumentoId) === -1) {
-                    assinandoDocumentoIdsNovo.push(assinandoDocumentoId);
-                }
-            })
             return {
                 ...state,
-                assinandoDocumentoIds: assinandoDocumentoIdsNovo
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
         case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_FAILED: {
-            const assinandoDocumentoIdsNovo = [];
-            state.assinandoDocumentoIds.forEach((assinandoDocumentoId) => {
-                if (action.payload.indexOf(assinandoDocumentoId) === -1) {
-                    assinandoDocumentoIdsNovo.push(assinandoDocumentoId);
-                }
-            })
             return {
                 ...state,
-                assinandoDocumentoIds: assinandoDocumentoIdsNovo
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
