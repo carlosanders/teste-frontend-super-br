@@ -227,7 +227,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumento>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO),
-                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
                             .pipe(
                                 map(response => new AtividadeCreateDocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {

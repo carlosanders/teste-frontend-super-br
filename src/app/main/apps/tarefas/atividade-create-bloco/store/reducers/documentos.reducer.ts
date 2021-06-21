@@ -78,21 +78,33 @@ export function AtividadeBlocoCreateDocumentosReducer(
         case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO: {
             return {
                 ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, ...action.payload]
             };
         }
 
         case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO_SUCCESS: {
+            const assinandoDocumentoIdsNovo = [];
+            state.assinandoDocumentoIds.forEach((assinandoDocumentoId) => {
+                if (action.payload.indexOf(assinandoDocumentoId) === -1) {
+                    assinandoDocumentoIdsNovo.push(assinandoDocumentoId);
+                }
+            })
             return {
                 ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+                assinandoDocumentoIds: assinandoDocumentoIdsNovo
             };
         }
 
         case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO_FAILED: {
+            const assinandoDocumentoIdsNovo = [];
+            state.assinandoDocumentoIds.forEach((assinandoDocumentoId) => {
+                if (action.payload.indexOf(assinandoDocumentoId) === -1) {
+                    assinandoDocumentoIdsNovo.push(assinandoDocumentoId);
+                }
+            })
             return {
                 ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+                assinandoDocumentoIds: assinandoDocumentoIdsNovo
             };
         }
 
