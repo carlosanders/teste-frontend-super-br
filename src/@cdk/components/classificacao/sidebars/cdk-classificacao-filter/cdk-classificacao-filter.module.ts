@@ -19,6 +19,7 @@ import {CdkClassificacaoAutocompleteModule} from '../../cdk-classificacao-autoco
 import {CdkModalidadeDestinacaoAutocompleteModule} from '../../../modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkClassificacaoAutocompleteModule,
         MatMenuModule,
         CdkDateFilterModule,
+        MatButtonToggleModule,
     ],
     providers: [
         ModalidadeDestinacaoService,

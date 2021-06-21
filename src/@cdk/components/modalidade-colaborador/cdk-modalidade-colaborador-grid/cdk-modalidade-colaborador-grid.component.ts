@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeColaborador} from '@cdk/models';
 import {ModalidadeColaboradorDataSource} from '@cdk/data-sources/modalidade-colaborador-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeColaboradorFilterComponent} from '../sidebars/cdk-modalidade-colaborador-filter/cdk-modalidade-colaborador-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-colaborador-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeColaboradorGridComponent implements AfterViewInit, OnI
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeColaboradorFilterComponent)
+    cdkModalidadeColaboradorFilterComponent: CdkModalidadeColaboradorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -280,6 +285,8 @@ export class CdkModalidadeColaboradorGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeColaboradorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

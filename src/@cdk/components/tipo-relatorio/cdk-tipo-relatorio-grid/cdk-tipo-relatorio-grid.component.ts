@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {TipoRelatorioDataSource} from '@cdk/data-sources/tipo-relatorio-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTipoRelatorioFilterComponent} from '../sidebars/cdk-tipo-relatorio-filter/cdk-tipo-relatorio-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-relatorio-grid',
@@ -145,6 +147,9 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkTipoRelatorioFilterComponent)
+    cdkTipoRelatorioFilterComponent: CdkTipoRelatorioFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -290,6 +295,8 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkTipoRelatorioFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

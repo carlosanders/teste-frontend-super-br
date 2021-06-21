@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Documento, Repositorio} from '@cdk/models';
 import {RepositorioDataSource} from '@cdk/data-sources/repositorio-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkRepositorioFilterComponent} from '../sidebars/cdk-repositorio-filter/cdk-repositorio-filter.component';
+
 
 @Component({
     selector: 'cdk-repositorio-grid',
@@ -211,6 +213,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkRepositorioFilterComponent)
+    cdkRepositorioFilterComponent: CdkRepositorioFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
@@ -382,6 +387,8 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkRepositorioFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

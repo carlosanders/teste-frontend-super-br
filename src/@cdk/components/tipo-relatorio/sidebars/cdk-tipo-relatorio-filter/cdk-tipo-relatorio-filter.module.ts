@@ -19,6 +19,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
 import {CdkEspecieRelatorioAutocompleteModule} from '../../../especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkGeneroRelatorioAutocompleteModule} from '../../../genero-relatorio/cdk-genero-relatorio-autocomplete/cdk-genero-relatorio-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import {CdkGeneroRelatorioAutocompleteModule} from '../../../genero-relatorio/cd
         CdkEspecieRelatorioAutocompleteModule,
         CdkSetorAutocompleteModule,
         CdkGeneroRelatorioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         EspecieRelatorioService,

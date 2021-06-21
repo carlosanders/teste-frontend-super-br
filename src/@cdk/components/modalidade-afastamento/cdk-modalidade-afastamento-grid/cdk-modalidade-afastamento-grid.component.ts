@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeAfastamento} from '@cdk/models';
 import {ModalidadeAfastamentoDataSource} from '@cdk/data-sources/modalidade-afastamento-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeAfastamentoFilterComponent} from '../sidebars/cdk-modalidade-afastamento-filter/cdk-modalidade-afastamento-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-afastamento-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeAfastamentoGridComponent implements AfterViewInit, OnI
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeAfastamentoFilterComponent)
+    cdkModalidadeAfastamentoFilterComponent: CdkModalidadeAfastamentoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkModalidadeAfastamentoGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeAfastamentoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }
