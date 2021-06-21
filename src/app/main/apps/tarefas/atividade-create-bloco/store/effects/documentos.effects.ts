@@ -248,7 +248,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumento>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO),
-                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
                             .pipe(
                                 map(response => new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {

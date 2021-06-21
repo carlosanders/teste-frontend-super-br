@@ -320,9 +320,35 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+        } else {
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura
+                    }));
+                });
+            });
+        }
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();

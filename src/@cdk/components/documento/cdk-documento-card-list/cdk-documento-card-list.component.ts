@@ -15,6 +15,9 @@ import {cdkAnimations} from '@cdk/animations';
 import {Documento, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {CdkAssinaturaEletronicaPluginComponent} from "../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
+import {filter} from "rxjs/operators";
+import {MatDialog} from "../../../angular/material";
 
 @Component({
     selector: 'cdk-documento-card-list',
@@ -43,6 +46,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Output()
     assinatura = new EventEmitter<number>();
+
+    @Output()
+    assinaturaBloco = new EventEmitter<any>();
 
     @Output()
     removeAssinatura = new EventEmitter<number>();
@@ -120,10 +126,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     /**
      * @param _changeDetectorRef
      * @param _formBuilder
+     * @param dialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        public dialog: MatDialog,
     ) {
         this.form = this._formBuilder.group({
             tipoDocumen: [null],
@@ -200,7 +208,20 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     doAssinaturaDocumentoBloco(): void {
-        this.selectedIds.forEach(documentoId => this.doAssinatura(documentoId));
+        const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+            const documentosBloco = [];
+            this.documentos.forEach((documento: Documento) => {
+                if (this.selectedIds.indexOf(documento.id) > -1) {
+                    documentosBloco.push(documento);
+                }
+            });
+            result.documentos = documentosBloco;
+            this.assinaturaBloco.emit(result);
+        });
     }
 
     doRemoveAssinaturaDocumentoBloco(): void {

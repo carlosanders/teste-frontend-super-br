@@ -177,21 +177,33 @@ export function AtividadeCreateDocumentosReducer(
         case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO: {
             return {
                 ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, ...action.payload]
             };
         }
 
         case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
+            const assinandoDocumentoIdsNovo = [];
+            state.assinandoDocumentoIds.forEach((assinandoDocumentoId) => {
+                if (action.payload.indexOf(assinandoDocumentoId) === -1) {
+                    assinandoDocumentoIdsNovo.push(assinandoDocumentoId);
+                }
+            })
             return {
                 ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+                assinandoDocumentoIds: assinandoDocumentoIdsNovo
             };
         }
 
         case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_FAILED: {
+            const assinandoDocumentoIdsNovo = [];
+            state.assinandoDocumentoIds.forEach((assinandoDocumentoId) => {
+                if (action.payload.indexOf(assinandoDocumentoId) === -1) {
+                    assinandoDocumentoIdsNovo.push(assinandoDocumentoId);
+                }
+            })
             return {
                 ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+                assinandoDocumentoIds: assinandoDocumentoIdsNovo
             };
         }
 
