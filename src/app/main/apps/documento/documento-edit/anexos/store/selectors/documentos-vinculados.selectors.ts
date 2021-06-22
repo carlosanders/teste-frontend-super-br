@@ -42,6 +42,16 @@ export const getSelectedDocumentosVinculadosIds = createSelector(
     (state: DocumentosVinculadosState) => state.selectedDocumentosId
 );
 
+export const getAlterandoDocumentosId = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.alterandoDocumentoIds
+);
+
+export const getDownloadDocumentosP7SId = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.downloadDocumentosP7SIds
+);
+
 export const getSelectedDocumentosVinculados = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentosVinculadosIds,

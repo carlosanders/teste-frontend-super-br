@@ -16,6 +16,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {ComponenteDigitalService} from "../../../../../../../../@cdk/services/componente-digital.service";
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -27,7 +28,8 @@ export class DocumentosVinculadosEffects {
         private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _componenteDigitalService: ComponenteDigitalService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -220,4 +222,74 @@ export class DocumentosVinculadosEffects {
                 })
             );
 
+    /**
+     * Update Documento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    updateDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.UpdateDocumento>(DocumentosVinculadosActions.UPDATE_DOCUMENTO),
+                mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+                    mergeMap((response: Documento) => [
+                        new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
+                        new AddData<Documento>({data: [response], schema: documentoSchema}),
+                        new DocumentosVinculadosActions.GetDocumentosVinculados()
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
+                    })
+                ))
+            );
+
+    /**
+     * Download P7S
+     *
+     * @type {Observable<any>}
+     *
+     * */
+    @Effect()
+    downloadP7S: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.DownloadP7S>(DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S),
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload.id, JSON.stringify({hash: action.payload.hash}))
+                    .pipe(
+                        map((response) => {
+                            if (response) {
+                                const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                                const byteNumbers = new Array(byteCharacters.length);
+                                for (let i = 0; i < byteCharacters.length; i++) {
+                                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                }
+                                const byteArray = new Uint8Array(byteNumbers);
+                                const blob = new Blob([byteArray], {type: response.mimetype});
+                                const URL = window.URL;
+                                const data = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = data;
+                                link.download = response.fileName;
+                                link.dispatchEvent(new MouseEvent('click', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                }));
+                                setTimeout(() => {
+                                    window.URL.revokeObjectURL(data);
+                                    link.remove();
+                                }, 100);
+                            }
+                            return new DocumentosVinculadosActions.DownloadP7SSuccess(action.payload);
+                        }),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosVinculadosActions.DownloadP7SFailed(action.payload));
+                        })
+                    )
+
+                )
+            );
 }
