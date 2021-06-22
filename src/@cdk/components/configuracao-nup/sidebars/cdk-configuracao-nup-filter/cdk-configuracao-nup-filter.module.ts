@@ -38,11 +38,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
-<<<<<<< HEAD
         MatMenuModule,
         CdkDateFilterModule,
         MatButtonToggleModule,
->>>>>>> develop
     ],
     providers: [
     ],

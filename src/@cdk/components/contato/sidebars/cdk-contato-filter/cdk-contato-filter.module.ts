@@ -40,11 +40,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         
         CdkUsuarioAutocompleteModule,
         CdkTipoContatoAutocompleteModule,
-<<<<<<< HEAD
         MatMenuModule,
         CdkDateFilterModule,
         MatButtonToggleModule,
->>>>>>> develop
+    ],
     providers: [
     ],
     exports: [
