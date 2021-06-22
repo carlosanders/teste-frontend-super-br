@@ -85,6 +85,12 @@ export function TarefaListReducer(
             };
         }
 
+        case TarefaListActions.UNLOAD_TAREFAS: {
+            return {
+                ...TarefaListInitialState
+            };
+        }
+
         case TarefaListActions.GET_TAREFAS_FAILED: {
             return {
                 ...state,

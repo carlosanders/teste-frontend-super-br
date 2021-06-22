@@ -53,7 +53,7 @@
 
                 <mat-menu #moreMenu="matMenu">
                     <button mat-menu-item aria-label="arquivar processo"
-                            *ngIf="!this._loginService.isGranted('ROLE_USUARIO_EXTERNO') && (processo$ | async)?.setorAtual?.nome !== 'ARQUIVO'"
+                            *ngIf="!this._loginService.isGranted('ROLE_USUARIO_EXTERNO') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"
                             (click)="arquivarProcesso()">
                         <ng-container>
                             <mat-icon>archive</mat-icon>

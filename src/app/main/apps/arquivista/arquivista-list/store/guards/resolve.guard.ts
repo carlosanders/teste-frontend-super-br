@@ -121,6 +121,7 @@ export class ResolveGuard implements CanActivate {
                             'classificacao',
                             'classificacao.modalidadeDestinacao',
                             'setorInicial',
+                            'setorAtual.especieSetor',
                             'setorAtual',
                             'lembretes',
                             'vinculacoesEtiquetas',

@@ -5,6 +5,7 @@ export const GET_TAREFAS_SUCCESS = '[TAREFA LIST] GET TAREFAS SUCCESS';
 export const GET_TAREFAS_FAILED = '[TAREFA LIST] GET TAREFAS FAILED';
 
 export const RELOAD_TAREFAS = '[TAREFA LIST] RELOAD TAREFAS';
+export const UNLOAD_TAREFAS = '[TAREFA LIST] UNLOAD TAREFAS';
 
 export const DELETE_TAREFA = '[TAREFA LIST] DELETE TAREFA';
 export const DELETE_TAREFA_SUCCESS = '[TAREFA LIST] DELETE TAREFA SUCCESS';
@@ -59,6 +60,18 @@ export class ReloadTarefas implements Action
 }
 
 /**
+ * Unload Tarefas
+ */
+export class UnloadTarefas implements Action
+{
+    readonly type = UNLOAD_TAREFAS;
+
+    constructor()
+    {
+    }
+}
+
+/**
  * Delete Tarefa
  */
 export class DeleteTarefa implements Action
@@ -99,6 +112,7 @@ export type TarefaListActionsAll
     | GetTarefasSuccess
     | GetTarefasFailed
     | ReloadTarefas
+    | UnloadTarefas
     | DeleteTarefa
     | DeleteTarefaSuccess
     | DeleteTarefaFailed;

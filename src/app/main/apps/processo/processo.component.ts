@@ -243,6 +243,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     arquivarProcesso(): void {
+        this._store.dispatch(new fromStore.AddPluginLoading('arquivar_processo'));
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
@@ -256,7 +257,14 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
+                const populate = JSON.stringify([
+                    'setorAtual',
+                    'setorAtual.especieSetor',
+                    'modalidadeFase'
+                ]);
+                this._store.dispatch(new fromStore.ArquivarProcesso({processo: this.processo, populate: populate}));
+            } else {
+                this._store.dispatch(new fromStore.RemovePluginLoading('arquivar_processo'));
             }
             this.confirmDialogRef = null;
         });
