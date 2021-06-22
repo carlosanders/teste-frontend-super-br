@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeAlvoInibidor} from '@cdk/models';
 import {ModalidadeAlvoInibidorDataSource} from '@cdk/data-sources/modalidade-alvo-inibidor-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeAlvoInibidorFilterComponent} from '../sidebars/cdk-modalidade-alvo-inibidor-filter/cdk-modalidade-alvo-inibidor-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-alvo-inibidor-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeAlvoInibidorGridComponent implements AfterViewInit, On
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeAlvoInibidorFilterComponent)
+    cdkModalidadeAlvoInibidorFilterComponent: CdkModalidadeAlvoInibidorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkModalidadeAlvoInibidorGridComponent implements AfterViewInit, On
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeAlvoInibidorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

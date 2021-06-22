@@ -1,0 +1,10 @@
+<cdk-estrutura-barramento-grid
+        [loading]="loading"
+        [estruturaBarramentos]="estruturaBarramentos"
+        [displayedColumns]="['id', 'nome', 'sigla', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-estrutura-barramento-grid>

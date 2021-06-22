@@ -371,3 +371,13 @@
 * Correção erro na remoção de assintura de outra pessoa, que causava loop
 * Correção de erro ao tentar abrir o componente de protocolo-externo
 * Implementada tela de encaminhamento de processos em bloco após uma movimentação que encerra as tarefas
+* Implementado componente separado para vincular juntadas a outras juntadas
+
+1.5.0
+
+* Importação do Módulo do Barramento para o core administrativo
+* Melhoria do filtro da pessoa na remessa para processos do barramento
+* Correção setor de origem tarefa de acordo com o setor responsável do processo no stepper
+* Correção tecla enter chamando grid de configuração nup processo
+* Correção setor de origem selecionando setor da lotação principal
+* Correçao de alteraçao do tipo de documentos de anexos

@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeNotificacao} from '@cdk/models';
 import {ModalidadeNotificacaoDataSource} from '@cdk/data-sources/modalidade-notificacao-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeNotificacaoFilterComponent} from '../sidebars/cdk-modalidade-notificacao-filter/cdk-modalidade-notificacao-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-notificacao-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeNotificacaoFilterComponent)
+    cdkModalidadeNotificacaoFilterComponent: CdkModalidadeNotificacaoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeNotificacaoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

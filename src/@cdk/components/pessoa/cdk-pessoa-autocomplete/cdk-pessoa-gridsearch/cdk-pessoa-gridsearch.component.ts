@@ -61,10 +61,9 @@ export class CdkPessoaGridsearchComponent implements OnInit {
     }
 
     load(params): void {
-
         this.loading = true;
 
-        this._pessoaService.query(
+        this._pessoaService.search(
             JSON.stringify(params.filter),
             params.limit,
             params.offset,

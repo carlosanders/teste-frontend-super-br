@@ -24,6 +24,22 @@ cdk-localizador-filter {
             flex: 0 1 auto;
             display: flex;
             flex-direction: column;
+
+            >.botao-toggle {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: column;
+                margin-bottom: 18px;
+                margin-top: 12px;
+
+                .mat-button-toggle-label-content {
+                    line-height: 15px !important;
+                }
+
+                .button-toggle-custom {
+                    width: 100%;
+                }
+            }
         }
     }
 

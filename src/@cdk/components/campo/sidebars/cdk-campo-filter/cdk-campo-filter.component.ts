@@ -21,6 +21,9 @@ export class CdkCampoFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    hasInatived = false;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -29,7 +32,9 @@ export class CdkCampoFilterComponent {
             nome: [null],
             descricao: [null],
             html: [null],
+            ativo: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -57,8 +62,20 @@ export class CdkCampoFilterComponent {
             });
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -74,7 +91,12 @@ export class CdkCampoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }

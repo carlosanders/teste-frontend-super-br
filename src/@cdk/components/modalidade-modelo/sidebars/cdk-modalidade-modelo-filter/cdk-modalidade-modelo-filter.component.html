@@ -29,6 +29,15 @@
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         </mat-form-field>
 
+        <span class="botao-toggle" *ngIf="hasInatived">
+            Ativo
+            <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="ativo">
+                <mat-button-toggle value="true" class="button-toggle-custom">Sim</mat-button-toggle>
+                <mat-button-toggle value="todos" class="button-toggle-custom">Todos</mat-button-toggle>
+                <mat-button-toggle value="false" class="button-toggle-custom">Não</mat-button-toggle>
+            </mat-button-toggle-group>
+        </span>
+
         <mat-form-field>
             <mat-label>Criado Em</mat-label>
             <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">

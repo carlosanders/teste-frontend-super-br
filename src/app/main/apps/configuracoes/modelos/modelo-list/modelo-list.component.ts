@@ -88,7 +88,7 @@ export class ModeloListComponent implements OnInit, OnDestroy {
             populate: [
                 ...this.pagination.populate
             ],
-            context: this.pagination.context,
+            context: params.context,
         }));
     }
 

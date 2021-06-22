@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {AssuntoAdministrativo} from '@cdk/models';
 import {AssuntoAdministrativoDataSource} from '@cdk/data-sources/assunto-administrativo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkAssuntoAdministrativoFilterComponent} from '../sidebars/cdk-assunto-administrativo-filter/cdk-assunto-administrativo-filter.component';
 
 @Component({
     selector: 'cdk-assunto-administrativo-grid',
@@ -150,6 +151,9 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkAssuntoAdministrativoFilterComponent)
+    cdkAssuntoAdministrativoFilterComponent: CdkAssuntoAdministrativoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -294,6 +298,8 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkAssuntoAdministrativoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

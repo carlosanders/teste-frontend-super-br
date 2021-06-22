@@ -1,0 +1,89 @@
+import {
+    ChangeDetectionStrategy,
+    Component,
+    OnInit,
+    OnDestroy,
+    ViewEncapsulation, ChangeDetectorRef
+} from '@angular/core';
+import { cdkAnimations } from '@cdk/animations';
+import { select, Store } from '@ngrx/store';
+import * as fromStore from './store';
+import {Observable, of, Subject} from 'rxjs';
+
+import { LoginService } from 'app/main/auth/login/login.service';
+import { Router } from '@angular/router';
+import {StatusBarramento} from "@cdk/models/status-barramento";
+import {getRouterState} from "../../../../../../store";
+
+@Component({
+    selector: 'status-barramento-oficio',
+    templateUrl: './status-barramento-oficio.component.html',
+    styleUrls: ['./status-barramento-oficio.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
+})
+
+export class StatusBarramentoOficioComponent implements OnInit, OnDestroy{
+    private _unsubscribeAll: Subject<any> = new Subject();
+
+    statusBarramento$: Observable<StatusBarramento>;
+
+    statusBarramento: StatusBarramento;
+
+    errors$: Observable<any>;
+
+    routerState: any;
+
+    loading$: Observable<boolean> = of(false);
+
+    /**
+     *
+     * @param _store
+     * @param _router
+     * @param _loginService
+     * @param _ref
+     */
+    constructor(
+        private _store: Store<fromStore.StatusBarramentoAppState>,
+        private _router: Router,
+        private _loginService: LoginService,
+        private _ref: ChangeDetectorRef
+    ) {
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.statusBarramento$ = this._store.pipe(select(fromStore.getStatusBarramento));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+    }
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+
+        this.statusBarramento$
+            .subscribe((statusBarramento) => {
+            this.statusBarramento = statusBarramento;
+            this._ref.detectChanges();
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    doBack(): void {
+        this._router.navigate([this.routerState.url.replace('status-barramento-oficio', 'listar')]).then();
+    }
+}

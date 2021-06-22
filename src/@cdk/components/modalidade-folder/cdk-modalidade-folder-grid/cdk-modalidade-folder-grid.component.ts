@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeFolder} from '@cdk/models';
 import {ModalidadeFolderDataSource} from '@cdk/data-sources/modalidade-folder-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeFolderFilterComponent} from '../sidebars/cdk-modalidade-folder-filter/cdk-modalidade-folder-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-folder-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeFolderGridComponent implements AfterViewInit, OnInit, 
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeFolderFilterComponent)
+    cdkModalidadeFolderFilterComponent: CdkModalidadeFolderFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkModalidadeFolderGridComponent implements AfterViewInit, OnInit, 
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeFolderFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

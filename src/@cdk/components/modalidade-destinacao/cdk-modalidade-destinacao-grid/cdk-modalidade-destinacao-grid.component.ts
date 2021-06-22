@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeDestinacao} from '@cdk/models';
 import {ModalidadeDestinacaoDataSource} from '@cdk/data-sources/modalidade-destinacao-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeDestinacaoFilterComponent} from '../sidebars/cdk-modalidade-destinacao-filter/cdk-modalidade-destinacao-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-destinacao-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeDestinacaoFilterComponent)
+    cdkModalidadeDestinacaoFilterComponent: CdkModalidadeDestinacaoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -280,6 +285,8 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeDestinacaoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

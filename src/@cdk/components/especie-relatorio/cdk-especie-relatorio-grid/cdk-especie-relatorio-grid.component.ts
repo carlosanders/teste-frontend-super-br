@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieRelatorio} from '@cdk/models/especie-relatorio.model';
 import {EspecieRelatorioDataSource} from '@cdk/data-sources/especie-relatorio-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkEspecieRelatorioFilterComponent} from '../siderbars/cdk-especie-relatorio-filter/cdk-especie-relatorio-filter.component';
+
 
 @Component({
     selector: 'cdk-especie-relatorio-grid',
@@ -137,6 +139,9 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkEspecieRelatorioFilterComponent)
+    cdkEspecieRelatorioFilterComponent: CdkEspecieRelatorioFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -261,6 +266,8 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkEspecieRelatorioFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

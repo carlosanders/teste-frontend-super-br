@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-aviso-filter" position="left">
-        <cdk-aviso-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-aviso-filter>
+        <cdk-aviso-filter (selected)="setFilter($event)" [mode]="this.mode" [hasInatived]="hasInatived"></cdk-aviso-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -195,24 +195,6 @@
                     </th>
                     <td mat-cell *matCellDef="let aviso" class='has_label_on_mobile' data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(aviso.id) > -1}"> {{aviso.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let aviso" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(aviso.id) > -1}"> {{aviso.apagadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let aviso" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(aviso.id) > -1}"> {{aviso.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

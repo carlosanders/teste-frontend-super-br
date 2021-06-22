@@ -108,6 +108,11 @@ export class RemessaListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'recebimento/') + tramitacaoId]);
     }
 
+    verificaStatusBarramento(tramitacaoId: number[]): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'status-barramento-processo/') +
+        tramitacaoId]);
+    }
+
     delete(tramitacaoId: number): void {
         this._store.dispatch(new fromStore.DeleteTramitacao(tramitacaoId));
     }

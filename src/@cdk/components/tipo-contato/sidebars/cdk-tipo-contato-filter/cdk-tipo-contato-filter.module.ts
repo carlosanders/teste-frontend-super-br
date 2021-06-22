@@ -16,6 +16,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {TipoContatoService} from '../../../../services/tipo-contato.service';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {FormsModule} from '@angular/forms';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import {FormsModule} from '@angular/forms';
         MatCheckboxModule,
         CdkSharedModule,
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         TipoContatoService,

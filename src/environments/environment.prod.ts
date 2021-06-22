@@ -10,5 +10,6 @@ export const environment = {
     jnlp: 'jnlps://' + basename + 'backend' + url + '/',
     api_url: protocol + '//' + basename + 'backend' + url + '/v1/',
     mercure_hub: protocol + '//' + basename + 'mercure' + url + '/.well-known/mercure',
-    xdebug: ''
+    xdebug: '',
+    barramento: false
 };

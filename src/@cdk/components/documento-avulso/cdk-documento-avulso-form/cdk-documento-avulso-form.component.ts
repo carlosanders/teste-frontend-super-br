@@ -32,6 +32,8 @@ import {of} from 'rxjs';
 import {FavoritoService} from '../../../services/favorito.service';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
+import {environment} from "../../../../environments/environment";
+import {CdkConfigService} from "../../../services/config.service";
 
 @Component({
     selector: 'cdk-documento-avulso-form',
@@ -165,7 +167,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _dynamicService: DynamicService,
-        private _favoritoService: FavoritoService
+        private _favoritoService: FavoritoService,
+        public _cdkConfigService: CdkConfigService,
     ) {
 
         const controlConfig = {

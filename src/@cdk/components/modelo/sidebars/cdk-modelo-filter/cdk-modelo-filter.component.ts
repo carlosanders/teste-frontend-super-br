@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -21,6 +29,9 @@ export class CdkModeloFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    hasInatived = false;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -31,11 +42,13 @@ export class CdkModeloFilterComponent {
             nome: [null],
             descricao: [null],
             tipoDocumento: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -65,6 +78,15 @@ export class CdkModeloFilterComponent {
             andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value.id}`});
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         if (this.form.get('criadoEm').value) {
             andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
@@ -81,8 +103,11 @@ export class CdkModeloFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -105,8 +130,13 @@ export class CdkModeloFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }
 

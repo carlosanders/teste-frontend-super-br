@@ -16,6 +16,7 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkGeneroSetorAutocompleteModule} from '../../../genero-setor/cdk-genero-setor-autocomplete/cdk-genero-setor-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import {CdkGeneroSetorAutocompleteModule} from '../../../genero-setor/cdk-genero
 
         CdkUsuarioAutocompleteModule,
         CdkGeneroSetorAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         EspecieSetorService,

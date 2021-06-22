@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeInteressado} from '@cdk/models';
 import {ModalidadeInteressadoDataSource} from '@cdk/data-sources/modalidade-interessado-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeInteressadoFilterComponent} from '../sidebars/cdk-modalidade-interessado-filter/cdk-modalidade-interessado-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-interessado-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeInteressadoGridComponent implements AfterViewInit, OnI
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeInteressadoFilterComponent)
+    cdkModalidadeInteressadoFilterComponent: CdkModalidadeInteressadoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkModalidadeInteressadoGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeInteressadoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }
