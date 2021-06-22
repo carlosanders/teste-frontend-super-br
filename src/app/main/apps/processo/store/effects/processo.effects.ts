@@ -18,6 +18,7 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
+import * as fromStore from "../index";
 
 @Injectable()
 export class ProcessoEffect {
@@ -73,6 +74,8 @@ export class ProcessoEffect {
                             'especieProcesso.workflow.especieTarefaInicial',
                             'tarefaAtualWorkflow',
                             'tarefaAtualWorkflow.especieTarefa',
+                            'setorAtual',
+                            'setorAtual.especieSetor',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta']
                         ),
@@ -107,17 +110,17 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.AutuarProcesso>(ProcessoActions.AUTUAR_PROCESSO),
                 switchMap(action => this._processoService.autuar(action.payload).pipe(
-                        mergeMap((response: Processo) => [
-                            new ProcessoActions.AutuarProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} autuado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError(err => of(new ProcessoActions.AutuarProcessoFailed(err)))
-                    ))
+                    mergeMap((response: Processo) => [
+                        new ProcessoActions.AutuarProcessoSuccess(response),
+                        new AddData<Processo>({data: [response], schema: processoSchema}),
+                        new OperacoesActions.Resultado({
+                            type: 'processo',
+                            content: `Processo id ${response.id} autuado com sucesso!`,
+                            dateTime: response.criadoEm
+                        })
+                    ]),
+                    catchError(err => of(new ProcessoActions.AutuarProcessoFailed(err)))
+                ))
             );
 
     /**
@@ -169,21 +172,22 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.SaveConteudoVinculacaoEtiqueta>(ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
                 mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                        // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
-                        mergeMap(response => [
-                            new ProcessoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
-                            new UpdateData<VinculacaoEtiqueta>(
-                                {id: response.id, schema: vinculacaoEtiquetaSchema, changes:
-                                        {conteudo: response.conteudo, privada: response.privada}}
-                                        )
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new ProcessoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
-                        })
-                    ))
+                    // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
+                    mergeMap(response => [
+                        new ProcessoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                        new UpdateData<VinculacaoEtiqueta>(
+                            {
+                                id: response.id, schema: vinculacaoEtiquetaSchema, changes:
+                                    {conteudo: response.conteudo, privada: response.privada}
+                            }
+                        )
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new ProcessoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
+                    })
+                ))
             );
-
 
 
     /**
@@ -197,19 +201,19 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.DeleteVinculacaoEtiqueta>(ProcessoActions.DELETE_VINCULACAO_ETIQUETA),
                 mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
-                            mergeMap(() => [
-                                new RemoveChildData({
-                                    id: action.payload.vinculacaoEtiquetaId,
-                                    childSchema: vinculacaoEtiquetaSchema,
-                                    parentSchema: processoSchema,
-                                    parentId: action.payload.processoId
-                                })
-                            ]),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new ProcessoActions.DeleteVinculacaoEtiquetaFailed(action.payload));
-                            })
-                        )
+                    mergeMap(() => [
+                        new RemoveChildData({
+                            id: action.payload.vinculacaoEtiquetaId,
+                            childSchema: vinculacaoEtiquetaSchema,
+                            parentSchema: processoSchema,
+                            parentId: action.payload.processoId
+                        })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new ProcessoActions.DeleteVinculacaoEtiquetaFailed(action.payload));
+                    })
+                    )
                 ));
 
     /**
@@ -222,24 +226,32 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.ArquivarProcesso>(ProcessoActions.ARQUIVAR_PROCESSO),
-                switchMap(action => this._processoService.arquivar(action.payload).pipe(
-                        mergeMap((response: Processo) => [
-                            new ProcessoActions.ArquivarProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} arquivado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError(err => of(new ProcessoActions.ArquivarProcessoFailed(err)))
-                    ))
+                switchMap(action => this._processoService.arquivar(action.payload.processo, action.payload.populate).pipe(
+                    mergeMap((response: Processo) => [
+                        new fromStore.RemovePluginLoading('arquivar_processo'),
+                        new ProcessoActions.ArquivarProcessoSuccess(response),
+                        new UpdateData<Processo>({
+                            id: response.id, schema: processoSchema, changes:
+                                {setorAtual: response.setorAtual, modalidadeFase: response.modalidadeFase, atualizadoEm: response.atualizadoEm}
+                        }),
+                        new OperacoesActions.Resultado({
+                            type: 'processo',
+                            content: `Processo id ${response.id} arquivado com sucesso!`,
+                            dateTime: response.criadoEm
+                        })
+                    ]),
+                    catchError(err => {
+                        console.log(err);
+                        this._store.dispatch(new fromStore.RemovePluginLoading('arquivar_processo'));
+                        return of(new ProcessoActions.ArquivarProcessoFailed(err));
+                    })
+                ))
             );
 
     /**
      * Save Processo Success
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     arquivarProcessoSuccess: any =
         this._actions
             .pipe(
@@ -247,8 +259,8 @@ export class ProcessoEffect {
                 tap(() => {
                     if (this.routerState.params['tarefaHandle']) {
                         this._router.navigate(['apps/tarefas/' +
-                            this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle +
-                            '/' + this.routerState.params.targetHandle]).then();
+                        this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle +
+                        '/' + this.routerState.params.targetHandle]).then();
                     }
                 })
             );
@@ -264,14 +276,14 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.GetAcompanhamento>(ProcessoActions.GET_ACOMPANHAMENTO),
                 switchMap(action => this._acompanhamentoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.listFilter
-                        }),
-                        action.payload.imit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))),
+                    JSON.stringify({
+                        ...action.payload.filter,
+                        ...action.payload.listFilter
+                    }),
+                    action.payload.imit,
+                    action.payload.offset,
+                    JSON.stringify(action.payload.sort),
+                    JSON.stringify(action.payload.populate))),
                 mergeMap(response => [
                     new AddData<Compartilhamento>({data: response['entities'], schema: acompanhamentoSchema}),
                     new ProcessoActions.GetAcompanhamentoSuccess({
