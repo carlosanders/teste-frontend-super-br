@@ -17,6 +17,9 @@ export interface JuntadaState {
     desentranhadoIds: number[];
     copiandoIds: number[];
     copiadoIds: number[];
+    assinandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
+
 }
 
 export const JuntadaInitialState: JuntadaState = {
@@ -35,7 +38,9 @@ export const JuntadaInitialState: JuntadaState = {
     desentranhadoIds: [],
     desentranhandoIds: [],
     copiandoIds: [],
-    copiadoIds: []
+    copiadoIds: [],
+    assinandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
 };
 
 export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActions.JuntadaActionsAll): JuntadaState {
@@ -100,6 +105,20 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_JUNTADA_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_JUNTADA_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
