@@ -90,7 +90,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
         contentsCss: '/assets/ckeditor/contents.css',
-        justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
+        justifyClasses: ['esquerda', 'centralizado', 'direita', 'justificado', 'paragrafo'],
         resize_enabled: false,
         removePlugins: 'elementspath',
 
