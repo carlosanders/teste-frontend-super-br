@@ -341,6 +341,6 @@ export class ProcessoCapaEffect {
                             return of(new ProcessoCapaActions.DeleteAcompanhamentoFailed(action.payload.acompanhamentoId));
                         })
                     );
-                })
+                }, 25)
             );
 }

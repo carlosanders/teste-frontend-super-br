@@ -106,7 +106,7 @@ export class ComponenteDigitalEffects {
                             console.log (err);
                             return of(new ComponenteDigitalActions.DeleteComponenteDigitalFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**

@@ -92,7 +92,7 @@ export class TarefaListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 
 }

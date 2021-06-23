@@ -156,7 +156,7 @@ export class ProcessosEffect {
                             console.log(err);
                             return of(new ProcessosActions.DeleteProcessoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**

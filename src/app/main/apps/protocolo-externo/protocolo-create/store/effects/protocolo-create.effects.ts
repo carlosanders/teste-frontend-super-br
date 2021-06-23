@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ProtocoloCreateActions from '../actions';
 
@@ -45,7 +45,7 @@ export class ProtocoloCreateEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloCreateActions.SaveProcesso>(ProtocoloCreateActions.SAVE_PROCESSO),
-                mergeMap(action => this._processoService.save(action.payload).pipe(
+                switchMap(action => this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new AddData<Processo>({data: [response], schema: processoSchema}),
                             new ProtocoloCreateActions.SaveProcessoSuccess(response),

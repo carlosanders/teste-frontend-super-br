@@ -330,7 +330,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleLidaTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -358,7 +358,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -543,7 +543,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
                         })
-                    )),
+                    ), 25),
             );
 
     /**
@@ -581,7 +581,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
                         })
-                    )),
+                    ), 25),
             );
 
     /**
@@ -703,7 +703,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.GerarRelatorioTarefaExcelFailed());
                         })
-                    ))
+                    ), 25)
             );
 
     /**

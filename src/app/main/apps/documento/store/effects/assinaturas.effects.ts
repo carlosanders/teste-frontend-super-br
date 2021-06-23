@@ -136,7 +136,7 @@ export class AssinaturaEffect {
                             console.log (err);
                             return of(new AssinaturaActions.DeleteAssinaturaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**

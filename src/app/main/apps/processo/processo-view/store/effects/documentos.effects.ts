@@ -200,7 +200,7 @@ export class ProcessoViewDocumentosEffects {
                             console.log(err);
                             return of(new ProcessoViewDocumentosActions.UpdateDocumentoFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -303,7 +303,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -347,7 +347,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -549,7 +549,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
-                            )
+                            ), 25
 
                 )
             );
@@ -577,7 +577,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.ConverteToHtmlFailed(action.payload));
                                 })
-                            )
+                            ), 25
                 )
             );
 
@@ -624,7 +624,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.DownloadToP7SFailed(action.payload));
                                 })
-                            )
+                            ), 25
 
                 )
             );

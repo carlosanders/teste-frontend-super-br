@@ -94,6 +94,6 @@ export class SetorListEffects {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

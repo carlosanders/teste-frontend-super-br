@@ -162,7 +162,7 @@ export class DocumentosEffects {
                                     console.log(err);
                                     return of(new DocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
-                            )
+                            ), 25
                 )
             );
 
@@ -186,7 +186,7 @@ export class DocumentosEffects {
                                     console.log(err);
                                     return of(new DocumentosActions.ConverteToHtmlFailed(action.payload));
                                 })
-                            )
+                            ), 25
                 )
             );
 
@@ -206,7 +206,7 @@ export class DocumentosEffects {
                                 console.log(err);
                                 return of(new DocumentosActions.DeleteDocumentoFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
     /**
@@ -226,7 +226,7 @@ export class DocumentosEffects {
                                     console.log(err);
                                     return of(new DocumentosActions.AssinaDocumentoFailed(err));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -297,7 +297,7 @@ export class DocumentosEffects {
                                     this._store.dispatch(new DocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                     return caught;
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -339,7 +339,7 @@ export class DocumentosEffects {
                                     console.log(err);
                                     return of(new DocumentosActions.DownloadToP7SFailed(action.payload));
                                 })
-                            )
+                            ), 25
                 )
             );
 

@@ -93,6 +93,6 @@ export class RelacionamentoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

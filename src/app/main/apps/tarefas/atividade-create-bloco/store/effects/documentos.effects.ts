@@ -115,7 +115,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                                 console.log(err);
                                 return of(new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
     /**
@@ -142,8 +142,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                             console.log(err);
                             return of(new AtividadeBlocoCreateDocumentosActionsAll.ConverteToPdfFailed(action.payload));
                         })
-                    )
-
+                    ), 25
                 )
             );
 
@@ -175,7 +174,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                             new AtividadeBlocoCreateDocumentosActionsAll.ConverteToHtmlSucess(action.payload)
                         ]),
                         catchError(err => of(new AtividadeBlocoCreateDocumentosActionsAll.ConverteToHtmlFailed(action.payload)))
-                    )
+                    ), 25
                 )
             );
 
@@ -233,8 +232,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                             console.log(err);
                             return of(new AtividadeBlocoCreateDocumentosActionsAll.DownloadP7SFailed(action.payload));
                         })
-                    )
-
+                    ), 25
                 )
             );
 
@@ -255,7 +253,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                                     console.log(err);
                                     return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoFailed(err));
                                 })
-                            )
+                            ), 25
                 ));
 
     @Effect()
@@ -272,7 +270,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                             console.log(err);
                             return of(new AtividadeBlocoCreateDocumentosActionsAll.RemoveAssinaturaDocumentoFailed(action.payload));
                         })
-                    )
+                    ), 25
                 ));
 
     @Effect({dispatch: false})
@@ -333,7 +331,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                         console.log(err);
                         return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteFailed(err));
                     })
-                ))
+                ), 25)
             );
 
     @Effect({dispatch: false})
@@ -401,7 +399,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                         console.log(err);
                         return of(new AtividadeBlocoCreateDocumentosActionsAll.UpdateDocumentoBlocoFailed(err));
                     })
-                ))
+                ), 25)
             );
 
     @Effect({dispatch: false})

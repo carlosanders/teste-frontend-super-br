@@ -136,7 +136,7 @@ export class ProcessoDetailEffect {
                                 console.log(err);
                                 return of(new ProcessoDetailActions.DeleteProcessoFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
     /**
@@ -202,7 +202,7 @@ export class ProcessoDetailEffect {
                             return of(new ProcessoDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
-                })
+                }, 25)
             );
 
 
@@ -229,7 +229,7 @@ export class ProcessoDetailEffect {
                             console.log(err);
                             return of(new ProcessoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 
 
@@ -256,7 +256,7 @@ export class ProcessoDetailEffect {
                                 console.log(err);
                                 return of(new ProcessoDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
     /**

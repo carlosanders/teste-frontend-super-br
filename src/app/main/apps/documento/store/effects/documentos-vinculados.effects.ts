@@ -115,7 +115,7 @@ export class DocumentosVinculadosEffect {
                             console.log(err);
                             return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -135,7 +135,7 @@ export class DocumentosVinculadosEffect {
                                     console.log(err);
                                     return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**

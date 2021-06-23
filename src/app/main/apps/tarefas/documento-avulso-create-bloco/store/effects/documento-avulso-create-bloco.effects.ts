@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as DocumentoAvulsoCreateBlocoActions from '../actions/documento-avulso-create-bloco.actions';
 
@@ -44,7 +44,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO),
-                mergeMap(action => this._documentoAvulsoService.save(action.payload).pipe(
+                switchMap(action => this._documentoAvulsoService.save(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload),
                             new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),

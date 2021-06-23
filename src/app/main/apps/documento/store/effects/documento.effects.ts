@@ -455,7 +455,7 @@ export class DocumentoEffect {
                             return of(new DocumentoActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
-                })
+                }, 25)
             );
 
 
@@ -479,7 +479,7 @@ export class DocumentoEffect {
                             console.log(err);
                             return of(new DocumentoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 
 
@@ -507,7 +507,7 @@ export class DocumentoEffect {
                                 console.log(err);
                                 return of(new DocumentoActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
 }

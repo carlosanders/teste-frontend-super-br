@@ -96,7 +96,7 @@ export class JuntadaEffects {
                             this._store.dispatch(new JuntadaActions.AssinaDocumentoFailed(err));
                             return caught;
                         })
-                    )
+                    ), 25
                 ));
 
     /**

@@ -93,6 +93,6 @@ export class EtiquetaListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

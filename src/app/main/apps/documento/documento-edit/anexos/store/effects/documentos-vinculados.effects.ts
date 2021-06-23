@@ -119,7 +119,7 @@ export class DocumentosVinculadosEffects {
                             console.log(err);
                             return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -139,7 +139,7 @@ export class DocumentosVinculadosEffects {
                                     console.log(err);
                                     return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -242,7 +242,7 @@ export class DocumentosVinculadosEffects {
                         console.log(err);
                         return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
                     })
-                ))
+                ), 25)
             );
 
     /**
@@ -288,7 +288,7 @@ export class DocumentosVinculadosEffects {
                             console.log(err);
                             return of(new DocumentosVinculadosActions.DownloadP7SFailed(action.payload));
                         })
-                    )
+                    ), 25
 
                 )
             );
