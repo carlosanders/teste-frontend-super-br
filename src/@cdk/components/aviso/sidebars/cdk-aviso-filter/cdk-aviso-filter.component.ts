@@ -173,7 +173,6 @@ export class CdkAvisoFilterComponent{
     }
 
     limpar(): void {
-        this.form.reset();
         this.limparFormFiltroDatas$.next(true);
         this.emite();
         this.resetarFormulario();

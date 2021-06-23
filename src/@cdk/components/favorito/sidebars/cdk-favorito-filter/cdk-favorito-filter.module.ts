@@ -18,6 +18,8 @@ import {CdkEspecieAtividadeAutocompleteModule} from '@cdk/components/especie-ati
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkEspecieTarefaAutocompleteModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,8 @@ import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autoco
         CdkSetorAutocompleteModule,
         CdkUsuarioAutocompleteModule,
         CdkEspecieTarefaAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         FavoritoService,

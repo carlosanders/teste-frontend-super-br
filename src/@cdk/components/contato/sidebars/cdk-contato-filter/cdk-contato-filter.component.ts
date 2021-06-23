@@ -151,7 +151,6 @@ export class CdkContatoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
         this.limparFormFiltroDatas$.next(true);
         this.resetarFormulario();
         this.emite();

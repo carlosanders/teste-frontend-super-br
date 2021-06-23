@@ -128,7 +128,6 @@ export class CdkCargoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
         this.limparFormFiltroDatas$.next(true);
         this.resetarFormulario();
         this.emite();

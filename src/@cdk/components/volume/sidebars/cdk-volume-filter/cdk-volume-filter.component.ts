@@ -68,8 +68,8 @@ export class CdkVolumeFilterComponent {
             });
         }
 
-        if (this.filterCriadoEm?.length) {
-            this.filterCriadoEm.forEach((filter) => {
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });
         }

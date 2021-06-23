@@ -99,19 +99,28 @@ export class CdkAtividadeFilterComponent {
             andXFilter.push({'documentos.id': `eq:${this.form.get('documentos').value.id}`});
         }
 
-        if (this.filterCriadoEm.length > 0) {
-            this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterAtualizadoEm.length > 0) {
-            this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit)});
-        }
-        if (this.filterApagadoEm.length > 0) {
-            this.filterApagadoEm.forEach((bit) => {andXFilter.push(bit)});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterConclusaoEm.length > 0) {
-            this.filterConclusaoEm.forEach((bit) => {andXFilter.push(bit)});
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterConclusaoEm?.length) {
+            this.filterConclusaoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
         
         if (this.form.get('apagadoPor').value) {
