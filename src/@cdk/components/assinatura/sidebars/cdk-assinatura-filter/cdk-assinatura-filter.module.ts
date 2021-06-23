@@ -16,6 +16,8 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkComponenteDigitalAutocompleteModule} from '@cdk/components/componente-digital/cdk-componente-digital-autocomplete/cdk-componente-digital-autocomplete.module';
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -38,6 +40,8 @@ import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk
         CdkUsuarioAutocompleteModule,
         CdkComponenteDigitalAutocompleteModule,
         CdkOrigemDadosAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [],
     exports: [

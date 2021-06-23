@@ -25,6 +25,19 @@ cdk-especie-processo-filter {
             display: flex;
             flex-direction: column;
 
+            .filtro-data {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                flex: 1 1 auto;
+
+                .filtrado {
+                    color: red;
+                    font-weight: bold;
+                }
+            }
+
             >.botao-toggle {
                 display: flex;
                 flex: 1 1 auto;

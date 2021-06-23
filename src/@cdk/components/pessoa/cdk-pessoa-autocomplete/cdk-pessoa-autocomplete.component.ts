@@ -39,6 +39,9 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
     @Input()
     pessoaListIsLoading: boolean;
 
+    @Input()
+    mode = 'search';
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -88,7 +91,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                             ...this.pagination.filter,
                             ...termFilter
                         };
-                        return this._pessoaService.search(
+                        return this._pessoaService[`${this.mode}`](
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,

@@ -263,7 +263,36 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             else {
                 delete andXFilter['redistribuida'];
             }
-            console.log(andXFilter);
+        }
+        
+        if (this.filterDataHoraLeitura?.length) {
+            this.filterDataHoraLeitura.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraDistribuicao?.length) {
+            this.filterDataHoraDistribuicao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraInicioPrazo?.length) {
+            this.filterDataHoraInicioPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraFinalPrazo?.length) {
+            this.filterDataHoraFinalPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraConclusaoPrazo?.length) {
+            this.filterDataHoraConclusaoPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.filterCriadoEm?.length) {

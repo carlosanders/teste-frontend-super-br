@@ -14,6 +14,8 @@ import {CdkCargoFilterComponent} from './cdk-cargo-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
@@ -35,10 +37,11 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
         MatButtonToggleModule,
     ],
     providers: [
-
     ],
     exports: [
         CdkCargoFilterComponent
