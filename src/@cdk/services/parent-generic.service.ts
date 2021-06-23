@@ -1,7 +1,7 @@
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
+import {classToPlain, plainToClass} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {map} from 'rxjs/operators';
 

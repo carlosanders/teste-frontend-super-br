@@ -1,4 +1,4 @@
-import { UnidadeEditEffects } from './unidade-edit.effects';
+import {UnidadeEditEffects} from './unidade-edit.effects';
 
 export const effects = [
     UnidadeEditEffects

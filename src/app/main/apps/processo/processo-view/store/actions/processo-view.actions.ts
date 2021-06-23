@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_JUNTADAS = '[PROCESSO VIEW] GET JUNTADAS';
 export const GET_JUNTADAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS SUCCESS';
@@ -10,6 +10,8 @@ export const SET_CURRENT_STEP_SUCCESS = '[JUNTADAS] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[JUNTADAS] SET CURRENT STEP FAILED';
 
 export const UNLOAD_JUNTADAS = '[JUNTADAS] UNLOAD JUNTADAS';
+
+export const RELOAD_JUNTADAS = '[JUNTADAS] RELOAD JUNTADAS';
 
 export const GET_CAPA_PROCESSO = '[JUNTADAS] GET CAPA PROCESSO';
 
@@ -113,6 +115,18 @@ export class GetCapaProcesso implements Action {
     }
 }
 
+/**
+ * Reload Juntadas
+ */
+export class ReloadJuntadas implements Action
+{
+    readonly type = RELOAD_JUNTADAS;
+
+    constructor()
+    {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -122,4 +136,5 @@ export type ProcessoViewActionsAll
     | SetCurrentStepFailed
     | UnloadJuntadas
     | GetCapaProcesso
-    | ExpandirProcesso;
+    | ExpandirProcesso
+    | ReloadJuntadas;

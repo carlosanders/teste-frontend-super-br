@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component, EventEmitter, Input,
-    Output,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -26,6 +21,9 @@ export class CdkEspecieTarefaFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    hasInatived = false;
+
     /**
      * Constructor
      */
@@ -36,12 +34,14 @@ export class CdkEspecieTarefaFilterComponent {
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
             generoTarefa: [null],
         });
+        this.form.controls.ativo.setValue("todos");
     }
 
     emite(): void {
@@ -67,6 +67,15 @@ export class CdkEspecieTarefaFilterComponent {
             andXFilter.push({'generoTarefa.id': `eq:${this.form.get('generoTarefa').value.id}`});
         }
 
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
+        }
+
         if (this.form.get('criadoEm').value) {
             andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
@@ -83,8 +92,11 @@ export class CdkEspecieTarefaFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -107,8 +119,13 @@ export class CdkEspecieTarefaFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }
 

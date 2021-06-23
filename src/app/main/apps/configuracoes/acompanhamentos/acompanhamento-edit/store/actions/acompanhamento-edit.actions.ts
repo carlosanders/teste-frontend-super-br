@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_ACOMPANHAMENTO = '[ACOMPANHAMENTO] CREATE ACOMPANHAMENTO';
 export const CREATE_ACOMPANHAMENTO_SUCCESS = '[ACOMPANHAMENTO] CREATE ACOMPANHAMENTO SUCCESS';

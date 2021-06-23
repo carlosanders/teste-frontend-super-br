@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {AssuntoAdministrativo} from '@cdk/models';
 import {AssuntoAdministrativoDataSource} from '@cdk/data-sources/assunto-administrativo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkAssuntoAdministrativoFilterComponent} from '../sidebars/cdk-assunto-administrativo-filter/cdk-assunto-administrativo-filter.component';
 
 @Component({
     selector: 'cdk-assunto-administrativo-grid',
@@ -131,7 +138,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -145,11 +152,17 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkAssuntoAdministrativoFilterComponent)
+    cdkAssuntoAdministrativoFilterComponent: CdkAssuntoAdministrativoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -175,6 +188,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -243,7 +257,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -267,6 +281,25 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkAssuntoAdministrativoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_VINCULACOES_PROCESSOS = '[DADOS BASICOS STEPS] GET VINCULACOES PROCESSOS';
 export const GET_VINCULACOES_PROCESSOS_SUCCESS = '[DADOS BASICOS STEPS] GET VINCULACOES PROCESSOS SUCCESS';

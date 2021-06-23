@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -77,7 +77,9 @@ export class DadosBasicosEffect {
                     this.populate = action.payload.populate ?? [];
                     return this._processoService.get(
                         action.payload.id,
-                        JSON.stringify(['populateAll', 'especieProcesso.generoProcesso', 'setorAtual.unidade'])
+                        JSON.stringify([
+                            'populateAll', 'especieProcesso.generoProcesso', 'setorAtual.unidade', 'setorAtual.especieSetor'
+                        ])
                     );
                 }),
                 switchMap(response => [

@@ -8,7 +8,7 @@ import {environment} from '../../../../environments/environment';
 import * as fromLoginStore from 'app/main/auth/login/store';
 import * as moment from 'moment';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LoginService {
 
     private _timeout;
@@ -33,10 +33,12 @@ export class LoginService {
 
     removeUserProfile(): void {
         localStorage.removeItem('userProfile');
+        this._userProfileSubject.next(null);
     }
 
     setToken(action): void {
         this.removeToken();
+        this.setVersion(action.payload.version);
         localStorage.setItem('token', action.payload.token);
         this.setTimestamp(action);
         this.setExp(action);
@@ -62,6 +64,10 @@ export class LoginService {
         localStorage.setItem('localBrowserExp', expiration.toString());
     }
 
+    setVersion(version): void {
+        localStorage.setItem('version', version);
+    }
+
     getLoginType(): string {
         return localStorage.getItem('loginType');
     }
@@ -80,6 +86,10 @@ export class LoginService {
 
     getToken(): string {
         return localStorage.getItem('token');
+    }
+
+    getVersion(): string {
+        return localStorage.getItem('version');
     }
 
     removeToken(): void {

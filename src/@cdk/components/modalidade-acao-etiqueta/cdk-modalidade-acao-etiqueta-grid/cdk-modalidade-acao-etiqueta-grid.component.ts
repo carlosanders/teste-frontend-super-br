@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -20,6 +20,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {ModalidadeAcaoEtiquetaDataSource} from '@cdk/data-sources/modalidade-acao-etiqueta-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeAcaoEtiquetaFilterComponent} from '../sidebars/cdk-modalidade-acao-etiqueta-filter/cdk-modalidade-acao-etiqueta-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-acao-etiqueta-grid',
@@ -128,7 +130,7 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -142,11 +144,17 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkModalidadeAcaoEtiquetaFilterComponent)
+    cdkModalidadeAcaoEtiquetaFilterComponent: CdkModalidadeAcaoEtiquetaFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -170,6 +178,7 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -240,7 +249,7 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -264,6 +273,25 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkModalidadeAcaoEtiquetaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -1,13 +1,14 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
     Input,
     Output,
-    Renderer2,
-    ViewChildren, ViewEncapsulation
+    ViewChildren,
+    ViewEncapsulation
 } from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {ClassificacaoService} from '../../../services/classificacao.service';

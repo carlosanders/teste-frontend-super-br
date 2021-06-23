@@ -9,7 +9,11 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
+    documento as documentoSchema
+} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
@@ -98,8 +102,7 @@ export class AtividadeCreateDocumentosEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new OficiosDocumentosActions.GetDocumentosFailed(err));
-                    return caught;
+                    return of(new OficiosDocumentosActions.GetDocumentosFailed(err));
                 })
             );
 
@@ -213,8 +216,7 @@ export class AtividadeCreateDocumentosEffect {
                                 map(response => new OficiosDocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new OficiosDocumentosActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new OficiosDocumentosActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -232,8 +234,7 @@ export class AtividadeCreateDocumentosEffect {
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new OficiosDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                                    return caught;
+                                    return of(new OficiosDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
                             )
                 ));
@@ -249,16 +250,17 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<OficiosDocumentosActions.AssinaDocumentoSuccess>(OficiosDocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**

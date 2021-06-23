@@ -1,17 +1,14 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-    MatButtonModule,
-    MatIconModule
-} from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {MatButtonModule, MatIconModule} from '@cdk/angular/material';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSidebarModule } from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
-import { PessoaEditMainSidebarComponent } from './sidebars/main/main-sidebar.component';
-import { PessoaEditComponent } from './pessoa-edit.component';
-import { CommonModule } from '@angular/common';
+import {PessoaEditMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {PessoaEditComponent} from './pessoa-edit.component';
+import {CommonModule} from '@angular/common';
 import * as fromGuards from './dados-pessoa-edit/store/guards';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {modulesConfig} from 'modules/modules-config';
@@ -47,6 +44,12 @@ const routes: Routes = [
                 path       : 'nomes',
                 loadChildren: () => import('./nomes/nomes.module').then(m => m.NomesModule),
                 canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'vinculacao-pessoa-barramento',
+                loadChildren: () => import(
+                    './vinculacao-pessoa-barramento/vinculacao-pessoa-barramento.module'
+                    ).then(m => m.VinculacaoPessoaBarramentoModule)
             }
         ]
     }

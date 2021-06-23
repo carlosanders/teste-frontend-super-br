@@ -8,9 +8,18 @@
                              [deletingId]="(deletingDocumentosId$ | async)"
                              [assinandoId]="(assinandoDocumentosId$ | async)"
                              [convertendoId]="(convertendoDocumentosId$ | async)"
+                             [alterandoId]="(alterandoDocumentosId$ | async)"
+                             [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                             [downloadId] ="(downloadP7SDocumentosId$ | async)"
                              (delete)="doDelete($event)"
+                             (deleteBloco)="doDeleteBloco($event)"
                              (assinatura)="doAssinatura($event)"
+                             (assinaturaBloco)="doAssinaturaBloco($event)"
+                             (removeAssinatura)="doRemoveAssinatura($event)"
                              (converte)="doConverte($event)"
+                             (converteHtml)="doConverteHtml($event)"
+                             (downloadP7S)="doDownloadP7S($event)"
+                             (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                              (clicked)="onClicked($event)"
                              (changedSelectedIds)="changedSelectedIds($event)">
     </cdk-documento-card-list>
@@ -37,3 +46,5 @@
     </mat-list>
 
 </div>
+
+<router-outlet></router-outlet>

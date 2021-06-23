@@ -1,4 +1,4 @@
-import { TipoAcaoWorkflowListEffects } from './tipo-acao-workflow-list.effects';
+import {TipoAcaoWorkflowListEffects} from './tipo-acao-workflow-list.effects';
 
 export const effects = [
     TipoAcaoWorkflowListEffects

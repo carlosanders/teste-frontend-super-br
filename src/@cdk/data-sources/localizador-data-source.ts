@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { Localizador } from '../models/localizador.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {Localizador} from '../models/localizador.model';
 
 export class LocalizadorDataSource extends DataSource<Localizador> {
 

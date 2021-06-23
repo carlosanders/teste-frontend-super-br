@@ -1,5 +1,5 @@
-import { AtividadeCreateDocumentosEffect } from './documentos.effects';
-import { ComponentesDigitaisEffects } from './componentes-digitais.effects';
+import {AtividadeCreateDocumentosEffect} from './documentos.effects';
+import {ComponentesDigitaisEffects} from './componentes-digitais.effects';
 
 export const effects = [
     AtividadeCreateDocumentosEffect,

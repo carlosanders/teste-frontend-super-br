@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const EDIT_TAREFA = '[REDISTRIBUICAO EDIT] EDIT TAREFA';
 export const EDIT_TAREFA_SUCCESS = '[REDISTRIBUICAO EDIT] EDIT TAREFA SUCCESS';

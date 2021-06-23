@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
-import { DirectivesModule } from '@cdk/directives/directives';
-import { PipesModule } from '@cdk/pipes/pipes.module';
+import {DirectivesModule} from '@cdk/directives/directives';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     imports  : [

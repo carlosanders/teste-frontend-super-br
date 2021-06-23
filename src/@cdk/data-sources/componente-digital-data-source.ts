@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { ComponenteDigital } from '@cdk/models';
-import { Observable } from 'rxjs';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {ComponenteDigital} from '@cdk/models';
+import {Observable} from 'rxjs';
 
 export class ComponenteDigitalDataSource extends DataSource<ComponenteDigital> {
 

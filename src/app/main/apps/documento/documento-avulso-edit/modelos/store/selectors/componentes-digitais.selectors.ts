@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {DocumentoAvulsoEditModelosAppState, getDocumentoAvulsoEditModelosAppState, ComponenteDigitalState} from '../reducers';
+import {
+    ComponenteDigitalState,
+    DocumentoAvulsoEditModelosAppState,
+    getDocumentoAvulsoEditModelosAppState
+} from '../reducers';
 
 export const getComponenteDigitalState = createSelector(
     getDocumentoAvulsoEditModelosAppState,

@@ -6,12 +6,13 @@ import {Observable, of} from 'rxjs';
 import {buffer, catchError, exhaustMap, map, mergeAll, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as CompartilhamentoListActions from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/actions';
+import * as CompartilhamentoListActions
+    from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/actions';
 
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Compartilhamento, Tarefa} from '@cdk/models';
-import {compartilhamento as compartilhamentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
+import {Compartilhamento} from '@cdk/models';
+import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {getBufferingDelete, getDeletingIds} from '../selectors';
 import {CdkUtils} from '../../../../../../../../../@cdk/utils';
@@ -69,8 +70,7 @@ export class CompartilhamentoListEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new CompartilhamentoListActions.GetCompartilhamentosFailed(err));
-                    return caught;
+                    return of(new CompartilhamentoListActions.GetCompartilhamentosFailed(err));
                 })
             );
 

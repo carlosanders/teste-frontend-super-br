@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -8,9 +9,12 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import {
-    AcaoTransicaoWorkflow, Criteria, DocumentoAvulso,
+    AcaoTransicaoWorkflow,
+    Criteria,
+    DocumentoAvulso,
     Pagination,
-    Pessoa, Setor,
+    Pessoa,
+    Setor,
     TipoAcaoWorkflow,
     TransicaoWorkflow
 } from '@cdk/models';

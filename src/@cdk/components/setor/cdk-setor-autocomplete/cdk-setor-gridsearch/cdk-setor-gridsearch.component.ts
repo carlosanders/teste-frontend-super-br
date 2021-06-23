@@ -2,11 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
-    Output,
-    ViewEncapsulation,
     EventEmitter,
-    OnInit
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -14,10 +14,9 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models';
+import {Pagination, Setor} from '@cdk/models';
 
 import {SetorService} from '@cdk/services/setor.service';
-import {Setor} from '@cdk/models';
 
 @Component({
     selector: 'cdk-setor-gridsearch',
@@ -45,7 +44,7 @@ export class CdkSetorGridsearchComponent implements OnInit {
     loading: boolean;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'unidade.nome', 'actions'];
 
     /**
      *

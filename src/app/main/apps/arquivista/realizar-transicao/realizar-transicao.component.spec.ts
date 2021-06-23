@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RealizarTransicaoComponent } from './realizar-transicao.component';
+import {RealizarTransicaoComponent} from './realizar-transicao.component';
 
 describe('RealizarTransicaoComponent', () => {
   let component: RealizarTransicaoComponent;

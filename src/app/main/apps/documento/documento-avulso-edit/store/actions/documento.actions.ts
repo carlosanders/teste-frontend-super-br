@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const UNLOAD_DOCUMENTO = '[DOCUMENTO] UNLOAD DOCUMENTO';
 

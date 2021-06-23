@@ -1,12 +1,12 @@
 import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Documento} from '@cdk/models';
-import {documento as documentoSchema} from '@cdk/normalizr';
-import {ComponenteDigital} from '@cdk/models';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
-import {getAtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
-import {DocumentoAppState, getDocumentoAppState, DocumentoState} from '../../../../store';
+import {ComponenteDigital, Documento} from '@cdk/models';
+import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {
+    AtividadeCreateDocumentosState,
+    getAtividadeCreateDocumentosState
+} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {DocumentoAppState, DocumentoState, getDocumentoAppState} from '../../../../store';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);

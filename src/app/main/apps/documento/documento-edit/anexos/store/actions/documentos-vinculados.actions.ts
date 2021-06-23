@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT] GET DOCUMENTOS VINCULADOS';
 export const GET_DOCUMENTOS_VINCULADOS_SUCCESS = '[DOCUMENTO EDIT] GET DOCUMENTOS VINCULADOS SUCCESS';
@@ -20,6 +20,14 @@ export const CLICKED_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT] CLICKED DOCUMENTO V
 export const COMPLETE_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT] COMPLETE DOCUMENTO VINCULADO';
 
 export const CHANGE_SELECTED_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT] CHANGE SELECTED DOCUMENTOS VINCULADOS';
+
+export const UPDATE_DOCUMENTO = '[DOCUMENTO EDIT] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_FAILED = '[DOCUMENTO EDIT] UPDATE DOCUMENTO FAILED';
+
+export const DOWNLOAD_DOCUMENTO_P7S = '[DOCUMENTO EDIT] DOWNLOAD DOCUMENTOP7S DOCUMENTO';
+export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[DOCUMENTO EDIT] DOWNLOAD DOCUMENTOP7S DOCUMENTO SUCCESS';
+export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[DOCUMENTO EDIT] DOWNLOAD DOCUMENTOP7S FAILED';
 
 /**
  * Get Documentos Vinculados
@@ -199,6 +207,73 @@ export class CompleteDocumentoVinculado implements Action
     }
 }
 
+/**
+ * Update Documento
+ */
+export class UpdateDocumento implements Action
+{
+    readonly type = UPDATE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Success
+ */
+export class UpdateDocumentoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Documento Failed
+ */
+export class UpdateDocumentoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
+ * Download Documento P7S
+ */
+export class DownloadP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -214,4 +289,10 @@ export type DocumentosVinculadosActionsAll
     | DeleteDocumentoVinculado
     | DeleteDocumentoVinculadoSuccess
     | DeleteDocumentoVinculadoFailed
-    | ChangeSelectedDocumentosVinculados;
+    | ChangeSelectedDocumentosVinculados
+    | UpdateDocumento
+    | UpdateDocumentoSuccess
+    | UpdateDocumentoFailed
+    | DownloadP7S
+    | DownloadP7SFailed
+    | DownloadP7SSuccess;

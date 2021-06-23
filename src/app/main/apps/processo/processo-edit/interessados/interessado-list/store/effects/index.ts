@@ -1,4 +1,4 @@
-import { InteressadoListEffect } from './interessado-list.effects';
+import {InteressadoListEffect} from './interessado-list.effects';
 
 export const effects = [
     InteressadoListEffect

@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getGarantiaListAppState,
-    GarantiaListAppState,
-    GarantiaListState
-} from '../reducers';
+import {GarantiaListAppState, GarantiaListState, getGarantiaListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {garantia as garantiaSchema} from '@cdk/normalizr';

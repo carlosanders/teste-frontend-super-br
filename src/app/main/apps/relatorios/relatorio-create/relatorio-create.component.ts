@@ -1,26 +1,19 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
-import { Observable, Subject } from 'rxjs';
+import {cdkAnimations} from '@cdk/animations';
+import {Observable, Subject} from 'rxjs';
 
-import { Relatorio } from '@cdk/models/relatorio.model';
-import { select, Store } from '@ngrx/store';
+import {Relatorio} from '@cdk/models/relatorio.model';
+import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import { Colaborador } from '@cdk/models';
-import { LoginService } from 'app/main/auth/login/login.service';
-import { takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@cdk/angular/material';
-import { Router } from '@angular/router';
-import { getRouterState } from '../../../../store';
-import { GeneroRelatorio } from '@cdk/models/genero-relatorio.model';
-import { Back } from '../../../../store';
+import {Colaborador} from '@cdk/models';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {takeUntil} from 'rxjs/operators';
+import {MatDialog} from '@cdk/angular/material';
+import {Router} from '@angular/router';
+import {Back, getRouterState} from '../../../../store';
+import {GeneroRelatorio} from '@cdk/models/genero-relatorio.model';
 
 @Component({
     selector: 'relatorio-create',
@@ -101,7 +94,7 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const relatorio = new Relatorio();
-        let arrayParams: any;
+        let arrayParams: any = {};
         let parametros: any;
 
         Object.entries(values).forEach(

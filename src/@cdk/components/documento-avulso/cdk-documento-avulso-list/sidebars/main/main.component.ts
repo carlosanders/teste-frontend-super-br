@@ -7,10 +7,10 @@ import {
     Output,
     ViewEncapsulation
 } from '@angular/core';
-import { cdkAnimations } from '@cdk/animations';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import {cdkAnimations} from '@cdk/animations';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {MAT_LABEL_GLOBAL_OPTIONS} from '@angular/material/core';
 
 
 @Component({

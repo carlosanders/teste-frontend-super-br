@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
-    MatAutocompleteModule,
-    MatExpansionModule,
     MatRippleModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';

@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -14,6 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {AvisoDataSource} from '@cdk/data-sources/aviso-data-source';
 import {Aviso} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {CdkAvisoFilterComponent} from '../sidebars/cdk-aviso-filter/cdk-aviso-filter.component';
 
 @Component({
     selector: 'cdk-aviso-grid',
@@ -108,16 +115,6 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
             fixed: false
         },
         {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
             id: 'actions',
             label: '',
             fixed: true
@@ -144,11 +141,17 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkAvisoFilterComponent)
+    cdkAvisoFilterComponent: CdkAvisoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<number>();
@@ -177,6 +180,7 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -243,7 +247,7 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -267,6 +271,25 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkAvisoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

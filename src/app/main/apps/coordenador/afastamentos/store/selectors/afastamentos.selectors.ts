@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getAfastamentosAppState, AfastamentosAppState, AfastamentosState} from '../reducers';
+import {AfastamentosAppState, AfastamentosState, getAfastamentosAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Usuario} from '@cdk/models';
 import {usuario as usuarioSchema} from '@cdk/normalizr';

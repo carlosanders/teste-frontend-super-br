@@ -40,7 +40,7 @@
             </mat-radio-group>
         </div>
 
-        <div [hidden]="!this.exibirNup">
+        <div *ngIf="this.exibirNup">
             <div class="responsive-group" *ngIf="!form.value.id">
                 <mat-form-field>
                     <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required

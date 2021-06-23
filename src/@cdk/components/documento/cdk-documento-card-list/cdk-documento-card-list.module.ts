@@ -1,11 +1,15 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
-    MatIconModule, MatFormFieldModule, MatAutocompleteModule,
-    MatCardModule, MatCheckboxModule, MatMenuModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatMenuModule,
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkDocumentoCardListComponent} from './cdk-documento-card-list.component';
 import {CdkDocumentoCardModule} from './cdk-documento-card/cdk-documento-card.module';
 import {CdkTipoDocumentoAutocompleteModule} from '../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';

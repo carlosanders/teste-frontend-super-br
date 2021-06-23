@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const REGISTER = '[Register] Register save';
 export const REGISTER_SUCCESS = '[Register] Register Success';

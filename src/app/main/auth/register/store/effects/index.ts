@@ -1,4 +1,4 @@
-import { RegisterEffects } from './register.effects';
+import {RegisterEffects} from './register.effects';
 
 export const effects = [
     RegisterEffects

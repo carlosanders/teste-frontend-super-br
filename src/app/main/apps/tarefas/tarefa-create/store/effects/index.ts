@@ -1,5 +1,5 @@
-import { TarefaCreateEffect } from './tarefa-create.effects';
-import { ProcessoEffect } from './processo.effects';
+import {TarefaCreateEffect} from './tarefa-create.effects';
+import {ProcessoEffect} from './processo.effects';
 
 export const effects = [
     TarefaCreateEffect,

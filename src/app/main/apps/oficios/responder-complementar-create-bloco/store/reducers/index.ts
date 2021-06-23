@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { UploadBlocoReducer, AtividadeCreateBlocoState } from './upload-bloco.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AtividadeCreateBlocoState, UploadBlocoReducer} from './upload-bloco.reducer';
 
 export interface AtividadeCreateBlocoAppState
 {

@@ -2,13 +2,12 @@ import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
     MatButtonModule,
-    MatCheckboxModule, MatDatepickerModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
 } from '@cdk/angular/material';
-
-import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkBlocoResponsaveisFilterComponent} from './cdk-bloco-responsaveis-filter.component';
 

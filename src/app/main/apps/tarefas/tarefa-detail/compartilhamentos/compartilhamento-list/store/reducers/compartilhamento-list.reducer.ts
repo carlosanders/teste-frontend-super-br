@@ -1,4 +1,5 @@
-import * as CompartilhamentoListActions from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/actions';
+import * as CompartilhamentoListActions
+    from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/actions';
 import * as _ from 'lodash';
 
 export interface CompartilhamentoListState {

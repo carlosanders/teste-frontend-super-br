@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
-import {
-    MatProgressSpinnerModule,
-    MatAutocompleteModule
-} from '@cdk/angular/material';
+import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeAfastamentoService } from '@cdk/services/modalidade-afastamento.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
 import {CdkModalidadeAfastamentoAutocompleteComponent} from './cdk-modalidade-afastamento-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_SETOR = '[UNIDADES-ORGAO-CENTRAL] GET SETOR';
 export const GET_SETOR_SUCCESS = '[UNIDADES-ORGAO-CENTRAL] GET SETOR SUCCESS';

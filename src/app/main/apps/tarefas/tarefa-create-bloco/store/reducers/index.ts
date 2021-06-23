@@ -1,5 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaCreateBlocoReducer, TarefaCreateBlocoState } from './tarefa-create-bloco.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TarefaCreateBlocoReducer, TarefaCreateBlocoState} from './tarefa-create-bloco.reducer';
+
 // import { TarefaCreateBlocoDocumentosReducer, TarefaCreateBlocoDocumentosState } from './documentos.reducer';
 
 export interface TarefaCreateBlocoAppState

@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
     getValidacaoEditAppState,
-    ValidacaoTransicaoWorkflowEditAppState,
-    TipoValidacaoWorkflowState
+    TipoValidacaoWorkflowState,
+    ValidacaoTransicaoWorkflowEditAppState
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

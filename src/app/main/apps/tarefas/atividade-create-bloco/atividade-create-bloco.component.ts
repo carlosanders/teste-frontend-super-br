@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,22 +11,19 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade, Pagination} from '@cdk/models';
+import {Assinatura, Atividade, Colaborador, ComponenteDigital, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
-
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models';
-import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models';
-import {getRouterState, getMercureState, getOperacoesState} from 'app/store/reducers';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {getMercureState, getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../store/actions';
-import {getSelectedTarefas} from '../store/selectors';
+import {Back} from '../../../../store';
+import {getSelectedTarefas} from '../store';
+import {getProcessosIdsEncaminhar} from "../encaminhamento-bloco/store";
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -41,6 +39,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
+
+    processosIdsEncaminhar$: Observable<number[]>;
+    processosIdsEncaminhar: number[];
 
     operacoes: any[] = [];
 
@@ -62,6 +63,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
     @ViewChild('ckdUpload', {static: false})
@@ -71,13 +75,15 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     assinaturaInterval = null;
 
-        /**
-         *
-         * @param _store
-         * @param _loginService
-         * @param _router
-         * @param _changeDetectorRef
-         */
+    encerraTarefa: boolean;
+
+    /**
+     *
+     * @param _store
+     * @param _loginService
+     * @param _router
+     * @param _changeDetectorRef
+     */
     constructor(
         private _store: Store<fromStore.AtividadeCreateBlocoAppState>,
         public _loginService: LoginService,
@@ -85,12 +91,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
-
-        this.tarefas$.pipe(
-            takeUntil(this._unsubscribeAll),
-        ).subscribe((tarefas) => {
-            this.tarefas = tarefas;
-        });
+        this.processosIdsEncaminhar$ = this._store.pipe(select(getProcessosIdsEncaminhar));
 
         this._store
             .pipe(
@@ -113,6 +114,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
@@ -131,26 +136,38 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
 
-        this.tarefas$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((tarefas) => {
-            this.tarefas = tarefas;
-            this.atividade.usuario = tarefas[0].usuarioResponsavel;
-            this.atividade.setor = tarefas[0].setorResponsavel;
-
-            if (tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
-                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
-            } else {
-                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
-            }
-        });
-
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
         ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+            }
+        });
+
+        this.processosIdsEncaminhar$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((ids) => {
+            this.processosIdsEncaminhar = ids;
+        });
+
+        this.tarefas$.pipe(
+            distinctUntilChanged(),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((tarefas) => {
+            this.tarefas = tarefas;
+            if (tarefas.length) {
+                this.atividade.usuario = tarefas[0].usuarioResponsavel;
+                this.atividade.setor = tarefas[0].setorResponsavel;
+
+                if (tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+                } else {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
+                }
+            } else if (this.processosIdsEncaminhar.length > 0) {
+                // tslint:disable-next-line:max-line-length
+                this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/encaminhamento-bloco']).then();
             }
         });
 
@@ -175,7 +192,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     case 'assinatura_finalizada':
                         this.javaWebStartOK = false;
                         this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
                         break;
                 }
             }
@@ -200,8 +221,13 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
@@ -237,6 +263,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
+        this.encerraTarefa = values.encerraTarefa;
+
         this.tarefas.forEach((tarefa) => {
             const atividade = new Atividade();
 
@@ -271,16 +299,70 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
+    doAlterarTipoDocumento(values): void {
+        this._store.dispatch(new fromStore.UpdateDocumentoBloco(values));
+    }
+
     doDelete(documentoId): void {
         this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    }
+
+    doDeleteBloco(documentos: Documento[]): void {
+        documentos.forEach((documento: Documento) => this.doDelete(documento.id));
     }
 
     doVerResposta(documento): void {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
-    doAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+        } else {
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura
+                    }));
+                });
+            });
+        }
+    }
+
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura
+                }));
+            });
+        }
     }
 
     onClicked(documento): void {
@@ -288,7 +370,17 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     }
 
     doConverte(documentoId): void {
-        // this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doConverteHtml(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
+    }
+
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadP7S(componenteDigital.id));
+        });
     }
 
     doAbort(): void {

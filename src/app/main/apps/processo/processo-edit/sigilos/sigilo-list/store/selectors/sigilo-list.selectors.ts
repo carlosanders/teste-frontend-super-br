@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getSigiloListAppState,
-    SigiloListAppState,
-    SigiloListState
-} from '../reducers';
+import {getSigiloListAppState, SigiloListAppState, SigiloListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {sigilo as sigiloSchema} from '@cdk/normalizr';

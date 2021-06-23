@@ -1,4 +1,4 @@
-import { ContatoEditEffect } from './contato-edit.effects';
+import {ContatoEditEffect} from './contato-edit.effects';
 
 export const effects = [
     ContatoEditEffect

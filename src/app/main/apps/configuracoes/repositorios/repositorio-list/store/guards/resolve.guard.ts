@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {RepositorioListAppState} from '../reducers';
 import * as fromStore from '../';
@@ -73,7 +73,6 @@ export class ResolveGuard implements CanActivate {
                             'documento.componentesDigitais',
                             'modalidadeRepositorio'
                         ],
-                        context: {isAdmin: true}
                     };
 
                     this._store.dispatch(new fromStore.GetRepositorios(params));

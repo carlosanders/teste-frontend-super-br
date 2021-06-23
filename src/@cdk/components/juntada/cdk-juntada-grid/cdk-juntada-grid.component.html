@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-juntada-filter" position="left">
-        <cdk-juntada-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-juntada-filter>
+        <cdk-juntada-filter (selected)="setFilter($event)" [mode]="this.mode" [hasInatived]="hasInatived"></cdk-juntada-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -52,6 +52,13 @@
             <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()" aria-label="filtrar" matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
+            </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasInatived}" *ngIf="actions.indexOf('showInatived') > -1"
+                    (click)="loadInatived()"
+                    aria-label="mostrar inativo"
+                    matTooltip="Mostrar Inativos">
+                <mat-icon>visibility_off</mat-icon>
             </button>
 
             <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"

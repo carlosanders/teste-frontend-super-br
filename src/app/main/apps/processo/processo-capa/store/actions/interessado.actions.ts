@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_INTERESSADOS = '[PROCESSO CAPA] GET INTERESSADOS';
 export const GET_INTERESSADOS_SUCCESS = '[PROCESSO CAPA] GET INTERESSADOS SUCCESS';

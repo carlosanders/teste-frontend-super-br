@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -21,7 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
 import {CdkCoordenadorGridModule} from '@cdk/components/coordenador/cdk-coordenador-grid/cdk-coordenador-grid.module';
 import {AdminCoordenadoresListStoreModule} from './store/store.module';
-import { LoginService } from '../../../../../auth/login/login.service';
+import {LoginService} from '../../../../../auth/login/login.service';
 import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
@@ -61,7 +61,6 @@ const routes: Routes = [
     ],
     providers: [
         CoordenadorService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

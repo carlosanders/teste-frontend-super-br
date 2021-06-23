@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -111,6 +105,11 @@ export class DocumentoAvulsoListComponent implements OnInit {
     responder(documentoAvulsoId: number[]): void {
         const oficioId = documentoAvulsoId[0];
         this._router.navigate([this.routerState.url.replace('listar', 'responder/') + oficioId]);
+    }
+
+    verificaStatusBarramento(documentoAvulsoId: number[]): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'status-barramento-oficio/') +
+        documentoAvulsoId]);
     }
 
 }

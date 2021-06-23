@@ -1,6 +1,6 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { GeneroDocumento } from '../models/genero-documento.model';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs';
+import {GeneroDocumento} from '../models/genero-documento.model';
 
 export class GeneroDocumentoDataSource extends DataSource<GeneroDocumento> {
 

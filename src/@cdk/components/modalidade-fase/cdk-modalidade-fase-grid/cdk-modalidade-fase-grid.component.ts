@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeFase} from '@cdk/models';
 import {ModalidadeFaseDataSource} from '@cdk/data-sources/modalidade-fase-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeFaseFilterComponent} from '../sidebars/cdk-modalidade-fase-filter/cdk-modalidade-fase-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-fase-grid',
@@ -116,7 +124,7 @@ export class CdkModalidadeFaseGridComponent implements AfterViewInit, OnInit, On
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -130,11 +138,17 @@ export class CdkModalidadeFaseGridComponent implements AfterViewInit, OnInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkModalidadeFaseFilterComponent)
+    cdkModalidadeFaseFilterComponent: CdkModalidadeFaseFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -160,6 +174,7 @@ export class CdkModalidadeFaseGridComponent implements AfterViewInit, OnInit, On
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -228,7 +243,7 @@ export class CdkModalidadeFaseGridComponent implements AfterViewInit, OnInit, On
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -252,6 +267,25 @@ export class CdkModalidadeFaseGridComponent implements AfterViewInit, OnInit, On
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkModalidadeFaseFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

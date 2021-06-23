@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_UNIDADES = '[COORDENADOR UNIDADES LIST] GET UNIDADES';
 export const GET_UNIDADES_SUCCESS = '[COORDENADOR UNIDADES LIST] GET UNIDADES SUCCESS';

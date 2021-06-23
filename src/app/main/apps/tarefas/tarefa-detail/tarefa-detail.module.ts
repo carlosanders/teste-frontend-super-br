@@ -2,7 +2,10 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {
     MatButtonModule,
-    MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatTooltipModule
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -20,7 +23,6 @@ import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqu
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {PipesModule} from '@cdk/pipes/pipes.module';
-import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
 import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.service';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
@@ -120,7 +122,6 @@ routes[0].children.push({
         AcompanhamentoService,
         TarefaService,
         VinculacaoEtiquetaService,
-        LoginService,
         DocumentoService,
         fromGuards.ResolveGuard,
         ModalidadeEtiquetaService,

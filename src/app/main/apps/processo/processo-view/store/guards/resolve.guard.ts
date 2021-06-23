@@ -4,18 +4,19 @@ import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterState
 import {select, Store} from '@ngrx/store';
 
 import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/reducers';
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
-import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
-import {getRouterState} from 'app/store/reducers';
 import {
     getDocumentosHasLoaded,
     getIsLoading,
-    getIsLoadingVolumes, getMinutasLoading,
+    getIsLoadingVolumes,
+    getMinutasLoading,
     getVolumesLoaded
 } from 'app/main/apps/processo/processo-view/store';
+import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
+import {getRouterState} from 'app/store/reducers';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {

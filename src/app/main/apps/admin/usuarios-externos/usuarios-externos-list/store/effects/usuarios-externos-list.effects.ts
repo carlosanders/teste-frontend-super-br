@@ -13,7 +13,6 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Usuario} from '@cdk/models';
 import {usuario as usuariosExternosSchema} from '@cdk/normalizr';
 import {UsuarioService} from '@cdk/services/usuario.service';
-import {getUsuariosExternosListLoaded} from '../selectors';
 
 
 @Injectable()

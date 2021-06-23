@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getDocumentoEditAnexosAppState, DocumentoEditAnexosAppState, DocumentosVinculadosState} from '../reducers';
+import {DocumentoEditAnexosAppState, DocumentosVinculadosState, getDocumentoEditAnexosAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -40,6 +40,16 @@ export const getAssinandoDocumentosVinculadosId = createSelector(
 export const getSelectedDocumentosVinculadosIds = createSelector(
     getDocumentosVinculadosState,
     (state: DocumentosVinculadosState) => state.selectedDocumentosId
+);
+
+export const getAlterandoDocumentosId = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.alterandoDocumentoIds
+);
+
+export const getDownloadDocumentosP7SId = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.downloadDocumentosP7SIds
 );
 
 export const getSelectedDocumentosVinculados = createSelector(

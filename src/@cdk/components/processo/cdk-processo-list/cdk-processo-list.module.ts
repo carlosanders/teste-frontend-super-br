@@ -1,11 +1,15 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
-    MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
+    MatRippleModule,
+    MatSortModule,
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -21,7 +25,6 @@ import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-proces
 import {DndModule} from 'ngx-drag-drop';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {MatExpansionModule} from '@cdk/angular/material';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';

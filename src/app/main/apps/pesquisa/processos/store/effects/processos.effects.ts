@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessosActions from 'app/main/apps/pesquisa/processos/store/actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
-import {AddData, } from '@cdk/ngrx-normalizr';
+import {AddData,} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 

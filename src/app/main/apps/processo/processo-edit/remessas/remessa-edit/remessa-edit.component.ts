@@ -1,22 +1,14 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Pagination, Tramitacao, Usuario} from '@cdk/models';
+import {Pagination, Pessoa, Processo, Tramitacao, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
-import {Pessoa} from '@cdk/models';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -51,11 +43,13 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _router
      * @param _loginService
+     * @param activatedRoute
      */
     constructor(
         private _store: Store<fromStore.RemessaEditAppState>,
         private _router: Router,
         public _loginService: LoginService,
+        public activatedRoute: ActivatedRoute
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));

@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 
-import { CdkConfigService } from '@cdk/services/config.service';
-import { cdkAnimations } from '@cdk/animations';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/auth/esqueci-senha/store';
-import { getEsqueciSenhaAppState } from 'app/main/auth/esqueci-senha/store';
+import {getEsqueciSenhaAppState} from 'app/main/auth/esqueci-senha/store';
 import {Back} from 'app/store/actions';
 
 @Component({

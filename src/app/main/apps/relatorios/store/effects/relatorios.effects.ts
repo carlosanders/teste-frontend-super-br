@@ -1,4 +1,4 @@
-import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {relatorio as relatorioSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, concatMap, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, concatMap, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RelatoriosActions from '../actions/relatorios.actions';

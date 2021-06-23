@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {ModalidadeTransicao, Pagination, Processo, Transicao} from '@cdk/models';
+import {ModalidadeTransicao, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Back, getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
+import {Back, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';

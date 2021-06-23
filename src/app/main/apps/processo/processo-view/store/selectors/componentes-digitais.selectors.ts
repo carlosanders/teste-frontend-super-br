@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getProcessoViewAppState,
-    ProcessoViewAppState,
-    ComponenteDigitalState
-} from '../reducers';
+import {ComponenteDigitalState, getProcessoViewAppState, ProcessoViewAppState} from '../reducers';
 
 export const getComponenteDigitalState = createSelector(
     getProcessoViewAppState,

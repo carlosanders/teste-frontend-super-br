@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeVinculacaoDocumento} from '@cdk/models';
 import {ModalidadeVinculacaoDocumentoDataSource} from '@cdk/data-sources/modalidade-vinculacao-documento-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeVinculacaoDocumentoFilterComponent} from '../sidebars/cdk-modalidade-vinculacao-documento-filter/cdk-modalidade-vinculacao-documento-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-vinculacao-documento-grid',
@@ -116,7 +124,7 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -130,11 +138,17 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkModalidadeVinculacaoDocumentoFilterComponent)
+    cdkModalidadeVinculacaoDocumentoFilterComponent: CdkModalidadeVinculacaoDocumentoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -160,6 +174,7 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -229,7 +244,7 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -253,6 +268,25 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkModalidadeVinculacaoDocumentoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

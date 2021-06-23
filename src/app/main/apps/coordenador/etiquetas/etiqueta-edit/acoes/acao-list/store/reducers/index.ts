@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AcaoListReducer, AcaoListState } from './acao-list.reducer';
-import { EtiquetaReducer, EtiquetaState } from './etiqueta.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AcaoListReducer, AcaoListState} from './acao-list.reducer';
+import {EtiquetaReducer, EtiquetaState} from './etiqueta.reducer';
 
 export interface AcaoListAppState
 {

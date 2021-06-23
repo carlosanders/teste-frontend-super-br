@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeTransicao} from '@cdk/models';
 import {ModalidadeTransicaoDataSource} from '@cdk/data-sources/modalidade-transicao-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeTransicaoFilterComponent} from '../sidebars/cdk-modalidade-transicao-filter/cdk-modalidade-transicao-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-transicao-grid',
@@ -116,7 +124,7 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -130,11 +138,17 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkModalidadeTransicaoFilterComponent)
+    cdkModalidadeTransicaoFilterComponent: CdkModalidadeTransicaoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -160,6 +174,7 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -228,7 +243,7 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -252,6 +267,25 @@ export class CdkModalidadeTransicaoGridComponent implements AfterViewInit, OnIni
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkModalidadeTransicaoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

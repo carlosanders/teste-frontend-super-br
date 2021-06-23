@@ -1,4 +1,4 @@
-import { TemplatesListEffect } from './templates-list.effects';
+import {TemplatesListEffect} from './templates-list.effects';
 
 export const effects = [
     TemplatesListEffect

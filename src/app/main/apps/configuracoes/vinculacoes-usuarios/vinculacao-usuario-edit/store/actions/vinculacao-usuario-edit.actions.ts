@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_VINCULACAO_USUARIO = '[VINCULACAO USUARIO] CREATE VINCULACAO USUARIO';
 export const CREATE_VINCULACAO_USUARIO_SUCCESS = '[VINCULACAO USUARIO] CREATE VINCULACAO USUARIO SUCCESS';

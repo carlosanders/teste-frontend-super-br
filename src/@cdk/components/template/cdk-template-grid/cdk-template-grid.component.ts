@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Documento, Template} from '@cdk/models';
 import {TemplateDataSource} from '@cdk/data-sources/template-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTemplateFilterComponent} from '../sidebars/cdk-template-filter/cdk-template-filter.component';
+
 
 @Component({
     selector: 'cdk-template-grid',
@@ -43,6 +51,9 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao',  'modalidadeTemplate.valor', 'documento.tipoDocumento.nome', 'actions'];
@@ -129,7 +140,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -142,6 +153,9 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkTemplateFilterComponent)
+    cdkTemplateFilterComponent: CdkTemplateFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -173,6 +187,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -242,7 +257,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -266,6 +281,25 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkTemplateFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

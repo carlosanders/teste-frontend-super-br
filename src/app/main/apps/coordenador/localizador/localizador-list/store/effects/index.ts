@@ -1,4 +1,4 @@
-import { LocalizadorListEffects } from './localizador-list.effects';
+import {LocalizadorListEffects} from './localizador-list.effects';
 
 export const effects = [
     LocalizadorListEffects

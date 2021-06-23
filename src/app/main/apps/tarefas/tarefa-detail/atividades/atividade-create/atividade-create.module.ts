@@ -1,17 +1,20 @@
 import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
+    MatTabsModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatTableModule, MatBadgeModule, MatTabsModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -88,7 +91,6 @@ modulesConfig.forEach((module) => {
     providers: [
         AtividadeService,
         DocumentoService,
-        LoginService,
         ComponenteDigitalService,
         fromGuards.ResolveGuard
     ]

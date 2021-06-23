@@ -1,15 +1,17 @@
 import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
-    MatButtonModule, MatCheckboxModule, MatDatepickerModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { SetorService } from '@cdk/services/setor.service';
-import { CdkSetorFilterComponent } from './cdk-setor-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {SetorService} from '@cdk/services/setor.service';
+import {CdkSetorFilterComponent} from './cdk-setor-filter.component';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkModalidadeOrgaoCentralAutocompleteModule} from '@cdk/components/modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module';
 import {CdkGeneroSetorAutocompleteModule} from '@cdk/components/genero-setor/cdk-genero-setor-autocomplete/cdk-genero-setor-autocomplete.module';
@@ -18,7 +20,7 @@ import {CdkEspecieSetorAutocompleteModule} from '@cdk/components/especie-setor/c
 import {CdkSetorAutocompleteModule} from '../../cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkSetorAutocompleteComponent} from '../../cdk-setor-autocomplete/cdk-setor-autocomplete.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -44,6 +46,7 @@ import {CdkSetorAutocompleteComponent} from '../../cdk-setor-autocomplete/cdk-se
         CdkEspecieSetorAutocompleteModule,
         CdkModalidadeOrgaoCentralAutocompleteModule,
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         SetorService,

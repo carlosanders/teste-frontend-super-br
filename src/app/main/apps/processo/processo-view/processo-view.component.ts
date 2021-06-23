@@ -6,7 +6,8 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    QueryList, SecurityContext,
+    QueryList,
+    SecurityContext,
     ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
@@ -17,16 +18,15 @@ import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollba
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {Juntada, Processo} from '@cdk/models';
+import {ComponenteDigital, Juntada, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import {expandirTela} from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
-import {ComponenteDigital} from '@cdk/models';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {expandirTela} from './store';
 import {getProcesso} from '../store';
 import {MercureService} from "../../../../../@cdk/services/mercure.service";
 

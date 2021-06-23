@@ -1,4 +1,4 @@
-import { createSelector } from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 import {getLoginAppState, LoginAppState, LoginState} from 'app/main/auth/login/store';
 
 export const getLoginState = createSelector(
@@ -29,4 +29,14 @@ export const getErrorMessage = createSelector(
 export const getLoadingConfig = createSelector(
     getLoginState,
     (login: LoginState) => login.loadingConfig
+);
+
+export const getVersion = createSelector(
+    getLoginState,
+    (login: LoginState) => login.version
+);
+
+export const getVersionChanged = createSelector(
+    getLoginState,
+    (login: LoginState) => login.versionChange
 );

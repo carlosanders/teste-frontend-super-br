@@ -2,11 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
-    Output,
-    ViewEncapsulation,
     EventEmitter,
-    OnInit
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -14,10 +14,9 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models';
+import {Pagination, Pessoa} from '@cdk/models';
 
 import {PessoaService} from '@cdk/services/pessoa.service';
-import {Pessoa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-pessoa-gridsearch',
@@ -62,10 +61,9 @@ export class CdkPessoaGridsearchComponent implements OnInit {
     }
 
     load(params): void {
-
         this.loading = true;
 
-        this._pessoaService.query(
+        this._pessoaService.search(
             JSON.stringify(params.filter),
             params.limit,
             params.offset,

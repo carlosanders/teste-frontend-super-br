@@ -1,10 +1,18 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@cdk/angular/material';
+import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@cdk/angular/material';
 import {cdkAnimations} from '@cdk/animations';
-import {Etiqueta} from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {Etiqueta, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-chips',

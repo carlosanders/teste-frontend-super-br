@@ -1,4 +1,4 @@
-import { CargoListEffects } from './cargo-list.effects';
+import {CargoListEffects} from './cargo-list.effects';
 
 export const effects = [
     CargoListEffects

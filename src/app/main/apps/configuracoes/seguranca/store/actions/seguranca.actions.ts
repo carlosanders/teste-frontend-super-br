@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_SEGURANCA = '[SEGURANCA] SAVE SEGURANCA';
 export const SAVE_SEGURANCA_SUCCESS = '[SEGURANCA] SAVE SEGURANCA SUCCESS';

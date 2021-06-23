@@ -1,22 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input,
-    OnInit, Output,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ComponenteDigital} from '@cdk/models';
+import {ComponenteDigital, Documento, DocumentoAvulso, Processo, Tarefa} from '@cdk/models';
 import {classToPlain} from 'class-transformer';
 import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
 import {catchError, last, map, tap} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 import {environment} from 'environments/environment';
-import {Processo} from '@cdk/models';
-import {Tarefa} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {DocumentoAvulso} from '@cdk/models';
 import {CdkDragEnter, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({

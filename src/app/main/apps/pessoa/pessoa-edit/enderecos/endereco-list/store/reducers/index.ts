@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EnderecoListReducer, EnderecoListState } from './endereco-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {EnderecoListReducer, EnderecoListState} from './endereco-list.reducer';
 
 export interface EnderecoListAppState
 {

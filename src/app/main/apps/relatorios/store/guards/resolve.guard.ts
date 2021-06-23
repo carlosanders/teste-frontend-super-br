@@ -3,12 +3,12 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, forkJoin, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {forkJoin, Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {RelatoriosAppState} from 'app/main/apps/relatorios/store/reducers';
 import * as fromStore from 'app/main/apps/relatorios/store';
-import {getFoldersLoaded, getRelatoriosLoaded, getIsLoading} from 'app/main/apps/relatorios/store/selectors';
+import {getFoldersLoaded, getIsLoading, getRelatoriosLoaded} from 'app/main/apps/relatorios/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';

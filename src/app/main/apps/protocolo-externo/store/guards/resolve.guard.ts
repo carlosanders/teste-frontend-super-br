@@ -4,11 +4,11 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {select, Store} from '@ngrx/store';
 
 import {forkJoin, Observable, of, throwError} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {ProcessosAppState} from '../reducers';
 import * as fromStore from '../../store';
-import {getProcessosLoaded, getPessoaLoaded, getIsLoading, getPessoaLoading} from '../selectors';
+import {getIsLoading, getPessoaLoaded, getPessoaLoading, getProcessosLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -21,7 +21,6 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     loading: boolean = false;
-    loadingPessoa: boolean = false;
 
     /**
      *
@@ -44,8 +43,6 @@ export class ResolveGuard implements CanActivate {
 
         this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
 
-        this._store.pipe(select(getPessoaLoading)).subscribe(loading => this.loadingPessoa = loading);
-
         this._profile = _loginService.getUserProfile();
     }
 
@@ -57,7 +54,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkRole(this.checkStore()).pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
@@ -73,7 +70,7 @@ export class ResolveGuard implements CanActivate {
      */
     checkStore(): Observable<any> {
         return forkJoin(
-            this.getPessoa()
+            [this.getPessoa()]
         ).pipe(
             filter(([pessoaLoaded]) => !!(pessoaLoaded)),
             take(1),
@@ -81,18 +78,6 @@ export class ResolveGuard implements CanActivate {
                 this.getProcessos()
             )
         );
-    }
-
-    /**
-     * check Role admin
-     *
-     * @returns
-     */
-    checkRole(observable: Observable<any>): any {
-        if (!this._loginService.isGranted('ROLE_USUARIO_EXTERNO')) {
-            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
-        }
-        return observable;
     }
 
     /**
@@ -176,7 +161,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getPessoaLoaded),
             tap((loaded: any) => {
-                if (!this.loadingPessoa && (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
+                if ((this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
                     && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] !== loaded.value)) {
                     const routerParam = this.routerState.params['targetHandle'] === 'entrada' ?
                         this._profile.vinculacoesPessoasUsuarios[0].pessoa.id : this.routerState.params['targetHandle'];
@@ -192,10 +177,9 @@ export class ResolveGuard implements CanActivate {
                     };
 
                     this._store.dispatch(new fromStore.GetPessoa(params));
-                    this.loadingPessoa = true;
                 }
             }),
-            filter((loaded: any) => this.loadingPessoa || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
+            filter((loaded: any) => (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
                     && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] === loaded.value)),
             take(1)
         );

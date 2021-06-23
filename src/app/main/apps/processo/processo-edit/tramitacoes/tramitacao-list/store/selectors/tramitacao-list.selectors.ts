@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getTramitacaoListAppState,
-    TramitacaoListAppState,
-    TramitacaoListState
-} from '../reducers';
+import {getTramitacaoListAppState, TramitacaoListAppState, TramitacaoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tramitacao as tramitacaoSchema} from '@cdk/normalizr';

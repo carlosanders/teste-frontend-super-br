@@ -1,16 +1,17 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule, MatTooltipModule
+    MatTableModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -41,6 +42,12 @@ const routes: Routes = [
             {
                 path       : 'documento',
                 loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
+            },
+            {
+                path: 'status-barramento-oficio',
+                loadChildren: () => import(
+                    './status-barramento-oficio/status-barramento-oficio.module'
+                    ).then(m => m.StatusBarramentoOficioModule)
             }
         ]
     }

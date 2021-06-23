@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_LOTACOES = '[LOTACAO LIST] GET LOTACOES';
 export const GET_LOTACOES_SUCCESS = '[LOTACAO LIST] GET LOTACOES SUCCESS';

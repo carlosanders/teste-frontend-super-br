@@ -1,13 +1,10 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getJuntadaListAppState,
-    JuntadaListAppState,
-    JuntadaListState
-} from '../reducers';
+import {getJuntadaListAppState, JuntadaListAppState, JuntadaListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {Juntada} from '@cdk/models';
+
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
 export const getJuntadaListState = createSelector(

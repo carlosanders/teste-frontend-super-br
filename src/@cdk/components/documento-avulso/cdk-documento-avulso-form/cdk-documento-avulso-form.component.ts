@@ -2,26 +2,38 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange, ViewChild, ViewContainerRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Criteria, DocumentoAvulso} from '@cdk/models';
-import {EspecieDocumentoAvulso} from '@cdk/models';
-import {Processo} from '@cdk/models';
+import {
+    Criteria,
+    DocumentoAvulso,
+    EspecieDocumentoAvulso,
+    Modelo,
+    Pagination,
+    Pessoa,
+    Processo,
+    Setor
+} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Pagination} from '@cdk/models';
-import {Modelo} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
 import {FavoritoService} from '../../../services/favorito.service';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
+import {environment} from "../../../../environments/environment";
+import {CdkConfigService} from "../../../services/config.service";
 
 @Component({
     selector: 'cdk-documento-avulso-form',
@@ -155,7 +167,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _dynamicService: DynamicService,
-        private _favoritoService: FavoritoService
+        private _favoritoService: FavoritoService,
+        public _cdkConfigService: CdkConfigService,
     ) {
 
         const controlConfig = {

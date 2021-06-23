@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap} from 'rxjs/operators';
 
 import * as TarefaCreateBlocoActions from '../actions/tarefa-create-bloco.actions';
 

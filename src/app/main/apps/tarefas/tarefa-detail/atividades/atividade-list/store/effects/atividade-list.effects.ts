@@ -66,8 +66,7 @@ export class AtividadeListEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AtividadeListActions.GetAtividadesFailed(err));
-                    return caught;
+                    return of(new AtividadeListActions.GetAtividadesFailed(err));
                 })
             );
 }

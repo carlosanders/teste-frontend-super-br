@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component,
+    Input,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Pessoa} from '@cdk/models';
+import {Pagination, Pessoa} from '@cdk/models';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-pessoa-autocomplete',
@@ -92,8 +93,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate),
-                            JSON.stringify(context))
+                            JSON.stringify(this.pagination.populate))
                             .pipe(
                                 finalize(() => this.pessoaListIsLoading = false),
                                 catchError(() => of([]))

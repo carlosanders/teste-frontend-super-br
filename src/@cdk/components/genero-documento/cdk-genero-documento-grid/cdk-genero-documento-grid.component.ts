@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroDocumento} from '@cdk/models';
 import {GeneroDocumentoDataSource} from '@cdk/data-sources/genero-documento-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkGeneroDocumentoFilterComponent} from '../sidebars/cdk-genero-documento-filter/cdk-genero-documento-filter.component';
+
 
 @Component({
     selector: 'cdk-genero-documento-grid',
@@ -116,7 +124,7 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -130,11 +138,17 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkGeneroDocumentoFilterComponent)
+    cdkGeneroDocumentoFilterComponent: CdkGeneroDocumentoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -160,6 +174,7 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -228,7 +243,7 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -252,6 +267,25 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkGeneroDocumentoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

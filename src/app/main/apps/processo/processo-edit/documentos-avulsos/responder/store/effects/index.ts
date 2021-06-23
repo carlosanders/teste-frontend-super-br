@@ -1,4 +1,4 @@
-import { DocumentoAvulsoResponderEffect } from './responder.effects';
+import {DocumentoAvulsoResponderEffect} from './responder.effects';
 
 export const effects = [
     DocumentoAvulsoResponderEffect

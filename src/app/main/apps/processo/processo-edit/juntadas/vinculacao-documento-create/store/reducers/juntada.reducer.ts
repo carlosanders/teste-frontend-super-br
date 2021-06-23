@@ -1,5 +1,4 @@
 import * as VinculacaoDocumentoCreateActions from '../actions';
-import * as AssuntoEditActions from '../../../../assuntos/assunto-edit/store/actions/assunto-edit.actions';
 
 export interface VinculacaoDocumentoCreateState {
     juntadaId: number;

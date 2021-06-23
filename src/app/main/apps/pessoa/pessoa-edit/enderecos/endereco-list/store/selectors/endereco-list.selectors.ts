@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getEnderecoListAppState,
-    EnderecoListAppState,
-    EnderecoListState
-} from '../reducers';
+import {EnderecoListAppState, EnderecoListState, getEnderecoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {endereco as enderecoSchema} from '@cdk/normalizr';

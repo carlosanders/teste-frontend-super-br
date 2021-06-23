@@ -1,9 +1,9 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
-import { CdkConfigService } from '@cdk/services/config.service';
-import { navigation } from 'app/navigation/navigation';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {navigation} from 'app/navigation/navigation';
 
 @Component({
     selector     : 'vertical-layout-1',

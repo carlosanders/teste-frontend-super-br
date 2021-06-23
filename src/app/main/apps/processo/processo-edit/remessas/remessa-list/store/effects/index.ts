@@ -1,4 +1,4 @@
-import { RemessaListEffect } from './remessa-list.effects';
+import {RemessaListEffect} from './remessa-list.effects';
 
 export const effects = [
     RemessaListEffect

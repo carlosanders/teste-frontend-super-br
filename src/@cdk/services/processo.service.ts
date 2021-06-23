@@ -53,13 +53,14 @@ export class ProcessoService extends ParentGenericService<Processo> {
         );
     }
 
-    arquivar(processo: Processo, context: any = '{}'): Observable<Processo> {
-        const params: HttpParams = new HttpParams();
+    arquivar(processo: Processo, populate: any = '[]', context: any = '{}'): Observable<Processo> {
+        const params = {};
+        params['populate'] = populate;
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'administrativo/processo'}/${processo.id}/${'arquivar'}` + environment.xdebug,
             JSON.stringify(classToPlain(processo)),
-            {params}
+            {params: new HttpParams({fromObject: params})}
         ).pipe(
             map((response) => {
                 response = plainToClass(Processo, response);
@@ -85,7 +86,7 @@ export class ProcessoService extends ParentGenericService<Processo> {
         );
     }
 
-    patch(processo: Processo, changes: any): Observable<Processo> {
+    patch(processo: Processo, changes: any, populate: any = '[]', context: any = '{}'): Observable<Processo> {
         return this.http.patch(
             `${environment.api_url}${'administrativo/processo'}/${processo.id}` + environment.xdebug,
             JSON.stringify(changes)

@@ -1,13 +1,23 @@
 import {createSelector} from '@ngrx/store';
 import {getRepositorioEditAppState, RepositorioEditAppState, RepositorioEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {repositorio as repositorioSchema} from '@cdk/normalizr';
-import {modalidadeOrgaoCentral as orgaoSchema} from '@cdk/normalizr';
-import {setor as setorSchema} from '@cdk/normalizr';
+import {
+    modalidadeOrgaoCentral as orgaoSchema,
+    repositorio as repositorioSchema,
+    setor as setorSchema
+} from '@cdk/normalizr';
 import {ModalidadeOrgaoCentral, Repositorio, Setor} from '@cdk/models';
 import {CoordenadorAppState, CoordenadorState, getCoordenadorAppState} from '../../../../store/reducers';
-import {UnidadesOrgaoCentralAppState, getUnidadesOrgaoCentralAppState, UnidadesOrgaoCentralState} from '../../../../unidades/store/reducers';
-import {CoordenadorSetorAppState, getCoordenadorSetorAppState, CoordenadorSetorState} from '../../../../setor/store/reducers';
+import {
+    getUnidadesOrgaoCentralAppState,
+    UnidadesOrgaoCentralAppState,
+    UnidadesOrgaoCentralState
+} from '../../../../unidades/store/reducers';
+import {
+    CoordenadorSetorAppState,
+    CoordenadorSetorState,
+    getCoordenadorSetorAppState
+} from '../../../../setor/store/reducers';
 
 
 const schemaRepositorioSelectors = createSchemaSelectors<Repositorio>(repositorioSchema);

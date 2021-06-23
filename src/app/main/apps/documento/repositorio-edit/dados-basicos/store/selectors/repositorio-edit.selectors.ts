@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getRepositorioEditDadosBasicosAppState, RepositorioEditDadosBasicosAppState, RepositorioEditDadosBasicosState} from '../reducers';
+import {
+    getRepositorioEditDadosBasicosAppState,
+    RepositorioEditDadosBasicosAppState,
+    RepositorioEditDadosBasicosState
+} from '../reducers';
 
 export const getRepositorioEditState = createSelector(
     getRepositorioEditDadosBasicosAppState,

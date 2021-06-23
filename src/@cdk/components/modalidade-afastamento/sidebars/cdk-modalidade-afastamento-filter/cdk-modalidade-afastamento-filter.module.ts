@@ -9,12 +9,13 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeAfastamentoService } from '@cdk/services/modalidade-afastamento.service';
-import { CdkModalidadeAfastamentoFilterComponent } from './cdk-modalidade-afastamento-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
+import {CdkModalidadeAfastamentoFilterComponent} from './cdk-modalidade-afastamento-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         ModalidadeAfastamentoService,

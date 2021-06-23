@@ -1,18 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {VinculacaoDocumento} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {ModalidadeVinculacaoDocumento} from '@cdk/models';
+import {Documento, ModalidadeVinculacaoDocumento, Pagination, VinculacaoDocumento} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-documento-form',
@@ -93,6 +95,8 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
         if (changes['vinculacaoDocumento'] && this.vinculacaoDocumento && ((!this.vinculacaoDocumento.id && !this.form.dirty)
             || (this.vinculacaoDocumento.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.vinculacaoDocumento});
+            this.activeCard = 'form';
+            this._changeDetectorRef.detectChanges();
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

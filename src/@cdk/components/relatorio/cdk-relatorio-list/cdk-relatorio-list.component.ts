@@ -3,8 +3,8 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input, OnChanges,
-    Output, SimpleChanges,
+    Input,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';

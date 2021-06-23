@@ -1,17 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Afastamento, Usuario} from '@cdk/models';
-import { ModalidadeAfastamento } from '@cdk/models';
-import {Pagination} from '@cdk/models';
+import {Afastamento, ModalidadeAfastamento, Pagination, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-afastamento-form',

@@ -1,4 +1,4 @@
-import { LotacaoListEffect } from './lotacao-list.effects';
+import {LotacaoListEffect} from './lotacao-list.effects';
 
 export const effects = [
     LotacaoListEffect

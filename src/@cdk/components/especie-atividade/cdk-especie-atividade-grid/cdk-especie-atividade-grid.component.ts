@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -12,10 +18,10 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {EspecieAtividade} from '@cdk/models';
+import {EspecieAtividade, Favorito} from '@cdk/models';
 import {EspecieAtividadeDataSource} from '@cdk/data-sources/especie-atividade-data-source';
-import {Favorito} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {CdkEspecieAtividadeFilterComponent} from '../sidebars/cdk-especie-atividade-filter/cdk-especie-atividade-filter.component';
 
 @Component({
     selector: 'cdk-especie-atividade-grid',
@@ -122,7 +128,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -136,11 +142,17 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkEspecieAtividadeFilterComponent)
+    cdkEspecieAtividadeFilterComponent: CdkEspecieAtividadeFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -170,6 +182,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -238,7 +251,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -262,6 +275,25 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkEspecieAtividadeFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

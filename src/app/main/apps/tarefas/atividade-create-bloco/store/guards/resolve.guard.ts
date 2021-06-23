@@ -4,13 +4,13 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
 
 import {AtividadeCreateBlocoAppState} from 'app/main/apps/tarefas/atividade-create-bloco/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
-import {getSelectedTarefas} from '../../../store/selectors';
+import {getSelectedTarefas} from '../../../store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -58,7 +58,7 @@ export class ResolveGuard implements CanActivate {
             select(getDocumentosHasLoaded),
             withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
             tap(([loaded, tarefas]) => {
-                if (!loaded && tarefas.length) {
+                if (!loaded && tarefas?.length) {
                     this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
                 }
             }),

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TEMPLATES = '[TEMPLATES LIST] GET TEMPLATES';
 export const GET_TEMPLATES_SUCCESS = '[TEMPLATES LIST] GET TEMPLATES SUCCESS';

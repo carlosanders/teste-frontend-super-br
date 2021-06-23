@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TransicaoListReducer, TransicaoListState } from './transicao-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TransicaoListReducer, TransicaoListState} from './transicao-list.reducer';
 
 export interface TransicaoListAppState
 {

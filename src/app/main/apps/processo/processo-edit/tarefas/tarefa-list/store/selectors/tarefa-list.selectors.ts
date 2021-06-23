@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getTarefaListAppState,
-    TarefaListAppState,
-    TarefaListState
-} from '../reducers';
+import {getTarefaListAppState, TarefaListAppState, TarefaListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';

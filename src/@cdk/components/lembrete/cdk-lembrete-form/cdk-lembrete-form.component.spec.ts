@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CdkLembreteFormComponent } from './cdk-lembrete-form.component';
+import {CdkLembreteFormComponent} from './cdk-lembrete-form.component';
 
 describe('CdkLembreteFormComponent', () => {
   let component: CdkLembreteFormComponent;

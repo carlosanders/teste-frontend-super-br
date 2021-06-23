@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RemessaListReducer, RemessaListState } from './remessa-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RemessaListReducer, RemessaListState} from './remessa-list.reducer';
 
 export interface RemessaListAppState
 {

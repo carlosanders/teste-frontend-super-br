@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -112,6 +106,11 @@ export class RemessaListComponent implements OnInit {
 
     recebimento(tramitacaoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'recebimento/') + tramitacaoId]);
+    }
+
+    verificaStatusBarramento(tramitacaoId: number[]): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'status-barramento-processo/') +
+        tramitacaoId]);
     }
 
     delete(tramitacaoId: number): void {

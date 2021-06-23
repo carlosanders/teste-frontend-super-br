@@ -2,7 +2,10 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {
     MatButtonModule,
-    MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatTooltipModule
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -86,7 +89,6 @@ modulesConfig.forEach((module) => {
     providers: [
         RelatorioService,
         VinculacaoEtiquetaService,
-        LoginService,
         DocumentoService,
         fromGuards.ResolveGuard
     ]

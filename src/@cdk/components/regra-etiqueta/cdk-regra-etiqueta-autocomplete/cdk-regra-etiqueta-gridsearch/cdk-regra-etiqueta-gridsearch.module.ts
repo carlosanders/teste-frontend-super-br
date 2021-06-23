@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { CdkRegraEtiquetaGridsearchComponent } from './cdk-regra-gridsearch.component';
+import {CdkRegraEtiquetaGridsearchComponent} from './cdk-regra-gridsearch.component';
 import {CdkRegraGridModule} from '../../cdk-regra-grid/cdk-regra-grid.module';
 import {RegraEtiquetaService} from '@cdk/services/regra.service';
 

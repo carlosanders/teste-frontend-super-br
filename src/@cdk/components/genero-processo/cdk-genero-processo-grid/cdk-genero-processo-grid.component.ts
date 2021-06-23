@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
@@ -13,6 +19,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroProcesso} from '@cdk/models';
 import {GeneroProcessoDataSource} from '@cdk/data-sources/genero-processo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkGeneroProcessoFilterComponent} from '../sidebars/cdk-genero-processo-filter/cdk-genero-processo-filter.component';
+
 
 @Component({
     selector: 'cdk-genero-processo-grid',
@@ -114,7 +122,7 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -128,11 +136,17 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkGeneroProcessoFilterComponent)
+    cdkGeneroProcessoFilterComponent: CdkGeneroProcessoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -158,6 +172,7 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -226,7 +241,7 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -250,6 +265,25 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkGeneroProcessoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

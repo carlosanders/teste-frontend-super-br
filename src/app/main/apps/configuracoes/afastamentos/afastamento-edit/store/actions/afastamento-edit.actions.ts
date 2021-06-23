@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_AFASTAMENTO = '[AFASTAMENTO] CREATE AFASTAMENTO';
 export const CREATE_AFASTAMENTO_SUCCESS = '[AFASTAMENTO] CREATE AFASTAMENTO SUCCESS';

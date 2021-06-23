@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as AssuntoAdministrativoTreeListActions from '../actions';
@@ -12,8 +12,6 @@ import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo
 import {AddData} from '@cdk/ngrx-normalizr';
 import {AssuntoAdministrativo} from '@cdk/models';
 import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
-import * as AssuntoAdministrativoEditActions
-    from '../../../assunto-administrativo-edit/store/actions/assunto-administrativo-edit.actions';
 import * as AssuntoAdministrativoListActions
     from '../../../assunto-administrativo-list/store/actions/assunto-administrativo-list.actions';
 

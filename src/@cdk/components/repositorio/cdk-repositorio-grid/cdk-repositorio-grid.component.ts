@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Documento, Repositorio} from '@cdk/models';
 import {RepositorioDataSource} from '@cdk/data-sources/repositorio-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkRepositorioFilterComponent} from '../sidebars/cdk-repositorio-filter/cdk-repositorio-filter.component';
+
 
 @Component({
     selector: 'cdk-repositorio-grid',
@@ -185,7 +193,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     downloadedId: number;
@@ -205,11 +213,17 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkRepositorioFilterComponent)
+    cdkRepositorioFilterComponent: CdkRepositorioFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -247,6 +261,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -331,7 +346,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -355,6 +370,25 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkRepositorioFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

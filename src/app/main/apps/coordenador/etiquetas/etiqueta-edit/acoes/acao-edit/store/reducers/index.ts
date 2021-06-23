@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AcaoEditReducer, AcaoEditState } from './acao-edit.reducer';
-import { ModalidadeAcaoEtiqueraReducer, ModalidadeAcaoEtiquetaState } from './modalidade-acao-etiqueta.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AcaoEditReducer, AcaoEditState} from './acao-edit.reducer';
+import {ModalidadeAcaoEtiqueraReducer, ModalidadeAcaoEtiquetaState} from './modalidade-acao-etiqueta.reducer';
 
 export interface AcaoEditAppState
 {

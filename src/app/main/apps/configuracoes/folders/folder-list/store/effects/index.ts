@@ -1,4 +1,4 @@
-import { FolderListEffect } from './folder-list.effects';
+import {FolderListEffect} from './folder-list.effects';
 
 export const effects = [
     FolderListEffect

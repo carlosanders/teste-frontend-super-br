@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const ACTIVATE = '[Active] Activated';
 export const ACTIVATE_SUCCESS = '[Active] Activated Success';

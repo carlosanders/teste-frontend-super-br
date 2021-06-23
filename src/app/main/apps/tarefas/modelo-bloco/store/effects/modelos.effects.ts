@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap, mergeMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ModelosActions from '../actions/modelos.actions';
@@ -73,8 +73,7 @@ export class ModelosEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log (err);
-                    this._store.dispatch(new ModelosActions.GetModelosFailed(err));
-                    return caught;
+                    return of(new ModelosActions.GetModelosFailed(err));
                 })
 
             );

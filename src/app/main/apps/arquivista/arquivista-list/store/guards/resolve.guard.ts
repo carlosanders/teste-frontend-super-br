@@ -2,19 +2,19 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {ArquivistaAppState} from 'app/main/apps/arquivista/arquivista-list/store/reducers';
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
-import {getProcessosLoaded} from 'app/main/apps/arquivista/arquivista-list/store/selectors';
-import {getRouterState} from 'app/store/reducers';
-import {LoginService} from '../../../../../auth/login/login.service';
-import {Colaborador, Usuario} from '@cdk/models';
-import * as moment from 'moment';
 import {
     getIsLoading,
     getIsLoadingModalidadeTransicao,
     getModalidadeTransicaoLoaded
 } from 'app/main/apps/arquivista/arquivista-list/store';
+import {getProcessosLoaded} from 'app/main/apps/arquivista/arquivista-list/store/selectors';
+import {getRouterState} from 'app/store/reducers';
+import {LoginService} from '../../../../../auth/login/login.service';
+import {Colaborador, Usuario} from '@cdk/models';
+import * as moment from 'moment';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -121,6 +121,7 @@ export class ResolveGuard implements CanActivate {
                             'classificacao',
                             'classificacao.modalidadeDestinacao',
                             'setorInicial',
+                            'setorAtual.especieSetor',
                             'setorAtual',
                             'lembretes',
                             'vinculacoesEtiquetas',

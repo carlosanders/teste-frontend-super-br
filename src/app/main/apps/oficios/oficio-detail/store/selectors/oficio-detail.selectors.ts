@@ -1,13 +1,13 @@
-import { createSelector } from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 import {
     getDocumentoAvulsoDetailAppState,
     OficioDetailAppState,
-    OficioDetailState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr';
-import { documento as documentoSchema } from '@cdk/normalizr';
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
-import { Documento } from '@cdk/models/documento.model';
+    OficioDetailState
+} from 'app/main/apps/oficios/oficio-detail/store/reducers';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema, documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {Documento} from '@cdk/models/documento.model';
 
 const schemaDocumentoAvulsoSelectors = createSchemaSelectors<DocumentoAvulso>(documentoAvulsoSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);

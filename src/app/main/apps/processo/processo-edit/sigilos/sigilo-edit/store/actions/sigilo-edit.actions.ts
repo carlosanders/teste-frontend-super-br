@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_SIGILO = '[SIGILO] CREATE SIGILO';
 export const CREATE_SIGILO_SUCCESS = '[SIGILO] CREATE SIGILO SUCCESS';

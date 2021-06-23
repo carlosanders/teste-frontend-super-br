@@ -1,22 +1,18 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnDestroy, OnInit,
-    ViewEncapsulation,
-    EventEmitter, Output
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+    ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {
-    Acao,
-    DocumentoAvulso,
-    EspecieTarefa,
-    ModalidadeAcaoEtiqueta,
-    Pagination,
-    Pessoa
-} from '../../../../models';
+import {Acao, DocumentoAvulso, EspecieTarefa, ModalidadeAcaoEtiqueta, Pagination, Pessoa} from '../../../../models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 // @ts-ignore

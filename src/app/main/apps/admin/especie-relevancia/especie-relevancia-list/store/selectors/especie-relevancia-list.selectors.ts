@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getEspecieRelevanciaListAppState,
-    EspecieRelevanciaListAppState,
-    EspecieRelevanciaListState
-} from '../reducers';
+import {EspecieRelevanciaListAppState, EspecieRelevanciaListState, getEspecieRelevanciaListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {especieRelevancia as especieRelevanciaSchema} from '@cdk/normalizr';

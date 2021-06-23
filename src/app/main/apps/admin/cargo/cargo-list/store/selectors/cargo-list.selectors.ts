@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getCargoListAppState,
-    CargoListAppState,
-    CargoListState
-} from '../reducers';
+import {CargoListAppState, CargoListState, getCargoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {cargo as cargoSchema} from '@cdk/normalizr';

@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -14,6 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ClassificacaoDataSource} from '@cdk/data-sources/classificacao-data-source';
 import {Classificacao} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {CdkClassificacaoFilterComponent} from '../sidebars/cdk-classificacao-filter/cdk-classificacao-filter.component';
 
 @Component({
     selector: 'cdk-classificacao-grid',
@@ -172,7 +179,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     deletingIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     deletedIds: number[] = [];
@@ -189,11 +196,17 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkClassificacaoFilterComponent)
+    cdkClassificacaoFilterComponent: CdkClassificacaoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<number>();
@@ -219,6 +232,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -286,7 +300,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -310,6 +324,25 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkClassificacaoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

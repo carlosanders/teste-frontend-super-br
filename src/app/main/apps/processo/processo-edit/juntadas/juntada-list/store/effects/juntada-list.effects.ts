@@ -109,8 +109,7 @@ export class JuntadaListEffect {
                                 map(response => new JuntadaListActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new JuntadaListActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new JuntadaListActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -126,16 +125,17 @@ export class JuntadaListEffect {
             .pipe(
                 ofType<JuntadaListActions.AssinaDocumentoSuccess>(JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**

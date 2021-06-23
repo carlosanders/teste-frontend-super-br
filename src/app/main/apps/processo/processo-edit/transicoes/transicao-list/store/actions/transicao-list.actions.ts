@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_TRANSICOES = '[TRANSICAO LIST] GET TRANSICOES';
 export const GET_TRANSICOES_SUCCESS = '[TRANSICAO LIST] GET TRANSICOES SUCCESS';

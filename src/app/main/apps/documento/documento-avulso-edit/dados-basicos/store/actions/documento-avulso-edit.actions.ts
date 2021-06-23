@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_DOCUMENTO_AVULSO = '[DOCUMENTO AVULSO EDIT] SAVE DOCUMENTO AVULSO';
 export const SAVE_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO AVULSO EDIT] SAVE DOCUMENTO AVULSO SUCCESS';

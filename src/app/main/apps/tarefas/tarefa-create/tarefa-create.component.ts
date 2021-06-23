@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -9,22 +10,19 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models';
+import {Colaborador, Pagination, Processo, Setor, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import * as fromStoreSidebar from 'app/main/apps/tarefas/store';
-import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
-import {Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Processo} from '@cdk/models';
 import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
-import {getOperacoesState, getRouterState} from '../../../../store';
-import {Back} from '../../../../store';
+import {Back, getOperacoesState, getRouterState} from '../../../../store';
+import {CdkUtils} from "../../../../../@cdk/utils";
 
 @Component({
     selector: 'tarefa-create',
@@ -60,6 +58,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     isClearForm = false;
 
     operacoes: any[] = [];
+    operacaoId?: string;
 
     /**
      * @param _store
@@ -103,6 +102,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.operacaoId = null;
         this.operacoes = [];
 
         this._store
@@ -112,7 +112,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.operacoes = [];
             }
         });
 
@@ -127,7 +126,9 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
         this.tarefa.dataHoraInicioPrazo = moment();
         this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
-        this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
+        let lotacaoPrincipal: Setor = null;
+        this._profile.lotacoes.filter(lotacao => lotacao.principal ? lotacaoPrincipal = lotacao.setor : null);
+        this.tarefa.setorOrigem = lotacaoPrincipal ? lotacaoPrincipal : this._profile.lotacoes[0].setor;
 
         if (this.processo) {
             this.tarefa.processo = this.processo;
@@ -175,7 +176,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesState),
                 takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'tarefa')
+                filter(op => this.operacaoId && !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
                 (operacao) => {
@@ -197,7 +198,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        this.operacoes = [];
 
         this._store.dispatch(new fromStore.UnloadProcesso());
 
@@ -218,10 +218,9 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
-        this.operacoes = [];
-
         const tarefa = new Tarefa();
+
+        this.operacaoId = CdkUtils.makeId();
 
         Object.entries(values).forEach(
             ([key, value]) => {

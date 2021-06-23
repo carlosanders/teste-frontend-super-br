@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -21,7 +21,6 @@ import {UsuariosListComponent} from './usuarios-list.component';
 import {UsuariosListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkUsuarioGridModule} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
-import {LoginService} from '../../../../auth/login/login.service';
 import {PathModule} from '@cdk/components/path/path.module';
 import {TarefaService} from '@cdk/services/tarefa.service';
 
@@ -58,7 +57,6 @@ const routes: Routes = [
     ],
     providers: [
         UsuarioService,
-        LoginService,
         TarefaService,
         fromGuards.ResolveGuard
     ],

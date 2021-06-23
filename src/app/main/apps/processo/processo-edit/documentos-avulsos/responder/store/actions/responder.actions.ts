@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 import {GetDocumentosComplementaresFailed} from '../../../../../../oficios/oficio-detail/complementar/store/actions';
 
 export const GET_DOCUMENTOS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] GET DOCUMENTOS';

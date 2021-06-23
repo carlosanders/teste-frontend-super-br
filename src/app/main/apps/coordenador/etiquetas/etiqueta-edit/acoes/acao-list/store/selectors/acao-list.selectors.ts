@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getAcaoListAppState,
-    AcaoListAppState,
-    AcaoListState
-} from '../reducers';
+import {AcaoListAppState, AcaoListState, getAcaoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {acao as acaoSchema} from '@cdk/normalizr';

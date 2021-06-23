@@ -1,0 +1,18 @@
+<div class="content" *ngIf="action === 'buttons'">
+    <h2>Encaminhamento em bloco</h2>
+
+    <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s) </h3>
+
+    <cdk-encaminhamento-form
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [mode]="'bloco'"
+        (save)="submit($event)"
+        (abort)="cancel()">
+    </cdk-encaminhamento-form>
+</div>
+
+<!-- CONTENT -->
+<div class="content" cdkPerfectScrollbar>
+    <router-outlet></router-outlet>
+</div>

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as RepositorioEditActions from '../actions/repositorios-edit.actions';
 import * as RepositorioListActions from '../../../repositorios-list/store/actions/repositorios-list.actions';

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_WORKFLOW_VIEW_TRANSICOES = '[WORKFLOW] VIEW TRANSICOES';
 export const GET_WORKFLOW_VIEW_TRANSICOES_SUCCESS = '[WORKFLOW] VIEW TRANSICOES SUCCESS';

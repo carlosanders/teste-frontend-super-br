@@ -1,7 +1,7 @@
-import { Component, ContentChild, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {Component, ContentChild, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 import * as Prism from 'prismjs/prism';
 import '@cdk/components/highlight/prism-languages';
 

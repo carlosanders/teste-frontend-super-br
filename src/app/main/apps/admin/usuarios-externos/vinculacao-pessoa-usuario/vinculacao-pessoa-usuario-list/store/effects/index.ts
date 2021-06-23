@@ -1,4 +1,4 @@
-import { VinculacaoPessoaUsuarioListEffects } from './vinculacao-pessoa-usuario-list.effects';
+import {VinculacaoPessoaUsuarioListEffects} from './vinculacao-pessoa-usuario-list.effects';
 
 export const effects = [
     VinculacaoPessoaUsuarioListEffects

@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getDocumentoIdentificadorEditAppState, DocumentoIdentificadorEditAppState, DocumentoIdentificadorEditState} from '../reducers';
+import {
+    DocumentoIdentificadorEditAppState,
+    DocumentoIdentificadorEditState,
+    getDocumentoIdentificadorEditAppState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {DocumentoIdentificador} from '@cdk/models';
 import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr';

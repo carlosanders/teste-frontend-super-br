@@ -4,15 +4,16 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -32,7 +33,6 @@ import {CdkProcessoListModule} from '@cdk/components/processo/cdk-processo-list/
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import {DndModule} from 'ngx-drag-drop';
-import {LoginService} from '../../auth/login/login.service';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
@@ -122,7 +122,6 @@ modulesConfig.forEach((module) => {
         EspecieProcessoService,
         SetorService,
         UsuarioService,
-        LoginService,
         fromGuards.ResolveGuard,
         AssuntoService,
         AssinaturaService,

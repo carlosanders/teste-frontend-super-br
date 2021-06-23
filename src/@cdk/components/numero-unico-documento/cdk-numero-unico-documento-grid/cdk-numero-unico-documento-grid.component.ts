@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -12,10 +18,9 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {NumeroUnicoDocumento} from '@cdk/models';
+import {NumeroUnicoDocumento, Pagination} from '@cdk/models';
 import {NumeroUnicoDocumentoDataSource} from '@cdk/data-sources/numero-unico-documento-data-source';
 import {FormControl} from '@angular/forms';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-numero-unico-documento-grid',
@@ -127,7 +132,7 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;

@@ -9,7 +9,8 @@
     [especieAtividades]="(especieAtividades$ | async)"
     [total]="(pagination$ | async)?.total"
     [displayedColumns]="['id', 'nome', 'descricao', 'generoAtividade.nome', 'ativo', 'actions']"
-    [actions]="['edit', 'create']"
+    [actions]="['edit', 'create', 'showInatived']"
+    (inatived)="inatived($event)"
     (reload)="reload($event)"
     (edit)="edit($event)"
     (create)="create()">

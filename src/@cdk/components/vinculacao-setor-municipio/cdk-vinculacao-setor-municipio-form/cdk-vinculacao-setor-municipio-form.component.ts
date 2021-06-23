@@ -1,17 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {VinculacaoSetorMunicipio} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {Municipio, Setor} from '@cdk/models';
+import {Municipio, Pagination, VinculacaoSetorMunicipio} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-setor-municipio-form',

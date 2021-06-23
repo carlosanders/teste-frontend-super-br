@@ -1,4 +1,4 @@
-import { CdkConfig } from '@cdk/types';
+import {CdkConfig} from '@cdk/types';
 
 /**
  * Default Cdk Configuration

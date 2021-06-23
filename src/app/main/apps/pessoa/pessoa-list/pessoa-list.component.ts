@@ -1,8 +1,11 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, OnDestroy,
-    OnInit, Output,
+    Component,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
@@ -86,7 +89,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetPessoas({
             ...this.pagination,
             filter: {
-                ...this.pagination.filter,
+                ...this.pagination.filter
             },
             gridFilter: {
                 ...params.gridFilter

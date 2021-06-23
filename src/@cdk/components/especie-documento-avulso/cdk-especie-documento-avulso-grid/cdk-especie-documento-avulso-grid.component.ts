@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieDocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulsoDataSource} from '@cdk/data-sources/especie-documento-avulso-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkEspecieDocumentoAvulsoFilterComponent} from '../sidebars/cdk-especie-documento-avulso-filter/cdk-especie-documento-avulso-filter.component';
 
 @Component({
     selector: 'cdk-especie-documento-avulso-grid',
@@ -121,7 +128,7 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -135,11 +142,17 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkEspecieDocumentoAvulsoFilterComponent)
+    cdkEspecieDocumentoAvulsoFilterComponent: CdkEspecieDocumentoAvulsoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -165,6 +178,7 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -233,7 +247,7 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -257,6 +271,25 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkEspecieDocumentoAvulsoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -3,14 +3,16 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from './store';
-import {Assinatura, Documento} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -39,6 +41,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId: number[] = [];
     javaWebStartOK = false;
 
@@ -73,6 +77,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
         this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
 
         this._store
             .pipe(
@@ -202,6 +208,16 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
     onClickedDocumentoVinculado(documento): void {
         this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+    }
+
+    doAlterarTipoDocumento(values): void {
+        this._store.dispatch(new fromStore.UpdateDocumento(values));
+    }
+
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadP7S(componenteDigital));
+        });
     }
 
     onCompleteDocumentoVinculado(): void {

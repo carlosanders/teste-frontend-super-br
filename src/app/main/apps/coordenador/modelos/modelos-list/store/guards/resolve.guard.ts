@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {ModelosListAppState} from '../reducers';
 import * as fromStore from '../';
@@ -93,9 +93,6 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesModelos.modalidadeOrgaoCentral',
                             'vinculacoesModelos.unidade',
                         ],
-                        context: {
-                            isAdmin: true
-                        }
                     };
 
                     if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {

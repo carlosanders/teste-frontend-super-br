@@ -3,13 +3,18 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
 import {buffer, catchError, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
+import * as AtividadeCreateDocumentosActions
+    from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
+    documento as documentoSchema
+} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
@@ -112,8 +117,7 @@ export class AtividadeCreateDocumentosEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AtividadeCreateDocumentosActions.GetDocumentosFailed(err));
-                    return caught;
+                    return of(new AtividadeCreateDocumentosActions.GetDocumentosFailed(err));
                 })
             );
 
@@ -223,13 +227,12 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumento>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO),
-                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
                             .pipe(
                                 map(response => new AtividadeCreateDocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -247,8 +250,7 @@ export class AtividadeCreateDocumentosEffect {
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                                    return caught;
+                                    return of(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
                             )
                 ));
@@ -264,16 +266,17 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumentoSuccess>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**
@@ -286,7 +289,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamente>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
+                mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -361,7 +364,8 @@ export class AtividadeCreateDocumentosEffect {
                                         schema: documentoSchema,
                                         changes: {componentesDigitais: response.componentesDigitais}
                                     }),
-                                    new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload)
+                                    new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload),
+                                    new AtividadeCreateDocumentosActions.GetDocumentos()
                                 ]),
                                 catchError((err) => {
                                     console.log(err);
@@ -386,7 +390,8 @@ export class AtividadeCreateDocumentosEffect {
                             .pipe(
                                 mergeMap(response => [
                                     new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
-                                    new AtividadeCreateDocumentosActions.ConverteToHtmlSucess(action.payload)
+                                    new AtividadeCreateDocumentosActions.ConverteToHtmlSucess(action.payload),
+                                    new AtividadeCreateDocumentosActions.GetDocumentos()
                                 ]),
                                 catchError(err => of(new AtividadeCreateDocumentosActions.ConverteToHtmlFailed(action.payload)))
                             )
@@ -404,7 +409,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.DownloadP7S>(AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
-                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload)
                             .pipe(
                                 map((response) => {
                                     if (response) {

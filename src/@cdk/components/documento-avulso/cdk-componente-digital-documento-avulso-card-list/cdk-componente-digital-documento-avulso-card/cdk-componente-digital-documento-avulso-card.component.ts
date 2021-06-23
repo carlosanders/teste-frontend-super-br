@@ -1,8 +1,12 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, DoCheck, EventEmitter, Input, KeyValueDiffers,
-    OnInit, Output,
+    Component,
+    DoCheck,
+    EventEmitter,
+    Input,
+    KeyValueDiffers,
+    Output,
     ViewEncapsulation
 } from '@angular/core';
 

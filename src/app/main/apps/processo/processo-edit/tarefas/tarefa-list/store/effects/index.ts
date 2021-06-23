@@ -1,4 +1,4 @@
-import { TarefaListEffect } from './tarefa-list.effects';
+import {TarefaListEffect} from './tarefa-list.effects';
 
 export const effects = [
     TarefaListEffect

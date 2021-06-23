@@ -1,4 +1,4 @@
-import { AvisoListEffects } from './aviso-list.effects';
+import {AvisoListEffects} from './aviso-list.effects';
 
 export const effects = [
     AvisoListEffects

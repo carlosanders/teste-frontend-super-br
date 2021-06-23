@@ -9,10 +9,10 @@ import {
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../../../app/store';
+import {getRouterState} from '../../../../../app/store';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
-import {getRouterState} from '../../../../../app/store';
 
 @Component({
     selector: 'workflow',

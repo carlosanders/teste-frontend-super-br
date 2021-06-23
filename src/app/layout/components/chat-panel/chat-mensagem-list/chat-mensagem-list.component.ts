@@ -1,8 +1,4 @@
-import {
-    Component,
-    Input, OnDestroy,
-    ViewEncapsulation
-} from '@angular/core';
+import {Component, Input, OnDestroy, ViewEncapsulation} from '@angular/core';
 
 import {Chat, ChatMensagem, Usuario} from "@cdk/models";
 import {LoginService} from "../../../../main/auth/login/login.service";

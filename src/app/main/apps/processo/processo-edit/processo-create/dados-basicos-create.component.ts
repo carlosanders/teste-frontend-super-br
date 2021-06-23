@@ -3,7 +3,9 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, Renderer2, ViewChild,
+    OnInit,
+    Renderer2,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -11,35 +13,40 @@ import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {
-    Processo,
-    Pessoa,
-    Usuario,
+    Assinatura,
     Assunto,
+    Classificacao,
+    ConfiguracaoNup, Documento,
     Interessado,
-    VinculacaoProcesso,
-    Tarefa,
     Juntada,
-    ConfiguracaoNup, Classificacao
+    Pagination,
+    Pessoa,
+    Processo,
+    Tarefa,
+    Usuario,
+    VinculacaoProcesso
 } from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
+import {
+    getConfiguracaoNup,
+    getTarefaIsSaving,
+    getVinculacaoProcessoIsSaving,
+    SaveAssunto,
+    SaveInteressado,
+    SaveTarefa,
+    SaveVinculacaoProcesso
+} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {getConfiguracaoNup, SaveAssunto} from './store';
-import {SaveInteressado} from './store';
-import {SaveVinculacaoProcesso} from './store';
-import {SaveTarefa} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
-import {getVinculacaoProcessoIsSaving} from './store';
-import {getTarefaIsSaving} from './store';
 import {getProcesso} from '../../store';
 import {configuracaoNup} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
@@ -157,6 +164,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      * @param _formBuilder
      * @param renderer
      * @param dialog
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<fromStore.DadosBasicosAppState>,
@@ -164,7 +172,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         public _loginService: LoginService,
         private _formBuilder: FormBuilder,
         private renderer: Renderer2,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
@@ -340,7 +349,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
                 this.tarefa.dataHoraInicioPrazo = moment();
                 this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
-                this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
+                this.tarefa.setorOrigem = processo.setorAtual;
 
                 this.assuntoActivated = 'form';
                 this.interessadoActivated = 'form';
@@ -445,6 +454,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         ).subscribe(
             juntadas => this.juntadas = juntadas
         );
+
         this.juntadasPagination$.subscribe((pagination) => {
             this.juntadasPagination = pagination;
         });
@@ -804,6 +814,50 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 data: {},
                 hasBackdrop: false,
                 closeOnNavigation: true
+            });
+        }
+    }
+
+    editar(documento: Documento): void {
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id;
+        } else {
+            primary += '0';
+        }
+        const sidebar = 'editar/dados-basicos';
+
+        this._router.navigate([
+                this.routerState.url +
+                '/documento/' + documento.id,
+                {
+                    outlets: {
+                        primary: primary,
+                        sidebar: sidebar
+                    }
+                }],
+            {
+                relativeTo: this._activatedRoute.parent
+            }).then();
+    }
+
+    assinar(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura
+                }));
             });
         }
     }

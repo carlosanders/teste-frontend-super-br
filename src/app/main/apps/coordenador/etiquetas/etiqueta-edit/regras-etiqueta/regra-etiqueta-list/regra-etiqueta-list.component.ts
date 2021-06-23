@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -28,6 +22,8 @@ export class RegraEtiquetaListComponent implements OnInit {
     routerState: any;
     regrasEtiqueta$: Observable<RegraEtiqueta[]>;
     regrasEtiqueta: RegraEtiqueta[] = [];
+    pagination$: Observable<any>;
+    pagination: any;
     loading$: Observable<boolean>;
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
@@ -44,6 +40,7 @@ export class RegraEtiquetaListComponent implements OnInit {
         private _store: Store<fromStore.RegraEtiquetaListAppState>,
     ) {
         this.regrasEtiqueta$ = this._store.pipe(select(fromStore.getRegraEtiquetaList));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
@@ -59,6 +56,9 @@ export class RegraEtiquetaListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.pagination$.subscribe((pagination) => {
+            this.pagination = pagination;
+        });
         this.regrasEtiqueta$.pipe(
             filter(regrasEtiqueta => !!regrasEtiqueta)
         ).subscribe(
@@ -66,18 +66,38 @@ export class RegraEtiquetaListComponent implements OnInit {
         );
     }
 
-    reload(params): void {
-        this._store.dispatch(new fromStore.GetRegrasEtiqueta(params));
+    ngOnDestroy() {
+        this._store.dispatch(new fromStore.UnloadRegrasEtiqueta());
     }
 
-    excluded(params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetRegrasEtiqueta({
+            ...this.pagination,
             filter: {
+                ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
+            populate: this.pagination.populate,
+            context: this.pagination.context
+        }));
+    }
+
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetRegrasEtiqueta({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
             context: params.context
         }));
     }

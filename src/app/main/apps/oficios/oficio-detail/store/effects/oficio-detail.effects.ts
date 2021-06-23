@@ -14,10 +14,9 @@ import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
+import {documentoAvulso as documentoAvulsoSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {DocumentoAvulso, Documento} from '@cdk/models';
+import {DocumentoAvulso} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()

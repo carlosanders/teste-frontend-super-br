@@ -1,4 +1,4 @@
-import { TarefaEditBlocoEffect } from './tarefa-edit-bloco.effects';
+import {TarefaEditBlocoEffect} from './tarefa-edit-bloco.effects';
 
 export const effects = [
     TarefaEditBlocoEffect

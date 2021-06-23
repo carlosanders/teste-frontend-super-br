@@ -68,9 +68,6 @@ modulesConfig.forEach((module) => {
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
-    ],
-    providers: [
-        LoginService
     ]
 })
 export class TipoAcaoWorkflowModule {

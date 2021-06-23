@@ -1,17 +1,14 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-    MatButtonModule,
-    MatIconModule, MatProgressSpinnerModule
-} from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {MatButtonModule, MatIconModule, MatProgressSpinnerModule} from '@cdk/angular/material';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSidebarModule } from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
-import { ConfiguracoesComponent } from './configuracoes.component';
-import { ConfiguracoesMainSidebarComponent } from './sidebars/main/main-sidebar.component';
-import { CommonModule } from '@angular/common';
+import {ConfiguracoesComponent} from './configuracoes.component';
+import {ConfiguracoesMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {CommonModule} from '@angular/common';
 import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
 

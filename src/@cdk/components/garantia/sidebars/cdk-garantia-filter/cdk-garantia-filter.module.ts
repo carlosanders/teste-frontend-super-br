@@ -9,14 +9,15 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';
 import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
 import {CdkGarantiaFilterComponent} from './cdk-garantia-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-auto
         CdkUsuarioAutocompleteModule,
         CdkModalidadeGarantiaAutocompleteModule,
         CdkProcessoAutocompleteModule,
+        MatButtonToggleModule,
 
     ],
     providers: [

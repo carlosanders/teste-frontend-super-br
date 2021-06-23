@@ -1,12 +1,15 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import {TipoDocumento, Usuario} from '@cdk/models';
-import {ModalidadeAlvoInibidor} from '@cdk/models';
-import {ModalidadeTipoInibidor} from '@cdk/models';
-import {Modelo} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {OrigemDados} from '@cdk/models';
+import {
+    Documento,
+    ModalidadeAlvoInibidor,
+    ModalidadeTipoInibidor,
+    Modelo,
+    OrigemDados,
+    TipoDocumento,
+    Usuario
+} from '@cdk/models';
 
 import {Subscription} from 'rxjs';
 import {Processo} from './processo.model';

@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {TipoRelatorioDataSource} from '@cdk/data-sources/tipo-relatorio-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTipoRelatorioFilterComponent} from '../sidebars/cdk-tipo-relatorio-filter/cdk-tipo-relatorio-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-relatorio-grid',
@@ -126,7 +134,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -140,11 +148,17 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkTipoRelatorioFilterComponent)
+    cdkTipoRelatorioFilterComponent: CdkTipoRelatorioFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -170,6 +184,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      *
@@ -239,7 +254,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -263,6 +278,25 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkTipoRelatorioFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

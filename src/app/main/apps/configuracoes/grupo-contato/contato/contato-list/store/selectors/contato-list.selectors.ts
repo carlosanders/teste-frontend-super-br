@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getContatoListAppState,
-    ContatoListAppState,
-    ContatoListState
-} from '../reducers';
+import {ContatoListAppState, ContatoListState, getContatoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {contato as contatoSchema} from '@cdk/normalizr';

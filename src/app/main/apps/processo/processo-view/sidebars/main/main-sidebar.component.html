@@ -195,8 +195,7 @@
     <div *ngIf="tarefa">
         <mat-expansion-panel class="mat-elevation-z0" expanded="true" (closed)="onCloseMinutas()"
                              (opened)="onOpenMinutas()">
-            <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'"
-                                        style="background-color: whitesmoke;">
+            <mat-expansion-panel-header class="minutas-tarefa" [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
                 <mat-panel-title>
                     Minutas da Tarefa
                 </mat-panel-title>
@@ -539,7 +538,7 @@
         </mat-expansion-panel>
     </div>
 
-    <div class="documentos-juntados-title" style="background-color: whitesmoke;" fxFlex="0 0 auto"
+    <div class="documentos-juntados-title" fxFlex="0 0 auto"
          fxLayoutAlign="start center">
         <div class="ml-24">Documentos Juntados</div>
     </div>
@@ -734,7 +733,7 @@
             </div>
             <div class="separador-volume"
                  *ngIf="juntadasByVolume.get(juntada.volume.numeracaoSequencial)[juntadasByVolume.get(juntada.volume.numeracaoSequencial).length - 1].id === juntada.id">
-                <div class="documentos-juntados-title" style="background-color: whitesmoke;" fxFlex="0 0 auto"
+                <div class="documentos-juntados-title" fxFlex="0 0 auto"
                      fxLayoutAlign="start center" aria-label="Volume">
                     <div class="ml-24">Volume {{juntada.volume.numeracaoSequencial}}</div>
                 </div>

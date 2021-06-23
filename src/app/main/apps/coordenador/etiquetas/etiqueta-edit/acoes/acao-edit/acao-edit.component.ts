@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -7,10 +8,18 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {Acao, Criteria, DocumentoAvulso, ModalidadeAcaoEtiqueta, Pagination, Pessoa, Setor} from '@cdk/models';
+import {
+    Acao,
+    Criteria,
+    DocumentoAvulso,
+    Etiqueta,
+    ModalidadeAcaoEtiqueta,
+    Pagination,
+    Pessoa,
+    Setor
+} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models';
 import {getEtiqueta} from '../../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store';

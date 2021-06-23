@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, map, withLatestFrom, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import * as AssuntoActions from '../actions/assunto.actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';

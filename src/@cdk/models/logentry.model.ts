@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform} from 'class-transformer';
 
 export class LogEntry {
 

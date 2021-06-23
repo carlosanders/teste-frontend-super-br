@@ -1,8 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
-import {Setor} from '@cdk/models';
+import {Setor, Usuario} from '@cdk/models';
 
 export class Localizador {
 

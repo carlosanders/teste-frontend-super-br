@@ -1,4 +1,4 @@
-import { EspecieTarefaListEffects } from './especie-tarefa-list.effects';
+import {EspecieTarefaListEffects} from './especie-tarefa-list.effects';
 
 export const effects = [
     EspecieTarefaListEffects

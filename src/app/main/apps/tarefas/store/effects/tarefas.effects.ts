@@ -1,4 +1,4 @@
-import {AddChildData, AddData, RemoveData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
     assunto as assuntoSchema,
     interessado as interessadoSchema,
@@ -12,16 +12,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 import {Observable, of} from 'rxjs';
-import {
-    buffer,
-    catchError,
-    concatMap,
-    map, mergeAll,
-    mergeMap,
-    switchMap,
-    tap,
-    withLatestFrom
-} from 'rxjs/operators';
+import {buffer, catchError, concatMap, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
@@ -107,8 +98,7 @@ export class TarefasEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefasActions.GetTarefasFailed(err));
-                    return caught;
+                    return of(new TarefasActions.GetTarefasFailed(err));
                 })
             );
 
@@ -551,8 +541,7 @@ export class TarefasEffect {
                         ]),
                         catchError((err, caught) => {
                             console.log(err);
-                            this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
-                            return caught;
+                            return of(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
                         })
                     )),
             );
@@ -590,8 +579,7 @@ export class TarefasEffect {
                         ]),
                         catchError((err, caught) => {
                             console.log(err);
-                            this._store.dispatch(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
-                            return caught;
+                            return of(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
                         })
                     )),
             );

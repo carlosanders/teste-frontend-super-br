@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroTarefa} from '@cdk/models';
 import {GeneroTarefaDataSource} from '@cdk/data-sources/genero-tarefa-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkGeneroTarefaFilterComponent} from '../sidebars/cdk-genero-tarefa-filter/cdk-genero-tarefa-filter.component';
+
 
 @Component({
     selector: 'cdk-genero-tarefa-grid',
@@ -116,7 +124,7 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -129,6 +137,9 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkGeneroTarefaFilterComponent)
+    cdkGeneroTarefaFilterComponent: CdkGeneroTarefaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -149,6 +160,9 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
     excluded = new EventEmitter<any>();
 
     @Output()
+    inatived = new EventEmitter<any>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: GeneroTarefaDataSource;
@@ -160,6 +174,7 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -228,7 +243,7 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -252,6 +267,25 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkGeneroTarefaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

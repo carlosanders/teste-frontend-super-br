@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RelatoriosReducer, RelatoriosState } from './relatorios.reducer';
-import { FoldersReducer, FoldersState } from './folders.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RelatoriosReducer, RelatoriosState} from './relatorios.reducer';
+import {FoldersReducer, FoldersState} from './folders.reducer';
 
 export interface RelatoriosAppState
 {

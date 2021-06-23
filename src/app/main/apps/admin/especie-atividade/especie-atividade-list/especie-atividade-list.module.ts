@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {EspecieAtividadeListComponent} from './especie-atividade-list.component';
 import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
+import {ResolveGuard} from './store/guards';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -24,7 +25,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
 import {EspecieAtividadeStoreModule} from './store/store.module';
 import {CdkEspecieAtividadeGridModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-grid/cdk-especie-atividade-grid.module';
-import {ResolveGuard} from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
 

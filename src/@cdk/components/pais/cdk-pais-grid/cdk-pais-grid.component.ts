@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Pais} from '@cdk/models';
 import {PaisDataSource} from '@cdk/data-sources/pais-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkPaisFilterComponent} from '../sidebars/cdk-pais-filter/cdk-pais-filter.component';
 
 @Component({
     selector: 'cdk-pais-grid',
@@ -116,7 +123,7 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -130,11 +137,17 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkPaisFilterComponent)
+    cdkPaisFilterComponent: CdkPaisFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -160,6 +173,7 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -229,7 +243,7 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -253,6 +267,25 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkPaisFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

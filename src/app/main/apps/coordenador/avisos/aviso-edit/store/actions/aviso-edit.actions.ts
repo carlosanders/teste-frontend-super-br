@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_AVISO = '[COORDENADOR AVISO EDIT] CREATE AVISO';
 export const CREATE_AVISO_SUCCESS = '[COORDENADOR AVISO EDIT] CREATE AVISO SUCCESS';

@@ -1,23 +1,24 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter, HostListener,
-    Input, OnInit,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnInit,
     Output,
-    ViewChildren, ViewEncapsulation
+    ViewChildren,
+    ViewEncapsulation
 } from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {catchError, finalize} from 'rxjs/operators';
 import {Observable, of, Subject} from 'rxjs';
-import {
-    CdkClassificacaoTreeFormService,
-    ClassificacaoNode
-} from './services/cdk-classificacao-tree-form.service';
+import {CdkClassificacaoTreeFormService, ClassificacaoNode} from './services/cdk-classificacao-tree-form.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Classificacao, ModalidadeDestinacao, Pagination, Processo} from '../../../models';
+import {Classificacao, ModalidadeDestinacao, Pagination} from '../../../models';
 import {ClassificacaoService} from '../../../services/classificacao.service';
 import {cdkAnimations} from '../../../animations';
 

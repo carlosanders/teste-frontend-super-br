@@ -11,23 +11,23 @@
 
     CKEDITOR.addCss(
         '.cke_widget_wrapper:hover>.cke_widget_element{' +
-        'outline:2px solid #ace !important;' +
-        'cursor:default;' +
+            'outline:2px solid #ace !important;' +
+            'cursor:default;' +
         '}' +
-        '.cke_widget_wrapper:hover .cke_widget_editable{' +
-        'outline:2px solid #ace !important;' +
+            '.cke_widget_wrapper:hover .cke_widget_editable{' +
+            'outline:2px solid #ace !important;' +
         '}' +
         '.cke_widget_editable{' +
-        'cursor:text !important;' +
-        'font-family:"Times New Roman, Times, serif" !important;' +
-        'font-size:15px !important;' +
-        'text-indent:1.4mm !important;' +
+            'cursor:text !important;' +
+            'font-family:"Times New Roman, Times, serif" !important;' +
+            'font-size:15px !important;' +
+            'text-indent:1.4mm !important;' +
         '}' +
         '.footnotes > header > p{' +
-        'cursor:text !important;' +
-        'font-family:"Times New Roman, Times, serif" !important;' +
-        'font-size:15px !important;' +
-        'text-indent:1.4mm !important;' +
+            'cursor:text !important;' +
+            'font-family:"Times New Roman, Times, serif" !important;' +
+            'font-size:15px !important;' +
+            'text-indent:1.4mm !important;' +
         '}'
     );
 
@@ -44,9 +44,9 @@
             // Check for jQuery
             // @TODO - remove if/when JQ dep. is removed.
             if (typeof(window.jQuery) == 'undefined') {
-                console.warn('jQuery required but undetected so quitting footnotes.');
-                return false;
-            }
+             console.warn('jQuery required but undetected so quitting footnotes.');
+             return false;
+             }
 
             // Allow `cite` to be editable:
             CKEDITOR.dtd.$editable['cite'] = 1;
@@ -102,12 +102,12 @@
 
             //var contents = $('<div>' + editor.element.$.textContent + '</div>')
             //var myEl = new Ext.Element(document.createElement('div'));
-            /* var e = document.createElement('DIV');
-             e.innerHTML = '<div>' + editor.element.$.textContent + '</div>';
-             e.find(('.footnotes li').length
-             debugger;*/
-            // , l = contents.query('.footnotes li').length
-            //, i = 1;
+           /* var e = document.createElement('DIV');
+            e.innerHTML = '<div>' + editor.element.$.textContent + '</div>';
+            e.find(('.footnotes li').length
+            debugger;*/
+               // , l = contents.query('.footnotes li').length
+             //, i = 1;
 
             var contents = $('<div>' + editor.element.$.textContent + '</div>')
             var l = contents.find('.footnotes li').length
@@ -221,11 +221,8 @@
             var $footnotes = $contents.find('.footnotes');
 
             if ($footnotes.length == 0) {
-                var header_title = editor.config.footnotesTitle ? editor.config.footnotesTitle : 'Notas';
-                var header_els = ['<p>', '</p>'];//editor.config.editor.config.footnotesHeaderEls
-                if (editor.config.footnotesHeaderEls) {
-                    header_els = editor.config.footnotesHeaderEls;
-                }
+                var header_title = 'Notas';
+                var header_els = ['<p>', '</p>'];
 
                 var container = '<section class="footnotes"><header>' + header_els[0] + header_title + header_els[1] + '</header><ol>' + footnote + '</ol></section>';
                 // Move cursor to end of content:
@@ -262,9 +259,9 @@
             // Check that there's a footnotes section. If it's been deleted the markers are useless:
 
             if ($contents.find('.footnotes').length == 0) {
-                $contents.find('sup[data-footnote-id]').remove();
-                /*if (Ext.query('.footnotes',$contents).length == 0) {
-                    Ext.get(Ext.query('sup[data-footnote-id]',$contents)).remove();*/
+             $contents.find('sup[data-footnote-id]').remove();
+            /*if (Ext.query('.footnotes',$contents).length == 0) {
+                Ext.get(Ext.query('sup[data-footnote-id]',$contents)).remove();*/
                 editor.fire('unlockSnapshot');
                 return;
             }

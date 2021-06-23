@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getRegraEtiquetaListAppState,
-    RegraEtiquetaListAppState,
-    RegraEtiquetaListState
-} from '../reducers';
+import {getRegraEtiquetaListAppState, RegraEtiquetaListAppState, RegraEtiquetaListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {regraEtiqueta as regraEtiquetaSchema} from '@cdk/normalizr';
@@ -25,6 +21,11 @@ export const getRegraEtiquetaList = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRegraEtiquetaListIds,
     schemaSelectors.entitiesProjector
+);
+
+export const getPagination = createSelector(
+    getRegraEtiquetaListState,
+    (state: RegraEtiquetaListState) => state.pagination
 );
 
 export const getRegraEtiquetaListLoaded = createSelector(

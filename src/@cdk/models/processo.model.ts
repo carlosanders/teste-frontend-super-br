@@ -1,21 +1,24 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
-import {Compartilhamento, Interessado, Lembrete, Tarefa} from '@cdk/models';
-import {Usuario} from '@cdk/models';
-import {EspecieProcesso} from '@cdk/models';
-import {Setor} from '@cdk/models';
-
-import {ModalidadeFase} from '@cdk/models';
-import {ModalidadeMeio} from '@cdk/models';
-
-import {DocumentoAvulso} from '@cdk/models';
-import {Classificacao} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
-import {Localizador} from '@cdk/models';
-import {OrigemDados} from '@cdk/models';
-import {ConfiguracaoNup} from '@cdk/models';
+import {Exclude, Transform, Type} from 'class-transformer';
+import {
+    Classificacao,
+    Compartilhamento,
+    ConfiguracaoNup,
+    DocumentoAvulso,
+    EspecieProcesso,
+    Interessado,
+    Lembrete,
+    Localizador,
+    ModalidadeFase,
+    ModalidadeMeio,
+    OrigemDados,
+    Pessoa,
+    Setor,
+    Tarefa,
+    Usuario
+} from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
-import { Assunto } from '@cdk/models/assunto.model';
+import {Assunto} from '@cdk/models/assunto.model';
 
 export class Processo {
 

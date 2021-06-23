@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { LocalizadorEditReducer, LocalizadorEditState } from './localizador-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {LocalizadorEditReducer, LocalizadorEditState} from './localizador-edit.reducer';
 
 export interface LocalizadorEditAppState
 {

@@ -1,20 +1,30 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter, ViewContainerRef, ElementRef, QueryList, ViewChildren
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    QueryList,
+    ViewChild,
+    ViewChildren,
+    ViewContainerRef,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoDataSource} from '@cdk/data-sources/documento-avulso-data-source';
 import {FormControl} from '@angular/forms';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
+import {CdkConfigService} from "../../../services/config.service";
 
 @Component({
     selector: 'cdk-documento-avulso-grid',
@@ -241,7 +251,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -289,17 +299,22 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     isIndeterminate = false;
     hasExcluded = false;
 
+    @Output()
+    statusBarramento = new EventEmitter<number[]>();
+
     @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>;
 
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _dynamicService
+     * @param _cdkConfigService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        public _cdkConfigService: CdkConfigService,
     ) {
         this.gridFilter = {};
         this.documentosAvulsos = [];
@@ -434,6 +449,10 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     responderDocumentosAvulsos(documentosAvulsosId: number[]): void {
         this.responder.emit(documentosAvulsosId);
+    }
+
+    verificaStatusBarramento(documentosAvulsosId: number[]): void {
+        this.statusBarramento.emit(documentosAvulsosId);
     }
 
     /**

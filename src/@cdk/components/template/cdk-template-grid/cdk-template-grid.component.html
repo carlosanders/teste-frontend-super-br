@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-template-filter" position="left">
-        <cdk-template-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-template-filter>
+        <cdk-template-filter (selected)="setFilter($event)" [mode]="this.mode" [hasInatived]="hasInatived"></cdk-template-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -53,6 +53,13 @@
                     aria-label="filtrar"
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
+            </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasInatived}" *ngIf="actions.indexOf('showInatived') > -1"
+                    (click)="loadInatived()"
+                    aria-label="mostrar inativo"
+                    matTooltip="Mostrar Inativos">
+                <mat-icon>visibility_off</mat-icon>
             </button>
 
             <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"

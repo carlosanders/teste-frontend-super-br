@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getFolderEditAppState, FolderEditAppState, FolderEditState} from '../reducers';
+import {FolderEditAppState, FolderEditState, getFolderEditAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Folder} from '@cdk/models';
 import {folder as folderSchema} from '@cdk/normalizr';

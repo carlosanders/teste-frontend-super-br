@@ -53,6 +53,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
     filterCriadoEm = [];
     filterAtualizadoEm = [];
 
+    filterDataHoraLeitura = [];
+    filterDataHoraDistribuicao = [];
+    filterDataHoraInicioPrazo = [];
+    filterDataHoraFinalPrazo = [];
+    filterDataHoraConclusaoPrazo = [];
+
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     form: FormGroup;
@@ -82,6 +88,11 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             auditoriaDistribuicao: [null],
             tipoDistribuicao: [null],
             folder: [null],
+            dataHoraLeitura: [null],
+            dataHoraDistribuicao: [null],
+            dataHoraInicioPrazo: [null],
+            dataHoraFinalPrazo: [null],
+            dataHoraConclusaoPrazo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -206,6 +217,55 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             andXFilter.push({'usuarioConclusaoPrazo.id': `eq:${this.form.get('usuarioConclusaoPrazo').value.id}`});
         }
 
+        if (this.filterDataHoraLeitura?.length) {
+            this.filterDataHoraLeitura.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraDistribuicao?.length) {
+            this.filterDataHoraDistribuicao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraInicioPrazo?.length) {
+            this.filterDataHoraInicioPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraFinalPrazo?.length) {
+            this.filterDataHoraFinalPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraConclusaoPrazo?.length) {
+            this.filterDataHoraConclusaoPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.form.get('urgente').value) {
+            if(this.form.get('urgente').value !== 'todos') {
+                andXFilter.push({'urgente': `eq:${this.form.get('urgente').value}`});
+            }
+            else {
+                delete andXFilter['urgente'];
+            }
+        }
+
+        if (this.form.get('redistribuida').value) {
+            if(this.form.get('redistribuida').value !== 'todos') {
+                andXFilter.push({'redistribuida': `eq:${this.form.get('redistribuida').value}`});
+            }
+            else {
+                delete andXFilter['redistribuida'];
+            }
+            console.log(andXFilter);
+        }
+
         if (this.filterCriadoEm?.length) {
             this.filterCriadoEm.forEach((filter) => {
                 andXFilter.push(filter);
@@ -236,6 +296,26 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
+    }
+
+    filtraDataHoraLeitura(value: any): void {
+        this.filterDataHoraLeitura = value;
+    }
+
+    filtraDataHoraDistribuicao(value: any): void {
+        this.filterDataHoraDistribuicao = value;
+    }
+
+    filtraDataHoraInicioPrazo(value: any): void {
+        this.filterDataHoraInicioPrazo = value;
+    }
+
+    filtraDataHoraFinalPrazo(value: any): void {
+        this.filterDataHoraFinalPrazo = value;
+    }
+
+    filtraDataHoraConclusaoPrazo(value: any): void {
+        this.filterDataHoraConclusaoPrazo = value;
     }
 
     filtraCriadoEm(value: any): void {

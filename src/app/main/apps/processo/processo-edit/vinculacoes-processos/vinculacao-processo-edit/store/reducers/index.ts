@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { VinculacaoProcessoEditReducer, VinculacaoProcessoEditState } from './vinculacao-processo-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {VinculacaoProcessoEditReducer, VinculacaoProcessoEditState} from './vinculacao-processo-edit.reducer';
 
 export interface VinculacaoProcessoEditAppState
 {

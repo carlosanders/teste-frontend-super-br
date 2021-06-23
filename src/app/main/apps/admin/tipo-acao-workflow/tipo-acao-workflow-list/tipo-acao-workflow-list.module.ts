@@ -75,7 +75,6 @@ modulesConfig.forEach((module) => {
         PathModule
     ],
     providers: [
-        LoginService,
         fromGuards.ResolveGuard,
         TipoAcaoWorkflowService
     ]

@@ -1,4 +1,4 @@
-import { DocumentoEditEffects } from './documento-edit.effects';
+import {DocumentoEditEffects} from './documento-edit.effects';
 
 export const effects = [
     DocumentoEditEffects,

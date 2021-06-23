@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeTipoInibidor} from '@cdk/models';
 import {ModalidadeTipoInibidorDataSource} from '@cdk/data-sources/modalidade-tipo-inibidor-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeTipoInibidorFilterComponent} from '../sidebars/cdk-modalidade-tipo-inibidor-filter/cdk-modalidade-tipo-inibidor-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-tipo-inibidorgrid',
@@ -116,7 +124,7 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -130,6 +138,9 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkModalidadeTipoInibidorFilterComponent)
+    cdkModalidadeTipoInibidorFilterComponent: CdkModalidadeTipoInibidorFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
@@ -141,6 +152,12 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     selected = new EventEmitter<ModalidadeTipoInibidor>();
@@ -157,6 +174,7 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -225,7 +243,7 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -249,6 +267,25 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkModalidadeTipoInibidorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

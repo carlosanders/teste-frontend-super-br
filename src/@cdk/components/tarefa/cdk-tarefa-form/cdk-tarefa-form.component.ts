@@ -1,24 +1,35 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
-    OnDestroy, OnInit,
-    Output, SimpleChange,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, GrupoContato, Lotacao, Tarefa} from '@cdk/models';
-import {EspecieTarefa} from '@cdk/models';
-import {Usuario} from '@cdk/models';
-import {Processo} from '@cdk/models';
+import {
+    Colaborador,
+    EspecieTarefa,
+    GrupoContato,
+    Lotacao,
+    Pagination,
+    Processo,
+    Responsavel,
+    Setor,
+    Tarefa,
+    Usuario
+} from '@cdk/models';
+import * as moment from 'moment';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
-import {Responsavel} from '@cdk/models';
 import {SetorService} from '@cdk/services/setor.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 
@@ -133,8 +144,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     form: FormGroup;
 
+    @Input()
+    fromProcesso: boolean = false;
+
     activeCard = 'form';
 
+    @Input()
     processos: Processo[] = [];
     blocoResponsaveis: Responsavel[] = [];
 
@@ -630,7 +645,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     alteraPrazoFinal(): void {
-        const dataHoraFinalPrazo = this.form.get('dataHoraInicioPrazo').value;
+        const a = this.form.get('dataHoraInicioPrazo').value.format('YYYY-MM-DD');
+        const b = this.form.get('dataHoraFinalPrazo').value.format('HH:mm:ss');
+        const dataHoraFinalPrazo = moment(a+'T'+b);
         const dias = this.form.get('prazoDias').value;
         if (!dias) {
             return;
@@ -715,7 +732,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (changes['tarefa'] && this.tarefa && (!this.tarefa.id || (this.tarefa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.tarefa});
 
-            this.inputProcesso = !!this.tarefa.id;
+            this.inputProcesso = !!this.tarefa.id || this.fromProcesso;
 
             if (this.tarefa.especieTarefa) {
                 this.evento = this.tarefa.especieTarefa.evento;
@@ -1158,7 +1175,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     addFilterProcessoWorfkflow(): void {
         // caso processo seja de workflow-edit verificar espécies permitidas
         this.especieTarefaPagination['context'] = {};
-        if (this.form.get('processo').value?.especieProcesso?.workflow) {
+        if (this.form.get('processo').value?.especieProcesso?.workflow?.especieTarefaInicial) {
 
             if (!this.form.get('id').value) {
                 if (!this.form.get('processo').value.tarefaAtualWorkflow) {

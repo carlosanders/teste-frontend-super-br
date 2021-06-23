@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { CertificadoComponent } from 'app/main/pages/certificado/certificado.component';
+import {CertificadoComponent} from 'app/main/pages/certificado/certificado.component';
 
 const routes = [
     {

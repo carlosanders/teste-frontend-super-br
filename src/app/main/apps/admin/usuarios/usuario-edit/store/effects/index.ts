@@ -1,4 +1,4 @@
-import { UsuarioEditEffects } from './usuario-edit.effects';
+import {UsuarioEditEffects} from './usuario-edit.effects';
 
 export const effects = [
     UsuarioEditEffects

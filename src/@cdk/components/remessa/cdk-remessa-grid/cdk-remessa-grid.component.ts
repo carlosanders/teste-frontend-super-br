@@ -1,9 +1,18 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter, ViewChildren, ViewContainerRef, QueryList
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    QueryList,
+    ViewChild,
+    ViewChildren,
+    ViewContainerRef,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -12,12 +21,12 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Tramitacao, Usuario} from '@cdk/models';
+import {Tramitacao} from '@cdk/models';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
-import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
+import {CdkConfigService} from "../../../services/config.service";
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -135,7 +144,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -189,17 +198,22 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
     hasExcluded = false;
 
+    @Output()
+    statusBarramento = new EventEmitter<number[]>();
+
     @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>;
 
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _dynamicService
+     * @param _cdkConfigService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        public _cdkConfigService: CdkConfigService
     ) {
         this.gridFilter = {};
         this.remessas = [];
@@ -243,7 +257,6 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
                 return of([]);
             })
         ).subscribe();
-
     }
 
     ngAfterViewInit(): void {
@@ -403,6 +416,10 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     editRecebimento(tramitacaoId): void {
         this.recebimento.emit(tramitacaoId);
+    }
+
+    verificaStatusBarramento(documentosAvulsosId: number[]): void {
+        this.statusBarramento.emit(documentosAvulsosId);
     }
 
 }

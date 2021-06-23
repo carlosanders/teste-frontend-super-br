@@ -1,18 +1,19 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { RelacionamentoPessoal } from '@cdk/models';
-import {ModalidadeRelacionamentoPessoal} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
+import {ModalidadeRelacionamentoPessoal, Pagination, Pessoa, RelacionamentoPessoal} from '@cdk/models';
 
 @Component({
     selector: 'cdk-relacionamento-pessoal-form',

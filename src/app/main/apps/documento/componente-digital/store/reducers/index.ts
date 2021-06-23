@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ComponenteDigitalReducer, ComponenteDigitalState } from './componente-digital.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ComponenteDigitalReducer, ComponenteDigitalState} from './componente-digital.reducer';
 
 export interface ComponenteDigitalAppState
 {

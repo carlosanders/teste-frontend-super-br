@@ -1,4 +1,4 @@
-import { EnderecoListEffect } from './endereco-list.effects';
+import {EnderecoListEffect} from './endereco-list.effects';
 
 export const effects = [
     EnderecoListEffect

@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getCoordenadoresAppState, CoordenadoresAppState, CoordenadoresState} from '../reducers';
+import {CoordenadoresAppState, CoordenadoresState, getCoordenadoresAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Usuario} from '@cdk/models';
 import {usuario as usuarioSchema} from '@cdk/normalizr';

@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -37,6 +37,12 @@ const routes: Routes = [
             {
                 path       : 'recebimento',
                 loadChildren: () => import('./recebimento/recebimento.module').then(m => m.RecebimentoModule),
+            },
+            {
+                path: 'status-barramento-processo',
+                loadChildren: () => import(
+                    './status-barramento-processo/status-barramento-processo.module'
+                    ).then(m => m.StatusBarramentoProcessoModule)
             }
         ]
     }

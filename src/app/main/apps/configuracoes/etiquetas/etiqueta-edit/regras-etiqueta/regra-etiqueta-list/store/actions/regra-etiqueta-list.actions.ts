@@ -1,10 +1,12 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_REGRAS_ETIQUETA = '[REGRA ETIQUETA LIST] GET REGRAS ETIQUETA';
 export const GET_REGRAS_ETIQUETA_SUCCESS = '[REGRA ETIQUETA LIST] GET REGRAS ETIQUETA SUCCESS';
 export const GET_REGRAS_ETIQUETA_FAILED = '[REGRA ETIQUETA LIST] GET REGRAS ETIQUETA FAILED';
 
 export const RELOAD_REGRAS_ETIQUETA = '[REGRA ETIQUETA LIST] RELOAD REGRAS ETIQUETA';
+
+export const UNLOAD_REGRAS_ETIQUETA = '[REGRA ETIQUETA LIST] UNLOAD REGRAS ETIQUETA';
 
 export const DELETE_REGRA_ETIQUETA = '[REGRA ETIQUETA LIST] DELETE REGRA ETIQUETA';
 export const DELETE_REGRA_ETIQUETA_SUCCESS = '[REGRA ETIQUETA LIST] DELETE REGRA ETIQUETA SUCCESS';
@@ -59,6 +61,18 @@ export class ReloadRegrasEtiqueta implements Action
 }
 
 /**
+ * Unload RegrasEtiqueta
+ */
+export class UnloadRegrasEtiqueta implements Action
+{
+    readonly type = UNLOAD_REGRAS_ETIQUETA;
+
+    constructor()
+    {
+    }
+}
+
+/**
  * Delete Regra
  */
 export class DeleteRegraEtiqueta implements Action
@@ -99,7 +113,7 @@ export type RegraEtiquetaListActionsAll
     | GetRegrasEtiquetaSuccess
     | GetRegrasEtiquetaFailed
     | ReloadRegrasEtiqueta
+    | UnloadRegrasEtiqueta
     | DeleteRegraEtiqueta
     | DeleteRegraEtiquetaSuccess
     | DeleteRegraEtiquetaFailed;
-

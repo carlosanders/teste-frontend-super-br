@@ -39,8 +39,6 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 })
 export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
 
@@ -62,10 +60,19 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('dynamicComponent', {read: ViewContainerRef})
     container: ViewContainerRef;
 
-    private _profile: Usuario;
+    @ViewChild('dynamicComponentConverter', {read: ViewContainerRef})
+    containerConverter: ViewContainerRef;
+
+    pluginLoading$: Observable<string[]>;
+    pluginLoading: string[];
+
     expandir$: Observable<boolean>;
 
     togglingAcompanharProcesso$: Observable<boolean>;
+
+    private _profile: Usuario;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -124,6 +131,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.steps$ = this._store.pipe(select(fromStore.getSteps));
         this.expandir$ = this._store.pipe(select(fromStore.getExpandirTela));
+        this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoadingProcesso));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -151,17 +159,35 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.processo$.subscribe((processo) => {
             this.processo = processo;
+            this.refresh();
         });
+
+        this.pluginLoading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            pluginLoading => this.pluginLoading = pluginLoading
+        );
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/processo';
+        let path = 'app/main/apps/processo';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     if (this.container !== undefined) {
                         this._dynamicService.loadComponent(c)
                             .then(componentFactory => this.container.createComponent(componentFactory));
+                    }
+                }));
+            }
+        });
+        path = 'app/main/apps/processo#converter';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach(((c) => {
+                    if (this.containerConverter !== undefined) {
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.containerConverter.createComponent(componentFactory));
                     }
                 }));
             }
@@ -232,6 +258,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     arquivarProcesso(): void {
+        this._store.dispatch(new fromStore.AddPluginLoading('arquivar_processo'));
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
@@ -245,7 +272,14 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
+                const populate = JSON.stringify([
+                    'setorAtual',
+                    'setorAtual.especieSetor',
+                    'modalidadeFase'
+                ]);
+                this._store.dispatch(new fromStore.ArquivarProcesso({processo: this.processo, populate: populate}));
+            } else {
+                this._store.dispatch(new fromStore.RemovePluginLoading('arquivar_processo'));
             }
             this.confirmDialogRef = null;
         });

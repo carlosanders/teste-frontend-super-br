@@ -11,11 +11,10 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
+import {getProcesso, getSteps} from '../store';
 import {getRouterState} from '../../../../store';
-import {getSteps} from '../store';
 import {Observable} from 'rxjs';
 import {Processo} from '../../../../../@cdk/models';
-import {getProcesso} from '../store';
 import {MercureService} from '../../../../../@cdk/services/mercure.service';
 
 @Component({

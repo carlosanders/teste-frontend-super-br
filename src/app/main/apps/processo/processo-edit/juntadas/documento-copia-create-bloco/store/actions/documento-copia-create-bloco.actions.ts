@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_DOCUMENTO_COPIA = '[DOCUMENTO COPIA CREATE BLOCO] CREATE DOCUMENTO COPIA';
 export const CREATE_DOCUMENTO_COPIA_SUCCESS = '[DOCUMENTO COPIA CREATE BLOCO] CREATE DOCUMENTO COPIA SUCCESS';

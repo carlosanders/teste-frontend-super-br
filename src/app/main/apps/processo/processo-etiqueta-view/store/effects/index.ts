@@ -1,4 +1,4 @@
-import { ProcessoEtiquetaViewEffect } from './processo-etiqueta-view.effects';
+import {ProcessoEtiquetaViewEffect} from './processo-etiqueta-view.effects';
 
 export const effects = [
     ProcessoEtiquetaViewEffect

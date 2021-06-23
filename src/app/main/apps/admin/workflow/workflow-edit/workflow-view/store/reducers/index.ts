@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { WorkflowViewReducer, WorkflowViewState } from './workflow-view.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {WorkflowViewReducer, WorkflowViewState} from './workflow-view.reducer';
 
 export interface WorkflowViewAppState
 {

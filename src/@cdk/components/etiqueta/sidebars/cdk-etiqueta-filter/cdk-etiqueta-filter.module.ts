@@ -9,12 +9,13 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkEtiquetaFilterComponent } from './cdk-etiqueta-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkEtiquetaFilterComponent} from './cdk-etiqueta-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkModalidadeEtiquetaAutocompleteModule} from '../../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import {CdkModalidadeEtiquetaAutocompleteModule} from '../../../modalidade-etiqu
 
         CdkUsuarioAutocompleteModule,
         CdkModalidadeEtiquetaAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
 

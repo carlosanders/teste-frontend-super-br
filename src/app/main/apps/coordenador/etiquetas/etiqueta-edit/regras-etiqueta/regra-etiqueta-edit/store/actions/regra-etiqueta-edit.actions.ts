@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_REGRA_ETIQUETA = '[REGRA COORDENADOR] CREATE REGRA ETIQUETA COORDENADOR ';
 export const CREATE_REGRA_ETIQUETA_SUCCESS = '[REGRA COORDENADOR] CREATE REGRA ETIQUETA COORDENADOR  SUCCESS';

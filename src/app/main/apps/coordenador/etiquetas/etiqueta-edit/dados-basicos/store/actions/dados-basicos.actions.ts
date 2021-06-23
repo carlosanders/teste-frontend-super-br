@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const SAVE_ETIQUETA = '[ETIQUETA COORDENADOR] SAVE ETIQUETA';
 export const SAVE_ETIQUETA_SUCCESS = '[ETIQUETA COORDENADOR] SAVE ETIQUETA SUCCESS';

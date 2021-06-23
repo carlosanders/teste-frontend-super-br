@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const ENVIA_EMAIL_DOCUMENTO = '[JUNTADA ENVIA EMAIL] ENVIA EMAIL';
 export const ENVIA_EMAIL_DOCUMENTO_SUCCESS = '[JUNTADA ENVIA EMAIL] ENVIA EMAIL SUCCESS';

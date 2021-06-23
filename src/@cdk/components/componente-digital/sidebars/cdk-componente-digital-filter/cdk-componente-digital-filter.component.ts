@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -12,7 +20,7 @@ import {Subject} from 'rxjs';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkComponenteDigitalFilterComponent {
+export class CdkComponenteDigitalFilterComponent implements OnInit {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -21,6 +29,9 @@ export class CdkComponenteDigitalFilterComponent {
 
     @Input()
     mode = 'list';
+
+    @Input()
+    isColaborador = false;
 
     filterCriadoEm = [];
     filterJuntadoEm = [];
@@ -33,6 +44,7 @@ export class CdkComponenteDigitalFilterComponent {
     ) {
         this.form = this._formBuilder.group({
             conteudo: [null, [Validators.required]],
+            codigo: [null],
             tamanho: [null],
             extensao: [null],
             processo: [null],
@@ -43,6 +55,14 @@ export class CdkComponenteDigitalFilterComponent {
             juntadoPor: [null],
             juntadoEm: [null],
         });
+    }
+
+    ngOnInit() {
+        if (this.isColaborador) {
+            this.form.get('conteudo').enable();
+        } else {
+            this.form.get('conteudo').disable();
+        }
     }
 
     emite(): void {
@@ -76,6 +96,10 @@ export class CdkComponenteDigitalFilterComponent {
             andXFilter.push({'documento.juntadaAtual.criadoPor.id': `eq:${this.form.get('juntadoPor').value.id}`});
         }
 
+        if (this.form.get('codigo').value) {
+            andXFilter.push({'id': `eq:${this.form.get('codigo').value}`});
+        }
+
         if (this.filterJuntadoEm?.length) {
             this.filterJuntadoEm.forEach((filter) => {
                 andXFilter.push(filter);
@@ -94,6 +118,15 @@ export class CdkComponenteDigitalFilterComponent {
 
         if (this.form.get('criadoPor').value) {
             andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
+        }
+
+        if (this.form.get('editavel').value) {
+            if(this.form.get('editavel').value !== 'todos') {
+                andXFilter.push({'editavel': `eq:${this.form.get('editavel').value}`});
+            }
+            else {
+                delete andXFilter['editavel'];
+            }
         }
 
         const request = {

@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -20,6 +20,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoValidacaoWorkflow} from '@cdk/models';
 import {TipoValidacaoWorkflowDataSource} from '@cdk/data-sources/tipo-validacao-workflow-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTipoValidacaoWorkflowFilterComponent} from '../sidebars/cdk-tipo-validacao-workflow-filter/cdk-tipo-validacao-workflow-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-validacao-workflow-grid',
@@ -123,7 +125,7 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -137,11 +139,17 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkTipoValidacaoWorkflowFilterComponent)
+    cdkTipoValidacaoWorkflowFilterComponent: CdkTipoValidacaoWorkflowFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -165,6 +173,7 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -235,7 +244,7 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -259,6 +268,25 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkTipoValidacaoWorkflowFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

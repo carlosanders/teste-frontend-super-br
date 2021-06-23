@@ -97,8 +97,7 @@ export class AssinaturasEffects {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AssinaturaActions.GetDocumentosFailed(err));
-                    return caught;
+                    return of(new AssinaturaActions.GetDocumentosFailed(err));
                 })
             );
 
@@ -162,8 +161,7 @@ export class AssinaturasEffects {
                                         error: err
                                     };
                                     console.log(err);
-                                    this._store.dispatch(new AssinaturaActions.PreparaAssinaturaFailed(payload));
-                                    return caught;
+                                    return of(new AssinaturaActions.PreparaAssinaturaFailed(payload));
                                 })
                             )
                 ));
@@ -179,15 +177,17 @@ export class AssinaturasEffects {
             .pipe(
                 ofType<AssinaturaActions.PreparaAssinaturaSuccess>(AssinaturaActions.PREPARA_ASSINATURA_SUCCESS),
                 tap((action) => {
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**

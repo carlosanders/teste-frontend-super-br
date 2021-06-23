@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {WorkflowEspeciesProcessoListReducer, WorkflowEspecieProcessoListState} from './especies-processo-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {WorkflowEspecieProcessoListState, WorkflowEspeciesProcessoListReducer} from './especies-processo-list.reducer';
 
 export interface WorkflowEspecieProcessoListAppState
 {

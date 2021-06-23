@@ -3,15 +3,17 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatDialogModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -50,6 +52,10 @@ const routes: Routes = [
             {
                 path: 'pessoa',
                 loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
+            },
+            {
+                path: 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

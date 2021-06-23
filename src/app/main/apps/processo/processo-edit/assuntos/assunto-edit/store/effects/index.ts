@@ -1,4 +1,4 @@
-import { AssuntoEditEffect } from './assunto-edit.effects';
+import {AssuntoEditEffect} from './assunto-edit.effects';
 
 export const effects = [
     AssuntoEditEffect

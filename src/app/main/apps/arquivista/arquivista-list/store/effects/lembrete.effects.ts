@@ -1,5 +1,5 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import { Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {State} from '../../../../../../store';
 import {Router} from '@angular/router';
 import * as LembreteActions from '../actions/lembrete.actions';

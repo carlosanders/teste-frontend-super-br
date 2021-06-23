@@ -1,15 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    AfterViewInit,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -20,6 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieProcesso} from '@cdk/models';
 import {EspecieProcessoDataSource} from '@cdk/data-sources/especie-processo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkEspecieProcessoFilterComponent} from '../sidebars/cdk-especie-processo-filter/cdk-especie-processo-filter.component';
 
 @Component({
     selector: 'cdk-especie-processo-grid',
@@ -118,7 +119,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -132,11 +133,17 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkEspecieProcessoFilterComponent)
+    cdkEspecieProcessoFilterComponent: CdkEspecieProcessoFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -160,6 +167,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -230,7 +238,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -254,6 +262,25 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkEspecieProcessoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

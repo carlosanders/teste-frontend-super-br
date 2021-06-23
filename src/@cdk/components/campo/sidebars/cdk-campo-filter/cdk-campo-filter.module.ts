@@ -7,10 +7,11 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CampoService } from '@cdk/services/campo.service';
-import { CdkCampoFilterComponent } from './cdk-campo-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CampoService} from '@cdk/services/campo.service';
+import {CdkCampoFilterComponent} from './cdk-campo-filter.component';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         CampoService,

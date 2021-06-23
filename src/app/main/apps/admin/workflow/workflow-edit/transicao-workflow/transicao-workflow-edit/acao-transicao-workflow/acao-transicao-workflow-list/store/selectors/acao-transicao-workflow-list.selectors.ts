@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getAcaoTransicaoWorkflowListAppState,
     AcaoTransicaoWorkflowListAppState,
-    AcaoTransicaoWorkflowListState
+    AcaoTransicaoWorkflowListState,
+    getAcaoTransicaoWorkflowListAppState
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

@@ -98,7 +98,6 @@ modulesConfig.forEach((module) => {
     providers: [
         ProcessoService,
         VinculacaoEtiquetaService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

@@ -1,4 +1,4 @@
-import { ModalidadeAcaoEtiquetaListEffects } from './modalidade-acao-etiqueta-list.effects';
+import {ModalidadeAcaoEtiquetaListEffects} from './modalidade-acao-etiqueta-list.effects';
 
 export const effects = [
     ModalidadeAcaoEtiquetaListEffects

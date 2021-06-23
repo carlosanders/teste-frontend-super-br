@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { VolumeListReducer, VolumeListState } from './volume-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {VolumeListReducer, VolumeListState} from './volume-list.reducer';
 
 export interface VolumeListAppState
 {

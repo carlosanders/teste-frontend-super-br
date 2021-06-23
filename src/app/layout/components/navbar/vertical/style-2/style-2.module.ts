@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { MatButtonModule, MatIconModule } from '@cdk/angular/material';
+import {NgModule} from '@angular/core';
+import {MatButtonModule, MatIconModule} from '@cdk/angular/material';
 
-import { CdkNavigationModule } from '@cdk/components';
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkNavigationModule} from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { NavbarVerticalStyle2Component} from './style-2.component';
+import {NavbarVerticalStyle2Component} from './style-2.component';
 
 @NgModule({
     declarations: [

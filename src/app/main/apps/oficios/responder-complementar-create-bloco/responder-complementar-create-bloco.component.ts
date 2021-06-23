@@ -1,23 +1,25 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
-import { Observable, Subject } from 'rxjs';
+import {cdkAnimations} from '@cdk/animations';
+import {Observable, Subject} from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 
 import * as fromStore from '../store';
-import { LoginService } from 'app/main/auth/login/login.service';
-import { DocumentoAvulso, ComponenteDigital } from '@cdk/models';
-import { getSelectedDocumentosAvulso } from '../store/selectors';
-import { getRouterState} from 'app/store/reducers';
-import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {ComponenteDigital, DocumentoAvulso} from '@cdk/models';
+import {getSelectedDocumentosAvulso} from '../store/selectors';
+import {getRouterState} from 'app/store/reducers';
+import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'responder-complementar-create-bloco',

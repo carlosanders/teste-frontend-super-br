@@ -10,13 +10,15 @@ import {catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom} fr
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessosActions from '../actions/protocolos-externos.actions';
 
-import {Processo, Assunto, Pessoa, Interessado, Usuario} from '@cdk/models';
+import {Assunto, Interessado, Pessoa, Processo, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {processo as processoSchema} from '@cdk/normalizr';
-import {assunto as assuntoSchema} from '@cdk/normalizr';
-import {interessado as interessadoSchema} from '@cdk/normalizr';
-import {pessoa as pessoaSchema} from '@cdk/normalizr';
+import {
+    assunto as assuntoSchema,
+    interessado as interessadoSchema,
+    pessoa as pessoaSchema,
+    processo as processoSchema
+} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {PessoaService} from '@cdk/services/pessoa.service';
@@ -167,7 +169,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetPessoa>(ProcessosActions.GET_PESSOA),
-                switchMap(action => this._pessoaService.query(
+                switchMap(action => this._pessoaService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter

@@ -37,7 +37,7 @@ export class CdkDocumentoCardComponent implements OnInit {
     maisDeUmItemSelecionado = false;
 
     @Input()
-    actions = ['delete', 'alterarTipo', 'select'];
+    actions = ['delete', 'alterarTipo', 'removerAssinatura', 'converterPDF', 'converterHTML', 'downloadP7S', 'verResposta', 'select'];
 
     @Input()
     tiposDocumentosNaoEditaveis = [];

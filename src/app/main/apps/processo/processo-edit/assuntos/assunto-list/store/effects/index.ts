@@ -1,4 +1,4 @@
-import { AssuntoListEffect } from './assunto-list.effects';
+import {AssuntoListEffect} from './assunto-list.effects';
 
 export const effects = [
     AssuntoListEffect

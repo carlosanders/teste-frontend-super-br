@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { FolderListReducer, FolderListState } from './folder-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {FolderListReducer, FolderListState} from './folder-list.reducer';
 
 export interface FolderListAppState
 {

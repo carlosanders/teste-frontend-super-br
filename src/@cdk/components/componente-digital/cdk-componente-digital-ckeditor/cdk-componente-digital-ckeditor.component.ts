@@ -1,26 +1,33 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, ElementRef, EventEmitter, Input, OnChanges,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
     OnDestroy,
-    OnInit, Output, SimpleChange,
+    OnInit,
+    Output,
+    SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
 import {
+    MatDialog,
     MatSnackBar,
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition
 } from '@cdk/angular/material';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ComponenteDigital} from '@cdk/models';
-import {MatDialog} from '@cdk/angular/material';
+import {ComponenteDigital, Pagination} from '@cdk/models';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
-import {Pagination} from '@cdk/models';
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
+declare var CKEDITOR: any;
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -77,28 +84,27 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Input()
     config = {
-        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,' +
-            'pastebase64,sourcearea,imageresizerowandcolumn',
+        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,placeholder,citacao,titulo,subtitulo,texttransform,zoom,footnotes,' +
+            'sourcearea',
         language: 'pt-br',
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
         contentsCss: '/assets/ckeditor/contents.css',
-        justifyClasses: ['esquerda', 'centralizado', 'direita', 'justificado', 'paragrafo'],
+        justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
         resize_enabled: false,
+        removePlugins: 'elementspath',
 
         width: '100%',
         height: '100%',
 
-        allowedContent: 'p(esquerda,centralizado,direita,numerado,justificado,paragrafo); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; ' +
+        allowedContent: 'p(esquerda,centralizado,direita,numerado); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; ' +
             'img[!src];p span{display,color,background-color}[data-service,data-method,data-options]; table[*]{*}; tbody; th[*](*); td[*](*){width}; ' +
             'tr[*](*);col[*](*){*}; hr; blockquote; h1; h2; h3; h4; section[*](*); header[*](*);li[*];a[*];cite(*)[*];sup(*)[*]{*};ol{*}[start]',
         startupShowBorders: false,
         pasteFromWordRemoveStyles: false,
         pasteFromWordRemoveFontStyles: false,
 
-        htmlEncodeOutput: false,
-        entities: false,
-        basicEntities: false,
+        extraAllowedContent: 'table(*);td{*}(*)[*];col[*](*){*}',
 
         toolbar:
             [
@@ -163,6 +169,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     alterandoModelo = false;
 
     src: any;
+
+    dragstart_inside = false
 
     /**
      * @param _changeDetectorRef
@@ -397,6 +405,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                     } while (!ready);
                 }
             });
+
+            e.editor.document.on('dragstart', function () {
+                me.dragstart_inside = true;
+            });
+
+            e.editor.document.on('drop', function (ev) {
+                if (!me.dragstart_inside) {
+                    alert('Erro! Somente é possível arrastar e soltar dentro do editor!');
+                    ev.data.$.preventDefault();
+                }
+                me.dragstart_inside = false;
+            });
+
         });
 
         e.editor.dataProcessor.writer.setRules('p', {
@@ -407,9 +428,24 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             breakAfterClose: false
         });
 
+        e.editor.on("paste", function (ev) {
+            const filter = new CKEDITOR.filter('p(esquerda,centralizado,direita,numerado); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; img[!src];p span{display,color,background-color}[data-service,data-method,data-options];table[*]{*}; tbody; th; td[*](*){width}; tr[*](*); hr; blockquote; h1; h2; h3; h4; section[*](*);header[*](*);li[*];a[*];cite(*)[*];sup(*)[*]{*};ol{*}[start]'),
+                fragment = CKEDITOR.htmlParser.fragment.fromHtml(ev.data.dataValue),
+                writer = new CKEDITOR.htmlParser.basicWriter();
+            fragment.forEach( (node): void => {
+                if((node.name === 'table') && (parseInt(node.attributes.width) > 793)) {
+                    alert('Erro! Não foi possível colar! A tabela excede o tamanho máximo permitido!');
+                    node.remove();
+                }
+            });
+            filter.applyTo(fragment);
+            fragment.writeHtml(writer);
+            ev.data.dataValue = writer.getHtml(false);
+        });
+
         setInterval(() => {
             me.doSave();
-        }, 60 * 1000);
+        }, 180 * 1000);
     }
 
     doSave(): void {

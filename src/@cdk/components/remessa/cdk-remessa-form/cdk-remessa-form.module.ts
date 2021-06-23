@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
     MatSlideToggleModule,
     MatTooltipModule,
 } from '@cdk/angular/material';
@@ -26,6 +26,7 @@ import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
+import {CdkPessoaGridsearchModule} from "../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -54,6 +55,7 @@ import {MatRadioModule} from '@angular/material/radio';
         NgxUpperCaseDirectiveModule,
         MatCardModule,
         MatRadioModule,
+        CdkPessoaGridsearchModule,
     ],
     providers: [
         ProcessoService,

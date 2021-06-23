@@ -1,4 +1,4 @@
-import { TramitacaoViewEffect } from './tramitacao-view.effects';
+import {TramitacaoViewEffect} from './tramitacao-view.effects';
 
 export const effects = [
     TramitacaoViewEffect

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_CONFIGURACOES_NUP = '[DADOS BASICOS STEPS] GET CONFIGURACOES NUP';
 export const GET_CONFIGURACOES_NUP_SUCCESS = '[DADOS BASICOS STEPS] GET CONFIGURACOES NUP SUCCESS';

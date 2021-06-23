@@ -1,6 +1,6 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaCreateReducer, TarefaCreateState } from './tarefa-create.reducer';
-import { ProcessoReducer, ProcessoState } from './processo.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TarefaCreateReducer, TarefaCreateState} from './tarefa-create.reducer';
+import {ProcessoReducer, ProcessoState} from './processo.reducer';
 
 export interface TarefaCreateAppState
 {

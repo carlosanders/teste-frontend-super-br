@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getAfastamentoListAppState,
-    AfastamentoListAppState,
-    AfastamentoListState
-} from '../reducers';
+import {AfastamentoListAppState, AfastamentoListState, getAfastamentoListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {afastamento as afastamentoSchema} from '@cdk/normalizr';

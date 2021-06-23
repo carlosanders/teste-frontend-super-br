@@ -40,19 +40,20 @@
 
             </div>
 
-            <div class="spinner-container m-8" *ngIf="processo && (togglingAcompanharProcesso$ | async)">
+            <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
                 <mat-spinner diameter="20"></mat-spinner>
             </div>
 
             <div class="actions" *ngIf="processo !== null">
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                        (click)="$event.stopPropagation()" *ngIf="(processo$ | async)">
+                        (click)="$event.stopPropagation()"
+                        *ngIf="(processo$ | async) && (togglingAcompanharProcesso$ | async) === false && (pluginLoading$ | async)?.length === 0">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
                     <button mat-menu-item aria-label="arquivar processo"
-                            *ngIf="!this._loginService.isGranted('ROLE_USUARIO_EXTERNO') && (processo$ | async)?.setorAtual?.nome !== 'ARQUIVO'"
+                            *ngIf="!this._loginService.isGranted('ROLE_USUARIO_EXTERNO') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"
                             (click)="arquivarProcesso()">
                         <ng-container>
                             <mat-icon>archive</mat-icon>
@@ -81,14 +82,25 @@
                             <span>Abrir nova aba</span>
                         </ng-container>
                     </button>
-                    <button mat-menu-item aria-label="abrir nova aba" *ngIf="processo" (click)="acompanharProcesso(processo)" >
+                    <button mat-menu-item aria-label="alterar acompanhamento" *ngIf="processo" (click)="acompanharProcesso(processo)" >
                         <ng-container>
                             <mat-icon>done</mat-icon>
                             <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo'  : 'Acompanhar Processo'}}</span>
                         </ng-container>
                     </button>
-                    <ng-template #dynamicComponent></ng-template>
+                    <button mat-menu-item *ngIf="containerConverter?.length"
+                            [matMenuTriggerFor]="moreMenuConverter" aria-label="converter"
+                            (click)="$event.stopPropagation()">
+                        <ng-container>
+                            <mat-icon>swap_horiz</mat-icon>
+                            <span>Converter</span>
+                        </ng-container>
+                    </button>
+                    <mat-menu #moreMenuConverter="matMenu">
+                            <ng-template #dynamicComponentConverter></ng-template>
+                    </mat-menu>
 
+                    <ng-template #dynamicComponent></ng-template>
                 </mat-menu>
             </div>
         </div>

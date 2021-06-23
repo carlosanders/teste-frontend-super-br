@@ -18,9 +18,9 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, take, takeUntil, tap, withLatestFrom} from 'rxjs/operators';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../../../store';
 import {getProcesso} from '../../../store';
@@ -105,7 +105,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     currentStep: any;
 
     index$: Observable<any>;
-    index: {};
+    index: any = {};
 
     animationDirection: 'left' | 'right' | 'none';
 
@@ -456,6 +456,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         takeUntil(this._unsubscribeDocs)
                     ).subscribe((assinandoDocumentosId) => {
                         if (assinandoDocumentosId.length > 0) {
+                            if (this.assinaturaInterval) {
+                                clearInterval(this.assinaturaInterval);
+                            }
                             this.assinaturaInterval = setInterval(() => {
                                 // monitoramento do java
                                 if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {

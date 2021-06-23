@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { merge, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { CdkNavigationItem } from '@cdk/types';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
+import {ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
+import {merge, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {CdkNavigationItem} from '@cdk/types';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({

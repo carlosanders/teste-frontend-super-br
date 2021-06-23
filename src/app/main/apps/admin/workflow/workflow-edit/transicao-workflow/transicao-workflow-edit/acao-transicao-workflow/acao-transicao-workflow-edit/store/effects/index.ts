@@ -1,5 +1,5 @@
-import { AcaoTransicaoWorkflowEditEffect } from './acao-transicao-workflow-edit.effects';
-import { TipoAcaoWorkflowEffects } from './tipo-acao-workflow.effects';
+import {AcaoTransicaoWorkflowEditEffect} from './acao-transicao-workflow-edit.effects';
+import {TipoAcaoWorkflowEffects} from './tipo-acao-workflow.effects';
 
 export const effects = [
     AcaoTransicaoWorkflowEditEffect,

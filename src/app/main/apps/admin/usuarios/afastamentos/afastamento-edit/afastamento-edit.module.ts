@@ -3,15 +3,16 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -26,7 +27,7 @@ import {AfastamentoService} from '@cdk/services/afastamento.service';
 import * as fromGuards from './store/guards';
 
 import {CdkAfastamentoFormModule} from '@cdk/components/afastamento/cdk-afastamento-form/cdk-afastamento-form.module';
-import { LoginService } from '../../../../../auth/login/login.service';
+import {LoginService} from '../../../../../auth/login/login.service';
 import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
@@ -70,7 +71,6 @@ const routes: Routes = [
     ],
     providers: [
         AfastamentoService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

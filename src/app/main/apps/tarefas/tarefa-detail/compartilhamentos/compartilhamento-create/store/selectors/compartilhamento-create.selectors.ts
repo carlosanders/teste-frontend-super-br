@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getCompartilhamentoCreateAppState, CompartilhamentoCreateAppState, CompartilhamentoCreateState} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create/store/reducers';
+import {
+    CompartilhamentoCreateAppState,
+    CompartilhamentoCreateState,
+    getCompartilhamentoCreateAppState
+} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create/store/reducers';
 
 export const getCompartilhamentoCreateState = createSelector(
     getCompartilhamentoCreateAppState,

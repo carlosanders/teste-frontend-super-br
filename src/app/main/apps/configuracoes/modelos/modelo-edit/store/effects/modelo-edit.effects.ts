@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ModeloEditActions from '../actions/modelo-edit.actions';
 import * as ModeloListActions from '../../../modelo-list/store/actions/modelo-list.actions';
@@ -51,7 +51,6 @@ export class ModeloEditEffect {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true})
                     )),
                 switchMap(response => [
                     new AddData<Modelo>({data: [response], schema: modeloSchema}),

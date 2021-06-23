@@ -1,4 +1,4 @@
-import { TarefaDetailEffect } from './tarefa-detail.effects';
+import {TarefaDetailEffect} from './tarefa-detail.effects';
 import {EtiquetaEffect} from './etiqueta.effects';
 
 export const effects = [

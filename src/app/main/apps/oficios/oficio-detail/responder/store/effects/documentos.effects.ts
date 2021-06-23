@@ -10,16 +10,19 @@ import * as DocumentosComplementaresActions from '../../../complementar/store/ac
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {DocumentoAvulso, Documento, Assinatura, ComponenteDigital} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema,
+    componenteDigital as componenteDigitalSchema,
+    documento as documentoSchema,
+    documentoAvulso as documentoAvulsoSchema
+} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {getDocumentoAvulso} from '../../../store/selectors';
 import {environment} from 'environments/environment';
 import * as DocumentoAvulsoDetailActions from '../../../store/actions';
-import {documentoAvulso as documentoAvulsoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
@@ -198,8 +201,7 @@ export class DocumentosEffects {
                                 map(response => new DocumentosActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentosActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new DocumentosActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -242,16 +244,17 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.AssinaDocumentoSuccess>(DocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**

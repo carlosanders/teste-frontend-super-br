@@ -1,7 +1,14 @@
 import {NgModule} from '@angular/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-assinatura-eletronica-plugin.component';
-import {MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatFormFieldModule, MatTooltipModule} from '@cdk/angular/material';
+import {
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatTooltipModule
+} from '@cdk/angular/material';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({

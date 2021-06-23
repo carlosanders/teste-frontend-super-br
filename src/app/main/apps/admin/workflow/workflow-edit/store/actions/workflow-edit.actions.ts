@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_WORKFLOW = '[ADMIN WORKFLOW EDIT] CREATE WORKFLOW';
 export const CREATE_WORKFLOW_SUCCESS = '[ADMIN WORKFLOW EDIT] CREATE WORKFLOW SUCCESS';

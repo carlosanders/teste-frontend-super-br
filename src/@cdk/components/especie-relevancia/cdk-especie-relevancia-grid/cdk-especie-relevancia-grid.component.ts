@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -15,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieRelevancia} from '@cdk/models';
 import {EspecieRelevanciaDataSource} from '@cdk/data-sources/especie-relevancia-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkEspecieRelevanciaFilterComponent} from '../sidebars/cdk-especie-relevancia-filter/cdk-especie-relevancia-filter.component';
+
 
 @Component({
     selector: 'cdk-especie-relevancia-grid',
@@ -111,7 +119,7 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -125,11 +133,17 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkEspecieRelevanciaFilterComponent)
+    cdkEspecieRelevanciaFilterComponent: CdkEspecieRelevanciaFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -155,6 +169,7 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -223,7 +238,7 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -247,6 +262,25 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkEspecieRelevanciaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

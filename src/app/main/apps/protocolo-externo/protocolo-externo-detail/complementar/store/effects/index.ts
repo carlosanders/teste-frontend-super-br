@@ -1,4 +1,4 @@
-import { DocumentosEffects } from './documentos.effects';
+import {DocumentosEffects} from './documentos.effects';
 
 export const effects = [
     DocumentosEffects

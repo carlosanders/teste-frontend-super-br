@@ -1,9 +1,9 @@
-import { StoreModule } from '@ngrx/store';
-import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {NgModule} from '@angular/core';
+import {EffectsModule} from '@ngrx/effects';
 
-import {reducers, DocumentoAvulsoEditState} from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-edit/store/reducers';
-import { effects } from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-edit/store/effects';
+import {reducers} from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-edit/store/reducers';
+import {effects} from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-edit/store/effects';
 
 @NgModule({
     imports  : [

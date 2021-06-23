@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getClassificacaoListAppState,
-    ClassificacaoListAppState,
-    ClassificacaoListState
-} from '../reducers';
+import {ClassificacaoListAppState, ClassificacaoListState, getClassificacaoListAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 import {Classificacao} from '@cdk/models';

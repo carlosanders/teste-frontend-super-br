@@ -1,28 +1,28 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
-    ViewChild, ViewContainerRef,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura} from '@cdk/models';
+import {Assinatura, Colaborador, Documento, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
+import {getDocumentosHasLoaded} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models';
-import {getRouterState, getMercureState} from 'app/store/reducers';
+import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../../store/actions';
@@ -32,7 +32,6 @@ import {FormBuilder} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {getDocumentosHasLoaded} from './store';
 import {CdkUtils} from '@cdk/utils';
 
 @Component({
@@ -194,8 +193,13 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         );
 
-        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {

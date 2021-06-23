@@ -1,4 +1,4 @@
-import { TemplateEditEffects } from './template-edit.effects';
+import {TemplateEditEffects} from './template-edit.effects';
 
 export const effects = [
     TemplateEditEffects,

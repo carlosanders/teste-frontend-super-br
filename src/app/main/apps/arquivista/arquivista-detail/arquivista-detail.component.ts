@@ -1,31 +1,28 @@
 import {
-    AfterViewInit, ChangeDetectionStrategy,
+    AfterViewInit,
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewEncapsulation
+    OnInit,
+    ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {
-    Etiqueta,
-    ModalidadeTransicao,
-    Pagination,
-    Processo,
-    Usuario,
-    VinculacaoEtiqueta
-} from '@cdk/models';
+import {Etiqueta, ModalidadeTransicao, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../../processo/store';
 import * as fromStore from './store';
-import {LoginService} from '../../../auth/login/login.service';
-import {DynamicService} from '../../../../../modules/dynamic.service';
 import {
     CreateVinculacaoEtiqueta,
-    DeleteVinculacaoEtiqueta, expandirTela,
+    DeleteVinculacaoEtiqueta,
+    expandirTela,
     getMaximizado,
-    SaveConteudoVinculacaoEtiqueta, ToggleMaximizado,
+    SaveConteudoVinculacaoEtiqueta,
+    ToggleMaximizado
 } from './store';
+import {LoginService} from '../../../auth/login/login.service';
+import {DynamicService} from '../../../../../modules/dynamic.service';
 import {getRouterState, getScreenState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';

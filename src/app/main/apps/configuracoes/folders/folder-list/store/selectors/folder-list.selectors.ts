@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getFolderListAppState,
-    FolderListAppState,
-    FolderListState
-} from '../reducers';
+import {FolderListAppState, FolderListState, getFolderListAppState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {folder as folderSchema} from '@cdk/normalizr';

@@ -1,8 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Classificacao, ModalidadeMeio, Usuario, Workflow} from '@cdk/models';
-import { GeneroProcesso } from '@cdk/models';
+import {Classificacao, GeneroProcesso, ModalidadeMeio, Usuario, Workflow} from '@cdk/models';
 
 export class EspecieProcesso {
 

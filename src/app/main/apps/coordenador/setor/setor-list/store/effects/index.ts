@@ -1,4 +1,4 @@
-import { SetorListEffects } from './setor-list.effects';
+import {SetorListEffects} from './setor-list.effects';
 
 export const effects = [
     SetorListEffects

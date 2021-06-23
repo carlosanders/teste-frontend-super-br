@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -17,6 +23,8 @@ import {EspecieSetor} from '@cdk/models';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
 import {FormControl} from '@angular/forms';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkEspecieSetorFilterComponent} from '../sidebars/cdk-especie-setor-filter/cdk-especie-setor-filter.component';
+
 
 @Component({
     selector: 'cdk-especie-setor-grid',
@@ -45,6 +53,9 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
 
     @Output()
     excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoSetor.nome', 'actions'];
@@ -126,7 +137,7 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
     deletedIds: number[] = [];
 
     @Input()
-    deletingErrors: {};
+    deletingErrors: any = {};
 
     @Input()
     pageSize = 10;
@@ -139,6 +150,9 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkEspecieSetorFilterComponent)
+    cdkEspecieSetorFilterComponent: CdkEspecieSetorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -167,6 +181,7 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     /**
      * @param _changeDetectorRef
@@ -236,7 +251,7 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
 
     loadPage(): void {
         const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,
@@ -260,6 +275,25 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
             });
         }
         else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkEspecieSetorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

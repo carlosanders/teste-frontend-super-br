@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getAcaoEditAppState,
-    AcaoEditAppState,
-    ModalidadeAcaoEtiquetaState
-} from '../reducers';
+import {AcaoEditAppState, getAcaoEditAppState, ModalidadeAcaoEtiquetaState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';

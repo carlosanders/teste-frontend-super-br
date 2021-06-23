@@ -1,5 +1,5 @@
-import { ValidacaoTransicaoWorkflowEditEffect } from './validacao-transicao-workflow-edit.effects';
-import { TipoValidacaoWorkflowEffects } from './tipo-validacao-workflow.effects';
+import {ValidacaoTransicaoWorkflowEditEffect} from './validacao-transicao-workflow-edit.effects';
+import {TipoValidacaoWorkflowEffects} from './tipo-validacao-workflow.effects';
 
 export const effects = [
     ValidacaoTransicaoWorkflowEditEffect,
