@@ -107,15 +107,6 @@ export class CdkAvisoFilterComponent{
             });
         }
 
-        if (this.form.get('ativo').value) {
-            if(this.form.get('ativo').value !== 'todos') {
-                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
-            }
-            else {
-                delete andXFilter['ativo'];
-            }
-        }
-
         if (this.filterCriadoEm.length > 0) {
             this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
         };
@@ -144,11 +135,11 @@ export class CdkAvisoFilterComponent{
 
         const request = {
             filters: {},
-            contexto: contexto
+            contexto: contexto,
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
