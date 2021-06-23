@@ -6,7 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {DocumentoEditVersoesComponent} from './documento-edit-versoes.component';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {CdkVersaoGridsearchModule} from '@cdk/components/versao/cdk-versao-grid/cdk-versao-gridsearch/cdk-versao-gridsearch.module';
+import {CdkVersaoGridsearchModule} from '@cdk/components/versao/cdk-versao-gridsearch/cdk-versao-gridsearch.module';
 
 const routes: Routes = [
     {
