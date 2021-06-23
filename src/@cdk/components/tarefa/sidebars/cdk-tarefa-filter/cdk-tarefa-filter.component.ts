@@ -217,6 +217,36 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             andXFilter.push({'usuarioConclusaoPrazo.id': `eq:${this.form.get('usuarioConclusaoPrazo').value.id}`});
         }
 
+        if (this.filterDataHoraLeitura?.length) {
+            this.filterDataHoraLeitura.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraDistribuicao?.length) {
+            this.filterDataHoraDistribuicao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraInicioPrazo?.length) {
+            this.filterDataHoraInicioPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraFinalPrazo?.length) {
+            this.filterDataHoraFinalPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraConclusaoPrazo?.length) {
+            this.filterDataHoraConclusaoPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
         if (this.form.get('urgente').value) {
             if(this.form.get('urgente').value !== 'todos') {
                 andXFilter.push({'urgente': `eq:${this.form.get('urgente').value}`});

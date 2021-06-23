@@ -14,7 +14,6 @@ import {Observable, Subject} from 'rxjs';
 import {Assinatura, Atividade, Colaborador, ComponenteDigital, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
-
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
@@ -22,8 +21,8 @@ import {getMercureState, getOperacoesState, getRouterState} from 'app/store/redu
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../store/actions';
-import {getSelectedTarefas} from '../store/selectors';
+import {Back} from '../../../../store';
+import {getSelectedTarefas} from '../store';
 import {getProcessosIdsEncaminhar} from "../encaminhamento-bloco/store";
 
 @Component({
@@ -225,7 +224,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.assinandoDocumentosId$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((assinandoDocumentosId) => {
-            console.log (assinandoDocumentosId);
             if (assinandoDocumentosId.length > 0) {
                 if (this.assinaturaInterval) {
                     clearInterval(this.assinaturaInterval);
@@ -311,6 +309,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     doDelete(documentoId): void {
         this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    }
+
+    doDeleteBloco(documentos: Documento[]): void {
+        documentos.forEach((documento: Documento) => this.doDelete(documento.id));
     }
 
     doVerResposta(documento): void {
