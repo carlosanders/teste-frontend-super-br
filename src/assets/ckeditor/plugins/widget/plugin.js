@@ -2055,7 +2055,7 @@
 			wrapper = wrappers.getItem( i );
 			element = wrapper.getFirst( Widget.isDomWidgetElement );
 			// If wrapper contains widget element - unwrap it and wrap again.
-			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
+			if ( element && element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
 				element.replace( wrapper );
 				widgetsRepo.wrapElement( element );
 			} else {
