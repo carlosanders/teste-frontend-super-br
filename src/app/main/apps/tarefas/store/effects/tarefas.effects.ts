@@ -98,8 +98,7 @@ export class TarefasEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefasActions.GetTarefasFailed(err));
-                    return caught;
+                    return of(new TarefasActions.GetTarefasFailed(err));
                 })
             );
 
@@ -331,7 +330,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleLidaTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -359,7 +358,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -542,10 +541,9 @@ export class TarefasEffect {
                         ]),
                         catchError((err, caught) => {
                             console.log(err);
-                            this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
-                            return caught;
+                            return of(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
                         })
-                    )),
+                    ), 25),
             );
 
     /**
@@ -581,10 +579,9 @@ export class TarefasEffect {
                         ]),
                         catchError((err, caught) => {
                             console.log(err);
-                            this._store.dispatch(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
-                            return caught;
+                            return of(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
                         })
-                    )),
+                    ), 25),
             );
 
     /**
@@ -706,7 +703,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.GerarRelatorioTarefaExcelFailed());
                         })
-                    ))
+                    ), 25)
             );
 
     /**

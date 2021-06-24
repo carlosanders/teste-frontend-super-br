@@ -40,7 +40,6 @@ import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-ta
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import {DndModule} from 'ngx-drag-drop';
-import {LoginService} from '../../auth/login/login.service';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
 import {modulesConfig} from 'modules/modules-config';
@@ -114,6 +113,10 @@ const routes: Routes = [
             {
                 path: 'operacoes-bloco',
                 loadChildren: () => import('./operacoes-bloco/tarefas-operacoes-bloco.module').then(m => m.TarefasOperacoesBlocoModule),
+            },
+            {
+                path: 'encaminhamento-bloco',
+                loadChildren: () => import('./encaminhamento-bloco/encaminhamento-bloco.module').then(m => m.EncaminhamentoBlocoModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -178,7 +181,6 @@ modulesConfig.forEach((module) => {
         EspecieTarefaService,
         SetorService,
         UsuarioService,
-        LoginService,
         LotacaoService,
         fromGuards.ResolveGuard,
         AssuntoService,

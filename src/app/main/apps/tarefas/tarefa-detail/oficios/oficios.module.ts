@@ -85,7 +85,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
-        LoginService,
         ComponenteDigitalService,
         fromGuards.ResolveGuard
     ]

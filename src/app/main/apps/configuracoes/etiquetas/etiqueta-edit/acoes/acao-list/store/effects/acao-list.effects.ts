@@ -90,6 +90,6 @@ export class AcaoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

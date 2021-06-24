@@ -456,6 +456,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         takeUntil(this._unsubscribeDocs)
                     ).subscribe((assinandoDocumentosId) => {
                         if (assinandoDocumentosId.length > 0) {
+                            if (this.assinaturaInterval) {
+                                clearInterval(this.assinaturaInterval);
+                            }
                             this.assinaturaInterval = setInterval(() => {
                                 // monitoramento do java
                                 if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {

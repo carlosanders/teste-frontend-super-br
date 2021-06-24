@@ -119,8 +119,7 @@ export class ProtocoloDocumentoEffects {
                                 map(response => new ProtocoloDocumentoActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new ProtocoloDocumentoActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new ProtocoloDocumentoActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -155,16 +154,17 @@ export class ProtocoloDocumentoEffects {
             .pipe(
                 ofType<ProtocoloDocumentoActions.AssinaDocumentoSuccess>(ProtocoloDocumentoActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**

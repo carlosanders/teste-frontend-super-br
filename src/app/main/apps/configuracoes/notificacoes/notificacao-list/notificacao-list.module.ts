@@ -71,7 +71,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         NotificacaoService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

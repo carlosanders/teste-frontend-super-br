@@ -92,6 +92,6 @@ export class FavoritoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

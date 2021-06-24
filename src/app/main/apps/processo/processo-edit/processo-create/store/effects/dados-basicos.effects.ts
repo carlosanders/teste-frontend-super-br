@@ -55,10 +55,14 @@ export class DadosBasicosEffect {
                         action.payload.id,
                         JSON.stringify([
                             'populateAll',
+                            'origemDados',
                             'especieProcesso.generoProcesso',
                             'setorAtual.unidade',
+                            'setorAtual.especieSetor',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
+                            'tarefaAtualWorkflow',
+                            'tarefaAtualWorkflow.especieTarefa',
                             'especieProcesso',
                             'especieProcesso.workflow',
                             'especieProcesso.workflow.especieTarefaInicial'

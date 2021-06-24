@@ -115,7 +115,7 @@ export class DocumentosVinculadosEffect {
                             console.log(err);
                             return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -133,10 +133,9 @@ export class DocumentosVinculadosEffect {
                                 map(response => new DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
-                                    return caught;
+                                    return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -150,16 +149,17 @@ export class DocumentosVinculadosEffect {
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 2000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 2000);
+                    }
                 }));
 
     /**

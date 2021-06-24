@@ -4,7 +4,8 @@
             <mat-card-header>
                 <mat-icon class="s-52" mat-card-avatar>check_box</mat-icon>
                 <mat-card-title>Tarefa</mat-card-title>
-                <mat-card-subtitle>Abrir a próxima tarefa do NUP no processo de trabalho</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="mode === 'regular'">Abrir a próxima tarefa do NUP no processo de trabalho</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="mode === 'bloco'">Abrir a(s) próxima(s) tarefa(s) do(s) NUP(s) no(s) processo(s) de trabalho em bloco</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
             </mat-card-content>
@@ -16,7 +17,8 @@
             <mat-card-header>
                 <mat-icon class="s-52" mat-card-avatar>folder</mat-icon>
                 <mat-card-title>Arquivar</mat-card-title>
-                <mat-card-subtitle>Remeter o NUP para o arquivo corrente</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="mode === 'regular'">Remeter o NUP para o arquivo corrente</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="mode === 'bloco'">Remeter o(s) NUP(s) para o arquivo corrente em bloco</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
             </mat-card-content>
@@ -28,7 +30,8 @@
             <mat-card-header>
                 <mat-icon class="s-52" mat-card-avatar>email</mat-icon>
                 <mat-card-title>Remeter</mat-card-title>
-                <mat-card-subtitle>Realizar a remessa do NUP para outro orgão ou sistema</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="mode === 'regular'">Realizar a remessa do NUP para outro orgão ou sistema</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="mode === 'bloco'">Realizar a remessa do(s) NUP(s) para outro orgão ou sistema em bloco</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
             </mat-card-content>

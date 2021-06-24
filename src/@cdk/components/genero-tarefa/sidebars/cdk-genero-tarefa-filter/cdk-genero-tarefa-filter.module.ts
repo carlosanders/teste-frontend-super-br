@@ -15,6 +15,7 @@ import {CdkGeneroTarefaFilterComponent} from './cdk-genero-tarefa-filter.compone
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
         GeneroTarefaService,

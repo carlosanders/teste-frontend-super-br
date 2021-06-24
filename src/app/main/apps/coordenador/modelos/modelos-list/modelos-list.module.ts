@@ -74,7 +74,6 @@ modulesConfig.forEach((module) => {
     providers: [
         ModeloService,
         TemplateService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

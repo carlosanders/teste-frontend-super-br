@@ -77,7 +77,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         VinculacaoEtiquetaService,
-        LoginService,
     ]
 })
 export class VinculacaoEtiquetaCreateBlocoModule {

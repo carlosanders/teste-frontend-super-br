@@ -91,6 +91,6 @@ export class RepositoriosEspecieSetorListEffects {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

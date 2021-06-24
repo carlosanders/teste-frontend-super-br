@@ -110,7 +110,7 @@ export class UsuariosListEffects {
                             console.log(err);
                             return of(new UsuariosListActions.ResetSenhaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -133,6 +133,6 @@ export class UsuariosListEffects {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

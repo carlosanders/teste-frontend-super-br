@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as CompartilhamentoCreateBlocoActions from '../actions/compartilhamento-create-bloco.actions';
 
@@ -46,7 +46,7 @@ export class CompartilhamentoCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoCreateBlocoActions.SaveCompartilhamento>(CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO),
-                mergeMap(action => this._compartilhamentoService.save(action.payload).pipe(
+                switchMap(action => this._compartilhamentoService.save(action.payload).pipe(
                         mergeMap((response: Compartilhamento) => [
                             new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(action.payload),
                             new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),

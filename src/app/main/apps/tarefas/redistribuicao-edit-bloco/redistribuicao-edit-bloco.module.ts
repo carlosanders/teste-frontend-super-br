@@ -75,8 +75,7 @@ const routes: Routes = [
         CdkSidebarModule,
     ],
     providers: [
-        TarefaService,
-        LoginService,
+        TarefaService
     ]
 })
 export class RedistribuicaoEditBlocoModule {

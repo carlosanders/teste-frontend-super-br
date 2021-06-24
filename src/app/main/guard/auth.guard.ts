@@ -8,8 +8,6 @@ import {MercureService} from '@cdk/services/mercure.service';
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
 
-    firstConnection = true;
-
     constructor(
         private router: Router,
         private _loginService: LoginService,
@@ -20,14 +18,15 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         const token = this._loginService.getToken();
-        if (token) {
+        if (token && !this._loginService.isExpired()) {
             this._mercureService.subscribe(this._loginService.getUserProfile().username);
+            this._mercureService.subscribe(this._loginService.getUserProfile().username + '/chat');
             const params = {
                 filter: {
                     'destinatario.id': 'eq:' + this._loginService.getUserProfile().id
                 },
                 gridFilter: {},
-                limit: 30,
+                limit: 10,
                 offset: 0,
                 sort: {id: 'DESC'},
                 populate: ['populateAll']
@@ -35,11 +34,10 @@ export class AuthGuard implements CanActivate {
             this._store.dispatch(new GetNotificacoes(params));
             // logged in so return true
             return true;
+        } else {
+            // not logged in so redirect to login page with the return url
+            this.router.navigate(['/auth/login'], {queryParams: {returnUrl: state.url}});
+            return false;
         }
-
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/auth/login'], {queryParams: {returnUrl: state.url}});
-
-        return false;
     }
 }

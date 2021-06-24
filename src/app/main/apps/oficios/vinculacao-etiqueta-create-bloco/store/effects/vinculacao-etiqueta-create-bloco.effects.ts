@@ -72,7 +72,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                             }));
                             return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
 }

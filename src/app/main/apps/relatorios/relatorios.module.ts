@@ -126,7 +126,6 @@ modulesConfig.forEach((module) => {
         EspecieRelatorioService,
         SetorService,
         UsuarioService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

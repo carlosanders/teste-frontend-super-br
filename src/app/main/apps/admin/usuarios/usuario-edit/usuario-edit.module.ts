@@ -76,7 +76,6 @@ const routes: Routes = [
     providers: [
         UsuarioService,
         ColaboradorService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

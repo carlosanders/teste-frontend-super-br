@@ -80,7 +80,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         LocalizadorService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })

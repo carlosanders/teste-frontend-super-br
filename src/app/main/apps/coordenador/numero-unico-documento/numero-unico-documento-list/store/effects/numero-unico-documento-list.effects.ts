@@ -105,6 +105,6 @@ export class NumeroUnicoDocumentoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

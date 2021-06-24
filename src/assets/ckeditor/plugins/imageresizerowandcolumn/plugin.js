@@ -17,7 +17,7 @@
         return CKEDITOR.env.ie ? el.$.clientHeight : parseInt( el.$.height, 10 );
     }
 
-    function buildImgRowPillars(img) {
+    function buildImgRowPillars(img){
         var $imgX = img.$.x;
         var $imgY = img.$.y;
         var $pillarWidth = img.$.width;
@@ -32,7 +32,7 @@
             x: $imgX,
             y: $imgY + img.$.offsetHeight - 5,
             width: $pillarWidth,
-            height: 5,
+            height: 5
         } );
 
         return pillars;
@@ -54,8 +54,10 @@
             x: $imgX + img.$.offsetWidth - 5,
             y: $imgY,
             width: 5,
-            height: $pillarHeight,
+            height: $pillarHeight
         } );
+
+
 
         return pillars;
     }
@@ -65,9 +67,8 @@
         for ( var i = 0, len = pillars.length; i < len; i++ ) {
             var pillar = pillars[ i ];
 
-            if ( positionX >= pillar.y && positionX <= ( pillar.y + pillar.height ) ) {
+            if ( positionX >= pillar.y && positionX <= ( pillar.y + pillar.height ) )
                 return pillar;
-            }
         }
 
         return null;
@@ -77,9 +78,8 @@
         for ( var i = 0, len = pillars.length; i < len; i++ ) {
             var pillar = pillars[ i ];
 
-            if ( positionX >= pillar.x && positionX <= ( pillar.x + pillar.width ) ) {
+            if ( positionX >= pillar.x && positionX <= ( pillar.x + pillar.width ) )
                 return pillar;
-            }
         }
 
         return null;
@@ -90,7 +90,7 @@
     }
 
     function columnResizer( editor ) {
-        this.dim = "col";
+        this.dim = 'col';
         var pillar, document, resizer, isResizing, startOffset, currentShift, move, offsetX;
 
         var leftSideCells, leftShiftBoundary, rightShiftBoundary;
@@ -100,11 +100,11 @@
             currentShift = 0;
             isResizing = 0;
 
-            document.removeListener( "mouseup", onMouseUp );
-            resizer.removeListener( "mousedown", onMouseDown );
-            resizer.removeListener( "mousemove", onMouseMove );
+            document.removeListener( 'mouseup', onMouseUp );
+            resizer.removeListener( 'mousedown', onMouseDown );
+            resizer.removeListener( 'mousemove', onMouseMove );
 
-            document.getBody().setStyle( "cursor", "auto" );
+            document.getBody().setStyle( 'cursor', 'auto' );
 
             // Hide the resizer (remove it on IE7 - http://dev.ckeditor.com/ticket/5890).
             needsIEHacks ? resizer.remove() : resizer.hide();
@@ -117,19 +117,21 @@
             var columnIndex = pillar.index,
                 leftColumnCells = [];
 
-            leftColumnCells.push( pillar.img);
+                leftColumnCells.push( pillar.img);
+
 
             // Cache the list of cells to be resized.
             leftSideCells = leftColumnCells;
+
 
             resizer.setOpacity( 0.5 );
             currentShift = 0;
             isResizing = 1;
 
-            resizer.on( "mousemove", onMouseMove );
+            resizer.on( 'mousemove', onMouseMove );
 
             // Prevent the native drag behavior otherwise 'mousemove' won't fire.
-            document.on( "dragstart", cancel );
+            document.on( 'dragstart', cancel );
         }
 
         function resizeEnd(direction) {
@@ -139,7 +141,7 @@
 
             resizeColumn(direction);
 
-            document.removeListener( "dragstart", cancel );
+            document.removeListener( 'dragstart', cancel );
         }
 
         function resizeColumn(direction) {
@@ -154,17 +156,17 @@
                 CKEDITOR.tools.setTimeout( function( leftCell, leftOldWidth ) {
                     // 1px is the minimum valid width (http://dev.ckeditor.com/ticket/11626).
 
-                     leftCell && leftCell.setStyle( "width", pxUnit( Math.max( leftOldWidth + direction, 1 ) ) );
+                     leftCell && leftCell.setStyle( 'width', pxUnit( Math.max( leftOldWidth + direction, 1 ) ) );
 
                     // If we're in the last cell, we need to resize the table as well
 
                     // Cells resizing is asynchronous-y, so we have to use syncing
                     // to save snapshot only after all cells are resized. (http://dev.ckeditor.com/ticket/13388)
-                     if ( ++cellsSaved == cellsCount ) {
-                        editor.fire( "saveSnapshot" );
+                    if ( ++cellsSaved == cellsCount ) {
+                        editor.fire( 'saveSnapshot' );
                     }
                 }, 0, this, [
-                    leftCell, leftCell && getWidth( leftCell ),
+                    leftCell, leftCell && getWidth( leftCell )
                 ] );
             }
         }
@@ -176,10 +178,10 @@
             cancel( evt );
 
             // Save editor's state before we do any magic with cells. (http://dev.ckeditor.com/ticket/13388)
-            editor.fire( "saveSnapshot" );
+            editor.fire( 'saveSnapshot' );
             resizeStart();
 
-            document.on( "mouseup", onMouseUp, this );
+            document.on( 'mouseup', onMouseUp, this );
         }
 
         function onMouseUp( evt ) {
@@ -195,26 +197,24 @@
 
         document = editor.document;
 
-        resizer = CKEDITOR.dom.element.createFromHtml( "<div data-cke-temp=1 contenteditable=false unselectable=on " +
+        resizer = CKEDITOR.dom.element.createFromHtml( '<div data-cke-temp=1 contenteditable=false unselectable=on ' +
             'style="position:absolute;cursor:col-resize;filter:alpha(opacity=0);opacity:0;' +
             'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
 
         // Clean DOM when editor is destroyed.
-        editor.on( "destroy", function() {
+        editor.on( 'destroy', function() {
             resizer.remove();
         } );
 
         // Except on IE6/7 (http://dev.ckeditor.com/ticket/5890), place the resizer after body to prevent it
         // from being editable.
-        if ( !needsIEHacks ) {
+        if ( !needsIEHacks )
             document.getDocumentElement().append( resizer );
-        }
 
         this.attachTo = function( targetPillar ) {
             // Accept only one pillar at a time.
-            if ( isResizing ) {
+            if ( isResizing )
                 return;
-            }
 
             // On IE6/7, we append the resizer everytime we need it. (http://dev.ckeditor.com/ticket/5890)
             if ( needsIEHacks ) {
@@ -228,7 +228,7 @@
                 width: pxUnit( targetPillar.width ),
                 height: pxUnit( targetPillar.height ),
                 left: pxUnit( targetPillar.x ),
-                top: pxUnit( targetPillar.y ),
+                top: pxUnit( targetPillar.y )
             } );
 
             // In IE6/7, it's not possible to have custom cursors for floating
@@ -236,9 +236,9 @@
             // to give the user a visual clue.
             needsIEHacks && resizer.setOpacity( 0.25 );
 
-            resizer.on( "mousedown", onMouseDown, this );
+            resizer.on( 'mousedown', onMouseDown, this );
 
-            document.getBody().setStyle( "cursor", "col-resize" );
+            document.getBody().setStyle( 'cursor', 'col-resize' );
 
             // Display the resizer to receive events but don't show it,
             // only change the cursor to resizable shape.
@@ -246,9 +246,8 @@
         };
 
         move = this.move = function( posX ) {
-            if ( !pillar ) {
+            if ( !pillar )
                 return 0;
-            }
 
             if ( !isResizing && ( posX < pillar.x || posX > ( pillar.x + pillar.width ) ) ) {
                 detach();
@@ -258,9 +257,8 @@
             var resizerNewPosition = posX - Math.round( resizer.$.offsetWidth / 2 );
 
             if ( isResizing ) {
-                if ( resizerNewPosition == leftShiftBoundary || resizerNewPosition == rightShiftBoundary ) {
+                if ( resizerNewPosition == leftShiftBoundary || resizerNewPosition == rightShiftBoundary )
                     return 1;
-                }
 
                 resizerNewPosition = Math.max( resizerNewPosition, leftShiftBoundary );
                 resizerNewPosition = Math.min( resizerNewPosition, rightShiftBoundary );
@@ -268,14 +266,14 @@
                 currentShift = resizerNewPosition - startOffset;
             }
 
-            resizer.setStyle( "left", pxUnit( posX ) );
+            resizer.setStyle( 'left', pxUnit( posX ) );
 
             return 1;
         };
     }
 
     function rowResizer( editor ) {
-        this.dim = "row";
+        this.dim = 'row';
         var pillar, document, resizer, isResizing, startOffset, currentShift, move, offsetY;
 
         var leftSideCells, upShiftBoundary, downShiftBoundary;
@@ -285,11 +283,11 @@
             currentShift = 0;
             isResizing = 0;
 
-            document.removeListener( "mouseup", onMouseUp );
-            resizer.removeListener( "mousedown", onMouseDown );
-            resizer.removeListener( "mousemove", onMouseMove );
+            document.removeListener( 'mouseup', onMouseUp );
+            resizer.removeListener( 'mousedown', onMouseDown );
+            resizer.removeListener( 'mousemove', onMouseMove );
 
-            document.getBody().setStyle( "cursor", "auto" );
+            document.getBody().setStyle( 'cursor', 'auto' );
 
             // Hide the resizer (remove it on IE7 - http://dev.ckeditor.com/ticket/5890).
             needsIEHacks ? resizer.remove() : resizer.hide();
@@ -306,14 +304,14 @@
             leftSideCells = leftColumnCells;
 
             resizer.setOpacity( 0.5 );
-            startOffset = parseInt( resizer.getStyle( "top" ), 10 );
+            startOffset = parseInt( resizer.getStyle( 'top' ), 10 );
             currentShift = 0;
             isResizing = 1;
 
-            resizer.on( "mousemove", onMouseMove );
+            resizer.on( 'mousemove', onMouseMove );
 
             // Prevent the native drag behavior otherwise 'mousemove' won't fire.
-            document.on( "dragstart", cancel );
+            document.on( 'dragstart', cancel );
         }
 
         function resizeEnd(direction) {
@@ -323,7 +321,7 @@
 
             resizeRow(direction);
 
-            document.removeListener( "dragstart", cancel );
+            document.removeListener( 'dragstart', cancel );
         }
 
         function resizeRow(direction) {
@@ -334,23 +332,23 @@
 
             // Perform the actual resize to table cells, only for those by side of the pillar.
             for ( var i = 0; i < cellsCount; i++ ) {
-                var leftCell = leftSideCells[ i ];
+                var leftCell = leftSideCells[ i ]
 
                 table = pillar.table;
 
                 // Defer the resizing to avoid any interference among cells.
                 CKEDITOR.tools.setTimeout( function( leftCell, leftOldHeight, tableHeight ) {
                     // 1px is the minimum valid width (http://dev.ckeditor.com/ticket/11626).
-                    leftCell && leftCell.setStyle( "height", pxUnit( Math.max( leftOldHeight + direction, 1 ) ) );
+                    leftCell && leftCell.setStyle( 'height', pxUnit( Math.max( leftOldHeight + direction, 1 ) ) );
 
                     // Cells resizing is asynchronous-y, so we have to use syncing
                     // to save snapshot only after all cells are resized. (http://dev.ckeditor.com/ticket/13388)
                     if ( ++cellsSaved == cellsCount ) {
-                        editor.fire( "saveSnapshot" );
+                        editor.fire( 'saveSnapshot' );
                     }
                 }, 0, this, [
                     leftCell, leftCell && getHeight( leftCell ),
-                    ( !leftCell ) && ( getHeight( leftCell.img ) ),
+                    ( !leftCell ) && ( getHeight( leftCell.img ) )
                 ] );
             }
         }
@@ -362,10 +360,10 @@
             cancel( evt );
 
             // Save editor's state before we do any magic with cells. (http://dev.ckeditor.com/ticket/13388)
-            editor.fire( "saveSnapshot" );
+            editor.fire( 'saveSnapshot' );
             resizeStart();
 
-            document.on( "mouseup", onMouseUp, this );
+            document.on( 'mouseup', onMouseUp, this );
         }
 
         function onMouseUp( evt ) {
@@ -386,21 +384,19 @@
             'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
 
         // Clean DOM when editor is destroyed.
-        editor.on( "destroy", function() {
+        editor.on( 'destroy', function() {
             resizer.remove();
         } );
 
         // Except on IE6/7 (http://dev.ckeditor.com/ticket/5890), place the resizer after body to prevent it
         // from being editable.
-        if ( !needsIEHacks ) {
+        if ( !needsIEHacks )
             document.getDocumentElement().append( resizer );
-        }
 
         this.attachTo = function( targetPillar ) {
             // Accept only one pillar at a time.
-            if ( isResizing ) {
+            if ( isResizing )
                 return;
-            }
 
             // On IE6/7, we append the resizer everytime we need it. (http://dev.ckeditor.com/ticket/5890)
             if ( needsIEHacks ) {
@@ -414,7 +410,7 @@
                 width: pxUnit( targetPillar.width ),
                 height: pxUnit( targetPillar.height ),
                 left: pxUnit( targetPillar.x ),
-                top: pxUnit( targetPillar.y ),
+                top: pxUnit( targetPillar.y )
             } );
 
             // In IE6/7, it's not possible to have custom cursors for floating
@@ -422,9 +418,9 @@
             // to give the user a visual clue.
             needsIEHacks && resizer.setOpacity( 0.25 );
 
-            resizer.on("mousedown", onMouseDown, this);
+            resizer.on('mousedown',onMouseDown,this);
 
-            document.getBody().setStyle( "cursor", "row-resize" );
+            document.getBody().setStyle( 'cursor', 'row-resize' );
 
             // Display the resizer to receive events but don't show it,
             // only change the cursor to resizable shape.
@@ -433,9 +429,8 @@
 
         move = this.move = function( posX ) {
 
-            if ( !pillar ) {
+            if ( !pillar )
                 return 0;
-            }
 
             if ( !isResizing && ( posX < pillar.y || posX > ( pillar.y + pillar.height ) ) ) {
                 detach();
@@ -445,9 +440,8 @@
             var resizerNewPosition = posX - Math.round( resizer.$.offsetHeight / 2 );
 
             if ( isResizing ) {
-                if ( resizerNewPosition == upShiftBoundary || resizerNewPosition == downShiftBoundary ) {
+                if ( resizerNewPosition == upShiftBoundary || resizerNewPosition == downShiftBoundary )
                     return 1;
-                }
 
                 resizerNewPosition = Math.max( resizerNewPosition, upShiftBoundary );
                 resizerNewPosition = Math.min( resizerNewPosition, downShiftBoundary );
@@ -456,7 +450,7 @@
 
             }
 
-            resizer.setStyle( "top", pxUnit( posX ) );
+            resizer.setStyle( 'top', pxUnit( posX ) );
 
             return 1;
         };
@@ -465,44 +459,40 @@
     function clearPillarsCache( evt ) {
         var target = evt.data.getTarget();
 
-        if ( evt.name == "mouseout" ) {
+        if ( evt.name == 'mouseout' ) {
             // Bypass interal mouse move.
-            if ( !target.is( "table" ) ) {
+            if ( !target.is( 'table' ) )
                 return;
-            }
 
             var dest = new CKEDITOR.dom.element( evt.data.$.relatedTarget || evt.data.$.toElement );
-            while ( dest && dest.$ && !dest.equals( target ) && !dest.is( "body" ) ) {
+            while ( dest && dest.$ && !dest.equals( target ) && !dest.is( 'body' ) )
                 dest = dest.getParent();
-            }
-            if ( !dest || dest.equals( target ) ) {
+            if ( !dest || dest.equals( target ) )
                 return;
-            }
         }
 
-        target.getAscendant( "table", 1 ).removeCustomData( "_cke_table_pillars" );
+        target.getAscendant( 'table', 1 ).removeCustomData( '_cke_table_pillars' );
         evt.removeListener();
     }
 
-    CKEDITOR.plugins.add( "imageresizerowandcolumn", {
+    CKEDITOR.plugins.add( 'imageresizerowandcolumn', {
 
         init: function( editor ) {
-            editor.on( "contentDom", function() {
+            editor.on( 'contentDom', function() {
                 var resizer,
                     editable = editor.editable();
 
                 // In Classic editor it is better to use document
                 // instead of editable so event will work below body.
-                editable.attachListener( editable.isInline() ? editable : editor.document, "mousemove", function( evt ) {
+                editable.attachListener( editable.isInline() ? editable : editor.document, 'mousemove', function( evt ) {
                     evt = evt.data;
 
                     var target = evt.getTarget();
 
                     // FF may return document and IE8 some UFO (object with no nodeType property...)
                     // instead of an element (http://dev.ckeditor.com/ticket/11823).
-                    if ( target.type != CKEDITOR.NODE_ELEMENT ) {
+                    if ( target.type != CKEDITOR.NODE_ELEMENT )
                         return;
-                    }
 
                     var pageX = evt.getPageOffset().x;
                     var pageY = evt.getPageOffset().y;
@@ -510,10 +500,12 @@
                     // If we're already attached to a pillar, simply move the
                     // resizer.
 
-                    if ( resizer && resizer.dim == "col" && resizer.move( pageX ) ) {
+
+                    if ( resizer && resizer.dim == 'col' && resizer.move( pageX ) ) {
                         cancel( evt );
                         return;
-                    } else if ( resizer && resizer.dim == "row" && resizer.move( pageY ) ) {
+                    }
+                    else if ( resizer && resizer.dim == 'row' && resizer.move( pageY ) ) {
                         cancel( evt );
                         return;
                     }
@@ -521,11 +513,11 @@
                     // Considering table, tr, td, tbody, thead, tfoot but nothing else.
                     var img, pillars;
 
-                    if ( !target.is( "img" ) ) {
+                    if ( !target.is( 'img' ) ) {
                         return;
                     }
 
-                    img = target.getAscendant( "img", 1 );
+                    img = target.getAscendant( 'img', 1 );
 
                     // Make sure the table we found is inside the container
                     // (eg. we should not use tables the editor is embedded within)
@@ -546,7 +538,8 @@
                     if ( pillar ) {
                         resizer = new columnResizer( editor ) ;
                         resizer.attachTo( pillar );
-                    } else {
+                    }
+                    else{
                         /*if ( !( pillars = table.getCustomData( '_cke_table_pillars' ) ) ) {
                          table.setCustomData( '_cke_table_pillars', ( pillars = buildRowPillars( table ) ) );
                          table.on( 'mouseout', clearPillarsCache );
@@ -562,7 +555,7 @@
                     }
                 } );
             } );
-        },
+        }
     } );
 
 } )();

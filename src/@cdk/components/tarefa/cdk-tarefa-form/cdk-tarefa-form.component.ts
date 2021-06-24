@@ -149,6 +149,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    @Input()
     processos: Processo[] = [];
     blocoResponsaveis: Responsavel[] = [];
 

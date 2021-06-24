@@ -73,7 +73,6 @@ modulesConfig.forEach((module) => {
     providers: [
         EtiquetaService,
         ModalidadeEtiquetaService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

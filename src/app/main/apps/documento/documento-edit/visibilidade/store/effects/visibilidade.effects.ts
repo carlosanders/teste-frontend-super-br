@@ -81,7 +81,7 @@ export class VisibilidadeEffects {
                             console.log (err);
                             return of(new VisibilidadeActions.DeleteVisibilidadeFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**

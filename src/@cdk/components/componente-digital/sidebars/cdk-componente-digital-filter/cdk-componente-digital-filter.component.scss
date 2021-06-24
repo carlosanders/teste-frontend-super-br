@@ -45,6 +45,22 @@ cdk-componente-digital-filter {
                     flex: 1 1 auto;
                 }
             }
+
+            >.botao-toggle {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: column;
+                margin-bottom: 18px;
+                margin-top: 12px;
+
+                .mat-button-toggle-label-content {
+                    line-height: 15px !important;
+                }
+
+                .button-toggle-custom {
+                    width: 100%;
+                }
+            }
         }
     }
 

@@ -239,7 +239,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.generoSetorPagination = new Pagination();
         this.especieSetorPagination = new Pagination();
         this.configuracaoNupPagination = new Pagination();
-        this.processoPagination.populate = ['configuracaoNup', 'especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
+        this.processoPagination.populate = ['configuracaoNup', 'procedencia', 'especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this.especieProcessoPagination.populate = ['generoProcesso', 'modalidadeMeio', 'classificacao'];
         this._profile = this._loginService.getUserProfile();
 
@@ -571,12 +571,12 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     checkProcesso(): void {
-
         const value = this.form.get('processoOrigem').value;
 
         if (!value || typeof value !== 'object') {
             this.form.get('processoOrigem').setValue(null);
         } else {
+            this.form.get('procedencia').setValue(value.procedencia);
             this.form.get('especieProcesso').setValue(value.especieProcesso);
             this.form.get('modalidadeMeio').setValue(value.modalidadeMeio);
             this.form.get('classificacao').setValue(value.classificacao);
@@ -584,6 +584,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('descricao').setValue(value.descricao);
             this.form.get('setorAtual').setValue(value.setorAtual);
         }
+        this._changeDetectorRef.detectChanges();
     }
 
     showProcessoGrid(): void {

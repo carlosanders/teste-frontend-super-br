@@ -19,7 +19,7 @@ import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetJuntadas} from '../actions';
+import {ReloadJuntadas} from '../actions';
 import {getBufferingDelete, getDeletingDocumentosId, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {GetTarefa} from '../../../../tarefas/tarefa-detail/store';
@@ -200,7 +200,7 @@ export class ProcessoViewDocumentosEffects {
                             console.log(err);
                             return of(new ProcessoViewDocumentosActions.UpdateDocumentoFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -301,10 +301,9 @@ export class ProcessoViewDocumentosEffects {
                                         error: err
                                     };
                                     console.log(err);
-                                    this._store.dispatch(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
-                                    return caught;
+                                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -328,8 +327,7 @@ export class ProcessoViewDocumentosEffects {
                                         error: err
                                     };
                                     console.log(err);
-                                    this._store.dispatch(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
-                                    return caught;
+                                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
                                 })
                             )
                 ));
@@ -349,7 +347,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -363,16 +361,17 @@ export class ProcessoViewDocumentosEffects {
             .pipe(
                 ofType<ProcessoViewDocumentosActions.PreparaAssinaturaSuccess>(ProcessoViewDocumentosActions.PREPARA_ASSINATURA_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**
@@ -386,16 +385,17 @@ export class ProcessoViewDocumentosEffects {
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaJuntadaSuccess>(ProcessoViewDocumentosActions.ASSINA_JUNTADA_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**
@@ -549,7 +549,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
-                            )
+                            ), 25
 
                 )
             );
@@ -577,7 +577,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.ConverteToHtmlFailed(action.payload));
                                 })
-                            )
+                            ), 25
                 )
             );
 
@@ -624,7 +624,7 @@ export class ProcessoViewDocumentosEffects {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.DownloadToP7SFailed(action.payload));
                                 })
-                            )
+                            ), 25
 
                 )
             );
@@ -634,11 +634,10 @@ export class ProcessoViewDocumentosEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewDocumentosActions.RemoveVinculacaoDocumento>(ProcessoViewDocumentosActions.REMOVE_VINCULACAO_DOCUMENTO),
-                withLatestFrom(this._store.pipe(select(getPagination))),
-                switchMap(([action, pagination]) => this._vinculacaoDocumentoService.destroy(action.payload)
+                switchMap(action => this._vinculacaoDocumentoService.destroy(action.payload)
                             .pipe(
                                 mergeMap(response => [
-                                    new GetJuntadas(pagination),
+                                    new ReloadJuntadas(),
                                     new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoSuccess(action.payload),
                                 ]),
                                 catchError((err, caught) => {

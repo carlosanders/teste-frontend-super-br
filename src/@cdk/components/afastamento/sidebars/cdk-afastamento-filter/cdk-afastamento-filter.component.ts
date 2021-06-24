@@ -3,6 +3,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Pagination} from '@cdk/models';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
+
 
 @Component({
     selector: 'cdk-afastamento-filter',
@@ -24,6 +26,15 @@ export class CdkAfastamentoFilterComponent {
 
     @Input()
     mode = 'list';
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterDataInicio = [];
+    filterDataInicioBloqueio = [];
+    filterFim = [];
+    filterFimBloqueio = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -58,28 +69,40 @@ export class CdkAfastamentoFilterComponent {
             andXFilter.push({'modalidadeAfastamento.id': `eq:${this.form.get('modalidadeAfastamento').value.id}`});
         }
 
-        if (this.form.get('dataInicio').value) {
-            andXFilter.push({'dataInicio': `eq:${this.form.get('dataInicio').value}`});
+        if (this.filterDataInicio?.length) {
+            this.filterDataInicio.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('dataInicioBloqueio').value) {
-            andXFilter.push({'dataInicioBloqueio': `eq:${this.form.get('dataInicioBloqueio').value}`});
+        if (this.filterDataInicioBloqueio?.length) {
+            this.filterDataInicioBloqueio.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('dataFim').value) {
-            andXFilter.push({'dataFim': `eq:${this.form.get('dataFim').value}`});
+        if (this.filterFim?.length) {
+            this.filterFim.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('dataFimBloqueio').value) {
-            andXFilter.push({'dataFimBloqueio': `eq:${this.form.get('dataFimBloqueio').value}`});
+        if (this.filterFimBloqueio?.length) {
+            this.filterFimBloqueio.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -102,6 +125,36 @@ export class CdkAfastamentoFilterComponent {
         this._cdkSidebarService.getSidebar('cdk-afastamento-filter').close();
     }
 
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataInicio(value: any): void {
+        this.filterDataInicio = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataInicioBloqueio(value: any): void {
+        this.filterDataInicio = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraFim(value: any): void {
+        this.filterFim = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraFimBloqueio(value: any): void {
+        this.filterFimBloqueio = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
@@ -115,6 +168,7 @@ export class CdkAfastamentoFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

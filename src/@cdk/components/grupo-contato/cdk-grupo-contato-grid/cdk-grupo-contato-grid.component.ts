@@ -22,6 +22,8 @@ import {GrupoContato} from '@cdk/models/grupo-contato.model';
 import {GrupoContatoDataSource} from '@cdk/data-sources/grupo-contato-data-source';
 import {FormControl} from '@angular/forms';
 import {Pagination} from '../../../models';
+import {CdkGrupoContatoFilterComponent} from '../sidebars/cdk-grupo-contato-filter/cdk-grupo-contato-filter.component';
+
 
 @Component({
     selector: 'cdk-grupo-contato-grid',
@@ -139,6 +141,9 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkGrupoContatoFilterComponent)
+    cdkGrupoContatoFilterComponent: CdkGrupoContatoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -288,6 +293,8 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkGrupoContatoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

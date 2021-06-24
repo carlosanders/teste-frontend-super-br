@@ -101,7 +101,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.SaveTarefaFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -148,6 +148,6 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.DeleteTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 }

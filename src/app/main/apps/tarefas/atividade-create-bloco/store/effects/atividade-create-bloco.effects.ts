@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, tap} from 'rxjs/operators';
 
 import * as AtividadeCreateBlocoActions from '../actions/atividade-create-bloco.actions';
 
@@ -15,6 +15,8 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
+import {RemoveTarefa} from '../../../store';
+import {AddProcessoEncaminhamento} from '../../../encaminhamento-bloco/store';
 
 @Injectable()
 export class AtividadeCreateBlocoEffect {
@@ -67,7 +69,22 @@ export class AtividadeCreateBlocoEffect {
                             }));
                             return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
+    /**
+     * Save Atividade Success
+     */
+    @Effect({ dispatch: false })
+    saveAtividadeSuccess: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateBlocoActions.SaveAtividadeSuccess>(AtividadeCreateBlocoActions.SAVE_ATIVIDADE_SUCCESS),
+                tap((action) => {
+                    if (action.payload.encerraTarefa) {
+                        this._store.dispatch(new AddProcessoEncaminhamento(action.payload.tarefa.processo.id));
+                        this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
+                    }
+                })
+            );
 }

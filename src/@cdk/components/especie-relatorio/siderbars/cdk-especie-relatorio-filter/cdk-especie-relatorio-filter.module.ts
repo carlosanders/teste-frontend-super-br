@@ -14,6 +14,9 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
 import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 import {CdkGeneroRelatorioAutocompleteModule} from '../../../genero-relatorio/cdk-genero-relatorio-autocomplete/cdk-genero-relatorio-autocomplete.module';
 import {EspecieRelatorioService} from '../../../../services/especie-relatorio.service';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -33,6 +36,9 @@ import {EspecieRelatorioService} from '../../../../services/especie-relatorio.se
         CdkGeneroRelatorioAutocompleteModule,
         CdkUsuarioAutocompleteModule,
         CdkGeneroRelatorioAutocompleteModule,
+        MatButtonToggleModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         EspecieRelatorioService,

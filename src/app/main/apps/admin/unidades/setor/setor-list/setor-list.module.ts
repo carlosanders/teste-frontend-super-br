@@ -67,7 +67,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         SetorService,
-        LoginService,
         fromGuards.ResolveGuard
     ],
     exports: [

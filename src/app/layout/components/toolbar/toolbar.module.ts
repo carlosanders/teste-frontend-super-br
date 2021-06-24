@@ -46,7 +46,6 @@ import {ComponenteDigitalService} from "../../../../@cdk/services/componente-dig
         ChatPanelModule
     ],
     providers: [
-        LoginService,
         NotificacaoService,
         AjudaComponent,
         ComponenteDigitalService

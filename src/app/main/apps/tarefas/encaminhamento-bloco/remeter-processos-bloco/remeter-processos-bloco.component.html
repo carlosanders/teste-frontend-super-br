@@ -1,0 +1,37 @@
+<!-- CONTENT -->
+<div class="content">
+
+    <h2>Remeter processo(s) em bloco</h2>
+
+    <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s)</h3>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex cdkScrollTo>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+    <cdk-remessa-form
+        *ngIf="operacoes.length === 0 || ((isSaving$ | async) === false && processos.length > 0)"
+        [tramitacao]="tramitacao"
+        [processos]="processos"
+        [valid]="(processos$ | async)?.length > 0"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (gerirPessoaDestino)="gerirPessoaDestino()"
+        (editPessoaDestino)="editPessoaDestino($event)"
+        [pessoaDestino]="pessoaDestino"
+        [mode]="'bloco-create'"
+        (save)="submit($event)"
+        (abort)="cancel()"
+        [setorOrigemPagination]="setorOrigemPagination"
+        [setorOrigemPaginationTree]="setorOrigemPaginationTree">
+    </cdk-remessa-form>
+</div>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

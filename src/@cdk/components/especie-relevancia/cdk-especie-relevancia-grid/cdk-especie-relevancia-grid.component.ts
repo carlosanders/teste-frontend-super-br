@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {EspecieRelevancia} from '@cdk/models';
 import {EspecieRelevanciaDataSource} from '@cdk/data-sources/especie-relevancia-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkEspecieRelevanciaFilterComponent} from '../sidebars/cdk-especie-relevancia-filter/cdk-especie-relevancia-filter.component';
+
 
 @Component({
     selector: 'cdk-especie-relevancia-grid',
@@ -130,6 +132,9 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkEspecieRelevanciaFilterComponent)
+    cdkEspecieRelevanciaFilterComponent: CdkEspecieRelevanciaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -274,6 +279,8 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkEspecieRelevanciaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

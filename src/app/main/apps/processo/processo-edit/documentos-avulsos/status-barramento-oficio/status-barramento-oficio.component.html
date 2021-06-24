@@ -1,0 +1,81 @@
+<div class="page-layout left-sidebar">
+    <div class="responsive-grid search">
+        <div class="actions">
+            <div class="back">
+                <button mat-icon-button (click)="doBack()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="content" cdkPerfectScrollbar>
+            <div class="loading" *ngIf="(loading$|async)">
+                <mat-spinner diameter="32"></mat-spinner>
+            </div>
+            <mat-card class="card" *ngIf="statusBarramento && !(loading$|async)">
+                <div class="linha">
+                    <div class="titulo">
+                        Mecanismo de remessa do ofício:
+                    </div>
+                    <div class="valor">
+                        {{statusBarramento['documentoAvulso'].mecanismoRemessa?.toString().toUpperCase()}}
+                    </div>
+                </div>
+                <div class="linha">
+                    <div class="titulo">
+                        Data da remessa do ofício:
+                    </div>
+                    <div class="valor">
+                        {{statusBarramento['documentoAvulso'].dataHoraRemessa?.toDate() | date: 'dd/MM/yyyy H:mm'}}
+                    </div>
+                </div>
+                <div class="linha">
+                    <div class="titulo">
+                        IDT do Trâmite:
+                    </div>
+                    <div class="valor">
+                        {{statusBarramento.idt}}
+                    </div>
+                </div>
+                <div class="linha">
+                    <div class="titulo">
+                        Data de envio pelo barramento:
+                    </div>
+                    <div class="valor">
+                        {{statusBarramento.criadoEm | date: 'dd/MM/yyyy H:mm'}}
+                    </div>
+                </div>
+                <div class="linha">
+                    <div class="titulo">
+                        Status do Barramento:
+                    </div>
+                    <div class="valor">
+                        {{statusBarramento.codSituacaoTramitacao | statusBarramento}}
+                    </div>
+                </div>
+                <div class="linha" *ngIf="statusBarramento.codigoErro">
+                    <div class="titulo">
+                        Motivo da Recusa:
+                    </div>
+                    <div class="valor">
+                        {{statusBarramento.codigoErro}}
+                    </div>
+                </div>
+                <div class="linha" *ngIf="statusBarramento.mensagemErro">
+                    <div class="titulo">
+                        Justificativa da Recusa:
+                    </div>
+                    <div class="valor">
+                        {{statusBarramento.mensagemErro}}
+                    </div>
+                </div>
+            </mat-card>
+            <mat-card class="card" *ngIf="!statusBarramento && !(loading$|async)">
+                <div class="linha">
+                    Não existe tramitação para o barramento.
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

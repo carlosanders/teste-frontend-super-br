@@ -23,7 +23,6 @@ import {CdkSidebarModule} from '@cdk/components';
 import {ResponderComplementarCreateBlocoComponent} from './responder-complementar-create-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {AtividadeService} from '@cdk/services/atividade.service';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
 
@@ -73,8 +72,7 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        AtividadeService,
-        LoginService,
+        AtividadeService
     ]
 })
 export class ResponderComplementarCreateBlocoModule {

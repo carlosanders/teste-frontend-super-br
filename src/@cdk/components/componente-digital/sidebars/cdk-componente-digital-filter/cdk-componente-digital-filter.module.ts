@@ -18,6 +18,7 @@ import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-auto
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 import {CdkTipoDocumentoAutocompleteModule} from '../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import {CdkTipoDocumentoAutocompleteModule} from '../../../tipo-documento/cdk-ti
         MatMenuModule,
         CdkDateFilterModule,
         CdkTipoDocumentoAutocompleteModule,
+        MatButtonToggleModule,
     ],
     providers: [
     ],

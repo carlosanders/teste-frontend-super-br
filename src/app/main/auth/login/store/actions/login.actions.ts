@@ -16,6 +16,7 @@ export const LOGIN_PROFILE_FAILURE = '[Login] Profile Failure';
 export const GET_CONFIG = '[Login] Get Config';
 export const GET_CONFIG_SUCCESS = '[Login] Get Config Success';
 export const GET_CONFIG_FAILURE = '[Login] Get Config Failure';
+export const VERSION_CHANGED = '[Login] Version Changed';
 
 export class Login implements Action {
     readonly type = LOGIN;
@@ -96,6 +97,11 @@ export class GetConfigFailure implements Action {
     constructor(public payload: any) {}
 }
 
+export class VersionChanged implements Action {
+    readonly type = VERSION_CHANGED;
+    constructor(public payload: any) {}
+}
+
 export type LoginActionsAll =
     Login
     | LoginLdap
@@ -112,4 +118,5 @@ export type LoginActionsAll =
     | LoginRefreshTokenFailure
     | GetConfig
     | GetConfigSuccess
-    | GetConfigFailure;
+    | GetConfigFailure
+    | VersionChanged;

@@ -74,7 +74,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AtividadeService,
-        LoginService,
     ]
 })
 export class DocumentoAvulsoUploadBlocoModule {

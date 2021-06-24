@@ -1,0 +1,12 @@
+<cdk-vinculacao-pessoa-barramento-grid
+        [loading]="(loading$ | async)"
+        [vinculacaoPessoaBarramentos]="(vinculacaoPessoaBarramentos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'edit', 'delete']"
+        (reload)="reload($event)"
+        (create)="create()"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-vinculacao-pessoa-barramento-grid>
