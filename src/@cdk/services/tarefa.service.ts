@@ -68,8 +68,9 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         );
     }
 
-    patch(tarefa: Tarefa, changes: any, context: any = '{}'): Observable<Tarefa> {
+    patch(tarefa: Tarefa, changes: any, populate: any = '[]', context: any = '{}'): Observable<Tarefa> {
         const params: HttpParams = new HttpParams();
+        params['populate'] = populate;
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}` + environment.xdebug,
