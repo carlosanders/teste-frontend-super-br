@@ -377,7 +377,13 @@
 
 * Importação do Módulo do Barramento para o core administrativo
 * Melhoria do filtro da pessoa na remessa para processos do barramento
+* Melhoria encaminhamento em bloco de processos após encerramento em bloco de tarefas
 * Correção setor de origem tarefa de acordo com o setor responsável do processo no stepper
 * Correção tecla enter chamando grid de configuração nup processo
 * Correção setor de origem selecionando setor da lotação principal
 * Correçao de alteraçao do tipo de documentos de anexos
+* Correção do editor de texto que interrompia o salvamento em alguns cenários
+* Correção na gestão das minutas no movimentar em bloco
+* Correção nos filtros em sidebar com componente tristate para booleanos
+* Correção nos filtros da lista de tarefas
+* Outras correções relevantes
