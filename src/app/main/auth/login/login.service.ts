@@ -22,6 +22,11 @@ export class LoginService {
         return this._userProfileSubject.asObservable();
     }
 
+    checkUserProfileChanges(): void
+    {
+        this._userProfileSubject.next(!!this.getUserProfile() ? this.getUserProfile() : null);
+    }
+
     getUserProfile(): Usuario {
         return JSON.parse(localStorage.getItem('userProfile'));
     }

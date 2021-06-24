@@ -162,6 +162,10 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this.chatMensagemForm = this._formBuilder.group({
             mensagem: [null, [Validators.required]]
         });
+
+        if (!this.usuarioLogado) {
+            this._loginService.checkUserProfileChanges();
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
