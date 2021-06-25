@@ -42,11 +42,6 @@ export const getAssinandoDocumentosId = createSelector(
     (state: JuntadaState) => state.assinandoDocumentoIds
 );
 
-export const getRemovendoAssinaturaDocumentosId = createSelector(
-    getJuntadaState,
-    (state: JuntadaState) => state.removendoAssinaturaDocumentoIds
-);
-
 export const getPagination = createSelector(
     getJuntadaState,
     (state: JuntadaState) => state.pagination

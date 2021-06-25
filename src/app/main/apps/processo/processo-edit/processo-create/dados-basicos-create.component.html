@@ -97,6 +97,7 @@
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
                 [actions]="['edit', 'assinar']"
+                [assinandoId]="(assinandoDocumentosId$ | async)"
                 (reload)="reloadJuntadas($event)"
                 (excluded)="excludedJuntadas($event)"
                 (edit)="editar($event)"
@@ -235,13 +236,16 @@
             </div>
 
             <cdk-juntada-grid
-                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome']"
+                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
-                [actions]="[]"
+                [actions]="['edit', 'assinar']"
+                [assinandoId]="(assinandoDocumentosId$ | async)"
                 (reload)="reloadJuntadas($event)"
-                (excluded)="excludedJuntadas($event)">
+                (excluded)="excludedJuntadas($event)"
+                (edit)="editar($event)"
+                (assinar)="assinar($event)">
             </cdk-juntada-grid>
         </div>
     </mat-step>

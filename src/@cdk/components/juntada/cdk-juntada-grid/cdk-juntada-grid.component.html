@@ -302,9 +302,7 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(juntada.id) > -1 ||
-                                                                  assinandoId?.indexOf(juntada.documento?.id) > -1 ||
-                                                                  removendoAssinaturaId?.indexOf(juntada.documento?.id) > -1">
+                        <div class="spinner-container" *ngIf="deletingIds?.indexOf(juntada.id) > -1 || assinandoId?.indexOf(juntada.documento?.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 

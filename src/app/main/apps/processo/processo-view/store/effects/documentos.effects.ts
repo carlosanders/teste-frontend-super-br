@@ -429,7 +429,7 @@ export class ProcessoViewDocumentosEffects {
                                 error: err
                             };
                             console.log(err);
-                            return of(new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
+                            return of(new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
                         })
                     ))
             );
