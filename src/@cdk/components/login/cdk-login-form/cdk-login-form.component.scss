@@ -89,6 +89,17 @@ cdk-login-form {
                         width: 90%;
                     }
                 }
+
+                .gov-br {
+                    border-radius: 100em;
+                    border-width: 1px;
+                    border-style: solid;
+                    strong{
+                        vertical-align: top;
+                        font-size: 16px;
+                    }
+                }
+
             }
 
             .register {
@@ -160,3 +171,4 @@ cdk-login-form {
         }
     }
 }
+
