@@ -138,12 +138,11 @@ export class LoginService {
 
     isGranted(role: string): boolean {
         const profile = this.getUserProfile();
-        let hasAccess = false;
-
+        const roleExp = RegExp(role.replace('*', '.*'), 'i');
         if (profile && profile.roles && profile.roles.length > 0) {
-            hasAccess = profile.roles.findIndex((papel: string) => papel.includes(role)) !== -1;
+            return profile.roles.filter((value) => value.match(roleExp)).length > 0;
         }
-        return hasAccess;
+        return false;
     }
 
     isCoordenador(): boolean {
