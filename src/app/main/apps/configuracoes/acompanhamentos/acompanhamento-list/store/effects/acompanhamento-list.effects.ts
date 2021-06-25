@@ -3,17 +3,18 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as AcompanhamentoListActions from '../actions';
 
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Compartilhamento} from '@cdk/models';
 import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class AcompanhamentoListEffect {
@@ -83,20 +84,52 @@ export class AcompanhamentoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteAcompanhamento: any =
+     deleteAcompanhamento: Observable<AcompanhamentoListActions.AcompanhamentoListActionsAll> =
         this._actions
             .pipe(
                 ofType<AcompanhamentoListActions.DeleteAcompanhamento>(AcompanhamentoListActions.DELETE_ACOMPANHAMENTO),
-                mergeMap(action => this._acompanhamentoService.destroy(action.payload).pipe(
-                        map(response => new AcompanhamentoListActions.DeleteAcompanhamentoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'acompanhamento',
+                        content: 'Apagando a acompanhamento id ' + action.payload.acompanhamentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._acompanhamentoService.destroy(action.payload.acompanhamentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acompanhamento',
+                                content: 'Acompanhamento id ' + action.payload.acompanhamentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Compartilhamento>({
+                                id: response.id,
+                                schema: acompanhamentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AcompanhamentoListActions.DeleteAcompanhamentoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.acompanhamentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acompanhamento',
+                                content: 'Erro ao apagar a acompanhamento id ' + action.payload.acompanhamentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new AcompanhamentoListActions.DeleteAcompanhamentoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new AcompanhamentoListActions.DeleteAcompanhamentoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

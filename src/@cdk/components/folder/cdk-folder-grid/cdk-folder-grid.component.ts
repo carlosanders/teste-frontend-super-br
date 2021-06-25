@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Folder} from '@cdk/models';
 import {FolderDataSource} from '@cdk/data-sources/folder-data-source';
 import {FormControl} from '@angular/forms';
+import {folder} from '../../../normalizr';
 
 @Component({
     selector: 'cdk-folder-grid',
@@ -157,6 +158,9 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBloco = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Folder>();
 
     @Output()
@@ -281,6 +285,10 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     deleteFolders(foldersId): void {
         foldersId.forEach(folderId => this.deleteFolder(folderId));
+    }
+
+    deleteBlocoFolder(foldersId): void {
+        this.deleteBloco.emit(foldersId);
     }
 
     /**

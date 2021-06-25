@@ -15,7 +15,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-import {getFolderListLoaded} from './store';
 
 
 @Component({
@@ -36,7 +35,7 @@ export class FolderListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
-    loaded: any;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -62,10 +61,6 @@ export class FolderListComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
-
-        this._store.pipe(select(fromStore.getFolderListLoaded)).subscribe((loaded) => {
-            this.loaded = loaded;
-        });
     }
 
     ngOnInit(): void {
@@ -118,30 +113,17 @@ export class FolderListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + folderId]);
     }
 
-    delete(folderId: number): void {
+    delete(folderId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
-        let folder = new Folder();
-        folder.id = folderId;
         this._store.dispatch(new fromStore.DeleteFolder({
             folderId: folderId,
             operacaoId: operacaoId,
-            redo: [
-                new fromStore.DeleteFolder({
-                    folderId: folderId,
-                    operacaoId: operacaoId,
-                    redo: 'inherent',
-                    undo: 'inherent'
-                }),
-                // new fromStore.DeleteFolderFlush()
-            ],
-            undo: new fromStore.UndeleteFolder({
-                folder: folder,
-                operacaoId: operacaoId,
-                loaded: this.loaded,
-                redo: null,
-                undo: null
-            })
+            loteId: loteId,
         }));
     }
 
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
+    }
 }

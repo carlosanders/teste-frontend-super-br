@@ -159,6 +159,9 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Afastamento>();
 
     @Output()
@@ -292,6 +295,10 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
         afastamentosId.forEach(afastamentoId => this.deleteAfastamento(afastamentoId));
         this.selectedIds = this.selectedIds.filter(id => afastamentosId.indexOf(id) === -1);
         this.recompute();
+    }
+
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

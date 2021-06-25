@@ -17,23 +17,4 @@ export class FolderService extends ParentGenericService<Folder> {
     ) {
         super(modelService, 'administrativo/folder', Folder);
     }
-
-    undelete(folder: Folder, populate: any = '[]', context: any = '{}'): Observable<Folder> {
-        const tmpParams: any = {};
-        tmpParams['populate'] = populate;
-        tmpParams['context'] = context;
-        const params = new HttpParams({fromObject: tmpParams});
-        return this.http.patch(
-            `${environment.api_url}${'administrativo/folder'}/${folder.id}/${'undelete'}` + environment.xdebug,
-            null,
-            { params }
-        ).pipe(
-            map((response) => {
-                response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
-                return Object.assign(new Tarefa(), {...folder, ...response});
-            })
-        );
-    }
-
 }

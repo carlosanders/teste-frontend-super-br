@@ -14,11 +14,9 @@ export interface FolderListState {
     };
     loading: boolean;
     loaded: any;
-    selectedFolderIds: number[];
     deletingIds: number[];
     deletedIds: number[];
     deletingErrors: any;
-    undeletingFolderIds: number[];
 }
 
 export const FolderListInitialState: FolderListState = {
@@ -34,11 +32,9 @@ export const FolderListInitialState: FolderListState = {
     },
     loading: false,
     loaded: false,
-    selectedFolderIds: [],
     deletedIds: [],
     deletingIds: [],
-    deletingErrors: {},
-    undeletingFolderIds: [],
+    deletingErrors: {}
 };
 
 export function FolderListReducer(
@@ -127,41 +123,6 @@ export function FolderListReducer(
                     ...state.deletingErrors,
                     ...action.payload
                 }
-            };
-        }
-
-        case FolderListActions.UNDELETE_FOLDER: {
-            return {
-                ...state,
-                undeletingFolderIds: [...state.undeletingFolderIds, action.payload.folder.id],
-            };
-        }
-
-        case FolderListActions.UNDELETE_FOLDER_SUCCESS: {
-            return {
-                ...state,
-                deletedIds: state.deletedIds.filter(id => id !== action.payload.folder.id),
-            };
-        }
-
-        case FolderListActions.UNDELETE_FOLDER_FAILED: {
-            return {
-                ...state,
-                undeletingFolderIds: state.undeletingFolderIds.filter(id => id !== action.payload.id)
-            };
-        }
-
-        case FolderListActions.REMOVE_FOLDER: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
-            const selectedFolderIds = state.selectedFolderIds.filter(id => id !== action.payload);
-            return {
-                ...state,
-                entitiesId: entitiesId,
-                pagination: {
-                    ...state.pagination,
-                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-                },
-                selectedFolderIds: selectedFolderIds
             };
         }
 
