@@ -3,17 +3,19 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeAll, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as FolderListActions from '../actions';
-
 import {FolderService} from '@cdk/services/folder.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Folder} from '@cdk/models';
 import {folder as folderSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import * as fromStore from '../index';
+import {GetFolders} from '../actions';
+import {log} from 'util';
 
 @Injectable()
 export class FolderListEffect {
@@ -73,26 +75,139 @@ export class FolderListEffect {
                     ))
             );
 
+    @Effect()
+    deleteFolder: Observable<FolderListActions.FolderListActionsAll> =
+        this._actions
+            .pipe(
+                ofType<FolderListActions.DeleteFolder>(FolderListActions.DELETE_FOLDER),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'folder',
+                        content: 'Apagando a folder id ' + action.payload.folderId + '...',
+                        status: 0, // carregando
+                        redo: action.payload.redo,
+                        undo: action.payload.undo
+                    }));
+                }),
+                // buffer(this._store.pipe(select(getBufferingDelete))),
+                // mergeAll(),
+                // withLatestFrom(this._store.pipe(select(getDeletingFolderIds))),
+                mergeMap((action) => {
+                    // if (deletingFoldersIds.indexOf(action.payload.folderId) === -1) {
+                    //     this._store.dispatch(new OperacoesActions.Operacao({
+                    //         id: action.payload.operacaoId,
+                    //         type: 'folder',
+                    //         content: 'Operação de apagar a folder id ' + action.payload.folderId + ' foi cancelada!',
+                    //         status: 3, // cancelada
+                    //         lote: action.payload.loteId,
+                    //         redo: 'inherent',
+                    //         undo: 'inherent'
+                    //     }));
+                    //     return of(new FolderListActions.DeleteFolderCancelSuccess(action.payload.folderId));
+                    // }
+                    return this._folderService.destroy(action.payload.folderId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'folder',
+                                content: 'Folder id ' + action.payload.folderId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            new UpdateData<Folder>({
+                                id: response.id,
+                                schema: folderSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new FolderListActions.DeleteFolderSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.folderId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'folder',
+                                content: 'Erro ao apagar a folder id ' + action.payload.folderId + '!',
+                                status: 2, // erro
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            console.log(err);
+                            return of(new FolderListActions.DeleteFolderFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
+
     /**
-     * Delete Folder
+     * Undelete Folder
      *
      * @type {Observable<any>}
      */
     @Effect()
-    deleteFolder: any =
+    undeleteFolder: Observable<FolderListActions.FolderListActionsAll> =
         this._actions
             .pipe(
-                ofType<FolderListActions.DeleteFolder>(FolderListActions.DELETE_FOLDER),
-                mergeMap(action => this._folderService.destroy(action.payload).pipe(
-                        map(response => new FolderListActions.DeleteFolderSuccess(response.id)),
+                ofType<FolderListActions.DeleteFolder>(FolderListActions.UNDELETE_FOLDER),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'folder',
+                        content: 'Restaurando a folder id ' + action.payload.folder.id + '...',
+                        status: 0, // carregando
+                    }));
+                }),
+                mergeMap((action) => {
+                    const folder = action.payload.folder ? action.payload.folder.id : null;
+                    const context: any = {};
+                    if (folder) {
+                        context.folderId = folder;
+                    }
+                    return this._folderService.undelete(action.payload.folder, '[]', JSON.stringify(context)).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'folder',
+                                content: 'Folder id ' + action.payload.folder.id + ' restaurada com sucesso.',
+                                status: 1, // sucesso
+                            }));
+                            return new FolderListActions.UndeleteFolderSuccess({
+                                folder: response,
+                                loaded: action.payload.loaded
+                            });
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.folder.id,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'folder',
+                                content: 'Erro ao restaurar a folder id ' + action.payload.folder.id + '!',
+                                status: 2, // erro
+                            }));
                             console.log(err);
-                            return of(new FolderListActions.DeleteFolderFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new FolderListActions.UndeleteFolderFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
+            );
+
+    /**
+     * Undelete Folder Success
+     */
+    @Effect({dispatch: false})
+    undeleteFolderSuccess: any =
+        this._actions
+            .pipe(
+                ofType<FolderListActions.UndeleteFolderSuccess>(FolderListActions.UNDELETE_FOLDER_SUCCESS),
+                tap((action) => {
+                    return of(new FolderListActions.GetFolders({}));
+                })
             );
 }

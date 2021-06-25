@@ -7,10 +7,16 @@ export const GET_FOLDERS_FAILED = '[FOLDER LIST] GET FOLDERS FAILED';
 export const RELOAD_FOLDERS = '[FOLDER LIST] RELOAD FOLDERS';
 export const UNLOAD_FOLDERS = '[FOLDER LIST] UNLOAD FOLDERS';
 
-
 export const DELETE_FOLDER = '[FOLDER LIST] DELETE FOLDER';
 export const DELETE_FOLDER_SUCCESS = '[FOLDER LIST] DELETE FOLDER SUCCESS';
 export const DELETE_FOLDER_FAILED = '[FOLDER LIST] DELETE FOLDER FAILED';
+
+export const UNDELETE_FOLDER = '[FOLDER LIST] UNDELETE FOLDER';
+export const UNDELETE_FOLDER_SUCCESS = '[FOLDER LIST] UNDELETE FOLDER SUCCESS';
+export const UNDELETE_FOLDER_FAILED = '[FOLDER LIST] UNDELETE FOLDER FAILED';
+
+export const REMOVE_FOLDER = '[FOLDER LIST] REMOVE FOLDER';
+
 
 /**
  * Get Folders
@@ -108,6 +114,47 @@ export class DeleteFolderFailed implements Action
     }
 }
 
+/**
+ * Undelete Folder
+ */
+export class UndeleteFolder implements Action {
+    readonly type = UNDELETE_FOLDER;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Folder Success
+ */
+export class UndeleteFolderSuccess implements Action {
+    readonly type = UNDELETE_FOLDER_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Folder Failed
+ */
+export class UndeleteFolderFailed implements Action {
+    readonly type = UNDELETE_FOLDER_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Remove Folder
+ */
+export class RemoveFolder implements Action {
+    readonly type = REMOVE_FOLDER;
+
+    constructor(public payload: any) {
+    }
+}
+
+
 export type FolderListActionsAll
     = GetFolders
     | GetFoldersSuccess
@@ -116,5 +163,9 @@ export type FolderListActionsAll
     | ReloadFolders
     | DeleteFolder
     | DeleteFolderSuccess
-    | DeleteFolderFailed;
+    | DeleteFolderFailed
+    | UndeleteFolder
+    | UndeleteFolderSuccess
+    | UndeleteFolderFailed
+    | RemoveFolder;
 

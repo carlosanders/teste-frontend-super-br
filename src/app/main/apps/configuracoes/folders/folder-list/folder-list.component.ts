@@ -14,6 +14,8 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
+import {getFolderListLoaded} from './store';
 
 
 @Component({
@@ -34,6 +36,7 @@ export class FolderListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    loaded: any;
 
     /**
      * @param _changeDetectorRef
@@ -59,6 +62,10 @@ export class FolderListComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
+
+        this._store.pipe(select(fromStore.getFolderListLoaded)).subscribe((loaded) => {
+            this.loaded = loaded;
+        });
     }
 
     ngOnInit(): void {
@@ -112,7 +119,29 @@ export class FolderListComponent implements OnInit, OnDestroy {
     }
 
     delete(folderId: number): void {
-        this._store.dispatch(new fromStore.DeleteFolder(folderId));
+        const operacaoId = CdkUtils.makeId();
+        let folder = new Folder();
+        folder.id = folderId;
+        this._store.dispatch(new fromStore.DeleteFolder({
+            folderId: folderId,
+            operacaoId: operacaoId,
+            redo: [
+                new fromStore.DeleteFolder({
+                    folderId: folderId,
+                    operacaoId: operacaoId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                }),
+                // new fromStore.DeleteFolderFlush()
+            ],
+            undo: new fromStore.UndeleteFolder({
+                folder: folder,
+                operacaoId: operacaoId,
+                loaded: this.loaded,
+                redo: null,
+                undo: null
+            })
+        }));
     }
 
 }
