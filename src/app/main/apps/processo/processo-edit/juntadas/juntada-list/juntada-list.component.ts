@@ -1,20 +1,23 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Assinatura, Documento, Juntada, Processo} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from 'app/store/reducers';
+import {getMercureState, getRouterState} from 'app/store/reducers';
 import {getProcesso} from '../../../store';
+import {takeUntil} from "rxjs/operators";
+import {UpdateData} from "../../../../../../../@cdk/ngrx-normalizr";
+import {documento as documentoSchema} from "../../../../../../../@cdk/normalizr";
 
 @Component({
     selector: 'juntada-list',
@@ -24,7 +27,7 @@ import {getProcesso} from '../../../store';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class JuntadaListComponent implements OnInit {
+export class JuntadaListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     juntadas$: Observable<Juntada[]>;
@@ -38,9 +41,15 @@ export class JuntadaListComponent implements OnInit {
     processo: Processo;
     assinandoDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId: number[] = [];
+    javaWebStartOK = false;
+
+    assinaturaInterval = null;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -92,6 +101,63 @@ export class JuntadaListComponent implements OnInit {
                 });
             }
         });
+
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe((message) => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
+                        break;
+                }
+            }
+        });
+
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
+            if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
+                this.assinaturaInterval = setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -158,7 +224,8 @@ export class JuntadaListComponent implements OnInit {
                 assinatura.plainPassword = result.plainPassword;
 
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura
+                    assinatura: assinatura,
+                    documento: result.documento
                 }));
             });
         }
@@ -202,9 +269,5 @@ export class JuntadaListComponent implements OnInit {
 
     adicionarVinculacao(juntadaId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'vincular/' + juntadaId)]).then();
-    }
-
-    removeAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 }

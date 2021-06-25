@@ -43,6 +43,7 @@ cdk-componente-digital-grid {
 
             .colunas {
                 width: 20px !important;
+
                 .mat-select-value {
                     display: none !important;
                 }
@@ -87,17 +88,19 @@ cdk-componente-digital-grid {
 
                 td {
                     flex: 1 1;
+
                     &.deleted {
                         text-decoration: line-through;
                     }
+
                     &.error {
                         color: red;
                     }
                 }
 
                 .spinner-container .mat-progress-spinner {
-                        display: inline !important;
-                    }
+                    display: inline !important;
+                }
             }
         }
 

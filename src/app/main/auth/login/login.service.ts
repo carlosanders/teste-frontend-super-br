@@ -22,6 +22,11 @@ export class LoginService {
         return this._userProfileSubject.asObservable();
     }
 
+    checkUserProfileChanges(): void
+    {
+        this._userProfileSubject.next(!!this.getUserProfile() ? this.getUserProfile() : null);
+    }
+
     getUserProfile(): Usuario {
         return JSON.parse(localStorage.getItem('userProfile'));
     }
@@ -97,6 +102,7 @@ export class LoginService {
         this.removeExp();
         this.removeTimestamp();
         this.removeLocalBrowserExp();
+        this.removeVersion();
     }
 
     removeExp(): void {
@@ -109,6 +115,10 @@ export class LoginService {
 
     removeLocalBrowserExp(): void {
         localStorage.removeItem('localBrowserExp');
+    }
+
+    removeVersion(): void {
+        localStorage.removeItem('version');
     }
 
     login(username: string, password: string): Observable<any> {
