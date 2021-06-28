@@ -387,3 +387,8 @@
 * Correção nos filtros em sidebar com componente tristate para booleanos
 * Correção nos filtros da lista de tarefas
 * Outras correções relevantes
+
+1.5.1
+
+* Correção para reconectar ao chat ao dar F5 
+* Correção na assinatura dentro do grid de juntadas
