@@ -5,28 +5,35 @@
             {{folder.nome | titlecase}}
         </div>
         <div fxFlex="0 1 auto" *ngIf="folder.id && !controls.deletingIds.includes(folder.id)">
-            <button mat-icon-button class="list-header-option-button" [matMenuTriggerFor]="listMenu">
+            <button mat-icon-button class="list-header-option-button" [matMenuTriggerFor]="listMenu"
+                    [disabled]="isActionsDisabled()">
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #listMenu="matMenu">
                 <button mat-menu-item
-                        (click)="onClickRemoveFolder(folder)">
+                        (click)="doRemoveFolder(folder)">
                     Excluir Pasta
                 </button>
             </mat-menu>
         </div>
     </div>
     <div class="list-control" fxLayout="row">
-        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-            <mat-checkbox class="ml-8" (click)="onClickToggleSelectAll($event)"
+        <div class="control-left">
+            <mat-checkbox class="ml-8" (click)="doToggleSelectAll($event)"
                           [checked]="!!controls.folderSelectedIds.length"
-                          [indeterminate]="controls.isIndeterminate">
+                          [indeterminate]="controls.isIndeterminate"
+                          [disabled]="isActionsDisabled()">
             </mat-checkbox>
+
+            <span *ngIf="controls.folderSelectedIds.length">
+                {{controls.folderSelectedIds.length}}
+            </span>
         </div>
 
-        <div fxLayout="row" fxLayoutAlign="end center" fxFlex="0 1 auto">
+        <div class="control-right">
             <button class="refresh" mat-icon-button
-                    (click)="onClickReload()"
+                    (click)="doReload()"
+                    [disabled]="isActionsDisabled()"
                     aria-label="recarregar"
                     matTooltip="Recarregar">
                 <mat-icon>refresh</mat-icon>
@@ -38,10 +45,16 @@
                 <mat-icon>sort</mat-icon>
             </button>
             <mat-menu fxHide #selectMenu="matMenu">
-                <button mat-menu-item (click)="onClickSort({'dataHoraFinalPrazo': 'ASC'})">Final do
-                    Prazo
+                <button mat-menu-item
+                        (click)="doSort({'dataHoraFinalPrazo': 'ASC'})"
+                        [disabled]="isActionsDisabled()">
+                    Final do Prazo
                 </button>
-                <button mat-menu-item (click)="onClickSort({'dataHoraDistribuicao': 'DESC'})">Data da Distribuição</button>
+                <button mat-menu-item
+                        (click)="doSort({'dataHoraDistribuicao': 'DESC'})"
+                        [disabled]="isActionsDisabled()">
+                    Data da Distribuição
+                </button>
             </mat-menu>
 
             <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">
@@ -55,7 +68,7 @@
             <div class="toolbar-separator"></div>
 
             <div>
-                {{tarefaList ? tarefaList.length : 0}}/{{pagination?.total}}
+                {{tarefaList ? tarefaList.length : 0}}/{{pagination?.total || 0}}
             </div>
         </div>
     </div>
@@ -67,20 +80,22 @@
          [scrollWindow]="false"
          [infiniteScrollDistance]="5"
          [infiniteScrollThrottle]="150"
-         (scrolled)="onScrollTarefaList($event)"
+         (scrolled)="doLoadMoreTarefas()"
          dndDropzone
          dndDragoverClass="folder-list-column-drag-over"
-         (dndDragover)="dragOver($event, folderListColumnContent, dropzoneEnabled($event))"
-         (dndDrop)="onDrop([$event, folder], dropzoneEnabled($event))">
+         (dndDragover)="onDragOver($event, folderListColumnContent, isDropzoneEnabled($event))"
+         (dndDrop)="onDrop([$event, folder], isDropzoneEnabled($event))">
 
         <div class="list-cards ngx-dnd-container">
 
             <card-tarefa
                 (click)="onClickTarefa(tarefa)"
                 class="board-tarefas-card ngx-dnd-item"
+                [ngClass]="{'card-tarefa-disabled': isTarefaDisabled(tarefa)}"
                 *ngFor="let tarefa of tarefaList"
                 [tarefa]="tarefa"
                 [folderSelectedIds]="controls.folderSelectedIds"
+                [disableActions]="isTarefaDisabled(tarefa)"
                 [displayedCampos]="controls.displayedCampos"
             >
             </card-tarefa>

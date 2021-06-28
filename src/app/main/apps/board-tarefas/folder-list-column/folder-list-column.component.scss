@@ -44,6 +44,28 @@ folder-list-column {
                 min-height: 48px;
             }
 
+            .control-left {
+                flex-direction: row;
+                box-sizing: border-box;
+                display: flex;
+                flex: 1 0 auto;
+                place-content: center flex-start;
+                align-items: center;
+
+                > * {
+                    margin-right: 15px;
+                }
+            }
+
+            .control-right {
+                flex-direction: row;
+                box-sizing: border-box;
+                display: flex;
+                flex: 0 1 auto;
+                place-content: flex-end center;
+                align-items: center;
+            }
+
             .colunas {
                 width: 20px !important;
                 .mat-select-value {
@@ -67,6 +89,11 @@ folder-list-column {
                 display: flex;
                 flex-direction: column;
                 flex: 1 0 auto;
+
+                .card-tarefa-disabled:hover {
+                    cursor: not-allowed;
+                    background-color: #ccc;
+                }
 
                 .empty-tarefa-list {
                     flex: 1 1 auto;

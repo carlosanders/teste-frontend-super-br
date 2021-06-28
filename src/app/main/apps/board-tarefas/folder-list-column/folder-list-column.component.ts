@@ -20,6 +20,8 @@ import {
 import * as _ from 'lodash';
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
 import {CdkUtils} from "../../../../../@cdk/utils";
+import {UpdateData} from "../../../../../@cdk/ngrx-normalizr";
+import {tarefa as tarefaSchema} from "../../../../../@cdk/normalizr";
 
 @Component({
     selector: 'folder-list-column',
@@ -78,6 +80,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         folderSelectedIds: [],
         selectedIds: [],
         selectedTarefas: [],
+        savingIds: [],
         deletingIds: [],
         isIndeterminate: false,
         loading:  true
@@ -101,25 +104,16 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                 if (this.folder.id) {
                     this.tarefaList = _.filter(tarefaList, {folder: {id: this.folder.id}});
                 } else {
-                    this.tarefaList = _.filter(tarefaList, (tarefa) => tarefa?.folder === undefined);
+                    this.tarefaList = _.filter(tarefaList, (tarefa) => !tarefa?.folder?.id);
                 }
+
+                if (!this.tarefaList.length && this.pagination.total && this.controls.savingIds.length) {
+                    setTimeout(_=> this.doLoadMoreTarefas({
+                        'id': 'notIn:'+this.controls.savingIds.join(',')
+                    }), 300);
+                }
+
                 this._changeRef.markForCheck();
-            });
-
-        this._store
-            .pipe(
-                select(fromStore.getSelectedTarefaIds),
-                takeUntil(this._unsubscribeAll),
-                distinctUntilChanged(),
-                filter(selectedIds => selectedIds !== undefined),
-            )
-            .subscribe(selectedIds => {
-                this.controls.selectedIds = selectedIds;
-                this.controls.folderSelectedIds = selectedIds.filter(id => this.tarefaList.map(tarefa => tarefa.id).includes(id));
-                this.controls.isIndeterminate = this.controls.folderSelectedIds.length > 0
-                                                && this.controls.folderSelectedIds.length !== this.tarefaList.length;
-
-                this._changeRef.detectChanges();
             });
 
         this._store
@@ -129,7 +123,15 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                 distinctUntilChanged(),
                 filter(tarefasSelectedList => tarefasSelectedList !== undefined),
             )
-            .subscribe(tarefasSelectedList => this.controls.selectedTarefas = tarefasSelectedList);
+            .subscribe(tarefasSelectedList => {
+                this.controls.selectedTarefas = tarefasSelectedList;
+                this.controls.selectedIds = tarefasSelectedList.map(tarefa => tarefa.id);
+                this.controls.folderSelectedIds = this.controls.selectedIds.filter(id => this.tarefaList.map(tarefa => tarefa.id).includes(id));
+                this.controls.isIndeterminate = this.controls.folderSelectedIds.length > 0
+                    && this.controls.folderSelectedIds.length !== this.tarefaList.length;
+
+                this._changeRef.detectChanges();
+            });
 
         this._store
             .pipe(
@@ -145,6 +147,8 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
 
         this._store
             .pipe(
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged(),
                 select(fromStore.getFolderTarefas),
                 filter(folderTarefas => folderTarefas !== undefined)
             )
@@ -157,6 +161,8 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
 
         this._store
             .pipe(
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged(),
                 select(fromStore.getSelectedTarefas),
                 filter(tarefaList => tarefaList !== undefined)
             )
@@ -166,22 +172,15 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
 
         this._store
             .pipe(
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged(),
                 select(fromStore.getTarefasSavingIds),
-                filter(savingIds => savingIds !== undefined && !savingIds.length),
-                withLatestFrom(
-                    this._store.pipe(
-                        select(fromStore.getFoldersWaitingReload),
-                        filter(foldersName => foldersName.includes(this.folder.nome.toUpperCase()))
-                    )
-                )
+                filter(savingIds => savingIds !== undefined)
             )
-            .subscribe(([savingIds, foldersName]) => {
-                this._store.dispatch(new fromStore.RemoveFolderWaitingReload(this.folder.nome.toUpperCase()));
-                this.onClickReload();
-                this._changeRef.detectChanges();
-            });
+            .subscribe((savingIds => this.controls.savingIds = savingIds));
 
         this.controls.campos.setValue(this.controls.allCampos.map(c => c.id).filter(c => this.controls.displayedCampos.indexOf(c) > -1));
+
         this.controls.campos.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -205,7 +204,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
     {
     }
 
-    onScrollTarefaList(scrollEvent: IInfiniteScrollEvent): void
+    doLoadMoreTarefas(listFilter: any = {}): void
     {
         if (this.tarefaList?.length >= this.pagination?.total) {
             return;
@@ -216,7 +215,8 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
             pagination: {
                 ...this.pagination,
                 limit: 10,
-                offset: this.tarefaList.length
+                offset: this.tarefaList.length,
+                listFilter: listFilter
             },
             increment: true
         };
@@ -224,7 +224,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         this._store.dispatch(new fromStore.GetTarefas(params));
     }
 
-    onClickReload(): void
+    doReload(): void
     {
         const params = {
             pagination: {
@@ -239,7 +239,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         this._store.dispatch(new fromStore.GetTarefas(params));
     }
 
-    onClickSort(sort: any): void
+    doSort(sort: any): void
     {
         this._store.dispatch(new fromStore.GetTarefas(
             {
@@ -255,13 +255,16 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         ))
     }
 
-    onClickRemoveFolder(folder: Folder): void
+    doRemoveFolder(folder: Folder): void
     {
         this._store.dispatch(new fromStore.DeleteFolder(folder.id));
     }
 
-    onClickToggleSelectAll(ev): void {
+    doToggleSelectAll(ev): void {
         ev.preventDefault();
+        if (this.isActionsDisabled()) {
+            return;
+        }
         let selectedIds = [];
 
         if (this.controls.folderSelectedIds.length === this.tarefaList.length) {
@@ -289,7 +292,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                     tarefa: tarefa,
                     loteId: loteId,
                     operacaoId: CdkUtils.makeId(),
-                    newFolder: this.folder,
+                    newFolder: (this.folder.id ? this.folder : null),
                     oldFolder: (tarefa?.folder || null),
                     redo: [
                         new fromStore.ChangeTarefasFolder({
@@ -314,17 +317,18 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                 }));
             });
 
-            this._store.dispatch(new fromStore.AddFolderWaitingReload(newFolderName));
-            this._store.dispatch(new fromStore.AddFolderWaitingReload(oldFolderName));
+            // tmp disabled
+            // this._store.dispatch(new fromStore.AddFolderWaitingReload(newFolderName));
+            // this._store.dispatch(new fromStore.AddFolderWaitingReload(oldFolderName));
         }
     }
 
-    dropzoneEnabled(event: DragEvent): boolean
+    isDropzoneEnabled(event: DragEvent): boolean
     {
         return !this.controls.folderSelectedIds.length;
     }
 
-    dragOver($event: DragEvent, folderListColumnContent: HTMLElement, enabled: boolean): void {
+    onDragOver($event: DragEvent, folderListColumnContent: HTMLElement, enabled: boolean): void {
         if (enabled) {
             const elementClass = folderListColumnContent.getAttribute('class').replace('folder-list-column-drag-over-disabled', '');
             folderListColumnContent.setAttribute('class', elementClass + ' folder-list-column-drag-over');
@@ -334,6 +338,16 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
             folderListColumnContent.setAttribute('class', folderListColumnContent.getAttribute('class') + ' folder-list-column-drag-over-disabled');
             this._changeRef.detectChanges();
         }
+    }
+
+    isActionsDisabled(): boolean
+    {
+        return !!this.controls.savingIds.length;
+    }
+
+    isTarefaDisabled(tarefa: Tarefa): boolean
+    {
+        return this.controls.savingIds.includes(tarefa.id);
     }
 
     ngOnDestroy(): void

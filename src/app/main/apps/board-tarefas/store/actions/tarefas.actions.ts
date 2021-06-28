@@ -67,6 +67,8 @@ export const CHANGE_TAREFAS_FOLDER = '[BOARD TAREFAS] CHANGE TAREFAS FOLDER';
 export const CHANGE_TAREFAS_FOLDER_FAILED = '[BOARD TAREFAS] CHANGE TAREFAS FOLDER FAILED';
 export const CHANGE_TAREFAS_FOLDER_SUCCESS = '[BOARD TAREFAS] CHANGE TAREFAS FOLDER SUCCESS';
 
+export const TOGGLE_EXPAND_TAREFAS = '[BOARD TAREFAS] TOGGLE EXPAND TAREFAS';
+
 export class GetTarefas implements Action {
     readonly type = GET_TAREFAS;
 
@@ -467,6 +469,15 @@ export class ChangeTarefasFolderFailed implements Action
     }
 }
 
+export class ToggleExpandTarefas implements Action
+{
+    readonly type = TOGGLE_EXPAND_TAREFAS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefasActionsAll
     = GetTarefas
     | GetTarefasSuccess
@@ -518,4 +529,5 @@ export type TarefasActionsAll
     | ChangeTarefasFolder
     | ChangeTarefasFolderSuccess
     | ChangeTarefasFolderFailed
+    | ToggleExpandTarefas
     ;

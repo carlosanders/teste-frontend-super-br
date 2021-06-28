@@ -1,9 +1,10 @@
-import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
     tarefa as tarefaSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
-    assunto as assuntoSchema
+    assunto as assuntoSchema,
+    folder as folderSchema
 } from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -511,15 +512,30 @@ export class TarefasEffect {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
                         type: 'tarefa',
-                        content: 'Movendo a tarefa id ' + action.payload.tarefa.id + '...',
+                        content: `Movendo a tarefa id ${action.payload.tarefa.id} para a pasta ${(action.payload.newFolder?.nome || 'Entrada')}...`,
                         status: 0, // carregando
                         lote: action.payload.loteId,
                         redo: action.payload.redo,
                         undo: action.payload.undo
                     }));
+
+                    if (action.payload.newFolder?.id) {
+                        this._store.dispatch(new UpdateData<Tarefa>({
+                            id: action.payload.tarefa.id,
+                            schema: tarefaSchema,
+                            changes: {folder: action.payload.newFolder.id}
+                        }));
+                    } else {
+                        this._store.dispatch(new UpdateData<Tarefa>({
+                            id: action.payload.tarefa.id,
+                            schema: tarefaSchema,
+                            changes: {folder: {id: null}}
+                        }));
+                    }
                 }),
                 concatMap((action) => {
                     const folder = action.payload.newFolder?.id || null;
+
                     return this._tarefaService.patch(
                         action.payload.tarefa,
                         {folder: folder},
@@ -551,11 +567,6 @@ export class TarefasEffect {
                         )
                     ).pipe(
                         mergeMap((response: any) => [
-                            new UpdateData<Tarefa>({
-                                id: response.id,
-                                schema: tarefaSchema,
-                                changes: {folder: response.folder}
-                            }),
                             new TarefasActions.ChangeTarefasFolderSuccess({
                                 ...action.payload,
                                 tarefa: response
@@ -563,7 +574,7 @@ export class TarefasEffect {
                             new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'tarefa',
-                                content: 'Tarefa id ' + action.payload.tarefa.id + ' movida com sucesso!',
+                                content: `Tarefa id ${action.payload.tarefa.id} movida para a pasta ${(action.payload.newFolder?.nome || 'Entrada')} com sucesso!`,
                                 status: 1, // sucesso
                                 lote: action.payload.loteId,
                                 redo: 'inherent',
@@ -571,11 +582,17 @@ export class TarefasEffect {
                             })
                         ]),
                         catchError((err) => {
+                            this._store.dispatch(new UpdateData<Tarefa>({
+                                id: action.payload.tarefa.id,
+                                schema: tarefaSchema,
+                                changes: {folder: (action.payload.oldFolder || null )}
+                            }));
+
                             this._store.dispatch(
                                 new OperacoesActions.Operacao({
                                     id: action.payload.operacaoId,
                                     type: 'tarefa',
-                                    content: 'Erro ao mover a tarefa id ' + action.payload.tarefa.id + '!',
+                                    content: `Erro ao mover a tarefa id ${action.payload.tarefa.id} para a pasta ${(action.payload.newFolder?.nome || 'Entrada')}!`,
                                     status: 2, // erro
                                     lote: action.payload.loteId,
                                     redo: 'inherent',
@@ -583,7 +600,10 @@ export class TarefasEffect {
                                 })
                             );
 
-                            return of(new TarefasActions.ChangeTarefasFolderFailed(err));
+                            return of(new TarefasActions.ChangeTarefasFolderFailed({
+                                ...action.payload,
+                                error: err
+                            }));
                         })
                     );
                 })

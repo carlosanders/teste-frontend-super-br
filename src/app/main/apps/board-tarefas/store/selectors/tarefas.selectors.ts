@@ -170,10 +170,15 @@ export const getTarefasSavingIds = createSelector(
     (state:TarefasState) => state.savingIds
 );
 
-
 export const getTarefasSelected = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedTarefaIds,
     schemaSelectors.entitiesProjector
 );
+
+export const getTarefasExpandedIds = createSelector(
+    getTarefasState,
+    (state:TarefasState) => state.tarefasExpandedIds
+);
+
 

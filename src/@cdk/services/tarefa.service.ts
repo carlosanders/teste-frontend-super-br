@@ -68,23 +68,6 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         );
     }
 
-    patch(tarefa: Tarefa, changes: any, populate: any = '[]', context: any = '{}'): Observable<Tarefa> {
-        const params: HttpParams = new HttpParams();
-        params['populate'] = populate;
-        params['context'] = context;
-        return this.http.patch(
-            `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}` + environment.xdebug,
-            JSON.stringify(changes),
-            {params}
-        ).pipe(
-            map((response) => {
-                response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
-                return Object.assign(new Tarefa(), {...tarefa, ...response});
-            })
-        );
-    }
-
     gerarRelatorioTarefaExcel(): Observable<Tarefa> {
         return this.modelService.post('administrativo/relatorio/gerar_relatorio_minhas_tarefas');
     }

@@ -5,7 +5,7 @@
     [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
     [dndDragImageOffsetFunction]="this.offsetFunction"
     (dndEnd)="onCancelDrag($event)"
-    (dndCopied)="onCopied($event, tarefa)"
+    [dndDisableIf]="disableActions"
     (dndStart)="onStartDrag($event, tarefa)">
 
     <div dndDragImageRef class="drag-n-drop-message">
@@ -28,11 +28,11 @@
             </span>
         </div>
         <div class="actions">
-            <mat-icon class="s-16" [matTooltip]="'Copiar NUP para o clipboard'" (click)="onClickCopyNup(tarefa.processo?.NUP)">
+            <mat-icon class="s-16" [matTooltip]="'Copiar NUP para o clipboard'" (click)="doCopyNup(tarefa.processo?.NUP)">
                 file_copy
             </mat-icon>
 
-            <div (click)="onClickToggleCardExpand()">
+            <div (click)="doToggleCardExpand()">
                 <mat-icon *ngIf="cardExpanded">keyboard_arrow_down</mat-icon>
                 <mat-icon *ngIf="!cardExpanded">keyboard_arrow_up</mat-icon>
             </div>
@@ -42,9 +42,10 @@
         <div class="list-card-content-actions">
             <mat-checkbox
                 class="mr-8"
+                [disabled]="disableActions"
                 (click)="$event.stopPropagation();"
                 [checked]="tarefaChecked"
-                (change)="onChangeCheckTarefa()">
+                (change)="doToggleCheckTarefa()">
             </mat-checkbox>
         </div>
         <div class="list-card-content-group">
@@ -78,6 +79,10 @@
                     </ng-container>
                 </div>
             </ng-container>
+
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                Id: {{tarefa.id}}
+            </div>
 
             <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
@@ -117,7 +122,8 @@
                 mat-icon-button
                 [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
-                (click)="$event.stopPropagation()">
+                (click)="$event.stopPropagation()"
+                [disabled]="disableActions">
                 <mat-icon class="secondary-text">more_vert</mat-icon>
             </button>
             <mat-menu #moreMenu="matMenu">
@@ -148,7 +154,7 @@
 </div>
 
 <div class="list-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="tarefa.processo?.documentoAvulsoOrigem || true">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
         <span class="list-card-footer-item"
               fxLayout="row" fxLayoutAlign="start center">
             <mat-icon>mail</mat-icon>
@@ -159,7 +165,8 @@
         <div class="list-card-footer-item"
               fxLayout="row" fxLayoutAlign="start center">
             <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
-                    (click)="onClickToggleUrgente(); $event.stopPropagation();"
+                    (click)="doToggleUrgente(); $event.stopPropagation();"
+                    [disabled]="disableActions"
                     aria-label="Toggle important" fxHide.xs>
                 <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>

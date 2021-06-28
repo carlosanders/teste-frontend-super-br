@@ -1,5 +1,6 @@
 import * as TarefasActions from '../actions/tarefas.actions';
 import {Etiqueta} from '@cdk/models';
+import * as _ from 'lodash';
 
 export interface FolderTarefaState {
     folderNome: string;
@@ -73,6 +74,7 @@ export interface TarefasState {
     errorRedistribuir: number[];
     errorDistribuir: number[];
     processoLoadingId: number[];
+    tarefasExpandedIds: number[];
     assuntos: any[];
     interessados: any[];
 }
@@ -101,6 +103,7 @@ export const TarefasInitialState: TarefasState = {
     errorRedistribuir: [],
     errorDistribuir: [],
     processoLoadingId: [],
+    tarefasExpandedIds: [],
     assuntos: [],
     interessados: []
 };
@@ -155,6 +158,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 loading: true,
                 folderTarefas: folderTarefasList,
+                tarefasExpandedIds: [],
                 error: null
             };
         }
@@ -169,7 +173,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state.folderTarefas[tarefaIndex],
                 pagination: {
                     ...state.folderTarefas[tarefaIndex].pagination,
-                    total: action.payload.total
+                    total: action.payload.total,
+                    listFilter: null
                 },
                 entitiesId: [
                     ...state.folderTarefas[tarefaIndex].entitiesId,
@@ -198,6 +203,10 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
 
             const folderTarefas =  {
                 ...state.folderTarefas[tarefaIndex],
+                pagination: {
+                    ...state.folderTarefas[tarefaIndex].pagination,
+                    listFilter: null
+                },
                 loading: false,
                 loaded: false
             };
@@ -249,12 +258,48 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         }
 
         case TarefasActions.CHANGE_TAREFAS_FOLDER: {
+
+            const newFolderNome  = (action.payload.newFolder?.nome.toUpperCase() || 'ENTRADA');
+            const oldFolderNome  = (action.payload.oldFolder?.nome.toUpperCase() || 'ENTRADA');
+
+            let oldFolderTarefasFind = _.find(state.folderTarefas, {folderNome: oldFolderNome});
+            let newFolderTarefasFind = _.find(state.folderTarefas, {folderNome: newFolderNome});
+
+            const oldFolderTarefas = {
+                ...oldFolderTarefasFind,
+                entitiesId: oldFolderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id),
+                pagination: {
+                    ...oldFolderTarefasFind.pagination,
+                    total: (oldFolderTarefasFind.pagination.total-1)
+                }
+            }
+
+            const newFolderTarefas = {
+                ...newFolderTarefasFind,
+                entitiesId: [
+                    action.payload.tarefa.id,
+                    ...newFolderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id)
+                ],
+                pagination: {
+                    ...newFolderTarefasFind.pagination,
+                    total: (newFolderTarefasFind.pagination.total+1)
+                }
+            }
+
+            //copy
+            const folderTarefasList = state.folderTarefas.filter(_=> true);
+
+            folderTarefasList.splice(folderTarefasList.indexOf(oldFolderTarefasFind), 1, oldFolderTarefas);
+            folderTarefasList.splice(folderTarefasList.indexOf(newFolderTarefasFind), 1, newFolderTarefas);
+
             return {
                 ...state,
+                folderTarefas: folderTarefasList,
                 savingIds: [
                     ...state.savingIds.filter(id => id !== action.payload.tarefa.id),
                     action.payload.tarefa.id
-                ]
+                ],
+                selectedTarefaIds: state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id)
             };
         }
 
@@ -267,9 +312,47 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         }
 
         case TarefasActions.CHANGE_TAREFAS_FOLDER_FAILED: {
+            const newFolderNome  = (action.payload.newFolder?.nome.toUpperCase() || 'ENTRADA');
+            const oldFolderNome  = (action.payload.oldFolder?.nome.toUpperCase() || 'ENTRADA');
+
+            let oldFolderTarefasFind = _.find(state.folderTarefas, {folderNome: oldFolderNome});
+            let newFolderTarefasFind = _.find(state.folderTarefas, {folderNome: newFolderNome});
+
+            const newFolderTarefas = {
+                ...newFolderTarefasFind,
+                entitiesId: newFolderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id),
+                pagination: {
+                    ...newFolderTarefasFind.pagination,
+                    total: (newFolderTarefasFind.pagination.total-1)
+                }
+            }
+
+            const oldFolderTarefas = {
+                ...oldFolderTarefasFind,
+                entitiesId: [
+                    action.payload.tarefa.id,
+                    ...oldFolderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id)
+                ],
+                pagination: {
+                    ...oldFolderTarefasFind.pagination,
+                    total: (oldFolderTarefasFind.pagination.total+1)
+                }
+            }
+
+            //copy
+            const folderTarefasList = state.folderTarefas.filter(_=> true);
+
+            folderTarefasList.splice(folderTarefasList.indexOf(oldFolderTarefasFind), 1, oldFolderTarefas);
+            folderTarefasList.splice(folderTarefasList.indexOf(newFolderTarefasFind), 1, newFolderTarefas);
+
             return {
                 ...state,
-                savingIds: state.savingIds.filter(id => id !== action.payload.tarefa.id)
+                folderTarefas: folderTarefasList,
+                savingIds: state.savingIds.filter(id => id !== action.payload.tarefa.id),
+                selectedTarefaIds: [
+                    action.payload.tarefa.id,
+                    ...state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id)
+                ]
             };
         }
 
@@ -358,6 +441,20 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 assuntos: assuntos,
                 processoLoadingId: state.processoLoadingId.filter(id => id !== action.payload)
+            };
+        }
+
+        case TarefasActions.TOGGLE_EXPAND_TAREFAS: {
+            return {
+                ...state,
+                tarefasExpandedIds: (
+                    state.tarefasExpandedIds.includes(action.payload)
+                        ? state.tarefasExpandedIds.filter(id => id !== action.payload)
+                        : [
+                            ...state.tarefasExpandedIds,
+                            action.payload
+                        ]
+                )
             };
         }
 

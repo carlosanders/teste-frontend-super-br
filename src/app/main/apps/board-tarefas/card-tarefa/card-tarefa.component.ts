@@ -32,6 +32,9 @@ export class CardTarefaComponent implements OnInit, OnDestroy
     folderSelectedIds: number[] = [];
 
     @Input()
+    disableActions: boolean = false;
+
+    @Input()
     displayedCampos: string[] = [
         'especieTarefa.nome',
         'setorResponsavel.nome',
@@ -90,7 +93,11 @@ export class CardTarefaComponent implements OnInit, OnDestroy
                 distinctUntilChanged(),
                 filter(processosIds => processosIds !== undefined),
                 withLatestFrom(
-                    this._store.pipe(select(fromStore.getTarefasProcessoInteressados))
+                    this._store.pipe(
+                        takeUntil(this._unsubscribeAll),
+                        distinctUntilChanged(),
+                        select(fromStore.getTarefasProcessoInteressados)
+                    )
                 )
             )
             .subscribe(([processosIds, interessados]) => {
@@ -99,6 +106,19 @@ export class CardTarefaComponent implements OnInit, OnDestroy
                 if (interessado) {
                     this.totalInteressados = interessado?.total;
                 }
+            });
+
+
+        this._store
+            .pipe(
+                select(fromStore.getTarefasExpandedIds),
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged(),
+                filter(expandedIds => expandedIds !== undefined)
+            )
+            .subscribe(expandedIds => {
+                this.cardExpanded = expandedIds.includes(this.tarefa.id);
+                this._changeRef.markForCheck();
             });
     }
 
@@ -109,12 +129,13 @@ export class CardTarefaComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    onChangeCheckTarefa(): void
+    doToggleCheckTarefa(): void
     {
-        let selectedIds = [
-            ...this.folderSelectedIds.filter(id => id !== this.tarefa.id),
-            this.tarefa.id
-        ];
+        let selectedIds = this.folderSelectedIds.filter(id => id !== this.tarefa.id);
+
+        if (!this.folderSelectedIds.includes(this.tarefa.id)) {
+            selectedIds.push(this.tarefa.id);
+        }
 
         this._store.dispatch(new fromStore.ChangeSelectedTarefas(selectedIds));
     }
@@ -134,22 +155,18 @@ export class CardTarefaComponent implements OnInit, OnDestroy
 
     onCancelDrag(event: DragEvent): void {
         this.isDraggin = false;
-        // this.setDraggedTarefasIds.emit([]);
     }
 
-    onCopied(event: DragEvent, tarefa: Tarefa): void {
-    }
-
-    onClickToggleUrgente(): void
+    doToggleUrgente(): void
     {
         if (!this.togglingUrgente) {
             this._store.dispatch(new fromStore.ToggleUrgenteTarefa(this.tarefa));
         }
     }
 
-    onClickToggleCardExpand(): void
+    doToggleCardExpand(): void
     {
-        this.cardExpanded = !this.cardExpanded;
+        this._store.dispatch(new fromStore.ToggleExpandTarefas(this.tarefa.id));
 
         if (!this.tarefa.processo?.interessados?.length) {
             this._store.dispatch(new fromStore.GetTarefasAssuntos({
@@ -185,7 +202,7 @@ export class CardTarefaComponent implements OnInit, OnDestroy
         }
     }
 
-    onClickCopyNup(nup:string): void
+    doCopyNup(nup:string): void
     {
         document.addEventListener('copy', (e: ClipboardEvent) => {
             e.clipboardData.setData('text/plain', (nup));
