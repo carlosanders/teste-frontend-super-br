@@ -71,9 +71,6 @@ export function AssinaturasReducer(
             if (documentosTarefa.length === 0) {
                 assinandoTarefasId = assinandoTarefasId.filter(id => id != tarefaId);
             }
-            console.log(tarefaId);
-            console.log(documentosTarefa);
-            console.log(assinandoTarefasId);
             return {
                 ...state,
                 assinandoDocumentosId: state.assinandoDocumentosId.filter(id => id !== action.payload),

@@ -93,6 +93,6 @@ export class FolderListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

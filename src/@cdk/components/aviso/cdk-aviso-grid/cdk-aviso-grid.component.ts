@@ -20,6 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {AvisoDataSource} from '@cdk/data-sources/aviso-data-source';
 import {Aviso} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {CdkAvisoFilterComponent} from '../sidebars/cdk-aviso-filter/cdk-aviso-filter.component';
 
 @Component({
     selector: 'cdk-aviso-grid',
@@ -114,16 +115,6 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
             fixed: false
         },
         {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
             id: 'actions',
             label: '',
             fixed: true
@@ -149,6 +140,9 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkAvisoFilterComponent)
+    cdkAvisoFilterComponent: CdkAvisoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -294,6 +288,8 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkAvisoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

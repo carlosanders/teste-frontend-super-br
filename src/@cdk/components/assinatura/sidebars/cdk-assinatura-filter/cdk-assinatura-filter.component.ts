@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-assinatura-filter',
@@ -20,6 +21,11 @@ export class CdkAssinaturaFilterComponent {
 
     @Input()
     mode = 'list';
+
+    filterCriadoEm = [];
+    filterAssinadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -47,62 +53,16 @@ export class CdkAssinaturaFilterComponent {
 
         const andXFilter = [];
 
-        if (this.form.get('algoritmoHash').value) {
-            this.form.get('algoritmoHash').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'algoritmoHash': `like:%${bit}%`});
-            });
-        }
-
-        if (this.form.get('assinatura').value) {
-            this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'assinatura': `like:%${bit}%`});
-            });
-        }
-
-        if (this.form.get('cadeiaCertificadoPEM').value) {
-            this.form.get('cadeiaCertificadoPEM').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'cadeiaCertificadoPEM': `like:%${bit}%`});
-            });
-        }
-
-        if (this.form.get('cadeiaCertificadoPkiPath').value) {
-            this.form.get('cadeiaCertificadoPkiPath').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'cadeiaCertificadoPkiPath': `like:%${bit}%`});
-            });
-        }
-
-        if (this.form.get('assinatura').value) {
-            this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'assinatura': `like:%${bit}%`});
-            });
-        }
-
-        if (this.form.get('componenteDigital').value) {
-            andXFilter.push({'componenteDigital.id': `eq:${this.form.get('componenteDigital').value.id}`});
-        }
-
         if (this.form.get('origemDados').value) {
             andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
-        if (this.form.get('dataHoraAssinatura').value) {
-            andXFilter.push({'dataHoraAssinatura': `eq:${this.form.get('dataHoraAssinatura').value}`});
+        if (this.filterAssinadoEm.length > 0) {
+            this.filterAssinadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
-        }
-
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
-        }
-
-        if (this.form.get('criadoPor').value) {
-            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
-        }
-
-        if (this.form.get('atualizadoPor').value) {
-            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        if (this.form.get('assinadorPor').value) {
+            andXFilter.push({'assinadoPor.id': `eq:${this.form.get('assinadoPor').value.id}`});
         }
 
         const request = {
@@ -115,6 +75,11 @@ export class CdkAssinaturaFilterComponent {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-assinatura-filter').close();
+    }
+
+    filtraAssinadoEm(value: any): void {
+        this.filterAssinadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {
@@ -130,6 +95,7 @@ export class CdkAssinaturaFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

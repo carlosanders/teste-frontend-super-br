@@ -136,7 +136,7 @@ export class SigilosEffects {
                             console.log (err);
                             return of(new SigiloActions.DeleteSigiloFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**

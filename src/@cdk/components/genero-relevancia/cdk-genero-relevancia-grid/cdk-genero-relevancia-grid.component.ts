@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroRelevancia} from '@cdk/models';
 import {GeneroRelevanciaDataSource} from '@cdk/data-sources/genero-relevancia-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkGeneroRelevanciaFilterComponent} from '../sidebars/cdk-genero-relevancia-filter/cdk-genero-relevancia-filter.component';
+
 
 @Component({
     selector: 'cdk-genero-relevancia-grid',
@@ -135,6 +137,9 @@ export class CdkGeneroRelevanciaGridComponent implements AfterViewInit, OnInit, 
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkGeneroRelevanciaFilterComponent)
+    cdkGeneroRelevanciaFilterComponent: CdkGeneroRelevanciaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkGeneroRelevanciaGridComponent implements AfterViewInit, OnInit, 
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkGeneroRelevanciaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

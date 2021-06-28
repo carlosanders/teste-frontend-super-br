@@ -183,41 +183,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 },
             ]
         };
-
-        /*
-        this.modeloPagination.filter = {
-            orX: [
-                {
-                    'modalidadeModelo.valor': 'eq:EM BRANCO'
-                },
-                {
-                    // Modelos individuais
-                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
-                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
-                },
-                {
-                    // Modelos do setor
-                    'modalidadeModelo.valor': 'eq:LOCAL',
-                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
-                },
-                {
-                    // Modelos da unidade por especie de setor
-                    'modalidadeModelo.valor': 'eq:LOCAL',
-                    'vinculacoesModelos.unidade.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                    'vinculacoesModelos.especieSetor.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
-                },
-                {
-                    // Modelos nacionais
-                    'modalidadeModelo.valor': 'eq:NACIONAL',
-                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                    'vinculacoesModelos.especieSetor.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
-                }
-            ]
-        }; */
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -322,8 +287,13 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             }
         );
 
-        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
@@ -505,9 +475,35 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.UpdateDocumento(values));
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+        } else {
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura
+                    }));
+                });
+            });
+        }
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();

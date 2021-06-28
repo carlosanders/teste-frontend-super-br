@@ -20,6 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ColaboradorDataSource} from '@cdk/data-sources/colaborador-data-source';
 import {Colaborador} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {CdkColaboradorFilterComponent} from '../sidebars/cdk-colaborador-filter/cdk-colaborador-filter.component';
 
 @Component({
     selector: 'cdk-colaborador-grid',
@@ -134,6 +135,9 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkColaboradorFilterComponent)
+    cdkColaboradorFilterComponent: CdkColaboradorFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -277,6 +281,8 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkColaboradorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

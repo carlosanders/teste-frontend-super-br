@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {ModalidadeVinculacaoProcesso} from '@cdk/models';
 import {ModalidadeVinculacaoProcessoDataSource} from '@cdk/data-sources/modalidade-vinculacao-processo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkModalidadeVinculacaoProcessoFilterComponent} from '../sidebars/cdk-modalidade-vinculacao-processo-filter/cdk-modalidade-vinculacao-processo-filter.component';
+
 
 @Component({
     selector: 'cdk-modalidade-vinculacao-processo-grid',
@@ -135,6 +137,9 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkModalidadeVinculacaoProcessoFilterComponent)
+    cdkModalidadeVinculacaoProcessoFilterComponent: CdkModalidadeVinculacaoProcessoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkModalidadeVinculacaoProcessoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

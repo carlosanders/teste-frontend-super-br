@@ -34,7 +34,7 @@
             </div>
 
             <div class="subtitle" fxLayout="row" *ngIf="isOpen">
-                <div *ngIf="loadingAssuntosProcessosId.indexOf(processo.id) !== -1">
+                <div *ngIf="loadingAssuntosProcessosId?.indexOf(processo.id) !== -1">
                     <mat-spinner diameter=16></mat-spinner>
                 </div>
                 <div *ngIf="processo?.assuntos?.length > 0">

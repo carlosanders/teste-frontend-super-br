@@ -102,6 +102,9 @@
             <mat-radio-button [value]="'externa'">
                 Externa
             </mat-radio-button>
+            <mat-radio-button [value]="'barramento'" *ngIf="_cdkConfigService.barramento === '1'">
+                Barramento
+            </mat-radio-button>
 
             <ng-template #dynamicComponent></ng-template>
         </mat-radio-group>
@@ -225,7 +228,7 @@
 
     <div class="actions">
         <button type="submit" mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid || !valid || !selected" *ngIf="!saving">
+                [disabled]="form.invalid || !valid || (!documentoAvulso.id && !selected)" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

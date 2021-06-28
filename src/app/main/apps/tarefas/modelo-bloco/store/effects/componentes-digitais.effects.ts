@@ -79,7 +79,7 @@ export class ComponenteDigitalEffect {
                             console.log (err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
 }

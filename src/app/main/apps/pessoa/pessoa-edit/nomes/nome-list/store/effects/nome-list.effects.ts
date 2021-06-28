@@ -93,6 +93,6 @@ export class NomeListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

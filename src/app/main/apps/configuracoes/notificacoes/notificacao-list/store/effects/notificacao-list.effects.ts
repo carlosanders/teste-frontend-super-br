@@ -93,7 +93,7 @@ export class NotificacaoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -119,6 +119,6 @@ export class NotificacaoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

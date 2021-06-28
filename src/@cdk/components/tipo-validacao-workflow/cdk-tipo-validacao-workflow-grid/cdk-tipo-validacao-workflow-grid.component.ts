@@ -20,6 +20,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoValidacaoWorkflow} from '@cdk/models';
 import {TipoValidacaoWorkflowDataSource} from '@cdk/data-sources/tipo-validacao-workflow-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTipoValidacaoWorkflowFilterComponent} from '../sidebars/cdk-tipo-validacao-workflow-filter/cdk-tipo-validacao-workflow-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-validacao-workflow-grid',
@@ -136,6 +138,9 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkTipoValidacaoWorkflowFilterComponent)
+    cdkTipoValidacaoWorkflowFilterComponent: CdkTipoValidacaoWorkflowFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -280,6 +285,8 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkTipoValidacaoWorkflowFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -91,6 +91,6 @@ export class VinculacaoProcessoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

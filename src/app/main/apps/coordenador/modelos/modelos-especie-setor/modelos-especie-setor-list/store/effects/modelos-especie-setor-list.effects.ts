@@ -91,6 +91,6 @@ export class ModelosEspecieSetorListEffects {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

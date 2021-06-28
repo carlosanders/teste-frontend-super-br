@@ -16,6 +16,9 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkGeneroDocumentoAutocompleteModule} from '../../../genero-documento/cdk-genero-documento-autocomplete/cdk-genero-documento-autocomplete.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -37,6 +40,9 @@ import {CdkGeneroDocumentoAutocompleteModule} from '../../../genero-documento/cd
 
         CdkGeneroDocumentoAutocompleteModule,
         CdkUsuarioAutocompleteModule,
+        MatButtonToggleModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         EspecieDocumentoService,

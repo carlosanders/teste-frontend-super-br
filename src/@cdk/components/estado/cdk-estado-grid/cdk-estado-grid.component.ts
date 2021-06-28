@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Estado} from '@cdk/models';
 import {EstadoDataSource} from '../../../data-sources/estado-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkEstadoFilterComponent} from '../sidebars/cdk-estado-filter/cdk-estado-filter.component';
+
 
 @Component({
     selector: 'cdk-estado-grid',
@@ -135,6 +137,9 @@ export class CdkEstadoGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkEstadoFilterComponent)
+    cdkEstadoFilterComponent: CdkEstadoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkEstadoGridComponent implements AfterViewInit, OnInit, OnChanges 
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkEstadoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
+import { Pagination } from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-identificador-filter',
@@ -20,6 +22,13 @@ export class CdkDocumentoIdentificadorFilterComponent {
 
     @Input()
     mode = 'list';
+    pagination: Pagination;
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterDataEmissao = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -70,16 +79,22 @@ export class CdkDocumentoIdentificadorFilterComponent {
             andXFilter.push({'pessoa.id': `eq:${this.form.get('pessoa').value.id}`});
         }
 
-        if (this.form.get('dataEmissao').value) {
-            andXFilter.push({'dataEmissao': `eq:${this.form.get('dataEmissao').value}`});
+        if (this.filterDataEmissao?.length) {
+            this.filterDataEmissao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -102,6 +117,21 @@ export class CdkDocumentoIdentificadorFilterComponent {
         this._cdkSidebarService.getSidebar('cdk-documento-identificador-filter').close();
     }
 
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataEmissao(value: any): void {
+        this.filterDataEmissao = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
@@ -115,6 +145,7 @@ export class CdkDocumentoIdentificadorFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

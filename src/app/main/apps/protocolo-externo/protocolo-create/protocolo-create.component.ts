@@ -193,8 +193,13 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             }
         );
 
-        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {

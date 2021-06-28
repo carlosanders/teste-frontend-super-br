@@ -6,6 +6,11 @@ export interface DocumentosVinculadosState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    alterandoDocumentoIds: number[];
+    downloadDocumentosP7SIds: number[];
+    loading: boolean;
+    loaded: boolean;
+    error: any;
 }
 
 export const DocumentosVinculadosInitialState: DocumentosVinculadosState = {
@@ -13,7 +18,12 @@ export const DocumentosVinculadosInitialState: DocumentosVinculadosState = {
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
-    assinandoDocumentoIds: []
+    assinandoDocumentoIds: [],
+    alterandoDocumentoIds: [],
+    downloadDocumentosP7SIds: [],
+    loading: false,
+    loaded: false,
+    error: null,
 };
 
 export function DocumentosVinculadosReducer(
@@ -78,6 +88,54 @@ export function DocumentosVinculadosReducer(
             return {
                 ...state,
                 selectedDocumentosId: action.payload
+            };
+        }
+
+        case DocumentosVinculadosActions.UPDATE_DOCUMENTO: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
+                loaded: false,
+                loading: true,
+            };
+        }
+
+        case DocumentosVinculadosActions.UPDATE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+                documentosId: state.documentosId.filter(id => id !== action.payload),
+                loaded: true,
+                loading: false,
+            };
+        }
+
+        case DocumentosVinculadosActions.UPDATE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                loaded: false,
+                loading: false,
+            };
+        }
+
+
+        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: [...state.downloadDocumentosP7SIds, action.payload],
+            };
+        }
+        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S_SUCCESS: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
+            };
+        }
+        case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S_FAILED: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
             };
         }
 

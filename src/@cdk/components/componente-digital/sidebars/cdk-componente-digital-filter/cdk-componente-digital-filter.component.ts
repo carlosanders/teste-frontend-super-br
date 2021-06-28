@@ -120,6 +120,15 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
+        if (this.form.get('editavel').value) {
+            if(this.form.get('editavel').value !== 'todos') {
+                andXFilter.push({'editavel': `eq:${this.form.get('editavel').value}`});
+            }
+            else {
+                delete andXFilter['editavel'];
+            }
+        }
+
         const request = {
             filters: {},
         };

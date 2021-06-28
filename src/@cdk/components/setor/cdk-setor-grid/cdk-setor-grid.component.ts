@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Setor} from '@cdk/models';
 import {SetorDataSource} from '@cdk/data-sources/setor-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkSetorFilterComponent} from '../sidebars/cdk-setor-filter/cdk-setor-filter.component';
 
 @Component({
     selector: 'cdk-setor-grid',
@@ -224,6 +225,9 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkSetorFilterComponent)
+    cdkSetorFilterComponent: CdkSetorFilterComponent;
+
     @Output()
     reload = new EventEmitter<any>();
 
@@ -383,6 +387,8 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkSetorFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

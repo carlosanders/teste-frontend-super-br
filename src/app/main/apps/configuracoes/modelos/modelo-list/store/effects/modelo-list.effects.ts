@@ -100,6 +100,6 @@ export class ModeloListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

@@ -24,6 +24,7 @@ import {CdkAtividadeAutocompleteModule} from '../../../atividade/cdk-atividade-a
 import {CdkTipoDocumentoAutocompleteModule} from '../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkTipoDocumentoAutocompleteModule,
         MatMenuModule,
         CdkDateFilterModule,
+        MatButtonToggleModule,
     ],
     providers: [
         JuntadaService,

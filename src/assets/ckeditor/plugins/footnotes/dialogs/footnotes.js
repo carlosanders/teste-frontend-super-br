@@ -48,7 +48,7 @@
                             // Called by the main setupContent call on dialog initialization.
                             setup: function( element ) {
                                 var dialog = this.getDialog(),
-                                    // $el = Ext.get('#' + this.domId),
+                                   // $el = Ext.get('#' + this.domId),
                                     $el = $('#' + this.domId),
                                     $footnotes, $this;
 
@@ -57,8 +57,8 @@
                                 editor = dialog.getParentEditor();
                                 // Dynamically add existing footnotes:
                                 $footnotes = $(editor.editable().$).find('.footnotes ol');
-                                /* var $foot = Ext.Element(editor.editable().$);
-                                 $footnotes = Ext.query('.footnotes ol',$foot);*/
+                               /* var $foot = Ext.Element(editor.editable().$);
+                                $footnotes = Ext.query('.footnotes ol',$foot);*/
                                 $this = this;
 
                                 if ($footnotes.length > 0) {

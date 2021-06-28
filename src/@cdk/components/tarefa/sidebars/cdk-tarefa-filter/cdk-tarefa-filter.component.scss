@@ -53,6 +53,19 @@ cdk-tarefa-filter {
                     }
                 }
             }
+
+            .mat-button-toggle-label-content {
+                line-height: 15px !important;
+            }
+
+            .button-toggle-custom {
+                width: 100%;
+            }
+
+            .mat-button-toggle-group-custom {
+                margin-top: 10px;
+                margin-bottom: 18px;
+            }
         }
     }
 

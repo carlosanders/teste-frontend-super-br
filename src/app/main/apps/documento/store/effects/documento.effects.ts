@@ -316,19 +316,20 @@ export class DocumentoEffect {
                 mergeMap(([action, documentoId]) => this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 0)]))
                             .pipe(
                                 tap((response: any) => {
-                                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.secret + '/get_jnlp';
-                                    const ifrm = document.createElement('iframe');
-                                    ifrm.setAttribute('src', url);
-                                    ifrm.style.width = '0';
-                                    ifrm.style.height = '0';
-                                    ifrm.style.border = '0';
-                                    document.body.appendChild(ifrm);
-                                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                                    if (response.secret) {
+                                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.secret + '/get_jnlp';
+                                        const ifrm = document.createElement('iframe');
+                                        ifrm.setAttribute('src', url);
+                                        ifrm.style.width = '0';
+                                        ifrm.style.height = '0';
+                                        ifrm.style.border = '0';
+                                        document.body.appendChild(ifrm);
+                                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                                    }
                                 }),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentoActions.AssinaDocumentoFailed(err));
-                                    return caught;
+                                    return of(new DocumentoActions.AssinaDocumentoFailed(err));
                                 })
                             )
                 ));
@@ -454,7 +455,7 @@ export class DocumentoEffect {
                             return of(new DocumentoActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
-                })
+                }, 25)
             );
 
 
@@ -478,7 +479,7 @@ export class DocumentoEffect {
                             console.log(err);
                             return of(new DocumentoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 
 
@@ -506,7 +507,7 @@ export class DocumentoEffect {
                                 console.log(err);
                                 return of(new DocumentoActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
 }

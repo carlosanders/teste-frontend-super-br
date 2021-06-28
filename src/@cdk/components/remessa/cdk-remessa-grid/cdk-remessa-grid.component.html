@@ -276,6 +276,15 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
+                        <button mat-icon-button *ngIf="_cdkConfigService.barramento === '1' &&
+                        remessa['mecanismoRemessa'] === 'barramento'"
+                                [disabled]="deletedIds?.indexOf(remessa.id) > -1"
+                                aria-label="status"
+                                matTooltip="Status Barramento"
+                                (click)="verificaStatusBarramento(remessa.id)">
+                            <mat-icon>backup</mat-icon>
+                        </button>
+
                         <mat-error *ngIf="getProp(deletingErrors, remessa.id)">
                             {{ getProp(deletingErrors, remessa.id) }}
                         </mat-error>

@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {TipoDocumento} from '@cdk/models';
 import {TipoDocumentoDataSource} from '@cdk/data-sources/tipo-documento-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTipoDocumentoFilterComponent} from '../sidebars/cdk-tipo-documento-filter/cdk-tipo-documento-filter.component';
+
 
 @Component({
     selector: 'cdk-tipo-documento-grid',
@@ -145,6 +147,9 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkTipoDocumentoFilterComponent)
+    cdkTipoDocumentoFilterComponent: CdkTipoDocumentoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -290,6 +295,8 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkTipoDocumentoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

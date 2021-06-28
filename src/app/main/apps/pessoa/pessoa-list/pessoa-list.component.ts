@@ -89,7 +89,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetPessoas({
             ...this.pagination,
             filter: {
-                ...this.pagination.filter,
+                ...this.pagination.filter
             },
             gridFilter: {
                 ...params.gridFilter
