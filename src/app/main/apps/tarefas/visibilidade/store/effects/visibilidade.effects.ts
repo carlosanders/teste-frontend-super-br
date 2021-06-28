@@ -59,8 +59,7 @@ export class VisibilidadeEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log (err);
-                    this._store.dispatch(new VisibilidadeActions.GetVisibilidadesFailed(err));
-                    return caught;
+                    return of(new VisibilidadeActions.GetVisibilidadesFailed(err));
                 })
 
             );

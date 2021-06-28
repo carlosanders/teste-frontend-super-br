@@ -21,6 +21,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Contato} from '@cdk/models/contato.model';
 import {ContatoDataSource} from '@cdk/data-sources/contato-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkContatoFilterComponent} from '../sidebars/cdk-contato-filter/cdk-contato-filter.component';
 
 @Component({
     selector: 'cdk-contato-grid',
@@ -130,6 +131,9 @@ export class CdkContatoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkContatoFilterComponent)
+    cdkContatoFilterComponent: CdkContatoFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -275,6 +279,8 @@ export class CdkContatoGridComponent implements AfterViewInit, OnInit, OnChanges
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkContatoFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

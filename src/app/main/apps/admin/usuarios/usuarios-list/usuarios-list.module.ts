@@ -21,7 +21,6 @@ import {UsuariosListComponent} from './usuarios-list.component';
 import {UsuariosListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkUsuarioGridModule} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
-import {LoginService} from '../../../../auth/login/login.service';
 import {PathModule} from '@cdk/components/path/path.module';
 import {TarefaService} from '@cdk/services/tarefa.service';
 

@@ -109,7 +109,6 @@ export const SAVE_OBSERVACAO = '[TAREFAS] SAVE OBSERVACAO';
 export const SAVE_OBSERVACAO_SUCCESS = '[TAREFAS] SAVE OBSERVACAO SUCCESS';
 export const SAVE_OBSERVACAO_FAILED = '[TAREFAS] SAVE OBSERVACAO FAILED';
 
-
 /**
  * Unload Tarefas
  */
@@ -947,7 +946,6 @@ export class SaveObservacaoFailed implements Action
     {
     }
 }
-
 
 export type TarefasActionsAll
     = UnloadTarefas

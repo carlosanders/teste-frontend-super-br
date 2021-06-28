@@ -17,6 +17,7 @@ export interface JuntadaState {
     desentranhadoIds: number[];
     copiandoIds: number[];
     copiadoIds: number[];
+    assinandoDocumentoIds: number[];
 }
 
 export const JuntadaInitialState: JuntadaState = {
@@ -35,7 +36,8 @@ export const JuntadaInitialState: JuntadaState = {
     desentranhadoIds: [],
     desentranhandoIds: [],
     copiandoIds: [],
-    copiadoIds: []
+    copiadoIds: [],
+    assinandoDocumentoIds: [],
 };
 
 export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActions.JuntadaActionsAll): JuntadaState {
@@ -92,7 +94,6 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
                     }
                 };
             }
-
         }
 
         case JuntadaActions.GET_JUNTADAS_FAILED: {
@@ -100,6 +101,58 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_JUNTADA: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_JUNTADA_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_JUNTADA_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            let newState = [...state.assinandoDocumentoIds];
+            let index = newState.indexOf(action.payload);
+            if (index > -1) {
+                newState.splice(index, 1);
+            }
+            return {
+                ...state,
+                assinandoDocumentoIds: newState
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            let newState = [...state.assinandoDocumentoIds];
+            let index = newState.indexOf(action.payload.documentoId);
+            if (index > -1) {
+                newState.splice(index, 1);
+            }
+            return {
+                ...state,
+                assinandoDocumentoIds: newState
             };
         }
 

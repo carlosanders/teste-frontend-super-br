@@ -145,7 +145,7 @@ export class OficioDetailEffect {
                             return of(new DocumentoAvulsoDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
-                })
+                }, 25)
             );
 
 
@@ -172,7 +172,7 @@ export class OficioDetailEffect {
                                 console.log(err);
                                 return of(new DocumentoAvulsoDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
 
@@ -199,6 +199,6 @@ export class OficioDetailEffect {
                             console.log(err);
                             return of(new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 }

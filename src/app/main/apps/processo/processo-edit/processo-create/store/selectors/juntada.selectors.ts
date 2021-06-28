@@ -1,6 +1,5 @@
 import {createSelector} from '@ngrx/store';
 import {DadosBasicosAppState, getDadosBasicosAppState, JuntadaState} from '../reducers';
-
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {Juntada} from '@cdk/models';
@@ -36,4 +35,14 @@ export const getJuntadaLoaded = createSelector(
 export const getJuntadaIsLoading = createSelector(
     getJuntadaState,
     (state: JuntadaState) => state.loading
+);
+
+export const getAssinandoDocumentosId = createSelector(
+    getJuntadaState,
+    (state: JuntadaState) => state.assinandoDocumentoIds
+);
+
+export const getPagination = createSelector(
+    getJuntadaState,
+    (state: JuntadaState) => state.pagination
 );

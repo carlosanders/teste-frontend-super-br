@@ -13,9 +13,10 @@ import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {
+    Assinatura,
     Assunto,
     Classificacao,
-    ConfiguracaoNup,
+    ConfiguracaoNup, Documento,
     Interessado,
     Juntada,
     Pagination,
@@ -37,8 +38,8 @@ import {
     SaveVinculacaoProcesso
 } from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Router} from '@angular/router';
-import {getRouterState, getScreenState} from 'app/store/reducers';
+import {ActivatedRoute, Router} from '@angular/router';
+import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
@@ -47,9 +48,10 @@ import * as moment from 'moment';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
 import {getProcesso} from '../../store';
-import {configuracaoNup} from '@cdk/normalizr';
+import {configuracaoNup, documento as documentoSchema} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
 import {MatDialog} from '@cdk/angular/material';
+import {UpdateData} from "../../../../../../@cdk/ngrx-normalizr";
 
 @Component({
     selector: 'dados-basicos-create',
@@ -119,6 +121,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     juntadasLoading$: Observable<boolean>;
     juntadasPagination$: Observable<any>;
     juntadasPagination: any;
+    assinandoDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId: number[] = [];
+    javaWebStartOK = false;
+    assinaturaInterval = null;
 
     vinculacoesProcessos$: Observable<VinculacaoProcesso[]>;
     vinculacoesProcessos: VinculacaoProcesso[] = [];
@@ -163,6 +169,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      * @param _formBuilder
      * @param renderer
      * @param dialog
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<fromStore.DadosBasicosAppState>,
@@ -170,7 +177,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         public _loginService: LoginService,
         private _formBuilder: FormBuilder,
         private renderer: Renderer2,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
@@ -209,6 +217,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntada));
         this.juntadasPagination$ = this._store.pipe(select(fromStore.getJuntadaPagination));
         this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
 
         this.especieProcessoPagination = new Pagination();
 
@@ -346,7 +355,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
                 this.tarefa.dataHoraInicioPrazo = moment();
                 this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
-                this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
+                this.tarefa.setorOrigem = processo.setorAtual;
 
                 this.assuntoActivated = 'form';
                 this.interessadoActivated = 'form';
@@ -451,8 +460,61 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         ).subscribe(
             juntadas => this.juntadas = juntadas
         );
+
         this.juntadasPagination$.subscribe((pagination) => {
             this.juntadasPagination = pagination;
+        });
+
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe((message) => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
+                        break;
+                }
+            }
+        });
+
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
+            if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
+                this.assinaturaInterval = setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
         this.vinculacoesProcessos$.pipe(
@@ -810,6 +872,51 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 data: {},
                 hasBackdrop: false,
                 closeOnNavigation: true
+            });
+        }
+    }
+
+    editar(documento: Documento): void {
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id;
+        } else {
+            primary += '0';
+        }
+        const sidebar = 'editar/dados-basicos';
+
+        this._router.navigate([
+                this.routerState.url +
+                '/documento/' + documento.id,
+                {
+                    outlets: {
+                        primary: primary,
+                        sidebar: sidebar
+                    }
+                }],
+            {
+                relativeTo: this._activatedRoute.parent
+            }).then();
+    }
+
+    assinar(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    documento: result.documento
+                }));
             });
         }
     }

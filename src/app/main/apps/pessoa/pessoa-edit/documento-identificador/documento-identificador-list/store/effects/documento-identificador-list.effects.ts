@@ -91,6 +91,6 @@ export class DocumentoIdentificadorListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

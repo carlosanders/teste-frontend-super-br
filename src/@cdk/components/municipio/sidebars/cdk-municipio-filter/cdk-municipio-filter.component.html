@@ -21,9 +21,14 @@
                    formControlName="codigoIBGE">
         </mat-form-field>
 
-        <mat-checkbox formControlName="ativo" class="mr-16 mb-16">
+        <span class="botao-toggle" *ngIf="hasInatived">
             Ativo
-        </mat-checkbox>
+            <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="ativo">
+                <mat-button-toggle value="true" class="button-toggle-custom">Sim</mat-button-toggle>
+                <mat-button-toggle value="todos" class="button-toggle-custom">Todos</mat-button-toggle>
+                <mat-button-toggle value="false" class="button-toggle-custom">Não</mat-button-toggle>
+            </mat-button-toggle-group>
+        </span>
 
         <mat-form-field>
             <mat-label>Criado Em</mat-label>

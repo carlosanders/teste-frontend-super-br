@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-cargo-filter',
@@ -21,6 +22,13 @@ export class CdkCargoFilterComponent {
     @Input()
     mode = 'list';
 
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+    @Input()
+    hasInatived = false;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -28,6 +36,7 @@ export class CdkCargoFilterComponent {
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
+            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -54,12 +63,21 @@ export class CdkCargoFilterComponent {
             });
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.form.get('ativo').value) {
+            if(this.form.get('ativo').value !== 'todos') {
+                andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
+            }
+            else {
+                delete andXFilter['ativo'];
+            }
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterCriadoEm.length > 0) {
+            this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
+        }
+
+        if (this.filterAtualizadoEm.length > 0) {
+            this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
 
         if (this.form.get('criadoPor').value) {
@@ -70,8 +88,14 @@ export class CdkCargoFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        this.form.controls.ativo.setValue("todos");
+
+
+        const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
+
         const request = {
             filters: {},
+            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
@@ -80,6 +104,16 @@ export class CdkCargoFilterComponent {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-cargo-filter').close();
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {
@@ -94,7 +128,13 @@ export class CdkCargoFilterComponent {
     }
 
     limpar(): void {
-        this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
+        this.resetarFormulario();
         this.emite();
+    }
+
+    resetarFormulario(): void {
+        this.form.reset();
+        this.form.controls.ativo.setValue("todos");
     }
 }

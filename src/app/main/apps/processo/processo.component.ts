@@ -60,6 +60,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('dynamicComponent', {read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @ViewChild('dynamicComponentConverter', {read: ViewContainerRef})
+    containerConverter: ViewContainerRef;
+
     pluginLoading$: Observable<string[]>;
     pluginLoading: string[];
 
@@ -156,6 +159,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.processo$.subscribe((processo) => {
             this.processo = processo;
+            this.refresh();
         });
 
         this.pluginLoading$.pipe(
@@ -166,13 +170,24 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/processo';
+        let path = 'app/main/apps/processo';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     if (this.container !== undefined) {
                         this._dynamicService.loadComponent(c)
                             .then(componentFactory => this.container.createComponent(componentFactory));
+                    }
+                }));
+            }
+        });
+        path = 'app/main/apps/processo#converter';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach(((c) => {
+                    if (this.containerConverter !== undefined) {
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.containerConverter.createComponent(componentFactory));
                     }
                 }));
             }
@@ -243,6 +258,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     arquivarProcesso(): void {
+        this._store.dispatch(new fromStore.AddPluginLoading('arquivar_processo'));
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
@@ -256,7 +272,14 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
+                const populate = JSON.stringify([
+                    'setorAtual',
+                    'setorAtual.especieSetor',
+                    'modalidadeFase'
+                ]);
+                this._store.dispatch(new fromStore.ArquivarProcesso({processo: this.processo, populate: populate}));
+            } else {
+                this._store.dispatch(new fromStore.RemovePluginLoading('arquivar_processo'));
             }
             this.confirmDialogRef = null;
         });

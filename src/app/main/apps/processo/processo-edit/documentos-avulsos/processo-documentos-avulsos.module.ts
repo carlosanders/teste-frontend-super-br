@@ -42,6 +42,12 @@ const routes: Routes = [
             {
                 path       : 'documento',
                 loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
+            },
+            {
+                path: 'status-barramento-oficio',
+                loadChildren: () => import(
+                    './status-barramento-oficio/status-barramento-oficio.module'
+                    ).then(m => m.StatusBarramentoOficioModule)
             }
         ]
     }

@@ -115,7 +115,7 @@ export class RepositoriosListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 
     /**

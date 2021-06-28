@@ -210,18 +210,15 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     public destroyEditor(): void {
-        const editor = window['CKEDITOR'];
+        /*const editor = window['CKEDITOR'];
         if (editor && editor.instances) {
             for (const editorInstance in editor.instances) {
                 if (editor.instances.hasOwnProperty(editorInstance) &&
                     editor.instances[editorInstance]) {
                     editor.instances[editorInstance].destroy();
-                    editor.instances[editorInstance] = {
-                        destroy: () => true,
-                    };
                 }
             }
-        }
+        }*/
     }
 
     reloadJuntadas(): void {

@@ -13,6 +13,7 @@ import {TitleCasePipe} from './title-case.pipe';
 import {FormatInteressadosPipe} from './format-interessados.pipe';
 import {SortByDatePipe} from "./sort-by-date.pipe";
 import {SafeResourceUrlPipe} from "./safe-resource-url.pipe";
+import {StatusBarramentoPipe} from "./status-barramento.pipe";
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import {SafeResourceUrlPipe} from "./safe-resource-url.pipe";
         TitleCasePipe,
         FormatInteressadosPipe,
         SortByDatePipe,
-        SafeResourceUrlPipe
+        SafeResourceUrlPipe,
+        StatusBarramentoPipe
     ],
     imports: [],
     exports: [
@@ -44,7 +46,8 @@ import {SafeResourceUrlPipe} from "./safe-resource-url.pipe";
         TitleCasePipe,
         FormatInteressadosPipe,
         SortByDatePipe,
-        SafeResourceUrlPipe
+        SafeResourceUrlPipe,
+        StatusBarramentoPipe
     ]
 })
 export class PipesModule {

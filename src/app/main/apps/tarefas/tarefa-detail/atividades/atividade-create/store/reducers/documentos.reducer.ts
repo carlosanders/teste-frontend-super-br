@@ -168,6 +168,7 @@ export function AtividadeCreateDocumentosReducer(
         case AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO_FAILED: {
             return {
                 ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
                 loaded: false,
                 loading: false,
             };
@@ -176,7 +177,7 @@ export function AtividadeCreateDocumentosReducer(
         case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO: {
             return {
                 ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, ...action.payload]
             };
         }
 

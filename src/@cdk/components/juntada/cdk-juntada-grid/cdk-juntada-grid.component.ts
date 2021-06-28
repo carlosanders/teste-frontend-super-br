@@ -23,6 +23,7 @@ import {FormControl} from '@angular/forms';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatDialog} from '@angular/material/dialog';
+import {CdkJuntadaFilterComponent} from '../sidebars/cdk-juntada-filter/cdk-juntada-filter.component';
 
 @Component({
     selector: 'cdk-juntada-grid',
@@ -176,6 +177,12 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
+    @ViewChild(CdkJuntadaFilterComponent)
+    cdkJuntadaFilterComponent: CdkJuntadaFilterComponent;
+
+    @Output()
+    inatived = new EventEmitter<any>();
+
     @Output()
     reload = new EventEmitter<any>();
 
@@ -221,6 +228,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+    hasInatived = false;
 
     @Input()
     assinandoId: number[] = [];
@@ -328,6 +336,25 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
                 context: {mostrarApagadas: true}
             });
         } else {
+            this.loadPage();
+        }
+    }
+
+    loadInatived(): void {
+        this.hasInatived = !this.hasInatived;
+        if (this.hasInatived) {
+            const filter = this.gridFilter.filters;
+            this.inatived.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {isAdmin: true}
+            });
+        }
+        else {
+            this.gridFilter = {};
+            this.cdkJuntadaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

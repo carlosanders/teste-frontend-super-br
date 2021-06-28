@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -16,7 +23,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TarefaListComponent implements OnInit {
+export class TarefaListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     tarefas$: Observable<Tarefa[]>;
@@ -57,6 +64,10 @@ export class TarefaListComponent implements OnInit {
         this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadTarefas());
     }
 
     reload(params): void {

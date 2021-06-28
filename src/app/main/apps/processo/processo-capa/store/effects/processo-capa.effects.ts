@@ -73,10 +73,10 @@ export class ProcessoCapaEffect {
                         JSON.stringify([
                             'populateAll',
                             'setorAtual.unidade',
-                            'especieProcesso.generoProcesso',
+                            'setorAtual.especieSetor',
                             'classificacao.modalidadeDestinacao',
-                            'processo.especieProcesso',
-                            'processo.especieProcesso.workflow'
+,                           'especieProcesso.workflow',
+                            'especieProcesso.generoProcesso'
                         ]),
                         JSON.stringify(contexto));
                 }),
@@ -341,6 +341,6 @@ export class ProcessoCapaEffect {
                             return of(new ProcessoCapaActions.DeleteAcompanhamentoFailed(action.payload.acompanhamentoId));
                         })
                     );
-                })
+                }, 25)
             );
 }

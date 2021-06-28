@@ -2,21 +2,16 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
 import * as fromGuards from 'app/main/apps/processo/store/guards/index';
-
 import {ProcessoStoreModule} from './store/store.module';
-
 import {ProcessoComponent} from './processo.component';
 import {ProcessoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {CommonModule} from '@angular/common';
 import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {LoginService} from '../../auth/login/login.service';
 import {ProcessoDownloadModule} from './processo-download/processo-download.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
@@ -96,15 +91,11 @@ routes[0].children.push({
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatIconModule,
         MatProgressSpinnerModule,
-
         TranslateModule,
-
         ProcessoStoreModule,
-
         CdkSharedModule,
         CdkSidebarModule,
         MatTooltipModule,

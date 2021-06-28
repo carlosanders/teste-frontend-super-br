@@ -16,6 +16,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {ComponenteDigitalService} from "../../../../../../../../@cdk/services/componente-digital.service";
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -27,7 +28,8 @@ export class DocumentosVinculadosEffects {
         private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _componenteDigitalService: ComponenteDigitalService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -117,7 +119,7 @@ export class DocumentosVinculadosEffects {
                             console.log(err);
                             return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -135,10 +137,9 @@ export class DocumentosVinculadosEffects {
                                 map(response => new DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
-                                    return caught;
+                                    return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -152,16 +153,17 @@ export class DocumentosVinculadosEffects {
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 2000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 2000);
+                    }
                 }));
 
     /**
@@ -220,4 +222,74 @@ export class DocumentosVinculadosEffects {
                 })
             );
 
+    /**
+     * Update Documento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    updateDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.UpdateDocumento>(DocumentosVinculadosActions.UPDATE_DOCUMENTO),
+                mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+                    mergeMap((response: Documento) => [
+                        new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
+                        new AddData<Documento>({data: [response], schema: documentoSchema}),
+                        new DocumentosVinculadosActions.GetDocumentosVinculados()
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
+                    })
+                ), 25)
+            );
+
+    /**
+     * Download P7S
+     *
+     * @type {Observable<any>}
+     *
+     * */
+    @Effect()
+    downloadP7S: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.DownloadP7S>(DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S),
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload.id, JSON.stringify({hash: action.payload.hash}))
+                    .pipe(
+                        map((response) => {
+                            if (response) {
+                                const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                                const byteNumbers = new Array(byteCharacters.length);
+                                for (let i = 0; i < byteCharacters.length; i++) {
+                                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                }
+                                const byteArray = new Uint8Array(byteNumbers);
+                                const blob = new Blob([byteArray], {type: response.mimetype});
+                                const URL = window.URL;
+                                const data = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = data;
+                                link.download = response.fileName;
+                                link.dispatchEvent(new MouseEvent('click', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                }));
+                                setTimeout(() => {
+                                    window.URL.revokeObjectURL(data);
+                                    link.remove();
+                                }, 100);
+                            }
+                            return new DocumentosVinculadosActions.DownloadP7SSuccess(action.payload);
+                        }),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosVinculadosActions.DownloadP7SFailed(action.payload));
+                        })
+                    ), 25
+
+                )
+            );
 }

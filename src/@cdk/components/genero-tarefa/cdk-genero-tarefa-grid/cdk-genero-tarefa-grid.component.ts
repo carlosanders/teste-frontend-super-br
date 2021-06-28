@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GeneroTarefa} from '@cdk/models';
 import {GeneroTarefaDataSource} from '@cdk/data-sources/genero-tarefa-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkGeneroTarefaFilterComponent} from '../sidebars/cdk-genero-tarefa-filter/cdk-genero-tarefa-filter.component';
+
 
 @Component({
     selector: 'cdk-genero-tarefa-grid',
@@ -135,6 +137,9 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkGeneroTarefaFilterComponent)
+    cdkGeneroTarefaFilterComponent: CdkGeneroTarefaFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -279,6 +284,8 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkGeneroTarefaFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

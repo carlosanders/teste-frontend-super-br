@@ -44,9 +44,12 @@
                    formControlName="nivelAcesso">
         </mat-form-field>
 
-        <mat-checkbox formControlName="desclassificado">
-            Desclassificado
-        </mat-checkbox>
+        Desclassificado
+        <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="desclassificado">
+            <mat-button-toggle value="true" class="button-toggle-custom">Sim</mat-button-toggle>
+            <mat-button-toggle value="todos" [checked]=true class="button-toggle-custom">Todos</mat-button-toggle>
+            <mat-button-toggle value="false" class="button-toggle-custom">Não</mat-button-toggle>
+        </mat-button-toggle-group>
 
         <mat-form-field>
             <input matInput placeholder="Modalidade da Categoria do Sigilo"

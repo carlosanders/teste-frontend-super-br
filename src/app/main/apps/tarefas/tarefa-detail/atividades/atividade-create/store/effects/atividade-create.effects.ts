@@ -73,8 +73,12 @@ export class AtividadeCreateEffect {
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
                         this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
+                        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
+                    } else {
+                        // Não foi encerrada a tarefa, encaminha pra visão do processo
+                        // tslint:disable-next-line:max-line-length
+                        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/processo/' + action.payload.tarefa.processo.id + '/visualizar/default']).then();
                     }
-                    this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
                 })
             );
 

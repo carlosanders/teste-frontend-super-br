@@ -1,22 +1,25 @@
-﻿(function() {
-    "use strict";
+﻿// ckeditor-pastebase64 1.0.1r (patched)
+// https://github.com/ruvor/ckeditor-pastebase64
+// orig: https://github.com/javaha/ckeditor-pastebase64
 
-    CKEDITOR.plugins.add("pastebase64", {
-        init: init,
+(function () {
+    'use strict';
+
+    CKEDITOR.plugins.add('pastebase64', {
+        init: init
     });
 
     function init(editor) {
         if (editor.addFeature) {
             editor.addFeature({
-                allowedContent: "img[alt,id,!src]{width,height};",
+                allowedContent: 'img[alt,id,!src]{width,height};'
             });
         }
 
-        editor.on("contentDom", function() {
+        editor.on("contentDom", function () {
             var editableElement = editor.editable ? editor.editable() : editor.document;
             editableElement.on("paste", onPaste, null, {editor: editor});
         });
-
     }
 
     function onPaste(event) {
@@ -30,36 +33,45 @@
             return;
         }
 
-        return Array.prototype.forEach.call(clipboardData.types, function(type, i) {
+        return Array.prototype.forEach.call(clipboardData.types, function (type, i) {
             if (found) {
                 return;
             }
 
             if (type.match(imageType) || clipboardData.items[i].type.match(imageType)) {
-                readImageAsBase64(clipboardData.items[i], editor);
+                readImageAsBase64(clipboardData.items[i], editor, clipboardData.items.length > 1);
                 return found = true;
             }
         });
     }
 
-    function readImageAsBase64(item, editor) {
-        if (!item || typeof item.getAsFile !== "function") {
+    function readImageAsBase64(item, editor, useWorkAround) {
+        if (!item || typeof item.getAsFile !== 'function') {
             return;
         }
 
         var file = item.getAsFile();
         var reader = new FileReader();
 
-        reader.onload = function(evt) {
-            var element = editor.document.createElement("img", {
+        reader.onload = function (evt) {
+            var element = editor.document.createElement('img', {
                 attributes: {
-                    src: evt.target.result,
-                },
+                    src: evt.target.result
+                }
             });
 
             // We use a timeout callback to prevent a bug where insertElement inserts at first caret
             // position
-            setTimeout(function() {
+            setTimeout(function () {
+                if (useWorkAround) {
+                    var img = editor.getSelection().getRanges()[0].getBoundaryNodes().endNode;
+                    if (img.$.tagName !== "IMG") {
+                        img = img.getPrevious();
+                    }
+                    if (img && img.$.tagName === "IMG") {
+                        img.remove()
+                    }
+                }
                 editor.insertElement(element);
             }, 10);
         };

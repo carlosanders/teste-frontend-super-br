@@ -24,10 +24,10 @@
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
                 </mat-icon>
-                <mat-icon class="s-14 mt-8" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
-                </mat-icon>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
+                </mat-icon>
+                <mat-icon class="s-14 mt-8" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
                 </mat-icon>
             </div>
 
@@ -67,7 +67,7 @@
         </div>
 
         <div class="body mt-4">
-            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+            <div>
                 Id {{tarefa.id}}
             </div>
 

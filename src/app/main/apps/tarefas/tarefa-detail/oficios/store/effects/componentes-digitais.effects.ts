@@ -131,8 +131,7 @@ export class ComponentesDigitaisEffects {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new ComponenteDigitalActions.GetDocumentoFailed(err));
-                    return caught;
+                    return of(new ComponenteDigitalActions.GetDocumentoFailed(err));
                 })
             );
 

@@ -149,6 +149,6 @@ export class OficiosEffects {
                             console.log(err);
                             return of(new DocumentosAvulsoActions.ToggleLidaDocumentosAvulsoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 }

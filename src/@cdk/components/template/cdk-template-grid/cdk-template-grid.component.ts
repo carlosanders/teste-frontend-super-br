@@ -21,6 +21,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Documento, Template} from '@cdk/models';
 import {TemplateDataSource} from '@cdk/data-sources/template-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkTemplateFilterComponent} from '../sidebars/cdk-template-filter/cdk-template-filter.component';
+
 
 @Component({
     selector: 'cdk-template-grid',
@@ -151,6 +153,9 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
+
+    @ViewChild(CdkTemplateFilterComponent)
+    cdkTemplateFilterComponent: CdkTemplateFilterComponent;
 
     @Output()
     reload = new EventEmitter<any>();
@@ -293,6 +298,8 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
             });
         }
         else {
+            this.gridFilter = {};
+            this.cdkTemplateFilterComponent.resetarFormulario();
             this.loadPage();
         }
     }

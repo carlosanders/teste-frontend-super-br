@@ -22,6 +22,8 @@ import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {environment} from "../../../../environments/environment";
+import {CdkConfigService} from "../../../services/config.service";
 
 @Component({
     selector: 'cdk-remessa-form',
@@ -41,6 +43,12 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
 
     @Input()
     errors: any;
+
+    @Input()
+    valid = true;
+
+    @Input()
+    mode = 'regular';
 
     @Output()
     save = new EventEmitter<Tramitacao>();
@@ -81,6 +89,9 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @Input()
+    processos: Processo[] = [];
+
     extensoes: any[] = [];
 
     /**
@@ -89,12 +100,14 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        public _cdkConfigService: CdkConfigService,
     ) {
 
         this.form = this._formBuilder.group({
             id: [null],
             externa: [null],
+            processos: [null],
             processo: [null],
             mecanismoRemessa: ['manual'],
             urgente: [null],
@@ -123,6 +136,11 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
             switchMap((value) => {
                     this.form.get('pessoaDestino').reset();
                     this.form.get('pessoaDestino').enable();
+                    this.pessoaDestinoPagination.filter = {};
+                    if(value === 'barramento') {
+                        this.pessoaDestinoPagination.filter['vinculacaoPessoaBarramento'] = 'isNotNull';
+                    }
+                    this._changeDetectorRef.detectChanges();
                     return of([]);
                 }
             )
@@ -232,6 +250,10 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
 
     showSetorOrigemGrid(): void {
         this.activeCard = 'setor-origem-gridsearch';
+    }
+
+    showPessoaDestinoGrid(): void {
+        this.activeCard = 'pessoa-gridsearch';
     }
 
     showSetorOrigemTree(): void {

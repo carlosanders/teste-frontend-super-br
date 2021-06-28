@@ -23,10 +23,6 @@ export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[JUNTADA LIST] ASSINA DOCUMENTO
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
-export const REMOVE_ASSINATURA_DOCUMENTO = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO';
-export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO SUCCESS';
-export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO FAILED';
-
 export const REMOVE_VINCULACAO_DOCUMENTO = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO';
 export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO SUCCESS';
 export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO FAILED';
@@ -226,42 +222,6 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
 }
 
 /**
- * Remove Assinatura Documento
- */
-export class RemoveAssinaturaDocumento implements Action
-{
-    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remove Assinatura Documento Success
- */
-export class RemoveAssinaturaDocumentoSuccess implements Action
-{
-    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remove Assinatura Documento Failed
- */
-export class RemoveAssinaturaDocumentoFailed implements Action
-{
-    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
  * Remove Vinculacao Documento
  */
 export class RemoveVinculacaoDocumento implements Action
@@ -314,9 +274,6 @@ export type JuntadaListActionsAll
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
     | AssinaDocumentoEletronicamenteFailed
-    | RemoveAssinaturaDocumento
-    | RemoveAssinaturaDocumentoSuccess
-    | RemoveAssinaturaDocumentoFailed
     | RemoveVinculacaoDocumento
     | RemoveVinculacaoDocumentoSuccess
     | RemoveVinculacaoDocumentoFailed;

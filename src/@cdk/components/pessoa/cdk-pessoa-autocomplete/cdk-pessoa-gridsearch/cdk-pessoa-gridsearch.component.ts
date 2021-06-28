@@ -37,6 +37,9 @@ export class CdkPessoaGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
+    @Input()
+    mode = 'search';
+
     pessoas: Pessoa[];
 
     total = 0;
@@ -61,10 +64,9 @@ export class CdkPessoaGridsearchComponent implements OnInit {
     }
 
     load(params): void {
-
         this.loading = true;
 
-        this._pessoaService.query(
+        this._pessoaService[`${this.mode}`](
             JSON.stringify(params.filter),
             params.limit,
             params.offset,
