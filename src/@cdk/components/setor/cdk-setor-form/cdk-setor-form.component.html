@@ -6,6 +6,9 @@
                 (click)="showLogEntryGrid('nome')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -14,6 +17,9 @@
                 (click)="showLogEntryGrid('sigla')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('sigla').hasError('formError')">
+            {{form.get('sigla').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>

@@ -92,9 +92,12 @@ export class JuntadaEffects {
                     .pipe(
                         map(response => new JuntadaActions.AssinaDocumentoSuccess(response)),
                         catchError((err, caught) => {
+                            const payload = {
+                                id: action.payload,
+                                error: err
+                            };
                             console.log(err);
-                            this._store.dispatch(new JuntadaActions.AssinaDocumentoFailed(err));
-                            return caught;
+                            return of(new JuntadaActions.AssinaDocumentoFailed(payload));
                         })
                     ), 25
                 ));
@@ -110,16 +113,17 @@ export class JuntadaEffects {
             .pipe(
                 ofType<JuntadaActions.AssinaDocumentoSuccess>(JuntadaActions.ASSINA_DOCUMENTO_JUNTADA_SUCCESS),
                 tap((action) => {
+                    if (action.payload.secret) {
+                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                    const ifrm = document.createElement('iframe');
-                    ifrm.setAttribute('src', url);
-                    ifrm.style.width = '0';
-                    ifrm.style.height = '0';
-                    ifrm.style.border = '0';
-                    document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                        const ifrm = document.createElement('iframe');
+                        ifrm.setAttribute('src', url);
+                        ifrm.style.width = '0';
+                        ifrm.style.height = '0';
+                        ifrm.style.border = '0';
+                        document.body.appendChild(ifrm);
+                        setTimeout(() => document.body.removeChild(ifrm), 20000);
+                    }
                 }));
 
     /**
@@ -134,7 +138,7 @@ export class JuntadaEffects {
                 ofType<JuntadaActions.AssinaDocumentoEletronicamente>(JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
                 switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                     mergeMap((response: Assinatura) => [
-                        new JuntadaActions.AssinaDocumentoEletronicamenteSuccess(response),
+                        new JuntadaActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
                         new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
                         new OperacoesActions.Resultado({
                             type: 'assinatura',
@@ -144,8 +148,12 @@ export class JuntadaEffects {
                         new JuntadaActions.ReloadJuntadas()
                     ]),
                     catchError((err) => {
+                        const payload = {
+                            documentoId: action.payload.documento.id,
+                            error: err
+                        };
                         console.log(err);
-                        return of(new JuntadaActions.AssinaDocumentoEletronicamenteFailed(err));
+                        return of(new JuntadaActions.AssinaDocumentoEletronicamenteFailed(payload));
                     })
                 ))
             );
