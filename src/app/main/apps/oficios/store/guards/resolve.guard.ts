@@ -46,7 +46,7 @@ export class ResolveGuard implements CanActivate {
         this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
 
         this._profile = _loginService.getUserProfile();
-        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios.filter(vinculacao => !!vinculacao.pessoa.pessoaConveniada);
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
     }
 
     /**
