@@ -16,7 +16,7 @@ import {
     Assinatura,
     Assunto,
     Classificacao,
-    ConfiguracaoNup, Documento,
+    ConfiguracaoNup, Desentranhamento, Documento,
     Interessado,
     Juntada,
     Pagination,
@@ -50,8 +50,9 @@ import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selector
 import {getProcesso} from '../../store';
 import {configuracaoNup, documento as documentoSchema} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
-import {MatDialog} from '@cdk/angular/material';
-import {UpdateData} from "../../../../../../@cdk/ngrx-normalizr";
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -72,6 +73,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     routerState: any;
     procedencia: Pessoa;
     _profile: Usuario;
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -123,6 +127,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     juntadasPagination: any;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
+    desentranhandoJuntadasId$: Observable<number[]>;
+    desentranhadoJuntadasId$: Observable<number[]>;
     javaWebStartOK = false;
     assinaturaInterval = null;
 
@@ -218,6 +224,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.juntadasPagination$ = this._store.pipe(select(fromStore.getJuntadaPagination));
         this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.desentranhandoJuntadasId$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
+        this.desentranhadoJuntadasId$ = this._store.pipe(select(fromStore.getDesentranhadoIds));
 
         this.especieProcessoPagination = new Pagination();
 
@@ -874,6 +882,28 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 closeOnNavigation: true
             });
         }
+    }
+
+    desentranhar(juntada: Juntada): void {
+        this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Este procedimento é irreversível. Deseja realmente desentranhar a juntada?';
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                const desentranhamento = new Desentranhamento();
+                desentranhamento.tipo = 'arquivo';
+                desentranhamento.juntada = juntada;
+                this._store.dispatch(new fromStore.SaveDesentranhamento(desentranhamento));
+            }
+            this.confirmDialogRef = null;
+        });
+
     }
 
     editar(documento: Documento): void {

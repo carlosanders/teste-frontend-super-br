@@ -6,15 +6,21 @@ import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/op
 import {getRouterState, State} from 'app/store/reducers';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assinatura, Juntada} from '@cdk/models';
-import {assinatura as assinaturaSchema, juntada as juntadaSchema} from '@cdk/normalizr';
+import {Assinatura, Desentranhamento, Juntada} from '@cdk/models';
+import {
+    assinatura as assinaturaSchema,
+    desentranhamento as desentranhamentoSchema,
+    juntada as juntadaSchema
+} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DocumentoService} from '@cdk/services/documento.service';
+import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {environment} from '../../../../../../../../environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {getPagination} from '../selectors';
 import * as JuntadaActions from 'app/main/apps/processo/processo-edit/processo-create/store/actions';
+import {CdkUtils} from '@cdk/utils';
 
 
 @Injectable()
@@ -26,6 +32,7 @@ export class JuntadaEffects {
         private _actions: Actions,
         private _juntadaService: JuntadaService,
         private _documentoService: DocumentoService,
+        private _desentranhamentoService: DesentranhamentoService,
         private _assinaturaService: AssinaturaService,
         private _store: Store<State>,
         private _router: Router
@@ -60,7 +67,6 @@ export class JuntadaEffects {
                     JSON.stringify(action.payload.populate),
                     JSON.stringify(action.payload.context))),
                 mergeMap(response => [
-
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new JuntadaActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
@@ -168,5 +174,42 @@ export class JuntadaEffects {
                 ofType<JuntadaActions.ReloadJuntadas>(JuntadaActions.RELOAD_JUNTADAS),
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 tap(([action, pagination]) => this._store.dispatch(new JuntadaActions.GetJuntadas(pagination)))
+            );
+
+    /**
+     * Save Desentranhamento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveDesentranhamento: any =
+        this._actions
+            .pipe(
+                ofType<JuntadaActions.SaveDesentranhamento>(JuntadaActions.SAVE_DESENTRANHAMENTO),
+                switchMap(action => this._desentranhamentoService.save(action.payload).pipe(
+                    mergeMap((response: Desentranhamento) => [
+                        new JuntadaActions.SaveDesentranhamentoSuccess(action.payload),
+                        new AddData<Desentranhamento>({data: [response], schema: desentranhamentoSchema}),
+                        new OperacoesActions.Resultado({
+                            type: 'desentranhamento',
+                            content: `Juntada id ${action.payload.juntada.id} desentranhada com sucesso!`,
+                            dateTime: response.criadoEm
+                        })
+                    ]),
+                    catchError((err) => {
+                        const payload = {
+                            id: action.payload.juntada.id,
+                            error: err
+                        };
+                        const serializedMessage = CdkUtils.errorsToString(err);
+                        this._store.dispatch(new OperacoesActions.Resultado({
+                            type: 'desentranhamento',
+                            content: 'Erro no desentranhamento da juntada id ' + action.payload.juntada.id + ': ' +
+                                serializedMessage
+                        }));
+                        console.log(err);
+                        return of(new JuntadaActions.SaveDesentranhamentoFailed(payload))
+                    })
+                ))
             );
 }
