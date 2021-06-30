@@ -17,6 +17,8 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkModalidadeRepresentanteAutocompleteModule} from '../../../modalidade-representante/cdk-modalidade-representante-autocomplete/cdk-modalidade-representante-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +41,8 @@ import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem
         CdkModalidadeRepresentanteAutocompleteModule,
         CdkInteressadoAutocompleteModule,
         CdkOrigemDadosAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         RepresentanteService,

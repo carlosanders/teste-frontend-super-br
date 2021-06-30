@@ -122,9 +122,7 @@ export class CdkGarantiaFilterComponent {
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
         }
-
-        console.log(request);
-
+        
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-garantia-filter').close();
     }

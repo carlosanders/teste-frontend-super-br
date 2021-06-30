@@ -130,6 +130,11 @@ export class CdkAfastamentoFilterComponent {
         this.limparFormFiltroDatas$.next(false);
     }
 
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     filtraDataInicio(value: any): void {
         this.filterDataInicio = value;
         this.limparFormFiltroDatas$.next(false);
@@ -148,12 +153,7 @@ export class CdkAfastamentoFilterComponent {
     filtraFimBloqueio(value: any): void {
         this.filterFimBloqueio = value;
         this.limparFormFiltroDatas$.next(false);
-    }
-
-    filtraAtualizadoEm(value: any): void {
-        this.filterAtualizadoEm = value;
-        this.limparFormFiltroDatas$.next(false);
-    }
+    }    
 
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));

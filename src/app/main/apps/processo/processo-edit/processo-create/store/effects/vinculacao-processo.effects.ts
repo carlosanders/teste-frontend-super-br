@@ -55,7 +55,8 @@ export class VinculacaoProcessoEffects {
                 switchMap(action => this._vinculacaoProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,

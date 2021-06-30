@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, exhaustMap, mergeMap} from 'rxjs/operators';
+import {catchError, exhaustMap, mergeMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as AtividadeListActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list/store/actions';
