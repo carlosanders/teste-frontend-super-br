@@ -18,10 +18,11 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {EspecieAtividade, Favorito} from '@cdk/models';
+import {EspecieAtividade} from '@cdk/models';
 import {EspecieAtividadeDataSource} from '@cdk/data-sources/especie-atividade-data-source';
 import {FormControl} from '@angular/forms';
 import {CdkEspecieAtividadeFilterComponent} from '../sidebars/cdk-especie-atividade-filter/cdk-especie-atividade-filter.component';
+
 
 @Component({
     selector: 'cdk-especie-atividade-grid',
@@ -47,6 +48,12 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     @Output()
     create = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoAtividade.nome', 'actions'];
@@ -79,7 +86,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
         },
         {
             id: 'generoAtividade.nome',
-            label: 'Genero Atividade',
+            label: 'Gênero Atividade',
             fixed: false
         },
         {
@@ -134,7 +141,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'tipo-documento-list'];
+    actions: string[] = ['edit', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -149,12 +156,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     reload = new EventEmitter<any>();
 
     @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    inatived = new EventEmitter<any>();
-
-    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
@@ -164,9 +165,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     delete = new EventEmitter<number>();
 
     @Output()
-    toggleFavorito = new EventEmitter<Favorito>();
-
-    @Output()
     selected = new EventEmitter<EspecieAtividade>();
 
     @Output()
@@ -174,7 +172,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     dataSource: EspecieAtividadeDataSource;
 
-    @Input()
     showFilter = false;
 
     gridFilter: any;
@@ -183,6 +180,8 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     isIndeterminate = false;
     hasExcluded = false;
     hasInatived = false;
+
+    isWorkflow = false;
 
     /**
      * @param _changeDetectorRef
@@ -197,6 +196,12 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     }
 
     ngOnChanges(): void {
+        if (this.especieAtividades) {
+            this.isWorkflow = this.especieAtividades.some(item => item.valida !== null);
+            if (this.isWorkflow) {
+                this.hasExcluded = true;
+            }
+        }
         this.dataSource = new EspecieAtividadeDataSource(of(this.especieAtividades));
         this.paginator.length = this.total;
     }
@@ -314,10 +319,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
         especieAtividadesId.forEach(especieAtividadeId => this.deleteEspecieAtividade(especieAtividadeId));
     }
 
-    salvarFavorito(favorito): void {
-       this.toggleFavorito.emit(favorito);
-    }
-
     /**
      * Toggle select all
      *
@@ -343,7 +344,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     }
 
     /**
-     * Deselect all tarefas
+     * Deselect all atividades
      */
     deselectAll(): void {
         this.selectedIds = [];

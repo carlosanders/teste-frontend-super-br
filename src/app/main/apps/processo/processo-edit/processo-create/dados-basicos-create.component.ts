@@ -686,10 +686,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             }
         );
 
-        if (this.processo && this.processo.especieProcesso?.workflow) {
-            tarefa.workflow = this.processo.especieProcesso.workflow;
-        }
-
         this._store.dispatch(new SaveTarefa(tarefa));
     }
 

@@ -113,10 +113,6 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (this.processo && this.processo.especieProcesso?.workflow) {
-            tarefa.workflow = this.processo.especieProcesso.workflow;
-        }
-
         this._store.dispatch(new fromStore.SaveTarefa(tarefa));
 
     }
