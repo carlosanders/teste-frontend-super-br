@@ -394,33 +394,24 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
 
     filterChanged(filter: string): void {
         if (filter && filter.length >= 2) {
+            this.loading = true;
             this.filterByName(filter);
         } else {
             this.clearFilter();
         }
     }
 
-    private filterByName(term: string): void {
-
-        const filteredItems = this.treeControl.dataNodes.filter(
-            x => x.nome.toLowerCase().indexOf(term.toLowerCase()) === -1
-        );
-        filteredItems.map((x) => {
-            x.visible = false;
-        });
-
-        const visibleItems = this.treeControl.dataNodes.filter(
-            x => x.children &&
-                x.nome.toLowerCase().indexOf(term.toLowerCase()) > -1
-        );
-        visibleItems.map((x) => {
-            x.visible = true;
-            this.getChildren(x);
+    private filterByName(term: string): void {      
+        const classificacaoPai = this.getClassificacaoNameLike(term);
+        classificacaoPai.subscribe((classificacoes) => {
+            const data = this.montarArrayClassificacao(classificacoes);
+            this._serviceTree.initialize(data);
         });
     }
 
     private clearFilter(): void {
         this.treeControl.dataNodes.forEach(x => x.visible = true);
+        this.initTree();
     }
 
 
@@ -473,5 +464,35 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    getClassificacaoNameLike(name): Observable<any> {
+        const params = {
+            filter: {
+                'nome': 'like:%' + name +'%',
+            },
+            sort: {
+                codigo: 'ASC'
+            },
+            limit: 1000,
+            offset: 0,
+            populate: [
+                'populateAll'
+            ]
+        };
+
+        return this._classificacaoService.query(
+            JSON.stringify(params.filter),
+            params.limit,
+            params.offset,
+            JSON.stringify(params.sort),
+            JSON.stringify(params.populate)
+        ).pipe(
+            finalize(() => {
+                this.loading = false;
+                this._changeDetectorRef.detectChanges();
+            }),
+            catchError(() => of([]))
+        );
     }
 }
