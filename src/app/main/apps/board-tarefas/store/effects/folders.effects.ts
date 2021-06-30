@@ -42,11 +42,17 @@ export class FoldersEffect
         return this._actions
             .pipe(
                 ofType<FoldersActions.GetFolders>(FoldersActions.GET_FOLDERS),
-                exhaustMap(() => this._folderService.query(
-                    `{"usuario.id": "eq:${this._profile.id}", "modalidadeFolder.valor": "eq:TAREFA"}`,
-                    10,
-                    0,
-                    '{"nome": "ASC"}')),
+                exhaustMap((action) => this._folderService.query(
+                    JSON.stringify({
+                        ...action.payload.filter,
+                        ...action.payload.gridFilter
+                    }),
+                    action.payload.limit,
+                    action.payload.offset,
+                    JSON.stringify(action.payload.sort),
+                    JSON.stringify(action.payload.populate),
+                    JSON.stringify(action.payload.context)
+                )),
                 mergeMap(response => {
                     return [
                         new AddData<Folder>({data: response['entities'], schema: folderSchema}),

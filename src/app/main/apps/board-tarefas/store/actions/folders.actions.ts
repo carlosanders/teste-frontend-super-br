@@ -8,14 +8,9 @@ export const SAVE_FOLDER = '[BOARD TAREFAS FOLDER] SAVE FOLDER';
 export const SAVE_FOLDER_SUCCESS = '[BOARD TAREFAS FOLDER] SAVE FOLDER SUCCESS';
 export const SAVE_FOLDER_FAILED = '[BOARD TAREFAS FOLDER] SAVE FOLDER FAILED';
 
-export const RELOAD_FOLDERS = '[BOARD TAREFAS FOLDER] RELOAD FOLDERS';
-
 export const DELETE_FOLDER = '[BOARD TAREFAS FOLDER] DELETE FOLDER';
 export const DELETE_FOLDER_SUCCESS = '[BOARD TAREFAS FOLDER] DELETE FOLDER SUCCESS';
 export const DELETE_FOLDER_FAILED = '[BOARD TAREFAS FOLDER] DELETE FOLDER FAILED';
-
-export const ADD_FOLDER_WAITING_RELOAD = '[BOARD TAREFAS FOLDER] ADD FOLDER WAITING RELOAD';
-export const REMOVE_FOLDER_WAITING_RELOAD = '[BOARD TAREFAS FOLDER] REMOVE FOLDER WAITING RELOAD';
 
 export class GetFolders implements Action {
     readonly type = GET_FOLDERS;
@@ -59,15 +54,6 @@ export class SaveFolderFailed implements Action {
     }
 }
 
-export class ReloadFolders implements Action
-{
-    readonly type = RELOAD_FOLDERS;
-
-    constructor()
-    {
-    }
-}
-
 export class DeleteFolder implements Action
 {
     readonly type = DELETE_FOLDER;
@@ -95,24 +81,6 @@ export class DeleteFolderFailed implements Action
     }
 }
 
-export class AddFolderWaitingReload implements Action
-{
-    readonly type = ADD_FOLDER_WAITING_RELOAD;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-export class RemoveFolderWaitingReload implements Action
-{
-    readonly type = REMOVE_FOLDER_WAITING_RELOAD;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 export type FoldersActionsAll
     = GetFolders
     | GetFoldersSuccess
@@ -120,10 +88,7 @@ export type FoldersActionsAll
     | SaveFolder
     | SaveFolderSuccess
     | SaveFolderFailed
-    | ReloadFolders
     | DeleteFolder
     | DeleteFolderSuccess
     | DeleteFolderFailed
-    | AddFolderWaitingReload
-    | RemoveFolderWaitingReload
     ;

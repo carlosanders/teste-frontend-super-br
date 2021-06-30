@@ -8,7 +8,18 @@
     <!-- / SIDEBAR -->
 
     <div class="center">
-        <div class="content board-content content-card ngx-dnd-container p-16 p-md-24">
+        <div class="content board-content content-card ngx-dnd-container p-16 p-md-24"
+             infiniteScroll
+             [scrollWindow]="false"
+             [horizontal]="true"
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="loadMoreFolders($event)">
+            <folder-list-column
+                *ngIf="folderEntrada?.nome"
+                class="board-tarefas-list list-wrapper ngx-dnd-item"
+                [folder]="folderEntrada">
+            </folder-list-column>
             <folder-list-column
                 class="board-tarefas-list list-wrapper ngx-dnd-item"
                 *ngFor="let folder of folderList"
@@ -16,6 +27,9 @@
             </folder-list-column>
             <folder-form class="folder-form">
             </folder-form>
+            <div *ngIf="foldersIsLoading" class="loading">
+                <mat-spinner diameter="40"></mat-spinner>
+            </div>
         </div>
     </div>
 </div>

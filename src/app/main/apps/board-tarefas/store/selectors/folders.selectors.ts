@@ -52,7 +52,7 @@ export const getIsLoadingFolder = createSelector(
     (state: FoldersState) => state.loading
 );
 
-export const getFoldersWaitingReload = createSelector(
+export const getFolderPagination = createSelector(
     getFoldersState,
-    (state: FoldersState) => state.foldersWaitingReload
+    (state: FoldersState) => state.pagination
 );

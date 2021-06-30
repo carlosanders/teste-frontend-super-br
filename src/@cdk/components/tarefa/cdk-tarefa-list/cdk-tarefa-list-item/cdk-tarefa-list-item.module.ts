@@ -22,6 +22,7 @@ import {RouterModule} from '@angular/router';
 import {CdkEspecieTarefaAutocompleteModule} from "../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module";
 import {CdkProcessoAutocompleteModule} from "../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module";
 import {CdkTarefaFilterModule} from "../../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module";
+import {DndModule} from "ngx-drag-drop";
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import {CdkTarefaFilterModule} from "../../sidebars/cdk-tarefa-filter/cdk-tarefa
         NgxUpperCaseDirectiveModule,
         MatSelectModule,
         RouterModule,
+        DndModule
     ],
     providers: [
     ],

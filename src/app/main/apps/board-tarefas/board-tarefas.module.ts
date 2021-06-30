@@ -32,6 +32,7 @@ import {BoardTarefasStoreModule} from "./store/store.module";
 import {BoardTarefasMainSidebarComponent} from "./sidebars/main/main-sidebar.component";
 import {FolderListColumnModule} from "./folder-list-column/folder-list-column.module";
 import {FolderFormComponent} from "./folder-form/folder-form.component";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 const routes: Routes = [
     {
@@ -76,6 +77,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         DndModule,
+        InfiniteScrollModule,
         FolderListColumnModule,
         BoardTarefasStoreModule,
     ],

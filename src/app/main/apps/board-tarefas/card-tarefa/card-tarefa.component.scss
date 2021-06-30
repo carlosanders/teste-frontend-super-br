@@ -176,10 +176,32 @@ card-tarefa {
     .list-card-footer {
         border-top: 1px solid;
         padding: 0 16px;
+        display: flex;
+        box-sizing: border-box;
+        flex-direction: row;
 
-        .list-card-footer-item {
+        .footer-items-left {
             height: 48px;
-            margin-right: 12px;
+            flex-direction: row;
+            box-sizing: border-box;
+            display: flex;
+            flex: 1 1 auto;
+
+            .value {
+                padding-left: 8px;
+            }
+
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+
+        .footer-items-right {
+            height: 48px;
+            flex-direction: row;
+            display: flex;
+            place-content: center flex-end;
+            flex: 1 1 auto;
 
             .value {
                 padding-left: 8px;

@@ -11,7 +11,7 @@ import {select, Store} from "@ngrx/store";
 import * as fromStore from "../store";
 import {Subject} from "rxjs";
 import {distinctUntilChanged, filter, takeUntil} from "rxjs/operators";
-import {Folder} from "../../../../../@cdk/models";
+import {Folder} from "@cdk/models";
 import {LoginService} from "../../../auth/login/login.service";
 
 @Component({
@@ -88,13 +88,7 @@ export class FolderFormComponent implements OnInit, OnDestroy
 
     }
 
-
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    onClickOpenForm(): void
+    doOpenForm(): void
     {
         if (!this.controls.saving) {
             this.controls.formActive = true;
@@ -102,7 +96,7 @@ export class FolderFormComponent implements OnInit, OnDestroy
         }
     }
 
-    onClickClose(): void
+    doClose(): void
     {
         this.controls.formActive = false;
         this.controls.form.reset();
@@ -115,7 +109,7 @@ export class FolderFormComponent implements OnInit, OnDestroy
         });
     }
 
-    onSubmit(): void
+    doSave(): void
     {
         if (this.controls.form.valid && this.controls.form.getRawValue()?.nome.length > 2) {
             const folder = new Folder();
@@ -124,7 +118,7 @@ export class FolderFormComponent implements OnInit, OnDestroy
             folder.usuario = this._loginService.getUserProfile();
 
             this._store.dispatch(new fromStore.SaveFolder(folder));
-            this.onClickClose();
+            this.doClose();
         }
     }
 

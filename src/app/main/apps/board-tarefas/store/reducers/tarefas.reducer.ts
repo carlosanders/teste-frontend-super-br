@@ -57,22 +57,10 @@ export interface TarefasState {
     togglingUrgenteIds: number[];
     deletingTarefaIds: number[];
     undeletingTarefaIds: number[];
-    bufferingDelete: number;
-    bufferingCiencia: number;
-    bufferingRedistribuir: number;
-    bufferingDistribuir: number;
     changingFolderTarefaIds: number[];
-    deletedTarefaIds: number[];
     selectedTarefaIds: number[];
-    cienciaTarefaIds: number[];
     savingIds: number[];
-    redistribuindoTarefaIds: number[];
-    distribuindoTarefaIds: number[];
     error: any;
-    errorDelete: number[];
-    errorCiencia: number[];
-    errorRedistribuir: number[];
-    errorDistribuir: number[];
     processoLoadingId: number[];
     tarefasExpandedIds: number[];
     assuntos: any[];
@@ -87,21 +75,9 @@ export const TarefasInitialState: TarefasState = {
     deletingTarefaIds: [],
     undeletingTarefaIds: [],
     changingFolderTarefaIds: [],
-    bufferingDelete: 0,
-    bufferingCiencia: 0,
-    bufferingRedistribuir: 0,
-    bufferingDistribuir: 0,
-    deletedTarefaIds: [],
     selectedTarefaIds: [],
-    cienciaTarefaIds: [],
     savingIds: [],
-    redistribuindoTarefaIds: [],
-    distribuindoTarefaIds: [],
     error: null,
-    errorDelete: [],
-    errorCiencia: [],
-    errorRedistribuir: [],
-    errorDistribuir: [],
     processoLoadingId: [],
     tarefasExpandedIds: [],
     assuntos: [],
@@ -192,7 +168,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 folderTarefas: folderTarefasList,
-                errorDelete: []
+                error: null
             };
         }
 
@@ -219,8 +195,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 folderTarefas: folderTarefasList,
-                error: action.payload.error.error,
-                errorDelete: []
+                error: action.payload.error.error
             };
         }
 
@@ -458,338 +433,192 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
-        case TarefasActions.DISTRIBUIR_TAREFA: {
-            console.log('verificar e implementar DISTRIBUIR_TAREFA');
-            // let entitiesId = state.entitiesId;
-            // const navegacao = state.loaded.value.split('_');
-            // let total = state.pagination.total;
-            // // Checar se estamos visualizando tarefas do tipo coordenação
-            // // E se o setor em questão é diferente do setorResponsável para onde foi distribuída a tarefa
-            // if (navegacao[1] === 'coordenacao' && navegacao[2] != action.payload.setorResponsavel) {
-            //     // Caso afirmativo, remover a tarefa da lista
-            //     entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
-            //     total = total > 0 ? total - 1 : 0;
-            // } else if (navegacao[1] === 'minhas-tarefas' && action.payload.usuarioResponsavel) {
-            //     entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
-            //     total = total > 0 ? total - 1 : 0;
-            // }
-            //
-            // return {
-            //     ...state,
-            //     entitiesId: entitiesId,
-            //     selectedTarefaIds: state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id),
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: total
-            //     },
-            //     distribuindoTarefaIds: [...state.distribuindoTarefaIds, action.payload.tarefa.id]
-            // };
-        }
+        case TarefasActions.DELETE_TAREFAS: {
+            const folderNome  = (action.payload.folder?.nome.toUpperCase() || 'ENTRADA');
 
-        case TarefasActions.DISTRIBUIR_TAREFA_SUCCESS: {
-            console.log('verificar e implementar DISTRIBUIR_TAREFA_SUCCESS');
-            // return {
-            //     ...state,
-            //     distribuindoTarefaIds: state.distribuindoTarefaIds.filter(id => id !== action.payload),
-            //     errorDistribuir: [],
-            //     error: null
-            // };
-        }
+            let folderTarefasFind = _.find(state.folderTarefas, {folderNome: folderNome});
 
-        case TarefasActions.DISTRIBUIR_TAREFA_FAILED: {
-            console.log('verificar e implementar DISTRIBUIR_TAREFA_FAILED');
-            // const navegacao = state.loaded.value.split('_');
-            // let entitiesId = state.entitiesId;
-            // let total = state.pagination.total;
-            // // Checar se estamos visualizando tarefas do tipo coordenação
-            // // E se o setor em questão é diferente do setorResponsável para onde foi distribuída a tarefa
-            // if (navegacao[1] === 'coordenacao' && navegacao[2] != action.payload.setorResponsavel) {
-            //     // Caso afirmativo, devolver a tarefa à lista
-            //     entitiesId = [...entitiesId, action.payload.id];
-            //     total++;
-            // } else if (navegacao[1] === 'minhas-tarefas' && action.payload.usuarioResponsavel) {
-            //     // Devolver a tarefa à lista
-            //     entitiesId = [...entitiesId, action.payload.id];
-            //     total++;
-            // }
-            // return {
-            //     ...state,
-            //     errorDistribuir: [...state.errorDistribuir, action.payload.id],
-            //     distribuindoTarefaIds: state.distribuindoTarefaIds.filter(id => id !== action.payload.id),
-            //     entitiesId: entitiesId,
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: total
-            //     },
-            //     error: action.payload.error
-            // };
-        }
+            const folderTarefas = {
+                ...folderTarefasFind,
+                entitiesId: folderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id),
+                pagination: {
+                    ...folderTarefasFind.pagination,
+                    total: (folderTarefasFind.pagination.total-1)
+                }
+            }
 
-        case TarefasActions.DISTRIBUIR_TAREFA_CANCEL: {
-            console.log('verificar e implementar DISTRIBUIR_TAREFA_CANCEL');
-            // return {
-            //     ...state,
-            //     distribuindoTarefaIds: [],
-            //     bufferingDistribuir: state.bufferingDistribuir + 1,
-            //     errorDistribuir: [],
-            //     error: null
-            // };
-        }
+            //copy
+            const folderTarefasList = state.folderTarefas.filter(_=> true);
 
-        case TarefasActions.DISTRIBUIR_TAREFA_FLUSH: {
-            console.log('verificar e implementar DISTRIBUIR_TAREFA_FLUSH');
-            // return {
-            //     ...state,
-            //     bufferingDistribuir: state.bufferingDistribuir + 1
-            // };
-        }
+            folderTarefasList.splice(folderTarefasList.indexOf(folderTarefasFind), 1, folderTarefas);
 
-        case TarefasActions.DISTRIBUIR_TAREFA_CANCEL_SUCCESS: {
-            console.log('verificar e implementar DISTRIBUIR_TAREFA_CANCEL_SUCCESS');
-            // const navegacao = state.loaded.value.split('_');
-            // let entitiesId = state.entitiesId;
-            // let total = state.pagination.total;
-            // // Checar se estamos visualizando tarefas do tipo coordenação
-            // // E se o setor em questão é diferente do setorResponsável para onde foi distribuída a tarefa
-            // if (navegacao[1] === 'coordenacao' && navegacao[2] != action.payload.setorResponsavel) {
-            //     // Caso afirmativo, devolver a tarefa à lista
-            //     entitiesId = [...entitiesId, action.payload.tarefa.id];
-            //     total++;
-            // } else if (navegacao[1] === 'minhas-tarefas' && action.payload.usuarioResponsavel) {
-            //     // Devolver a tarefa à lista
-            //     entitiesId = [...entitiesId, action.payload.tarefa.id];
-            //     total++;
-            // }
-            //
-            // return {
-            //     ...state,
-            //     entitiesId: entitiesId,
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: total
-            //     },
-            // };
-        }
-
-        case TarefasActions.DELETE_TAREFA: {
-            console.log('verificar e implementar DELETE_TAREFA');
-            // const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefaId);
-            // const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefaId);
-            // return {
-            //     ...state,
-            //     entitiesId: entitiesId,
-            //     selectedTarefaIds: selectedTarefaIds,
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-            //     },
-            //     deletingTarefaIds: [...state.deletingTarefaIds, action.payload.tarefaId],
-            //     error: null
-            // };
-        }
-
-        case TarefasActions.DELETE_TAREFA_SUCCESS: {
-            console.log('verificar e implementar DELETE_TAREFA_SUCCESS');
-            // return {
-            //     ...state,
-            //     deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload),
-            //     errorDelete: [],
-            //     error: null
-            // };
-        }
-
-        case TarefasActions.DELETE_TAREFA_FAILED: {
-            console.log('verificar e implementar DELETE_TAREFA_FAILED');
-            // return {
-            //     ...state,
-            //     errorDelete: [...state.errorDelete, action.payload.id],
-            //     deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload.id),
-            //     entitiesId: [...state.entitiesId, action.payload.id],
-            //     error: action.payload.error
-            // };
-        }
-
-        case TarefasActions.UNDELETE_TAREFA: {
-            console.log('verificar e implementar UNDELETE_TAREFA');
-            // return {
-            //     ...state,
-            //     undeletingTarefaIds: [...state.undeletingTarefaIds, action.payload.tarefa.id],
-            // };
-        }
-
-        case TarefasActions.UNDELETE_TAREFA_SUCCESS: {
-            console.log('verificar e implementar UNDELETE_TAREFA_SUCCESS');
-            // return {
-            //     ...state,
-            //     undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.tarefa.id),
-            //     entitiesId: !action.payload.loaded || action.payload.loaded === state.loaded ?
-            //         [...state.entitiesId, action.payload.tarefa.id] : state.entitiesId
-            // };
-        }
-
-        case TarefasActions.UNDELETE_TAREFA_FAILED: {
-            console.log('verificar e implementar UNDELETE_TAREFA_FAILED');
-            // return {
-            //     ...state,
-            //     undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id)
-            // };
-        }
-
-        case TarefasActions.DELETE_TAREFA_CANCEL: {
-            console.log('verificar e implementar DELETE_TAREFA_CANCEL');
-            // return {
-            //     ...state,
-            //     deletingTarefaIds: [],
-            //     bufferingDelete: state.bufferingDelete + 1,
-            //     errorDelete: [],
-            //     error: null
-            // };
-        }
-
-        case TarefasActions.DELETE_TAREFA_FLUSH: {
-            console.log('verificar e implementar DELETE_TAREFA_FLUSH');
-            // return {
-            //     ...state,
-            //     bufferingDelete: state.bufferingDelete + 1
-            // };
-        }
-
-        case TarefasActions.DELETE_TAREFA_CANCEL_SUCCESS: {
-            console.log('verificar e implementar DELETE_TAREFA_CANCEL_SUCCESS');
-            // return {
-            //     ...state,
-            //     entitiesId: [...state.entitiesId, action.payload],
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: state.pagination.total + 1
-            //     },
-            // };
-        }
-
-        case TarefasActions.DAR_CIENCIA_TAREFA: {
-            console.log('verificar e implementar DAR_CIENCIA_TAREFA');
-            // const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
-            // const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
-            // return {
-            //     ...state,
-            //     entitiesId: entitiesId,
-            //     selectedTarefaIds: selectedTarefaIds,
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-            //     },
-            //     cienciaTarefaIds: [...state.cienciaTarefaIds, action.payload.tarefa.id]
-            // };
-        }
-
-        case TarefasActions.DAR_CIENCIA_TAREFA_SUCCESS: {
-            console.log('verificar e implementar DAR_CIENCIA_TAREFA_SUCCESS');
-            // return {
-            //     ...state,
-            //     cienciaTarefaIds: state.cienciaTarefaIds.filter(id => id !== action.payload),
-            //     errorCiencia: [],
-            //     error: null
-            // };
-        }
-
-        case TarefasActions.DAR_CIENCIA_TAREFA_FAILED: {
-            console.log('verificar e implementar DAR_CIENCIA_TAREFA_FAILED');
-            // return {
-            //     ...state,
-            //     errorCiencia: [...state.errorCiencia, action.payload.id],
-            //     cienciaTarefaIds: state.cienciaTarefaIds.filter(id => id !== action.payload.id),
-            //     entitiesId: [...state.entitiesId, action.payload.id],
-            //     error: action.payload.error
-            // };
-        }
-
-        case TarefasActions.DAR_CIENCIA_TAREFA_CANCEL: {
-            console.log('verificar e implementar DAR_CIENCIA_TAREFA_CANCEL');
-            // return {
-            //     ...state,
-            //     cienciaTarefaIds: [],
-            //     bufferingCiencia: state.bufferingCiencia + 1,
-            //     errorCiencia: [],
-            //     error: null
-            // };
-        }
-
-        case TarefasActions.DAR_CIENCIA_TAREFA_FLUSH: {
-            console.log('verificar e implementar DAR_CIENCIA_TAREFA_FLUSH');
-            // return {
-            //     ...state,
-            //     bufferingCiencia: state.bufferingCiencia + 1,
-            // };
-        }
-
-        case TarefasActions.DAR_CIENCIA_TAREFA_CANCEL_SUCCESS: {
-            console.log('verificar e implementar DAR_CIENCIA_TAREFA_CANCEL_SUCCESS');
-            // return {
-            //     ...state,
-            //     entitiesId: [...state.entitiesId, action.payload],
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: state.pagination.total + 1
-            //     },
-            // };
-        }
-
-        case TarefasActions.REDISTRIBUIR_TAREFA: {
-            console.log('verificar e implementar REDISTRIBUIR_TAREFA');
-            // const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
-            // const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
-            // return {
-            //     ...state,
-            //     entitiesId: entitiesId,
-            //     selectedTarefaIds: selectedTarefaIds,
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-            //     },
-            //     redistribuindoTarefaIds: [...state.redistribuindoTarefaIds, action.payload.tarefa.id]
-            // };
-        }
-
-        case TarefasActions.REDISTRIBUIR_TAREFA_FAILED: {
-            console.log('verificar e implementar REDISTRIBUIR_TAREFA_FAILED');
-            // return {
-            //     ...state,
-            //     redistribuindoTarefaIds: state.redistribuindoTarefaIds.filter(id => id !== action.payload),
-            //     entitiesId: [...state.entitiesId, action.payload.id],
-            //     errorRedistribuir: [...state.errorRedistribuir, action.payload.id],
-            //     error: action.payload.error
-            // };
-        }
-
-        case TarefasActions.REDISTRIBUIR_TAREFA_SUCCESS: {
-            console.log('verificar e implementar REDISTRIBUIR_TAREFA_SUCCESS');
-            // return {
-            //     ...state,
-            //     redistribuindoTarefaIds: state.redistribuindoTarefaIds.filter(id => id !== action.payload),
-            //     errorRedistribuir: [],
-            //     error: null
-            // };
-        }
-
-        case TarefasActions.REDISTRIBUIR_TAREFA_CANCEL: {
             return {
                 ...state,
-                redistribuindoTarefaIds: [],
-                errorRedistribuir: [],
-                error: null
+                deletingTarefaIds: [
+                    ...state.deletingTarefaIds.filter(id => id !== action.payload.tarefa.id),
+                    action.payload.tarefa.id
+                ],
+                folderTarefas: folderTarefasList,
+                selectedTarefaIds: state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id)
             };
         }
 
-        case TarefasActions.REDISTRIBUIR_TAREFA_CANCEL_SUCCESS: {
-            console.log('verificar e implementar REDISTRIBUIR_TAREFA_CANCEL_SUCCESS');
-            // return {
-            //     ...state,
-            //     entitiesId: [...state.entitiesId, action.payload],
-            //     pagination: {
-            //         ...state.pagination,
-            //         total: state.pagination.total + 1
-            //     },
-            // };
+        case TarefasActions.DELETE_TAREFAS_SUCCESS: {
+            return {
+                ...state,
+                deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload.tarefa.id),
+            };
+        }
+
+        case TarefasActions.DELETE_TAREFAS_FAILED: {
+            const folderNome  = (action.payload.folder?.nome.toUpperCase() || 'ENTRADA');
+
+            let folderTarefasFind = _.find(state.folderTarefas, {folderNome: folderNome});
+
+            const folderTarefas = {
+                ...folderTarefasFind,
+                entitiesId: [
+                    action.payload.tarefa.id,
+                    folderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id)
+                ],
+                pagination: {
+                    ...folderTarefasFind.pagination,
+                    total: (folderTarefasFind.pagination.total+1)
+                }
+            }
+
+            //copy
+            const folderTarefasList = state.folderTarefas.filter(_=> true);
+
+            folderTarefasList.splice(folderTarefasList.indexOf(folderTarefasFind), 1, folderTarefas);
+
+            return {
+                ...state,
+                deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload.tarefa.id),
+                folderTarefas: folderTarefasList,
+                error: action.payload.error,
+                selectedTarefaIds: [
+                    action.payload.tarefa.id,
+                    ...state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id)
+                ]
+            };
+        }
+
+        case TarefasActions.UNDELETE_TAREFAS: {
+            return {
+                ...state,
+                undeletingTarefaIds: [
+                    action.payload.tarefa.id,
+                    ...state.undeletingTarefaIds.filter(id => id !== action.payload.tarefa.id)
+                ],
+            };
+        }
+
+        case TarefasActions.UNDELETE_TAREFAS_SUCCESS: {
+            const folderNome  = (action.payload.folder?.nome.toUpperCase() || 'ENTRADA');
+
+            let folderTarefasFind = _.find(state.folderTarefas, {folderNome: folderNome});
+
+            const folderTarefas = {
+                ...folderTarefasFind,
+                entitiesId: [
+                    action.payload.tarefa.id,
+                    ...folderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id)
+                ],
+                pagination: {
+                    ...folderTarefasFind.pagination,
+                    total: (folderTarefasFind.pagination.total+1)
+                }
+            }
+
+            //copy
+            const folderTarefasList = state.folderTarefas.filter(_=> true);
+
+            folderTarefasList.splice(folderTarefasList.indexOf(folderTarefasFind), 1, folderTarefas);
+
+            return {
+                ...state,
+                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.tarefa.id),
+                folderTarefas: folderTarefasList
+            };
+        }
+
+        case TarefasActions.UNDELETE_TAREFAS_FAILED: {
+            return {
+                ...state,
+                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.tarefa.id)
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFAS: {
+            const folderNome  = (action.payload.folder?.nome.toUpperCase() || 'ENTRADA');
+
+            let folderTarefasFind = _.find(state.folderTarefas, {folderNome: folderNome});
+
+            const folderTarefas = {
+                ...folderTarefasFind,
+                entitiesId: folderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id),
+                pagination: {
+                    ...folderTarefasFind.pagination,
+                    total: (folderTarefasFind.pagination.total-1)
+                }
+            }
+
+            //copy
+            const folderTarefasList = state.folderTarefas.filter(_=> true);
+
+            folderTarefasList.splice(folderTarefasList.indexOf(folderTarefasFind), 1, folderTarefas);
+
+            return {
+                ...state,
+                folderTarefas: folderTarefasList,
+                selectedTarefaIds: state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id),
+                savingIds: [
+                    ...state.savingIds.filter(id => id !== action.payload.tarefa.id),
+                    action.payload.tarefa.id
+                ]
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFAS_SUCCESS: {
+            return {
+                ...state,
+                savingIds: state.savingIds.filter(id => id !== action.payload.tarefa.id),
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFAS_FAILED: {
+            const folderNome  = (action.payload.folder?.nome.toUpperCase() || 'ENTRADA');
+
+            let folderTarefasFind = _.find(state.folderTarefas, {folderNome: folderNome});
+
+            const folderTarefas = {
+                ...folderTarefasFind,
+                entitiesId: [
+                    action.payload.tarefa.id,
+                    folderTarefasFind.entitiesId.filter(id => id !== action.payload.tarefa.id)
+                ],
+                pagination: {
+                    ...folderTarefasFind.pagination,
+                    total: (folderTarefasFind.pagination.total+1)
+                }
+            }
+
+            //copy
+            const folderTarefasList = state.folderTarefas.filter(_=> true);
+
+            folderTarefasList.splice(folderTarefasList.indexOf(folderTarefasFind), 1, folderTarefas);
+
+            return {
+                ...state,
+                folderTarefas: folderTarefasList,
+                error: action.payload.error,
+                selectedTarefaIds: [
+                    action.payload.tarefa.id,
+                    ...state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id)
+                ],
+                savingIds: state.savingIds.filter(id => id !== action.payload.tarefa.id),
+            };
         }
 
         case TarefasActions.TOGGLE_URGENTE_TAREFA: {

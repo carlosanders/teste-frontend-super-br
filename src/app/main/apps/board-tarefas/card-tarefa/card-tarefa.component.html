@@ -4,9 +4,9 @@
     class="drag-tarefa list-card-details"
     [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
     [dndDragImageOffsetFunction]="this.offsetFunction"
-    (dndEnd)="onCancelDrag($event)"
+    (dndEnd)="doCancelDrag($event)"
     [dndDisableIf]="disableActions"
-    (dndStart)="onStartDrag($event, tarefa)">
+    (dndStart)="doStartDrag($event, tarefa)">
 
     <div dndDragImageRef class="drag-n-drop-message">
         <div *ngIf="isDraggin && selectedIds.length > 1" class="drag-n-drop-message-item accent">
@@ -127,9 +127,17 @@
                 <mat-icon class="secondary-text">more_vert</mat-icon>
             </button>
             <mat-menu #moreMenu="matMenu">
-                <button mat-menu-item aria-label="apagar">
+                <button mat-menu-item aria-label="apagar"
+                        [disabled]="disableActions"
+                        (click)="doExcluirTarefa()">
                     <mat-icon>delete</mat-icon>
-                    <span>Ação</span>
+                    <span>Excluir Tarefa</span>
+                </button>
+                <button mat-menu-item aria-label="dar ciência"
+                        [disabled]="disableActions"
+                        (click)="doCienciaTarefa()">
+                    <mat-icon>check</mat-icon>
+                    <span>Dar ciência</span>
                 </button>
             </mat-menu>
         </div>
@@ -153,27 +161,29 @@
     </div>
 </div>
 
-<div class="list-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
-        <span class="list-card-footer-item"
-              fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon>mail</mat-icon>
-        </span>
+<div class="list-card-footer">
+    <div class="footer-items-left" *ngIf="tarefa.processo?.documentoAvulsoOrigem || true">
+        <button mat-icon-button
+                aria-label="Evento">
+            <mat-icon class="secondary-text">mail</mat-icon>
+        </button>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="end center">
-        <div class="list-card-footer-item"
-              fxLayout="row" fxLayoutAlign="start center">
-            <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
-                    (click)="doToggleUrgente(); $event.stopPropagation();"
-                    [disabled]="disableActions"
-                    aria-label="Toggle important" fxHide.xs>
-                <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
-                <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
-            </button>
-            <div class="spinner-container m-8" *ngIf="togglingUrgente">
-                <mat-spinner diameter="24"></mat-spinner>
-            </div>
+    <div class="footer-items-right">
+        <button mat-icon-button
+                (click)="doOpenTarefa(); $event.stopPropagation();"
+                aria-label="Abrir em nova janela">
+            <mat-icon class="secondary-text" matTooltip="Visualizar tarefa em nova janela">call_made</mat-icon>
+        </button>
+        <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
+                (click)="doToggleUrgente(); $event.stopPropagation();"
+                [disabled]="disableActions"
+                aria-label="Toggle important">
+            <mat-icon class="red-fg" matTooltip="Desmarcar como importante" *ngIf="tarefa.urgente">error</mat-icon>
+            <mat-icon class="secondary-text" matTooltip="Marcar como importante" *ngIf="!tarefa.urgente">error_outline</mat-icon>
+        </button>
+        <div class="spinner-container m-8" *ngIf="togglingUrgente">
+            <mat-spinner diameter="24"></mat-spinner>
         </div>
     </div>
 </div>

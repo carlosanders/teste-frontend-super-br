@@ -4,7 +4,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Folder, Pagination, Tarefa} from "../../../../../@cdk/models";
+import {Folder, Pagination, Tarefa} from "@cdk/models";
 import {FormControl} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
 import * as fromStore from '../store';
@@ -14,14 +14,13 @@ import {
     distinctUntilChanged,
     filter,
     switchMap,
-    takeUntil,
-    withLatestFrom
+    takeUntil
 } from "rxjs/operators";
 import * as _ from 'lodash';
-import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
-import {CdkUtils} from "../../../../../@cdk/utils";
-import {UpdateData} from "../../../../../@cdk/ngrx-normalizr";
-import {tarefa as tarefaSchema} from "../../../../../@cdk/normalizr";
+import {CdkUtils} from "@cdk/utils";
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackBarDesfazerComponent} from "@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
 
 @Component({
     selector: 'folder-list-column',
@@ -83,11 +82,15 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         savingIds: [],
         deletingIds: [],
         isIndeterminate: false,
-        loading:  true
+        loading:  true,
+        sheetRef: null,
+        snackSubscription: null
     }
 
     constructor(private _store: Store<fromStore.BoardTarefasAppState>,
-                private _changeRef: ChangeDetectorRef)
+                private _changeRef: ChangeDetectorRef,
+                private _router: Router,
+                private _snackBar: MatSnackBar)
     {
     }
 
@@ -107,10 +110,30 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                     this.tarefaList = _.filter(tarefaList, (tarefa) => !tarefa?.folder?.id);
                 }
 
-                if (!this.tarefaList.length && this.pagination.total && this.controls.savingIds.length) {
-                    setTimeout(_=> this.doLoadMoreTarefas({
-                        'id': 'notIn:'+this.controls.savingIds.join(',')
-                    }), 300);
+                if (!this.tarefaList.length && this.pagination.total) {
+                    let loadMore = false;
+                    let notIn = [];
+
+                    if (this.controls.savingIds.length) {
+                        loadMore = true;
+                        notIn = [
+                            ...notIn,
+                            ...this.controls.savingIds
+                        ];
+                    }
+                    if (this.controls.deletingIds.length) {
+                        loadMore = true;
+                        notIn = [
+                            ...notIn,
+                            ...this.controls.deletingIds
+                        ];
+                    }
+
+                    if (loadMore) {
+                        setTimeout(_=> this.doLoadMoreTarefas({
+                            'id': 'notIn:'+notIn.join(',')
+                        }), 300);
+                    }
                 }
 
                 this._changeRef.markForCheck();
@@ -155,7 +178,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
             .subscribe(folderTarefas => {
                 this.pagination = _.find(folderTarefas, {folderNome: this.folder.nome.toUpperCase()})?.pagination;
                 this.controls.loading = _.find(folderTarefas, {folderNome: this.folder.nome.toUpperCase()})?.loading;
-                this.controls.displayedCampos = _.find(folderTarefas, {folderNome: this.folder.nome.toUpperCase()})?.displayedCampos;
+                this.controls.displayedCampos = _.find(folderTarefas, {folderNome: this.folder.nome.toUpperCase()})?.displayedCampos || [];
                 this._changeRef.markForCheck();
             });
 
@@ -177,7 +200,10 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                 select(fromStore.getTarefasSavingIds),
                 filter(savingIds => savingIds !== undefined)
             )
-            .subscribe((savingIds => this.controls.savingIds = savingIds));
+            .subscribe((savingIds => {
+                this.controls.savingIds = savingIds;
+                this._changeRef.markForCheck();
+            }));
 
         this.controls.campos.setValue(this.controls.allCampos.map(c => c.id).filter(c => this.controls.displayedCampos.indexOf(c) > -1));
 
@@ -200,8 +226,14 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         ).subscribe();
     }
 
-    onClickTarefa(tarefa: Tarefa): void
+    doOpenTarefa(tarefa: Tarefa, openWindow: boolean): void
     {
+        if (openWindow) {
+            const url = this._router.createUrlTree([
+                'apps/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar'
+            ]);
+            window.open(url.toString(), '_blank');
+        }
     }
 
     doLoadMoreTarefas(listFilter: any = {}): void
@@ -276,16 +308,111 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         this._store.dispatch(new fromStore.ChangeSelectedTarefas(selectedIds));
     }
 
+    doDeleteTarefas(deletingIdsList: number[]): void
+    {
+        if (this.controls.snackSubscription) {
+            this.controls.sheetRef.dismiss();
+            this.controls.snackSubscription.unsubscribe();
+            this.controls.snackSubscription = null;
+        }
+
+        this.controls.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletando'
+            }
+        });
+
+        this.controls.snackSubscription = this.controls.sheetRef.afterDismissed().subscribe((data) => {
+            if (!data.dismissedByAction) {
+                const loteId = CdkUtils.makeId();
+                deletingIdsList.forEach(id => {
+                    const operacaoId = CdkUtils.makeId();
+                    const tarefa = new Tarefa();
+                    tarefa.id = id;
+
+                    this._store.dispatch(new fromStore.DeleteTarefas({
+                        tarefa: tarefa,
+                        loteId: loteId,
+                        folder: (this.folder.id ? this.folder : null),
+                        operacaoId: CdkUtils.makeId(),
+                        redo: [
+                            new fromStore.DeleteTarefas({
+                                tarefa: tarefa,
+                                loteId: loteId,
+                                folder: (this.folder.id ? this.folder : null),
+                                operacaoId: operacaoId,
+                                redo: 'inherent'
+                            })
+                        ],
+                        undo: [
+                            new fromStore.UndeleteTarefas({
+                                tarefa: tarefa,
+                                loteId: loteId,
+                                folder: (this.folder.id ? this.folder : null),
+                                operacaoId: operacaoId,
+                                redo: 'inherent'
+                            })
+                        ]
+                    }));
+                });
+            }
+        });
+    }
+
+    doCienciaTarefas(tarefasIdsList: number[]): void
+    {
+        if (this.controls.snackSubscription) {
+            this.controls.sheetRef.dismiss();
+            this.controls.snackSubscription.unsubscribe();
+            this.controls.snackSubscription = null;
+        }
+
+        this.controls.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'check',
+                text: 'Dando ciência'
+            }
+        });
+
+        this.controls.snackSubscription = this.controls.sheetRef.afterDismissed().subscribe((data) => {
+            if (!data.dismissedByAction) {
+                const loteId = CdkUtils.makeId();
+                tarefasIdsList.forEach(id => {
+                    const operacaoId = CdkUtils.makeId();
+                    const tarefa = new Tarefa();
+                    tarefa.id = id;
+
+                    this._store.dispatch(new fromStore.DarCienciaTarefas({
+                        tarefa: tarefa,
+                        loteId: loteId,
+                        folder: (this.folder.id ? this.folder : null),
+                        operacaoId: CdkUtils.makeId(),
+                        redo: [
+                            new fromStore.DarCienciaTarefas({
+                                tarefa: tarefa,
+                                loteId: loteId,
+                                folder: (this.folder.id ? this.folder : null),
+                                operacaoId: operacaoId,
+                                redo: 'inherent'
+                            })
+                        ],
+                        undo: null
+                    }));
+                });
+            }
+        });
+    }
+
     onDrop($event, enabled: boolean): void
     {
         if (enabled) {
-            let newFolderName = this.folder.nome.toUpperCase();
-            let oldFolderName = '';
             const loteId = CdkUtils.makeId();
-
             this.controls.selectedTarefas.forEach((tarefa) => {
-
-                oldFolderName = tarefa?.folder?.nome?.toUpperCase() || 'ENTRADA';
                 const operacaoId = CdkUtils.makeId();
 
                 this._store.dispatch(new fromStore.ChangeTarefasFolder({
@@ -316,28 +443,12 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                     ]
                 }));
             });
-
-            // tmp disabled
-            // this._store.dispatch(new fromStore.AddFolderWaitingReload(newFolderName));
-            // this._store.dispatch(new fromStore.AddFolderWaitingReload(oldFolderName));
         }
     }
 
-    isDropzoneEnabled(event: DragEvent): boolean
+    isDropzoneEnabled(): boolean
     {
         return !this.controls.folderSelectedIds.length;
-    }
-
-    onDragOver($event: DragEvent, folderListColumnContent: HTMLElement, enabled: boolean): void {
-        if (enabled) {
-            const elementClass = folderListColumnContent.getAttribute('class').replace('folder-list-column-drag-over-disabled', '');
-            folderListColumnContent.setAttribute('class', elementClass + ' folder-list-column-drag-over');
-            this._changeRef.detectChanges();
-        }
-        if (!enabled && folderListColumnContent.getAttribute('class').indexOf('folder-list-column-drag-over-disabled') === -1) {
-            folderListColumnContent.setAttribute('class', folderListColumnContent.getAttribute('class') + ' folder-list-column-drag-over-disabled');
-            this._changeRef.detectChanges();
-        }
     }
 
     isActionsDisabled(): boolean
@@ -356,5 +467,4 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
 }

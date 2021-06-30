@@ -48,16 +48,6 @@ export const getTarefasError = createSelector(
     (state: TarefasState) => state.error
 );
 
-export const getTarefasErrorDelete = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.errorDelete
-);
-
-export const getTarefasErrorDistribuir = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.errorDistribuir
-);
-
 export const getDeletingTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletingTarefaIds
@@ -73,49 +63,9 @@ export const getChangingFolderTarefaIds = createSelector(
     (state: TarefasState) => state.changingFolderTarefaIds
 );
 
-export const getDeletedTarefaIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.deletedTarefaIds
-);
-
-export const getBufferingDelete = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.bufferingDelete
-);
-
-export const getBufferingCiencia = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.bufferingCiencia
-);
-
-export const getBufferingRedistribuir = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.bufferingRedistribuir
-);
-
-export const getCienciaTarefaIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.cienciaTarefaIds
-);
-
-export const getRedistribuindoTarefaIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.redistribuindoTarefaIds
-);
-
 export const getIsTogglingUrgenteIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.togglingUrgenteIds
-);
-
-export const getBufferingDistribuir = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.bufferingDistribuir
-);
-
-export const getDistribuindoTarefaIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.distribuindoTarefaIds
 );
 
 export const getTarefasIds = createSelector(

@@ -4,17 +4,13 @@ export const GET_TAREFAS = '[BOARD TAREFAS] GET TAREFAS';
 export const GET_TAREFAS_SUCCESS = '[BOARD TAREFAS] GET TAREFAS SUCCESS';
 export const GET_TAREFAS_FAILED = '[BOARD TAREFAS] GET TAREFAS FAILED';
 
-export const DELETE_TAREFA = '[BOARD TAREFAS] DELETE TAREFA';
-export const DELETE_TAREFA_SUCCESS = '[BOARD TAREFAS] DELETE TAREFA SUCCESS';
-export const DELETE_TAREFA_FAILED = '[BOARD TAREFAS] DELETE TAREFA FAILED';
+export const DELETE_TAREFAS = '[BOARD TAREFAS] DELETE TAREFAS';
+export const DELETE_TAREFAS_SUCCESS = '[BOARD TAREFAS] DELETE TAREFAS SUCCESS';
+export const DELETE_TAREFAS_FAILED = '[BOARD TAREFAS] DELETE TAREFAS FAILED';
 
-export const UNDELETE_TAREFA = '[BOARD TAREFAS] UNDELETE TAREFA';
-export const UNDELETE_TAREFA_SUCCESS = '[BOARD TAREFAS] UNDELETE TAREFA SUCCESS';
-export const UNDELETE_TAREFA_FAILED = '[BOARD TAREFAS] UNDELETE TAREFA FAILED';
-
-export const DELETE_TAREFA_FLUSH = '[BOARD TAREFAS] DELETE TAREFA FLUSH';
-export const DELETE_TAREFA_CANCEL = '[BOARD TAREFAS] DELETE TAREFA CANCEL';
-export const DELETE_TAREFA_CANCEL_SUCCESS = '[BOARD TAREFAS] DELETE TAREFA CANCEL SUCCESS';
+export const UNDELETE_TAREFAS = '[BOARD TAREFAS] UNDELETE TAREFAS';
+export const UNDELETE_TAREFAS_SUCCESS = '[BOARD TAREFAS] UNDELETE TAREFAS SUCCESS';
+export const UNDELETE_TAREFAS_FAILED = '[BOARD TAREFAS] UNDELETE TAREFAS FAILED';
 
 export const CHANGE_SELECTED_TAREFAS = '[BOARD TAREFAS] CHANGE SELECTED TAREFAS';
 
@@ -22,35 +18,13 @@ export const TOGGLE_URGENTE_TAREFA = '[BOARD TAREFAS] TOGGLE URGENTE TAREFA';
 export const TOGGLE_URGENTE_TAREFA_SUCCESS = '[BOARD TAREFAS] TOGGLE URGENTE TAREFA SUCCESS';
 export const TOGGLE_URGENTE_TAREFA_FAILED = '[BOARD TAREFAS] TOGGLE URGENTE TAREFA FAILED';
 
-export const DISTRIBUIR_TAREFA = '[BOARD TAREFAS] DISTRIBUIR TAREFA';
-export const DISTRIBUIR_TAREFA_SUCCESS = '[BOARD TAREFAS] DISTRIBUIR TAREFA SUCCESS';
-export const DISTRIBUIR_TAREFA_FAILED = '[BOARD TAREFAS] DISTRIBUIR TAREFA FAILED';
-export const DISTRIBUIR_TAREFA_FLUSH = '[BOARD TAREFAS] DISTRIBUIR TAREFA FLUSH';
-export const DISTRIBUIR_TAREFA_CANCEL = '[BOARD TAREFAS] DISTRIBUIR TAREFA CANCEL';
-export const DISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[BOARD TAREFAS] DISTRIBUIR TAREFA CANCEL SUCCESS';
-
 export const SAVE_TAREFA = '[BOARD TAREFAS] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[BOARD TAREFAS] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[BOARD TAREFAS] SAVE TAREFA FAILED';
 
-export const DAR_CIENCIA_TAREFA = '[BOARD TAREFAS] DAR CIENCIA TAREFA';
-export const DAR_CIENCIA_TAREFA_SUCCESS = '[BOARD TAREFAS] DAR CIENCIA TAREFA SUCCESS';
-export const DAR_CIENCIA_TAREFA_FAILED = '[BOARD TAREFAS] DAR CIENCIA TAREFA FAILED';
-
-export const DAR_CIENCIA_TAREFA_CANCEL = '[BOARD TAREFAS] DAR CIENCIA TAREFA CANCEL';
-export const DAR_CIENCIA_TAREFA_CANCEL_SUCCESS = '[BOARD TAREFAS] DAR CIENCIA TAREFA CANCEL SUCCESS';
-export const DAR_CIENCIA_TAREFA_FLUSH = '[BOARD TAREFAS] DAR CIENCIA TAREFA FLUSH';
-
-export const REDISTRIBUIR_TAREFA = '[BOARD TAREFAS] REDISTRIBUIR TAREFA';
-export const REDISTRIBUIR_TAREFA_FAILED = '[BOARD TAREFAS] REDISTRIBUIR TAREFA FAILED';
-export const REDISTRIBUIR_TAREFA_SUCCESS = '[BOARD TAREFAS] REDISTRIBUIR TAREFA SUCCESS';
-
-export const REDISTRIBUIR_TAREFA_CANCEL = '[BOARD TAREFAS] REDISTRIBUIR TAREFA CANCEL';
-export const REDISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[BOARD TAREFAS] REDISTRIBUIR TAREFA CANCEL SUCCESS';
-
-export const GERAR_RELATORIO_TAREFA_EXCEL = '[BOARD TAREFAS] GERAR RELATORIO TAREFA EXCEL';
-export const GERAR_RELATORIO_TAREFA_EXCEL_FAILED = '[BOARD TAREFAS] GERAR RELATORIO TAREFA EXCEL FAILED';
-export const GERAR_RELATORIO_TAREFA_EXCEL_SUCCESS = '[BOARD TAREFAS] GERAR RELATORIO TAREFA EXCEL SUCCESS';
+export const DAR_CIENCIA_TAREFAS = '[BOARD TAREFAS] DAR CIENCIA TAREFAS';
+export const DAR_CIENCIA_TAREFAS_SUCCESS = '[BOARD TAREFAS] DAR CIENCIA TAREFAS SUCCESS';
+export const DAR_CIENCIA_TAREFAS_FAILED = '[BOARD TAREFAS] DAR CIENCIA TAREFAS FAILED';
 
 export const UPDATE_DISPLAYED_CAMPOS = '[BOARD TAREFAS] UPDATE DISPLAYED CAMPOS';
 export const DELETE_FOLDER_TAREFAS = '[BOARD TAREFAS] DELETE FOLDER TAREFA';
@@ -97,106 +71,43 @@ export class ChangeSelectedTarefas implements Action {
     }
 }
 
-export class DistribuirTarefas implements Action {
-    readonly type = DISTRIBUIR_TAREFA;
+export class DeleteTarefas implements Action {
+    readonly type = DELETE_TAREFAS;
 
     constructor(public payload: any) {
     }
 }
 
-export class DistribuirTarefasSuccess implements Action {
-    readonly type = DISTRIBUIR_TAREFA_SUCCESS;
+export class DeleteTarefasSuccess implements Action {
+    readonly type = DELETE_TAREFAS_SUCCESS;
 
     constructor(public payload: any) {
     }
 }
 
-export class DistribuirTarefasFailed implements Action {
-    readonly type = DISTRIBUIR_TAREFA_FAILED;
+export class DeleteTarefasFailed implements Action {
+    readonly type = DELETE_TAREFAS_FAILED;
 
     constructor(public payload: any) {
     }
 }
 
-export class DistribuirTarefasFlush implements Action {
-    readonly type = DISTRIBUIR_TAREFA_FLUSH;
-
-    constructor() {
-    }
-}
-
-export class DistribuirTarefasCancel implements Action {
-    readonly type = DISTRIBUIR_TAREFA_CANCEL;
-
-    constructor() {
-    }
-}
-
-export class DistribuirTarefasCancelSuccess implements Action {
-    readonly type = DISTRIBUIR_TAREFA_CANCEL_SUCCESS;
+export class UndeleteTarefas implements Action {
+    readonly type = UNDELETE_TAREFAS;
 
     constructor(public payload: any) {
     }
 }
 
-export class DeleteTarefa implements Action {
-    readonly type = DELETE_TAREFA;
+export class UndeleteTarefasSuccess implements Action {
+    readonly type = UNDELETE_TAREFAS_SUCCESS;
 
     constructor(public payload: any) {
     }
 }
 
-export class DeleteTarefaSuccess implements Action {
-    readonly type = DELETE_TAREFA_SUCCESS;
-
-    constructor(public payload: any) {
-    }
-}
-
-export class DeleteTarefaFailed implements Action {
-    readonly type = DELETE_TAREFA_FAILED;
-
-    constructor(public payload: any) {
-    }
-}
-
-export class UndeleteTarefa implements Action {
-    readonly type = UNDELETE_TAREFA;
-
-    constructor(public payload: any) {
-    }
-}
-
-export class UndeleteTarefaSuccess implements Action {
-    readonly type = UNDELETE_TAREFA_SUCCESS;
-
-    constructor(public payload: any) {
-    }
-}
-
-export class UndeleteTarefaFailed implements Action {
-    readonly type = UNDELETE_TAREFA_FAILED;
-
-    constructor(public payload: any) {
-    }
-}
-
-export class DeleteTarefaFlush implements Action {
-    readonly type = DELETE_TAREFA_FLUSH;
-
-    constructor() {
-    }
-}
-
-export class DeleteTarefaCancel implements Action {
-    readonly type = DELETE_TAREFA_CANCEL;
-
-    constructor() {
-    }
-}
-
-export class DeleteTarefaCancelSuccess implements Action {
-    readonly type = DELETE_TAREFA_CANCEL_SUCCESS;
+export class UndeleteTarefasFailed implements Action {
+    readonly type = UNDELETE_TAREFAS_FAILED;
 
     constructor(public payload: any) {
     }
@@ -244,126 +155,27 @@ export class ToggleUrgenteTarefaFailed implements Action {
     }
 }
 
-export class DarCienciaTarefa implements Action
+export class DarCienciaTarefas implements Action
 {
-    readonly type = DAR_CIENCIA_TAREFA;
+    readonly type = DAR_CIENCIA_TAREFAS;
 
     constructor(public payload: any)
     {
     }
 }
 
-export class DarCienciaTarefaSuccess implements Action
+export class DarCienciaTarefasSuccess implements Action
 {
-    readonly type = DAR_CIENCIA_TAREFA_SUCCESS;
+    readonly type = DAR_CIENCIA_TAREFAS_SUCCESS;
 
     constructor(public payload: any)
     {
     }
 }
 
-export class DarCienciaTarefaFailed implements Action
+export class DarCienciaTarefasFailed implements Action
 {
-    readonly type = DAR_CIENCIA_TAREFA_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-export class DarCienciaTarefaCancel implements Action
-{
-    readonly type = DAR_CIENCIA_TAREFA_CANCEL;
-
-    constructor()
-    {
-    }
-}
-
-export class DarCienciaTarefaCancelSuccess implements Action
-{
-    readonly type = DAR_CIENCIA_TAREFA_CANCEL_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-export class DarCienciaTarefaFlush implements Action
-{
-    readonly type = DAR_CIENCIA_TAREFA_FLUSH;
-
-    constructor()
-    {
-    }
-}
-
-export class RedistribuirTarefa implements Action
-{
-    readonly type = REDISTRIBUIR_TAREFA;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-export class RedistribuirTarefaFailed implements Action
-{
-    readonly type = REDISTRIBUIR_TAREFA_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-export class RedistribuirTarefaSuccess implements Action
-{
-    readonly type = REDISTRIBUIR_TAREFA_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-export class RedistribuirTarefaCancel implements Action
-{
-    readonly type = REDISTRIBUIR_TAREFA_CANCEL;
-
-    constructor()
-    {
-    }
-}
-
-export class RedistribuirTarefaCancelSuccess implements Action
-{
-    readonly type = REDISTRIBUIR_TAREFA_CANCEL_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-export class GerarRelatorioTarefaExcel implements Action
-{
-    readonly type = GERAR_RELATORIO_TAREFA_EXCEL;
-
-    constructor()
-    {
-    }
-}
-
-export class GerarRelatorioTarefaExcelFailed implements Action
-{
-    readonly type = GERAR_RELATORIO_TAREFA_EXCEL_FAILED;
-
-    constructor()
-    {
-    }
-}
-
-export class GerarRelatorioTarefaExcelSuccess implements Action
-{
-    readonly type = GERAR_RELATORIO_TAREFA_EXCEL_SUCCESS;
+    readonly type = DAR_CIENCIA_TAREFAS_FAILED;
 
     constructor(public payload: any)
     {
@@ -483,41 +295,21 @@ export type TarefasActionsAll
     | GetTarefasSuccess
     | GetTarefasFailed
     | ChangeSelectedTarefas
-    | DistribuirTarefas
-    | DistribuirTarefasSuccess
-    | DistribuirTarefasFailed
-    | DistribuirTarefasCancel
-    | DistribuirTarefasFlush
-    | DistribuirTarefasCancelSuccess
-    | DeleteTarefa
-    | DeleteTarefaSuccess
-    | DeleteTarefaFailed
-    | UndeleteTarefa
-    | UndeleteTarefaSuccess
-    | UndeleteTarefaFailed
-    | DeleteTarefaFlush
-    | DeleteTarefaCancel
-    | DeleteTarefaCancelSuccess
+    | DeleteTarefas
+    | DeleteTarefasSuccess
+    | DeleteTarefasFailed
+    | UndeleteTarefas
+    | UndeleteTarefasSuccess
+    | UndeleteTarefasFailed
     | SaveTarefa
     | SaveTarefaSuccess
     | SaveTarefaFailed
     | ToggleUrgenteTarefa
     | ToggleUrgenteTarefaSuccess
     | ToggleUrgenteTarefaFailed
-    | DarCienciaTarefa
-    | DarCienciaTarefaSuccess
-    | DarCienciaTarefaFailed
-    | DarCienciaTarefaCancel
-    | DarCienciaTarefaCancelSuccess
-    | DarCienciaTarefaFlush
-    | RedistribuirTarefa
-    | RedistribuirTarefaFailed
-    | RedistribuirTarefaSuccess
-    | RedistribuirTarefaCancel
-    | RedistribuirTarefaCancelSuccess
-    | GerarRelatorioTarefaExcel
-    | GerarRelatorioTarefaExcelFailed
-    | GerarRelatorioTarefaExcelSuccess
+    | DarCienciaTarefas
+    | DarCienciaTarefasSuccess
+    | DarCienciaTarefasFailed
     | UpdateDisplayedCampos
     | DeleteFolderTarefas
     | GetTarefasAssuntos

@@ -7,6 +7,10 @@ board-tarefas {
         display: flex;
         flex-direction: row;
         overflow: auto;
+
+        .loading {
+            margin: auto 0;
+        }
     }
 }
 

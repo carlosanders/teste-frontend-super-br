@@ -114,6 +114,13 @@ folder-list-column {
             }
         }
 
+        .folder-list-column-drag-over {
+            background-color:  rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .folder-list-column-drag-over-disabled {
+        }
+
         .list-footer {
             display: flex;
             flex-direction: column;

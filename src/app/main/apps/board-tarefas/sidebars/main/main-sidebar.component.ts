@@ -8,7 +8,7 @@ import * as fromStore from 'app/main/apps/calendario/store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'board-tarefas-main-sidebar',
@@ -23,14 +23,7 @@ export class BoardTarefasMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     routerState: any;
-    generoHandle = '';
 
-    /**
-     *
-     * @param _store
-     * @param _changeDetectorRef
-     * @param _loginService
-     */
     constructor(
         private _store: Store<fromStore.CalendarioAppState>,
         private _changeDetectorRef: ChangeDetectorRef,

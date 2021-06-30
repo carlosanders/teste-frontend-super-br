@@ -28,6 +28,30 @@
             <span *ngIf="controls.folderSelectedIds.length">
                 {{controls.folderSelectedIds.length}}
             </span>
+
+            <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                    aria-label="Ferramentas"
+                    [disabled]="isActionsDisabled()"
+                    *ngIf="controls.folderSelectedIds.length">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="apagar"
+                        (click)="doDeleteTarefas(controls.folderSelectedIds)">
+                    <ng-container>
+                        <mat-icon>delete</mat-icon>
+                        <span>Apagar</span>
+                    </ng-container>
+                </button>
+                <button mat-menu-item aria-label="dar ciência"
+                        (click)="doCienciaTarefas(controls.folderSelectedIds)">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar ciência</span>
+                    </ng-container>
+                </button>
+            </mat-menu>
         </div>
 
         <div class="control-right">
@@ -83,13 +107,13 @@
          (scrolled)="doLoadMoreTarefas()"
          dndDropzone
          dndDragoverClass="folder-list-column-drag-over"
-         (dndDragover)="onDragOver($event, folderListColumnContent, isDropzoneEnabled($event))"
-         (dndDrop)="onDrop([$event, folder], isDropzoneEnabled($event))">
+         dndDropzoneDisabledClass="folder-list-column-drag-over-disabled"
+         [dndDisableIf]="!isDropzoneEnabled()"
+         (dndDrop)="onDrop([$event, folder], isDropzoneEnabled())">
 
         <div class="list-cards ngx-dnd-container">
 
             <card-tarefa
-                (click)="onClickTarefa(tarefa)"
                 class="board-tarefas-card ngx-dnd-item"
                 [ngClass]="{'card-tarefa-disabled': isTarefaDisabled(tarefa)}"
                 *ngFor="let tarefa of tarefaList"
@@ -97,6 +121,9 @@
                 [folderSelectedIds]="controls.folderSelectedIds"
                 [disableActions]="isTarefaDisabled(tarefa)"
                 [displayedCampos]="controls.displayedCampos"
+                (openTarefaHandler)="doOpenTarefa($event[0], $event[1])"
+                (deleteTarefaHandler)="doDeleteTarefas($event)"
+                (cienciaTarefaHandler)="doCienciaTarefas($event)"
             >
             </card-tarefa>
 

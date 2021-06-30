@@ -1,10 +1,10 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, Input, OnDestroy, OnInit,
+    Component, EventEmitter, Input, OnDestroy, OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Tarefa, Usuario} from "../../../../../@cdk/models";
+import {Tarefa, Usuario} from "@cdk/models";
 import {LoginService} from "../../../auth/login/login.service";
 import {DndDragImageOffsetFunction} from "ngx-drag-drop";
 import * as fromStore from "../store";
@@ -42,6 +42,15 @@ export class CardTarefaComponent implements OnInit, OnDestroy
         'dataHoraPrazo',
         'observacao'
     ];
+
+    @Output()
+    openTarefaHandler: EventEmitter<[Tarefa, boolean]> = new EventEmitter<[Tarefa, boolean]>();
+
+    @Output()
+    deleteTarefaHandler: EventEmitter<number[]> = new EventEmitter<number[]>();
+
+    @Output()
+    cienciaTarefaHandler: EventEmitter<number[]> = new EventEmitter<number[]>();
 
     private _unsubscribeAll: Subject<any> = new Subject();
     usuarioAtual: Usuario;
@@ -142,7 +151,7 @@ export class CardTarefaComponent implements OnInit, OnDestroy
 
     offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => ({x: 0, y: 0});
 
-    onStartDrag(event: DragEvent, tarefa: Tarefa): void {
+    doStartDrag(event: DragEvent, tarefa: Tarefa): void {
         let selectedIds = [
             ...this.folderSelectedIds.filter(id => id !== this.tarefa.id),
             this.tarefa.id
@@ -153,7 +162,7 @@ export class CardTarefaComponent implements OnInit, OnDestroy
         this.isDraggin = true;
     }
 
-    onCancelDrag(event: DragEvent): void {
+    doCancelDrag(event: DragEvent): void {
         this.isDraggin = false;
     }
 
@@ -202,6 +211,16 @@ export class CardTarefaComponent implements OnInit, OnDestroy
         }
     }
 
+    doExcluirTarefa(): void
+    {
+        this.deleteTarefaHandler.emit([this.tarefa.id]);
+    }
+
+    doCienciaTarefa(): void
+    {
+        this.cienciaTarefaHandler.emit([this.tarefa.id]);
+    }
+
     doCopyNup(nup:string): void
     {
         document.addEventListener('copy', (e: ClipboardEvent) => {
@@ -212,5 +231,9 @@ export class CardTarefaComponent implements OnInit, OnDestroy
         document.execCommand('copy');
     }
 
+    doOpenTarefa(): void
+    {
+        this.openTarefaHandler.emit([this.tarefa, true]);
+    }
 
 }
