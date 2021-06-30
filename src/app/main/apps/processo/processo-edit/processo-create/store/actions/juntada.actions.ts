@@ -14,6 +14,10 @@ export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[DADOS BASICOS STEPS] ASSINA DO
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[DADOS BASICOS STEPS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[DADOS BASICOS STEPS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
+export const SAVE_DESENTRANHAMENTO = '[DADOS BASICOS STEPS] SAVE DESENTRANHAMENTO';
+export const SAVE_DESENTRANHAMENTO_SUCCESS = '[DADOS BASICOS STEPS] SAVE DESENTRANHAMENTO SUCCESS';
+export const SAVE_DESENTRANHAMENTO_FAILED = '[DADOS BASICOS STEPS] SAVE DESENTRANHAMENTO FAILED';
+
 /**
  * Get Juntadas
  */
@@ -146,6 +150,42 @@ export class ReloadJuntadas implements Action
     }
 }
 
+/**
+ * Save Desentranhamento
+ */
+export class SaveDesentranhamento implements Action
+{
+    readonly type = SAVE_DESENTRANHAMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Desentranhamento Success
+ */
+export class SaveDesentranhamentoSuccess implements Action
+{
+    readonly type = SAVE_DESENTRANHAMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Desentranhamento Failed
+ */
+export class SaveDesentranhamentoFailed implements Action
+{
+    readonly type = SAVE_DESENTRANHAMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type JuntadaActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -157,4 +197,7 @@ export type JuntadaActionsAll
     | AssinaDocumentoFailed
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
-    | AssinaDocumentoEletronicamenteFailed;
+    | AssinaDocumentoEletronicamenteFailed
+    | SaveDesentranhamento
+    | SaveDesentranhamentoSuccess
+    | SaveDesentranhamentoFailed;

@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
 
+
 @Component({
     selector: 'cdk-especie-atividade-filter',
     templateUrl: './cdk-especie-atividade-filter.component.html',
@@ -30,6 +31,9 @@ export class CdkEspecieAtividadeFilterComponent {
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
+    /**
+     * Constructor
+     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -37,12 +41,12 @@ export class CdkEspecieAtividadeFilterComponent {
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
-            generoAtividade: [null],
             ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            generoAtividade: [null],
         });
         this.form.controls.ativo.setValue("todos");
     }
@@ -79,12 +83,16 @@ export class CdkEspecieAtividadeFilterComponent {
             }
         }
 
-        if (this.filterCriadoEm.length > 0) {
-            this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.filterAtualizadoEm.length > 0) {
-            this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit)});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -142,3 +150,4 @@ export class CdkEspecieAtividadeFilterComponent {
         this.form.controls.ativo.setValue("todos");
     }
 }
+

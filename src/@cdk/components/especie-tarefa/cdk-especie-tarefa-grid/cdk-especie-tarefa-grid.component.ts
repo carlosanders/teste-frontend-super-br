@@ -166,7 +166,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     hasExcluded = false;
     hasInatived = false;
 
-    isWorflow = false;
+    isWorkflow = false;
 
     /**
      * @param _changeDetectorRef
@@ -182,8 +182,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
 
     ngOnChanges(): void {
         if (this.especieTarefas) {
-            this.isWorflow = this.especieTarefas.some(item => item.valida !== null);
-            if (this.isWorflow) {
+            this.isWorkflow = this.especieTarefas.some(item => item.valida !== null);
+            if (this.isWorkflow) {
                 this.hasExcluded = true;
             }
         }

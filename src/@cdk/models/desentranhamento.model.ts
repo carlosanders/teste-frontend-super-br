@@ -21,6 +21,8 @@ export class Desentranhamento {
 
     observacao?: string;
 
+    tipo?: string;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -57,6 +59,7 @@ export class Desentranhamento {
         this.juntada = null;
         this.processoDestino = null;
         this.observacao = null;
+        this.tipo = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

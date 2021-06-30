@@ -48,7 +48,8 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+            <button class="toggle-filter" mat-icon-button
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -62,7 +63,7 @@
                 <mat-icon>visibility_off</mat-icon>
             </button>
 
-            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="selectedIds.length > 1 && actions.indexOf('showDeleted') > -1"
                     (click)="loadExcluded()"
                     aria-label="mostrar apagados"
                     matTooltip="Mostrar Apagados">
@@ -100,7 +101,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -109,7 +111,8 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.nome}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -118,7 +121,8 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.descricao}} </td>
                 </ng-container>
 
                 <!-- GeneroAtividade Column -->
@@ -129,7 +133,8 @@
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile'
                         data-label='Gênero Atividade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.generoAtividade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.generoAtividade?.nome}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -138,7 +143,8 @@
                         Ativo
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}">
                         <mat-checkbox [disabled]="true" [checked]="especieAtividade.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -148,9 +154,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile'
-                        data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.criadoPor?.nome}} </td>
+                    <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -159,7 +165,8 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -170,7 +177,8 @@
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -180,7 +188,8 @@
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -188,9 +197,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile'
-                        data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.apagadoPor?.nome}} </td>
+                    <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -198,9 +207,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile'
-                        data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1, 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                    <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -209,7 +218,8 @@
                     <td mat-cell *matCellDef="let especieAtividade">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
+                                *ngIf="(actions.indexOf('select') > -1 && !hasExcluded) ||
+                                    (isWorkflow && especieAtividade.valida)"
                                 (click)="selectEspecieAtividade(especieAtividade)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -241,20 +251,6 @@
                         <mat-error *ngIf="getProp(deletingErrors, especieAtividade.id)">
                             {{ getProp(deletingErrors, especieAtividade.id) }}
                         </mat-error>
-
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('favorito') > -1 && deletingIds?.indexOf(especieAtividade.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(especieAtividade.id) > -1"
-                                (click)="salvarFavorito(especieAtividade.favoritos[0])"
-                                aria-label="favorito"
-                                matTooltip="Favorito">
-
-                            <mat-icon class="amber-fg" *ngIf="especieAtividade.favoritos[0]?.prioritario">star
-                            </mat-icon>
-                            <mat-icon class="secondary-text" *ngIf="!especieAtividade.favoritos[0]?.prioritario">
-                                star_border
-                            </mat-icon>
-                        </button>
                     </td>
                 </ng-container>
 

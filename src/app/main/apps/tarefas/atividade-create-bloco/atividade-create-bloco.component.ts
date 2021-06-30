@@ -165,6 +165,15 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 } else {
                     this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
                 }
+
+                // caso tarefa seja de workflow verificar espécies permitidas
+                this.especieAtividadePagination['context'] = {};
+                if (tarefas[0].workflow) {
+                    this.especieAtividadePagination.filter = {
+                        'transicoesWorkflow.workflow.id' : 'eq:' + tarefas[0].workflow.id
+                    };
+                    this.especieAtividadePagination['context'] = { tarefaId: tarefas[0].id };
+                }
             } else if (this.processosIdsEncaminhar.length > 0) {
                 // tslint:disable-next-line:max-line-length
                 this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/encaminhamento-bloco']).then();
