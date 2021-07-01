@@ -78,12 +78,16 @@ export class CdkJuntadaFilterComponent {
             }
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -111,10 +115,12 @@ export class CdkJuntadaFilterComponent {
 
     filtraCriadoEm(value: any): void {
         this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     filtraAtualizadoEm(value: any): void {
         this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {

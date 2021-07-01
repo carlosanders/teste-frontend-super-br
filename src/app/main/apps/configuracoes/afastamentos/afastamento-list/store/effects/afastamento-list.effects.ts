@@ -93,6 +93,6 @@ export class AfastamentoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

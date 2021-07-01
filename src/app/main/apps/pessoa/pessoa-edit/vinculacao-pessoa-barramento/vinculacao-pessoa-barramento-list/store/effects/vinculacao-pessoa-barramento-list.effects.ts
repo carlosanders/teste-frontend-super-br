@@ -90,6 +90,6 @@ export class VinculacaoPessoaBarramentoListEffect {
                             return of(new VinculacaoPessoaBarramentoListActions.DeleteVinculacaoPessoaBarramentoFailed(action.payload));
                         })
                     );
-                })
+                }, 25)
             );
 }

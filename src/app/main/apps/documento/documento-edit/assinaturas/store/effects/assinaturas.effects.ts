@@ -139,7 +139,7 @@ export class AssinaturasEffects {
                                 [action.payload.assinaturaId]: CdkUtils.errorsToString(err)
                             }));
                         })
-                    ))
+                    ), 25)
             );
 
     /**

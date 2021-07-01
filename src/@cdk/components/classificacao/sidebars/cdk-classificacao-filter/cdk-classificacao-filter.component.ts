@@ -185,10 +185,12 @@ export class CdkClassificacaoFilterComponent {
 
     filtraCriadoEm(value: any): void {
         this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     filtraAtualizadoEm(value: any): void {
         this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {

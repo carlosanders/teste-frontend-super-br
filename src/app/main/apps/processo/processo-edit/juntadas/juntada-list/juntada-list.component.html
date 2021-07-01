@@ -35,9 +35,7 @@
         (adicionarVinculacao)="adicionarVinculacao($event)"
         (removerVinculacoes)="removerVinculacoes($event)"
         [assinandoId]="(assinandoDocumentosId$ | async)"
-        [desentranhadoId]="(desentranhadoIds$ | async)"
-        (removeAssinatura)="removeAssinatura($event)"
-        [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)">
+        [desentranhadoId]="(desentranhadoIds$ | async)">
     </cdk-juntada-grid>
 </div>
 <router-outlet></router-outlet>

@@ -7,8 +7,9 @@
 
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+
         <mat-form-field>
-            <mat-label>Cóodigo do Documento</mat-label>
+            <mat-label>Número</mat-label>
             <input matInput #codigoDocumento
                    name="codigoDocumento"
                    formControlName="codigoDocumento">
@@ -43,18 +44,20 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Data de Emissao</mat-label>
-            <input matInput formControlName="dataEmissao" [matDatetimepicker]="dataEmissao">
-            <mat-datetimepicker-toggle matSuffix [for]="dataEmissao"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataEmissao type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
+            <mat-label>Pessoa</mat-label>
+            <input matInput #pessoa
+                   name="pessoa"
+                   formControlName="pessoa">
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Criado Em</mat-label>
-            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')"
+                [pagination]="pagination">
+            </cdk-usuario-autocomplete>
         </mat-form-field>
 
         <mat-form-field>
@@ -66,13 +69,47 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Atualizado Em</mat-label>
-            <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataEmissao?.length}">Data de Emissão</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataEmissao"
+                    [ngClass]="{'filtrado': filterDataEmissao?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataEmissao="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="false" campo="dataEmissao"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataEmissao($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
+                    [ngClass]="{'filtrado': filterCriadoEm?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="criadoEm"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraCriadoEm($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterAtualizadoEm?.length}">Atualizado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm"
+                    [ngClass]="{'filtrado': filterAtualizadoEm?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroAtualizadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="atualizadoEm"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraAtualizadoEm($event)">
+            </cdk-date-filter>
+        </mat-menu>
 
     </form>
 </div>

@@ -65,7 +65,7 @@ export class TarefaEditBlocoEffect {
                             }));
                             return of(new RedistribuicaoEditBlocoActions.SaveTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
 }

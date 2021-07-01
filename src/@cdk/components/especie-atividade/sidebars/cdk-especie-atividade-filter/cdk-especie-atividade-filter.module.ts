@@ -3,7 +3,6 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
@@ -12,11 +11,12 @@ import {
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkEspecieAtividadeFilterComponent} from './cdk-especie-atividade-filter.component';
-import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
-import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkGeneroAtividadeAutocompleteModule} from '../../../genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-autocomplete.module';
+import {CdkGeneroAtividadeAutocompleteModule} from '@cdk/components/genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -28,17 +28,16 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         MatIconModule,
         MatInputModule,
         MatAutocompleteModule,
-        MatDatepickerModule,
         MatDatetimepickerModule,
-        MatNativeDatetimeModule,
-        MatMomentDatetimeModule,
         MatCheckboxModule,
 
         CdkSharedModule,
 
-        CdkUsuarioAutocompleteModule,
         CdkGeneroAtividadeAutocompleteModule,
+        CdkUsuarioAutocompleteModule,
         MatButtonToggleModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         EspecieAtividadeService,

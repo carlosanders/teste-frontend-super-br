@@ -111,6 +111,6 @@ export class FoldersEffect
                             console.log(err);
                             return of(new FoldersActions.DeleteFolderFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 }

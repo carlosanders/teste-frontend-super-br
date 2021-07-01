@@ -77,7 +77,8 @@ export class TarefasEffect {
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
                             ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.etiquetaFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,
@@ -330,7 +331,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleLidaTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -358,7 +359,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -543,7 +544,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
                         })
-                    )),
+                    ), 25),
             );
 
     /**
@@ -581,7 +582,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
                         })
-                    )),
+                    ), 25),
             );
 
     /**
@@ -703,7 +704,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.GerarRelatorioTarefaExcelFailed());
                         })
-                    ))
+                    ), 25)
             );
 
     /**

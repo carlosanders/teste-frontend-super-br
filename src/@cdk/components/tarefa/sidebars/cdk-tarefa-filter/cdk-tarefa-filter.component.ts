@@ -52,6 +52,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
+    filterApagadoEm = [];
 
     filterDataHoraLeitura = [];
     filterDataHoraDistribuicao = [];
@@ -97,6 +98,8 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
 
         this.unidadeResponsavelPagination = new Pagination();
@@ -263,7 +266,36 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             else {
                 delete andXFilter['redistribuida'];
             }
-            console.log(andXFilter);
+        }
+        
+        if (this.filterDataHoraLeitura?.length) {
+            this.filterDataHoraLeitura.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraDistribuicao?.length) {
+            this.filterDataHoraDistribuicao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraInicioPrazo?.length) {
+            this.filterDataHoraInicioPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraFinalPrazo?.length) {
+            this.filterDataHoraFinalPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraConclusaoPrazo?.length) {
+            this.filterDataHoraConclusaoPrazo.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.filterCriadoEm?.length) {
@@ -278,12 +310,22 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             });
         }
 
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
         if (this.form.get('criadoPor').value) {
             andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
         const request = {
@@ -324,6 +366,11 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
     filtraAtualizadoEm(value: any): void {
         this.filterAtualizadoEm = value;
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {

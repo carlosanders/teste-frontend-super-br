@@ -69,7 +69,7 @@ export class AtividadeCreateBlocoEffect {
                             }));
                             return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 
     /**

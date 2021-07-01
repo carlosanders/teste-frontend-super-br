@@ -88,6 +88,6 @@ export class AvisoListEffects {
                             console.log(err);
                             return of(new AvisoListActions.DeleteAvisoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 }

@@ -116,7 +116,7 @@ export class ResolveGuard implements CanActivate {
                     sort: {},
                     limit: 10,
                     offset: 0,
-                    populate: ['assuntoAdministrativo']
+                    populate: ['populateAll']
                 };
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
@@ -144,7 +144,7 @@ export class ResolveGuard implements CanActivate {
                     sort: {},
                     limit: 10,
                     offset: 0,
-                    populate: ['modalidadeInteressado', 'pessoa']
+                    populate: ['populateAll', 'pessoa']
                 };
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
@@ -182,7 +182,7 @@ export class ResolveGuard implements CanActivate {
                     sort: {},
                     limit: 10,
                     offset: 0,
-                    populate: ['modalidadeVinculacaoProcesso', 'processo', 'processoVinculado']
+                    populate: ['populateAll', 'modalidadeVinculacaoProcesso', 'processo', 'processoVinculado']
                 };
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {

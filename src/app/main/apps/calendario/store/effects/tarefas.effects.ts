@@ -53,7 +53,8 @@ export class TarefasEffect {
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
                             ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.etiquetaFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,
@@ -101,7 +102,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.SaveTarefaFailed(err));
                         })
-                    ))
+                    ), 25)
             );
 
     /**
@@ -148,6 +149,6 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.DeleteTarefaFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 }

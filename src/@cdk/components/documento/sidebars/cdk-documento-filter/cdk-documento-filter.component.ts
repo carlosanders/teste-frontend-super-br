@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
+import { Pagination } from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-filter',
@@ -20,6 +22,13 @@ export class CdkDocumentoFilterComponent {
 
     @Input()
     mode = 'list';
+    pagination: Pagination;
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterDataProducao = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -166,12 +175,22 @@ export class CdkDocumentoFilterComponent {
             andXFilter.push({'dataHoraProducao': `eq:${this.form.get('dataHoraProducao').value}`});
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterDataProducao?.length) {
+            this.filterDataProducao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -194,6 +213,21 @@ export class CdkDocumentoFilterComponent {
         this._cdkSidebarService.getSidebar('cdk-documento-filter').close();
     }
 
+    filtraDataProducao(value: any): void{
+        this.filterDataProducao = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
@@ -207,6 +241,7 @@ export class CdkDocumentoFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

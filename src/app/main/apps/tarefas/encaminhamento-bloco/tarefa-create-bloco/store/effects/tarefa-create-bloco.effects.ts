@@ -73,7 +73,7 @@ export class TarefaCreateBlocoEffect {
                             }));
                             return of(new TarefaCreateBlocoActions.SaveTarefaFailed(payload));
                         })
-                    ))
+                    ), 25)
             );
 
 }

@@ -93,6 +93,6 @@ export class LotacaoListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

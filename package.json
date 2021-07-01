@@ -1,6 +1,6 @@
 {
     "name": "supp-administrativo-frontend",
-    "version": "1.4.2",
+    "version": "1.5.1",
     "license": "https://www.agu.gov.br",
     "scripts": {
         "ng": "ng",

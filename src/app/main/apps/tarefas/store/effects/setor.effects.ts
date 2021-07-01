@@ -47,6 +47,7 @@ export class SetorEffects {
                 switchMap(action => this._setorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,

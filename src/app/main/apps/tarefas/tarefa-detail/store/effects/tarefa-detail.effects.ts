@@ -387,7 +387,7 @@ export class TarefaDetailEffect {
                             return of(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
-                })
+                }, 25)
             );
 
     /**

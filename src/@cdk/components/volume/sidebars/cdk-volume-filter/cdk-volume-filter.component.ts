@@ -40,6 +40,8 @@ export class CdkVolumeFilterComponent {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
     }
 
@@ -68,10 +70,14 @@ export class CdkVolumeFilterComponent {
             });
         }
 
-        if (this.filterCriadoEm?.length) {
-            this.filterCriadoEm.forEach((filter) => {
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });
+        }
+
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
         if (this.form.get('criadoPor').value) {
@@ -118,8 +124,6 @@ export class CdkVolumeFilterComponent {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
-        this.filterCriadoEm = [];
-        this.filterAtualizadoEm = [];
         this.emite();
     }
 

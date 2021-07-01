@@ -24,6 +24,7 @@ export class CdkVinculacaoUsuarioFilterComponent {
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
+    filterApagadoEm = [];
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
@@ -38,6 +39,8 @@ export class CdkVinculacaoUsuarioFilterComponent {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
     }
 
@@ -52,12 +55,26 @@ export class CdkVinculacaoUsuarioFilterComponent {
             andXFilter.push({'usuarioVinculado.id': `eq:${this.form.get('usuarioVinculado').value.id}`});
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
         if (this.form.get('criadoPor').value) {
@@ -82,10 +99,17 @@ export class CdkVinculacaoUsuarioFilterComponent {
 
     filtraCriadoEm(value: any): void {
         this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     filtraAtualizadoEm(value: any): void {
         this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {

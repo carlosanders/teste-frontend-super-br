@@ -11,19 +11,23 @@ import {
     MatTableModule,
     MatTooltipModule,
 } from '@cdk/angular/material';
+
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkEspecieAtividadeGridComponent} from './cdk-especie-atividade-grid.component';
 import {CdkEspecieAtividadeAutocompleteModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
-import {CdkEspecieAtividadeFilterModule} from '@cdk/components/especie-atividade/sidebars/cdk-especie-atividade-filter/cdk-especie-atividade-filter.module';
+import {CdkEspecieAtividadeFilterModule} from '../sidebars/cdk-especie-atividade-filter/cdk-especie-atividade-filter.module';
+import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
     declarations: [
         CdkEspecieAtividadeGridComponent,
     ],
     imports: [
-        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -33,16 +37,20 @@ import {CdkEspecieAtividadeFilterModule} from '@cdk/components/especie-atividade
         MatPaginatorModule,
         MatSortModule,
         MatTooltipModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatDatepickerModule,
 
-        CdkEspecieAtividadeFilterModule,
         CdkEspecieAtividadeAutocompleteModule,
+        CdkEspecieAtividadeFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,
-        MatTableModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule
     ],
     providers: [
-        EspecieAtividadeService,
+        EspecieAtividadeService
     ],
     exports: [
         CdkEspecieAtividadeGridComponent

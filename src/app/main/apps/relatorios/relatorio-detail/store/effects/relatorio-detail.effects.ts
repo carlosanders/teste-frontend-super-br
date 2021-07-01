@@ -195,7 +195,7 @@ export class RelatorioDetailEffect {
                             return of(new RelatorioDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
-                })
+                }, 25)
             );
 
 

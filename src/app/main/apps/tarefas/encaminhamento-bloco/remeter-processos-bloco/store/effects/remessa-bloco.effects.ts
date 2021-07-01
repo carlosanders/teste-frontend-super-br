@@ -72,6 +72,6 @@ export class RemessaBlocoEffects {
                             }));
                             return of(new RemessaBlocoActions.SaveTramitacaoFailed(payload));
                         })
-                    ))
+                    ), 25)
             );
 }

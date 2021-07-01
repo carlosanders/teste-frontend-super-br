@@ -61,7 +61,8 @@ export class OficiosEffects {
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
                             ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.etiquetaFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,
@@ -149,6 +150,6 @@ export class OficiosEffects {
                             console.log(err);
                             return of(new DocumentosAvulsoActions.ToggleLidaDocumentosAvulsoFailed(action.payload));
                         })
-                    ))
+                    ), 25)
             );
 }

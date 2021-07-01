@@ -1,5 +1,9 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
+    <mat-checkbox formControlName="evento">
+        Evento
+    </mat-checkbox>
+
     <mat-form-field>
         <mat-label>Nome</mat-label>
         <input matInput #nome

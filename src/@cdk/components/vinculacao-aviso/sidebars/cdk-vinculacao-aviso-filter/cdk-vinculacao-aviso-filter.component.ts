@@ -12,6 +12,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Pagination} from '@cdk/models';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-vinculacao-aviso-filter',
@@ -21,7 +22,7 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkVinculacaoAvisoFilterComponent implements OnInit {
+export class CdkVinculacaoAvisoFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -44,6 +45,12 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
 
     @Input()
     usuarioPagination: Pagination;
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterApagadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     /**
      * Constructor
@@ -72,171 +79,115 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
         this.usuarioPagination = new Pagination();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+    emite(): void {
+        if (!this.form.valid) {
+            return;
+        }
 
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('aviso').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'aviso.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('aviso.id')) {
-                        delete this.filters['aviso.id'];
-                    }
-                }
-            }
-        });
+        const andXFilter = [];
 
-        this.form.get('especieSetor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'especieSetor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('especieSetor.id')) {
-                        delete this.filters['especieSetor.id'];
-                    }
-                }
-            }
-        });
+        if (this.form.get('observacao').value) {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'observacao': `like:%${bit}%`});
+            });
+        }
 
-        this.form.get('setor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setor.id')) {
-                        delete this.filters['setor.id'];
-                    }
-                }
-            }
-        });
+        if (this.form.get('destinacaoMinutas').value) {
+            this.form.get('destinacaoMinutas').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'destinacaoMinutas': `like:%${bit}%`});
+            });
+        }
 
-        this.form.get('usuario').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuario.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuario.id')) {
-                        delete this.filters['usuario.id'];
-                    }
-                }
-            }
-        });
+        if (this.form.get('especieAtividade').value) {
+            andXFilter.push({'especieAtividade.id': `eq:${this.form.get('especieAtividade').value.id}`});
+        }
 
-        this.form.get('modalidadeOrgaoCentral').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'modalidadeOrgaoCentral.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('modalidadeOrgaoCentral.id')) {
-                        delete this.filters['modalidadeOrgaoCentral.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
+        if (this.form.get('setor').value) {
+            andXFilter.push({'setor.id': `eq:${this.form.get('setor').value.id}`});
+        }
 
-        this.form.get('criadoEm').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
+        if (this.form.get('usuario').value) {
+            andXFilter.push({'usuario.id': `eq:${this.form.get('usuario').value.id}`});
+        }
 
-        this.form.get('atualizadoEm').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
+        if (this.form.get('usuarioAprovacao').value) {
+            andXFilter.push({'usuarioAprovacao.id': `eq:${this.form.get('usuarioAprovacao').value.id}`});
+        }
 
-        this.form.get('apagadoEm').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
+        if (this.form.get('setorAprovacao').value) {
+            andXFilter.push({'setorAprovacao.id': `eq:${this.form.get('setorAprovacao').value.id}`});
+        }
 
-        this.form.get('criadoPor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
+        if (this.form.get('tarefa').value) {
+            andXFilter.push({'tarefa.id': `eq:${this.form.get('tarefa').value.id}`});
+        }
 
-        this.form.get('atualizadoPor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
+        if (this.form.get('documentos').value) {
+            andXFilter.push({'documentos.id': `eq:${this.form.get('documentos').value.id}`});
+        }
 
-        this.form.get('apagadoPor').valueChanges.subscribe((value) => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
-        });
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+        
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
+        const request = {
+            filters: {},
+        };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = andXFilter;
+        }
+        
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-atividade-filter').close();
     }
 
-    emite(): void {
-        const request = {
-            filters: this.filters
-        };
-        this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-vinculacao-aviso-filter').close();
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {
@@ -246,6 +197,7 @@ export class CdkVinculacaoAvisoFilterComponent implements OnInit {
     limpar(): void {
         this.filters = {};
         this.emite();
+        this.limparFormFiltroDatas$.next(true);
         this.form.reset();
     }
 }

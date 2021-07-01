@@ -19,6 +19,8 @@ import {CdkPaisAutocompleteModule} from '../../../pais/cdk-pais-autocomplete/cdk
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkMunicipioAutocompleteModule} from '../../../municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -43,6 +45,8 @@ import {CdkMunicipioAutocompleteModule} from '../../../municipio/cdk-municipio-a
         CdkPaisAutocompleteModule,
         CdkOrigemDadosAutocompleteModule,
         CdkPessoaAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         MunicipioService,

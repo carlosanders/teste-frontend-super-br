@@ -97,7 +97,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
             this.especieAtividadePagination['context'] = {};
             if (tarefa.workflow) {
                 this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.especieTarefaFrom.id' : 'eq:' + tarefa.especieTarefa.id
+                    'transicoesWorkflow.worflow.id' : 'eq:' + tarefa.workflow.id
                 };
                 this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
             }

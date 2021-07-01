@@ -87,6 +87,6 @@ export class PessoaListEffect {
                                 })
                             );
                         })
-                    ))
+                    ), 25)
             );
 }

@@ -381,7 +381,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             sort: {},
             limit: 1,
             offset: 0,
-            populate: ['assuntoAdministrativo']
+            populate: ['populateAll']
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcesso({processoId: processo.id, params: params}));
@@ -403,7 +403,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             sort: {},
             limit: 1,
             offset: 0,
-            populate: ['modalidadeInteressado', 'pessoa']
+            populate: ['populateAll', 'pessoa']
         };
 
         this._store.dispatch(new fromStore.GetInteressadosProcesso({processoId: processo.id, params: params}));

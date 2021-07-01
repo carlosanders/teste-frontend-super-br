@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-assunto-administrativo-filter',
@@ -21,6 +22,10 @@ export class CdkAssuntoAdministrativoFilterComponent {
     @Input()
     mode = 'list';
 
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
     @Input()
     hasInatived = false;
 
@@ -78,6 +83,9 @@ export class CdkAssuntoAdministrativoFilterComponent {
             andXFilter.push({'parent.id': `eq:${this.form.get('parent').value.id}`});
         }
 
+        if (this.filterCriadoEm.length > 0) {
+            this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
+        }
         if (this.form.get('ativo').value) {
             if(this.form.get('ativo').value !== 'todos') {
                 andXFilter.push({'ativo': `eq:${this.form.get('ativo').value}`});
@@ -87,12 +95,8 @@ export class CdkAssuntoAdministrativoFilterComponent {
             }
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
-        }
-
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm.length > 0) {
+            this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
 
         if (this.form.get('criadoPor').value) {
@@ -118,6 +122,16 @@ export class CdkAssuntoAdministrativoFilterComponent {
         this._cdkSidebarService.getSidebar('cdk-assunto-administrativo-filter').close();
     }
 
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
@@ -130,6 +144,7 @@ export class CdkAssuntoAdministrativoFilterComponent {
     }
 
     limpar(): void {
+        this.limparFormFiltroDatas$.next(true);
         this.resetarFormulario();
         this.emite();
     }

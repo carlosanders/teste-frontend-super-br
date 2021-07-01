@@ -247,7 +247,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     loadPage(): void {
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: this.gridFilter.filters,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {['criadoEm']: 'DESC'}

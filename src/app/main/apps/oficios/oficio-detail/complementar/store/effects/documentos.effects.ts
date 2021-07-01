@@ -159,7 +159,7 @@ export class DocumentosEffects {
                                     new DocumentosActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError(err => of(new DocumentosActions.ConverteToPdfFailed(action.payload)))
-                            )
+                            ), 25
                 )
             );
 
@@ -180,7 +180,7 @@ export class DocumentosEffects {
                                     new DocumentosActions.ConverteToHtmlSucess(action.payload)
                                 ]),
                                 catchError(err => of(new DocumentosActions.ConverteToHtmlFailed(action.payload)))
-                            )
+                            ), 25
                 )
             );
 
@@ -200,7 +200,7 @@ export class DocumentosEffects {
                                 console.log(err);
                                 return of(new DocumentosActions.DeleteDocumentoFailed(action.payload));
                             })
-                        )
+                        ), 25
                 ));
 
     /**
@@ -220,7 +220,7 @@ export class DocumentosEffects {
                                     console.log(err);
                                     return of(new DocumentosActions.AssinaDocumentoFailed(err));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**

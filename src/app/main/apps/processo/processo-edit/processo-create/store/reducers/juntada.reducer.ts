@@ -18,8 +18,6 @@ export interface JuntadaState {
     copiandoIds: number[];
     copiadoIds: number[];
     assinandoDocumentoIds: number[];
-    removendoAssinaturaDocumentoIds: number[];
-
 }
 
 export const JuntadaInitialState: JuntadaState = {
@@ -40,7 +38,6 @@ export const JuntadaInitialState: JuntadaState = {
     copiandoIds: [],
     copiadoIds: [],
     assinandoDocumentoIds: [],
-    removendoAssinaturaDocumentoIds: [],
 };
 
 export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActions.JuntadaActionsAll): JuntadaState {
@@ -97,7 +94,6 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
                     }
                 };
             }
-
         }
 
         case JuntadaActions.GET_JUNTADAS_FAILED: {
@@ -105,6 +101,13 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_JUNTADA: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
             };
         }
 
@@ -119,6 +122,59 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            let newState = [...state.assinandoDocumentoIds];
+            let index = newState.indexOf(action.payload);
+            if (index > -1) {
+                newState.splice(index, 1);
+            }
+            return {
+                ...state,
+                assinandoDocumentoIds: newState
+            };
+        }
+
+        case JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            let newState = [...state.assinandoDocumentoIds];
+            let index = newState.indexOf(action.payload.documentoId);
+            if (index > -1) {
+                newState.splice(index, 1);
+            }
+            return {
+                ...state,
+                assinandoDocumentoIds: newState
+            };
+        }
+
+        case JuntadaActions.SAVE_DESENTRANHAMENTO: {
+            return {
+                ...state,
+                desentranhandoIds: [...state.desentranhandoIds, action.payload.juntada.id],
+            };
+        }
+
+        case JuntadaActions.SAVE_DESENTRANHAMENTO_SUCCESS: {
+            return {
+                ...state,
+                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload.juntada.id),
+                desentranhadoIds: [...state.desentranhadoIds, action.payload.juntada.id]
+            };
+        }
+
+        case JuntadaActions.SAVE_DESENTRANHAMENTO_FAILED: {
+            return {
+                ...state,
+                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload.juntada.id),
             };
         }
 
