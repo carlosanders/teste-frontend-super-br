@@ -156,24 +156,34 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             };
         }
 
-        case JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO: {
+        case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
             return {
                 ...state,
-                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
             };
         }
 
-        case JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+        case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            let newState = [...state.assinandoDocumentoIds];
+            let index = newState.indexOf(action.payload);
+            if (index > -1) {
+                newState.splice(index, 1);
+            }
             return {
                 ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+                assinandoDocumentoIds: newState
             };
         }
 
-        case JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+        case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            let newState = [...state.assinandoDocumentoIds];
+            let index = newState.indexOf(action.payload.documentoId);
+            if (index > -1) {
+                newState.splice(index, 1);
+            }
             return {
                 ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+                assinandoDocumentoIds: newState
             };
         }
 

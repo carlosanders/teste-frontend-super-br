@@ -296,15 +296,13 @@
                             <mat-icon>keyboard_return</mat-icon>
                         </button>
 
-                        <button mat-icon-button *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
+                        <button mat-icon-button *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && deletingIds?.indexOf(juntada.id) === -1"
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
                                 (click)="editJuntada(juntada.documento)" aria-label="editar" matTooltip="Editar">
                             <mat-icon>edit</mat-icon>
                         </button>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(juntada.id) > -1 ||
-                                                                  assinandoId?.indexOf(juntada.documento?.id) > -1 ||
-                                                                  removendoAssinaturaId?.indexOf(juntada.documento?.id) > -1">
+                        <div class="spinner-container" *ngIf="deletingIds?.indexOf(juntada.id) > -1 || assinandoId?.indexOf(juntada.documento?.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
@@ -320,6 +318,14 @@
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
                                 (click)="desentranharJuntadas([juntada.id])" aria-label="desentranhar"
                                 matTooltip="Desentranhar">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('desentranharJuntada') > -1 && deletingIds?.indexOf(juntada.id) === -1"
+                                [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1"
+                                (click)="doDesentranharJuntada(juntada)" aria-label="desentranhar"
+                                matTooltip="Desentranhar Juntada">
                             <mat-icon>delete</mat-icon>
                         </button>
 

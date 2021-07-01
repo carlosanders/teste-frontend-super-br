@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-tipo-validacao-workflow-filter',
@@ -24,6 +25,12 @@ export class CdkTipoValidacaoWorkflowFilterComponent {
     @Input()
     hasInatived = false;
 
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterApagadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -37,6 +44,8 @@ export class CdkTipoValidacaoWorkflowFilterComponent {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
         this.form.controls.ativo.setValue("todos");
     }
@@ -69,12 +78,22 @@ export class CdkTipoValidacaoWorkflowFilterComponent {
             }
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -83,6 +102,10 @@ export class CdkTipoValidacaoWorkflowFilterComponent {
 
         if (this.form.get('atualizadoPor').value) {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
         const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
@@ -100,6 +123,21 @@ export class CdkTipoValidacaoWorkflowFilterComponent {
         this._cdkSidebarService.getSidebar('cdk-tipo-validacao-workflow-edit-filter').close();
     }
 
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
@@ -113,6 +151,7 @@ export class CdkTipoValidacaoWorkflowFilterComponent {
 
     limpar(): void {
         this.resetarFormulario();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 

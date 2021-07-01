@@ -49,6 +49,8 @@ export class CdkAtividadeFilterComponent {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
     }
 
@@ -142,7 +144,7 @@ export class CdkAtividadeFilterComponent {
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
         }
-
+        
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-atividade-filter').close();
     }

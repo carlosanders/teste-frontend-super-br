@@ -96,9 +96,13 @@
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
-                [actions]="['edit', 'assinar']"
+                [actions]="['edit', 'assinar', 'desentranharJuntada']"
+                [assinandoId]="(assinandoDocumentosId$ | async)"
+                [desentranhadoId]="(desentranhadoJuntadasId$ | async)"
+                [deletingIds]="(desentranhandoJuntadasId$ | async)"
                 (reload)="reloadJuntadas($event)"
                 (excluded)="excludedJuntadas($event)"
+                (desentranharJuntada)="desentranhar($event)"
                 (edit)="editar($event)"
                 (assinar)="assinar($event)">
             </cdk-juntada-grid>
@@ -235,13 +239,19 @@
             </div>
 
             <cdk-juntada-grid
-                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome']"
+                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
-                [actions]="[]"
+                [actions]="['edit', 'assinar', 'desentranharJuntada']"
+                [assinandoId]="(assinandoDocumentosId$ | async)"
+                [desentranhadoId]="(desentranhadoJuntadasId$ | async)"
+                [deletingIds]="(desentranhandoJuntadasId$ | async)"
                 (reload)="reloadJuntadas($event)"
-                (excluded)="excludedJuntadas($event)">
+                (excluded)="excludedJuntadas($event)"
+                (edit)="editar($event)"
+                (desentranharJuntada)="desentranhar($event)"
+                (assinar)="assinar($event)">
             </cdk-juntada-grid>
         </div>
     </mat-step>
@@ -284,6 +294,5 @@
         </cdk-tarefa-form>
     </mat-step>
 </mat-vertical-stepper>
-
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

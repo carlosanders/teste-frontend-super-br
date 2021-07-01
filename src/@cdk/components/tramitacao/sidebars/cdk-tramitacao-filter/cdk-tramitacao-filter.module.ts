@@ -19,6 +19,8 @@ import {CdkPessoaAutocompleteModule} from '@cdk/components/pessoa/cdk-pessoa-aut
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSidebarModule} from '@cdk/components/index';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -43,6 +45,8 @@ import {CdkSidebarModule} from '@cdk/components/index';
         CdkProcessoAutocompleteModule,
         CdkSetorAutocompleteModule,
         CdkPessoaAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         TramitacaoService,

@@ -71,7 +71,9 @@ export class GarantiaListComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: [
+                ...this.pagination.populate
+            ]
         }));
     }
 

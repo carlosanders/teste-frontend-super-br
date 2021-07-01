@@ -108,10 +108,14 @@ export class JuntadaListEffect {
                             .pipe(
                                 map(response => new JuntadaListActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
+                                    const payload = {
+                                        id: action.payload,
+                                        error: err
+                                    };
                                     console.log(err);
-                                    return of(new JuntadaListActions.AssinaDocumentoFailed(err));
+                                    return of(new JuntadaListActions.AssinaDocumentoFailed(payload));
                                 })
-                            )
+                            ), 25
                 ));
 
     /**
@@ -150,7 +154,7 @@ export class JuntadaListEffect {
                 ofType<JuntadaListActions.AssinaDocumentoEletronicamente>(JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
                 switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
-                            new JuntadaListActions.AssinaDocumentoEletronicamenteSuccess(response),
+                            new JuntadaListActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'assinatura',
@@ -160,29 +164,15 @@ export class JuntadaListEffect {
                             new JuntadaListActions.ReloadJuntadas()
                         ]),
                         catchError((err) => {
+                            const payload = {
+                                documentoId: action.payload.documento.id,
+                                error: err
+                            };
                             console.log(err);
-                            return of(new JuntadaListActions.AssinaDocumentoEletronicamenteFailed(err));
+                            return of(new JuntadaListActions.AssinaDocumentoEletronicamenteFailed(payload));
                         })
                     ))
             );
-
-    @Effect()
-    removeAssinaturaDocumento: any =
-        this._actions
-            .pipe(
-                ofType<JuntadaListActions.RemoveAssinaturaDocumento>(JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO),
-                mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-                            .pipe(
-                                mergeMap(response => [
-                                    new JuntadaListActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                                    new JuntadaListActions.ReloadJuntadas()
-                                ]),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    return of(new JuntadaListActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                                })
-                            )
-                ));
 
     @Effect()
     removeVinculacaoDocumento: any =

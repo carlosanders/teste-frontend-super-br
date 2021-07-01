@@ -120,11 +120,9 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             filter(processo => !!processo)
         ).subscribe((processo) => {
             this.processo = processo;
-            const tarefa = new Tarefa();
 
             if (this.processo && this.processo.especieProcesso?.workflow) {
-                tarefa.workflow = this.processo.especieProcesso.workflow;
-                 this.estaNumProcessoWorkflow = 'SIM';
+                this.estaNumProcessoWorkflow = 'SIM';
             }else{
                 this.estaNumProcessoWorkflow = 'NÃO';
             }

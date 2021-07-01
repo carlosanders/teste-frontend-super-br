@@ -6,5 +6,24 @@ vinculacao-etiqueta-create {
         flex: 1 1 auto;
         padding: 8px;
         flex-direction: column;
+
+        > cdk-etiqueta-chips {
+            flex: 0 1 auto !important;
+        }
+
+        > .actions {
+            display: flex;
+            flex: 0 1 auto;
+            align-items: center;
+            justify-content: center;
+        }
+
+        > .loading {
+            display: flex;
+            flex-direction: row;
+            flex: 0 1 auto;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }

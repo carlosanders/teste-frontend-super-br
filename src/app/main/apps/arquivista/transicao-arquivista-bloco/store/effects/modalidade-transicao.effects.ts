@@ -43,7 +43,8 @@ export class ModalidadeTransicaoEffects {
                 ofType<ModalidadeTransicaoActions.GetModalidadeTransicao>(ModalidadeTransicaoActions.GET_MODALIDADE_TRANSICAO),
                 switchMap(action => this._modalidadeTransicaoService.query(
                         JSON.stringify({
-                            ...action.payload.filter
+                            ...action.payload.filter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,

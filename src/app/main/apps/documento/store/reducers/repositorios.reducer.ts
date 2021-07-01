@@ -24,7 +24,7 @@ export const RepositoriosInitialState: RepositoriosState = {
         filter: {},
         gridFilter: {},
         ckeditorFilter: {},
-        populate: ['modalidadeRepositorio', 'documento', 'documento.componentesDigitais'],
+        populate: ['populateAll','modalidadeRepositorio', 'documento', 'documento.componentesDigitais'],
         sort: {},
         total: 0,
     },

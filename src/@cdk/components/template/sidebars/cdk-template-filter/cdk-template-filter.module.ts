@@ -19,6 +19,8 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
 import {CdkDocumentoAutocompleteModule} from '@cdk/components/documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
 import {CdkTipoDocumentoAutocompleteModule} from '../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -43,6 +45,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         CdkDocumentoAutocompleteModule,
         CdkTipoDocumentoAutocompleteModule,
         MatButtonToggleModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         TemplateService,

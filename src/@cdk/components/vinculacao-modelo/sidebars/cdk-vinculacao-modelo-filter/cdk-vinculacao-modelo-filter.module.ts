@@ -18,6 +18,8 @@ import {CdkEspecieSetorAutocompleteModule} from '../../../especie-setor/cdk-espe
 import {CdkModeloAutocompleteModule} from '../../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkModalidadeOrgaoCentralAutocompleteModule} from '../../../modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import {CdkModalidadeOrgaoCentralAutocompleteModule} from '../../../modalidade-o
         CdkEspecieSetorAutocompleteModule,
         CdkSetorAutocompleteModule,
         CdkModalidadeOrgaoCentralAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         VinculacaoModeloService,

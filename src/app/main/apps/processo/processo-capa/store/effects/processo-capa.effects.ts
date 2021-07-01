@@ -118,7 +118,8 @@ export class ProcessoCapaEffect {
                     return this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,
@@ -163,7 +164,8 @@ export class ProcessoCapaEffect {
                     return this._interessadoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,
@@ -208,7 +210,8 @@ export class ProcessoCapaEffect {
                     return this._vinculacaoProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,
@@ -249,7 +252,8 @@ export class ProcessoCapaEffect {
                 switchMap(action => this._acompanhamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,

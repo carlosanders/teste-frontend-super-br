@@ -23,3 +23,7 @@ cdk-setor-form {
         margin-right: 10px;
     }
 }
+
+mat-form-field > mat-error {
+    padding-bottom: 0.1em;    
+}

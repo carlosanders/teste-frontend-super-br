@@ -53,7 +53,8 @@ export class ArquivistaEffect {
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.etiquetaFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,

@@ -21,6 +21,8 @@ import {CdkDocumentoAutocompleteModule} from '@cdk/components/documento/cdk-docu
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkTipoSigiloAutocompleteModule} from '@cdk/components/tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -47,6 +49,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         CdkDocumentoAutocompleteModule,
         CdkOrigemDadosAutocompleteModule,
         MatButtonToggleModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         SigiloService,

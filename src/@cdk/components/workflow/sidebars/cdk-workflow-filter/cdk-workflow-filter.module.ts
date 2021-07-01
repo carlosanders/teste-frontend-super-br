@@ -18,6 +18,8 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
 import {CdkGeneroAtividadeAutocompleteModule} from '../../../genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-autocomplete.module';
 import {CdkEspecieProcessoAutocompleteModule} from '../../../especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
 import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-es
         CdkGeneroAtividadeAutocompleteModule,
         CdkEspecieProcessoAutocompleteModule,
         CdkEspecieTarefaAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         WorkflowService,
