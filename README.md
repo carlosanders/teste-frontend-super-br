@@ -15,3 +15,9 @@ Dentro do diretorio supp-frontend-administrativo:
 sudo docker-compose up angular-dev
 
 Server disponível em localhost:4200
+
+Para rodar os testes: 
+
+docker-compose exec angular-dev npm test
+
+Server de teste disponivel em localhost:9876
