@@ -17,6 +17,8 @@ import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autoco
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +41,8 @@ import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.
         CdkUsuarioAutocompleteModule,
         CdkTipoDocumentoAutocompleteModule,
         CdkSetorAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         NumeroUnicoDocumentoService,

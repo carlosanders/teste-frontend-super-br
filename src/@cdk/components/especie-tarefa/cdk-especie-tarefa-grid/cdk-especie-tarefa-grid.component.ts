@@ -90,28 +90,13 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
             fixed: false
         },
         {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
             id: 'criadoEm',
             label: 'Criado Em',
             fixed: false
         },
         {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
             fixed: false
         },
         {

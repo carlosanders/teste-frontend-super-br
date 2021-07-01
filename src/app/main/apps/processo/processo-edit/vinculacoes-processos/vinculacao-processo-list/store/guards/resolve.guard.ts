@@ -73,7 +73,7 @@ export class ResolveGuard implements CanActivate {
                                 },
                                 {
                                     'processoVinculado.id':
-                                        `eq:${processoId}`
+                                        `${processoId}`
                                 }
                             ]
                         },
