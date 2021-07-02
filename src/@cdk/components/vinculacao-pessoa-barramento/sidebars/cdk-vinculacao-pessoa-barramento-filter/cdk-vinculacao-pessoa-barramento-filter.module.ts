@@ -15,6 +15,9 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {VinculacaoPessoaBarramentoService} from "../../../../services/vinculacao-pessoa-barramento.service";
 import {CdkPessoaAutocompleteModule} from "../../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module";
 import {CdkUsuarioAutocompleteModule} from "../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module";
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+
 @NgModule({
     declarations: [
         CdkVinculacaoPessoaBarramentoFilterComponent,
@@ -33,7 +36,9 @@ import {CdkUsuarioAutocompleteModule} from "../../../usuario/cdk-usuario-autocom
         CdkSharedModule,
 
         CdkPessoaAutocompleteModule,
-        CdkUsuarioAutocompleteModule
+        CdkUsuarioAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         VinculacaoPessoaBarramentoService,

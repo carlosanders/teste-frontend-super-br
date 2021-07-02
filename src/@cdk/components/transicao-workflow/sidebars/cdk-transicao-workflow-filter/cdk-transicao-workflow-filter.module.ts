@@ -20,6 +20,8 @@ import {CdkEspecieProcessoAutocompleteModule} from '../../../especie-processo/cd
 import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkWorkflowAutocompleteModule} from '../../../workflow/cdk-workflow-autocomplete/cdk-workflow-autocomplete.module';
 import {CdkEspecieAtividadeAutocompleteModule} from '../../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -45,6 +47,8 @@ import {CdkEspecieAtividadeAutocompleteModule} from '../../../especie-atividade/
         CdkEspecieTarefaAutocompleteModule,
         CdkWorkflowAutocompleteModule,
         CdkEspecieAtividadeAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         TransicaoWorkflowService,

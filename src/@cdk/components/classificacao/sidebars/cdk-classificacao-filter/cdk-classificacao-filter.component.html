@@ -125,6 +125,15 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
+        <mat-form-field>
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
@@ -138,15 +147,6 @@
                              (filtra)="this.filtraCriadoEm($event)">
             </cdk-date-filter>
         </mat-menu>
-
-        <mat-form-field>
-            <input matInput placeholder="Atualizado Por"
-                   formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
 
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterAtualizadoEm?.length}">Atualizado Em</span>

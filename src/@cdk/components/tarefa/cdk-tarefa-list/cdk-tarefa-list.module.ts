@@ -26,7 +26,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module';
-import {CdkTarefaListService} from './cdk-tarefa-list.service';
 import {MatSelectModule} from '@angular/material/select';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {RouterModule} from '@angular/router';
@@ -66,8 +65,7 @@ import {CdkTarefaListItemModule} from "./cdk-tarefa-list-item/cdk-tarefa-list-it
     providers: [
         EspecieTarefaService,
         ProcessoService,
-        AssuntoService,
-        CdkTarefaListService
+        AssuntoService
     ],
     exports: [
         CdkTarefaListComponent

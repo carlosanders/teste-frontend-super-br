@@ -46,7 +46,6 @@ export class CompartilhamentoListEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoListActions.GetCompartilhamentos>(CompartilhamentoListActions.GET_COMPARTILHAMENTOS),
-                tap(action => console.log(action.payload)),
                 exhaustMap(action => this._compartilhamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,

@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-vinculacao-etiqueta-filter',
@@ -20,6 +21,13 @@ export class CdkVinculacaoEtiquetaFilterComponent {
 
     @Input()
     mode = 'list';
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterDataHoraExpiracao = [];
+    filterApagadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -69,16 +77,28 @@ export class CdkVinculacaoEtiquetaFilterComponent {
             andXFilter.push({'usuario.id': `eq:${this.form.get('usuario').value.id}`});
         }
 
-        if (this.form.get('dataHoraExpiracao').value) {
-            andXFilter.push({'dataHoraExpiracao': `eq:${this.form.get('dataHoraExpiracao').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraExpiracao?.length) {
+            this.filterDataHoraExpiracao.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -87,6 +107,10 @@ export class CdkVinculacaoEtiquetaFilterComponent {
 
         if (this.form.get('atualizadoPor').value) {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
         const request = {
@@ -99,6 +123,26 @@ export class CdkVinculacaoEtiquetaFilterComponent {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-vinculacao-etiqueta-filter').close();
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataHoraExpiracao(value: any): void {
+        this.filterDataHoraExpiracao = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {
@@ -114,6 +158,7 @@ export class CdkVinculacaoEtiquetaFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 

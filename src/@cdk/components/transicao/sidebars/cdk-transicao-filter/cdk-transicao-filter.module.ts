@@ -16,6 +16,8 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkModalidadeTransicaoAutocompleteModule} from '@cdk/components/modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -37,6 +39,8 @@ import {CdkModalidadeTransicaoAutocompleteModule} from '@cdk/components/modalida
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,
         CdkModalidadeTransicaoAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         TransicaoService,

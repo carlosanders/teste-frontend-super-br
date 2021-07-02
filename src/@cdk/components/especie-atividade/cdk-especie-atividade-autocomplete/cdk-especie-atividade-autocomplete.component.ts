@@ -39,6 +39,8 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
     @Input()
     especieAtividadeListIsLoading: boolean;
 
+    isWorkflow = false;
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -59,7 +61,8 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        andxFilter.push({nome: `like:%${bit}%`});
+                        andxFilter.push({
+                            nome: `like:%${bit}%`});
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.especieAtividadeListIsLoading = true;
@@ -73,7 +76,8 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate))
+                            JSON.stringify(this.pagination.populate),
+                            JSON.stringify(this.pagination['context']))
                             .pipe(
                                 finalize(() => this.especieAtividadeListIsLoading = false),
                                 catchError(() => of([]))
@@ -85,6 +89,9 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
             )
         ).subscribe((response) => {
             this.especieAtividadeList = response['entities'];
+            if (this.pagination['context'] && this.pagination['context'].tarefaId) {
+                this.isWorkflow = true;
+            }
             this._changeDetectorRef.markForCheck();
         });
     }

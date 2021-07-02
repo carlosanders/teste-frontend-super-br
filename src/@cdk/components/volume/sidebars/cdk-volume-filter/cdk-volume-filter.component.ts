@@ -40,6 +40,8 @@ export class CdkVolumeFilterComponent {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
     }
 
@@ -72,6 +74,10 @@ export class CdkVolumeFilterComponent {
             this.filterAtualizadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });
+        }
+
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
         if (this.form.get('criadoPor').value) {

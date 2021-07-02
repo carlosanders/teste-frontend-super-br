@@ -88,6 +88,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe((routerState) => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefas) => {
@@ -106,16 +116,6 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(selected => this.selectedIds = selected);
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
     }
 
     ngAfterViewInit(): void {

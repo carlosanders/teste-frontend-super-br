@@ -33,6 +33,9 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    generoAtividadePagination: Pagination;
+
     @Output()
     save = new EventEmitter<any>();
 
@@ -40,10 +43,8 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
     abort = new EventEmitter<any>();
 
     @Input()
-    generoAtividadePagination: Pagination;
-
-    @Input()
     form: FormGroup;
+
 
     activeCard = 'form';
 
@@ -60,6 +61,7 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             generoAtividade: [null, [Validators.required]],
             descricao: [null, [Validators.required]],
+            evento: [null],
             ativo: [null],
         });
     }
@@ -135,4 +137,5 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
         }
         this.activeCard = 'form';
     }
+
 }

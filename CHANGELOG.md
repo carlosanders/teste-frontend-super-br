@@ -392,3 +392,8 @@
 
 * Correção para reconectar ao chat ao dar F5 
 * Correção na assinatura dentro do grid de juntadas
+* Correção na exibição de tarefas e atividades do workflow
+* Correção nos filtros da lista de tarefas
+* Correção na colocação em bloco de etiquetas
+* Correção para correta exibição do módulo do usuário externo validado
+* Outras correções relevantes
