@@ -102,6 +102,7 @@ $typography: mat-typography-config(
 @import "src/ajuda/ajuda.theme";
 @import "src/app/main/apps/relatorios/relatorios.theme";
 @import "src/modules/modules.theme";
+@import "src/app/main/apps/board-tarefas/board-tarefas.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -128,6 +129,7 @@ $typography: mat-typography-config(
     @include ajuda-theme($theme);
     @include relatorios-theme($theme);
     @include modules-theme($theme);
+    @include board-tarefas-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------
