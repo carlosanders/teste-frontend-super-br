@@ -3,17 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as LotacaoListActions from '../actions';
 
 import {LotacaoService} from '@cdk/services/lotacao.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class LotacaoListEffect {
@@ -79,20 +79,52 @@ export class LotacaoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteLotacao: any =
+    deleteLotacao: Observable<LotacaoListActions.LotacaoListActionsAll> =
         this._actions
             .pipe(
                 ofType<LotacaoListActions.DeleteLotacao>(LotacaoListActions.DELETE_LOTACAO),
-                mergeMap(action => this._lotacaoService.destroy(action.payload).pipe(
-                        map(response => new LotacaoListActions.DeleteLotacaoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'lotacao',
+                        content: 'Apagando a lotacao id ' + action.payload.lotacaoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._lotacaoService.destroy(action.payload.lotacaoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'lotacao',
+                                content: 'Lotacao id ' + action.payload.lotacaoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Lotacao>({
+                                id: response.id,
+                                schema: lotacaoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new LotacaoListActions.DeleteLotacaoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.lotacaoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'lotacao',
+                                content: 'Erro ao apagar a lotacao id ' + action.payload.lotacaoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new LotacaoListActions.DeleteLotacaoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new LotacaoListActions.DeleteLotacaoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

@@ -180,6 +180,9 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Tramitacao>();
 
     @Output()
@@ -319,8 +322,8 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
         this.delete.emit(tramitacaoId);
     }
 
-    deleteTramitacoes(tramitacoesId): void {
-        tramitacoesId.forEach(tramitacaoId => this.deleteTramitacao(tramitacaoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

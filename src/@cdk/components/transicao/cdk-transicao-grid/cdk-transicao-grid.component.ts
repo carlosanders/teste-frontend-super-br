@@ -162,6 +162,9 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Transicao>();
 
     @Output()
@@ -284,8 +287,8 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
         this.delete.emit(transicaoId);
     }
 
-    deleteTransicoes(transicoesId): void {
-        transicoesId.forEach(transicaoId => this.deleteTransicao(transicaoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

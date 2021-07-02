@@ -168,6 +168,9 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<VinculacaoUsuario>();
 
     @Output()
@@ -290,8 +293,8 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
         this.delete.emit(vinculacaoUsuarioId);
     }
 
-    deleteVinculacaoUsuarios(vinculacoesUsuariosId): void {
-        vinculacoesUsuariosId.forEach(vinculacaoUsuarioId => this.deleteVinculacaoUsuario(vinculacaoUsuarioId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

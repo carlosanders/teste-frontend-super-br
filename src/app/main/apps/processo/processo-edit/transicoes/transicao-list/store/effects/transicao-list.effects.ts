@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TransicaoListActions from '../actions';
 
 import {TransicaoService} from '@cdk/services/transicao.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Transicao} from '@cdk/models';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class TransicaoListEffect {
@@ -77,20 +77,52 @@ export class TransicaoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteTransicao: any =
+    deleteTransicao: Observable<TransicaoListActions.TransicaoListActionsAll> =
         this._actions
             .pipe(
                 ofType<TransicaoListActions.DeleteTransicao>(TransicaoListActions.DELETE_TRANSICAO),
-                mergeMap(action => this._transicaoService.destroy(action.payload).pipe(
-                        map(response => new TransicaoListActions.DeleteTransicaoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'transicao',
+                        content: 'Apagando a transicao id ' + action.payload.transicaoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._transicaoService.destroy(action.payload.transicaoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transicao',
+                                content: 'Transicao id ' + action.payload.transicaoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Transicao>({
+                                id: response.id,
+                                schema: transicaoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new TransicaoListActions.DeleteTransicaoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.transicaoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transicao',
+                                content: 'Erro ao apagar a transicao id ' + action.payload.transicaoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new TransicaoListActions.DeleteTransicaoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new TransicaoListActions.DeleteTransicaoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

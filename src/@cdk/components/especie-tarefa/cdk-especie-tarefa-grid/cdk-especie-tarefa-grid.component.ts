@@ -50,6 +50,9 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     excluded = new EventEmitter<any>();
 
     @Output()
@@ -300,8 +303,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
         this.delete.emit(especieTarefaId);
     }
 
-    deleteEspecieTarefas(especieTarefasId): void {
-        especieTarefasId.forEach(especieTarefaId => this.deleteEspecieTarefa(especieTarefaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

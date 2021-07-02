@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as ModalidadeAcaoEtiquetaListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class ModalidadeAcaoEtiquetaListEffects {
@@ -78,20 +78,52 @@ export class ModalidadeAcaoEtiquetaListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteModalidadeAcaoEtiqueta: any =
+    deleteModalidadeAcaoEtiqueta: Observable<ModalidadeAcaoEtiquetaListActions.ModalidadeAcaoEtiquetaListActionsAll> =
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiqueta>(ModalidadeAcaoEtiquetaListActions.DELETE_MODALIDADE_ACAO_ETIQUETA),
-                mergeMap(action => this._modalidadeAcaoEtiquetaService.destroy(action.payload).pipe(
-                        map(response => new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'modalidadeAcaoEtiqueta',
+                        content: 'Apagando a modalidadeAcaoEtiqueta id ' + action.payload.modalidadeAcaoEtiquetaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._modalidadeAcaoEtiquetaService.destroy(action.payload.modalidadeAcaoEtiquetaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modalidadeAcaoEtiqueta',
+                                content: 'ModalidadeAcaoEtiqueta id ' + action.payload.modalidadeAcaoEtiquetaId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<ModalidadeAcaoEtiqueta>({
+                                id: response.id,
+                                schema: modalidadeAcaoEtiquetaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.modalidadeAcaoEtiquetaId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modalidadeAcaoEtiqueta',
+                                content: 'Erro ao apagar a modalidadeAcaoEtiqueta id ' + action.payload.modalidadeAcaoEtiquetaId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiqueta(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

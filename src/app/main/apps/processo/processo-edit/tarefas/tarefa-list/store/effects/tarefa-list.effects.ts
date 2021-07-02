@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefaListActions from '../actions';
 
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Tarefa} from '@cdk/models';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class TarefaListEffect {
@@ -78,21 +78,53 @@ export class TarefaListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteTarefa: any =
+    deleteTarefa: Observable<TarefaListActions.TarefaListActionsAll> =
         this._actions
             .pipe(
                 ofType<TarefaListActions.DeleteTarefa>(TarefaListActions.DELETE_TAREFA),
-                mergeMap(action => this._tarefaService.destroy(action.payload).pipe(
-                        map(response => new TarefaListActions.DeleteTarefaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Apagando a tarefa id ' + action.payload.tarefaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._tarefaService.destroy(action.payload.tarefaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + action.payload.tarefaId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Tarefa>({
+                                id: response.id,
+                                schema: tarefaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new TarefaListActions.DeleteTarefaSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.tarefaId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao apagar a tarefa id ' + action.payload.tarefaId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new TarefaListActions.DeleteTarefaFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new TarefaListActions.DeleteTarefaFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
 }

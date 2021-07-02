@@ -158,6 +158,9 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     especies = new EventEmitter<number>();
 
     @Output()
@@ -295,8 +298,8 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
         this.delete.emit(workflowId);
     }
 
-    deleteWorkflows(workflowsId): void {
-        workflowsId.forEach(workflowId => this.deleteWorkflow(workflowId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     salvarFavorito(favorito): void {

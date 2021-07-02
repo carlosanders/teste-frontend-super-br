@@ -30,6 +30,7 @@
     [deletedIds]="(deletedSigiloIds$ | async)"
     (create)="showFormSigilos()"
     (delete)="deleteSigilo($event)"
+    (deleteBlocoEmmitter)="deleteBloco($event)"
     (reload)="reloadSigilos($event)"
     (edit)="editSigilo($event)"
 >

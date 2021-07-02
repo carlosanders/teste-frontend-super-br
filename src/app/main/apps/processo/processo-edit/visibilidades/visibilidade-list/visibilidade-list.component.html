@@ -6,5 +6,6 @@
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['delete', 'showDeleted']"
         (reload)="reload($event)"
-        (delete)="delete($event)">
+        (delete)="delete($event)"
+        (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-visibilidade-list>

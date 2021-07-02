@@ -153,6 +153,9 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Volume>();
 
     @Output()
@@ -275,8 +278,8 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.delete.emit(volumeId);
     }
 
-    deleteVolumes(volumesId): void {
-        volumesId.forEach(volumeId => this.deleteVolume(volumeId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

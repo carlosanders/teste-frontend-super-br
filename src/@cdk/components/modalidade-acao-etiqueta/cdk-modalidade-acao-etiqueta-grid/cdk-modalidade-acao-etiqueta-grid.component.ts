@@ -50,6 +50,9 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
     @Output()
     create = new EventEmitter<any>();
 
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeEtiqueta.valor', 'actions'];
 
@@ -308,8 +311,8 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
         this.delete.emit(modalidadeAcaoEtiquetaId);
     }
 
-    deleteModalidadeAcaoEtiquetas(modalidadeAcaoEtiquetasId): void {
-        modalidadeAcaoEtiquetasId.forEach(modalidadeAcaoEtiquetaId => this.deleteModalidadeAcaoEtiqueta(modalidadeAcaoEtiquetaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

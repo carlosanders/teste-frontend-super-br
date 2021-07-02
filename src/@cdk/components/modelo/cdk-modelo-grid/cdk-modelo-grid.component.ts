@@ -247,6 +247,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Modelo>();
 
     @Output()
@@ -420,8 +423,8 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.delete.emit(modeloId);
     }
 
-    deleteModelos(modelosId): void {
-        modelosId.forEach(modeloId => this.deleteModelo(modeloId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

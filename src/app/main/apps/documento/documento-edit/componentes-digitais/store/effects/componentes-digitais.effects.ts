@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
 
@@ -16,6 +16,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../../anexos/store';
 import {GetDocumento} from '../../../../store';
+import {ComponenteDigitalActionsAll} from '../actions/componentes-digitais.actions';
 
 @Injectable()
 export class ComponenteDigitalEffects {
@@ -92,21 +93,53 @@ export class ComponenteDigitalEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteComponenteDigital: any =
+    deleteComponenteDigital: Observable<ComponenteDigitalActions.ComponenteDigitalActionsAll> =
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.DeleteComponenteDigital>(ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL),
-                mergeMap(action => this._componenteDigitalService.destroy(action.payload).pipe(
-                        mergeMap(response => [
-                            new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id),
-                            new GetDocumento(),
-                            new ComponenteDigitalActions.ReloadComponentesDigitais()
-                        ]),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'componenteDigital',
+                        content: 'Apagando a componenteDigital id ' + action.payload.componenteDigitalId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._componenteDigitalService.destroy(action.payload.componenteDigitalId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'componenteDigital',
+                                content: 'ComponenteDigital id ' + action.payload.componenteDigitalId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<ComponenteDigital>({
+                                id: response.id,
+                                schema: componenteDigitalSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new ComponenteDigitalActions.DeleteComponenteDigitalFailed(action.payload));
+                            const payload = {
+                                id: action.payload.componenteDigitalId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'componenteDigital',
+                                content: 'Erro ao apagar a componenteDigital id ' + action.payload.componenteDigitalId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new ComponenteDigitalActions.DeleteComponenteDigitalFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**

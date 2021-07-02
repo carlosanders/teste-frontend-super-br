@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState} from '../../../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-pessoa-usuario-list',
@@ -36,6 +37,7 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string
 
     @Output()
     select: EventEmitter<Pessoa> = new EventEmitter();
@@ -92,8 +94,18 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
         }));
     }
 
-    delete(pessoaId: number): void {
-        this._store.dispatch(new fromStore.DeleteVinculacaoPessoaUsuario(pessoaId));
+    delete(pessoaId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteVinculacaoPessoaUsuario({
+            pessoaId: pessoaId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     doSelect(pessoa: Pessoa): void {

@@ -3,17 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as UsuariosListActions from '../actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {usuario as usuarioSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class UsuariosListEffects {
@@ -119,20 +119,52 @@ export class UsuariosListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteUsuario: any =
+    deleteUsuario: Observable<UsuariosListActions.UsuariosListActionsAll> =
         this._actions
             .pipe(
                 ofType<UsuariosListActions.DeleteUsuario>(UsuariosListActions.DELETE_USUARIO),
-                mergeMap(action => this._usuarioService.destroy(action.payload).pipe(
-                        map(response => new UsuariosListActions.DeleteUsuarioSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'usuario',
+                        content: 'Apagando a usuario id ' + action.payload.usuarioId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._usuarioService.destroy(action.payload.usuarioId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'usuario',
+                                content: 'Usuario id ' + action.payload.usuarioId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Usuario>({
+                                id: response.id,
+                                schema: usuarioSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new UsuariosListActions.DeleteUsuarioSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.usuarioId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'usuario',
+                                content: 'Erro ao apagar a usuario id ' + action.payload.usuarioId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new UsuariosListActions.DeleteUsuarioFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new UsuariosListActions.DeleteUsuarioFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

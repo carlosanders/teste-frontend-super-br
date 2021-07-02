@@ -3,17 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as CoordenadoresListActions from '../actions';
 
 import {CoordenadorService} from '@cdk/services/coordenador.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Coordenador} from '@cdk/models/coordenador.model';
 import {coordenador as coordenadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class CoordenadoresListEffects {
@@ -79,20 +79,52 @@ export class CoordenadoresListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteCoordenador: any =
+    deleteCoordenador: Observable<CoordenadoresListActions.CoordenadoresListActionsAll> =
         this._actions
             .pipe(
                 ofType<CoordenadoresListActions.DeleteCoordenador>(CoordenadoresListActions.DELETE_COORDENADOR),
-                mergeMap(action => this._coordenadorService.destroy(action.payload).pipe(
-                        map(response => new CoordenadoresListActions.DeleteCoordenadorSuccess(action.payload)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'coordenador',
+                        content: 'Apagando a coordenador id ' + action.payload.coordenadorId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._coordenadorService.destroy(action.payload.coordenadorId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'coordenador',
+                                content: 'Coordenador id ' + action.payload.coordenadorId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Coordenador>({
+                                id: response.id,
+                                schema: coordenadorSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new CoordenadoresListActions.DeleteCoordenadorSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.coordenadorId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'coordenador',
+                                content: 'Erro ao apagar a coordenador id ' + action.payload.coordenadorId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new CoordenadoresListActions.DeleteCoordenadorFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new CoordenadoresListActions.DeleteCoordenadorFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

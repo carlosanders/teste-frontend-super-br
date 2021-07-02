@@ -29,6 +29,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/protocolo-externo/store';
 import {Etiqueta, Pagination, Processo, Usuario} from '@cdk/models';
+import {CdkUtils} from '../../../../@cdk/utils';
 
 @Component({
     selector: 'protocolo-externo',
@@ -93,6 +94,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
 
     pessoasConveniadas: any;
     currentPessoaConveniadaId: any;
+    lote: string;
 
     @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
 
@@ -307,8 +309,18 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         }));
     }
 
-    deleteProcesso(processoId: number): void {
-        this._store.dispatch(new fromStore.DeleteProcesso(processoId));
+    deleteProcesso(processoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteProcesso({
+            processoId: processoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoProcesso(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteProcesso(id, this.lote));
     }
 
     doToggleUrgente(processo: Processo): void {

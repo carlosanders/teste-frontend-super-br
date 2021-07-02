@@ -157,6 +157,9 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Favorito>();
 
     @Output()
@@ -289,8 +292,8 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
         this.delete.emit(favoritoId);
     }
 
-    deleteFavoritos(favoritosId): void {
-        favoritosId.forEach(favoritoId => this.deleteFavorito(favoritoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     salvarFavorito(favorito): void {

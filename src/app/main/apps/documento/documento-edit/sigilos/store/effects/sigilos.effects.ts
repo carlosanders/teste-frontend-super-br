@@ -3,17 +3,18 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as SigiloActions from '../actions/sigilos.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Sigilo} from '@cdk/models';
 import {sigilo as sigiloSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 import {SigiloService} from '@cdk/services/sigilo.service';
+import {SigiloActionsAll} from '../actions/sigilos.actions';
 
 @Injectable()
 export class SigilosEffects {
@@ -126,17 +127,53 @@ export class SigilosEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteSigilo: any =
+    deleteSigilo: Observable<SigiloActions.SigiloActionsAll> =
         this._actions
             .pipe(
                 ofType<SigiloActions.DeleteSigilo>(SigiloActions.DELETE_SIGILO_DOCUMENTO),
-                mergeMap(action => this._sigiloService.destroy(action.payload.sigiloId).pipe(
-                        map(response => new SigiloActions.DeleteSigiloSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'sigilo',
+                        content: 'Apagando a sigilo id ' + action.payload.sigiloId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._sigiloService.destroy(action.payload.sigiloId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'sigilo',
+                                content: 'Sigilo id ' + action.payload.sigiloId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Sigilo>({
+                                id: response.id,
+                                schema: sigiloSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new SigiloActions.DeleteSigiloSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new SigiloActions.DeleteSigiloFailed(action.payload));
+                            const payload = {
+                                id: action.payload.sigiloId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'sigilo',
+                                content: 'Erro ao apagar a sigilo id ' + action.payload.sigiloId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new SigiloActions.DeleteSigiloFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**

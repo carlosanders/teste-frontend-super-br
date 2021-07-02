@@ -3,17 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as NumeroUnicoDocumentoListActions from '../actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {NumeroUnicoDocumento} from '@cdk/models';
 import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class NumeroUnicoDocumentoListEffect {
@@ -91,20 +91,52 @@ export class NumeroUnicoDocumentoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteNumeroUnicoDocumento: any =
+    deleteNumeroUnicoDocumento: Observable<NumeroUnicoDocumentoListActions.NumeroUnicoDocumentoListActionsAll> =
         this._actions
             .pipe(
                 ofType<NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumento>(NumeroUnicoDocumentoListActions.DELETE_NUMERO_UNICO_DOCUMENTO),
-                mergeMap(action => this._numeroUnicoDocumentoService.destroy(action.payload).pipe(
-                        map(response => new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'numeroUnicoDocumento',
+                        content: 'Apagando a numeroUnicoDocumento id ' + action.payload.numeroUnicoDocumentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._numeroUnicoDocumentoService.destroy(action.payload.numeroUnicoDocumentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'numeroUnicoDocumento',
+                                content: 'NumeroUnicoDocumento id ' + action.payload.numeroUnicoDocumentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<NumeroUnicoDocumento>({
+                                id: response.id,
+                                schema: numeroUnicoDocumentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.numeroUnicoDocumentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'numeroUnicoDocumento',
+                                content: 'Erro ao apagar a numeroUnicoDocumento id ' + action.payload.numeroUnicoDocumentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class RepositoriosListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     actions: string[];
     colunas: string[];
@@ -160,8 +162,18 @@ export class RepositoriosListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', `${repositorioId}/especie-setor`)]);
     }
 
-    delete(repositorioId: number): void {
-        this._store.dispatch(new fromStore.DeleteRepositorio(repositorioId));
+    delete(repositorioId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteRepositorio({
+            repositorioId: repositorioId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }
