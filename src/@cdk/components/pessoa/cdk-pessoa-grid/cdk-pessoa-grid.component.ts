@@ -232,6 +232,9 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Pessoa>();
 
     @Output()
@@ -370,8 +373,8 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.delete.emit(pessoaId);
     }
 
-    deletePessoas(pessoasId): void {
-        pessoasId.forEach(pessoaId => this.deletePessoa(pessoaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

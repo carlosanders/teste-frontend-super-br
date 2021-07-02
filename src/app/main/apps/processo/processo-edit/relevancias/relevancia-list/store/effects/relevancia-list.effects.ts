@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RelevanciaListActions from '../actions';
 
 import {RelevanciaService} from '@cdk/services/relevancia.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Relevancia} from '@cdk/models';
 import {relevancia as relevanciaSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class RelevanciaListEffect {
@@ -78,20 +78,52 @@ export class RelevanciaListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteRelevancia: any =
+    deleteRelevancia: Observable<RelevanciaListActions.RelevanciaListActionsAll> =
         this._actions
             .pipe(
                 ofType<RelevanciaListActions.DeleteRelevancia>(RelevanciaListActions.DELETE_RELEVANCIA),
-                mergeMap(action => this._relevanciaService.destroy(action.payload).pipe(
-                        map(response => new RelevanciaListActions.DeleteRelevanciaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'relevancia',
+                        content: 'Apagando a relevancia id ' + action.payload.relevanciaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._relevanciaService.destroy(action.payload.relevanciaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relevancia',
+                                content: 'Relevancia id ' + action.payload.relevanciaId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Relevancia>({
+                                id: response.id,
+                                schema: relevanciaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RelevanciaListActions.DeleteRelevanciaSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new RelevanciaListActions.DeleteRelevanciaFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            const payload = {
+                                id: action.payload.relevanciaId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relevancia',
+                                content: 'Erro ao apagar a relevancia id ' + action.payload.relevanciaId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new RelevanciaListActions.DeleteRelevanciaFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

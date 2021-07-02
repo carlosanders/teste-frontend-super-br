@@ -24,6 +24,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'responder',
@@ -70,6 +71,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     assinaturaInterval = null;
+    lote: string;
 
         /**
          *
@@ -232,7 +234,14 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
-    doDelete(documentoId): void {
+    doDelete(documentoId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+
         this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
     }
 

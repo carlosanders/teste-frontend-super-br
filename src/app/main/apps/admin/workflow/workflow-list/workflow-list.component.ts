@@ -13,6 +13,7 @@ import * as fromStore from './store';
 import {Workflow} from '@cdk/models';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'workflow-list',
@@ -32,6 +33,7 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -94,8 +96,18 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
-    delete(workflowId: number): void {
-        this._store.dispatch(new fromStore.DeleteWorkflow(workflowId));
+    delete(workflowId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteWorkflow({
+            workflowId: workflowId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     view(workflowId: number): void {

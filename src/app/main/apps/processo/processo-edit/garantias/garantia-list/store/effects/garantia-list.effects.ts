@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as GarantiaListActions from '../actions';
 
 import {GarantiaService} from '@cdk/services/garantia.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Garantia} from '@cdk/models';
 import {garantia as garantiaSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class GarantiaListEffect {
@@ -78,20 +78,52 @@ export class GarantiaListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteGarantia: any =
+    deleteGarantia: Observable<GarantiaListActions.GarantiaListActionsAll> =
         this._actions
             .pipe(
                 ofType<GarantiaListActions.DeleteGarantia>(GarantiaListActions.DELETE_GARANTIA),
-                mergeMap(action => this._garantiaService.destroy(action.payload).pipe(
-                        map(response => new GarantiaListActions.DeleteGarantiaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'garantia',
+                        content: 'Apagando a garantia id ' + action.payload.garantiaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._garantiaService.destroy(action.payload.garantiaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'garantia',
+                                content: 'Garantia id ' + action.payload.garantiaId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Garantia>({
+                                id: response.id,
+                                schema: garantiaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new GarantiaListActions.DeleteGarantiaSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new GarantiaListActions.DeleteGarantiaFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            const payload = {
+                                id: action.payload.garantiaId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'garantia',
+                                content: 'Erro ao apagar a garantia id ' + action.payload.garantiaId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new GarantiaListActions.DeleteGarantiaFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

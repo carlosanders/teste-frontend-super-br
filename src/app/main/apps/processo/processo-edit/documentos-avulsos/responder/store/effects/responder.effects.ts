@@ -18,12 +18,12 @@ import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/mo
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {getDocumentoAvulso} from '../selectors';
 import {environment} from 'environments/environment';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class DocumentoAvulsoResponderEffect {
@@ -205,14 +205,50 @@ export class DocumentoAvulsoResponderEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoReponderActions.DeleteDocumento>(DocumentoAvulsoReponderActions.DELETE_DOCUMENTO),
-                mergeMap(action => this._documentoService.destroy(action.payload).pipe(
-                            map(response => new DocumentoAvulsoReponderActions.DeleteDocumentoSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new DocumentoAvulsoReponderActions.DeleteDocumentoFailed(err));
-                            })
-                        )
-                ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documentoAvulso',
+                        content: 'Apagando a documentoAvulso id ' + action.payload.documentoAvulsoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoAvulsoService.destroy(action.payload.documentoAvulsoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoAvulso',
+                                content: 'DocumentoAvulso id ' + action.payload.documentoAvulsoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<DocumentoAvulso>({
+                                id: response.id,
+                                schema: documentoAvulsoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new DocumentoAvulsoReponderActions.DeleteDocumentoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoAvulsoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoAvulso',
+                                content: 'Erro ao apagar a documentoAvulso id ' + action.payload.documentoAvulsoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new DocumentoAvulsoReponderActions.DeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Assina Documento

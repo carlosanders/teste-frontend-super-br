@@ -214,6 +214,9 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Tarefa>();
 
     @Output()
@@ -338,9 +341,9 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.delete.emit(tarefaId);
     }
 
-    deleteTarefas(tarefasId): void {
-        tarefasId.forEach(tarefaId => this.deleteTarefa(tarefaId));
-        this.selectedIds = this.selectedIds.filter(id => tarefasId.indexOf(id) === -1);
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
+        this.selectedIds = this.selectedIds.filter(id => ids.indexOf(id) === -1);
         this.recompute();
     }
 

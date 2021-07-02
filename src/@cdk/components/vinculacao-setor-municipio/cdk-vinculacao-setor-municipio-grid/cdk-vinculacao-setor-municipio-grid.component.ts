@@ -147,6 +147,9 @@ export class CdkVinculacaoSetorMunicipioGridComponent implements AfterViewInit, 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<VinculacaoSetorMunicipio>();
 
     @Output()
@@ -266,8 +269,8 @@ export class CdkVinculacaoSetorMunicipioGridComponent implements AfterViewInit, 
         this.delete.emit(vinculacaoUsuarioId);
     }
 
-    deleteVinculacaoSetorMunicipios(vinculacoesSetoresMunicipiosId): void {
-        vinculacoesSetoresMunicipiosId.forEach(vinculacaoUsuarioId => this.deleteVinculacaoSetorMunicipio(vinculacaoUsuarioId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

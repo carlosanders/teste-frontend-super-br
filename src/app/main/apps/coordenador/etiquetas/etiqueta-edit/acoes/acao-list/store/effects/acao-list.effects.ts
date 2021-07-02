@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as AcaoListActions from '../actions';
 
 import {AcaoService} from '@cdk/services/acao.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Acao} from '@cdk/models';
 import {acao as acaoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class AcaoListEffect {
@@ -76,20 +76,52 @@ export class AcaoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteAcao: any =
+    deleteAcao: Observable<AcaoListActions.AcaoListActionsAll> =
         this._actions
             .pipe(
                 ofType<AcaoListActions.DeleteAcao>(AcaoListActions.DELETE_ACAO),
-                mergeMap(action => this._acaoService.destroy(action.payload).pipe(
-                        map(response => new AcaoListActions.DeleteAcaoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'acao',
+                        content: 'Apagando a acao id ' + action.payload.acaoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._acaoService.destroy(action.payload.acaoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acao',
+                                content: 'Acao id ' + action.payload.acaoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Acao>({
+                                id: response.id,
+                                schema: acaoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AcaoListActions.DeleteAcaoSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new AcaoListActions.DeleteAcaoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            const payload = {
+                                id: action.payload.acaoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acao',
+                                content: 'Erro ao apagar a acao id ' + action.payload.acaoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new AcaoListActions.DeleteAcaoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

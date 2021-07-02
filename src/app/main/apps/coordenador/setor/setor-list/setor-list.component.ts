@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class SetorListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -128,8 +130,18 @@ export class SetorListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/numeros-unicos-documentos`)]);
     }
 
-    delete(setorId: number): void {
-        this._store.dispatch(new fromStore.DeleteSetor(setorId));
+    delete(setorId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteSetor({
+            setorId: setorId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

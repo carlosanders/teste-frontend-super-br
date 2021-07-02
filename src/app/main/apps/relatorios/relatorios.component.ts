@@ -32,6 +32,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
+import {CdkUtils} from '../../../../@cdk/utils';
 
 @Component({
     selector: 'relatorios',
@@ -95,6 +96,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     mostraCriar = false;
 
     PesquisaRelatorio: string;
+
+    lote: string;
 
     @ViewChild('relatorioListElement', {read: ElementRef, static: true}) relatorioListElement: ElementRef;
 
@@ -333,8 +336,18 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.GetRelatorios(nparams));
     }
 
-    deleteRelatorio(relatorioId: number): void {
-        this._store.dispatch(new fromStore.DeleteRelatorio(relatorioId));
+    deleteRelatorio(relatorioId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteRelatorio({
+            relatorioId: relatorioId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoRelatorio(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteRelatorio(id, this.lote));
     }
 
     /**

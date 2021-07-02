@@ -35,6 +35,7 @@
     [deletingIds]="(deletingComponenteDigitalIds$ | async)"
     [deletedIds]="(deletedComponenteDigitalIds$ | async)"
     (delete)="deleteComponenteDigital($event)"
+    (deleteBlocoEmmitter)="deleteBloco($event)"
     (view)="viewComponenteDigital($event)"
     (reload)="reloadComponentesDigitais($event)"
     (edit)="editComponenteDigital($event)"

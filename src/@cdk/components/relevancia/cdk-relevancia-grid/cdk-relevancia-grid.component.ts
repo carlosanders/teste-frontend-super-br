@@ -152,6 +152,9 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Relevancia>();
 
     @Output()
@@ -275,8 +278,8 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
         this.delete.emit(relevanciaId);
     }
 
-    deleteRelevancias(relevanciasId): void {
-        relevanciasId.forEach(relevanciaId => this.deleteRelevancia(relevanciaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

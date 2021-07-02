@@ -1,4 +1,4 @@
-import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -24,6 +24,8 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {getPagination} from '../selectors';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {ProcessosActionsAll} from '../actions/protocolos-externos.actions';
 
 @Injectable()
 export class ProcessosEffect {
@@ -150,13 +152,49 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.DeleteProcesso>(ProcessosActions.DELETE_PROCESSO),
-                mergeMap(action => this._processoService.destroy(action.payload).pipe(
-                        map(response => new ProcessosActions.DeleteProcessoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'processo',
+                        content: 'Apagando a processo id ' + action.payload.processoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._processoService.destroy(action.payload.processoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Processo id ' + action.payload.processoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Processo>({
+                                id: response.id,
+                                schema: processoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new ProcessosActions.DeleteProcessoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.processoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Erro ao apagar a processo id ' + action.payload.processoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new ProcessosActions.DeleteProcessoFailed(action.payload));
+                            return of(new ProcessosActions.DeleteProcessoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**

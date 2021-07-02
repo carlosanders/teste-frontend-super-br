@@ -22,6 +22,7 @@ import {Router} from '@angular/router';
 import {Documento, Pagination, Sigilo, Usuario} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
 import {LoginService} from '../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-sigilos',
@@ -59,6 +60,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
     container: ViewContainerRef;
 
     routerState: any;
+    lote: string;
 
     /**
      *
@@ -197,8 +199,18 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         this._store.dispatch(new fromStore.GetSigilo({sigiloId: sigiloId}));
     }
 
-    deleteSigilo(sigiloId: number): void {
-        this._store.dispatch(new fromStore.DeleteSigilo({documentoId: this.documento.id, sigiloId: sigiloId}));
+    deleteSigilo(sigiloId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteSigilo({
+            sigiloId: sigiloId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteSigilo(id, this.lote));
     }
 
     reloadSigilos(params): void {

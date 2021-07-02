@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as TipoDocumentoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {TipoDocumento} from '@cdk/models';
 import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class TipoDocumentoListEffects {
@@ -78,20 +78,52 @@ export class TipoDocumentoListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteTipoDocumento: any =
+    deleteTipoDocumento: Observable<TipoDocumentoListActions.TipoDocumentoListActionsAll> =
         this._actions
             .pipe(
                 ofType<TipoDocumentoListActions.DeleteTipoDocumento>(TipoDocumentoListActions.DELETE_TIPO_DOCUMENTO),
-                mergeMap(action => this._tipoDocumentoService.destroy(action.payload).pipe(
-                        map(response => new TipoDocumentoListActions.DeleteTipoDocumentoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tipoDocumento',
+                        content: 'Apagando a tipoDocumento id ' + action.payload.tipoDocumentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._tipoDocumentoService.destroy(action.payload.tipoDocumentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipoDocumento',
+                                content: 'TipoDocumento id ' + action.payload.tipoDocumentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<TipoDocumento>({
+                                id: response.id,
+                                schema: tipoDocumentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new TipoDocumentoListActions.DeleteTipoDocumentoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.tipoDocumentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipoDocumento',
+                                content: 'Erro ao apagar a tipoDocumento id ' + action.payload.tipoDocumentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new TipoDocumentoListActions.DeleteTipoDocumento(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new TipoDocumentoListActions.DeleteTipoDocumentoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

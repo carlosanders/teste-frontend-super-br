@@ -262,6 +262,9 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Setor>();
 
     @Output()
@@ -425,8 +428,8 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.delete.emit(setorId);
     }
 
-    deleteSetores(setoresId): void {
-        setoresId.forEach(setorId => this.deleteSetor(setorId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

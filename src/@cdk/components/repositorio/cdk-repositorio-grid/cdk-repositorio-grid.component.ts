@@ -241,6 +241,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Repositorio>();
 
     @Output()
@@ -417,8 +420,8 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
         this.delete.emit(repositorioId);
     }
 
-    deleteRepositorios(repositoriosId): void {
-        repositoriosId.forEach(repositorioId => this.deleteRepositorio(repositorioId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

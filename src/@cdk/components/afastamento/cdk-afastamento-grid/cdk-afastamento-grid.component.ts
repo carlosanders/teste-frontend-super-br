@@ -291,14 +291,10 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
         this.delete.emit(afastamentoId);
     }
 
-    deleteAfastamentos(afastamentosId): void {
-        afastamentosId.forEach(afastamentoId => this.deleteAfastamento(afastamentoId));
-        this.selectedIds = this.selectedIds.filter(id => afastamentosId.indexOf(id) === -1);
-        this.recompute();
-    }
-
     deleteBloco(ids): void {
         this.deleteBlocoEmmitter.emit(ids);
+        this.selectedIds = this.selectedIds.filter(id => ids.indexOf(id) === -1);
+        this.recompute();
     }
 
     /**

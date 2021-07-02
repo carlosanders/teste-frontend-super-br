@@ -215,6 +215,9 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Classificacao>();
 
     @Output()
@@ -359,8 +362,8 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
         this.delete.emit(classificacaoId);
     }
 
-    deleteClassificacoes(_classificacoesId): void {
-        _classificacoesId.forEach(classificacaoId => this.deleteClassificacao(classificacaoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

@@ -17,6 +17,7 @@ import {Usuario} from '@cdk/models';
 import {take, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      *
@@ -149,7 +151,17 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
             ).subscribe();
     }
 
-    delete(usuarioId: number): void {
-        this._store.dispatch(new fromStore.DeleteUsuario(usuarioId));
+    delete(usuarioId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteUsuario({
+            usuarioId: usuarioId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 }

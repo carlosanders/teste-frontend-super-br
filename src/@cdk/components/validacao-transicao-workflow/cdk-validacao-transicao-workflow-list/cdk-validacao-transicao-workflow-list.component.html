@@ -17,6 +17,7 @@
                             [deleting]="deletingIds.length > 0 && deletingIds.indexOf(validacao.id) > -1"
                             [total]="validacoes.length"
                             (delete)="doDeletevalidacao($event)"
+                            (deleteBlocoEmmitter)="deleteBloco($event)"
                             [@animate]="{value:'*',params:{y:'100%'}}">
         </cdk-validacao-transicao-workflow-list-item>
     </div>

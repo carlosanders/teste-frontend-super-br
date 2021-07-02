@@ -7,6 +7,7 @@ import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'modalidade-acao-etiqueta-list',
@@ -26,6 +27,7 @@ export class ModalidadeAcaoEtiquetaListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -92,5 +94,19 @@ export class ModalidadeAcaoEtiquetaListComponent implements OnInit {
 
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
+    delete(modalidadeAcaoEtiquetaId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteModalidadeAcaoEtiqueta({
+            modalidadeAcaoEtiquetaId: modalidadeAcaoEtiquetaId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 }
