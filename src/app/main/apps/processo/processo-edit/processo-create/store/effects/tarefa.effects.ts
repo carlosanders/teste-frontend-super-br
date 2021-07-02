@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {SetSteps} from '../../../../store/actions';
+import {SetSteps} from '../../../../store';
 
 @Injectable()
 export class TarefaEffect {
