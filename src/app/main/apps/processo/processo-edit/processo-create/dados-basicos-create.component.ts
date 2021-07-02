@@ -50,7 +50,6 @@ import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selector
 import {getProcesso} from '../../store';
 import {configuracaoNup, documento as documentoSchema} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
-import {MatDialog} from '@cdk/angular/material';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
