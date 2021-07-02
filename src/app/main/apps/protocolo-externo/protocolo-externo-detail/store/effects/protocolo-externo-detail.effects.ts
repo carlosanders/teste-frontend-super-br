@@ -130,14 +130,50 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.DeleteProcesso>(ProcessoDetailActions.DELETE_PROCESSO),
-                mergeMap(action => this._processoService.destroy(action.payload).pipe(
-                            map(response => new ProcessoDetailActions.DeleteProcessoSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new ProcessoDetailActions.DeleteProcessoFailed(action.payload));
-                            })
-                        ), 25
-                ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'processo',
+                        content: 'Apagando a processo id ' + action.payload.processoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._processoService.destroy(action.payload.processoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Processo id ' + action.payload.processoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Processo>({
+                                id: response.id,
+                                schema: processoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new ProcessoDetailActions.DeleteProcessoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.processoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Erro ao apagar a processo id ' + action.payload.processoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new ProcessoDetailActions.DeleteProcessoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Save Processo

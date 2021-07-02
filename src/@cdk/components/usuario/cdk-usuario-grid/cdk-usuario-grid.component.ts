@@ -195,6 +195,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     vincular = new EventEmitter<number>();
 
     @Output()
@@ -352,8 +355,8 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         this.resetaSenhaColaborador.emit(usuarioId);
     }
 
-    deleteUsuarios(usuariosId): void {
-        usuariosId.forEach(usuarioId => this.deleteUsuario(usuarioId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

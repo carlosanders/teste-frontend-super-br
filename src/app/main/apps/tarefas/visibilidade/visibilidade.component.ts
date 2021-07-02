@@ -17,6 +17,7 @@ import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../auth/login/login.service';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../store';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'visibilidade',
@@ -34,6 +35,8 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
+
+    lote: string;
 
     formAcessoRestrito = false;
     loadingAcessoRestrito$: Observable<boolean>;
@@ -124,13 +127,20 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         });
     }
 
-    deleteVisibilidade(visibilidadeId: number): void {
+    delete(visibilidadeId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteVisibilidade({
             processoId: this.routerState.params.processoHandle,
-            visibilidadeId: visibilidadeId
+            visibilidadeId: visibilidadeId,
+            operacaoId: operacaoId,
+            loteId: loteId,
         }));
     }
 
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
+    }
 
     /**
      * On destroy

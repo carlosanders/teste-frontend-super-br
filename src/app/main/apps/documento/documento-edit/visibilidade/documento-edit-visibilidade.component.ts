@@ -22,6 +22,7 @@ import {Router} from '@angular/router';
 import {Documento, Pagination, Usuario, Visibilidade} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
 import {LoginService} from '../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-visibilidade',
@@ -44,6 +45,7 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
     deletedVisibilidadeIds$: Observable<any>;
     visibilidadeIsSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    lote: string;
 
     unidadePagination: Pagination;
     setorPagination: Pagination;
@@ -165,7 +167,19 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
         });
     }
 
-    deleteVisibilidade(visibilidadeId: number): void {
-        this._store.dispatch(new fromStore.DeleteVisibilidade({documentoId: this.routerState.params.documentoHandle, visibilidadeId: visibilidadeId}));
+    deleteVisibilidade(visibilidadeId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteVisibilidade({
+            visibilidadeId: visibilidadeId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            documentoId: this.routerState.params.documentoHandle
+        }));
     }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteVisibilidade(id, this.lote));
+    }
+
 }

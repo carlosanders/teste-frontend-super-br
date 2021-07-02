@@ -17,6 +17,7 @@ import {Usuario} from '@cdk/models';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {take, tap} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'usuarios-list',
@@ -37,6 +38,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -141,8 +143,18 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/coordenadores`)]);
     }
 
-    delete(usuarioId: number): void {
-        this._store.dispatch(new fromStore.DeleteUsuario(usuarioId));
+    delete(usuarioId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteUsuario({
+            usuarioId: usuarioId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     doDistribuirTarefas(usuario: Usuario): void {

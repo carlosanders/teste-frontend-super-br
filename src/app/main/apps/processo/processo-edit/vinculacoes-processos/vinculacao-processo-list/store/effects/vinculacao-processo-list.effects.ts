@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as VinculacaoProcessoListActions from '../actions';
 
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class VinculacaoProcessoListEffect {
@@ -77,20 +77,52 @@ export class VinculacaoProcessoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteVinculacaoProcesso: any =
+    deleteVinculacaoProcesso: Observable<VinculacaoProcessoListActions.VinculacaoProcessoListActionsAll> =
         this._actions
             .pipe(
                 ofType<VinculacaoProcessoListActions.DeleteVinculacaoProcesso>(VinculacaoProcessoListActions.DELETE_VINCULACAO_PROCESSO),
-                mergeMap(action => this._vinculacaoProcessoService.destroy(action.payload).pipe(
-                        map(response => new VinculacaoProcessoListActions.DeleteVinculacaoProcessoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'vinculacaoProcesso',
+                        content: 'Apagando a vinculacaoProcesso id ' + action.payload.vinculacaoProcessoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._vinculacaoProcessoService.destroy(action.payload.vinculacaoProcessoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoProcesso',
+                                content: 'VinculacaoProcesso id ' + action.payload.vinculacaoProcessoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<VinculacaoProcesso>({
+                                id: response.id,
+                                schema: vinculacaoProcessoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new VinculacaoProcessoListActions.DeleteVinculacaoProcessoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.vinculacaoProcessoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoProcesso',
+                                content: 'Erro ao apagar a vinculacaoProcesso id ' + action.payload.vinculacaoProcessoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new VinculacaoProcessoListActions.DeleteVinculacaoProcessoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new VinculacaoProcessoListActions.DeleteVinculacaoProcessoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

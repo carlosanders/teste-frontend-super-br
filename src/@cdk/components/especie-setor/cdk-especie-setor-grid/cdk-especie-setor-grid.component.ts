@@ -52,6 +52,9 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
     create = new EventEmitter<any>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     excluded = new EventEmitter<any>();
 
     @Output()
@@ -310,8 +313,8 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
         this.delete.emit(especieSetorId);
     }
 
-    deleteEspecieSetors(especieSetorsId): void {
-        especieSetorsId.forEach(especieSetorId => this.deleteEspecieSetor(especieSetorId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

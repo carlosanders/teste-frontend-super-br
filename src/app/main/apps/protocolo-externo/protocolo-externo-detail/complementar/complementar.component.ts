@@ -23,6 +23,7 @@ import {Assinatura, ComponenteDigital, Processo, Usuario} from '@cdk/models';
 import {getProcesso} from '../store/selectors';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'complementar',
@@ -65,7 +66,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
-
+    lote: string;
 
     /**
      *
@@ -171,8 +172,18 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDelete(documentoId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.doDelete(id, this.lote));
     }
 
     doVerResposta(documento): void {

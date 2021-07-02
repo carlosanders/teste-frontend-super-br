@@ -169,6 +169,9 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: AvisoDataSource;
@@ -306,8 +309,8 @@ export class CdkAvisoGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.delete.emit(avisoId);
     }
 
-    deleteAvisos(avisosId): void {
-        avisosId.forEach(avisoId => this.deleteAviso(avisoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

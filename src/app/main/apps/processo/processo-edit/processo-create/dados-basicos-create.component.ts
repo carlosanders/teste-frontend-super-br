@@ -50,6 +50,8 @@ import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selector
 import {getProcesso} from '../../store';
 import {configuracaoNup, documento as documentoSchema} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
+import {MatDialog} from '@cdk/angular/material';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -164,6 +166,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     genero = 'administrativo';
 
     pessoa: Pessoa;
+    lote: string;
 
     private _unsubscribeAll: Subject<any>;
 
@@ -771,9 +774,20 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteAssunto(assuntoId: number): void {
-        this._store.dispatch(new fromStore.DeleteAssunto(assuntoId));
+    deleteAssunto(assuntoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteAssunto({
+            assuntoId: assuntoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
+
+    deleteBlocoAssunto(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteAssunto(id, this.lote));
+    }
+
 
     reloadInteressados(params): void {
         this._store.dispatch(new fromStore.GetInteressados({
@@ -808,8 +822,18 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteInteressado(interessadoId: number): void {
-        this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+    deleteInteressado(interessadoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteInteressado({
+            interessadoId: interessadoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoInteressado(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteInteressado(id, this.lote));
     }
 
     reloadVinculacoesProcessos(params): void {
@@ -845,8 +869,18 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteVinculacaoProcesso(vinculacaoProcessoId: number): void {
-        this._store.dispatch(new fromStore.DeleteVinculacaoProcesso(vinculacaoProcessoId));
+    deleteVinculacaoProcesso(vinculacaoProcessoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteVinculacaoProcesso({
+            vinculacaoProcessoId: vinculacaoProcessoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoVinculacaoProcesso(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteVinculacaoProcesso(id, this.lote));
     }
 
     create(form): void {

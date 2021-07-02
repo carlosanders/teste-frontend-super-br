@@ -171,6 +171,9 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     regras = new EventEmitter<number>();
 
     @Output()
@@ -323,6 +326,10 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
 
     deleteEtiquetas(etiquetasId): void {
         etiquetasId.forEach(etiquetaId => this.deleteEtiqueta(etiquetaId));
+    }
+
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     acoesEtiqueta(etiquetaId): void {

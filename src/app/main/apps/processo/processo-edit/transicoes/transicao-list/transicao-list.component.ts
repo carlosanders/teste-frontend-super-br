@@ -8,6 +8,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'transicao-list',
@@ -28,6 +29,7 @@ export class TransicaoListComponent implements OnInit {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     btViewTransicao = [];
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -106,8 +108,18 @@ export class TransicaoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoId]);
     }
 
-    delete(transicaoId: number): void {
-        this._store.dispatch(new fromStore.DeleteTransicao(transicaoId));
+    delete(transicaoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteTransicao({
+            transicaoId: transicaoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

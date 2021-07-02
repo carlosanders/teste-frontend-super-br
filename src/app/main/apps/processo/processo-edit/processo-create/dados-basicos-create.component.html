@@ -45,6 +45,7 @@
                           (excluded)="excludedAssuntos($event)"
                           (create)="create('assunto')"
                           (delete)="deleteAssunto($event)"
+                          (deleteBlocoEmmitter)="deleteBlocoAssunto($event)"
         ></cdk-assunto-grid>
     </mat-step>
     <mat-step [completed]="(interessados$ | async)?.length > 0">
@@ -71,7 +72,8 @@
                               (reload)="reloadInteressados($event)"
                               (excluded)="excludedInteressados($event)"
                               (create)="create('interessado')"
-                              (delete)="deleteInteressado($event)">
+                              (delete)="deleteInteressado($event)"
+                              (deleteBlocoEmmitter)="deleteBlocoInteressado($event)">
         </cdk-interessado-grid>
     </mat-step>
     <mat-step optional>
@@ -130,7 +132,8 @@
                                       (reload)="reloadVinculacoesProcessos($event)"
                                       (excluded)="excludedVinculacoesProcessos($event)"
                                       (create)="create('vinculacao-processo')"
-                                      (delete)="deleteVinculacaoProcesso($event)">
+                                      (delete)="deleteVinculacaoProcesso($event)"
+                                      (deleteBlocoEmmitter)="deleteBlocoVinculacaoProcesso($event)">
         </cdk-vinculacao-processo-grid>
     </mat-step>
     <mat-step [stepControl]="formTarefa">

@@ -49,6 +49,9 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     @Output()
     create = new EventEmitter<any>();
 
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
@@ -313,8 +316,8 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
         this.delete.emit(tipoRelatorioId);
     }
 
-    deleteTiposRelatorios(tiposRelatoriosId): void {
-        tiposRelatoriosId.forEach(tipoRelatorioId => this.deleteTipoRelatorio(tipoRelatorioId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

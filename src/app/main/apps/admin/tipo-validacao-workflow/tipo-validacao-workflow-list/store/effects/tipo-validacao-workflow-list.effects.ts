@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as TipoValidacaoWorkflowListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {TipoValidacaoWorkflow} from '@cdk/models';
 import {tipoValidacaoWorkflow as tipoValidacaoWorkflowSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class TipoValidacaoWorkflowListEffects {
@@ -78,20 +78,52 @@ export class TipoValidacaoWorkflowListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteTipoValidacaoWorkflow: any =
+    deleteTipoValidacaoWorkflow: Observable<TipoValidacaoWorkflowListActions.TipoValidacaoWorkflowListActionsAll> =
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflow>(TipoValidacaoWorkflowListActions.DELETE_TIPO_VALIDACAO_WORKFLOW),
-                mergeMap(action => this._tipoValidacaoWorkflowService.destroy(action.payload).pipe(
-                        map(response => new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tipoValidacaoWorkflow',
+                        content: 'Apagando a tipoValidacaoWorkflow id ' + action.payload.tipoValidacaoWorkflowId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._tipoValidacaoWorkflowService.destroy(action.payload.tipoValidacaoWorkflowId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipoValidacaoWorkflow',
+                                content: 'TipoValidacaoWorkflow id ' + action.payload.tipoValidacaoWorkflowId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<TipoValidacaoWorkflow>({
+                                id: response.id,
+                                schema: tipoValidacaoWorkflowSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.tipoValidacaoWorkflowId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipoValidacaoWorkflow',
+                                content: 'Erro ao apagar a tipoValidacaoWorkflow id ' + action.payload.tipoValidacaoWorkflowId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

@@ -150,6 +150,9 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Assunto>();
 
     @Output()
@@ -278,7 +281,7 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     deleteAssuntos(assuntosId): void {
-        assuntosId.forEach(assuntoId => this.deleteAssunto(assuntoId));
+        this.deleteBlocoEmmitter.emit(assuntosId);
         this.selectedIds = this.selectedIds.filter(id => assuntosId.indexOf(id) === -1);
         this.recompute();
     }

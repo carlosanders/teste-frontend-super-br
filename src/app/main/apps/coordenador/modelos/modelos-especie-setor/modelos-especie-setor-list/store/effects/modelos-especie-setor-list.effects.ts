@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ModelosEspecieSetorListActions from '../actions';
 
 import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {VinculacaoModelo} from '@cdk/models';
 import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class ModelosEspecieSetorListEffects {
@@ -77,20 +77,52 @@ export class ModelosEspecieSetorListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteModeloEspecieSetor: any =
+    deleteModeloEspecieSetor: Observable<ModelosEspecieSetorListActions.ModelosEspecieSetorActionsAll> =
         this._actions
             .pipe(
                 ofType<ModelosEspecieSetorListActions.DeleteModeloEspecieSetor>(ModelosEspecieSetorListActions.DELETE_MODELO_ESPECIE_SETOR),
-                mergeMap(action => this._vinculacaoModeloService.destroy(action.payload).pipe(
-                        map(response => new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'modeloEspecieSetor',
+                        content: 'Apagando a modeloEspecieSetor id ' + action.payload.modeloEspecieSetorId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._vinculacaoModeloService.destroy(action.payload.modeloEspecieSetorId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modeloEspecieSetor',
+                                content: 'ModeloEspecieSetor id ' + action.payload.modeloEspecieSetorId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<VinculacaoModelo>({
+                                id: response.id,
+                                schema: vinculacaoModeloSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.modeloEspecieSetorId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modeloEspecieSetor',
+                                content: 'Erro ao apagar a modeloEspecieSetor id ' + action.payload.modeloEspecieSetorId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

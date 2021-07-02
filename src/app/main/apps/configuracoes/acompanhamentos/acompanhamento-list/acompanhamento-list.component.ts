@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import {Observable} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
-import {Compartilhamento} from '@cdk/models';
+import {Compartilhamento, Folder} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'acompanhamento-list',
@@ -32,6 +33,7 @@ export class AcompanhamentoListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -108,8 +110,18 @@ export class AcompanhamentoListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + acompanhamentoId]);
     }
 
-    delete(acompanhamentoId: number): void {
-        this._store.dispatch(new fromStore.DeleteAcompanhamento(acompanhamentoId));
+    delete(acompanhamentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteAcompanhamento({
+            acompanhamentoId: acompanhamentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     view(emissao: { id: number; chaveAcesso?: string }): void {

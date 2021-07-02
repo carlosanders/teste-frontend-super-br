@@ -113,6 +113,9 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Assinatura>();
 
     @Output()
@@ -238,8 +241,8 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
         this.delete.emit(assinaturaId);
     }
 
-    deleteAssinaturas(assinaturasId): void {
-        assinaturasId.forEach(assinaturaId => this.deleteAssinatura(assinaturaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**
@@ -302,7 +305,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCreate(): void {
         this.create.emit();
-        
+
     }
 
     getProp(obj, prop) {

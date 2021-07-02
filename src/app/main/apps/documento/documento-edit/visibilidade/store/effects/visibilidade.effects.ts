@@ -3,17 +3,18 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as VisibilidadeActions from '../actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Visibilidade} from '@cdk/models';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
+import {VisibilidadeActionsAll} from '../actions';
 
 @Injectable()
 export class VisibilidadeEffects {
@@ -71,17 +72,48 @@ export class VisibilidadeEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteVisibilidade: any =
+    deleteVisibilidade: Observable<VisibilidadeActions.VisibilidadeActionsAll> =
         this._actions
             .pipe(
                 ofType<VisibilidadeActions.DeleteVisibilidade>(VisibilidadeActions.DELETE_VISIBILIDADE_DOCUMENTO),
-                mergeMap(action => this._documentoService.destroyVisibilidade(action.payload.documentoId, action.payload.visibilidadeId).pipe(
-                        map(response => new VisibilidadeActions.DeleteVisibilidadeSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'visibilidade',
+                        content: 'Apagando a visibilidade id ' + action.payload.visibilidadeId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoService.destroy(action.payload.visibilidadeId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'visibilidade',
+                                content: 'Visibilidade id ' + action.payload.visibilidadeId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            return new VisibilidadeActions.DeleteVisibilidadeSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new VisibilidadeActions.DeleteVisibilidadeFailed(action.payload));
+                            const payload = {
+                                id: action.payload.visibilidadeId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'visibilidade',
+                                content: 'Erro ao apagar a visibilidade id ' + action.payload.visibilidadeId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new VisibilidadeActions.DeleteVisibilidadeFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**

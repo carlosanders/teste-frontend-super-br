@@ -50,6 +50,9 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
     @Output()
     create = new EventEmitter<any>();
 
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'valor', 'descricao', 'ativo', 'actions'];
 
@@ -303,8 +306,8 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
         this.delete.emit(tipoAcaoWorkflowId);
     }
 
-    deleteTipoAcaoWorkflows(tipoAcaoWorkflowsId): void {
-        tipoAcaoWorkflowsId.forEach(tipoAcaoWorkflowId => this.deleteTipoAcaoWorkflow(tipoAcaoWorkflowId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

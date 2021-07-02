@@ -165,6 +165,9 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Localizador>();
 
     @Output()
@@ -311,8 +314,8 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
         this.delete.emit(localizadorId);
     }
 
-    deleteLocalizadors(localizadorsId): void {
-        localizadorsId.forEach(localizadorId => this.deleteLocalizador(localizadorId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

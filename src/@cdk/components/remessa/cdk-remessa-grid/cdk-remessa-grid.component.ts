@@ -174,6 +174,9 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Tramitacao>();
 
     @Output()
@@ -341,8 +344,8 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         this.delete.emit(remessaId);
     }
 
-    deleteTramitacoes(remessasId): void {
-        remessasId.forEach(remessaId => this.deleteRemessa(remessaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

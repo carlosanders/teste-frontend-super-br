@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as CompetenciasListActions from '../actions';
 
 import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-municipio.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {VinculacaoSetorMunicipio} from '@cdk/models/vinculacao-setor-municipio.model';
 import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class CompetenciasListEffects {
@@ -83,21 +83,53 @@ export class CompetenciasListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteCompetencia: any =
+    deleteCompetencia: Observable<CompetenciasListActions.CompetenciasListActionsAll> =
         this._actions
             .pipe(
                 ofType<CompetenciasListActions.DeleteCompetencia>(CompetenciasListActions.DELETE_COMPETENCIA),
-                mergeMap(action => this._vinculacaoSetorMunicipioService.destroy(action.payload).pipe(
-                        map(response => new CompetenciasListActions.DeleteCompetenciaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'competencia',
+                        content: 'Apagando a competencia id ' + action.payload.competenciaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._vinculacaoSetorMunicipioService.destroy(action.payload.competenciaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'competencia',
+                                content: 'Competencia id ' + action.payload.competenciaId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<VinculacaoSetorMunicipio>({
+                                id: response.id,
+                                schema: vinculacaoSetorMunicipioSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new CompetenciasListActions.DeleteCompetenciaSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.competenciaId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'competencia',
+                                content: 'Erro ao apagar a competencia id ' + action.payload.competenciaId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new CompetenciasListActions.DeleteCompetenciaFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new CompetenciasListActions.DeleteCompetenciaFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 
 }
