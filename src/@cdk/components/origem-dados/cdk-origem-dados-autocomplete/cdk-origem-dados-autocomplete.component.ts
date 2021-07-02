@@ -88,6 +88,6 @@ export class CdkOrigemDadosAutocompleteComponent implements OnInit {
     }
 
     displayOrigemDadosFn(origemDados): string {
-        return origemDados ? origemDados.nome : null;
+        return origemDados ? origemDados.servico : null;
     }
 }
