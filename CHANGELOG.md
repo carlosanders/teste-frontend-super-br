@@ -397,3 +397,7 @@
 * Correção na colocação em bloco de etiquetas
 * Correção para correta exibição do módulo do usuário externo validado
 * Outras correções relevantes
+
+1.5.2
+
+* Correção no setor origem na distribuição do processo em passos
