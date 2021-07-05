@@ -401,3 +401,7 @@
 1.5.2
 
 * Correção no setor origem na distribuição do processo em passos
+
+1.5.3
+
+* Correção nas pesquisas de processo e de componente digital
