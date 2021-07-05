@@ -47,8 +47,9 @@ export class ParentGenericService<T> {
         return this.modelService.count(this.path, new HttpParams({fromObject: params}));
     }
 
-    save(t: T, context: any = '{}'): Observable<T> {
+    save(t: T, context: any = '{}', populate: any = '[]'): Observable<T> {
         const params = {};
+        params['populate'] = populate;
         params['context'] = context;
         if (t['id']) {
             return this.modelService.put(this.path, t['id'], classToPlain(t), new HttpParams({fromObject: params}))

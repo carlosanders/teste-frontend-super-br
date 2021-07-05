@@ -405,3 +405,8 @@
 1.5.3
 
 * Correção nas pesquisas de processo e de componente digital
+* Correção de nome do componente no css de classificacao-gridsearch
+* Correção de gridsearch de municipio para trazer o estado no grid
+* Implementada alteração na assinatura de método save do parent generic service para possibilitar envio de atributo populate para o backend
+* Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
+* Adicionado tema do disciplinar no arquivo de temas dos módulos
