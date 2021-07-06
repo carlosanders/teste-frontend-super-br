@@ -23,6 +23,7 @@ import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {environment} from '../../../../../../../environments/environment';
 import * as OperacoesActions from '../../../../../../store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {LoginService} from "../../../../../auth/login/login.service";
 
 @Injectable()
 export class ProtocoloDocumentoEffects {
@@ -33,6 +34,7 @@ export class ProtocoloDocumentoEffects {
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
+        private _loginService: LoginService,
         private _assinaturaService: AssinaturaService,
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _router: Router,
@@ -133,7 +135,10 @@ export class ProtocoloDocumentoEffects {
                             .pipe(
                                 mergeMap(response => [
                                     new ProtocoloDocumentoActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                                    new ProtocoloDocumentoActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                                    new ProtocoloDocumentoActions.GetDocumentos({
+                                        'processoOrigem.id': `eq:${action.payload.processoId}`,
+                                        'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                                    }),
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
@@ -181,7 +186,10 @@ export class ProtocoloDocumentoEffects {
                         mergeMap((response: Assinatura) => [
                             new ProtocoloDocumentoActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                            new ProtocoloDocumentoActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                            new ProtocoloDocumentoActions.GetDocumentos({
+                                'processoOrigem.id': `eq:${action.payload.processoId}`,
+                                'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'assinatura',
                                 content: `Assinatura id ${response.id} criada com sucesso!`,

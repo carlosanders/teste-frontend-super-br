@@ -405,3 +405,4 @@
 1.5.3
 
 * Correção nas pesquisas de processo e de componente digital
+* Correção na visualização dos documentos do protocolo eletrônico

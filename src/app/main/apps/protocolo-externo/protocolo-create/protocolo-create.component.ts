@@ -288,7 +288,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     onComplete(): void {
         this._store.dispatch(new fromStore.UnloadDocumentos());
-        this._store.dispatch(new fromStore.GetDocumentos({'processoOrigem.id': `eq:${this.processo.id}`}));
+        this._store.dispatch(new fromStore.GetDocumentos({
+            'processoOrigem.id': `eq:${this.processo.id}`,
+            'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+        }));
     }
 
     onClicked(documento): void {
