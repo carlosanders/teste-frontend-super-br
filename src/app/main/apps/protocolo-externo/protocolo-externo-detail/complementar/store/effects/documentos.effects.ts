@@ -20,6 +20,7 @@ import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {LoginService} from "../../../../../../auth/login/login.service";
 
 @Injectable()
 export class DocumentosEffects {
@@ -31,6 +32,7 @@ export class DocumentosEffects {
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _assinaturaService: AssinaturaService,
+        private _loginService: LoginService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -200,14 +202,50 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.DeleteDocumento>(DocumentosActions.DELETE_DOCUMENTO),
-                mergeMap(action => this._documentoService.destroy(action.payload).pipe(
-                            map(response => new DocumentosActions.DeleteDocumentoSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new DocumentosActions.DeleteDocumentoFailed(action.payload));
-                            })
-                        ), 25
-                ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documento',
+                        content: 'Apagando a documento id ' + action.payload.documentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoService.destroy(action.payload.documentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + action.payload.documentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Documento>({
+                                id: response.id,
+                                schema: documentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new DocumentosActions.DeleteDocumentoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao apagar a documento id ' + action.payload.documentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new DocumentosActions.DeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Assina Documento
@@ -267,7 +305,10 @@ export class DocumentosEffects {
                         mergeMap((response: Assinatura) => [
                             new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documentoId),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                            new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                            new DocumentosActions.GetDocumentos({
+                                'processoOrigem.id': `eq:${action.payload.processoId}`,
+                                'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'assinatura',
                                 content: `Assinatura id ${response.id} criada com sucesso!`,
@@ -290,7 +331,10 @@ export class DocumentosEffects {
                             .pipe(
                                 mergeMap(response => [
                                     new DocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                                    new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                                    new DocumentosActions.GetDocumentos({
+                                        'processoOrigem.id': `eq:${action.payload.processoId}`,
+                                        'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                                    }),
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);

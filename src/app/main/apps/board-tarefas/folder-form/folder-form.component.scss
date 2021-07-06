@@ -1,0 +1,46 @@
+folder-form {
+
+    width: 344px;
+    min-width: 344px;
+    max-width: 344px;
+    padding-right: 24px !important;
+    height: 100%;
+
+    .new-folder {
+        border-radius: 2px;
+        flex-direction: column;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+
+        .new-folder-form-button {
+            text-transform: none;
+            font-size: 15px;
+            padding: 0 16px;
+            height: 64px;
+            margin: 0;
+            width: 100%;
+
+            mat-icon {
+                border-radius: 50%;
+                height: 40px;
+                width: 40px;
+                line-height: 40px;
+                margin-right: 16px;
+            }
+        }
+
+        .new-folder-form {
+            padding: 16px;
+            height: 64px;
+
+            > input {
+                height: 100%;
+            }
+        }
+
+        .form-errors {
+            margin-bottom: 15px;
+        }
+    }
+}

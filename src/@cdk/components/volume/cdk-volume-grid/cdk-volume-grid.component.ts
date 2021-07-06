@@ -108,16 +108,6 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
             id: 'actions',
             label: '',
             fixed: true
@@ -161,6 +151,9 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
 
     @Output()
     selected = new EventEmitter<Volume>();
@@ -285,8 +278,8 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.delete.emit(volumeId);
     }
 
-    deleteVolumes(volumesId): void {
-        volumesId.forEach(volumeId => this.deleteVolume(volumeId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

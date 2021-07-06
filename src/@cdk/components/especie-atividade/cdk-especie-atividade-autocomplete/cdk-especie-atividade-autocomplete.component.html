@@ -1,8 +1,8 @@
 <mat-autocomplete [displayWith]="displayEspecieAtividadeFn">
-    <mat-option *ngFor="let especieAtividade of especieAtividadeList"
+    <mat-option *ngFor="let especieAtividade of especieAtividadeList" [disabled]="(isWorkflow && !especieAtividade.valida)"
                 [value]="especieAtividade">
-        <span [innerHTML]="displayEspecieAtividadeFn(especieAtividade) | highlightOption: this.control.value">
-        </span>
+        <span [innerHTML]="displayEspecieAtividadeFn(especieAtividade) | highlightOption: this.control.value"
+              [ngStyle]="isWorkflow && !especieAtividade.valida ? {'text-decoration': 'line-through'} : {}"></span>
     </mat-option>
     <mat-option *ngIf="especieAtividadeListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>

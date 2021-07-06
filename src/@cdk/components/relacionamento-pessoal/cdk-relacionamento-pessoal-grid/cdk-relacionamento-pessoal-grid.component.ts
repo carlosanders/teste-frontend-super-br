@@ -151,6 +151,9 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<RelacionamentoPessoal>();
 
     @Output()
@@ -274,8 +277,8 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
         this.delete.emit(relacionamentoPessoalId);
     }
 
-    deleteRelacionamentosPessoais(relacionamentoPessoalsId): void {
-        relacionamentoPessoalsId.forEach(relacionamentoPessoalId => this.deleteRelacionamentoPessoal(relacionamentoPessoalId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

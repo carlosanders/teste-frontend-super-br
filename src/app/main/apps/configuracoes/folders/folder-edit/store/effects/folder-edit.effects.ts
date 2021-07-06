@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as FolderEditActions from '../actions/folder-edit.actions';
@@ -65,10 +65,9 @@ export class FolderEditEffect {
                         folderId: response['entities'][0].id
                     })
                 ]),
-                catchError((err, caught) => {
+                catchError((err) => {
                     console.log(err);
-                    this._store.dispatch(new FolderEditActions.GetFolderFailed(err));
-                    return caught;
+                    return of(new FolderEditActions.GetFolderFailed(err));
                 })
             );
 
@@ -90,10 +89,9 @@ export class FolderEditEffect {
                             new AddData<Folder>({data: [response], schema: folderSchema})
                         ])
                     )),
-                catchError((err, caught) => {
+                catchError((err) => {
                     console.log(err);
-                    this._store.dispatch(new FolderEditActions.SaveFolderFailed(err));
-                    return caught;
+                    return of(new FolderEditActions.SaveFolderFailed(err));
                 })
             );
 

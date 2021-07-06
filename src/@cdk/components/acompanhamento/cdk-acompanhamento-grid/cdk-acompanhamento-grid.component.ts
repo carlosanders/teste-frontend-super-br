@@ -151,6 +151,9 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBloco = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Compartilhamento>();
 
     @Output()
@@ -278,6 +281,10 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
         acompanhamentosId.forEach(acompanhamentoId => this.deleteAcompanhamento(acompanhamentoId));
         this.selectedIds = this.selectedIds.filter(id => acompanhamentosId.indexOf(id) === -1);
         this.recompute();
+    }
+
+    deleteBlocoAcompanhamento(acompanhamentosId): void {
+        this.deleteBloco.emit(acompanhamentosId);
     }
 
     /**

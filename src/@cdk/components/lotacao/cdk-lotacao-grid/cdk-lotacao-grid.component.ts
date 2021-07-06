@@ -181,6 +181,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Lotacao>();
 
     @Output()
@@ -314,8 +317,8 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.delete.emit(lotacaoId);
     }
 
-    deleteLotacoes(lotacoesId): void {
-        lotacoesId.forEach(lotacaoId => this.deleteLotacao(lotacaoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

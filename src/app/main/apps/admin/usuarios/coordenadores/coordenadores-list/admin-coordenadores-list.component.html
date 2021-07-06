@@ -12,7 +12,7 @@
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'usuario.nome', 'orgaoCentral.valor', 'unidade.nome', 'setor.nome', 'actions']"
-        [actions]="['create', 'edit', 'delete']"
+        [actions]="['create', 'edit']"
         [usuarioPagination]="usuarioPagination"
         [orgaoCentralPagination]="orgaoCentralPagination"
         [unidadePagination]="unidadePagination"
@@ -20,5 +20,6 @@
         (reload)="reload($event)"
         (create)="create()"
         (edit)="edit($event)"
-        (delete)="delete($event)">
+        (delete)="delete($event)"
+        (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-coordenador-grid>

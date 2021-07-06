@@ -155,6 +155,9 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     acoes = new EventEmitter<number>();
 
     @Output()
@@ -288,8 +291,8 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         this.delete.emit(transicaoWorkflowId);
     }
 
-    deleteTransicoesWorkflows(transicoesWorkflowsId): void {
-        transicoesWorkflowsId.forEach(workflowId => this.deleteTransicaoWorkflow(workflowId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     acaoTransicaoWorkflowList(transicaoWorkflowId): void {

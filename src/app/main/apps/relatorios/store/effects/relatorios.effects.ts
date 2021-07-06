@@ -1,4 +1,4 @@
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {relatorio as relatorioSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, concatMap, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, concatMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RelatoriosActions from '../actions/relatorios.actions';
@@ -53,7 +53,8 @@ export class RelatoriosEffect {
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
                             ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.etiquetaFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,
@@ -128,13 +129,49 @@ export class RelatoriosEffect {
         this._actions
             .pipe(
                 ofType<RelatoriosActions.DeleteRelatorio>(RelatoriosActions.DELETE_RELATORIO),
-                mergeMap(action => this._relatorioService.destroy(action.payload).pipe(
-                        map(response => new RelatoriosActions.DeleteRelatorioSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'relatorio',
+                        content: 'Apagando a relatorio id ' + action.payload.relatorioId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._relatorioService.destroy(action.payload.relatorioId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relatorio',
+                                content: 'Relatorio id ' + action.payload.relatorioId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Relatorio>({
+                                id: response.id,
+                                schema: relatorioSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RelatoriosActions.DeleteRelatorioSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.relatorioId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relatorio',
+                                content: 'Erro ao apagar a relatorio id ' + action.payload.relatorioId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new RelatoriosActions.DeleteRelatorioFailed(action.payload));
+                            return of(new RelatoriosActions.DeleteRelatorioFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 
     /**

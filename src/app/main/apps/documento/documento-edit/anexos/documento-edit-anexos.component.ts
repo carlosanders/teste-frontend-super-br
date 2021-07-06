@@ -19,6 +19,7 @@ import {getMercureState, getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ActivatedRoute, Router} from '@angular/router';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -45,6 +46,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     downloadP7SDocumentosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId: number[] = [];
     javaWebStartOK = false;
+    lote: string;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -178,11 +180,17 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
     }
 
-    doDeleteDocumentoVinculado(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
+    doDeleteDocumentoVinculado(documentoId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
 
     doDeleteBloco(documentos: Documento[]): void {
+        this.lote = CdkUtils.makeId();
         documentos.forEach((documento: Documento) => this.doDeleteDocumentoVinculado(documento.id));
     }
 
@@ -233,5 +241,4 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             ],
             {relativeTo: this._activatedRoute.parent}).then();
     }
-
 }

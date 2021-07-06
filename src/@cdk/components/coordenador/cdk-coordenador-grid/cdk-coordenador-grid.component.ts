@@ -172,6 +172,9 @@ export class CdkCoordenadorGridComponent implements AfterViewInit, OnInit, OnCha
     selected = new EventEmitter<Coordenador>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: CoordenadorDataSource;
@@ -279,8 +282,8 @@ export class CdkCoordenadorGridComponent implements AfterViewInit, OnInit, OnCha
         this.delete.emit(coordenadorId);
     }
 
-    deleteCoordenadores(coordenadoresId): void {
-        coordenadoresId.forEach(coordenadorId => this.deleteCoordenador(coordenadorId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

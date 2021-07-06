@@ -17,7 +17,7 @@ COPY docker/dev/node.sh /usr/local/bin/node
 
 RUN chmod +x /usr/local/bin/node
 
-RUN npm install npm@7.16.0 -g
+RUN npm install npm@7.19.1 -g
 
 FROM base as dev
 

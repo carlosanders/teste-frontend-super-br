@@ -94,15 +94,7 @@ export class CdkEspecieTarefaFilterComponent {
                 andXFilter.push(filter);
             });
         }
-
-        if (this.form.get('criadoPor').value) {
-            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
-        }
-
-        if (this.form.get('atualizadoPor').value) {
-            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
-        }
-
+        
         const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
 
         const request = {

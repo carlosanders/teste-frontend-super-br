@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ModeloListActions from '../actions';
@@ -14,7 +14,6 @@ import {Modelo} from '@cdk/models/modelo.model';
 import {modelo as modeloSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class ModelosListEffect {
@@ -101,21 +100,53 @@ export class ModelosListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteModelo: any =
+    deleteModelo: Observable<ModeloListActions.ModelosListActionsAll> =
         this._actions
             .pipe(
                 ofType<ModeloListActions.DeleteModelo>(ModeloListActions.DELETE_MODELO),
-                mergeMap(action => this._modeloService.destroy(action.payload).pipe(
-                        map(response => new ModeloListActions.DeleteModeloSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'modelo',
+                        content: 'Apagando a modelo id ' + action.payload.modeloId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._modeloService.destroy(action.payload.modeloId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modelo',
+                                content: 'Modelo id ' + action.payload.modeloId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Modelo>({
+                                id: response.id,
+                                schema: modeloSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new ModeloListActions.DeleteModeloSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.modeloId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modelo',
+                                content: 'Erro ao apagar a modelo id ' + action.payload.modeloId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new ModeloListActions.DeleteModeloFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new ModeloListActions.DeleteModeloFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**

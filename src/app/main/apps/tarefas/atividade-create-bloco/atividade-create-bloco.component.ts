@@ -24,6 +24,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store';
 import {getSelectedTarefas} from '../store';
 import {getProcessosIdsEncaminhar} from "../encaminhamento-bloco/store";
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -76,6 +77,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     assinaturaInterval = null;
 
     encerraTarefa: boolean;
+
+    lote: string;
 
     /**
      *
@@ -164,6 +167,15 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
                 } else {
                     this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
+                }
+
+                // caso tarefa seja de workflow verificar espécies permitidas
+                this.especieAtividadePagination['context'] = {};
+                if (tarefas[0].workflow) {
+                    this.especieAtividadePagination.filter = {
+                        'transicoesWorkflow.workflow.id' : 'eq:' + tarefas[0].workflow.id
+                    };
+                    this.especieAtividadePagination['context'] = { tarefaId: tarefas[0].id };
                 }
             } else if (this.processosIdsEncaminhar.length > 0) {
                 // tslint:disable-next-line:max-line-length
@@ -307,12 +319,18 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.UpdateDocumentoBloco(values));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDelete(documentoId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
 
-    doDeleteBloco(documentos: Documento[]): void {
-        documentos.forEach((documento: Documento) => this.doDelete(documento.id));
+    doDeleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.doDelete(id, this.lote));
     }
 
     doVerResposta(documento): void {

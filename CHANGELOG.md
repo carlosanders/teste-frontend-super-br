@@ -387,3 +387,27 @@
 * Correção nos filtros em sidebar com componente tristate para booleanos
 * Correção nos filtros da lista de tarefas
 * Outras correções relevantes
+
+1.5.1
+
+* Correção para reconectar ao chat ao dar F5 
+* Correção na assinatura dentro do grid de juntadas
+* Correção na exibição de tarefas e atividades do workflow
+* Correção nos filtros da lista de tarefas
+* Correção na colocação em bloco de etiquetas
+* Correção para correta exibição do módulo do usuário externo validado
+* Outras correções relevantes
+
+1.5.2
+
+* Correção no setor origem na distribuição do processo em passos
+
+1.6.0
+
+* Melhoria painel de visualização do painel de tarefas em kanban
+* Correção nas pesquisas de processo e de componente digital
+* Correção de nome do componente no css de classificacao-gridsearch
+* Correção de gridsearch de municipio para trazer o estado no grid
+* Correção Implementada alteração na assinatura de método save do parent generic service para possibilitar envio de atributo populate para o backend
+* Correção Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
+* Correção na visualização dos documentos do protocolo eletrônico

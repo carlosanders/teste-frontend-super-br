@@ -24,6 +24,7 @@
                   matInput #descricao
                   cdkTextareaAutosize
                   #autosize="cdkTextareaAutosize"
+                  maxlength="255" 
                   cdkAutosizeMinRows="4"
                   cdkAutosizeMaxRows="10" upperCase required></textarea>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
@@ -42,6 +43,9 @@
                 (click)="showEspecieDocumentoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('especieDocumento').hasError('formError')">
+            {{form.get('especieDocumento').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo">

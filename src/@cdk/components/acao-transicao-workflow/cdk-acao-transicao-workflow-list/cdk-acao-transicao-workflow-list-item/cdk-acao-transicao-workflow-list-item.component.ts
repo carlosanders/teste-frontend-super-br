@@ -29,6 +29,9 @@ export class CdkAcaoTransicaoWorkflowListItemComponent implements OnInit {
     total: number;
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     constructor() {
@@ -43,5 +46,9 @@ export class CdkAcaoTransicaoWorkflowListItemComponent implements OnInit {
 
     doDelete(): void {
         this.delete.emit(this.acao.id);
+    }
+
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 }

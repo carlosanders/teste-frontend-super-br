@@ -3,12 +3,12 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Assinatura} from '@cdk/models';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -126,19 +126,54 @@ export class AssinaturaEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteAssinatura: any =
+    deleteAssinatura: Observable<AssinaturaActions.AssinaturaActionsAll> =
         this._actions
             .pipe(
                 ofType<AssinaturaActions.DeleteAssinatura>(AssinaturaActions.DELETE_ASSINATURA_DOCUMENTO),
-                mergeMap(action => this._assinaturaService.destroy(action.payload.assinaturaId).pipe(
-                        map(response => new AssinaturaActions.DeleteAssinaturaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'assinatura',
+                        content: 'Apagando a assinatura id ' + action.payload.assinaturaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._assinaturaService.destroy(action.payload.assinaturaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Assinatura id ' + action.payload.assinaturaId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Assinatura>({
+                                id: response.id,
+                                schema: assinaturaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AssinaturaActions.DeleteAssinaturaSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new AssinaturaActions.DeleteAssinaturaFailed(action.payload));
+                            const payload = {
+                                id: action.payload.assinaturaId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Erro ao apagar a assinatura id ' + action.payload.assinaturaId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new AssinaturaActions.DeleteAssinaturaFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
-
     /**
      * Save Assinatura
      *

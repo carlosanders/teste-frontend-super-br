@@ -163,6 +163,9 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<DocumentoIdentificador>();
 
     @Output()
@@ -287,8 +290,8 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
         this.delete.emit(documentoIdentificadorId);
     }
 
-    deleteDocumentoIdentificadores(documentoIdentificadorsId): void {
-        documentoIdentificadorsId.forEach(documentoIdentificadorId => this.deleteDocumentoIdentificador(documentoIdentificadorId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

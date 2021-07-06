@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-garantia-filter',
@@ -24,18 +25,30 @@ export class CdkGarantiaFilterComponent {
     @Input()
     hasInatived = false;
 
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterApagadoEm = [];
+    filterDataValor = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
             modalidadeGarantia: [null],
+            valor: [null],
+            descricao: [null],
+            observacao: [null],
             processo: [null],
             ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
         this.form.controls.ativo.setValue("todos");
     }
@@ -64,12 +77,28 @@ export class CdkGarantiaFilterComponent {
             }
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataValor?.length) {
+            this.filterDataValor.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -80,17 +109,20 @@ export class CdkGarantiaFilterComponent {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
+        }
+
         const contexto = this.hasInatived ?  {isAdmin: true} : {isAdmin: false};
 
         const request = {
             filters: {},
-            contexto: contexto
         };
 
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
         }
-
+        
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-garantia-filter').close();
     }
@@ -102,12 +134,33 @@ export class CdkGarantiaFilterComponent {
         }
     }
 
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataValor(value: any): void {
+        this.filterDataValor = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     buscar(): void {
         this.emite();
     }
 
     limpar(): void {
         this.resetarFormulario();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 

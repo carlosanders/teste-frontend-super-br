@@ -281,6 +281,9 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<DocumentoAvulso>();
 
     @Output()
@@ -443,8 +446,8 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
         this.delete.emit(documentoAvulsoId);
     }
 
-    deleteDocumentoAvulsos(documentosAvulsosId): void {
-        documentosAvulsosId.forEach(documentoAvulsoId => this.deleteDocumentoAvulso(documentoAvulsoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     responderDocumentosAvulsos(documentosAvulsosId: number[]): void {

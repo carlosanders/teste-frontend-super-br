@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as AssuntoListActions from '../actions';
 
 import {AssuntoService} from '@cdk/services/assunto.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';
 import {assunto as assuntoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class AssuntoListEffect {
@@ -78,20 +78,52 @@ export class AssuntoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteAssunto: any =
+    deleteAssunto: Observable<AssuntoListActions.AssuntoListActionsAll> =
         this._actions
             .pipe(
                 ofType<AssuntoListActions.DeleteAssunto>(AssuntoListActions.DELETE_ASSUNTO),
-                mergeMap(action => this._assuntoService.destroy(action.payload).pipe(
-                        map(response => new AssuntoListActions.DeleteAssuntoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'assunto',
+                        content: 'Apagando a assunto id ' + action.payload.assuntoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._assuntoService.destroy(action.payload.assuntoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Assunto id ' + action.payload.assuntoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Assunto>({
+                                id: response.id,
+                                schema: assuntoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AssuntoListActions.DeleteAssuntoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.assuntoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Erro ao apagar a assunto id ' + action.payload.assuntoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new AssuntoListActions.DeleteAssuntoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new AssuntoListActions.DeleteAssuntoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

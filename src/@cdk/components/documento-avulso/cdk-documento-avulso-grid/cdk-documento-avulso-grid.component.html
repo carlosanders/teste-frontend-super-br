@@ -27,7 +27,7 @@
             </div>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteDocumentoAvulsos(selectedIds)"
+                    (click)="deleteBloco(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>

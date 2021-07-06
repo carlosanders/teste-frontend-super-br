@@ -152,6 +152,9 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Nome>();
 
     @Output()
@@ -274,8 +277,8 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.delete.emit(nomeId);
     }
 
-    deleteNomes(nomesId): void {
-        nomesId.forEach(nomeId => this.deleteNome(nomeId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

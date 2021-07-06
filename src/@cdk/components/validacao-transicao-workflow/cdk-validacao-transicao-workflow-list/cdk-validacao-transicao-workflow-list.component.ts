@@ -48,6 +48,9 @@ export class CdkValidacaoTransicaoWorkflowListComponent {
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     create = new EventEmitter<any>();
 
     hasExcluded = false;
@@ -72,4 +75,9 @@ export class CdkValidacaoTransicaoWorkflowListComponent {
     doCreate(): void {
         this.create.emit();
     }
+
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
+    }
+
 }

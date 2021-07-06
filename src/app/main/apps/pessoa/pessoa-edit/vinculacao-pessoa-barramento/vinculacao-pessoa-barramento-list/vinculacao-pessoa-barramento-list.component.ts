@@ -13,6 +13,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {VinculacaoPessoaBarramento} from "@cdk/models/vinculacao-pessoa-barramento";
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-pessoa-barramento-list',
@@ -31,6 +32,7 @@ export class VinculacaoPessoaBarramentoListComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -87,8 +89,18 @@ export class VinculacaoPessoaBarramentoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('vinculacao-pessoa-barramento/listar', 'vinculacao-pessoa-barramento/editar/') + vinculacaoPessoaBarramentoId]);
     }
 
-    delete(vinculacaoPessoaBarramentoId: number): void {
-        this._store.dispatch(new fromStore.DeleteVinculacaoPessoaBarramento(vinculacaoPessoaBarramentoId));
+    delete(vinculacaoPessoaBarramentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteVinculacaoPessoaBarramento({
+            vinculacaoPessoaBarramentoId: vinculacaoPessoaBarramentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

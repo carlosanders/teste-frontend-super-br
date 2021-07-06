@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RepositorioListActions from '../actions';
@@ -15,6 +15,7 @@ import {repositorio as repositorioSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {RepositoriosListActionsAll} from '../actions';
 
 @Injectable()
 export class RepositoriosListEffect {
@@ -101,21 +102,53 @@ export class RepositoriosListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteRepositorio: any =
+    deleteRepositorio: Observable<RepositorioListActions.RepositoriosListActionsAll> =
         this._actions
             .pipe(
                 ofType<RepositorioListActions.DeleteRepositorio>(RepositorioListActions.DELETE_REPOSITORIO),
-                mergeMap(action => this._repositorioService.destroy(action.payload).pipe(
-                        map(response => new RepositorioListActions.DeleteRepositorioSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'repositorio',
+                        content: 'Apagando a repositorio id ' + action.payload.repositorioId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._repositorioService.destroy(action.payload.repositorioId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositorio',
+                                content: 'Repositorio id ' + action.payload.repositorioId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Repositorio>({
+                                id: response.id,
+                                schema: repositorioSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RepositorioListActions.DeleteRepositorioSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.repositorioId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositorio',
+                                content: 'Erro ao apagar a repositorio id ' + action.payload.repositorioId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new RepositorioListActions.DeleteRepositorioFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new RepositorioListActions.DeleteRepositorioFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**

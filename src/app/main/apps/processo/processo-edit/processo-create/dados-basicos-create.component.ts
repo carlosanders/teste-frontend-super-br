@@ -16,7 +16,7 @@ import {
     Assinatura,
     Assunto,
     Classificacao,
-    ConfiguracaoNup, Documento,
+    ConfiguracaoNup, Desentranhamento, Documento,
     Interessado,
     Juntada,
     Pagination,
@@ -50,8 +50,10 @@ import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selector
 import {getProcesso} from '../../store';
 import {configuracaoNup, documento as documentoSchema} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
-import {MatDialog} from '@cdk/angular/material';
-import {UpdateData} from "../../../../../../@cdk/ngrx-normalizr";
+import {CdkUtils} from '../../../../../../@cdk/utils';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -72,6 +74,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     routerState: any;
     procedencia: Pessoa;
     _profile: Usuario;
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -123,6 +128,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     juntadasPagination: any;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
+    desentranhandoJuntadasId$: Observable<number[]>;
+    desentranhadoJuntadasId$: Observable<number[]>;
     javaWebStartOK = false;
     assinaturaInterval = null;
 
@@ -158,6 +165,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     genero = 'administrativo';
 
     pessoa: Pessoa;
+    lote: string;
 
     private _unsubscribeAll: Subject<any>;
 
@@ -218,6 +226,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.juntadasPagination$ = this._store.pipe(select(fromStore.getJuntadaPagination));
         this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.desentranhandoJuntadasId$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
+        this.desentranhadoJuntadasId$ = this._store.pipe(select(fromStore.getDesentranhadoIds));
 
         this.especieProcessoPagination = new Pagination();
 
@@ -686,10 +696,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             }
         );
 
-        if (this.processo && this.processo.especieProcesso?.workflow) {
-            tarefa.workflow = this.processo.especieProcesso.workflow;
-        }
-
         this._store.dispatch(new SaveTarefa(tarefa));
     }
 
@@ -767,9 +773,20 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteAssunto(assuntoId: number): void {
-        this._store.dispatch(new fromStore.DeleteAssunto(assuntoId));
+    deleteAssunto(assuntoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteAssunto({
+            assuntoId: assuntoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
+
+    deleteBlocoAssunto(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteAssunto(id, this.lote));
+    }
+
 
     reloadInteressados(params): void {
         this._store.dispatch(new fromStore.GetInteressados({
@@ -804,8 +821,18 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteInteressado(interessadoId: number): void {
-        this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+    deleteInteressado(interessadoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteInteressado({
+            interessadoId: interessadoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoInteressado(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteInteressado(id, this.lote));
     }
 
     reloadVinculacoesProcessos(params): void {
@@ -841,8 +868,18 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteVinculacaoProcesso(vinculacaoProcessoId: number): void {
-        this._store.dispatch(new fromStore.DeleteVinculacaoProcesso(vinculacaoProcessoId));
+    deleteVinculacaoProcesso(vinculacaoProcessoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteVinculacaoProcesso({
+            vinculacaoProcessoId: vinculacaoProcessoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoVinculacaoProcesso(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteVinculacaoProcesso(id, this.lote));
     }
 
     create(form): void {
@@ -874,6 +911,28 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 closeOnNavigation: true
             });
         }
+    }
+
+    desentranhar(juntada: Juntada): void {
+        this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Este procedimento é irreversível. Deseja realmente desentranhar a juntada?';
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                const desentranhamento = new Desentranhamento();
+                desentranhamento.tipo = 'arquivo';
+                desentranhamento.juntada = juntada;
+                this._store.dispatch(new fromStore.SaveDesentranhamento(desentranhamento));
+            }
+            this.confirmDialogRef = null;
+        });
+
     }
 
     editar(documento: Documento): void {

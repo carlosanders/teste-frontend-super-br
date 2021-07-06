@@ -1,0 +1,189 @@
+<div class="list-card-not-read" *ngIf="!tarefa.dataHoraLeitura">
+</div>
+<div
+    class="drag-tarefa list-card-details"
+    [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
+    [dndDragImageOffsetFunction]="this.offsetFunction"
+    (dndEnd)="doCancelDrag($event)"
+    [dndDisableIf]="disableActions"
+    (dndStart)="doStartDrag($event, tarefa)">
+
+    <div dndDragImageRef class="drag-n-drop-message">
+        <div *ngIf="isDraggin && selectedIds.length > 1" class="drag-n-drop-message-item accent">
+            {{selectedIds.length}} tarefas selecionadas
+        </div>
+        <div *ngIf="isDraggin && selectedIds.length === 1" class="drag-n-drop-message-item accent">
+            Movendo tarefa
+        </div>
+    </div>
+
+    <div class="list-card-name" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="info-icons">
+            <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block</mat-icon>
+            <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock</mat-icon>
+        </div>
+        <div class="card-name" fxFlex="1 0 auto">
+            <span>
+                NUP {{tarefa.processo?.NUP | formatNup}}
+            </span>
+        </div>
+        <div class="actions">
+            <mat-icon class="s-16" [matTooltip]="'Copiar NUP para o clipboard'" (click)="doCopyNup(tarefa.processo?.NUP)">
+                file_copy
+            </mat-icon>
+
+            <div (click)="doToggleCardExpand()">
+                <mat-icon *ngIf="cardExpanded">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="!cardExpanded">keyboard_arrow_up</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div class="list-card-content">
+        <div class="list-card-content-actions">
+            <mat-checkbox
+                class="mr-8"
+                [disabled]="disableActions"
+                (click)="$event.stopPropagation();"
+                [checked]="tarefaChecked"
+                (change)="doToggleCheckTarefa()">
+            </mat-checkbox>
+        </div>
+        <div class="list-card-content-group">
+            <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
+                {{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.processo?.especieProcesso?.workflow ? ' (Workflow)' : '' }}
+            </div>
+            <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
+                Usuário com acesso negado ao processo
+            </div>
+            <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
+                <ng-container *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
+                    Ofício vinculado pendente de resposta
+                </ng-container>
+                <ng-container *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
+                    Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}
+                </ng-container>
+            </div>
+
+            <ng-container *ngIf="cardExpanded">
+                <div class="subtitle"
+                     *ngIf="processosIds.includes(tarefa.processo.id) && !tarefa.processo?.assuntos?.length && !tarefa.processo?.interessados?.length">
+                    <mat-spinner diameter=16></mat-spinner>
+                </div>
+                <div class="subtitle" *ngIf="tarefa.processo?.assuntos?.length > 0">
+                    {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}
+                </div>
+                <div class="subtitle"
+                     *ngIf="tarefa.processo?.interessados?.length > 0">
+                    <ng-container *ngFor="let nomeInteressado of (tarefa.processo?.interessados | formatInteressados: totalInteressados)">
+                        {{nomeInteressado}}
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                Id: {{tarefa.id}}
+            </div>
+
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                {{tarefa.especieTarefa?.nome | titleCasePipe}}
+            </div>
+
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                {{tarefa.workflow ? 'Tarefa de Workflow' : ''}}
+            </div>
+
+            <div *ngIf="displayedCampos.indexOf('setorResponsavel.nome') > -1">
+                {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+            </div>
+
+            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel?.id !== usuarioAtual.id))">
+                {{tarefa.usuarioResponsavel?.nome | titleCasePipe}}
+            </div>
+
+            <div *ngIf="tarefa.dataHoraDistribuicao && displayedCampos.indexOf('dataHoraDistribuicao') > -1">
+                Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
+            </div>
+
+            <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+                Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+            </div>
+
+            <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+                Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
+                até
+                <mat-icon class="secondary-text" matTooltip="Prazo fechado">
+                    lock
+                </mat-icon>
+            </div>
+        </div>
+        <div class="list-card-content-actions">
+            <button
+                mat-icon-button
+                [matMenuTriggerFor]="moreMenu"
+                aria-label="Ferramentas"
+                (click)="$event.stopPropagation()"
+                [disabled]="disableActions">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="apagar"
+                        [disabled]="disableActions"
+                        (click)="doExcluirTarefa()">
+                    <mat-icon>delete</mat-icon>
+                    <span>Excluir Tarefa</span>
+                </button>
+                <button mat-menu-item aria-label="dar ciência"
+                        [disabled]="disableActions"
+                        (click)="doCienciaTarefa()">
+                    <mat-icon>check</mat-icon>
+                    <span>Dar ciência</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+    <div class="list-card-badges" fxLayout="row" fxLayoutAlign="start center"
+        *ngIf="!!tarefa.vinculacoesEtiquetas">
+        <div class="badge" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
+             fxLayout="row" fxLayoutAlign="start center"
+             [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
+            <div class="badge-color" *ngIf="vinculacaoEtiqueta.criadoEm"
+                 [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+            <div class="etiqueta-title">
+                {{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}
+            </div>
+        </div>
+    </div>
+    <div class="list-card-content mt-8" *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1">
+        <div class="list-card-content-group">
+            <span class="subtitle info-box">{{tarefa.observacao}}</span>
+        </div>
+    </div>
+</div>
+
+<div class="list-card-footer">
+    <div class="footer-items-left" *ngIf="tarefa.processo?.documentoAvulsoOrigem || true">
+        <button mat-icon-button
+                aria-label="Evento">
+            <mat-icon class="secondary-text">mail</mat-icon>
+        </button>
+    </div>
+
+    <div class="footer-items-right">
+        <button mat-icon-button
+                (click)="doOpenTarefa(); $event.stopPropagation();"
+                aria-label="Abrir em nova janela">
+            <mat-icon class="secondary-text" matTooltip="Visualizar tarefa em nova janela">call_made</mat-icon>
+        </button>
+        <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
+                (click)="doToggleUrgente(); $event.stopPropagation();"
+                [disabled]="disableActions"
+                aria-label="Toggle important">
+            <mat-icon class="red-fg" matTooltip="Desmarcar como importante" *ngIf="tarefa.urgente">error</mat-icon>
+            <mat-icon class="secondary-text" matTooltip="Marcar como importante" *ngIf="!tarefa.urgente">error_outline</mat-icon>
+        </button>
+        <div class="spinner-container m-8" *ngIf="togglingUrgente">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+    </div>
+</div>

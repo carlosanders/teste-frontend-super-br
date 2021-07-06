@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class NotificacaoListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     toggleLidaErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -112,8 +114,18 @@ export class NotificacaoListComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
     }
 
-    delete(notificacaoId: number): void {
-        this._store.dispatch(new fromStore.DeleteNotificacao(notificacaoId));
+    delete(notificacaoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteNotificacao({
+            notificacaoId: notificacaoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as NotificacaoListActions from '../actions';
@@ -14,6 +14,7 @@ import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class NotificacaoListEffect {
@@ -79,21 +80,53 @@ export class NotificacaoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteNotificacao: any =
+    deleteNotificacao: Observable<NotificacaoListActions.NotificacaoListActionsAll> =
         this._actions
             .pipe(
                 ofType<NotificacaoListActions.DeleteNotificacao>(NotificacaoListActions.DELETE_NOTIFICACAO),
-                mergeMap(action => this._notificacaoService.destroy(action.payload).pipe(
-                        map(response => new NotificacaoListActions.DeleteNotificacaoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'notificacao',
+                        content: 'Apagando a notificacao id ' + action.payload.notificacaoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._notificacaoService.destroy(action.payload.notificacaoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'notificacao',
+                                content: 'Notificacao id ' + action.payload.notificacaoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Notificacao>({
+                                id: response.id,
+                                schema: notificacaoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new NotificacaoListActions.DeleteNotificacaoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.notificacaoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'notificacao',
+                                content: 'Erro ao apagar a notificacao id ' + action.payload.notificacaoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new NotificacaoListActions.DeleteNotificacaoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new NotificacaoListActions.DeleteNotificacaoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**

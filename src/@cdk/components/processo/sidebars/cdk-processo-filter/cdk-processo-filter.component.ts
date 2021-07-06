@@ -41,6 +41,10 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterDataHoraAbertura = [];
+
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     unidadePagination: Pagination;
@@ -66,6 +70,10 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             modalidadeFase: [null],
             classificacao: [null],
             procedencia: [null],
+            criadoPor: [null],
+            atualizadoPor: [null],
+            criadoEm: [null],
+            atualizadoEm: [null],
             setorAtual: [null],
             unidade: [null],
             nome: [null],
@@ -165,6 +173,33 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             andXFilter.push({'especieProcesso.id': `eq:${this.form.get('especieProcesso').value.id}`});
         }
 
+        if (this.filterDataHoraAbertura?.length) {
+            this.filterDataHoraAbertura.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
+
         const request = {
             filters: {},
         };
@@ -174,6 +209,21 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         }
 
         this.selected.emit(request);
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraDataHoraAbertura(value: any): void {
+        this.filterDataHoraAbertura = value;
+        this.limparFormFiltroDatas$.next(false);
     }
 
     verificarValor(objeto): void {

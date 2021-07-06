@@ -48,6 +48,9 @@ export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnCh
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     create = new EventEmitter<any>();
 
     /**
@@ -76,6 +79,10 @@ export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnCh
 
     doDeleteVisibilidade(visibilidadeId): void {
         this.delete.emit(visibilidadeId);
+    }
+
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     doCreate(): void {

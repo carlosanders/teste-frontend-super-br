@@ -31,6 +31,9 @@ export class CdkValidacaoTransicaoWorkflowListItemComponent implements OnInit {
     @Output()
     delete = new EventEmitter<number>();
 
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
     constructor() {
         this.deleting = false;
     }
@@ -44,4 +47,5 @@ export class CdkValidacaoTransicaoWorkflowListItemComponent implements OnInit {
     doDelete(): void {
         this.delete.emit(this.validacao.id);
     }
+
 }

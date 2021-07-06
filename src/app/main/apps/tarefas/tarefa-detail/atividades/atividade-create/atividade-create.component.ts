@@ -216,7 +216,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             this.especieAtividadePagination['context'] = {};
             if (tarefa.workflow) {
                 this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.especieTarefaFrom.id' : 'eq:' + tarefa.especieTarefa.id
+                    'transicoesWorkflow.workflow.id' : 'eq:' + tarefa.workflow.id
                 };
                 this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
             }

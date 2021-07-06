@@ -51,14 +51,14 @@ export class GetFoldersFailed implements Action
 /**
  * Unload Folders
  */
- export class UnloadFolders implements Action
- {
-     readonly type = UNLOAD_FOLDERS;
+export class UnloadFolders implements Action
+{
+    readonly type = UNLOAD_FOLDERS;
 
-     constructor()
-     {
-     }
- }
+    constructor()
+    {
+    }
+}
 
 /**
  * Reload Folders

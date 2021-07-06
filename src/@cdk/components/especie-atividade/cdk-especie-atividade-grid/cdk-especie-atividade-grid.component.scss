@@ -1,4 +1,4 @@
-@import "src/@cdk/scss/cdk";
+@import "../../../scss/cdk";
 
 cdk-especie-atividade-grid {
     display: flex;
@@ -89,10 +89,6 @@ cdk-especie-atividade-grid {
             flex-direction: column;
             padding: 8px;
             width: 10vw;
-
-            > .content {
-                height: 0;
-            }
         }
 
         .responsive-grid[max-width~="600px"] {
@@ -170,4 +166,3 @@ cdk-especie-atividade-grid {
         }
     }
 }
-
