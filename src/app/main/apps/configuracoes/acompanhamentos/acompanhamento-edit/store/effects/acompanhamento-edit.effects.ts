@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as AcompanhamentoEditActions from '../actions/acompanhamento-edit.actions';
@@ -16,6 +16,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class AcompanhamentoEditEffect {
@@ -78,22 +79,39 @@ export class AcompanhamentoEditEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    saveAcompanhamento: any =
+    ssaveAcompanhamento: any =
         this._actions
             .pipe(
                 ofType<AcompanhamentoEditActions.SaveAcompanhamento>(AcompanhamentoEditActions.SAVE_ACOMPANHAMENTO),
+                tap(() => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        type: 'acompanhamento',
+                        content: 'Salvando a acompanhamento ...',
+                        status: 0, // carregando
+                    }));
+                }),
                 switchMap(action => this._acompanhamentoService.save(action.payload).pipe(
-                        mergeMap((response: Compartilhamento) => [
-                            new AcompanhamentoEditActions.SaveAcompanhamentoSuccess(),
-                            new AcompanhamentoListActions.ReloadAcompanhamentos(),
-                            new GetAcompanhamentos([]),
-                            new AddData<Compartilhamento>({data: [response], schema: comparilhamentoSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
+                    tap(() =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            type: 'acompanhamento',
+                            content: 'Acompanhamento salva com sucesso.',
+                            status: 1, // sucesso
+                        }))),
+                    mergeMap((response: Compartilhamento) => [
+                        new AcompanhamentoEditActions.SaveAcompanhamentoSuccess(),
+                        new AcompanhamentoListActions.ReloadAcompanhamentos(),
+                        new GetAcompanhamentos([]),
+                        new AddData<Compartilhamento>({data: [response], schema: comparilhamentoSchema})
+                    ])
+                )),
+                catchError((err) => {
                     console.log(err);
-                    this._store.dispatch(new AcompanhamentoEditActions.SaveAcompanhamentoFailed(err));
-                    return caught;
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        type: 'acompanhamento',
+                        content: 'Erro ao salvar a acompanhamento!',
+                        status: 2, // erro
+                    }));
+                    return of(this._store.dispatch(new AcompanhamentoEditActions.SaveAcompanhamentoFailed(err)));
                 })
             );
 

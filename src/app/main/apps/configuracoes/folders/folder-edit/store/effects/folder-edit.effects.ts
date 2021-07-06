@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as FolderEditActions from '../actions/folder-edit.actions';
@@ -16,6 +16,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {GetFolders} from '../../../../../tarefas/store/actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class FolderEditEffect {
@@ -82,18 +83,35 @@ export class FolderEditEffect {
         this._actions
             .pipe(
                 ofType<FolderEditActions.SaveFolder>(FolderEditActions.SAVE_FOLDER),
+                tap(() => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        type: 'folder',
+                        content: 'Salvando a pasta ...',
+                        status: 0, // carregando
+                    }));
+                }),
                 switchMap(action => this._folderService.save(action.payload).pipe(
-                        mergeMap((response: Folder) => [
-                            new FolderEditActions.SaveFolderSuccess(),
-                            new FolderListActions.ReloadFolders(),
-                            new GetFolders([]),
-                            new AddData<Folder>({data: [response], schema: folderSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
+                    tap(() =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            type: 'folder',
+                            content: 'Pasta salva com sucesso.',
+                            status: 1, // sucesso
+                        }))),
+                    mergeMap((response: Folder) => [
+                        new FolderEditActions.SaveFolderSuccess(),
+                        new FolderListActions.ReloadFolders(),
+                        new GetFolders([]),
+                        new AddData<Folder>({data: [response], schema: folderSchema})
+                    ])
+                )),
+                catchError((err) => {
                     console.log(err);
-                    this._store.dispatch(new FolderEditActions.SaveFolderFailed(err));
-                    return caught;
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        type: 'folder',
+                        content: 'Erro ao salvar a pasta id!',
+                        status: 2, // erro
+                    }));
+                    return of(this._store.dispatch(new FolderEditActions.SaveFolderFailed(err)));
                 })
             );
 

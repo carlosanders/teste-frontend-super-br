@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as GrupoContatoEditActions from '../actions/grupo-contato-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class GrupoContatoEditEffect {
@@ -73,21 +74,40 @@ export class GrupoContatoEditEffect {
      *
      * @type {Observable<any>}
      */
-    saveGrupoContato: any = createEffect(() => this._actions
+    saveGrupoContato: any =
+        this._actions
             .pipe(
                 ofType<GrupoContatoEditActions.SaveGrupoContato>(GrupoContatoEditActions.SAVE_GRUPO_CONTATO),
+                tap(() => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        type: 'grupoContato',
+                        content: 'Salvando a grupoContato ...',
+                        status: 0, // carregando
+                    }));
+                }),
                 switchMap(action => this._grupoContatoService.save(action.payload).pipe(
-                        mergeMap((response: GrupoContato) => [
-                            new GrupoContatoEditActions.SaveGrupoContatoSuccess(),
-                            new GrupoContatoListActions.ReloadGrupoContato(),
-                            new AddData<GrupoContato>({data: [response], schema: grupoContatoSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    this._store.dispatch(new GrupoContatoEditActions.SaveGrupoContatoFailed(err));
-                    return caught;
+                    tap(() =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            type: 'grupoContato',
+                            content: 'GrupoContato salva com sucesso.',
+                            status: 1, // sucesso
+                        }))),
+                    mergeMap((response: GrupoContato) => [
+                        new GrupoContatoEditActions.SaveGrupoContatoSuccess(),
+                        new GrupoContatoListActions.ReloadGrupoContato(),
+                        new AddData<GrupoContato>({data: [response], schema: grupoContatoSchema})
+                    ])
+                )),
+                catchError((err) => {
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        type: 'grupoContato',
+                        content: 'Erro ao salvar a grupoContato!',
+                        status: 2, // erro
+                    }));
+                    return of(this._store.dispatch(new GrupoContatoEditActions.SaveGrupoContatoFailed(err)));
                 })
-            ));
+            );
 
     /**
      * Save GrupoContato Success
