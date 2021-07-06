@@ -368,6 +368,15 @@
                                 matTooltip="Vincular Pessoa">
                             <mat-icon>link</mat-icon>
                         </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('vincularRole') > -1 && usuario.id"
+                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                (click)="vincularUsuarioRole(usuario.id)"
+                                aria-label="VincularRole"
+                                matTooltip="Vincular Role">
+                            <mat-icon>link</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 
