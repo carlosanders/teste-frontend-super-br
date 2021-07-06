@@ -10,6 +10,7 @@ export const LOGIN_SUCCESS = '[Login] Login Success';
 export const LOGIN_REFRESH_TOKEN_SUCCESS = '[Login] LoginRefreshToken Success';
 export const LOGIN_REFRESH_TOKEN_FAILURE = '[Login] LoginRefreshToken Failure';
 export const LOGIN_FAILURE = '[Login] Login Failure';
+export const LOGIN_GOV_BR_FAILURE = '[Login] Login Gov Br Failure';
 export const LOGIN_PROFILE = '[Login] Profile Attempt';
 export const LOGIN_PROFILE_SUCCESS = '[Login] Profile Success';
 export const LOGIN_PROFILE_FAILURE = '[Login] Profile Failure';
@@ -35,6 +36,11 @@ export class LoginLdap implements Action {
 
 export class LoginSuccess implements Action {
     readonly type = LOGIN_SUCCESS;
+    constructor(public payload: any) {}
+}
+
+export class LoginGovBrFailure implements Action {
+    readonly type = LOGIN_GOV_BR_FAILURE;
     constructor(public payload: any) {}
 }
 
@@ -110,6 +116,7 @@ export type LoginActionsAll =
     | Unload
     | LoginSuccess
     | LoginFailure
+    | LoginGovBrFailure
     | LoginProfile
     | LoginProfileSuccess
     | LoginProfileFailure
