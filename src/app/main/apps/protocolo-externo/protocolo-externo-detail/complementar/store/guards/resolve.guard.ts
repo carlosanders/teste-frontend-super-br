@@ -7,6 +7,7 @@ import * as fromStore from '../../store';
 import {DocumentosState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
+import {LoginService} from "../../../../../../auth/login/login.service";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -14,11 +15,12 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
-     *
      * @param _store
+     * @param _loginService
      */
     constructor(
-        private _store: Store<DocumentosState>
+        private _store: Store<DocumentosState>,
+        private _loginService: LoginService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -54,7 +56,8 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentos({
-                        'processoOrigem.id': `eq:${this.routerState.params.processoHandle}`
+                        'processoOrigem.id': `eq:${this.routerState.params.processoHandle}`,
+                        'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
                     }));
                 }
             }),

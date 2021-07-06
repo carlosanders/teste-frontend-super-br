@@ -11,6 +11,7 @@ import * as fromStore from '../';
 import {getDocumentosHasLoaded} from '../';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
+import {LoginService} from "../../../../../auth/login/login.service";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -18,12 +19,12 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
-     * Constructor
-     *
      * @param _store
+     * @param _loginService
      */
     constructor(
-        private _store: Store<ProtocoloCreateAppState>
+        private _store: Store<ProtocoloCreateAppState>,
+        private _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -90,7 +91,10 @@ export class ResolveGuard implements CanActivate {
                 select(getDocumentosHasLoaded),
                 tap((loaded: any) => {
                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                        this._store.dispatch(new fromStore.GetDocumentos({'processoOrigem.id': `eq:${this.routerState.params['processoHandle']}`}));
+                        this._store.dispatch(new fromStore.GetDocumentos({
+                            'processoOrigem.id': `eq:${this.routerState.params['processoHandle']}`,
+                            'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                        }));
                     }
                 }),
                 filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),

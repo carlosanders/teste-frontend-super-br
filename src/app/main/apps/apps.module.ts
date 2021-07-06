@@ -16,7 +16,7 @@ const routes = [
         path        : 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
         canActivate: [RoleGuard],
-        data: {roles: ['ROLE_ADMIN']}
+        data: {roles: ['ROLE_ADMIN', 'ROLE_*_ADMIN']}
     },
     {
         path        : 'arquivista',
