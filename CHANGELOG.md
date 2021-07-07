@@ -408,6 +408,7 @@
 * Correção nas pesquisas de processo e de componente digital
 * Correção de nome do componente no css de classificacao-gridsearch
 * Correção de gridsearch de municipio para trazer o estado no grid
-* Correção Implementada alteração na assinatura de método save do parent generic service para possibilitar envio de atributo populate para o backend
-* Correção Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
+* Correção na assinatura de método save do parent generic service para possibilitar envio de atributo populate para o backend
+* Melhoria Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
 * Correção na visualização dos documentos do protocolo eletrônico
+* Melhoria Implementado componente de histórico de processos na tela de edição 
