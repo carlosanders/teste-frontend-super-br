@@ -2,7 +2,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ComponentRef,
     ElementRef,
     EventEmitter,
     Input,
@@ -20,6 +20,7 @@ import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
 import {Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {HasTarefa} from './has-tarefa';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -199,7 +200,11 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then(componentFactory => {
+                            let componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                            componente.instance.setTarefa(this.tarefa);
+                            this._changeDetectorRef.detectChanges();
+                        });
                 }));
             }
         });
@@ -210,7 +215,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
                 module.components[pathItemText].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then((componentFactory) => {
-                            this.containerText.createComponent(componentFactory);
+                            let componente: ComponentRef<HasTarefa> = this.containerText.createComponent(componentFactory);
+                            componente.instance.setTarefa(this.tarefa);
                             this._changeDetectorRef.detectChanges();
                         });
                 }));
