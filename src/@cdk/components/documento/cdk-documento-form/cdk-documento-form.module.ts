@@ -25,6 +25,7 @@ import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cd
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
+import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-
 
         CdkSharedModule,
         CdkLogentryGridsearchModule,
+        NgxUpperCaseDirectiveModule,
     ],
     providers: [
         TipoDocumentoService,
