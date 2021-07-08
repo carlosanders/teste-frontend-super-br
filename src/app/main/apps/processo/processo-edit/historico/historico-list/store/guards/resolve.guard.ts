@@ -6,11 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
-import {ModeloListAppState} from '../reducers';
+import {HistoricoListAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getModeloListLoaded} from '../selectors';
-import {LoginService} from 'app/main/auth/login/login.service';
+import {getHistoricoListLoaded} from '../selectors';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -18,13 +17,12 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
+     * Constructor
      *
      * @param _store
-     * @param _loginService
      */
     constructor(
-        private _store: Store<ModeloListAppState>,
-        public _loginService: LoginService
+        private _store: Store<HistoricoListAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -43,43 +41,47 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getModelos().pipe(
+        return this.getHistoricos().pipe(
             switchMap(() => of(true)),
             catchError((err) => {console.log (err); return of(false);})
         );
     }
 
     /**
-     * Get Modelos
+     * Get Historicos
      *
      * @returns
      */
-    getModelos(): any {
+    getHistoricos(): any {
         return this._store.pipe(
-            select(getModeloListLoaded),
+            select(getHistoricoListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+
+                    let processoId = null;
+
+                    const routeParams = of('processoHandle');
+                    routeParams.subscribe((param) => {
+                        processoId = `eq:${this.routerState.params[param]}`;
+                    });
 
                     const params = {
                         filter: {
-                            'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                            'processo.id': processoId
                         },
                         gridFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {id: 'DESC'},
+                        sort: {criadoEm: 'DESC'},
                         populate: [
-                            'populateAll',
-                            'documento',
-                            'modalidadeModelo',
-                            'documento.componentesDigitais'
-                        ],
+                            'populateAll'
+                        ]
                     };
 
-                    this._store.dispatch(new fromStore.GetModelos(params));
+                    this._store.dispatch(new fromStore.GetHistoricos(params));
                 }
             }),
-            filter((loaded: any) => !!loaded),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
