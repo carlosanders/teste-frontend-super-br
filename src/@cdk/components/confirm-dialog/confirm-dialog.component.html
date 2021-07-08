@@ -1,11 +1,11 @@
 <h1 matDialogTitle>{{data?.title ? data.title : 'Confirm'}}</h1>
 <div mat-dialog-content>
-    <section class="p-8">{{confirmMessage ? confirmMessage : data.message}}</section>
-    <section class="p-8" *ngIf="!confirmMessage"><b>Deseja confirmar a ação?</b></section>
+    <section class="p-8" *ngIf="data.message">{{data.message}}</section>
+    <section class="p-8" *ngIf="!data.message"><b>Deseja confirmar a ação?</b></section>
 </div>
 <div mat-dialog-actions class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
     <button mat-raised-button class="mat-accent mr-16" color="accent" (click)="dialogRef.close(true)">
-        {{data?.confirmLabel ? data.confirmLabel : 'Confirm'}}
+        {{data?.confirmLabel ? data.confirmLabel : 'Confirmar'}}
     </button>
-    <button mat-button mat-dialog-close *ngIf="showCancel" (click)="dialogRef.close(false)">{{data?.cancelLabel ? data.cancelLabel : 'Cancel'}}</button>
+    <button mat-button mat-dialog-close *ngIf="showCancel" (click)="dialogRef.close(false)">{{data?.cancelLabel ? data.cancelLabel : 'Cancelar'}}</button>
 </div>

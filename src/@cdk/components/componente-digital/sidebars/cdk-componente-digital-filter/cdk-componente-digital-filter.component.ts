@@ -11,6 +11,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
+import {CdkConfirmDialogComponent} from "../../../confirm-dialog/confirm-dialog.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
     selector: 'cdk-componente-digital-filter',
@@ -36,14 +38,18 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
     filterCriadoEm = [];
     filterJuntadoEm = [];
 
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
+
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
+        private _matDialog: MatDialog,
     ) {
         this.form = this._formBuilder.group({
-            conteudo: [null, [Validators.required]],
+            conteudo: [null],
             codigo: [null],
             autor: [null],
             redator: [null],
@@ -152,9 +158,18 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
 
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
+            this.selected.emit(request);
+        } else {
+            this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Erro!',
+                    message: ' Ao menos um campo deve ser preenchido!',
+                    confirmLabel: 'Fechar',
+                    hideCancel: true,
+                },
+                disableClose: false,
+            });
         }
-
-        this.selected.emit(request);
     }
 
     filtraCriadoEm(value: any): void {
@@ -179,7 +194,6 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
-        this.emite();
     }
 }
 

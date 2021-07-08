@@ -19,6 +19,8 @@ import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {Subject} from 'rxjs';
 import {Pagination} from '../../../../models';
 import {Router} from '@angular/router';
+import {CdkConfirmDialogComponent} from "../../../confirm-dialog/confirm-dialog.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -53,13 +55,17 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
 
     assuntoAdministrativoPagination: Pagination;
 
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
         private _dynamicService: DynamicService,
         private _cdkProcessoFilterService: CdkProcessoFilterService,
         public _loginService: LoginService,
-        private _router: Router
+        private _router: Router,
+        private _matDialog: MatDialog,
     ) {
         this.form = this._formBuilder.group({
             processo: [null],
@@ -209,16 +215,24 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
-
         const request = {
             filters: {},
         };
 
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
+            this.selected.emit(request);
+        } else {
+            this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Erro!',
+                    message: ' Ao menos um campo deve ser preenchido!',
+                    confirmLabel: 'Fechar',
+                    hideCancel: true,
+                },
+                disableClose: false,
+            });
         }
-
-        this.selected.emit(request);
     }
 
     filtraCriadoEm(value: any): void {
@@ -250,7 +264,6 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
-        this.emite();
     }
 
     showClassificacao(): boolean {
