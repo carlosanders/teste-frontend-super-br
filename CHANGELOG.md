@@ -420,7 +420,7 @@
 * Correção na liberação da pesquisa de processos e documentos
 * Correção para omitir configurações de aparência ainda não homologados
 
-1.5.4
+1.6.0
 
 * Melhoria criado componente de autocomplete de lotações
 * Melhoria criado componente gridsearch de lotações
