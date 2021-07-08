@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as WorkflowListActions from '../actions';
 import {TransicaoWorkflowService} from '@cdk/services/transicao-workflow.service';
 import {transicaoWorkflow as transicaoWorkflowSchema} from '@cdk/normalizr';
 import {getRouterState, State} from '../../../../../../../../../store';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {LoginService} from '../../../../../../../../auth/login/login.service';
 import {Workflow} from '@cdk/models';
-import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class TransicaoWorkflowListEffects {
@@ -78,20 +78,52 @@ export class TransicaoWorkflowListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteWorkflow: any =
+    deleteWorkflow: Observable<WorkflowListActions.TransicaoWorkflowListActionsAll> =
         this._actions
             .pipe(
                 ofType<WorkflowListActions.DeleteTransicaoWorkflow>(WorkflowListActions.DELETE_TRANSICAO_WORKFLOW),
-                mergeMap(action => this._transicaoWorkflowService.destroy(action.payload).pipe(
-                        map(response => new WorkflowListActions.DeleteTransicaoWorkflowSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'workflow',
+                        content: 'Apagando a workflow id ' + action.payload.workflowId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._transicaoWorkflowService.destroy(action.payload.workflowId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'workflow',
+                                content: 'Workflow id ' + action.payload.workflowId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Workflow>({
+                                id: response.id,
+                                schema: transicaoWorkflowSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new WorkflowListActions.DeleteTransicaoWorkflowSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.workflowId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'workflow',
+                                content: 'Erro ao apagar a workflow id ' + action.payload.workflowId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new WorkflowListActions.DeleteTransicaoWorkflowFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new WorkflowListActions.DeleteTransicaoWorkflowFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

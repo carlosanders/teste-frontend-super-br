@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RegraEtiquetaListActions from '../actions';
 
 import {RegraEtiquetaService} from '@cdk/services/regra-etiqueta.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {RegraEtiqueta} from '@cdk/models';
 import {regraEtiqueta as regraEtiquetaSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class RegraEtiquetaListEffect {
@@ -77,20 +77,52 @@ export class RegraEtiquetaListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteRegra: any =
+    deleteRegra: Observable<RegraEtiquetaListActions.RegraEtiquetaListActionsAll> =
         this._actions
             .pipe(
                 ofType<RegraEtiquetaListActions.DeleteRegraEtiqueta>(RegraEtiquetaListActions.DELETE_REGRA_ETIQUETA),
-                mergeMap(action => this._regraEtiquetaService.destroy(action.payload).pipe(
-                        map(response => new RegraEtiquetaListActions.DeleteRegraEtiquetaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'regra',
+                        content: 'Apagando a regra id ' + action.payload.regraId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._regraEtiquetaService.destroy(action.payload.regraId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'regra',
+                                content: 'Regra id ' + action.payload.regraId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<RegraEtiqueta>({
+                                id: response.id,
+                                schema: regraEtiquetaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RegraEtiquetaListActions.DeleteRegraEtiquetaSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new RegraEtiquetaListActions.DeleteRegraEtiquetaFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            const payload = {
+                                id: action.payload.regraId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'regra',
+                                content: 'Erro ao apagar a regra id ' + action.payload.regraId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new RegraEtiquetaListActions.DeleteRegraEtiquetaFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

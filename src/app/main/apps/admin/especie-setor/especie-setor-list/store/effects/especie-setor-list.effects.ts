@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as EspecieSetorListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {EspecieSetorService} from '@cdk/services/especie-setor.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {EspecieSetor} from '@cdk/models';
 import {especieSetor as especieSetorSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class EspecieSetorListEffects {
@@ -78,20 +78,52 @@ export class EspecieSetorListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteEspecieSetor: any =
+    deleteEspecieSetor: Observable<EspecieSetorListActions.EspecieSetorListActionsAll> =
         this._actions
             .pipe(
                 ofType<EspecieSetorListActions.DeleteEspecieSetor>(EspecieSetorListActions.DELETE_ESPECIE_SETOR),
-                mergeMap(action => this._especieSetorService.destroy(action.payload).pipe(
-                        map(response => new EspecieSetorListActions.DeleteEspecieSetorSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'especieSetor',
+                        content: 'Apagando a especieSetor id ' + action.payload.especieSetorId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._especieSetorService.destroy(action.payload.especieSetorId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'especieSetor',
+                                content: 'EspecieSetor id ' + action.payload.especieSetorId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<EspecieSetor>({
+                                id: response.id,
+                                schema: especieSetorSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new EspecieSetorListActions.DeleteEspecieSetorSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.especieSetorId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'especieSetor',
+                                content: 'Erro ao apagar a especieSetor id ' + action.payload.especieSetorId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new EspecieSetorListActions.DeleteEspecieSetor(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new EspecieSetorListActions.DeleteEspecieSetorFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

@@ -6,6 +6,7 @@ import * as fromStore from './store';
 import {TransicaoWorkflow} from '@cdk/models/transicao-workflow.model';
 import {Back, getRouterState} from '../../../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'transicao-workflow-list',
@@ -25,6 +26,7 @@ export class TransicaoWorkflowListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -93,7 +95,17 @@ export class TransicaoWorkflowListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
-    delete(transicaoWorkflowId: number): void {
-        this._store.dispatch(new fromStore.DeleteTransicaoWorkflow(transicaoWorkflowId));
+    delete(transicaoWorkflowId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteTransicaoWorkflow({
+            transicaoWorkflowId: transicaoWorkflowId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 }

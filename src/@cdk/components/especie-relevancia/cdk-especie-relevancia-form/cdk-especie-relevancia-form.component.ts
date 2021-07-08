@@ -66,6 +66,18 @@ export class CdkEspecieRelevanciaFormComponent implements OnChanges, OnDestroy {
         });
     }
 
+    getErrorMessage() {
+        const nomeForm = this.form.get('nome');
+        
+        if (nomeForm.hasError('required')) {
+            return 'Esse campo é obrigatório.';
+        }
+        if (nomeForm.hasError('formError')){
+            return nomeForm.errors.formError;
+        }
+        return nomeForm.hasError('minlength') ? 'O tamanho mínimo do campo é ' + nomeForm.errors['minlength'].requiredLength : '';
+      }
+
     /**
      * On change
      */

@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoIdentificadorListActions from '../actions';
 
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {DocumentoIdentificador} from '@cdk/models';
 import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class DocumentoIdentificadorListEffect {
@@ -77,20 +77,52 @@ export class DocumentoIdentificadorListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteDocumentoIdentificador: any =
+    deleteDocumentoIdentificador: Observable<DocumentoIdentificadorListActions.DocumentoIdentificadorListActionsAll> =
         this._actions
             .pipe(
                 ofType<DocumentoIdentificadorListActions.DeleteDocumentoIdentificador>(DocumentoIdentificadorListActions.DELETE_DOCUMENTO_IDENTIFICADOR),
-                mergeMap(action => this._documentoIdentificadorService.destroy(action.payload).pipe(
-                        map(response => new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documentoIdentificador',
+                        content: 'Apagando a documentoIdentificador id ' + action.payload.documentoIdentificadorId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoIdentificadorService.destroy(action.payload.documentoIdentificadorId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoIdentificador',
+                                content: 'DocumentoIdentificador id ' + action.payload.documentoIdentificadorId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<DocumentoIdentificador>({
+                                id: response.id,
+                                schema: documentoIdentificadorchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoIdentificadorId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoIdentificador',
+                                content: 'Erro ao apagar a documentoIdentificador id ' + action.payload.documentoIdentificadorId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

@@ -36,13 +36,15 @@ export class RoleGuard implements CanActivate {
      * @param roles
      */
     checkRole(roles: string[]): boolean {
-        let temRole = false;
-        roles.forEach((role: string) => {
-            if (this._loginService.getUserProfile().roles.includes(role)) {
-                temRole = true;
-                return;
+        let accessRoles = [];
+
+        roles.forEach((role) => {
+            const roleExp = RegExp(role.replace('*', '.*'), 'i');
+            if (this._loginService.getUserProfile().roles.length > 0) {
+                accessRoles.push(...this._loginService.getUserProfile().roles.filter((value) => value.match(roleExp)));
             }
         });
-        return temRole;
+
+        return accessRoles.length > 0;
     }
 }

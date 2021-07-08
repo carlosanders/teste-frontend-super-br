@@ -22,6 +22,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {ComponenteDigital, Documento, Usuario} from '@cdk/models';
 import {GetDocumento, SetCurrentStep} from '../../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-componentes-digitais',
@@ -36,7 +37,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
     documento$: Observable<Documento>;
 
     documento: Documento;
-
+    lote: string;
     routerState: any;
     pagination: any;
 
@@ -164,8 +165,18 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         this.cdkUploadComponenteDigital.upload();
     }
 
-    deleteComponenteDigital(componenteDigitalId: number): void {
-        this._store.dispatch(new fromStore.DeleteComponenteDigital(componenteDigitalId));
+    deleteComponenteDigital(componenteDigitalId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteComponenteDigital({
+            componenteDigitalId: componenteDigitalId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteComponenteDigital(id, this.lote));
     }
 
     viewComponenteDigital(componenteDigital: ComponenteDigital): void {

@@ -27,7 +27,7 @@
             </div>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteSetores(selectedIds)"
+                    (click)="deleteBloco(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
@@ -73,6 +73,8 @@
         <div class="loading" *ngIf="loading">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
+
+        {{deletedIds}}
 
         <div class="content" cdkPerfectScrollbar>
             <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">

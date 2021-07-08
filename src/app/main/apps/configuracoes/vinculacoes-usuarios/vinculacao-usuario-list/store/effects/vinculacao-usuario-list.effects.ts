@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as VinculacaoUsuarioListActions from '../actions';
 
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {VinculacaoUsuario} from '@cdk/models';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class VinculacaoUsuarioListEffect {
@@ -78,20 +78,52 @@ export class VinculacaoUsuarioListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteVinculacaoUsuario: any =
+    deleteVinculacaoUsuario: Observable<VinculacaoUsuarioListActions.VinculacaoUsuarioListActionsAll> =
         this._actions
             .pipe(
                 ofType<VinculacaoUsuarioListActions.DeleteVinculacaoUsuario>(VinculacaoUsuarioListActions.DELETE_VINCULACAO_USUARIO),
-                mergeMap(action => this._vinculacaoUsuarioService.destroy(action.payload).pipe(
-                        map(response => new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'vinculacaoUsuario',
+                        content: 'Apagando a vinculacaoUsuario id ' + action.payload.vinculacaoUsuarioId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._vinculacaoUsuarioService.destroy(action.payload.vinculacaoUsuarioId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoUsuario',
+                                content: 'VinculacaoUsuario id ' + action.payload.vinculacaoUsuarioId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<VinculacaoUsuario>({
+                                id: response.id,
+                                schema: vinculacaoUsuarioSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.vinculacaoUsuarioId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoUsuario',
+                                content: 'Erro ao apagar a vinculacaoUsuario id ' + action.payload.vinculacaoUsuarioId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new VinculacaoUsuarioListActions.DeleteVinculacaoUsuario(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

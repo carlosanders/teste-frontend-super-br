@@ -8,6 +8,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'remessa-list',
@@ -27,6 +28,7 @@ export class RemessaListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     _profile: Usuario;
     /**
@@ -113,8 +115,18 @@ export class RemessaListComponent implements OnInit {
         tramitacaoId]);
     }
 
-    delete(tramitacaoId: number): void {
-        this._store.dispatch(new fromStore.DeleteTramitacao(tramitacaoId));
+    delete(tramitacaoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteTramitacao({
+            tramitacaoId: tramitacaoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

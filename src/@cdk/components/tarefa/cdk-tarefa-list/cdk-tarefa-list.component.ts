@@ -465,11 +465,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
         if (selectedTarefaIds.find(id => id === tarefaId) !== undefined) {
             this.selectedIds = selectedTarefaIds.filter(id => id !== tarefaId);
-            this._cdkTarefaListService.selectedIds = this.selectedIds;
         } else {
             this.selectedIds = [...selectedTarefaIds, tarefaId];
-            this._cdkTarefaListService.selectedIds = this.selectedIds;
         }
+        this._cdkTarefaListService.selectedIds = this.selectedIds;
         this.recompute();
     }
 

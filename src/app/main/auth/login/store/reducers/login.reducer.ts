@@ -40,6 +40,12 @@ export function LoginReducers(state = LoginInicialState, action: LoginActions.Lo
                 errorMessage: action.payload.error
             };
         }
+        case LoginActions.LOGIN_GOV_BR_FAILURE: {
+            return {
+                ...state,
+                errorMessage: action.payload.error
+            };
+        }
         case LoginActions.LOGIN_PROFILE_SUCCESS: {
             return {
                 ...state,

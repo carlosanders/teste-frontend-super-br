@@ -97,6 +97,10 @@ export function SetorListReducer(
         }
 
         case SetorListActions.DELETE_SETOR: {
+            console.log('dele');
+            console.log(state);
+            let x = [...state.deletingIds, action.payload];
+            console.log(x);
             return {
                 ...state,
                 deletingIds: [...state.deletingIds, action.payload]
@@ -104,6 +108,13 @@ export function SetorListReducer(
         }
 
         case SetorListActions.DELETE_SETOR_SUCCESS: {
+            console.log('suce');
+            console.log(state);
+            console.log(action);
+            let x = [...state.deletedIds, action.payload];
+            console.log("[...state.deletedIds, action.payload]");
+            console.log(x);
+
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),

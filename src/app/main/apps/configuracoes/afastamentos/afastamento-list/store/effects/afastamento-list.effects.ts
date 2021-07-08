@@ -3,17 +3,18 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as AfastamentoListActions from '../actions';
 
 import {AfastamentoService} from '@cdk/services/afastamento.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Afastamento} from '@cdk/models';
 import {afastamento as afastamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class AfastamentoListEffect {
@@ -79,20 +80,52 @@ export class AfastamentoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteAfastamento: any =
+    deleteAfastamento: Observable<AfastamentoListActions.AfastamentoListActionsAll> =
         this._actions
             .pipe(
                 ofType<AfastamentoListActions.DeleteAfastamento>(AfastamentoListActions.DELETE_AFASTAMENTO),
-                mergeMap(action => this._afastamentoService.destroy(action.payload).pipe(
-                        map(response => new AfastamentoListActions.DeleteAfastamentoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'afastamento',
+                        content: 'Apagando a afastamento id ' + action.payload.afastamentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._afastamentoService.destroy(action.payload.afastamentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'afastamento',
+                                content: 'Afastamento id ' + action.payload.afastamentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Afastamento>({
+                                id: response.id,
+                                schema: afastamentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AfastamentoListActions.DeleteAfastamentoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.afastamentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'afastamento',
+                                content: 'Erro ao apagar a afastamento id ' + action.payload.afastamentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new AfastamentoListActions.DeleteAfastamentoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new AfastamentoListActions.DeleteAfastamentoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }
