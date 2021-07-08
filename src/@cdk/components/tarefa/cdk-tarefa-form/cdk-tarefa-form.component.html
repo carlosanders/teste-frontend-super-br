@@ -51,7 +51,8 @@
                 (click)="getFavoritosEspecieTarefa()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button [disabled]="form.get('id').value && form.get('processo').value?.especieProcesso?.workflow && mode === 'regular'"
+        <button matSuffix mat-button mat-icon-button
+                [disabled]="form.get('id').value && form.get('processo').value?.especieProcesso?.workflow && mode === 'regular'"
                 (click)="showEspecieTarefaGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
@@ -83,6 +84,35 @@
                 </mat-slide-toggle>
             </div>
         </div>
+
+        <button mat-button mat-icon-button class="button-lotacao" [matMenuTriggerFor]="lotacoesMenu" #menuTrigger="matMenuTrigger">
+            <span matTooltip="Consultar lotações" class="material-icons-outlined mat-icon">person_search</span>
+        </button>
+
+        <mat-menu #lotacoesMenu="matMenu">
+            <h4 class="p-4 mt-4 mb-4">Consulta de lotações</h4>
+            <div class="p-8 mb-4" style="width: 400px !important" fxLayoutGap="16px" fxLayout="column"
+                 fxLayoutAlign="start" fxFlex="1 0 auto" (click)="$event.stopPropagation()">
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
+                        <input matInput placeholder="Nome do colaborador"
+                               [formControl]="lotacaoControl"
+                               #autoCompleteLotacao
+                               [matAutocomplete]="lotacao.autocomplete"
+                               (blur)="checkLotacao()">
+                    </div>
+                    <cdk-lotacao-autocomplete
+                        #lotacao="lotacaoAutocomplete"
+                        [control]="lotacaoControl"
+                        [pagination]="lotacaoPagination">
+                    </cdk-lotacao-autocomplete>
+                    <button matSuffix mat-button mat-icon-button type="button"
+                            (click)="$event.stopPropagation(); showLotacaoGrid()">
+                        <mat-icon matTooltip="Procurar em todas as lotações">search</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </mat-menu>
 
         <mat-form-field
             *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
@@ -394,3 +424,10 @@
     (selected)="selectGrupoContato($event)"
     (cancel)="cancel()">
 </cdk-grupo-contato-gridsearch>
+
+<cdk-lotacao-gridsearch
+    *ngIf="activeCard === 'lotacao-gridsearch'"
+    [pagination]="lotacaoPagination"
+    (selected)="selectLotacao($event)"
+    (cancel)="cancel()">
+</cdk-lotacao-gridsearch>

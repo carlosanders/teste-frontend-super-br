@@ -1,0 +1,10 @@
+<cdk-lotacao-grid
+        [loading]="loading"
+        [lotacoes]="lotacoes"
+        [displayedColumns]="displayedColumns"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-lotacao-grid>

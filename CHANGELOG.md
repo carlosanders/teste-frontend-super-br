@@ -419,3 +419,10 @@
 * Correção de erro no estado da aplicação ao salvar dados básicos de documento
 * Correção na liberação da pesquisa de processos e documentos
 * Correção para omitir configurações de aparência ainda não homologados
+
+1.5.4
+
+* Melhoria criado componente de autocomplete de lotações
+* Melhoria criado componente gridsearch de lotações
+* Melhoria criado botão no formulário de tarefas para consultar lotações
+* Melhoria criado método para preencher unidade, setor e usuário da tarefa de acordo com a lotação selecionada no autocomplete/gridsearch
