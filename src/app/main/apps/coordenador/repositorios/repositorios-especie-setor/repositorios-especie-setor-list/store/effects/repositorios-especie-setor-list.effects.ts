@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RepositoriosEspecieSetorListActions from '../actions';
 
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {VinculacaoRepositorio} from '@cdk/models';
 import {vinculacaoRepositorio as vinculacaoRepositorioschema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class RepositoriosEspecieSetorListEffects {
@@ -77,20 +77,52 @@ export class RepositoriosEspecieSetorListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteRepositorioEspecieSetor: any =
+    deleteRepositorioEspecieSetor: Observable<RepositoriosEspecieSetorListActions.RepositoriosEspecieSetorActionsAll> =
         this._actions
             .pipe(
                 ofType<RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetor>(RepositoriosEspecieSetorListActions.DELETE_REPOSITORIO_ESPECIE_SETOR),
-                mergeMap(action => this._vinculacaoRepositorioservice.destroy(action.payload).pipe(
-                        map(response => new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'repositorioEspecieSetor',
+                        content: 'Apagando a repositorioEspecieSetor id ' + action.payload.repositorioEspecieSetorId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._vinculacaoRepositorioservice.destroy(action.payload.repositorioEspecieSetorId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositorioEspecieSetor',
+                                content: 'RepositorioEspecieSetor id ' + action.payload.repositorioEspecieSetorId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<VinculacaoRepositorio>({
+                                id: response.id,
+                                schema: vinculacaoRepositorioschema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.repositorioEspecieSetorId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositorioEspecieSetor',
+                                content: 'Erro ao apagar a repositorioEspecieSetor id ' + action.payload.repositorioEspecieSetorId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

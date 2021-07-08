@@ -300,6 +300,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     view = new EventEmitter<ComponenteDigital>();
 
     @Output()
@@ -464,8 +467,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         this.delete.emit(componenteDigitalId);
     }
 
-    deleteComponentesDigitais(componentesDigitaisId): void {
-        componentesDigitaisId.forEach(componenteDigitalId => this.deleteComponenteDigital(componenteDigitalId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

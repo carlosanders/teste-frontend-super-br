@@ -1,0 +1,8 @@
+<cdk-historico-grid
+        [loading]="(loading$ | async)"
+        [historicos]="(historicos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="[]"
+        [displayedColumns]="['select', 'id', 'descricao', 'processo', 'criadoPor.nome', 'criadoEm']"
+        (reload)="reload($event)">
+</cdk-historico-grid>

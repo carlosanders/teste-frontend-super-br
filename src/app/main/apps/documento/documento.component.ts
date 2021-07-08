@@ -30,6 +30,7 @@ import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
+import {CdkUtils} from '../../../../@cdk/utils';
 
 @Component({
     selector: 'documento',
@@ -63,6 +64,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     getDocumentosAtividades: boolean = false;
     getDocumentosAvulsos: boolean = false;
     getDocumentosProcesso: boolean = false;
+    lote: string;
 
     /**
      *
@@ -341,5 +343,19 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                     relativeTo: this._activatedRoute
                 }).then();
         }
+    }
+
+    delete(documentoVinculadoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
+            documentoVinculadoId: documentoVinculadoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 }

@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store';
 import {getRouterState} from '../../../../../../store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'interessado-list',
@@ -26,6 +27,7 @@ export class InteressadoListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -100,13 +102,24 @@ export class InteressadoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + interessadoId]);
     }
 
-    delete(interessadoId: any): void {
+    delete(interessadoId: any, loteId: string = null): void {
         if(interessadoId.length > 0){
+            this.lote = CdkUtils.makeId();
             interessadoId.forEach((i) => {
-                this._store.dispatch(new fromStore.DeleteInteressado(i));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.DeleteInteressado({
+                    interessadoId: i,
+                    operacaoId: operacaoId,
+                    loteId: this.lote,
+                }));
             });
         } else{
-            this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.DeleteInteressado({
+                interessadoId: interessadoId,
+                operacaoId: operacaoId,
+                loteId: null,
+            }));
         }
 
     }

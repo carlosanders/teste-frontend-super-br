@@ -158,6 +158,9 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Interessado>();
 
     @Output()
@@ -283,7 +286,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     deleteInteressados(interessadosId): void {
-        interessadosId.forEach(interessadoId => this.deleteInteressado(interessadoId));
+        this.deleteBlocoEmmitter.emit(interessadosId);
         this.selectedIds = this.selectedIds.filter(id => interessadosId.indexOf(id) === -1);
         this.recompute();
     }

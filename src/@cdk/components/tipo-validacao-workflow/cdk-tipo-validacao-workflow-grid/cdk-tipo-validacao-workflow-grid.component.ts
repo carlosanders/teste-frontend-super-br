@@ -50,6 +50,9 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
     @Output()
     create = new EventEmitter<any>();
 
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'valor', 'descricao', 'ativo', 'actions'];
 
@@ -303,8 +306,8 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
         this.delete.emit(tipoValidacaoWorkflowId);
     }
 
-    deleteTipoValidacaoWorkflows(tipoValidacaoWorkflowsId): void {
-        tipoValidacaoWorkflowsId.forEach(tipoValidacaoWorkflowId => this.deleteTipoValidacaoWorkflow(tipoValidacaoWorkflowId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

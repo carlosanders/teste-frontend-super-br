@@ -198,6 +198,9 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Sigilo>();
 
     @Output()
@@ -321,9 +324,8 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.delete.emit(sigiloId);
     }
 
-    deleteSigilos(sigilosId): void {
-
-        sigilosId.forEach(sigiloId => this.deleteSigilo(sigiloId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

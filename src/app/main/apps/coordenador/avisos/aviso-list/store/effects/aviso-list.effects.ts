@@ -2,14 +2,15 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store';
 import * as AvisoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {AvisoService} from '@cdk/services/aviso.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Aviso} from '@cdk/models';
 import {aviso as avisoSchema} from '@cdk/normalizr';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class AvisoListEffects {
@@ -93,16 +94,52 @@ export class AvisoListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteAviso: any =
+    deleteAviso: Observable<AvisoListActions.AvisoListActionsAll> =
         this._actions
             .pipe(
                 ofType<AvisoListActions.DeleteAviso>(AvisoListActions.DELETE_AVISO),
-                mergeMap(action => this._avisoService.destroy(action.payload).pipe(
-                        map(response => new AvisoListActions.DeleteAvisoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'aviso',
+                        content: 'Apagando a aviso id ' + action.payload.avisoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._avisoService.destroy(action.payload.avisoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'aviso',
+                                content: 'Aviso id ' + action.payload.avisoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Aviso>({
+                                id: response.id,
+                                schema: avisoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AvisoListActions.DeleteAvisoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.avisoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'aviso',
+                                content: 'Erro ao apagar a aviso id ' + action.payload.avisoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new AvisoListActions.DeleteAvisoFailed(action.payload));
+                            return of(new AvisoListActions.DeleteAvisoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

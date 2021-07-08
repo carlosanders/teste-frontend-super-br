@@ -22,6 +22,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {Assinatura, Documento} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-assinaturas',
@@ -45,6 +46,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
     deletedAssinaturaIds$: Observable<any>;
     deletingAssinaturaErrors$: Observable<any>;
     paginationAssinatura$: Observable<any>;
+    lote: string;
 
     routerState: any;
 
@@ -144,8 +146,19 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
         }));
     }
 
-    deleteAssinatura(assinaturaId: number): void {
-        this._store.dispatch(new fromStore.DeleteAssinatura({componenteDigitalId: this.routerState.params.componenteDigitalHandle, assinaturaId: assinaturaId}));
+    delete(assinaturaId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteAssinatura({
+            assinaturaId: assinaturaId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            componenteDigitalId: this.routerState.params.componenteDigitalHandle
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

@@ -164,6 +164,9 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<GrupoContato>();
 
     @Output()
@@ -315,8 +318,9 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
         this.delete.emit(grupoContatoId);
     }
 
-    deleteGrupoContatos(grupoContatosId): void {
-        grupoContatosId.forEach(grupoContatoId => this.deleteGrupoContato(grupoContatoId));
+    deleteBloco(ids): void {
+        console.log(ids);
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

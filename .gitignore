@@ -41,3 +41,7 @@ Thumbs.db
 # modules
 /src/modules/**/*
 /e2e/
+
+# tests
+tests/e2e/videos
+tests/e2e/screenshots

@@ -49,6 +49,9 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     @Output()
     create = new EventEmitter<any>();
 
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoProcesso.nome', 'actions'];
 
@@ -297,8 +300,8 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
         this.delete.emit(especieProcessoId);
     }
 
-    deleteEspecieProcessos(especieProcessosId): void {
-        especieProcessosId.forEach(especieProcessoId => this.deleteEspecieProcesso(especieProcessoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

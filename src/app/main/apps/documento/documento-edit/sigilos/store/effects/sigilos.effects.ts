@@ -3,12 +3,12 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as SigiloActions from '../actions/sigilos.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Sigilo} from '@cdk/models';
 import {sigilo as sigiloSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -121,25 +121,6 @@ export class SigilosEffects {
             );
 
     /**
-     * Delete Sigilo
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    deleteSigilo: any =
-        this._actions
-            .pipe(
-                ofType<SigiloActions.DeleteSigilo>(SigiloActions.DELETE_SIGILO_DOCUMENTO),
-                mergeMap(action => this._sigiloService.destroy(action.payload.sigiloId).pipe(
-                        map(response => new SigiloActions.DeleteSigiloSuccess(response.id)),
-                        catchError((err) => {
-                            console.log (err);
-                            return of(new SigiloActions.DeleteSigiloFailed(action.payload));
-                        })
-                    ), 25)
-            );
-
-    /**
      * Save Sigilo
      *
      * @type {Observable<any>}
@@ -166,5 +147,4 @@ export class SigilosEffects {
                         })
                     ))
             );
-
 }

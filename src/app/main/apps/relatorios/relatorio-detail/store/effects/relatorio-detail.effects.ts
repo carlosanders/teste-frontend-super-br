@@ -23,6 +23,7 @@ import {
 import {DocumentoService} from '@cdk/services/documento.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {RelatorioDetailActionsAll} from 'app/main/apps/relatorios/relatorio-detail/store/actions/relatorio-detail.actions';
 
 @Injectable()
 export class RelatorioDetailEffect {
@@ -124,14 +125,50 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.DeleteRelatorio>(RelatorioDetailActions.DELETE_RELATORIO),
-                mergeMap(action => this._relatorioService.destroy(action.payload).pipe(
-                            map(response => new RelatorioDetailActions.DeleteRelatorioSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new RelatorioDetailActions.DeleteRelatorioFailed(action.payload));
-                            })
-                        )
-                ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'relatorio',
+                        content: 'Apagando a relatorio id ' + action.payload.relatorioId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._relatorioService.destroy(action.payload.relatorioId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relatorio',
+                                content: 'Relatorio id ' + action.payload.relatorioId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Relatorio>({
+                                id: response.id,
+                                schema: relatorioSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RelatorioDetailActions.DeleteRelatorioSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.relatorioId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relatorio',
+                                content: 'Erro ao apagar a relatorio id ' + action.payload.relatorioId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new RelatorioDetailActions.DeleteRelatorioFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Save Relatorio

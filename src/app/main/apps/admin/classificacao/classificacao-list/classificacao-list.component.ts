@@ -13,6 +13,7 @@ import {Classificacao} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -105,7 +107,17 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
-    delete(classificacaoId: number): void {
-        this._store.dispatch(new fromStore.DeleteClassificacao(classificacaoId));
+    delete(classificacaoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteClassificacao({
+            classificacaoId: classificacaoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 }

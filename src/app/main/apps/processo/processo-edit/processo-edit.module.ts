@@ -82,6 +82,10 @@ const routes: Routes = [
                 loadChildren: () => import('./relevancias/relevancias.module').then(m => m.RelevanciasModule)
             },
             {
+                path: 'historico',
+                loadChildren: () => import('./historico/processo-historico.module').then(m => m.ProcessoHistoricoModule)
+            },
+            {
                 path: 'dados-basicos-steps',
                 loadChildren: () => import('./processo-create/dados-basicos-create.module').then(m => m.DadosBasicosCreateModule)
             }

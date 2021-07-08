@@ -13,6 +13,7 @@
             <input matInput #nome
                    name="nome"
                    formControlName="nome"
+                   minlength="2"
                    maxlength="255">
             <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
         </mat-form-field>
@@ -21,6 +22,7 @@
             <input matInput placeholder="Modalidade de Destinação"
                    formControlName="modalidadeDestinacao"
                    [matAutocomplete]="modalidadeDestinacao.autocomplete"
+                   minlength="2" 
                    (change)="verificarValor($event)">
             <cdk-modalidade-destinacao-autocomplete #modalidadeDestinacao="modalidadeDestinacaoAutocomplete"
                                                     [control]="form.get('modalidadeDestinacao')">
@@ -30,6 +32,7 @@
         <mat-form-field>
             <mat-label>Prazo da Guarda da Idade Corrente do Evento</mat-label>
             <input matInput #prazoGuardaFaseCorrenteEvento
+                   minlength="2" 
                    name="prazoGuardaFaseCorrenteEvento"
                    formControlName="prazoGuardaFaseCorrenteEvento">
         </mat-form-field>
@@ -58,6 +61,7 @@
         <mat-form-field>
             <mat-label>Prazo da Guarda da Idade Intermediária do Evento</mat-label>
             <input matInput #prazoGuardaFaseIntermediariaEvento
+                   minlength="2"
                    name="prazoGuardaFaseIntermediariaEvento"
                    formControlName="prazoGuardaFaseIntermediariaEvento">
         </mat-form-field>
@@ -87,6 +91,7 @@
             <mat-label>Código</mat-label>
             <input matInput #codigo
                    name="codigo"
+                   minlength="2"
                    formControlName="codigo">
         </mat-form-field>
 
@@ -94,6 +99,7 @@
             <mat-label>Observação</mat-label>
             <input matInput #observacao
                    name="observacao"
+                   minlength="2"
                    formControlName="observacao">
         </mat-form-field>
 

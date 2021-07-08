@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as NomeListActions from '../actions';
 
 import {NomeService} from '@cdk/services/nome.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Nome} from '@cdk/models';
 import {nome as nomeSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class NomeListEffect {
@@ -79,20 +79,52 @@ export class NomeListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteNome: any =
+    deleteNome: Observable<NomeListActions.NomeListActionsAll> =
         this._actions
             .pipe(
                 ofType<NomeListActions.DeleteNome>(NomeListActions.DELETE_NOME),
-                mergeMap(action => this._nomeService.destroy(action.payload).pipe(
-                        map(response => new NomeListActions.DeleteNomeSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'nome',
+                        content: 'Apagando a nome id ' + action.payload.nomeId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._nomeService.destroy(action.payload.nomeId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'nome',
+                                content: 'Nome id ' + action.payload.nomeId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Nome>({
+                                id: response.id,
+                                schema: nomeSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new NomeListActions.DeleteNomeSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new NomeListActions.DeleteNomeFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            const payload = {
+                                id: action.payload.nomeId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'nome',
+                                content: 'Erro ao apagar a nome id ' + action.payload.nomeId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new NomeListActions.DeleteNomeFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

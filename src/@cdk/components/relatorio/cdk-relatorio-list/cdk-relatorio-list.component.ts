@@ -68,6 +68,9 @@ export class CdkRelatorioListComponent {
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     folder = new EventEmitter<any>();
 
     @Output()
@@ -124,8 +127,8 @@ export class CdkRelatorioListComponent {
         this.delete.emit(relatorioId);
     }
 
-    doDeleteRelatorioBloco(): void {
-        this.selectedIds.forEach(relatorioId => this.doDeleteRelatorio(relatorioId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     setFolder(folder): void {
