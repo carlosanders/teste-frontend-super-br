@@ -8,10 +8,6 @@ export const RELOAD_SIGILOS_DOCUMENTO = '[DOCUMENTO EDIT SIGILO] RELOAD SIGILOS'
 
 export const UNLAOD_SIGILOS = '[DOCUMENTO EDIT SIGILO] UNLOAD SIGILO';
 
-export const DELETE_SIGILO_DOCUMENTO = '[DOCUMENTO EDIT SIGILO] DELETE SIGILO';
-export const DELETE_SIGILO_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT SIGILO] DELETE SIGILO SUCCESS';
-export const DELETE_SIGILO_DOCUMENTO_FAILED = '[DOCUMENTO EDIT SIGILO] DELETE SIGILO FAILED';
-
 export const GET_SIGILO_DOCUMENTO = '[DOCUMENTO EDIT SIGILO] GET SIGILO';
 export const GET_SIGILO_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT SIGILO] GET SIGILO SUCCESS';
 export const GET_SIGILO_DOCUMENTO_FAILED = '[DOCUMENTO EDIT SIGILO] GET SIGILO FAILED';
@@ -75,43 +71,6 @@ export class UnloadSigilos implements Action {
     constructor() {
     }
 }
-
-/**
- * Delete Sigilo
- */
-export class DeleteSigilo implements Action
-{
-    readonly type = DELETE_SIGILO_DOCUMENTO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Delete Sigilo Success
- */
-export class DeleteSigiloSuccess implements Action
-{
-    readonly type = DELETE_SIGILO_DOCUMENTO_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Delete Sigilo Failed
- */
-export class DeleteSigiloFailed implements Action
-{
-    readonly type = DELETE_SIGILO_DOCUMENTO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 
 /**
  * Get Sigilo
@@ -195,9 +154,6 @@ export type SigiloActionsAll
     | GetSigiloFailed
     | ReloadSigilos
     | UnloadSigilos
-    | DeleteSigilo
-    | DeleteSigiloSuccess
-    | DeleteSigiloFailed
     | SaveSigiloDocumento
     | SaveSigiloDocumentoSuccess
     | SaveSigiloDocumentoFailed;

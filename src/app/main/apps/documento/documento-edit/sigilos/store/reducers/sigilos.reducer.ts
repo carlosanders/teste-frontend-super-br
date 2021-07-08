@@ -15,8 +15,6 @@ export interface SigilosState {
     sigiloId: number;
     loading: boolean;
     loaded: any;
-    deletingIds: number[];
-    deletedIds: number[];
     sigilosId: number;
     saving: boolean;
     errors: any;
@@ -40,8 +38,6 @@ export const SigilosInitialState: SigilosState = {
     loaded: false,
     saving: false,
     errors: false,
-    deletedIds: [],
-    deletingIds: []
 };
 
 export function SigilosReducer(
@@ -80,29 +76,6 @@ export function SigilosReducer(
                 ...state,
                 loading: false,
                 loaded: false
-            };
-        }
-
-        case SigilosActions.DELETE_SIGILO_DOCUMENTO: {
-            return {
-                ...state,
-                deletingIds: [...state.deletingIds, action.payload.sigiloId]
-            };
-        }
-
-        case SigilosActions.DELETE_SIGILO_DOCUMENTO_SUCCESS: {
-            return {
-                ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload],
-                entitiesId: state.entitiesId.filter(id => id !== action.payload)
-            };
-        }
-
-        case SigilosActions.DELETE_SIGILO_DOCUMENTO_FAILED: {
-            return {
-                ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 

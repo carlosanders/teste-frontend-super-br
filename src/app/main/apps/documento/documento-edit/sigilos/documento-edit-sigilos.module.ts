@@ -15,6 +15,7 @@ import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-si
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
 import * as fromGuards from './store/guards';
 import {SigiloService} from '@cdk/services/sigilo.service';
+import {CdkConfirmDialogModule} from '@cdk/components';
 
 const routes: Routes = [
     {
@@ -50,6 +51,7 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
         CdkSigiloFormModule,
         CdkSigiloGridModule,
+        CdkConfirmDialogModule,
     ],
     providers: [
         DocumentoService,

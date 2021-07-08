@@ -51,6 +51,8 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
 
     setorPagination: Pagination;
 
+    assuntoAdministrativoPagination: Pagination;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -61,6 +63,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
     ) {
         this.form = this._formBuilder.group({
             processo: [null],
+            assunto: [null],
             descricao: [null],
             NUP: [null],
             especieProcesso: [null],
@@ -86,6 +89,9 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         this.setorPagination = new Pagination();
         this.setorPagination.filter = {parent: 'isNotNull'};
         this.setorPagination.populate = ['unidade'];
+
+        this.assuntoAdministrativoPagination = new Pagination();
+        this.assuntoAdministrativoPagination.populate = ['parent'];
     }
 
     ngAfterViewInit(): void {
@@ -143,6 +149,10 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'outroNumero': `like:%${bit}%`});
             });
+        }
+
+        if (this.form.get('assunto').value) {
+            andXFilter.push({'assuntos.assuntoAdministrativo.id': `eq:${this.form.get('assunto').value.id}`});
         }
 
         if (this.form.get('classificacao').value) {

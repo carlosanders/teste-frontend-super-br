@@ -45,6 +45,9 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         this.form = this._formBuilder.group({
             conteudo: [null, [Validators.required]],
             codigo: [null],
+            autor: [null],
+            redator: [null],
+            destinatario: [null],
             tamanho: [null],
             extensao: [null],
             processo: [null],
@@ -81,6 +84,24 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         if (this.form.get('extensao').value) {
             this.form.get('extensao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'extensao': `like:%${bit}%`});
+            });
+        }
+
+        if (this.form.get('autor').value) {
+            this.form.get('autor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'documento.autor': `like:%${bit}%`});
+            });
+        }
+
+        if (this.form.get('redator').value) {
+            this.form.get('redator').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'documento.redator': `like:%${bit}%`});
+            });
+        }
+
+        if (this.form.get('destinatario').value) {
+            this.form.get('destinatario').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'documento.destinatario': `like:%${bit}%`});
             });
         }
 

@@ -47,6 +47,17 @@
             </mat-menu>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+                <input matInput placeholder="Assunto"
+                       formControlName="assunto"
+                       [matAutocomplete]="assuntoAdministrativo.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-assunto-administrativo-autocomplete #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
+                                                         [pagination]="assuntoAdministrativoPagination"
+                                                         [control]="form.get('assunto')">
+                </cdk-assunto-administrativo-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Processo de Trabalho"
                        formControlName="especieProcesso"
                        [matAutocomplete]="especieProcesso.autocomplete"
@@ -177,7 +188,7 @@
                 <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
                 </cdk-usuario-autocomplete>
             </mat-form-field>
-    
+
             <mat-form-field>
                 <input matInput placeholder="Atualizado Por"
                        formControlName="atualizadoPor"
@@ -200,7 +211,7 @@
                                  (filtra)="this.filtraCriadoEm($event)">
                 </cdk-date-filter>
             </mat-menu>
-    
+
             <div class="filtro-data">
                 <span [ngClass]="{'filtrado': filterAtualizadoEm?.length}">Atualizado Em</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm"

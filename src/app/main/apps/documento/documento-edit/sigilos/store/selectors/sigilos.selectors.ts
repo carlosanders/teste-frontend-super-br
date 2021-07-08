@@ -54,16 +54,6 @@ export const getErrorsSigilos = createSelector(
     (state: SigilosState) => state.errors
 );
 
-export const getDeletingSigiloIds = createSelector(
-    getSigilosState,
-    (state: SigilosState) => state.deletingIds
-);
-
-export const getDeletedSigiloIds = createSelector(
-    getSigilosState,
-    (state: SigilosState) => state.deletedIds
-);
-
 export const getSigilosPagination = createSelector(
     getSigilosState,
     (state: SigilosState) => state.pagination

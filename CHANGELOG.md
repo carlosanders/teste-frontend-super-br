@@ -412,3 +412,6 @@
 * Melhoria Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
 * Correção na visualização dos documentos do protocolo eletrônico
 * Melhoria Implementado componente de histórico de processos na tela de edição 
+* Correção mensagem de confirmação ao editar sigilos de documentos
+* Correção campo de pesquisa de assuntos de processos (autocomplete)
+* Correção campos de pesquisa de documentos por autor, redator e destinatário (textual) 
