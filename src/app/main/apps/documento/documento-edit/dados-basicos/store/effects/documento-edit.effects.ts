@@ -51,7 +51,7 @@ export class DocumentoEditEffects {
         this._actions
             .pipe(
                 ofType<DocumentoEditActions.SaveDocumento>(DocumentoEditActions.SAVE_DOCUMENTO),
-                switchMap(action => this._documentoService.save(action.payload).pipe(
+                switchMap(action => this._documentoService.save(action.payload.documento, '{}', action.payload.populate).pipe(
                         mergeMap((response: Documento) => [
                             new DocumentoEditActions.SaveDocumentoSuccess(),
                             new AddData<Documento>({data: [response], schema: documentoSchema}),

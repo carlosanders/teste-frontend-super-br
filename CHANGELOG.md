@@ -416,3 +416,4 @@
 * Correção mensagem de confirmação ao editar sigilos de documentos
 * Correção campo de pesquisa de assuntos de processos (autocomplete)
 * Correção campos de pesquisa de documentos por autor, redator e destinatário (textual) 
+* Correção de erro no estado da aplicação ao salvar dados básicos de documento
