@@ -20,7 +20,10 @@ import {topicosConfig as remessasTopicosConfig} from '../app/main/apps/processo/
 import {topicosConfig as transicoesTopicosConfig} from '../app/main/apps/processo/processo-edit/transicoes/ajuda/topicos-config';
 import {topicosConfig as sigilosTopicosConfig} from '../app/main/apps/processo/processo-edit/sigilos/ajuda/topicos-config';
 import {topicosConfig as visibilidadesTopicosConfig} from '../app/main/apps/processo/processo-edit/visibilidades/ajuda/topicos-config';
-import {topicosConfig as arquivistaTopicosConfig} from '../app/main/apps/arquivista/ajuda/topicos-config';
+import {topicosConfig as arquivistaTopicosConfig} from '../app/main/apps/arquivista/ajuda-arquivista/topicos-config';
+import {topicosConfig as arquivistaDefinicaoTopicosConfig} from '../app/main/apps/arquivista/ajuda-definicao-arquivista/topicos-config';
+import {topicosConfig as arquivistaEnviaTopicosConfig} from '../app/main/apps/arquivista/ajuda-envia-arquivista/topicos-config';
+import {topicosConfig as arquivistaVideosTopicosConfig} from '../app/main/apps/arquivista/ajuda-videos-arquivista/topicos-config';
 import {topicosConfig as administradorTopicosConfig} from '../app/main/apps/admin/ajuda/topicos-config';
 import {topicosConfig as coordenadorTopicosConfig} from '../app/main/apps/coordenador/ajuda/topicos-config';
 import {topicosConfig as configuracoesTopicosConfig} from '../app/main/apps/configuracoes/ajuda/topicos-config';
@@ -29,19 +32,6 @@ import {topicosConfig as relatoriosTopicosConfig} from '../app/main/apps/relator
 import {topicosConfig as relevanciasTopicosConfig} from '../app/main/apps/processo/processo-edit/relevancias/ajuda/topicos-config';
 import {topicosConfig as volumesTopicosConfig} from '../app/main/apps/processo/processo-edit/volumes/ajuda/topicos-config';
 import {topicosConfig as painelTopicosConfig} from '../app/main/apps/painel//ajuda/topicos-config';
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export let topicosConfig = [
@@ -66,6 +56,9 @@ export let topicosConfig = [
     ...sigilosTopicosConfig,
     ...visibilidadesTopicosConfig,
     ...arquivistaTopicosConfig,
+    ...arquivistaDefinicaoTopicosConfig,
+    ...arquivistaEnviaTopicosConfig,
+    ...arquivistaVideosTopicosConfig,
     ...administradorTopicosConfig,
     ...coordenadorTopicosConfig,
     ...configuracoesTopicosConfig,
