@@ -411,3 +411,4 @@
 * Correção Implementada alteração na assinatura de método save do parent generic service para possibilitar envio de atributo populate para o backend
 * Correção Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
 * Correção na visualização dos documentos do protocolo eletrônico
+* Correção para exibir o zoom corretamente na visualização de html em processos
