@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'tipo-relatorio-edit',
@@ -80,7 +81,12 @@ export class TipoRelatorioEditComponent implements OnInit {
                 tipoRelatorio[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveTipoRelatorio(tipoRelatorio));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTipoRelatorio({
+            tipoRelatorio: tipoRelatorio,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as AvisoEditActions from '../actions/aviso-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class AvisoEditEffects {
@@ -84,17 +85,38 @@ export class AvisoEditEffects {
         this._actions
             .pipe(
                 ofType<AvisoEditActions.SaveAviso>(AvisoEditActions.SAVE_AVISO),
-                switchMap(action => this._avisoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'aviso',
+                    content: 'Salvando o aviso ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._avisoService.save(action.payload.aviso).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'aviso',
+                                content: 'Aviso id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Aviso) => [
                             new AvisoEditActions.SaveAvisoSuccess(),
                             new AvisoListActions.ReloadAviso(),
                             new AddData<Aviso>({data: [response], schema: avisoSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new AvisoEditActions.SaveAvisoFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'aviso',
+                                content: 'Erro ao salvar o aviso!',
+                                status: 2, // erro
+                            }));
+                            return of(new AvisoEditActions.SaveAvisoFailed(err));
+                        })
+                    )
                 })
             );
 

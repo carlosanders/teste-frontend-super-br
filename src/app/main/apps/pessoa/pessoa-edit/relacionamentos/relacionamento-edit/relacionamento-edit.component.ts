@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getPessoa} from '../../dados-pessoa-edit/store';
 import {Back} from '../../../../../../store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'relacionamento-edit',
@@ -87,8 +88,11 @@ export class RelacionamentoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveRelacionamento(relacionamento));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveRelacionamento({
+            relacionamento: relacionamento,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {

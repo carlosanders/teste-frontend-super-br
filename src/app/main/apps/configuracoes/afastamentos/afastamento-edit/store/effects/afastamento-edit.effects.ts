@@ -82,35 +82,37 @@ export class AfastamentoEditEffect {
         this._actions
             .pipe(
                 ofType<AfastamentoEditActions.SaveAfastamento>(AfastamentoEditActions.SAVE_AFASTAMENTO),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'afastamento',
-                        content: 'Salvando a afastamento ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._afastamentoService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'afastamento',
+                    content: 'Salvando o afastamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._afastamentoService.save(action.payload.afastamento).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
                             type: 'afastamento',
-                            content: 'Afastamento salva com sucesso.',
+                            content: 'Afastamento id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: Afastamento) => [
                         new AfastamentoEditActions.SaveAfastamentoSuccess(),
                         new AfastamentoListActions.ReloadAfastamentos(),
                         new AddData<Afastamento>({data: [response], schema: afastamentoSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'afastamento',
-                        content: 'Erro ao salvar a afastamento!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new AfastamentoEditActions.SaveAfastamentoFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'afastamento',
+                            content: 'Erro ao salvar o afastamento!',
+                            status: 2, // erro
+                        }));
+                        return of(new AfastamentoEditActions.SaveAfastamentoFailed(err));
+                    })
+                ))
             );
 
     /**

@@ -6,6 +6,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'templates-edit',
@@ -68,8 +69,11 @@ export class TemplatesEditComponent implements OnInit {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveTemplates(template));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTemplates({
+            template: template,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

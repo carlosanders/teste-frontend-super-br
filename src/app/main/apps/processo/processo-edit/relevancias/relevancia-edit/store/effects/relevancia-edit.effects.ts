@@ -80,23 +80,41 @@ export class RelevanciaEditEffect {
         this._actions
             .pipe(
                 ofType<RelevanciaEditActions.SaveRelevancia>(RelevanciaEditActions.SAVE_RELEVANCIA),
-                switchMap(action => this._relevanciaService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'relevância',
+                    content: 'Salvando a relevância ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._relevanciaService.save(action.payload.relevancia).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relevância',
+                                content: 'Relevância id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Relevancia) => [
                             new RelevanciaEditActions.SaveRelevanciaSuccess(),
                             new RelevanciaListActions.ReloadRelevancias(),
-                            new AddData<Relevancia>({data: [response], schema: relevanciaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'relevancia',
-                                content: `Relevancia id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Relevancia>({data: [response], schema: relevanciaSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relevância',
+                                content: 'Erro ao salvar a relevância!',
+                                status: 2, // erro
+                            }));
                             return of(new RelevanciaEditActions.SaveRelevanciaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
     /**
      * Save Relevancia Success
      */

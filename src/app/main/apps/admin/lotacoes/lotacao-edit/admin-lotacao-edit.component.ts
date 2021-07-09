@@ -12,6 +12,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {Back} from '../../../../../store/actions';
 import {getRouterState} from '../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'admin-lotacao-edit',
@@ -132,8 +133,11 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveLotacao(lotacao));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveLotacao({
+            lotacao: lotacao,
+            operacaoId: operacaoId
+        }));
     }
 
 }

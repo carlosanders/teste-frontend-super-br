@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
@@ -47,13 +47,13 @@ export class VinculacaoUsuarioEditEffect {
             .pipe(
                 ofType<VinculacaoUsuarioEditActions.GetVinculacaoUsuario>(VinculacaoUsuarioEditActions.GET_VINCULACAO_USUARIO),
                 switchMap(action => this._vinculacaoUsuarioService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
+                    JSON.stringify(action.payload),
+                    1,
+                    0,
+                    JSON.stringify({}),
+                    JSON.stringify([
+                        'populateAll'
+                    ]))),
                 switchMap(response => [
                     new AddData<VinculacaoUsuario>({data: response['entities'], schema: vinculacaoUsuarioSchema}),
                     new VinculacaoUsuarioEditActions.GetVinculacaoUsuarioSuccess({
@@ -76,42 +76,42 @@ export class VinculacaoUsuarioEditEffect {
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    saveVinculacaoUsuario: any =
-        this._actions
-            .pipe(
+    saveVinculacaoUsuario: any = createEffect(() => {
+        return this._actions.pipe(
                 ofType<VinculacaoUsuarioEditActions.SaveVinculacaoUsuario>(VinculacaoUsuarioEditActions.SAVE_VINCULACAO_USUARIO),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'vinculacaoUsuario',
-                        content: 'Salvando o assessor ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._vinculacaoUsuarioService.save(action.payload).pipe(
-                    tap((response: VinculacaoUsuario) => {
-                        console.log(response);
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assessor',
+                    content: 'Salvando o assessor ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._vinculacaoUsuarioService.save(action.payload.vinculacaoUsuario).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
-                            type: 'vinculacaoUsuario',
-                            content: 'Assessor salvo com sucesso.',
+                            id: action.payload.operacaoId,
+                            type: 'assessor',
+                            content: 'Assessora id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))}),
+                        }))
+                    ),
                     mergeMap((response: VinculacaoUsuario) => [
                         new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioSuccess(),
                         new VinculacaoUsuarioListActions.ReloadVinculacoesUsuarios(),
                         new AddData<VinculacaoUsuario>({data: [response], schema: vinculacaoUsuarioSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'vinculacaoUsuario',
-                        content: 'Erro ao salvar o assessor!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'assessor',
+                            content: 'Erro ao salvar o assessor!',
+                            status: 2, // erro
+                        }));
+                        return of(new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioFailed(err));
+                    })
+                ))
             );
+    });
 
     /**
      * Save VinculacaoUsuario Success

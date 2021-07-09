@@ -15,6 +15,7 @@ import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-dados-basicos',
@@ -83,7 +84,11 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, Af
             }
         );
 
-        this._store.dispatch(new fromStore.SaveDocumento(documento));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveDocumento({
+            documento: documento,
+            operacaoId: operacaoId
+        }));
     }
 
 }

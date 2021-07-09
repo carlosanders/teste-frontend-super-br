@@ -80,25 +80,41 @@ export class VinculacaoPessoaBarramentoEditEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoPessoaBarramentoEditActions.SaveVinculacaoPessoaBarramento>(VinculacaoPessoaBarramentoEditActions.SAVE_VINCULACAO_PESSOA_BARRAMENTO),
-                switchMap((action) => {
-                    return this._vinculacaoPessoaBarramentoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação pessoa barramento',
+                    content: 'Salvando a vinculação pessoa barramento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoPessoaBarramentoService.save(action.payload.vinculacaoPessoaBarramento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação pessoa barramento',
+                                content: 'Vinculação pessoa barramento id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: VinculacaoPessoaBarramento) => [
                             new VinculacaoPessoaBarramentoEditActions.SaveVinculacaoPessoaBarramentoSuccess(),
                             new VinculacaoPessoaBarramentoListActions.ReloadVinculacaoPessoaBarramentos(),
-                            new AddData<VinculacaoPessoaBarramento>({data: [response], schema: vinculacaoPessoaBarramentoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'vinculacaoPessoaBarramento',
-                                content: `VinculacaoPessoaBarramento id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<VinculacaoPessoaBarramento>({data: [response], schema: vinculacaoPessoaBarramentoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação pessoa barramento',
+                                content: 'Erro ao salvar a vinculação pessoa barramento!',
+                                status: 2, // erro
+                            }));
                             return of(new VinculacaoPessoaBarramentoEditActions.SaveVinculacaoPessoaBarramentoFailed(err));
                         })
-                    );
+                    )
                 })
             );
+
     /**
      * Save VinculacaoPessoaBarramento Success
      */

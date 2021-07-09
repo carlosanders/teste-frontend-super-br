@@ -80,35 +80,37 @@ export class RepositorioEditEffect {
         this._actions
             .pipe(
                 ofType<RepositorioEditActions.SaveRepositorio>(RepositorioEditActions.SAVE_REPOSITORIO),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'repositorio',
-                        content: 'Salvando a repositorio ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._repositorioService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'repositório',
+                    content: 'Salvando o repositório ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._repositorioService.save(action.payload.repositorio).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
-                            type: 'repositorio',
-                            content: 'Repositorio salva com sucesso.',
+                            id: action.payload.operacaoId,
+                            type: 'repositório',
+                            content: 'Repositório id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: Repositorio) => [
                         new RepositorioEditActions.SaveRepositorioSuccess(),
                         new RepositorioListActions.ReloadRepositorios(),
                         new AddData<Repositorio>({data: [response], schema: repositorioSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'repositorio',
-                        content: 'Erro ao salvar a repositorio!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new RepositorioEditActions.SaveRepositorioFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'repositório',
+                            content: 'Erro ao salvar o repositório!',
+                            status: 2, // erro
+                        }));
+                        return of(new RepositorioEditActions.SaveRepositorioFailed(err));
+                    })
+                ))
             );
 
     /**

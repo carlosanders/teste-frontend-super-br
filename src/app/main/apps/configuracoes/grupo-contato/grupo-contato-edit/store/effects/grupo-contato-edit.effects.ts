@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
@@ -74,39 +74,42 @@ export class GrupoContatoEditEffect {
      *
      * @type {Observable<any>}
      */
+    @Effect()
     saveGrupoContato: any =
         this._actions
             .pipe(
                 ofType<GrupoContatoEditActions.SaveGrupoContato>(GrupoContatoEditActions.SAVE_GRUPO_CONTATO),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'grupoContato',
-                        content: 'Salvando a grupoContato ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._grupoContatoService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'Grupo de Contato',
+                    content: 'Salvando o grupo de contato ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._grupoContatoService.save(action.payload.grupoContato).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
-                            type: 'grupoContato',
-                            content: 'GrupoContato salva com sucesso.',
+                            id: action.payload.operacaoId,
+                            type: 'Grupo de Contato',
+                            content: 'Grupo de contato id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: GrupoContato) => [
                         new GrupoContatoEditActions.SaveGrupoContatoSuccess(),
                         new GrupoContatoListActions.ReloadGrupoContato(),
                         new AddData<GrupoContato>({data: [response], schema: grupoContatoSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'grupoContato',
-                        content: 'Erro ao salvar a grupoContato!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new GrupoContatoEditActions.SaveGrupoContatoFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'Grupo de Contato',
+                            content: 'Erro ao salvar o grupoContato!',
+                            status: 2, // erro
+                        }));
+                        return of(new GrupoContatoEditActions.SaveGrupoContatoFailed(err));
+                    })
+                ))
             );
 
     /**

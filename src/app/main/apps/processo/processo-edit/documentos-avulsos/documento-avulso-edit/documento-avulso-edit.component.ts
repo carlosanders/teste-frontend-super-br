@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {getProcesso} from '../../../store/selectors';
 import * as moment from 'moment';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -98,8 +99,11 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveDocumentoAvulso(documentoAvulso));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveDocumentoAvulso({
+            documentoAvulso: documentoAvulso,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

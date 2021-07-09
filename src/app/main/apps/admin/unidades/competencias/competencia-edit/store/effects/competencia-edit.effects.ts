@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as CompetenciaEditActions from '../actions/competencia-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class CompetenciaEditEffects {
@@ -90,20 +91,39 @@ export class CompetenciaEditEffects {
         this._actions
             .pipe(
                 ofType<CompetenciaEditActions.SaveCompetencia>(CompetenciaEditActions.SAVE_COMPETENCIA),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'competência',
+                    content: 'Salvando a competência ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._vinculacaoSetorMunicipioService.save(action.payload, context).pipe(
+                    return this._vinculacaoSetorMunicipioService.save(action.payload.vinculacaoSetorMunicipio, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'competência',
+                                content: 'Competência id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: VinculacaoSetorMunicipio) => [
                             new CompetenciaEditActions.SaveCompetenciaSuccess(),
                             new CompetenciasListActions.ReloadCompetencias(),
                             new AddData<VinculacaoSetorMunicipio>({data: [response], schema: vinculacaoSetorMunicipioSchema})
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new CompetenciaEditActions.SaveCompetenciaFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'competência',
+                                content: 'Erro ao salvar a competência!',
+                                status: 2, // erro
+                            }));
+                            return of(new CompetenciaEditActions.SaveCompetenciaFailed(err));
+                        })
+                    )
                 })
             );
 

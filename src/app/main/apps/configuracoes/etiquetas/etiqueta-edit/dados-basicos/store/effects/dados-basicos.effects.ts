@@ -47,35 +47,37 @@ export class EtiquetaDadosBasicosEffects {
         this._actions
             .pipe(
                 ofType<EtiquetaEditActions.SaveEtiqueta>(EtiquetaEditActions.SAVE_ETIQUETA),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'etiqueta',
-                        content: 'Salvando a etiqueta ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._etiquetaService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'etiqueta',
+                    content: 'Salvando a etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._etiquetaService.save(action.payload.etiqueta).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
                             type: 'etiqueta',
-                            content: 'Etiqueta salva com sucesso.',
+                            content: 'Etiqueta id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: Etiqueta) => [
                         new EtiquetaEditActions.SaveEtiquetaSuccess(),
                         new EtiquetaListActions.ReloadEtiquetas(),
                         new AddData<Etiqueta>({data: [response], schema: etiquetaSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'etiqueta',
-                        content: 'Erro ao salvar a etiqueta!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new EtiquetaEditActions.SaveEtiquetaFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'etiqueta',
+                            content: 'Erro ao salvar a etiqueta!',
+                            status: 2, // erro
+                        }));
+                        return of(new EtiquetaEditActions.SaveEtiquetaFailed(err));
+                    })
+                ))
             );
 
     /**

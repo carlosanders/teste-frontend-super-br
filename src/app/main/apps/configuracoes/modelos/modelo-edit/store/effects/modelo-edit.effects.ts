@@ -80,35 +80,37 @@ export class ModeloEditEffect {
         this._actions
             .pipe(
                 ofType<ModeloEditActions.SaveModelo>(ModeloEditActions.SAVE_MODELO),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'modelo',
-                        content: 'Salvando a modelo ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._modeloService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'modelo',
+                    content: 'Salvando o modelo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._modeloService.save(action.payload.modelo).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
                             type: 'modelo',
-                            content: 'Modelo salva com sucesso.',
+                            content: 'Modelo id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: Modelo) => [
                         new ModeloEditActions.SaveModeloSuccess(),
                         new ModeloListActions.ReloadModelos(),
                         new AddData<Modelo>({data: [response], schema: modeloSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'modelo',
-                        content: 'Erro ao salvar a modelo!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new ModeloEditActions.SaveModeloFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'modelo',
+                            content: 'Erro ao salvar o modelo!',
+                            status: 2, // erro
+                        }));
+                        return of(new ModeloEditActions.SaveModeloFailed(err));
+                    })
+                ))
             );
 
     /**

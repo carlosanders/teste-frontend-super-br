@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as TemplatesEditActions from '../actions/templates-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TemplatesEditEffect {
@@ -86,20 +87,39 @@ export class TemplatesEditEffect {
         this._actions
             .pipe(
                 ofType<TemplatesEditActions.SaveTemplates>(TemplatesEditActions.SAVE_TEMPLATES),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'template',
+                    content: 'Salvando o template ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._templateService.save(action.payload, context).pipe(
+                    return this._templateService.save(action.payload.templates, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'template',
+                                content: 'Template id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Template) => [
                             new TemplatesEditActions.SaveTemplatesSuccess(),
                             new TemplatesListActions.ReloadTemplates(),
                             new AddData<Template>({data: [response], schema: templatesSchema})
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TemplatesEditActions.SaveTemplatesFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'template',
+                                content: 'Erro ao salvar o template!',
+                                status: 2, // erro
+                            }));
+                            return of(new TemplatesEditActions.SaveTemplatesFailed(err));
+                        })
+                    )
                 })
             );
 

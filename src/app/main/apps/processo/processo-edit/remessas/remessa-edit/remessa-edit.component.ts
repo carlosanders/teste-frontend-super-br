@@ -12,6 +12,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'remessa-edit',
@@ -139,8 +140,11 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveTramitacao(tramitacao));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTramitacao({
+            tramitacao: tramitacao,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

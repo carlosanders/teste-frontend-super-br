@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as EspecieAtividadeEditActions from '../actions/especie-atividade-edit.actions';
@@ -17,6 +17,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class EspecieAtividadeEditEffects {
@@ -85,20 +86,39 @@ export class EspecieAtividadeEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieAtividadeEditActions.SaveEspecieAtividade>(EspecieAtividadeEditActions.SAVE_ESPECIE_ATIVIDADE),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'espécie atividade',
+                    content: 'Salvando a espécie atividade ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._especieAtividadeService.save(action.payload, context).pipe(
+                    return this._especieAtividadeService.save(action.payload.especieAtividade, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie atividade',
+                                content: 'Espécie atividade id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: EspecieAtividade) => [
+                            new EspecieAtividadeEditActions.SaveEspecieAtividadeSuccess(response),
                             new EspecieAtividadeListActions.ReloadEspecieAtividade(),
-                            new AddData<EspecieAtividade>({data: [response], schema: especieAtividadeSchema}),
-                            new EspecieAtividadeEditActions.SaveEspecieAtividadeSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new EspecieAtividadeEditActions.SaveEspecieAtividadeFailed(err));
-                    return caught;
+                            new AddData<EspecieAtividade>({data: [response], schema: especieAtividadeSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie atividade',
+                                content: 'Erro ao salvar a espécie atividade!',
+                                status: 2, // erro
+                            }));
+                            return of(new EspecieAtividadeEditActions.SaveEspecieAtividadeFailed(err));
+                        })
+                    )
                 })
             );
 

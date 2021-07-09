@@ -25,6 +25,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {FormControl} from '@angular/forms';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'acao-edit',
@@ -214,7 +215,11 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         etiqueta.id = this.routerState.params.etiquetaHandle;
         acao.etiqueta = etiqueta;
 
-        this._store.dispatch(new fromStore.SaveAcao(acao));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAcao({
+            acao: acao,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTrigger2(values): void {
@@ -243,7 +248,11 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         etiqueta.id = this.routerState.params.etiquetaHandle;
         acao.etiqueta = etiqueta;
 
-        this._store.dispatch(new fromStore.SaveAcao(acao));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAcao({
+            acao: acao,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTrigger3(values): void {
@@ -258,7 +267,11 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         etiqueta.id = this.routerState.params.etiquetaHandle;
         acao.etiqueta = etiqueta;
 
-        this._store.dispatch(new fromStore.SaveAcao(acao));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAcao({
+            acao: acao,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTrigger4(values): void {
@@ -300,9 +313,18 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
                 this.destinos.push(destino);
             });
             contexto['blocoResponsaveis'] = this.destinos;
-            this._store.dispatch(new fromStore.SaveAcao(this.tratarValores(contexto)));
+
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcao({
+                acao: this.tratarValores(contexto),
+                operacaoId: operacaoId
+            }));
         } else if (!values.blocoDestinatarios) {
-            this._store.dispatch(new fromStore.SaveAcao(this.tratarValores(contexto)));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcao({
+                acao: this.tratarValores(contexto),
+                operacaoId: operacaoId
+            }));
         }
     }
 

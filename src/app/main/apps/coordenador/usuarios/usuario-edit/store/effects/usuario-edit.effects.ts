@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as UsuarioEditActions from '../actions/usuario-edit.actions';
@@ -16,6 +16,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class UsuarioEditEffects {
@@ -85,17 +86,38 @@ export class UsuarioEditEffects {
         this._actions
             .pipe(
                 ofType<UsuarioEditActions.SaveUsuario>(UsuarioEditActions.SAVE_USUARIO),
-                switchMap(action => this._usuarioService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'usuário',
+                    content: 'Salvando o usuário ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._usuarioService.save(action.payload.usuario).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'usuário',
+                                content: 'Usuário id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Usuario) => [
+                            new UsuarioEditActions.SaveUsuarioSuccess(response),
                             new UsuariosListActions.ReloadUsuarios(),
-                            new AddData<Usuario>({data: [response], schema: usuarioSchema}),
-                            new UsuarioEditActions.SaveUsuarioSuccess(response)
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new UsuarioEditActions.SaveUsuarioFailed(err));
-                    return caught;
+                            new AddData<Usuario>({data: [response], schema: usuarioSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'usuario',
+                                content: 'Erro ao salvar o usuario!',
+                                status: 2, // erro
+                            }));
+                            return of(new UsuarioEditActions.SaveUsuarioFailed(err));
+                        })
+                    )
                 })
             );
 
@@ -142,21 +164,42 @@ export class UsuarioEditEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    saveColaborador: any =
+     saveColaborador: any =
         this._actions
             .pipe(
                 ofType<UsuarioEditActions.SaveColaborador>(UsuarioEditActions.SAVE_COLABORADOR),
-                switchMap(action => this._colaboradorService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'colaborador',
+                    content: 'Salvando o colaborador ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._colaboradorService.save(action.payload.colaborador).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'colaborador',
+                                content: 'Colaborador id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Colaborador) => [
                             new UsuarioEditActions.SaveColaboradorSuccess(),
                             new UsuariosListActions.ReloadUsuarios(),
                             new AddData<Colaborador>({data: [response], schema: colaboradorSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new UsuarioEditActions.SaveColaboradorFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'colaborador',
+                                content: 'Erro ao salvar o colaborador!',
+                                status: 2, // erro
+                            }));
+                            return of(new UsuarioEditActions.SaveColaboradorFailed(err));
+                        })
+                    )
                 })
             );
 
@@ -172,4 +215,6 @@ export class UsuarioEditEffects {
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.usuarioHandle), 'listar')]).then();
                 })
             );
+
+
 }

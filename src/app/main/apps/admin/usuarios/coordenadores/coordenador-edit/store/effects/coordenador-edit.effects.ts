@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as CoordenadorEditActions from '../actions/coordenador-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class CoordenadorEditEffects {
@@ -82,17 +83,39 @@ export class CoordenadorEditEffects {
         this._actions
             .pipe(
                 ofType<CoordenadorEditActions.SaveCoordenador>(CoordenadorEditActions.SAVE_COORDENADOR),
-                switchMap(action => this._coordenadorService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'coordenador',
+                    content: 'Salvando o coordenador ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._coordenadorService.save(action.payload.coordenador, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'coordenador',
+                                content: 'Coordenador id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Coordenador) => [
                             new CoordenadorEditActions.SaveCoordenadorSuccess(),
                             new CoordenadoresListActions.ReloadCoordenadores(),
                             new AddData<Coordenador>({data: [response], schema: coordenadorSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new CoordenadorEditActions.SaveCoordenadorFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'coordenador',
+                                content: 'Erro ao salvar o coordenador!',
+                                status: 2, // erro
+                            }));
+                            return of(new CoordenadorEditActions.SaveCoordenadorFailed(err));
+                        })
+                    )
                 })
             );
 

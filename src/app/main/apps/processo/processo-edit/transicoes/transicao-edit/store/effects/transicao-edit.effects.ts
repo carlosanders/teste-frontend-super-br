@@ -80,22 +80,39 @@ export class TransicaoEditEffect {
         this._actions
             .pipe(
                 ofType<TransicaoEditActions.SaveTransicao>(TransicaoEditActions.SAVE_TRANSICAO),
-                switchMap(action => this._transicaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'transição',
+                    content: 'Salvando a transição ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._transicaoService.save(action.payload.transicao).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transição',
+                                content: 'Transição id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Transicao) => [
                             new TransicaoEditActions.SaveTransicaoSuccess(),
                             new TransicaoListActions.ReloadTransicoes(),
-                            new AddData<Transicao>({data: [response], schema: transicaoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'transicao',
-                                content: `Transição id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Transicao>({data: [response], schema: transicaoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transição',
+                                content: 'Erro ao salvar a transição!',
+                                status: 2, // erro
+                            }));
                             return of(new TransicaoEditActions.SaveTransicaoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

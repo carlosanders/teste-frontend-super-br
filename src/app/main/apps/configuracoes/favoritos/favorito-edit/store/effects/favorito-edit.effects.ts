@@ -82,35 +82,37 @@ export class FavoritoEditEffect {
         this._actions
             .pipe(
                 ofType<FavoritoEditActions.SaveFavorito>(FavoritoEditActions.SAVE_FAVORITO),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'favorito',
-                        content: 'Salvando a favorito ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._favoritoService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'favorito',
+                    content: 'Salvando o favorito ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._favoritoService.save(action.payload.favorito).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
                             type: 'favorito',
-                            content: 'Favorito salva com sucesso.',
+                            content: 'Favorito id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: Favorito) => [
                         new FavoritoEditActions.SaveFavoritoSuccess(),
                         new FavoritoListActions.ReloadFavoritos(),
                         new AddData<Favorito>({data: [response], schema: favoritoSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'favorito',
-                        content: 'Erro ao salvar a favorito!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new FavoritoEditActions.SaveFavoritoFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'favorito',
+                            content: 'Erro ao salvar o favorito!',
+                            status: 2, // erro
+                        }));
+                        return of(new FavoritoEditActions.SaveFavoritoFailed(err));
+                    })
+                ))
             );
 
     /**

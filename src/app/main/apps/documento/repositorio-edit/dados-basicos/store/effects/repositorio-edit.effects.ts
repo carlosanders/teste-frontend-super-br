@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RepositoriosActions from '../actions/repositorio-edit.actions';
@@ -12,7 +12,7 @@ import {RepositorioService} from '@cdk/services/repositorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Repositorio} from '@cdk/models';
 import {repositorio as repositorioSchema} from '@cdk/normalizr';
-import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class RepositorioEditEffects {
@@ -42,21 +42,38 @@ export class RepositorioEditEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosActions.SaveRepositorio>(RepositoriosActions.SAVE_REPOSITORIO),
-                switchMap(action => this._repositorioService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'repositório',
+                    content: 'Salvando o repositório ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._repositorioService.save(action.payload.repositorio).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositório',
+                                content: 'Repositório id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Repositorio) => [
                             new RepositoriosActions.SaveRepositorioSuccess(),
-                            new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'modelo',
-                                content: `Tese id ${response.id} editado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Repositorio>({data: [response], schema: repositorioSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositório',
+                                content: 'Erro ao salvar o repositório!',
+                                status: 2, // erro
+                            }));
                             return of(new RepositoriosActions.SaveRepositorioFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
 }

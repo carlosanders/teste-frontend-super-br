@@ -49,13 +49,13 @@ export class FolderEditEffect {
             .pipe(
                 ofType<FolderEditActions.GetFolder>(FolderEditActions.GET_FOLDER),
                 switchMap(action => this._folderService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
+                    JSON.stringify(action.payload),
+                    1,
+                    0,
+                    JSON.stringify({}),
+                    JSON.stringify([
+                        'populateAll'
+                    ]))),
                 switchMap(response => [
                     new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                     new FolderEditActions.GetFolderSuccess({
@@ -83,36 +83,38 @@ export class FolderEditEffect {
         this._actions
             .pipe(
                 ofType<FolderEditActions.SaveFolder>(FolderEditActions.SAVE_FOLDER),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'folder',
-                        content: 'Salvando a pasta ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._folderService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'pasta',
+                    content: 'Salvando a pasta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._folderService.save(action.payload.folder).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
-                            type: 'folder',
-                            content: 'Pasta salva com sucesso.',
+                            id: action.payload.operacaoId,
+                            type: 'pasta',
+                            content: 'Pasta id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: Folder) => [
                         new FolderEditActions.SaveFolderSuccess(),
                         new FolderListActions.ReloadFolders(),
                         new GetFolders([]),
                         new AddData<Folder>({data: [response], schema: folderSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'folder',
-                        content: 'Erro ao salvar a pasta id!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new FolderEditActions.SaveFolderFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'pasta',
+                            content: 'Erro ao salvar a pasta!',
+                            status: 2, // erro
+                        }));
+                        return of(new FolderEditActions.SaveFolderFailed(err));
+                    })
+                ))
             );
 
     /**

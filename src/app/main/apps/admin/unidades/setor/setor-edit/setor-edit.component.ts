@@ -12,6 +12,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 
 @Component({
@@ -122,8 +123,11 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             setor.parent = parent;
         }
 
-        this._store.dispatch(new fromStore.SaveSetor(setor));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveSetor({
+            setor: setor,
+            operacaoId: operacaoId
+        }));
     }
 
 }

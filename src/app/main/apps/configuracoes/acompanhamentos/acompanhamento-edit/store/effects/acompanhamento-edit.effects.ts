@@ -79,40 +79,42 @@ export class AcompanhamentoEditEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    ssaveAcompanhamento: any =
+    saveAcompanhamento: any =
         this._actions
             .pipe(
                 ofType<AcompanhamentoEditActions.SaveAcompanhamento>(AcompanhamentoEditActions.SAVE_ACOMPANHAMENTO),
-                tap(() => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'acompanhamento',
-                        content: 'Salvando a acompanhamento ...',
-                        status: 0, // carregando
-                    }));
-                }),
-                switchMap(action => this._acompanhamentoService.save(action.payload).pipe(
-                    tap(() =>
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'acompanhamento',
+                    content: 'Salvando o acompanhamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._acompanhamentoService.save(action.payload.acompanhamento).pipe(
+                    tap((response) =>
                         this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
                             type: 'acompanhamento',
-                            content: 'Acompanhamento salva com sucesso.',
+                            content: 'Acompanhamento id ' + response.id + ' salvo com sucesso.',
                             status: 1, // sucesso
-                        }))),
+                        }))
+                    ),
                     mergeMap((response: Compartilhamento) => [
                         new AcompanhamentoEditActions.SaveAcompanhamentoSuccess(),
                         new AcompanhamentoListActions.ReloadAcompanhamentos(),
                         new GetAcompanhamentos([]),
                         new AddData<Compartilhamento>({data: [response], schema: comparilhamentoSchema})
-                    ])
-                )),
-                catchError((err) => {
-                    console.log(err);
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        type: 'acompanhamento',
-                        content: 'Erro ao salvar a acompanhamento!',
-                        status: 2, // erro
-                    }));
-                    return of(this._store.dispatch(new AcompanhamentoEditActions.SaveAcompanhamentoFailed(err)));
-                })
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'acompanhamento',
+                            content: 'Erro ao salvar o acompanhamento!',
+                            status: 2, // erro
+                        }));
+                        return of(new AcompanhamentoEditActions.SaveAcompanhamentoFailed(err));
+                    })
+                ))
             );
 
     /**

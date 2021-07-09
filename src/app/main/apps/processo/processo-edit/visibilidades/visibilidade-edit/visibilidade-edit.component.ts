@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {getProcesso} from '../../../store/selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../../store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'visibilidade-edit',
@@ -95,7 +96,13 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(visibilidade): void {
-        this._store.dispatch(new fromStore.SaveVisibilidade({processoId: this.processo.id, visibilidade: visibilidade}));
+        this._store.dispatch(new fromStore.SaveVisibilidade({}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVisibilidade({
+            processoId: this.processo.id,
+            visibilidade: visibilidade,
+            operacaoId: operacaoId
+        }));
     }
 
     abort(): void {

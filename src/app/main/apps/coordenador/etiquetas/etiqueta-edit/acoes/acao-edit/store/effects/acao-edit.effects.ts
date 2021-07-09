@@ -46,20 +46,41 @@ export class AcaoEditEffect {
         this._actions
             .pipe(
                 ofType<AcaoEditActions.SaveAcao>(AcaoEditActions.SAVE_ACAO),
-                switchMap(action => this._acaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'ação',
+                    content: 'Salvando a ação ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._acaoService.save(action.payload.acao).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'ação',
+                                content: 'Ação id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Acao) => [
                             new AcaoEditActions.SaveAcaoSuccess(),
                             new AcaoListActions.ReloadAcoes(),
-                            new AddData<Acao>({data: [response], schema: acaoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'acao',
-                                content: `Acao id ${response.id} criada com sucesso!`,
-                                dateTime: moment()
-                            })
+                            new AddData<Acao>({data: [response], schema: acaoSchema})
                         ]),
-                        catchError(err => of(new AcaoEditActions.SaveAcaoFailed(err)))
-                    ))
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'ação',
+                                content: 'Erro ao salvar  ação!',
+                                status: 2, // erro
+                            }));
+                            return of(new AcaoEditActions.SaveAcaoFailed(err));
+                        })
+                    )
+                })
             );
+
     /**
      * Save Acao Success
      */
