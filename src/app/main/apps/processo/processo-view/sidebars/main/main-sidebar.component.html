@@ -99,6 +99,13 @@
             <mat-icon class="secondary-text">exit_to_app</mat-icon>
         </button>
 
+        <button class="refresh" mat-icon-button
+                (click)="reloadJuntadas()"
+                aria-label="recarregar juntadas"
+                matTooltip="Recarregar Juntadas">
+            <mat-icon>refresh</mat-icon>
+        </button>
+
         <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) !== '{}'}" mat-icon-button
                 (click)="toggleFilter()"
                 aria-label="filtrar"
@@ -552,6 +559,10 @@
          [infiniteScrollDistance]="5"
          [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
+
+        <div class="nova-juntada accent" matRipple (click)="reloadJuntadas()" *ngIf="novaJuntada">
+            <span class="mat-body">Nova juntada recebida... regarregue a lista!</span>
+        </div>
 
         <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
              (click)="goToCapaProcesso()"

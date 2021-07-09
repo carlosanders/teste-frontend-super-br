@@ -481,6 +481,15 @@ processo-view-main-sidebar {
             }
         }
 
+        .nova-juntada {
+            display: flex;
+            flex: 0 0 auto;
+            cursor: pointer;
+            align-items: center;
+            align-content: center;
+            padding: 8px;
+        }
+
         .juntada {
             flex: 0 0 auto;
             display: flex;

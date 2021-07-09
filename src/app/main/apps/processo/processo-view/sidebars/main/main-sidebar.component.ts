@@ -22,7 +22,7 @@ import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getMercureState, getRouterState} from '../../../../../../store';
+import {getMercureState, getRouterState, LimpaMercure} from '../../../../../../store';
 import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
@@ -37,6 +37,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
+import {MercureService} from '@cdk/services/mercure.service';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -74,6 +75,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
 
+    processoId: string = undefined;
     processo$: Observable<Processo>;
     processo: Processo;
 
@@ -171,6 +173,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     formEditorValid = false;
 
+    novaJuntada = false;
+
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
 
@@ -185,6 +189,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      * @param _router
      * @param _activatedRoute
      * @param _loginService
+     * @param _mercureService
      * @param _snackBar
      */
     constructor(
@@ -197,6 +202,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         public _loginService: LoginService,
+        private _mercureService: MercureService,
         private _snackBar: MatSnackBar
     ) {
         this.form = this._formBuilder.group({
@@ -284,17 +290,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.formEditorValid = value && typeof value === 'object';
         });
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-
-                this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
-            }
-        });
-
         const path = 'app/main/apps/processo/processo-view/sidebars/main';
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
@@ -354,6 +349,84 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.novaJuntada = false;
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            if (routerState) {
+                this.routerState = routerState.state;
+
+                if (routerState.state.params['processoHandle'] && this.processoId !== routerState.state.params['processoHandle']) {
+                    if (this.processoId) {
+                        this._mercureService.unsubscribe('juntadas_' + this.processoId);
+                    }
+                    this.processoId = routerState.state.params['processoHandle'];
+                    this._mercureService.subscribe('juntadas_' + this.processoId);
+                }
+
+                this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
+            }
+        });
+
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
+            if (message && message.type === 'nova_juntada') {
+                this.novaJuntada = true;
+                this._changeDetectorRef.detectChanges();
+                this._store.dispatch(new LimpaMercure());
+            }
+
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
+                        break;
+                }
+            }
+        });
+
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeDocs)
+        ).subscribe((assinandoDocumentosId) => {
+            if (assinandoDocumentosId.length > 0) {
+                if (this.assinaturaInterval) {
+                    clearInterval(this.assinaturaInterval);
+                }
+                this.assinaturaInterval = setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
+        });
+
         this.tarefa$
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -421,57 +494,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                             }
                         }
                     );
-                    this._store
-                        .pipe(
-                            select(getMercureState),
-                            takeUntil(this._unsubscribeDocs)
-                        ).subscribe((message) => {
-                        if (message && message.type === 'assinatura') {
-                            switch (message.content.action) {
-                                case 'assinatura_iniciada':
-                                    this.javaWebStartOK = true;
-                                    break;
-                                case 'assinatura_cancelada':
-                                    this.javaWebStartOK = false;
-                                    this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                                    break;
-                                case 'assinatura_erro':
-                                    this.javaWebStartOK = false;
-                                    this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                                    break;
-                                case 'assinatura_finalizada':
-                                    this.javaWebStartOK = false;
-                                    this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                                    this._store.dispatch(new UpdateData<Documento>({
-                                        id: message.content.documentoId,
-                                        schema: documentoSchema,
-                                        changes: {assinado: true}
-                                    }));
-                                    break;
-                            }
-                        }
-                    });
-
-                    this.assinandoDocumentosId$.pipe(
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe((assinandoDocumentosId) => {
-                        if (assinandoDocumentosId.length > 0) {
-                            if (this.assinaturaInterval) {
-                                clearInterval(this.assinaturaInterval);
-                            }
-                            this.assinaturaInterval = setInterval(() => {
-                                // monitoramento do java
-                                if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                                    assinandoDocumentosId.forEach(
-                                        documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                                    );
-                                }
-                            }, 30000);
-                        } else {
-                            clearInterval(this.assinaturaInterval);
-                        }
-                        this.assinandoDocumentosId = assinandoDocumentosId;
-                    });
                 }
             });
 
@@ -506,6 +528,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        if (this.processoId) {
+            this._mercureService.unsubscribe('juntadas_' + this.processoId);
+        }
+        this._changeDetectorRef.detach();
+
         this._store.dispatch(new fromStore.ExpandirProcesso(false));
         this._unsubscribeDocs.next();
         this._unsubscribeDocs.complete();
@@ -586,6 +613,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     reload(params): void {
+        this.novaJuntada = false;
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
 
         const nparams = {
@@ -595,6 +623,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
+    }
+
+    reloadJuntadas(): void {
+        this.novaJuntada = false;
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        this._store.dispatch(new fromStore.ReloadJuntadas());
     }
 
     reloadDocumentos(): void {
@@ -872,11 +906,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
     }
 
-    doAbreMinutaOutraAba(documento: Documento): void{
+    doAbreMinutaOutraAba(documento: Documento): void {
         window.open(
             this.routerState.url.split('/capa/')[0] + '/documento/' + documento.id
-             + '/(componente-digital/' + documento.id + '/editor/ckeditor//sidebar:editar/atividade)'
-             );
+            + '/(componente-digital/' + documento.id + '/editor/ckeditor//sidebar:editar/atividade)'
+        );
     }
 
     onComplete(): void {

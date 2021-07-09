@@ -426,3 +426,6 @@
 * Melhoria criado componente gridsearch de lotações
 * Melhoria criado botão no formulário de tarefas para consultar lotações
 * Melhoria criado método para preencher unidade, setor e usuário da tarefa de acordo com a lotação selecionada no autocomplete/gridsearch
+* Melhoria criada ação para limpar a mensagem mais recente do Mercure
+* Melhoria alerta informativo ao usuário quando processo recebeu nova(s) juntada(s)
+* Melhoria botão de reload de juntadas na listagem do processo-view
