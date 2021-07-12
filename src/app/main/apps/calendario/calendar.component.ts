@@ -162,10 +162,11 @@ export class CalendarComponent implements OnInit {
      */
     deleteEvent(event): void {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                message: 'Deseja realmente apagar?'
+            },
             disableClose: false
         });
-
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente apagar?';
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {

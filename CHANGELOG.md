@@ -429,3 +429,5 @@
 * Melhoria criada ação para limpar a mensagem mais recente do Mercure
 * Melhoria alerta informativo ao usuário quando processo recebeu nova(s) juntada(s)
 * Melhoria botão de reload de juntadas na listagem do processo-view
+* Melhoria vinculação de juntadas ao arrastar uma juntada para outra juntada na visão de processo
+* Correção de mensagens desaparecidas nos dialogs de confirmação

@@ -12,7 +12,17 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Assinatura, ComponenteDigital, Documento, Juntada, Pagination, Processo, Tarefa, Volume} from '@cdk/models';
+import {
+    Assinatura,
+    ComponenteDigital,
+    Documento,
+    Juntada,
+    Pagination,
+    Processo,
+    Setor,
+    Tarefa,
+    Volume
+} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
@@ -38,6 +48,7 @@ import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
+import {DndDragImageOffsetFunction, DndDropEvent} from "ngx-drag-drop";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -174,6 +185,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     formEditorValid = false;
 
     novaJuntada = false;
+
+    placeholderId = null;
+
+    draggedJuntada: number = null;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -635,6 +650,79 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.UnloadDocumentos());
 
         this._store.dispatch(new fromStore.GetDocumentos());
+    }
+
+    offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => ({x: 0, y: 0});
+
+    onStartDrag(event: DragEvent, juntada: Juntada): void {
+        const customJuntada = JSON.stringify({
+            id: juntada.id,
+            vinculacoesDocumentos: juntada.documento.vinculacoesDocumentos?.length,
+            vinculacaoDocumentoPrincipal: !!juntada.documento.vinculacaoDocumentoPrincipal,
+            ativo: juntada.ativo
+        });
+        event.dataTransfer.setData(customJuntada, '');
+        this.draggedJuntada = juntada.id;
+    }
+
+    onCancelDrag(event: DragEvent): void {
+        this.draggedJuntada = null;
+    }
+
+    onCopied(event: DragEvent, juntada: Juntada): void {
+        this.draggedJuntada = null;
+    }
+
+    dragOver($event: DragEvent, element: HTMLElement, enabled: boolean): void {
+        if (enabled && this.placeholderId !== element.id) {
+            this.placeholderId = element.id;
+            const elementClass = element.getAttribute('class').replace('custom-drag-over-disabled', '');
+            element.setAttribute('class', elementClass + ' custom-drag-over');
+            this._changeDetectorRef.detectChanges();
+        }
+        if (!enabled && element.getAttribute('class').indexOf('custom-drag-over-disabled') === -1) {
+            this.placeholderId = null;
+            element.setAttribute('class', element.getAttribute('class') + ' custom-drag-over-disabled');
+            this._changeDetectorRef.detectChanges();
+        }
+    }
+
+    /**
+     * Verifica se é permitido arrastar juntada para uma determinada juntada
+     * Caso a juntada já esteja vinculada como acessório em outra juntada, não permitir
+     *
+     * @param event: DndDropEvent
+     * @param juntada: Juntada
+     */
+    dropzoneEnabledJuntada(event: DragEvent, juntada: Juntada): boolean {
+        const tmpJuntadaArrastada = JSON.parse(event.dataTransfer.types[0]);
+        const juntadaArrastada = this.juntadas.find((juntada) => juntada.id == tmpJuntadaArrastada.id);
+        return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
+    }
+
+    /**
+     * Verifica se é permitido soltar juntada em uma determinado juntada
+     *
+     * @param event: DndDropEvent
+     * @param juntada: Juntada
+     */
+    dropEnabledJuntada(event: DndDropEvent, juntada: Juntada): boolean {
+        const juntadaArrastadaId = event.data;
+        const juntadaArrastada = this.juntadas.find((juntada) => juntada.id == juntadaArrastadaId);
+        return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
+    }
+
+    onDrop($event, enabled: boolean): void {
+        if (enabled) {
+            const juntadaAcessorio = $event[0].data;
+            const juntadaPrincipal = $event[1];
+            // Navegar para vinculação de juntadas
+            this._router.navigate([
+                this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+                '/visualizar/' + this.routerState.params.stepHandle + '/vincular/' + juntadaPrincipal.id + '/' + juntadaAcessorio
+            ]).then();
+        }
+        this.placeholderId = null;
     }
 
     onOpenMinutas(): void {

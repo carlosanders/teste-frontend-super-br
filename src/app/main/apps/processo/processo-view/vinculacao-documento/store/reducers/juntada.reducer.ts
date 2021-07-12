@@ -2,18 +2,22 @@ import * as ProcessoViewVinculacaoDocumentoActions from '../actions';
 
 export interface ProcessoViewVinculacaoDocumentoState {
     juntadaId: number;
+    juntadaVinculadaId: number;
     saving: boolean;
     errors: any;
     loading: boolean;
     loaded: any;
+    loadedVinculada: any;
 }
 
 export const JuntadaListInitialState: ProcessoViewVinculacaoDocumentoState = {
     juntadaId: null,
+    juntadaVinculadaId: null,
     saving: false,
     errors: false,
     loading: false,
-    loaded: false
+    loaded: false,
+    loadedVinculada: false
 };
 
 export function ProcessoViewVinculacaoDocumentoReducer(state = JuntadaListInitialState, action: ProcessoViewVinculacaoDocumentoActions.ProcessoViewVinculacaoDocumentoActionsAll): ProcessoViewVinculacaoDocumentoState {
@@ -22,17 +26,18 @@ export function ProcessoViewVinculacaoDocumentoReducer(state = JuntadaListInitia
         case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA: {
             return {
                 ...state,
-                juntadaId: null,
                 loading: true
             };
         }
 
         case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_SUCCESS: {
+            const loaded = action.payload.loaded ?? state.loaded;
+            const loadedVinculada = action.payload.loadedVinculada ?? state.loadedVinculada;
             return {
                 ...state,
-                juntadaId: action.payload.juntadaId,
-                loaded: action.payload.loaded,
-                loading: false
+                loading: false,
+                loaded,
+                loadedVinculada
             };
         }
 
@@ -65,6 +70,13 @@ export function ProcessoViewVinculacaoDocumentoReducer(state = JuntadaListInitia
                 saving: false,
                 errors: action.payload
             };
+        }
+
+        case ProcessoViewVinculacaoDocumentoActions.UNLOAD_JUNTADA_VINCULADA: {
+            return {
+                ...state,
+                loadedVinculada: false
+            }
         }
 
         default:

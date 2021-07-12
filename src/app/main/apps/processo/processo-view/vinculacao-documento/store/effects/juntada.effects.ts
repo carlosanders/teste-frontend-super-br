@@ -48,34 +48,31 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewVinculacaoDocumentoActions.GetJuntada>(ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA),
-                switchMap(action => this._juntadaService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll',
-                            'volume.processo',
-                            'documento.componentesDigitais',
-                            'documento.vinculacoesDocumentos',
-                            'documento.tipoDocumento',
-                            'documento.vinculacaoDocumentoPrincipal'
-                        ]))),
-                mergeMap(response => [
-                    new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
-                    new ProcessoViewVinculacaoDocumentoActions.GetJuntadaSuccess({
-                        juntadaId: response['entities'][0].id,
-                        loaded: {
-                            id: 'juntadaHandle',
-                            value: this.routerState.params.juntadaHandle
-                        }
+                mergeMap(action => this._juntadaService.get(
+                    action.payload.id,
+                    JSON.stringify([
+                        'volume',
+                        'volume.processo',
+                        'documento',
+                        'documento.componentesDigitais',
+                        'documento.vinculacoesDocumentos',
+                        'documento.tipoDocumento',
+                        'documento.vinculacaoDocumentoPrincipal'
+                    ])
+                ).pipe(
+                    mergeMap(response => [
+                        new AddData<Juntada>({data: [response], schema: juntadaSchema}),
+                        new ProcessoViewVinculacaoDocumentoActions.GetJuntadaSuccess({
+                            juntadaId: response.id,
+                            ...action.payload.loaded
+                        })
+                    ]),
+                    catchError((err, caught) => {
+                        console.log(err);
+                        this._store.dispatch(new ProcessoViewVinculacaoDocumentoActions.GetJuntadaFailed(err));
+                        return caught;
                     })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessoViewVinculacaoDocumentoActions.GetJuntadaFailed(err));
-                    return caught;
-                })
+                ))
             );
 
     /**
@@ -89,21 +86,21 @@ export class JuntadaEffects {
             .pipe(
                 ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumento>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO),
                 switchMap(action => this._vinculacaoDocumentoService.save(action.payload).pipe(
-                        mergeMap((response: VinculacaoDocumento) => [
-                            new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
-                            new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
-                            new ReloadJuntadas(),
-                            new OperacoesActions.Resultado({
-                                type: 'vinculacaoDocumento',
-                                content: `Vinculação Documento id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log (err);
-                            return of(new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoFailed(err));
+                    mergeMap((response: VinculacaoDocumento) => [
+                        new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
+                        new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
+                        new ReloadJuntadas(),
+                        new OperacoesActions.Resultado({
+                            type: 'vinculacaoDocumento',
+                            content: `Vinculação Documento id ${response.id} criada com sucesso!`,
+                            dateTime: response.criadoEm
                         })
-                    ))
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoFailed(err));
+                    })
+                ))
             );
 
     /**

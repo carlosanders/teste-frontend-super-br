@@ -131,11 +131,10 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
+                message: 'Esta operação não pode ser desfeita. Deseja realmente remeter o ofício?'
             },
             disableClose: false
         });
-
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Esta operação não pode ser desfeita. Deseja realmente remeter o ofício?';
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {

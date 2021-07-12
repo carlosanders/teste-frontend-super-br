@@ -583,13 +583,22 @@
             </div>
         </div>
 
-        <div class="volume"
-             *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
-            <div class="juntada" matRipple
+        <div class="volume" id="juntada_{{juntada.id}}" #element
+             *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;"
+             [dndDisableDropIf]="!juntada.ativo" dndDragoverClass="custom-drag-over"
+             dndDropzone dndDropzoneDisabledClass="custom-drag-over-disabled" (dndDragover)="dragOver($event, element, dropzoneEnabledJuntada($event, juntada))"
+             (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
+            <div class="juntada drag-juntada" matRipple
                  (click)="gotoStep(i, juntada.ativo)"
-                 [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}">
+                 [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
+                 [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
+                 [dndDragImageOffsetFunction]="this.offsetFunction"
+                 [dndDisableDragIf]="!juntada.ativo || juntada.documento.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
+                 (dndEnd)="onCancelDrag($event)"
+                 (dndCopied)="onCopied($event, juntada)"
+                 (dndStart)="onStartDrag($event, juntada)">
                 <div class="index">
-                    <span>{{juntada.numeracaoSequencial}}</span>
+                    <span dndDragImageRef>{{juntada.numeracaoSequencial}}</span>
                 </div>
                 <div fxFlex fxLayout="column">
                     <div *ngIf="!juntada.ativo">
@@ -668,6 +677,7 @@
                     </div>
                 </div>
                 <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-4 mr-4">lock</mat-icon>
+                <mat-icon class="place-holder">move_to_inbox</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                             *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&

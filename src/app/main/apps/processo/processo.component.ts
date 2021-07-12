@@ -263,18 +263,18 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             data: {
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
+                message: 'Deseja realmente arquivar o processo ' + this.processo.NUPFormatado + '?',
                 cancelLabel: 'Não',
             },
             disableClose: false
         });
-
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.processo.NUPFormatado + '?';
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const populate = JSON.stringify([
                     'setorAtual',
                     'setorAtual.especieSetor',
+                    'setorAtual.unidade',
                     'modalidadeFase'
                 ]);
                 this._store.dispatch(new fromStore.ArquivarProcesso({processo: this.processo, populate: populate}));

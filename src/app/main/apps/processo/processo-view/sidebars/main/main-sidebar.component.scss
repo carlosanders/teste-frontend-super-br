@@ -126,6 +126,43 @@ processo-view-main-sidebar {
             flex-direction: column;
             flex: 1 1 auto;
             height: 0;
+
+            [dndDropzone] {
+                transition: all 300ms ease;
+                display: flex;
+            }
+
+            .place-holder {
+                display: none;
+            }
+
+            [dndDropzone].custom-drag-over {
+                background-color: rgba(0, 0, 0, 0.3);
+                border: 1px;
+                transform: scale(1.05);
+
+                .place-holder {
+                    display: flex;
+                    flex: 0 0 auto;
+                    align-items: flex-end;
+                    align-content: flex-end;
+                    align-self: center;
+                    margin-left: auto;
+                }
+            }
+
+            [dndDropzone].custom-drag-over.custom-drag-over-disabled {
+                transform: scale(1.0);
+                background-color: #F5F5F5;
+
+                .place-holder {
+                    display: none !important;
+                }
+
+                .drag-juntada.dndDraggingSource {
+                    cursor: no-drop !important;
+                }
+            }
         }
 
         > .loading-minutas {
