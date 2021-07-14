@@ -201,6 +201,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     vincular = new EventEmitter<number>();
 
     @Output()
+    vincularRole = new EventEmitter<number>();
+
+    @Output()
     distribuirTarefas = new EventEmitter<Usuario>();
 
     @Output()
@@ -357,6 +360,10 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     deleteBloco(ids): void {
         this.deleteBlocoEmmitter.emit(ids);
+    }
+
+    vincularUsuarioRole(usuarioId): void {
+        this.vincularRole.emit(usuarioId);
     }
 
     /**

@@ -44,21 +44,38 @@ export class CompartilhamentoCreateEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoCreateActions.SaveCompartilhamento>(CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO),
-                switchMap(action => this._compartilhamentoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'compartilhamento',
+                    content: 'Salvando a compartilhamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._compartilhamentoService.save(action.payload.compartilhamento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'compartilhamento',
+                                content: 'Compartilhamento id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Compartilhamento) => [
                             new CompartilhamentoCreateActions.SaveCompartilhamentoSuccess(),
                             new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'compartilhamento',
-                                content: `Compartilhamento id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'compartilhamento',
+                                content: 'Erro ao salvar a compartilhamento!',
+                                status: 2, // erro
+                            }));
                             return of(new CompartilhamentoCreateActions.SaveCompartilhamentoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
 

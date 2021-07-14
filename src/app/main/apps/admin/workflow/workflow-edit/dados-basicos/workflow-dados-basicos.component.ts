@@ -9,6 +9,7 @@ import {Pagination, Workflow} from '@cdk/models';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../../store';
 import {getWorkflow} from '../store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'workflow-dados-basicos',
@@ -78,8 +79,12 @@ export class WorkflowDadosBasicosComponent implements OnInit {
                 workflow[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveWorkflow(workflow));
 
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveWorkflow({
+            workflow: workflow,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

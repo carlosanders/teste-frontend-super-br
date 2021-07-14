@@ -475,6 +475,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     isHtml(filename) {
         const name = filename.split('.');
-        return 'HTML' == [...name].pop();
+        return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
     }
 }

@@ -397,3 +397,32 @@
 * Correção na colocação em bloco de etiquetas
 * Correção para correta exibição do módulo do usuário externo validado
 * Outras correções relevantes
+
+1.5.2
+
+* Correção no setor origem na distribuição do processo em passos
+
+1.5.3
+
+* Melhoria painel de visualização do painel de tarefas em kanban
+* Melhoria Implementado componente de histórico de processos na tela de edição
+* Melhoria Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
+* Correção nas pesquisas de processo e de componente digital
+* Correção de nome do componente no css de classificacao-gridsearch
+* Correção de gridsearch de municipio para trazer o estado no grid
+* Correção na assinatura de método save do parent generic service para possibilitar envio de atributo populate para o backend
+* Correção na visualização dos documentos do protocolo eletrônico
+* Correção para exibir o zoom corretamente na visualização de html em processos
+* Correção mensagem de confirmação ao editar sigilos de documentos
+* Correção campo de pesquisa de assuntos de processos (autocomplete)
+* Correção campos de pesquisa de documentos por autor, redator e destinatário (textual) 
+* Correção de erro no estado da aplicação ao salvar dados básicos de documento
+* Correção na liberação da pesquisa de processos e documentos
+* Correção para omitir configurações de aparência ainda não homologados
+
+1.6.0
+
+* Melhoria criado componente de autocomplete de lotações
+* Melhoria criado componente gridsearch de lotações
+* Melhoria criado botão no formulário de tarefas para consultar lotações
+* Melhoria criado método para preencher unidade, setor e usuário da tarefa de acordo com a lotação selecionada no autocomplete/gridsearch

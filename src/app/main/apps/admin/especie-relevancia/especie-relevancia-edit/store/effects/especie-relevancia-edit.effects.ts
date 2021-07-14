@@ -98,7 +98,7 @@ export class EspecieRelevanciaEditEffects {
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
-                                type: 'especieRelevancia',
+                                type: 'espécie relevância',
                                 content: 'Espécie relevância id ' + response.id + ' salvo com sucesso.',
                                 status: 1, // sucesso
                             }))

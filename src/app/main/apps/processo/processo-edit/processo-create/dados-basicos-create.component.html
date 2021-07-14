@@ -145,6 +145,7 @@
             [errors]="(errorsTarefa$ | async)"
             [fromProcesso]="true"
             [especieTarefaPagination]="especieTarefaPagination"
+            [setorOrigemPagination]="setorOrigemPagination"
             [logEntryPagination]="logEntryPagination"
             (save)="submitTarefa($event)"
             (abort)="doAbort()">
@@ -291,6 +292,7 @@
             [errors]="(errorsTarefa$ | async)"
             [fromProcesso]="true"
             [especieTarefaPagination]="especieTarefaPagination"
+            [setorOrigemPagination]="setorOrigemPagination"
             [logEntryPagination]="logEntryPagination"
             (save)="submitTarefa($event)"
             (abort)="doAbort()">

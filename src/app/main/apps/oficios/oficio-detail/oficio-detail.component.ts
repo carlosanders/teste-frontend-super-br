@@ -23,6 +23,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'oficio-detail',
@@ -188,15 +189,22 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({documentoAvulso: this.documentoAvulso, etiqueta: etiqueta}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({
+            documentoAvulso: this.documentoAvulso,
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        }));
     }
 
     onEtiquetaEdit(values): void {
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
         vinculacaoEtiqueta.id = values.id;
-        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
-            changes: {conteudo: values.conteudo, privada: values.privada}
+            changes: {conteudo: values.conteudo, privada: values.privada},
+            operacaoId: operacaoId
         }));
     }
 

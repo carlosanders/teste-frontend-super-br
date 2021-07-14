@@ -59,8 +59,10 @@ export class ResolveGuard implements CanActivate {
         return true;
     }
 
-    isAdmin(role): any {
-        return role === 'ROLE_ADMIN';
+    isAdmin(role: string): boolean {
+        return (['ROLE_ADMIN', 'ROLE_*_ADMIN']
+                .map((papel) => role.match(RegExp(papel.replace('*', '.*'), 'i')))
+        ).filter(item => item).length > 0;
     }
 
 }

@@ -95,7 +95,7 @@ export class TemplatesEditEffect {
                 }))),
                 switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._templateService.save(action.payload.templates, context).pipe(
+                    return this._templateService.save(action.payload.template, context).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,

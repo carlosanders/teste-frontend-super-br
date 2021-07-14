@@ -20,7 +20,7 @@ import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {DocumentosActionsAll} from '../actions';
+import {LoginService} from "../../../../../../auth/login/login.service";
 
 @Injectable()
 export class DocumentosEffects {
@@ -32,6 +32,7 @@ export class DocumentosEffects {
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _assinaturaService: AssinaturaService,
+        private _loginService: LoginService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -300,22 +301,42 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.AssinaDocumentoEletronicamente>(DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Salvando a assinatura ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Assinatura) => [
                             new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documentoId),
-                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                            new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
-                            new OperacoesActions.Resultado({
-                                type: 'assinatura',
-                                content: `Assinatura id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new DocumentosActions.GetDocumentos({
+                                'processoOrigem.id': `eq:${action.payload.processoId}`,
+                                'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                            }),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Erro ao salvar a assinatura!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     @Effect()
@@ -327,7 +348,10 @@ export class DocumentosEffects {
                             .pipe(
                                 mergeMap(response => [
                                     new DocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                                    new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                                    new DocumentosActions.GetDocumentos({
+                                        'processoOrigem.id': `eq:${action.payload.processoId}`,
+                                        'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                                    }),
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);

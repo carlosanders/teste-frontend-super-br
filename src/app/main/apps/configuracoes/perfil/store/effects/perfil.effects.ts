@@ -72,39 +72,42 @@ export class ProfileEffect {
             );
     });
 
-    uploadImagemPerfil: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<ProfileActions.UploadImagemPerfil>(ProfileActions.UPLOAD_IMAGEM_PERFIL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.save(action.payload).pipe(
-                        mergeMap((response: ComponenteDigital) => [
-                            new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema}),
-                            new ProfileActions.UploadImagemPerfilSuccess(response)
-                        ]),
-                        catchError((err) => {
-                            return of(new ProfileActions.UploadImagemPerfilFailed(err));
-                        })
-                    );
-                })
-            );
-    });
-
     uploadImagemChancela: any = createEffect(() => {
         return this._actions
             .pipe(
                 ofType<ProfileActions.UploadImagemChancela>(ProfileActions.UPLOAD_IMAGEM_CHANCELA),
-                switchMap((action) => {
-                    return this._componenteDigitalService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: 'Salvando o componente digital ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'componente digital',
+                                content: 'Componente digital id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: ComponenteDigital) => [
                             new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema}),
                             new ProfileActions.UploadImagemChancelaSuccess(response)
                         ]),
                         catchError((err) => {
-                            return of(new ProfileActions.UploadImagemChancelaFailed(err));
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'componente digital',
+                                content: 'Erro ao salvar o componente digital!',
+                                status: 2, // erro
+                            }));
+                            return of(new ProfileActions.UploadImagemPerfilFailed(err));
                         })
-                    );
+                    )
                 })
-            );
+            )
     });
 }

@@ -23,7 +23,6 @@ import {
 import {DocumentoService} from '@cdk/services/documento.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {RelatorioDetailActionsAll} from 'app/main/apps/relatorios/relatorio-detail/store/actions/relatorio-detail.actions';
 
 @Injectable()
 export class RelatorioDetailEffect {
@@ -207,35 +206,48 @@ export class RelatorioDetailEffect {
     createVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
-                ofType<RelatorioDetailActions.CreateVinculacaoEtiqueta>(RelatorioDetailActions.CREATE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
+                ofType<RelatorioDetailActions.CreateVinculacaoEtiqueta>(RelatorioDetailActions.SAVE_RELATORIO),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculacaoEtiqueta',
+                    content: 'Salvando a vinculacaoEtiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.relatorio = action.payload.relatorio;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
-                    return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap(response => response.relatorio = null),
-                        mergeMap(response => [
+                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoEtiqueta',
+                                content: 'VinculacaoEtiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: VinculacaoEtiqueta) => [
+                            new AddData<VinculacaoEtiqueta>({data: [response], schema: vinculacaoEtiquetaSchema}),
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: relatorioSchema,
                                 parentId: action.payload.relatorio.id
                             }),
-                            new OperacoesActions.Resultado({
-                                type: 'relatorio',
-                                content: `Relatorio id ${response.id} etiquetada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoEtiqueta',
+                                content: 'Erro ao salvar a vinculacaoEtiqueta!',
+                                status: 2, // erro
+                            }));
                             return of(new RelatorioDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                }, 25)
+                    )
+                })
             );
-
-
     /**
      * Save conteúdo vinculação etiqueta na relatorio
      *

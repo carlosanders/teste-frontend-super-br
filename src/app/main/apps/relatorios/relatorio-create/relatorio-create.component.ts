@@ -14,6 +14,7 @@ import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {Back, getRouterState} from '../../../../store';
 import {GeneroRelatorio} from '@cdk/models/genero-relatorio.model';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'relatorio-create',
@@ -140,7 +141,11 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
         relatorio.parametros = JSON.stringify(arrayParams);
 
         relatorio.vinculacoesEtiquetas = this.relatorio.vinculacoesEtiquetas;
-        this._store.dispatch(new fromStore.SaveRelatorio(relatorio));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveRelatorio({
+            relatorio: relatorio,
+            operacaoId: operacaoId
+        }));
 
     }
 

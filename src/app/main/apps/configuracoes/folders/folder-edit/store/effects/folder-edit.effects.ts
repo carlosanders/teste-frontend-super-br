@@ -66,10 +66,9 @@ export class FolderEditEffect {
                         folderId: response['entities'][0].id
                     })
                 ]),
-                catchError((err, caught) => {
+                catchError((err) => {
                     console.log(err);
-                    this._store.dispatch(new FolderEditActions.GetFolderFailed(err));
-                    return caught;
+                    return of(new FolderEditActions.GetFolderFailed(err));
                 })
             );
 

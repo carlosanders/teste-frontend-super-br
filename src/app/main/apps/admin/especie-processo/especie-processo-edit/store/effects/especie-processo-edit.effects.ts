@@ -99,7 +99,7 @@ export class EspecieProcessoEditEffects {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'espécie processo',
-                                content: 'Espécie processo id ' + response.id + ' salva com sucesso.',
+                                content: 'Espécie processo id ' + response.id + ' salvo com sucesso.',
                                 status: 1, // sucesso
                             }))
                         ),

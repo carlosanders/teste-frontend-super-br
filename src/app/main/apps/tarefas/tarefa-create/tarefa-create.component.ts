@@ -46,6 +46,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     setorOrigemPagination: Pagination;
     setorResponsavelPagination: Pagination;
     setorOrigemPaginationTree: Pagination;
+    lotacaoPagination: Pagination;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -92,6 +93,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.setorResponsavelPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPaginationTree = new Pagination();
         this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
+        this.lotacaoPagination = new Pagination();
+        this.lotacaoPagination.populate = ['colaborador', 'colaborador.usuario', 'setor', 'setor.unidade'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -230,8 +233,11 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
         tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
 
-        this._store.dispatch(new fromStore.SaveTarefa(tarefa));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {

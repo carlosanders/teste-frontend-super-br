@@ -593,7 +593,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 .replace(/-+/g, '');
         }
 
-        this._store.dispatch(new fromStore.SaveProcesso(processo));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveProcesso({
+            processo: processo,
+            operacaoId: operacaoId
+        }));
     }
 
     onActivate(componentReference): void  {
@@ -656,7 +660,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         assunto.processo = this.processo;
 
-        this._store.dispatch(new SaveAssunto(assunto));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAssunto({
+            assunto: assunto,
+            operacaoId: operacaoId
+        }));
     }
 
     submitInteressado(values): void {
@@ -670,7 +678,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         interessado.processo = this.processo;
 
-        this._store.dispatch(new SaveInteressado(interessado));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveInteressado({
+            interessado: interessado,
+            operacaoId: operacaoId
+        }));
     }
 
     submitVinculacaoProcesso(values): void {
@@ -684,7 +696,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         vinculacaoProcesso.processo = this.processo;
 
-        this._store.dispatch(new SaveVinculacaoProcesso(vinculacaoProcesso));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoProcesso({
+            vinculacaoProcesso: vinculacaoProcesso,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTarefa(values): void {
@@ -696,7 +712,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             }
         );
 
-        this._store.dispatch(new SaveTarefa(tarefa));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId
+        }));
     }
 
     upload(): void {
@@ -928,7 +948,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 const desentranhamento = new Desentranhamento();
                 desentranhamento.tipo = 'arquivo';
                 desentranhamento.juntada = juntada;
-                this._store.dispatch(new fromStore.SaveDesentranhamento(desentranhamento));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.SaveDesentranhamento({
+                    desentranhamento: desentranhamento,
+                    operacaoId: operacaoId
+                }));
             }
             this.confirmDialogRef = null;
         });
@@ -972,9 +996,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    documento: result.documento
+                    documento: result.documento,
+                    operacaoId: operacaoId
                 }));
             });
         }

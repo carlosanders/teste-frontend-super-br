@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as RegisterActions from '../actions';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {usuario as usuarioSchema} from '@cdk/normalizr';
@@ -10,6 +10,8 @@ import {Usuario} from '@cdk/models';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {of} from 'rxjs';
 
 @Injectable()
 export class RegisterEffects {
@@ -41,16 +43,37 @@ export class RegisterEffects {
         this._actions
             .pipe(
                 ofType<RegisterActions.Register>(RegisterActions.REGISTER),
-                switchMap(action => this._usuarioService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'registro',
+                    content: 'Salvando o registro ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._usuarioService.save(action.payload.register).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'registro',
+                                content: 'Registro id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Usuario) => [
-                            new AddData<Usuario>({data: [response], schema: usuarioSchema}),
-                            new RegisterActions.RegisterSuccess(response)
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new RegisterActions.RegisterFailed(err));
-                    return caught;
+                            new RegisterActions.RegisterSuccess(response),
+                            new AddData<Usuario>({data: [response], schema: usuarioSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'registro',
+                                content: 'Erro ao salvar o registro!',
+                                status: 2, // erro
+                            }));
+                            return of(new RegisterActions.RegisterFailed(err));
+                        })
+                    )
                 })
             );
 }

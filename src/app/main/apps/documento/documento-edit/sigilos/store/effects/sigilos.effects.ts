@@ -12,9 +12,7 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Sigilo} from '@cdk/models';
 import {sigilo as sigiloSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 import {SigiloService} from '@cdk/services/sigilo.service';
-import {SigiloActionsAll} from '../actions/sigilos.actions';
 
 @Injectable()
 export class SigilosEffects {
@@ -186,22 +184,39 @@ export class SigilosEffects {
         this._actions
             .pipe(
                 ofType<SigiloActions.SaveSigiloDocumento>(SigiloActions.SAVE_SIGILO_DOCUMENTO),
-                switchMap(action => this._sigiloService.save(action.payload.sigilo).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'sigilo',
+                    content: 'Salvando a sigilo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._sigiloService.save(action.payload.sigilo).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'sigilo',
+                                content: 'Sigilo id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Sigilo) => [
                             new SigiloActions.SaveSigiloDocumentoSuccess(),
                             new SigiloActions.GetSigilos(action.payload.documentoId),
                             new AddData<Sigilo>({data: [response], schema: sigiloSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'sigilo',
-                                content: `Sigilo id ${response.id} criada com sucesso!`,
-                                dateTime: moment()
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'sigilo',
+                                content: 'Erro ao salvar a sigilo!',
+                                status: 2, // erro
+                            }));
                             return of(new SigiloActions.SaveSigiloDocumentoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
 }

@@ -20,6 +20,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../../store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-copia-create',
@@ -126,7 +127,13 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             documento.documentoOrigem = juntada.documento;
             documento.tipoDocumento = juntada.documento.tipoDocumento;
 
-            this._store.dispatch(new fromStore.SaveDocumentoCopia({juntadaId: juntada.id, documento: documento}));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveDocumentoCopia({
+                juntadaId: juntada.id,
+                documento: documento,
+                operacaoId: operacaoId
+            }));
+
         });
     }
 

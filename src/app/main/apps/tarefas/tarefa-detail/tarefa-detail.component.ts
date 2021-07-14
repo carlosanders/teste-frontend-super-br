@@ -237,7 +237,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onVinculacaoEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({
+            tarefa: this.tarefa,
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        }));
     }
 
     onVinculacaoEtiquetaEdit(values): void {
@@ -257,7 +262,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     addEtiqueta(etiqueta: Etiqueta): void {
-        this._store.dispatch(new SaveEtiqueta({etiqueta: etiqueta, tarefa: this.tarefa}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new SaveEtiqueta({
+            etiqueta: etiqueta,
+            tarefa: this.tarefa,
+            operacaoId: operacaoId
+        }));
         this.etiqueta = null;
         this.showEtiqueta = false;
     }

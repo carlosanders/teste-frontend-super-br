@@ -97,7 +97,7 @@ export class EspecieTarefaEditEffects {
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
-                                type: 'especieTarefa',
+                                type: 'espécie tarefa',
                                 content: 'Espécie tarefa id ' + response.id + ' salva com sucesso.',
                                 status: 1, // sucesso
                             }))

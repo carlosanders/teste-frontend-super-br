@@ -47,6 +47,17 @@
             </mat-menu>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+                <input matInput placeholder="Assunto"
+                       formControlName="assunto"
+                       [matAutocomplete]="assuntoAdministrativo.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-assunto-administrativo-autocomplete #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
+                                                         [pagination]="assuntoAdministrativoPagination"
+                                                         [control]="form.get('assunto')">
+                </cdk-assunto-administrativo-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Processo de Trabalho"
                        formControlName="especieProcesso"
                        [matAutocomplete]="especieProcesso.autocomplete"
@@ -167,6 +178,24 @@
                 <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')"
                                         [pagination]="setorPagination">
                 </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Criado Por"
+                       formControlName="criadoPor"
+                       [matAutocomplete]="usuarioCriadoPor.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
+                </cdk-usuario-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Atualizado Por"
+                       formControlName="atualizadoPor"
+                       [matAutocomplete]="usuario.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+                </cdk-usuario-autocomplete>
             </mat-form-field>
 
             <div class="filtro-data">

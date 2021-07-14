@@ -2,6 +2,7 @@
 FROM node:14.15.5-alpine AS build
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
+ENV CYPRESS_CACHE_FOLDER=./tmp/Cypress
 
 WORKDIR /var/www/html
 
@@ -9,9 +10,9 @@ COPY package.json /var/www/html/package.json
 
 RUN npm config set unsafe-perm true
 
-RUN npm install npm@7.19.0 -g
+RUN npm install npm@7.19.1 -g
 
-RUN npm install -g @angular/cli@12.0.5
+RUN npm install -g @angular/cli@12.1.1
 
 RUN npm install --legacy-peer-deps --package-lock=false
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
@@ -16,6 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {TransicaoWorkflowService} from '@cdk/services/transicao-workflow.service';
 import {Workflow} from '@cdk/models';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class DadosBasicosEffects {
@@ -47,21 +48,39 @@ export class DadosBasicosEffects {
         this._actions
             .pipe(
                 ofType<DadosBasicosActions.SaveTransicaoWorkflow>(DadosBasicosActions.SAVE_TRANSICAO_WORKFLOW),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'transição workflow',
+                    content: 'Salvando a transição workflow ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._transicaoWorkflowService.save(action.payload, context).pipe(
-                        mergeMap((response: Workflow) =>
-                            [
-                                new AddData<Workflow>({data: [response], schema: transicaoWorkflowSchema}),
-                                new TransicaoWorkflowListActions.UnloadTransicaoWorkflow(),
-                                new DadosBasicosActions.SaveTransicaoWorkflowSuccess(action.payload),
-                            ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DadosBasicosActions.SaveTransicaoWorkflowFailed(err));
-                    return caught;
+                    return this._transicaoWorkflowService.save(action.payload.transicaoWorkflow, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transição workflow',
+                                content: 'Transição workflow id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Workflow) => [
+                            new AddData<Workflow>({data: [response], schema: transicaoWorkflowSchema}),
+                            new TransicaoWorkflowListActions.UnloadTransicaoWorkflow(),
+                            new DadosBasicosActions.SaveTransicaoWorkflowSuccess(action.payload.transicaoWorkflow),
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transição workflow',
+                                content: 'Erro ao salvar a transição workflow!',
+                                status: 2, // erro
+                            }));
+                            return of(new DadosBasicosActions.SaveTransicaoWorkflowFailed(err));
+                        })
+                    )
                 })
             );
 

@@ -214,33 +214,47 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.CreateVinculacaoEtiqueta>(ProcessoDetailActions.CREATE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação etiqueta',
+                    content: 'Salvando a vinculação etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
-                    return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap(response => response.processo = null),
-                        mergeMap(response => [
+                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação etiqueta',
+                                content: 'Vinculação etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: VinculacaoEtiqueta) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: processoSchema,
                                 parentId: action.payload.processo.id
                             }),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} etiquetada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<VinculacaoEtiqueta>({data: [response], schema: vinculacaoEtiquetaSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação etiqueta',
+                                content: 'Erro ao salvar a vinculação etiqueta!',
+                                status: 2, // erro
+                            }));
                             return of(new ProcessoDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                }, 25)
+                    )
+                })
             );
-
 
     /**
      * Save conteúdo vinculação etiqueta na processo

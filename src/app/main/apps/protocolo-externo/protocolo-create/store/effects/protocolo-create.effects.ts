@@ -45,23 +45,40 @@ export class ProtocoloCreateEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloCreateActions.SaveProcesso>(ProtocoloCreateActions.SAVE_PROCESSO),
-                switchMap(action => this._processoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'processo',
+                    content: 'Salvando a processo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._processoService.save(action.payload.processo).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Processo id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Processo) => [
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
                             new ProtocoloCreateActions.SaveProcessoSuccess(response),
                             new UnloadProcessos({reset: false}),
                             new ReloadProcessos(),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Processo>({data: [response], schema: processoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Erro ao salvar a processo!',
+                                status: 2, // erro
+                            }));
                             return of(new ProtocoloCreateActions.SaveProcessoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

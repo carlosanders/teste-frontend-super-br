@@ -126,22 +126,39 @@ export class VisibilidadeEffects {
         this._actions
             .pipe(
                 ofType<VisibilidadeActions.SaveVisibilidadeDocumento>(VisibilidadeActions.SAVE_VISIBILIDADE_DOCUMENTO),
-                switchMap(action => this._documentoService.createVisibilidade(action.payload.documentoId, action.payload.visibilidade).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'visibilidade',
+                    content: 'Salvando a visibilidade ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._documentoService.createVisibilidade(action.payload.documentoId, action.payload.visibilidade).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'visibilidade',
+                                content: 'Visibilidade id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Visibilidade) => [
                             new VisibilidadeActions.SaveVisibilidadeDocumentoSuccess(),
                             new VisibilidadeActions.GetVisibilidades(action.payload.documentoId),
-                            new AddData<Visibilidade>({data: [response], schema: visibilidadeSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'visibilidade',
-                                content: `Visibilidade id ${response.id} criada com sucesso!`,
-                                dateTime: moment()
-                            })
+                            new AddData<Visibilidade>({data: [response], schema: visibilidadeSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'visibilidade',
+                                content: 'Erro ao salvar a visibilidade!',
+                                status: 2, // erro
+                            }));
                             return of(new VisibilidadeActions.SaveVisibilidadeDocumentoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
 }

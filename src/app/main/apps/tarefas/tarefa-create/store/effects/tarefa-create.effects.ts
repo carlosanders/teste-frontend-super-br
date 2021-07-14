@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as TarefaCreateActions from '../actions/tarefa-create.actions';
 
@@ -45,28 +45,38 @@ export class TarefaCreateEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateActions.SaveTarefa>(TarefaCreateActions.SAVE_TAREFA),
-                mergeMap(action => this._tarefaService.save(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaCreateActions.SaveTarefaSuccess(action.payload.bloco),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-                            new OperacoesActions.Resultado({
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Salvando a tarefa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tarefaService.save(action.payload.tarefa).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
+                                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Tarefa) => [
+                            new TarefaCreateActions.SaveTarefaSuccess(response),
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'tarefa',
-                                content: `Houve erro na tarefa no processo ${action.payload.processo.NUP} para o setor ${action.payload.setorResponsavel.nome}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
+                                content: 'Erro ao salvar a tarefa!',
+                                status: 2, // erro
                             }));
                             return of(new TarefaCreateActions.SaveTarefaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

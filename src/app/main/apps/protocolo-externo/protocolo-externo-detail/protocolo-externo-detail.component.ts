@@ -181,7 +181,8 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     complete(pending: number): void {
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos({
-                'processoOrigem.id': 'eq:' + this.processo.id
+                'processoOrigem.id': 'eq:' + this.processo.id,
+                'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
             }));
         }
     }

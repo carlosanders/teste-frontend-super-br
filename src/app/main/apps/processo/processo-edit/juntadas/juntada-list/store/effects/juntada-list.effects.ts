@@ -152,27 +152,41 @@ export class JuntadaListEffect {
         this._actions
             .pipe(
                 ofType<JuntadaListActions.AssinaDocumentoEletronicamente>(JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Salvando a assinatura ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Assinatura) => [
                             new JuntadaListActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'assinatura',
-                                content: `Assinatura id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            }),
-                            new JuntadaListActions.ReloadJuntadas()
+                            new JuntadaListActions.ReloadJuntadas(),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema})
                         ]),
                         catchError((err) => {
-                            const payload = {
-                                documentoId: action.payload.documento.id,
-                                error: err
-                            };
                             console.log(err);
-                            return of(new JuntadaListActions.AssinaDocumentoEletronicamenteFailed(payload));
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Erro ao salvar a assinatura!',
+                                status: 2, // erro
+                            }));
+                            return of(new JuntadaListActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
 
     @Effect()
     removeVinculacaoDocumento: any =

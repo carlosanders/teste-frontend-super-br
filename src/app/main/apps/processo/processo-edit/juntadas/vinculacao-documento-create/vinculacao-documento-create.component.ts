@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {Back, getRouterState} from '../../../../../../store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-documento-create',
@@ -114,8 +115,11 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
 
         vinculacaoDocumento.documento = this.juntada.documento;
 
-        this._store.dispatch(new fromStore.SaveVinculacaoDocumento(vinculacaoDocumento));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoDocumento({
+            vinculacaoDocumento: vinculacaoDocumento,
+            operacaoId: operacaoId
+        }));
     }
 
 }

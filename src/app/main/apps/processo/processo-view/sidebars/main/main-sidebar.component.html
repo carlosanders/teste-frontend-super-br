@@ -317,7 +317,7 @@
                                 <span>Abrir em outra aba</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.extensao === 'html'"
+                                    *ngIf="!minuta.apagadoEm && (minuta?.componentesDigitais[0]?.extensao === 'html' || minuta?.componentesDigitais[0]?.extensao === 'HTML')"
                                     (click)="doConverte(minuta.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
@@ -470,7 +470,7 @@
                                 <span>Remover Assinatura</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(oficio.id)"
-                                    *ngIf="oficio?.componentesDigitais[0]?.extensao === 'pdf'" mat-menu-item>
+                                    *ngIf="oficio?.componentesDigitais[0]?.extensao === 'pdf' || oficio?.componentesDigitais[0]?.extensao === 'PDF'" mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
                             </button>

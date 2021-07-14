@@ -87,7 +87,7 @@ export class RemessaEditEffect {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._tramitacaoService.save(action.payload.remessa).pipe(
+                    return this._tramitacaoService.save(action.payload.tramitacao).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,

@@ -8,6 +8,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'classificacao-tree-list',
@@ -56,7 +57,12 @@ export class ClassificacaoTreeListComponent implements OnInit {
                 classificacao[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveClassificacao(classificacao));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveClassificacao({
+            classificacao: classificacao,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort() {

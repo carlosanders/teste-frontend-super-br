@@ -201,7 +201,11 @@ export class PerfilComponent implements OnInit, OnDestroy {
         componenteDigital.fileName = 'imagem_chancela.jpeg';
         componenteDigital.tamanho = event.base64.length;
 
-        this._store.dispatch(new UploadImagemChancela(componenteDigital));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.UploadImagemChancela({
+            componenteDigital: componenteDigital,
+            operacaoId: operacaoId
+        }));
     }
 
     cropImgPerfil(): void

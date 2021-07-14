@@ -20,6 +20,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {Back} from '../../../../../../store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'compartilhamento-create',
@@ -115,6 +116,10 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveCompartilhamento(compartilhamento));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveCompartilhamento({
+            compartilhamento: compartilhamento,
+            operacaoId: operacaoId
+        }));
     }
 }

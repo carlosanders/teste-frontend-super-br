@@ -2,7 +2,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
 import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 
@@ -17,6 +17,7 @@ import {getRouterState, State} from '../../../../../../store';
 import * as RegistrarExtravioActions from '../actions/registrar-extravio.actions';
 import * as fromStore from '../../store';
 import {ChangeProcessos, getProcessosIds} from '../../../arquivista-list/store';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class RegistrarExtravioEffects {
@@ -50,16 +51,37 @@ export class RegistrarExtravioEffects {
         this._actions
             .pipe(
                 ofType<RegistrarExtravioActions.SaveRegistrarExtravio>(RegistrarExtravioActions.SAVE_REGISTRAR_EXTRAVIO),
-                switchMap(action => this._transicaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'realizarTransicao',
+                    content: 'Salvando a realizarTransicao ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._transicaoService.save(action.payload.realizarTransicao).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'realizarTransicao',
+                                content: 'RealizarTransicao id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Transicao) => [
-                            new AddData<Transicao>({data: [response], schema: transicaoSchema}),
-                            new RegistrarExtravioActions.SaveRegistrarExtravioSuccess(action.payload)
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new RegistrarExtravioActions.SaveRegistrarExtravioFailed(err));
-                    return caught;
+                            new RegistrarExtravioActions.SaveRegistrarExtravioSuccess(response),
+                            new AddData<Transicao>({data: [response], schema: transicaoSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'realizarTransicao',
+                                content: 'Erro ao salvar a realizarTransicao!',
+                                status: 2, // erro
+                            }));
+                            return of(new RegistrarExtravioActions.SaveRegistrarExtravioFailed(err));
+                        })
+                    )
                 })
             );
 

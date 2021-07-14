@@ -58,7 +58,7 @@ export class DocumentoEditEffects {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._documentoService.save(action.payload.documento).pipe(
+                    return this._documentoService.save(action.payload.documento, '{}', action.payload.populate).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
@@ -84,4 +84,5 @@ export class DocumentoEditEffects {
                     )
                 })
             );
+
 }

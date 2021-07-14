@@ -28,6 +28,7 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkUtils} from '../../../../@cdk/utils';
 
 @Component({
     selector: 'processo',
@@ -229,7 +230,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({
+            processo: this.processo,
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        }));
     }
 
     onEtiquetaEdit(values): void {
