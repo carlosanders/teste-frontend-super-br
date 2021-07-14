@@ -939,10 +939,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
+                message: 'Este procedimento é irreversível. Deseja realmente desentranhar a juntada?'
             },
             disableClose: false
         });
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Este procedimento é irreversível. Deseja realmente desentranhar a juntada?';
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const desentranhamento = new Desentranhamento();

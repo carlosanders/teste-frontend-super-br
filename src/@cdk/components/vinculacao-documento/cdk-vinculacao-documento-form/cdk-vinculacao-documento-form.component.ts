@@ -30,6 +30,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     vinculacaoDocumento: VinculacaoDocumento;
 
     @Input()
+    documentoVinculado: Documento;
+
+    @Input()
     displayedColumns = ['id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions'];
 
     @Input()
@@ -92,9 +95,14 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['vinculacaoDocumento'] && this.vinculacaoDocumento && ((!this.vinculacaoDocumento.id && !this.form.dirty)
-            || (this.vinculacaoDocumento.id !== this.form.get('id').value))) {
+        if (changes['vinculacaoDocumento'] && this.vinculacaoDocumento && (this.vinculacaoDocumento.documento?.id !== this.form.get('documento').value?.id)) {
             this.form.patchValue({...this.vinculacaoDocumento});
+            this.activeCard = 'form';
+            this._changeDetectorRef.detectChanges();
+        }
+
+        if (changes['documentoVinculado'] && this.documentoVinculado && (this.documentoVinculado.id !== this.form.get('documentoVinculado').value?.id)) {
+            this.form.get('documentoVinculado').setValue(this.documentoVinculado);
             this.activeCard = 'form';
             this._changeDetectorRef.detectChanges();
         }

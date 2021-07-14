@@ -108,18 +108,18 @@ export class EncaminhamentoBlocoComponent implements OnInit, OnDestroy {
             this._router.navigate(['apps/tarefas/' + this.routerState.params['generoHandle'] + '/' + this.routerState.params['typeHandle'] + '/entrada/encaminhamento-bloco/criar-tarefas-bloco']).then();
         }
         if (values.options === 'arquivar') {
+            const nupsFormatados = this.processos.map(processo => processo.NUPFormatado).join(', ');
+
             this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
                 data: {
                     title: 'Confirmação',
                     confirmLabel: 'Sim',
+                    message: 'Deseja realmente arquivar os processo ' + nupsFormatados + '?',
                     cancelLabel: 'Não',
                 },
                 disableClose: false
             });
 
-            const nupsFormatados = this.processos.map(processo => processo.NUPFormatado).join(', ');
-
-            this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar os processo ' + nupsFormatados + '?';
             this.confirmDialogRef.afterClosed().subscribe((result) => {
                 if (result) {
                     this.processos.forEach(processo => {

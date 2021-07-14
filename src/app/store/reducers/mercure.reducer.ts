@@ -20,6 +20,12 @@ export function MercureReducer(state = MercureInitialState, action: MercureActio
             };
         }
 
+        case MercureActions.LIMPA_MERCURE: {
+            return {
+                ...MercureInitialState
+            };
+        }
+
         default:
             return state;
     }

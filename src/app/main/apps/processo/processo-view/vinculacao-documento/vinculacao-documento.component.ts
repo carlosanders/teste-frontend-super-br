@@ -33,6 +33,8 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
 
     juntada$: Observable<Juntada>;
     juntada: Juntada;
+    juntadaVinculada$: Observable<Juntada>;
+    juntadaVinculada: Juntada;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -58,6 +60,7 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.juntada$ = this._store.pipe(select(fromStore.getJuntada));
+        this.juntadaVinculada$ = this._store.pipe(select(fromStore.getJuntadaVinculada));
 
         this.modalidadeVinculacaoDocumentoPagination = new Pagination();
         this.documentoVinculadoPagination = new Pagination();
@@ -104,6 +107,15 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.detectChanges();
             }
         );
+
+        this.juntadaVinculada$.pipe(
+            filter(juntada => !!juntada)
+        ).subscribe(
+            (juntada) => {
+                this.juntadaVinculada = juntada;
+                this._changeDetectorRef.detectChanges();
+            }
+        );
     }
 
     doAbort(): void {
@@ -131,6 +143,9 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
         );
 
         vinculacaoDocumento.documento = this.juntada.documento;
+        if (this.juntadaVinculada) {
+            vinculacaoDocumento.documentoVinculado = this.juntadaVinculada.documento;
+        }
 
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveVinculacaoDocumento({
@@ -139,5 +154,4 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
         }));
 
     }
-
 }

@@ -3,13 +3,13 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {ProcessoViewVinculacaoDocumentoAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getRouterState} from 'app/store/reducers';
-import {getHasLoaded} from '../selectors';
+import {getHasLoaded, getHasLoadedVinculada} from '../selectors';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -41,9 +41,20 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getJuntada().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {console.log (err); return of(false);})
+        );
+    }
+
+    /**
+     * Check store
+     *
+     * @returns
+     */
+    checkStore(): Observable<any> {
+        return forkJoin([this.getJuntada(), this.getJuntadaVinculada()]).pipe(
+            take(1)
         );
     }
 
@@ -58,12 +69,57 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetJuntada({
-                        id: 'eq:' + this.routerState.params['juntadaHandle']
+                        id: this.routerState.params['juntadaHandle'],
+                        loaded: {
+                            loaded: {
+                                id: 'juntadaHandle',
+                                value: this.routerState.params.juntadaHandle
+                            }
+                        }
                     }));
                 }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
+    }
+
+    /**
+     * Get Juntada Vinculada
+     *
+     * @returns
+     */
+    getJuntadaVinculada(): any {
+        if (this.routerState.params['juntadaVinculadaHandle']) {
+            return this._store.pipe(
+                select(getHasLoadedVinculada),
+                tap((loaded: any) => {
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                        this._store.dispatch(new fromStore.GetJuntada({
+                            id: this.routerState.params['juntadaVinculadaHandle'],
+                            loaded: {
+                                loadedVinculada: {
+                                    id: 'juntadaVinculadaHandle',
+                                    value: this.routerState.params.juntadaVinculadaHandle
+                                }
+                            }
+                        }));
+                    }
+                }),
+                filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+                take(1)
+            );
+        } else {
+            return this._store.pipe(
+                select(getHasLoadedVinculada),
+                tap((loaded: any) => {
+                    if (loaded) {
+                        this._store.dispatch(new fromStore.UnloadJuntadaVinculada());
+                    }
+                }),
+                filter((loaded: any) => !loaded),
+                take(1)
+            );
+        }
     }
 }
