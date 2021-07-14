@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ModelosEspecieSetorEditActions from '../actions/modelos-especie-setor-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ModelosEspecieSetorEditEffects {
@@ -82,17 +83,38 @@ export class ModelosEspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<ModelosEspecieSetorEditActions.SaveModeloEspecieSetor>(ModelosEspecieSetorEditActions.SAVE_MODELO_ESPECIE_SETOR),
-                switchMap(action => this._vinculacaoModeloService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'modelo',
+                    content: 'Salvando o modelo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoModeloService.save(action.payload.modelos).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modelo',
+                                content: 'Modelo id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: VinculacaoModelo) => [
                             new ModelosEspecieSetorEditActions.SaveModeloEspecieSetorSuccess(),
                             new ModelosEspecieSetorListActions.ReloadModelosEspecieSetor(),
                             new AddData<VinculacaoModelo>({data: [response], schema: vinculacaoModeloSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ModelosEspecieSetorEditActions.SaveModeloEspecieSetorFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'modelo',
+                                content: 'Erro ao salvar o modelo!',
+                                status: 2, // erro
+                            }));
+                            return of(new ModelosEspecieSetorEditActions.SaveModeloEspecieSetorFailed(err));
+                        })
+                    )
                 })
             );
 

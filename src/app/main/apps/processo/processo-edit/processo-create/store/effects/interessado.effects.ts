@@ -145,21 +145,38 @@ export class InteressadosEffect {
         this._actions
             .pipe(
                 ofType<InteressadoActions.SaveInteressado>(InteressadoActions.SAVE_INTERESSADO),
-                switchMap(action => this._interessadoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'interessado',
+                    content: 'Salvando a interessado ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._interessadoService.save(action.payload.interessado).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Interessado id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Interessado) => [
                             new InteressadoActions.SaveInteressadoSuccess(),
                             new AddData<Interessado>({data: [response], schema: interessadoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'interessado',
-                                content: `Interessado id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Erro ao salvar a interessado!',
+                                status: 2, // erro
+                            }));
                             return of(new InteressadoActions.SaveInteressadoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

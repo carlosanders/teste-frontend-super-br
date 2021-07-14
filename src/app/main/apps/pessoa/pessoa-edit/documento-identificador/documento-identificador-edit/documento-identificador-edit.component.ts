@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-identificador-edit',
@@ -87,8 +88,11 @@ export class DocumentoIdentificadorEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveDocumentoIdentificador(documentoIdentificador));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveDocumentoIdentificador({
+            documentoIdentificador: documentoIdentificador,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {

@@ -159,7 +159,12 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
     }
 
     submitVisibilidade(visibilidade): void {
-        this._store.dispatch(new fromStore.SaveVisibilidadeDocumento({documentoId: this.documento.id, visibilidade: visibilidade}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVisibilidadeDocumento({
+            documentoId: this.documento.id,
+            visibilidade: visibilidade,
+            operacaoId: operacaoId
+        }));
         this.visibilidadeIsSaving$.subscribe((next) => {
             if (!next) {
                 this.formAcessoRestrito = false;

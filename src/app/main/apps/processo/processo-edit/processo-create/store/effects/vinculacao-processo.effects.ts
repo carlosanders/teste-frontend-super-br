@@ -90,21 +90,38 @@ export class VinculacaoProcessoEffects {
         this._actions
             .pipe(
                 ofType<VinculacoesProcessosActions.SaveVinculacaoProcesso>(VinculacoesProcessosActions.SAVE_VINCULACAO_PROCESSO),
-                switchMap(action => this._vinculacaoProcessoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação do processo',
+                    content: 'Salvando a vinculação do processo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoProcessoService.save(action.payload.vinculacaoProcesso).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação do processo',
+                                content: 'Vinculação do processo id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: VinculacaoProcesso) => [
                             new VinculacoesProcessosActions.SaveVinculacaoProcessoSuccess(),
-                            new AddData<VinculacaoProcesso>({data: [response], schema: vinculacaoProcessoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'vinculacaoProcesso',
-                                content: `Vinculação do Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<VinculacaoProcesso>({data: [response], schema: vinculacaoProcessoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação do processo',
+                                content: 'Erro ao salvar a vinculação do processo!',
+                                status: 2, // erro
+                            }));
                             return of(new VinculacoesProcessosActions.SaveVinculacaoProcessoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

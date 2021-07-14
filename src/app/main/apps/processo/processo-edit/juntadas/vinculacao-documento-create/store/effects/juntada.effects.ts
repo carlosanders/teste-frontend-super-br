@@ -88,22 +88,39 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<VinculacaoDocumentoCreateActions.SaveVinculacaoDocumento>(VinculacaoDocumentoCreateActions.SAVE_VINCULACAO_DOCUMENTO),
-                switchMap(action => this._vinculacaoDocumentoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação do documento',
+                    content: 'Salvando a vinculação do documento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação do documento',
+                                content: 'Vinculação do documento id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: VinculacaoDocumento) => [
                             new VinculacaoDocumentoCreateActions.SaveVinculacaoDocumentoSuccess(),
                             new JuntadaListActions.ReloadJuntadas(),
                             new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'vinculacaoDocumento',
-                                content: `Vinculação Documento id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação do documento',
+                                content: 'Erro ao salvar a vinculação do documento!',
+                                status: 2, // erro
+                            }));
                             return of(new VinculacaoDocumentoCreateActions.SaveVinculacaoDocumentoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'especie-atividade-edit',
@@ -27,7 +28,6 @@ export class EspecieAtividadeEditComponent implements OnInit {
     especieAtividade$: Observable<EspecieAtividade>;
     formEspecieAtividade: FormGroup;
     generoAtividadePagination: Pagination;
-
 
     constructor(
         private _store: Store<fromStore.EspecieAtividadeEditAppState>,
@@ -76,7 +76,12 @@ export class EspecieAtividadeEditComponent implements OnInit {
                 especieAtividade[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveEspecieAtividade(especieAtividade));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEspecieAtividade({
+            especieAtividade: especieAtividade,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

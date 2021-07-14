@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as SegurancaActions from '../actions/seguranca.actions';
 
@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {AddData} from '../../../../../../../@cdk/ngrx-normalizr';
 
 @Injectable()
 export class SegurancaEffect {
@@ -42,18 +43,34 @@ export class SegurancaEffect {
         this._actions
             .pipe(
                 ofType<SegurancaActions.SaveSeguranca>(SegurancaActions.SAVE_SEGURANCA),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'seguranca',
+                    content: 'Salvando o seguranca ...',
+                    status: 0, // carregando
+                }))),
                 switchMap(action => this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
-                        mergeMap((response: Usuario) => [
-                            new SegurancaActions.SaveSegurancaSuccess(),  new OperacoesActions.Resultado({
-                                type: 'usuario',
-                                content: `Usuário id ${response.id} editado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log (err);
-                            return of(new SegurancaActions.SaveSegurancaFailed(err));
-                        })
-                    ))
+                    tap((response) =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'seguranca',
+                            content: 'Seguranca id ' + response.id + ' salvo com sucesso.',
+                            status: 1, // sucesso
+                        }))
+                    ),
+                    mergeMap((response: Usuario) => [
+                        new SegurancaActions.SaveSegurancaSuccess(),
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'seguranca',
+                            content: 'Erro ao salvar o seguranca!',
+                            status: 2, // erro
+                        }));
+                        return of(new SegurancaActions.SaveSegurancaFailed(err));
+                    })
+                ))
             );
 }

@@ -80,22 +80,39 @@ export class DadosPessoaEditEffect {
         this._actions
             .pipe(
                 ofType<DadosPessoaEditActions.SavePessoa>(DadosPessoaEditActions.SAVE_PESSOA),
-                switchMap(action => this._pessoaService.save(action.payload.pessoa).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'pessoa',
+                    content: 'Salvando a pessoa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._pessoaService.save(action.payload.pessoa).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'pessoa',
+                                content: 'Pessoa id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Pessoa) => [
                             new DadosPessoaEditActions.SavePessoaSuccess({pessoa: response, select: action.payload.select}),
                             new PessoaListActions.ReloadPessoas(),
-                            new AddData<Pessoa>({data: [response], schema: pessoaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'pessoa',
-                                content: `Pessoa id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Pessoa>({data: [response], schema: pessoaSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'pessoa',
+                                content: 'Erro ao salvar a pessoa!',
+                                status: 2, // erro
+                            }));
                             return of(new DadosPessoaEditActions.SavePessoaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

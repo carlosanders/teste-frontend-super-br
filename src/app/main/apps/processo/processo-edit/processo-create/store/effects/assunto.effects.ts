@@ -144,21 +144,38 @@ export class AssuntosEffect {
         this._actions
             .pipe(
                 ofType<AssuntoActions.SaveAssunto>(AssuntoActions.SAVE_ASSUNTO),
-                switchMap(action => this._assuntoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assunto',
+                    content: 'Salvando o assunto ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assuntoService.save(action.payload.assunto).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Assunto id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Assunto) => [
                             new AssuntoActions.SaveAssuntoSuccess(),
-                            new AddData<Assunto>({data: [response], schema: assuntoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'assunto',
-                                content: `Assunto id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Assunto>({data: [response], schema: assuntoSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Erro ao salvar o assunto!',
+                                status: 2, // erro
+                            }));
                             return of(new AssuntoActions.SaveAssuntoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

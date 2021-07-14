@@ -217,7 +217,11 @@ export class ComplementarComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura}));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    operacaoId: operacaoId
+                }));
             });
         }
     }

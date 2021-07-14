@@ -233,8 +233,11 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
         tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
 
-        this._store.dispatch(new fromStore.SaveTarefa(tarefa));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {

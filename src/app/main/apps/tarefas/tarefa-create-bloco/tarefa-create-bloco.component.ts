@@ -21,6 +21,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'tarefa-create',
@@ -133,7 +134,11 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
             tarefa.processo = tarefaBloco.processo;
 
-            this._store.dispatch(new fromStore.SaveTarefa(tarefa));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveTarefa({
+                tarefa: tarefa,
+                operacaoId: operacaoId
+            }));
         });
     }
 

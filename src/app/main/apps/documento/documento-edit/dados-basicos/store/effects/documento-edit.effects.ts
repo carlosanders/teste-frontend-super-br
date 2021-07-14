@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoEditActions from '../actions';
@@ -51,20 +51,38 @@ export class DocumentoEditEffects {
         this._actions
             .pipe(
                 ofType<DocumentoEditActions.SaveDocumento>(DocumentoEditActions.SAVE_DOCUMENTO),
-                switchMap(action => this._documentoService.save(action.payload.documento, '{}', action.payload.populate).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento',
+                    content: 'Salvando o documento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._documentoService.save(action.payload.documento, '{}', action.payload.populate).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Documento) => [
                             new DocumentoEditActions.SaveDocumentoSuccess(),
-                            new AddData<Documento>({data: [response], schema: documentoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'documento',
-                                content: `Documento id ${response.id} editado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Documento>({data: [response], schema: documentoSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao salvar o documento!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentoEditActions.SaveDocumentoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
 }

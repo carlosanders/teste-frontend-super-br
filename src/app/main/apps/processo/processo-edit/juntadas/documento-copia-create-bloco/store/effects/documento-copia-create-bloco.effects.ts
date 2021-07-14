@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, concatMap, mergeMap} from 'rxjs/operators';
+import {catchError, concatMap, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentoCopiaCreateBlocoActions from '../actions/documento-copia-create-bloco.actions';
 
@@ -44,32 +44,37 @@ export class DocumentoCopiaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoCopiaCreateBlocoActions.SaveDocumentoCopia>(DocumentoCopiaCreateBlocoActions.SAVE_DOCUMENTO_COPIA),
-                concatMap(action => this._documentoService.save(action.payload.documento).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'cópia na juntada',
+                    content: 'Salvando a cópia na juntada ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._documentoService.save(action.payload.documento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'cópia na juntada',
+                                content: 'Cópia da juntada id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Documento) => [
-                            new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaSuccess({juntadaId: action.payload.juntadaId, documento: action.payload.documento}),
-                            new AddData<Documento>({data: [response], schema: documentoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'documentoCopia',
-                                content: `Cópia da juntada id ${action.payload.juntadaId} criada com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
+                            new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaSuccess({juntadaId: action.payload.juntadaId, documento: action.payload.documento}),,
+                            new AddData<Documento>({data: [response], schema: documentoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'documentoCopia',
-                                content: `Houve erro na cópia na juntada id ${action.payload.juntadaId}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'cópia na juntada',
+                                content: 'Erro ao salvar a cópia na juntada!',
+                                status: 2, // erro
                             }));
-                            return of(new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaFailed({
-                                juntadaId: action.payload.juntadaId,
-                                errors: err,
-                                documento: action.payload.documento
-                            }));
+                            return of(new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
-
 }

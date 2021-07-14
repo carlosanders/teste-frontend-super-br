@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as CompartilhamentoCreateBlocoActions from '../actions/compartilhamento-create-bloco.actions';
 
@@ -14,7 +14,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 
 @Injectable()
 export class CompartilhamentoCreateBlocoEffect {
@@ -46,28 +45,38 @@ export class CompartilhamentoCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoCreateBlocoActions.SaveCompartilhamento>(CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO),
-                switchMap(action => this._compartilhamentoService.save(action.payload).pipe(
-                        mergeMap((response: Compartilhamento) => [
-                            new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(action.payload),
-                            new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
-                            new OperacoesActions.Resultado({
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'compartilhamento',
+                    content: 'Salvando o compartilhamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._compartilhamentoService.save(action.payload.compartilhamento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'compartilhamento',
-                                content: `Compartilhamento na tarefa id ${action.payload.tarefa.id} criado com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
+                                content: 'Compartilhamento id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Compartilhamento) => [
+                            new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(response),
+                            new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'compartilhamento',
-                                content: `Houve erro no compartilhamento na tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
+                                content: 'Erro ao salvar o compartilhamento!',
+                                status: 2, // erro
                             }));
-                            return of(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoFailed(action.payload));
+                            return of(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
 }

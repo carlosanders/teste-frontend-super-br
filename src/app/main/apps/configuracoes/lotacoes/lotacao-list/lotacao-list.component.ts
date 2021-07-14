@@ -123,7 +123,12 @@ export class LotacaoListComponent implements OnInit, OnDestroy {
     }
 
     setPrincipal(lotacao: Lotacao): void {
-        this._store.dispatch(new fromStore.SaveLotacao({lotacao: lotacao, changes: {principal: true}}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveLotacao({
+            lotacao: lotacao,
+            changes: {principal: true},
+            operacaoId: operacaoId
+        }));
     }
 
 }

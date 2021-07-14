@@ -80,23 +80,41 @@ export class NomeEditEffect {
         this._actions
             .pipe(
                 ofType<NomeEditActions.SaveNome>(NomeEditActions.SAVE_NOME),
-                switchMap(action => this._nomeService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'nome',
+                    content: 'Salvando o nome ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._nomeService.save(action.payload.nome).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'nome',
+                                content: 'Nome id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Nome) => [
                             new NomeEditActions.SaveNomeSuccess(),
                             new NomeListActions.ReloadNomes(),
-                            new AddData<Nome>({data: [response], schema: nomeSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'nome',
-                                content: `Nome id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Nome>({data: [response], schema: nomeSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'nome',
+                                content: 'Erro ao salvar o nome!',
+                                status: 2, // erro
+                            }));
                             return of(new NomeEditActions.SaveNomeFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
     /**
      * Save Nome Success
      */

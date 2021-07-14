@@ -291,7 +291,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             atividade.setor = tarefa.setorResponsavel;
             atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
 
-            this._store.dispatch(new fromStore.SaveAtividade(atividade));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAtividade({
+                atividade: atividade,
+                operacaoId: operacaoId
+            }));
         });
     }
 
@@ -355,8 +359,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     assinatura.assinatura = 'A1';
                     assinatura.plainPassword = result.plainPassword;
 
+                    const operacaoId = CdkUtils.makeId();
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                        assinatura: assinatura
+                        assinatura: assinatura,
+                        operacaoId: operacaoId
                     }));
                 });
             });

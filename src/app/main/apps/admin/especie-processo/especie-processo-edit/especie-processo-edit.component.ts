@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'especie-processo-edit',
@@ -83,7 +84,12 @@ export class EspecieProcessoEditComponent implements OnInit {
                 especieProcesso[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveEspecieProcesso(especieProcesso));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEspecieProcesso({
+            especieProcesso: especieProcesso,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

@@ -24,6 +24,7 @@ import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {Back} from 'app/store/actions';
 import {MatDialog} from '@cdk/angular/material';
 import {ModalAvisoRestricaoNupComponent} from '../modal-aviso-restricao-nup/modal-aviso-restricao-nup.component';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'redistribuicao-edit-bloco',
@@ -237,7 +238,11 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
                 tarefa.usuarioResponsavel = null;
             }
 
-            this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa}));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveTarefa({
+                tarefa: tarefa,
+                operacaoId: operacaoId
+            }));
         });
     }
 

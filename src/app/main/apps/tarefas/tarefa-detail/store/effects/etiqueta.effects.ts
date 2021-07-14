@@ -15,6 +15,7 @@ import {Etiqueta, Tarefa} from '@cdk/models';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import * as TarefaDetailActions from '../actions/tarefa-detail.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class EtiquetaEffect {
@@ -50,13 +51,13 @@ export class EtiquetaEffect {
             .pipe(
                 ofType<EtiquetaActions.GetEtiqueta>(EtiquetaActions.GET_ETIQUETA),
                 switchMap(action => this._etiquetaService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
+                    JSON.stringify(action.payload),
+                    1,
+                    0,
+                    JSON.stringify({}),
+                    JSON.stringify([
+                        'populateAll'
+                    ]))),
                 switchMap(response => [
                     new AddData<Etiqueta>({data: response['entities'], schema: etiquetaSchema}),
                     new EtiquetaActions.GetEtiquetaSuccess({
@@ -84,19 +85,43 @@ export class EtiquetaEffect {
         this._actions
             .pipe(
                 ofType<EtiquetaActions.SaveEtiqueta>(EtiquetaActions.SAVE_ETIQUETA),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'etiqueta',
+                    content: 'Salvando a etiqueta ...',
+                    status: 0, // carregando
+                }))),
                 switchMap((action) => {
                     const tarefa = action.payload.tarefa;
                     return this._etiquetaService.save(action.payload.etiqueta).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'etiqueta',
+                                content: 'Etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Etiqueta) => [
                             new AddData<Etiqueta>({data: [response], schema: etiquetaSchema}),
                         ])
                     ).pipe(
                         mergeMap((response, action) => [
-                        new TarefaDetailActions.CreateVinculacaoEtiqueta({tarefa: tarefa, etiqueta: Object.values(response.payload.entities.etiqueta)[0]}),
-                    ]));
-                }),
-                catchError((err, caught) => {
-                    return of(new EtiquetaActions.SaveEtiquetaFailed(err));
+                            new TarefaDetailActions.CreateVinculacaoEtiqueta({
+                                tarefa: tarefa,
+                                etiqueta: Object.values(response.payload.entities.etiqueta)[0]
+                            }),
+                        ])),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'etiqueta',
+                                content: 'Erro ao salvar a etiqueta!',
+                                status: 2, // erro
+                            }));
+                            return of(new EtiquetaActions.SaveEtiquetaFailed(err));
+                        })
                 })
             );
 

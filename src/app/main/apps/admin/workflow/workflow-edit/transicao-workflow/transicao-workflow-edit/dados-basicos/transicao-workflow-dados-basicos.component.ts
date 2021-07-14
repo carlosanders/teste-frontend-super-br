@@ -9,6 +9,7 @@ import {Pagination, TransicaoWorkflow, Workflow} from '@cdk/models';
 import {LoginService} from '../../../../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../../../../store';
 import {getTransicaoWorkflow} from '../store';
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'transicao-workflow-dados-basicos',
@@ -88,8 +89,12 @@ export class TransicaoWorkflowDadosBasicosComponent implements OnInit {
         const workflow = new Workflow();
         workflow.id = parseInt(this.routerState.params.workflowHandle);
         transicaoWorkflow.workflow = workflow;
-        this._store.dispatch(new fromStore.SaveTransicaoWorkflow(transicaoWorkflow));
 
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTransicaoWorkflow({
+            transicaoWorkflow: transicaoWorkflow,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

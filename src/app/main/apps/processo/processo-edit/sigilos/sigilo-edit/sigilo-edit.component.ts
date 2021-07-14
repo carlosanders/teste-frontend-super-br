@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getProcesso} from '../../../store/selectors';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'sigilo-edit',
@@ -89,8 +90,11 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveSigilo(sigilo));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveSigilo({
+            sigilo: sigilo,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

@@ -17,6 +17,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store';
 import {filter} from "rxjs/operators";
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'processo-view-vinculacao-documento',
@@ -131,7 +132,11 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
 
         vinculacaoDocumento.documento = this.juntada.documento;
 
-        this._store.dispatch(new fromStore.SaveVinculacaoDocumento(vinculacaoDocumento));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoDocumento({
+            vinculacaoDocumento: vinculacaoDocumento,
+            operacaoId: operacaoId
+        }));
 
     }
 

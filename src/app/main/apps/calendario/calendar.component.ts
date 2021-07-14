@@ -19,6 +19,7 @@ import {CalendarEventFormDialogComponent} from 'app/main/apps/calendario/event-f
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as moment from 'moment';
+import {CdkUtils} from '../../../../@cdk/utils';
 
 @Component({
     selector: 'calendar',
@@ -186,6 +187,7 @@ export class CalendarComponent implements OnInit {
      */
     editEvent(action: string, event: CalendarEvent): void {
         const eventIndex = this.events.indexOf(event);
+        let operacaoId = CdkUtils.makeId();
 
         this.dialogRef = this._matDialog.open(CalendarEventFormDialogComponent, {
             panelClass: 'event-form-dialog',
@@ -216,13 +218,22 @@ export class CalendarComponent implements OnInit {
                             observacao: formData.getRawValue().meta.notes
                         };
 
-                        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes}));
+                        this._store.dispatch(new fromStore.SaveTarefa({
+                            tarefa: tarefa,
+                            changes: changes,
+                            operacaoId: operacaoId
+                        }));
                         break;
                     /**
                      * Delete
                      */
                     case 'delete':
                         this._store.dispatch(new fromStore.DeleteTarefa(tarefa.id));
+                        this._store.dispatch(new fromStore.DeleteTarefa({
+                            tarefaId: tarefa.id,
+                            operacaoId: operacaoId,
+                        }));
+
                         break;
                 }
             });

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as EtiquetaEditActions from '../actions/dados-basicos.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class EtiquetaEditEffect {
@@ -46,17 +47,39 @@ export class EtiquetaEditEffect {
         this._actions
             .pipe(
                 ofType<EtiquetaEditActions.SaveEtiqueta>(EtiquetaEditActions.SAVE_ETIQUETA),
-                switchMap(action => this._etiquetaService.save(action.payload, JSON.stringify({isAdmin: true})).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'etiqueta',
+                    content: 'Salvando a etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._etiquetaService.save(action.payload.etiqueta, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'etiqueta',
+                                content: 'Etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Etiqueta) => [
                             new EtiquetaEditActions.SaveEtiquetaSuccess(),
                             new EtiquetaListActions.ReloadEtiquetas(),
                             new AddData<Etiqueta>({data: [response], schema: etiquetaSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new EtiquetaEditActions.SaveEtiquetaFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'etiqueta',
+                                content: 'Erro ao salvar a etiqueta!',
+                                status: 2, // erro
+                            }));
+                            return of(new EtiquetaEditActions.SaveEtiquetaFailed(err));
+                        })
+                    )
                 })
             );
 

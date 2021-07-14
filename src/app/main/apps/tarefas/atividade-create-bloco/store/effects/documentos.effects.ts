@@ -353,21 +353,38 @@ export class AtividadeCreateBlocoDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamente>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-                    mergeMap((response: Assinatura) => [
-                        new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteSuccess(response),
-                        new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                        new OperacoesActions.Resultado({
-                            type: 'assinatura',
-                            content: `Assinatura id ${response.id} criada com sucesso!`,
-                            dateTime: response.criadoEm
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Salvando a assinatura ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Assinatura) => [
+                            new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteSuccess(response),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Erro ao salvar a assinatura!',
+                                status: 2, // erro
+                            }));
+                            return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    ]),
-                    catchError((err) => {
-                        console.log(err);
-                        return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteFailed(err));
-                    })
-                ), 25)
+                    )
+                })
             );
 
     @Effect({dispatch: false})

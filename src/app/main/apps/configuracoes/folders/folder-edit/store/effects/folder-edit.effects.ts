@@ -16,6 +16,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {GetFolders} from '../../../../../tarefas/store/actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class FolderEditEffect {
@@ -48,13 +49,13 @@ export class FolderEditEffect {
             .pipe(
                 ofType<FolderEditActions.GetFolder>(FolderEditActions.GET_FOLDER),
                 switchMap(action => this._folderService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
+                    JSON.stringify(action.payload),
+                    1,
+                    0,
+                    JSON.stringify({}),
+                    JSON.stringify([
+                        'populateAll'
+                    ]))),
                 switchMap(response => [
                     new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                     new FolderEditActions.GetFolderSuccess({
@@ -81,18 +82,38 @@ export class FolderEditEffect {
         this._actions
             .pipe(
                 ofType<FolderEditActions.SaveFolder>(FolderEditActions.SAVE_FOLDER),
-                switchMap(action => this._folderService.save(action.payload).pipe(
-                        mergeMap((response: Folder) => [
-                            new FolderEditActions.SaveFolderSuccess(),
-                            new FolderListActions.ReloadFolders(),
-                            new GetFolders([]),
-                            new AddData<Folder>({data: [response], schema: folderSchema})
-                        ])
-                    )),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new FolderEditActions.SaveFolderFailed(err));
-                })
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'pasta',
+                    content: 'Salvando a pasta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._folderService.save(action.payload.folder).pipe(
+                    tap((response) =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'pasta',
+                            content: 'Pasta id ' + response.id + ' salvo com sucesso.',
+                            status: 1, // sucesso
+                        }))
+                    ),
+                    mergeMap((response: Folder) => [
+                        new FolderEditActions.SaveFolderSuccess(),
+                        new FolderListActions.ReloadFolders(),
+                        new GetFolders([]),
+                        new AddData<Folder>({data: [response], schema: folderSchema})
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'pasta',
+                            content: 'Erro ao salvar a pasta!',
+                            status: 2, // erro
+                        }));
+                        return of(new FolderEditActions.SaveFolderFailed(err));
+                    })
+                ))
             );
 
     /**

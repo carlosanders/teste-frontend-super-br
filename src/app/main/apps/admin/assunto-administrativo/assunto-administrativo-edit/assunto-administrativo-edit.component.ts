@@ -8,6 +8,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'assunto-administrativo-edit',
@@ -26,8 +27,6 @@ export class AssuntoAdministrativoEditComponent implements OnInit {
     assuntoAdministrativo$: Observable<AssuntoAdministrativo>;
     formAssuntoAdministrativo: FormGroup;
     assuntoAdministrativoPagination: Pagination;
-
-
 
     constructor(
         private _store: Store<fromStore.AssuntoAdministrativoEditAppState>,
@@ -77,7 +76,12 @@ export class AssuntoAdministrativoEditComponent implements OnInit {
                 assuntoAdministrativo[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveAssuntoAdministrativo(assuntoAdministrativo));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAssuntoAdministrativo({
+            assuntoAdministrativo: assuntoAdministrativo,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

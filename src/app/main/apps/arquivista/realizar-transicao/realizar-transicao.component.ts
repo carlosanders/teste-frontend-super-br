@@ -10,6 +10,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {getProcesso} from '../../processo/store';
 import {getModalidadeTransicao} from '../arquivista-list/store';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'realizar-transicao',
@@ -97,7 +98,12 @@ export class RealizarTransicaoComponent implements OnInit {
                         transicao[key] = value;
                     }
                 );
-                this._store.dispatch(new fromStore.SaveRealizarTransicao(transicao));
+
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.SaveRealizarTransicao({
+                    transicao: transicao,
+                    operacaoId: operacaoId
+                }));
             }
             this.confirmDialogRef = null;
         });

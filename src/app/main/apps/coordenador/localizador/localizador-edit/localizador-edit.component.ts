@@ -11,6 +11,7 @@ import {Pagination, Setor, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'localizador-edit',
@@ -106,8 +107,11 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveLocalizador(localizador));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveLocalizador({
+            localizador: localizador,
+            operacaoId: operacaoId
+        }));
     }
 
 }

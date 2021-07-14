@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentoAvulsoCreateBlocoActions from '../actions/documento-avulso-create-bloco.actions';
 
@@ -13,7 +13,6 @@ import {DocumentoAvulso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 
 @Injectable()
 export class DocumentoAvulsoCreateBlocoEffect {
@@ -44,28 +43,38 @@ export class DocumentoAvulsoCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO),
-                switchMap(action => this._documentoAvulsoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento avulso',
+                    content: 'Salvando o documento avulso ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Documento avulso id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: DocumentoAvulso) => [
-                            new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'documento_avulso',
-                                content: `Ofício no processo ${action.payload.processo.NUP} criado com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
+                            new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(response),
+                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'documento_avulso',
-                                content: `Houve erro no ofício no processo ${action.payload.processo.NUP}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Erro ao salvar o documento avulso!',
+                                status: 2, // erro
                             }));
-                            return of(new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoFailed(action.payload));
+                            return of(new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
 }

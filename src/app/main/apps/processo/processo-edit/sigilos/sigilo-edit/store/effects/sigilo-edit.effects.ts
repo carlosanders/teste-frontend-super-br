@@ -80,22 +80,39 @@ export class SigiloEditEffect {
         this._actions
             .pipe(
                 ofType<SigiloEditActions.SaveSigilo>(SigiloEditActions.SAVE_SIGILO),
-                switchMap(action => this._sigiloService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'sigilo',
+                    content: 'Salvando o sigilo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._sigiloService.save(action.payload.sigilo).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'sigilo',
+                                content: 'Sigilo id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Sigilo) => [
                             new SigiloEditActions.SaveSigiloSuccess(),
                             new SigiloListActions.ReloadSigilos(),
-                            new AddData<Sigilo>({data: [response], schema: sigiloSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'sigilo',
-                                content: `Sigilo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Sigilo>({data: [response], schema: sigiloSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'sigilo',
+                                content: 'Erro ao salvar o sigilo!',
+                                status: 2, // erro
+                            }));
                             return of(new SigiloEditActions.SaveSigiloFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

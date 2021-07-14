@@ -8,6 +8,7 @@ import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {MustMatch} from './must-match.validator';
+import {CdkUtils} from '../../../../@cdk/utils';
 
 @Component({
     selector: 'register',
@@ -114,6 +115,11 @@ export class RegisterComponent implements OnInit {
         usuario.username = this.form.controls.username.value.replace(/\D/g,'');
         usuario.plainPassword = this.form.controls.plainPassword.value;
 
-        this._store.dispatch(new fromStore.Register(usuario));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.Register({
+            usuario: usuario,
+            operacaoId: operacaoId
+        }));
+
     }
 }

@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'especie-tarefa-edit',
@@ -77,7 +78,12 @@ export class EspecieTarefaEditComponent implements OnInit {
                 especieTarefa[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveEspecieTarefa(especieTarefa));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEspecieTarefa({
+            especieTarefa: especieTarefa,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

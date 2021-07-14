@@ -10,6 +10,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 import {filter} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'classificacao-edit',
@@ -97,7 +98,12 @@ export class ClassificacaoEditComponent implements OnInit {
                 classificacao[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveClassificacao(classificacao));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveClassificacao({
+            classificacao: classificacao,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

@@ -14,6 +14,7 @@ import {getRouterState} from 'app/store/reducers';
 import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'coordenador-repositorios-edit',
@@ -210,8 +211,11 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
             repositorio.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
         }
 
-        this._store.dispatch(new fromStore.SaveRepositorio(repositorio));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveRepositorio({
+            repositorio: repositorio,
+            operacaoId: operacaoId
+        }));
     }
 
 }

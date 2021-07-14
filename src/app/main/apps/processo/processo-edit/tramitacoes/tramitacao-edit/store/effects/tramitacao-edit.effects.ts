@@ -80,22 +80,39 @@ export class TramitacaoEditEffect {
         this._actions
             .pipe(
                 ofType<TramitacaoEditActions.SaveTramitacao>(TramitacaoEditActions.SAVE_TRAMITACAO),
-                switchMap(action => this._tramitacaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tramitação',
+                    content: 'Salvando a tramitação ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tramitacaoService.save(action.payload.tramitacao).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tramitação',
+                                content: 'Tramitação id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Tramitacao) => [
                             new TramitacaoEditActions.SaveTramitacaoSuccess(),
                             new TramitacaoListActions.ReloadTramitacoes(),
-                            new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'tramitacao',
-                                content: `Tramitação id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tramitação',
+                                content: 'Erro ao salvar a tramitação!',
+                                status: 2, // erro
+                            }));
                             return of(new TramitacaoEditActions.SaveTramitacaoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as PessoaEditActions from '../actions/admin-pessoa-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class AdminPessoaEditEffects {
@@ -82,20 +83,39 @@ export class AdminPessoaEditEffects {
         this._actions
             .pipe(
                 ofType<PessoaEditActions.SavePessoa>(PessoaEditActions.SAVE_PESSOA),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'pessoa',
+                    content: 'Salvando a pessoa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._pessoaService.save(action.payload, context).pipe(
+                    return this._pessoaService.save(action.payload.pessoa, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'pessoa',
+                                content: 'Pessoa id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Pessoa) => [
+                            new PessoaEditActions.SavePessoaSuccess(response),
                             new PessoaListActions.ReloadPessoa(),
-                            new AddData<Pessoa>({data: [response], schema: pessoaSchema}),
-                            new PessoaEditActions.SavePessoaSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new PessoaEditActions.SavePessoaFailed(err));
-                    return caught;
+                            new AddData<Pessoa>({data: [response], schema: pessoaSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'pessoa',
+                                content: 'Erro ao salvar a pessoa!',
+                                status: 2, // erro
+                            }));
+                            return of(new PessoaEditActions.SavePessoaFailed(err));
+                        })
+                    )
                 })
             );
 
