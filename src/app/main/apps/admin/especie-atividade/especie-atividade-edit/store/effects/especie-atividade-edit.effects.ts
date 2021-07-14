@@ -132,17 +132,38 @@ export class EspecieAtividadeEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieAtividadeEditActions.UpdateEspecieAtividade>(EspecieAtividadeEditActions.UPDATE_ESPECIE_ATIVIDADE),
-                switchMap(action => this._especieAtividadeService.patch(action.payload.especieAtividade, action.payload.changes).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'espécie atividade',
+                    content: 'Alterando a espécie atividade ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._especieAtividadeService.patch(action.payload.especieAtividade, action.payload.changes).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie atividade',
+                                content: 'Espécie atividade id ' + response.id + ' alterada com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: EspecieAtividade) => [
                             new EspecieAtividadeListActions.ReloadEspecieAtividade(),
                             new AddData<EspecieAtividade>({data: [response], schema: especieAtividadeSchema}),
                             new EspecieAtividadeEditActions.UpdateEspecieAtividadeSuccess(response)
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new EspecieAtividadeEditActions.UpdateEspecieAtividadeFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie atividade',
+                                content: 'Erro ao alterar a espécie atividade!',
+                                status: 2, // erro
+                            }));
+                            return of(new EspecieAtividadeEditActions.UpdateEspecieAtividadeFailed(err));
+                        })
+                    )
                 })
             );
 

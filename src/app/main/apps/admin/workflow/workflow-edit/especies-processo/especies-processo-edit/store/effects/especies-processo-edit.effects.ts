@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as WorkflowEspecieProcessoEditActions from '../actions';
 import * as WorkflowEspecieProcessoListActions from '../../../especies-processo-list/store/actions';
@@ -11,6 +11,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 import {EspecieProcesso} from '@cdk/models';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class EspeciesProcessoEditEffects {
@@ -76,16 +77,39 @@ export class EspeciesProcessoEditEffects {
         this._actions
             .pipe(
                 ofType<WorkflowEspecieProcessoEditActions.UpdateEspecieProcesso>(WorkflowEspecieProcessoEditActions.UPDATE_ESPECIE_PROCESSO),
-                switchMap(action => this._especieProcessoService.patch(action.payload.especieProcesso, action.payload.changes).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'espécie processo',
+                    content: 'Alterando a espécie processo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._especieProcessoService.patch(action.payload.especieProcesso, action.payload.changes).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie processo',
+                                content: 'Espécie processo id ' + response.id + ' alterado com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: EspecieProcesso) => [
                             new SetData<EspecieProcesso>({data: [response], schema: especieProcessoSchema}),
                             new WorkflowEspecieProcessoListActions.UnloadEspecieProcesso(),
-                            new WorkflowEspecieProcessoEditActions.UpdateEspecieProcessoSuccess(response)
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    this._store.dispatch(new WorkflowEspecieProcessoEditActions.UpdateEspecieProcessoFailed(err));
-                    return caught;
+                            new WorkflowEspecieProcessoEditActions.UpdateEspecieProcessoSuccess(response),
+                            new AddData<EspecieProcesso>({data: [response], schema: especieProcessoSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'especieProcesso',
+                                content: 'Erro ao alterar a espécie processo!',
+                                status: 2, // erro
+                            }));
+                            return of(new WorkflowEspecieProcessoEditActions.UpdateEspecieProcessoFailed(err));
+                        })
+                    )
                 })
             );
 

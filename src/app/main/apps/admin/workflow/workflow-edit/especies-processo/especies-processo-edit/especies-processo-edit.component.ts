@@ -15,6 +15,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {EspecieProcesso, Pagination} from '@cdk/models';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../../../store';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'workflow-especies-processo-edit',
@@ -113,11 +114,13 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
 
     submit(): void {
         if (this.form.valid) {
+            const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.UpdateEspecieProcesso(
                 {
                     especieProcesso: this.form.value.especieProcesso,
                     changes: {workflow: this.routerState.params.workflowHandle},
-                    filter: {'workflow': 'eq:'+this.routerState.params.workflowHandle}
+                    filter: {'workflow': 'eq:'+this.routerState.params.workflowHandle},
+                    operacaoId: operacaoId
                 }
             ));
         }
