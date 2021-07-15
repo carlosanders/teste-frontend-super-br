@@ -2,16 +2,7 @@ import * as RelatorioViewActions
     from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/actions/relatorio-view.actions';
 
 export interface RelatorioViewState {
-    entitiesId: number[];
-    pagination: {
-        limit: number;
-        offset: number;
-        filter: any;
-        listFilter: any;
-        populate: any;
-        sort: any;
-        total: number;
-    };
+    entityId: number;
     loading: boolean;
     loaded: any;
     currentStep: {
@@ -26,16 +17,7 @@ export interface RelatorioViewState {
 }
 
 export const RelatorioViewInitialState: RelatorioViewState = {
-    entitiesId: [],
-    pagination: {
-        limit: 0,
-        offset: 0,
-        filter: {},
-        listFilter: {},
-        populate: [],
-        sort: {},
-        total: 0,
-    },
+    entityId: null,
     loading: false,
     loaded: false,
     currentStep: {
@@ -52,40 +34,28 @@ export const RelatorioViewInitialState: RelatorioViewState = {
 export function RelatorioViewReducer(state = RelatorioViewInitialState, action: RelatorioViewActions.RelatorioViewActionsAll): RelatorioViewState {
     switch (action.type) {
 
-        case RelatorioViewActions.GET_RELATORIOS: {
+        case RelatorioViewActions.GET_RELATORIO: {
             return {
                 ...state,
+                index: [],
                 loading: true,
-                pagination: {
-                    limit: action.payload.limit,
-                    offset: action.payload.offset,
-                    filter: action.payload.filter,
-                    listFilter: action.payload.listFilter,
-                    populate: action.payload.populate,
-                    sort: action.payload.sort,
-                    total: state.pagination.total
-                }
             };
         }
 
-        case RelatorioViewActions.GET_RELATORIOS_SUCCESS: {
+        case RelatorioViewActions.GET_RELATORIO_SUCCESS: {
 
             const loaded = action.payload.loaded;
 
             return {
                 ...state,
-                index: [...state.index, ...action.payload.index],
-                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
-                pagination: {
-                    ...state.pagination,
-                    total: action.payload.total
-                },
+                index: action.payload.index,
+                entityId: action.payload.entityId,
                 loading: false,
                 loaded
             };
         }
 
-        case RelatorioViewActions.GET_RELATORIOS_FAILED: {
+        case RelatorioViewActions.GET_RELATORIO_FAILED: {
             return {
                 ...state,
                 loading: false,
@@ -93,7 +63,7 @@ export function RelatorioViewReducer(state = RelatorioViewInitialState, action: 
             };
         }
 
-        case RelatorioViewActions.UNLOAD_RELATORIOS: {
+        case RelatorioViewActions.UNLOAD_RELATORIO: {
 
             if (action.payload.reset) {
                 return {
@@ -102,13 +72,7 @@ export function RelatorioViewReducer(state = RelatorioViewInitialState, action: 
             } else {
                 return {
                     ...state,
-                    entitiesId: [],
-                    pagination: {
-                        ...state.pagination,
-                        limit: 10,
-                        offset: 0,
-                        total: 0
-                    }
+                    entityId: null,
                 };
             }
         }

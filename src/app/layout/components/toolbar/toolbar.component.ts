@@ -304,7 +304,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     getNotificacaoContext(notificacao: Notificacao): any
     {
-        return JSON.parse(notificacao.contexto);
+        return notificacao.contexto ? JSON.parse(notificacao.contexto) : false;
     }
 
     sendToTarget(notificacao: Notificacao): any {

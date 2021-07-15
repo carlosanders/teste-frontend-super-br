@@ -23,7 +23,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'relatorio-view',
@@ -37,8 +37,8 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
     binary$: Observable<any>;
 
-    relatorios$: Observable<Relatorio[]>;
-    relatorios: Relatorio[] = [];
+    relatorio$: Observable<Relatorio>;
+    relatorio: Relatorio;
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
@@ -47,9 +47,6 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
 
     src: any;
     loading = false;
-
-    pagination$: any;
-    pagination: any;
 
     routerState: any;
     routerState$: Observable<any>;
@@ -76,14 +73,13 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
     ) {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
 
-        this.relatorios$ = this._store.pipe(select(fromStore.getRelatorios));
-        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.relatorio$ = this._store.pipe(select(fromStore.getRelatorio));
         this.routerState$ = this._store.pipe(select(getRouterState));
-        this.relatorios$.pipe(filter(relatorios => !!relatorios)).subscribe(
-            (relatorios) => {
-                this.relatorios = relatorios;
-            }
-        );
+        this.relatorio$.pipe(
+            filter(relatorio => !!relatorio)
+        ).subscribe((relatorio) => {
+            this.relatorio = relatorio;
+        });
 
         this.binary$.subscribe(
             (binary) => {
@@ -100,7 +96,7 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     } else {
                         const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                            const downloadLink = document.createElement('a');
+                        const downloadLink = document.createElement('a');
                         const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                         downloadLink.target = '_blank';
                         downloadLink.href = sanitizedUrl;
@@ -114,18 +110,16 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
                         }, 100);
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                     }
+
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
                 } else {
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    this.fileName = '';
+                    this.src = false;
                 }
                 this.loading = binary.loading;
                 this._changeDetectorRef.markForCheck();
             }
-        );
-
-        this.pagination$.subscribe(
-            pagination => this.pagination = pagination
         );
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
@@ -149,7 +143,7 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.UnloadRelatorios({reset: true}));
+        this._store.dispatch(new fromStore.UnloadRelatorio({reset: true}));
     }
 
     // -----------------------------------------------------------------------------------------------------

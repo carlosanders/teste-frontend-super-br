@@ -55,11 +55,8 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.GetRelatorio>(RelatorioDetailActions.GET_RELATORIO),
-                switchMap(action => this._relatorioService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                switchMap(action => this._relatorioService.get(
+                        action.payload,
                         JSON.stringify([
                             'documento',
                             'tipoRelatorio',
@@ -67,19 +64,18 @@ export class RelatorioDetailEffect {
                             'vinculacoesEtiquetas.etiqueta'
                         ]))),
                 mergeMap(response => [
-                    new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),
+                    new AddData<Relatorio>({data: [response], schema: relatorioSchema}),
                     new RelatorioDetailActions.GetRelatorioSuccess({
                         loaded: {
                             id: 'relatorioHandle',
                             value: this.routerState.params.relatorioHandle
                         },
-                        relatorio: response['entities'][0]
+                        relatorio: response?.id
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new RelatorioDetailActions.GetRelatorioFailed(err));
-                    return caught;
+                    return of(new RelatorioDetailActions.GetRelatorioFailed(err));
                 })
             );
 

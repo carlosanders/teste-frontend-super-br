@@ -16,20 +16,15 @@ export const getRelatorioViewState = createSelector(
     (state: RelatorioViewAppState) => state.relatorioView
 );
 
-export const getRelatoriosIds = createSelector(
+export const getRelatorioId = createSelector(
     getRelatorioViewState,
-    (state: RelatorioViewState) => state.entitiesId
+    (state: RelatorioViewState) => state.loaded ? state.loaded.value : null
 );
 
-export const getRelatorios = createSelector(
+export const getRelatorio = createSelector(
     schemaSelectors.getNormalizedEntities,
-    getRelatoriosIds,
-    schemaSelectors.entitiesProjector
-);
-
-export const getPagination = createSelector(
-    getRelatorioViewState,
-    (state: RelatorioViewState) => state.pagination
+    getRelatorioId,
+    schemaSelectors.entityProjector
 );
 
 export const getRelatoriosLoaded = createSelector(

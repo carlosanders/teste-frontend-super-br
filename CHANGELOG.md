@@ -431,3 +431,8 @@
 * Melhoria botão de reload de juntadas na listagem do processo-view
 * Melhoria vinculação de juntadas ao arrastar uma juntada para outra juntada na visão de processo
 * Correção de mensagens desaparecidas nos dialogs de confirmação
+* Corrigido erro em notificações sem contexto preenchido
+* Corrigida não exibição de mensagem ao abrir relatório com erro de geração
+* Corrigidas consultas de relatórios de query para get em visualização e detalhe de relatório
+* Renomeadas ações com nomes em duplicidade
+* Corrigidos comportamentos indevidos nos campos do formulário de criação de relatórios ao alterar tipo/espécie de relatório

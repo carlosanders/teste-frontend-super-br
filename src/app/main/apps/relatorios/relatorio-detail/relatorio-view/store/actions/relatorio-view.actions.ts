@@ -1,21 +1,21 @@
 import {Action} from '@ngrx/store';
 
-export const GET_RELATORIOS = '[RELATORIO VIEW] GET RELATORIOS';
-export const GET_RELATORIOS_SUCCESS = '[RELATORIO VIEW] GET RELATORIOS SUCCESS';
-export const GET_RELATORIOS_FAILED = '[RELATORIO VIEW] GET RELATORIOS FAILED';
+export const GET_RELATORIO = '[RELATORIO VIEW] GET RELATORIO';
+export const GET_RELATORIO_SUCCESS = '[RELATORIO VIEW] GET RELATORIO SUCCESS';
+export const GET_RELATORIO_FAILED = '[RELATORIO VIEW] GET RELATORIO FAILED';
 
-export const SET_CURRENT_STEP = '[RELATORIOS] SET CURRENT STEP';
-export const SET_CURRENT_STEP_SUCCESS = '[RELATORIOS] SET CURRENT STEP SUCCESS';
-export const SET_CURRENT_STEP_FAILED = '[RELATORIOS] SET CURRENT STEP FAILED';
+export const SET_CURRENT_STEP = '[RELATORIO VIEW] SET CURRENT STEP';
+export const SET_CURRENT_STEP_SUCCESS = '[RELATORIO VIEW] SET CURRENT STEP SUCCESS';
+export const SET_CURRENT_STEP_FAILED = '[RELATORIO VIEW] SET CURRENT STEP FAILED';
 
-export const UNLOAD_RELATORIOS = '[RELATORIO VIEW] UNLOAD RELATORIOS';
+export const UNLOAD_RELATORIO = '[RELATORIO VIEW] UNLOAD RELATORIO';
 
 /**
- * Get Relatorios
+ * Get Relatorio
  */
-export class GetRelatorios implements Action
+export class GetRelatorio implements Action
 {
-    readonly type = GET_RELATORIOS;
+    readonly type = GET_RELATORIO;
 
     constructor(public payload: any)
     {
@@ -23,11 +23,11 @@ export class GetRelatorios implements Action
 }
 
 /**
- * Get Relatorios Success
+ * Get Relatorio Success
  */
-export class GetRelatoriosSuccess implements Action
+export class GetRelatorioSuccess implements Action
 {
-    readonly type = GET_RELATORIOS_SUCCESS;
+    readonly type = GET_RELATORIO_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -35,11 +35,11 @@ export class GetRelatoriosSuccess implements Action
 }
 
 /**
- * Get Relatorios Failed
+ * Get Relatorio Failed
  */
-export class GetRelatoriosFailed implements Action
+export class GetRelatorioFailed implements Action
 {
-    readonly type = GET_RELATORIOS_FAILED;
+    readonly type = GET_RELATORIO_FAILED;
 
     constructor(public payload: string)
     {
@@ -77,11 +77,11 @@ export class SetCurrentStepFailed implements Action {
 }
 
 /**
- * Unload Relatorios
+ * Unload Relatorio
  */
-export class UnloadRelatorios implements Action
+export class UnloadRelatorio implements Action
 {
-    readonly type = UNLOAD_RELATORIOS;
+    readonly type = UNLOAD_RELATORIO;
 
     constructor(public payload: any)
     {
@@ -89,10 +89,10 @@ export class UnloadRelatorios implements Action
 }
 
 export type RelatorioViewActionsAll
-    = GetRelatorios
-    | GetRelatoriosSuccess
-    | GetRelatoriosFailed
+    = GetRelatorio
+    | GetRelatorioSuccess
+    | GetRelatorioFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
     | SetCurrentStepFailed
-    | UnloadRelatorios;
+    | UnloadRelatorio;
