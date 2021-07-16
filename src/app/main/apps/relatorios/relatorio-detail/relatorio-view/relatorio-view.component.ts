@@ -34,14 +34,16 @@ import {getRouterState} from '../../../../../store';
 })
 export class RelatorioViewComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @Output()
+    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+
+    @ViewChildren(CdkPerfectScrollbarDirective)
+    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
+
     binary$: Observable<any>;
 
     relatorio$: Observable<Relatorio>;
     relatorio: Relatorio;
-
-    @ViewChildren(CdkPerfectScrollbarDirective)
-    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
 
     fileName = '';
 
@@ -53,8 +55,10 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
 
     chaveAcesso: string;
 
-    @Output()
-    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+    zoom: number = 0;
+    expandirTela: boolean = false;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
