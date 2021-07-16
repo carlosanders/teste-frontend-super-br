@@ -436,3 +436,6 @@
 * Corrigidas consultas de relatórios de query para get em visualização e detalhe de relatório
 * Renomeadas ações com nomes em duplicidade
 * Corrigidos comportamentos indevidos nos campos do formulário de criação de relatórios ao alterar tipo/espécie de relatório
+* Adicionado zoom aos relatórios html
+* Corrigindo problemas no css de relatórios
+* Correção em mensagem no dialog de informação de nova versão

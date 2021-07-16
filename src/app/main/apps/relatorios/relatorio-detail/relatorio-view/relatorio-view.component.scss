@@ -22,6 +22,11 @@ relatorio-view {
             display: flex;
             align-items: center;
             justify-content: space-between;
+
+            .right {
+                display: flex;
+                justify-content: flex-end;
+            }
         }
     }
 
@@ -39,6 +44,50 @@ relatorio-view {
             align-items: center;
         }
 
+        > .zoom-0x {
+            transform: scale(1);
+        }
+
+        > .zoom-1x {
+            transform: scale(1.1);
+        }
+
+        > .zoom-2x {
+            transform: scale(1.2);
+        }
+
+        > .zoom-3x {
+            transform: scale(1.3);
+        }
+
+        > .zoom-4x {
+            transform: scale(1.4);
+        }
+
+        > .zoom-5x {
+            transform: scale(1.5);
+        }
+
+        > .zoom-6x {
+            transform: scale(1.6);
+        }
+
+        > .zoom-7x {
+            transform: scale(1.7);
+        }
+
+        > .zoom-8x {
+            transform: scale(1.8);
+        }
+
+        > .zoom-9x {
+            transform: scale(1.9);
+        }
+
+        > .zoom-10x {
+            transform: scale(2);
+        }
+
         > .relatorio-view-relatorio-content {
             flex: 1 1 auto;
             display: flex;
@@ -49,8 +98,17 @@ relatorio-view {
                 display: flex;
                 border: none;
             }
-        }
 
+            > .div-about-blank {
+                flex: 1 1 auto;
+                display: flex;
+                border: none;
+                margin-left: 10px;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+        }
     }
 }
 
