@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as VinculacaoUsuarioEditActions from '../actions/vinculacao-usuario-edit.actions';
@@ -15,6 +15,7 @@ import {VinculacaoUsuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class VinculacaoUsuarioEditEffect {
@@ -46,13 +47,13 @@ export class VinculacaoUsuarioEditEffect {
             .pipe(
                 ofType<VinculacaoUsuarioEditActions.GetVinculacaoUsuario>(VinculacaoUsuarioEditActions.GET_VINCULACAO_USUARIO),
                 switchMap(action => this._vinculacaoUsuarioService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
+                    JSON.stringify(action.payload),
+                    1,
+                    0,
+                    JSON.stringify({}),
+                    JSON.stringify([
+                        'populateAll'
+                    ]))),
                 switchMap(response => [
                     new AddData<VinculacaoUsuario>({data: response['entities'], schema: vinculacaoUsuarioSchema}),
                     new VinculacaoUsuarioEditActions.GetVinculacaoUsuarioSuccess({
@@ -75,24 +76,42 @@ export class VinculacaoUsuarioEditEffect {
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    saveVinculacaoUsuario: any =
-        this._actions
-            .pipe(
+    saveVinculacaoUsuario: any = createEffect(() => {
+        return this._actions.pipe(
                 ofType<VinculacaoUsuarioEditActions.SaveVinculacaoUsuario>(VinculacaoUsuarioEditActions.SAVE_VINCULACAO_USUARIO),
-                switchMap(action => this._vinculacaoUsuarioService.save(action.payload).pipe(
-                        mergeMap((response: VinculacaoUsuario) => [
-                            new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioSuccess(),
-                            new VinculacaoUsuarioListActions.ReloadVinculacoesUsuarios(),
-                            new AddData<VinculacaoUsuario>({data: [response], schema: vinculacaoUsuarioSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioFailed(err));
-                    return caught;
-                })
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assessor',
+                    content: 'Salvando o assessor ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._vinculacaoUsuarioService.save(action.payload.vinculacaoUsuario).pipe(
+                    tap((response) =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'assessor',
+                            content: 'Assessora id ' + response.id + ' salvo com sucesso.',
+                            status: 1, // sucesso
+                        }))
+                    ),
+                    mergeMap((response: VinculacaoUsuario) => [
+                        new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioSuccess(),
+                        new VinculacaoUsuarioListActions.ReloadVinculacoesUsuarios(),
+                        new AddData<VinculacaoUsuario>({data: [response], schema: vinculacaoUsuarioSchema})
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'assessor',
+                            content: 'Erro ao salvar o assessor!',
+                            status: 2, // erro
+                        }));
+                        return of(new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioFailed(err));
+                    })
+                ))
             );
+    });
 
     /**
      * Save VinculacaoUsuario Success

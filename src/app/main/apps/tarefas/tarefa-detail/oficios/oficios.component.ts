@@ -349,8 +349,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura
+                    assinatura: assinatura,
+                    operacaoId: operacaoId
                 }));
             });
         }

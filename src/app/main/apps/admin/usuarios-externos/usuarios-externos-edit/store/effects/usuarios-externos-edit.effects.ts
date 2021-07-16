@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as UsuariosExternosEditActions from '../actions/usuarios-externos-edit.actions';
@@ -16,6 +16,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class UsuariosExternosEditEffects {
@@ -83,23 +84,41 @@ export class UsuariosExternosEditEffects {
         this._actions
             .pipe(
                 ofType<UsuariosExternosEditActions.SaveUsuarioExternos>(UsuariosExternosEditActions.SAVE_USUARIOS_EXTERNOS),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'usuários externos',
+                    content: 'Salvando o usuários externos ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._usuarioService.save(action.payload, context).pipe(
+                    return this._usuarioService.save(action.payload.usuariosExternos, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'usuários externos',
+                                content: 'Usuários externos id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Usuario) => [
+                            new UsuariosExternosEditActions.SaveUsuarioExternosSuccess(response),
                             new UsuariosExternosListActions.ReloadUsuariosExternosList(),
-                            new AddData<Usuario>({data: [response], schema: usuarioSchema}),
-                            new UsuariosExternosEditActions.SaveUsuarioExternosSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new UsuariosExternosEditActions.SaveUsuarioExternosFailed(err));
-                    return caught;
+                            new AddData<Usuario>({data: [response], schema: usuarioSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'usuários externos',
+                                content: 'Erro ao salvar o usuários externos!',
+                                status: 2, // erro
+                            }));
+                            return of(new UsuariosExternosEditActions.SaveUsuarioExternosFailed(err));
+                        })
+                    )
                 })
             );
-
 
     /**
      * Save Usuario Success

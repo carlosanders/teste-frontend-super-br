@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'repositorios-especie-setor-edit',
@@ -141,7 +142,11 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         vinculacaoRepositorio.repositorio = this.repositorio;
         vinculacaoRepositorio.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
 
-        this._store.dispatch(new fromStore.SaveRepositorioEspecieSetor(vinculacaoRepositorio));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveRepositorioEspecieSetor({
+            vinculacaoRepositorio: vinculacaoRepositorio,
+            operacaoId: operacaoId
+        }));
     }
 
 }

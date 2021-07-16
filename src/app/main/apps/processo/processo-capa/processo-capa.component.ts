@@ -18,6 +18,7 @@ import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {Router} from '@angular/router';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'processo-capa',
@@ -120,11 +121,9 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             filter(processo => !!processo)
         ).subscribe((processo) => {
             this.processo = processo;
-            const tarefa = new Tarefa();
 
             if (this.processo && this.processo.especieProcesso?.workflow) {
-                tarefa.workflow = this.processo.especieProcesso.workflow;
-                 this.estaNumProcessoWorkflow = 'SIM';
+                this.estaNumProcessoWorkflow = 'SIM';
             }else{
                 this.estaNumProcessoWorkflow = 'NÃO';
             }
@@ -238,7 +237,11 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
     acompanharProcesso(checked, processo): void {
         if (checked) {
-            this._store.dispatch(new fromStore.SaveAcompanhamento(processo));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcompanhamento({
+                processo: processo,
+                operacaoId: operacaoId
+            }));
         } else {
             const payload = {
                 'acompanhamentoId': processo.compartilhamentoUsuario.id,

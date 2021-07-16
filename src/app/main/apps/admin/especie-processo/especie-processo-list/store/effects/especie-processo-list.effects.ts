@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as EspecieProcessoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {EspecieProcesso} from '@cdk/models';
 import {especieProcesso as especieProcessoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class EspecieProcessoListEffects {
@@ -78,20 +78,52 @@ export class EspecieProcessoListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteEspecieProcesso: any =
+    deleteEspecieProcesso: Observable<EspecieProcessoListActions.EspecieProcessoListActionsAll> =
         this._actions
             .pipe(
                 ofType<EspecieProcessoListActions.DeleteEspecieProcesso>(EspecieProcessoListActions.DELETE_ESPECIE_PROCESSO),
-                mergeMap(action => this._especieProcessoService.destroy(action.payload).pipe(
-                        map(response => new EspecieProcessoListActions.DeleteEspecieProcessoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'especieProcesso',
+                        content: 'Apagando a especieProcesso id ' + action.payload.especieProcessoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._especieProcessoService.destroy(action.payload.especieProcessoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'especieProcesso',
+                                content: 'EspecieProcesso id ' + action.payload.especieProcessoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<EspecieProcesso>({
+                                id: response.id,
+                                schema: especieProcessoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new EspecieProcessoListActions.DeleteEspecieProcessoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.especieProcessoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'especieProcesso',
+                                content: 'Erro ao apagar a especieProcesso id ' + action.payload.especieProcessoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new EspecieProcessoListActions.DeleteEspecieProcesso(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new EspecieProcessoListActions.DeleteEspecieProcessoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class LotacaoListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -106,12 +108,27 @@ export class LotacaoListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + lotacaoId]);
     }
 
-    delete(lotacaoId: number): void {
-        this._store.dispatch(new fromStore.DeleteLotacao(lotacaoId));
+    delete(lotacaoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteLotacao({
+            lotacaoId: lotacaoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     setPrincipal(lotacao: Lotacao): void {
-        this._store.dispatch(new fromStore.SaveLotacao({lotacao: lotacao, changes: {principal: true}}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveLotacao({
+            lotacao: lotacao,
+            changes: {principal: true},
+            operacaoId: operacaoId
+        }));
     }
 
 }

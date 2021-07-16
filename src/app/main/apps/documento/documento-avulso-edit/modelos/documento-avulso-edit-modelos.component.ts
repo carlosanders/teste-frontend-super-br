@@ -10,6 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-avulso-edit-modelos',
@@ -113,9 +114,12 @@ export class DocumentoAvulsoEditModelosComponent implements OnInit, OnDestroy {
 
     doSelect(modelo: Modelo): void {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveComponenteDigital({
             componenteDigital: this.currentComponenteDigital,
-            changes: {modelo: modelo.id, hashAntigo: this.currentComponenteDigital.hash}
+            changes: {modelo: modelo.id, hashAntigo: this.currentComponenteDigital.hash},
+            operacaoId: operacaoId
         }));
     }
 }

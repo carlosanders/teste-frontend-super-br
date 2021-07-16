@@ -12,6 +12,7 @@ import {getEtiqueta} from '../store';
 import {Back, getRouterState} from '../../../../../../store';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'dados-basicos',
@@ -192,8 +193,11 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             etiqueta.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
         }
 
-        this._store.dispatch(new fromStore.SaveEtiqueta(etiqueta));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEtiqueta({
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

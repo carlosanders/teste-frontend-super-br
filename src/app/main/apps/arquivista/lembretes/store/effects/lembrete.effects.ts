@@ -48,7 +48,8 @@ export class LembreteEffects {
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.etiquetaFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,
@@ -81,18 +82,38 @@ export class LembreteEffects {
         this._actions
             .pipe(
                 ofType<LembreteActions.SaveLembrete>(LembreteActions.SAVE_LEMBRETE),
-                switchMap(action => this._lembreteService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'lembrete',
+                    content: 'Salvando o lembrete ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._lembreteService.save(action.payload.lembrete).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'lembrete',
+                                content: 'Lembrete id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Lembrete) => [
                             new LembreteActions.SaveLembreteSuccess(),
-                            new AddData<Lembrete>({data: [response], schema: lembreteSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'lembrete',
-                                content: `Lembrete id ${response.id} criado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Lembrete>({data: [response], schema: lembreteSchema})
                         ]),
-                        catchError(err => of(new LembreteActions.SaveLembreteFailed(err)))
-                    ))
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'lembrete',
+                                content: 'Erro ao salvar o lembrete!',
+                                status: 2, // erro
+                            }));
+                            return of(new LembreteActions.SaveLembreteFailed(err));
+                        })
+                    )
+                })
             );
 
     /**

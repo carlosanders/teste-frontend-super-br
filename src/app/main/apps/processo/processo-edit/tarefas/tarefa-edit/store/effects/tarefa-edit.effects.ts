@@ -95,22 +95,39 @@ export class TarefaEditEffect {
         this._actions
             .pipe(
                 ofType<TarefaEditActions.SaveTarefa>(TarefaEditActions.SAVE_TAREFA),
-                switchMap(action => this._tarefaService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Salvando o tarefa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tarefaService.save(action.payload.tarefa).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Tarefa) => [
                             new TarefaEditActions.SaveTarefaSuccess(),
                             new TarefaListActions.ReloadTarefas(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao salvar o tarefa!',
+                                status: 2, // erro
+                            }));
                             return of(new TarefaEditActions.SaveTarefaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

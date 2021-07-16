@@ -82,24 +82,40 @@ export class InteressadoEditEffect {
         this._actions
             .pipe(
                 ofType<InteressadoEditActions.SaveInteressado>(InteressadoEditActions.SAVE_INTERESSADO),
-                switchMap(action => this._interessadoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'interessado',
+                    content: 'Salvando o interessado ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._interessadoService.save(action.payload.interessado).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Interessado id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Interessado) => [
                             new InteressadoEditActions.SaveInteressadoSuccess(),
                             new InteressadoListActions.ReloadInteressados(),
-                            new AddData<Interessado>({data: [response], schema: interessadoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'interessado',
-                                content: `Interessado id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Interessado>({data: [response], schema: interessadoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Erro ao salvar o interessado!',
+                                status: 2, // erro
+                            }));
                             return of(new InteressadoEditActions.SaveInteressadoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
-
 
     /**
      * Save Interessado Success

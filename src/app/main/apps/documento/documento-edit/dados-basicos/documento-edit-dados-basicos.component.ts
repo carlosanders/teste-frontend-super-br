@@ -15,6 +15,8 @@ import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {filter} from "rxjs/operators";
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-dados-basicos',
@@ -27,6 +29,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documento$: Observable<Documento>;
+    documento: Documento;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -58,6 +61,9 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, Af
      * On init
      */
     ngOnInit(): void {
+        this.documento$.pipe(
+            filter(documento => !!documento)
+        ).subscribe(documento => this.documento = documento);
     }
 
     ngAfterViewInit(): void {
@@ -74,7 +80,6 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, Af
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const documento = new Documento();
 
         Object.entries(values).forEach(
@@ -82,8 +87,33 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, Af
                 documento[key] = value;
             }
         );
+        const populate = JSON.stringify([
+            'populateAll',
+            'componentesDigitais.assinaturas',
+            'componentesDigitais.modelo',
+            'modelo.template',
+            'modelo.modalidadeModelo',
+            'tarefaOrigem.usuarioResponsavel',
+            'tarefaOrigem.vinculacoesEtiquetas',
+            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+            'repositorio.modalidadeRepositorio',
+            'documentoAvulsoRemessa.especieDocumentoAvulso',
+            'documentoAvulsoRemessa.processo',
+            'documentoAvulsoRemessa.processo.especieProcesso',
+            'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',
+            'documentoAvulsoRemessa.modelo',
+            'documentoAvulsoRemessa.setorDestino',
+            'documentoAvulsoRemessa.pessoaDestino',
+            'documentoAvulsoRemessa.usuarioRemessa',
+            'vinculacoesEtiquetas.etiqueta'
+        ]);
 
-        this._store.dispatch(new fromStore.SaveDocumento(documento));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveDocumento({
+            documento: documento,
+            populate: populate,
+            operacaoId: operacaoId
+        }));
     }
 
 }

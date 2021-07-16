@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -34,6 +35,7 @@ import {getRouterState} from 'app/store/reducers';
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -109,8 +111,17 @@ import {getRouterState} from 'app/store/reducers';
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoUsuarioId]);
     }
 
-    delete(vinculacaoUsuarioId: number): void {
-        this._store.dispatch(new fromStore.DeleteVinculacaoUsuario(vinculacaoUsuarioId));
+    delete(vinculacaoUsuarioId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteVinculacaoUsuario({
+            vinculacaoUsuarioId: vinculacaoUsuarioId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
 
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
+    }
 }

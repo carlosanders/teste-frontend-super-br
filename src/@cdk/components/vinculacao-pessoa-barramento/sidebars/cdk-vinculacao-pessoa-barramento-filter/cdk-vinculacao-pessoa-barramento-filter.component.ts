@@ -10,6 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-vinculacao-pessoa-barramento-filter',
@@ -19,7 +20,7 @@ import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkVinculacaoPessoaBarramentoFilterComponent implements OnInit {
+export class CdkVinculacaoPessoaBarramentoFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -30,6 +31,12 @@ export class CdkVinculacaoPessoaBarramentoFilterComponent implements OnInit {
 
     @Input()
     mode = 'list';
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+    filterApagadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     /**
      * Constructor
@@ -51,134 +58,103 @@ export class CdkVinculacaoPessoaBarramentoFilterComponent implements OnInit {
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('pessoa').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'pessoa.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('pessoa.id')) {
-                        delete this.filters['pessoa.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('repositorio').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    repositorio: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('estrutura').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    estrutura: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
-        });
-    }
-
     emite(): void {
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
+
+        if (this.form.get('pessoa').value) {
+            andXFilter.push({'pessoa.id': `eq:${this.form.get('pessoa').value.id}`});
+        }
+
+        if (this.form.get('repositorio').value) {
+            andXFilter.push({'repositorio.id': `eq:${this.form.get('repositorio').value.id}`});
+        }
+
+        if (this.form.get('nomeRepositorio').value) {
+            andXFilter.push({'nomeRepositorio.id': `eq:${this.form.get('nomeRepositorio').value.id}`});
+        }
+
+        if (this.form.get('estrutura').value) {
+            andXFilter.push({'estrutura.id': `eq:${this.form.get('estrutura').value.id}`});
+        }
+
+        if (this.form.get('nomeEstrutura').value) {
+            andXFilter.push({'nomeEstrutura.id': `eq:${this.form.get('nomeEstrutura').value.id}`});
+        }
+
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterApagadoEm?.length) {
+            this.filterApagadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+        
+        if (this.form.get('apagadoPor').value) {
+            andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = andXFilter;
+        }
+        
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-vinculacao-pessoa-barramento-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-atividade-filter').close();
     }
 
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraApagadoEm(value: any): void {
+        this.filterApagadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
+    }
     buscar(): void {
         this.emite();
     }
 
     limpar(): void {
         this.filters = {};
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
         this.form.reset();
     }

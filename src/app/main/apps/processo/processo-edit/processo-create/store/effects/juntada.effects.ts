@@ -6,15 +6,21 @@ import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/op
 import {getRouterState, State} from 'app/store/reducers';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assinatura, Juntada} from '@cdk/models';
-import {assinatura as assinaturaSchema, juntada as juntadaSchema} from '@cdk/normalizr';
+import {Assinatura, Desentranhamento, Juntada} from '@cdk/models';
+import {
+    assinatura as assinaturaSchema,
+    desentranhamento as desentranhamentoSchema,
+    juntada as juntadaSchema
+} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DocumentoService} from '@cdk/services/documento.service';
+import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {environment} from '../../../../../../../../environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {getPagination} from '../selectors';
 import * as JuntadaActions from 'app/main/apps/processo/processo-edit/processo-create/store/actions';
+import {CdkUtils} from '@cdk/utils';
 
 
 @Injectable()
@@ -26,6 +32,7 @@ export class JuntadaEffects {
         private _actions: Actions,
         private _juntadaService: JuntadaService,
         private _documentoService: DocumentoService,
+        private _desentranhamentoService: DesentranhamentoService,
         private _assinaturaService: AssinaturaService,
         private _store: Store<State>,
         private _router: Router
@@ -60,7 +67,6 @@ export class JuntadaEffects {
                     JSON.stringify(action.payload.populate),
                     JSON.stringify(action.payload.context))),
                 mergeMap(response => [
-
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new JuntadaActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
@@ -136,26 +142,39 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<JuntadaActions.AssinaDocumentoEletronicamente>(JuntadaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-                    mergeMap((response: Assinatura) => [
-                        new JuntadaActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                        new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                        new OperacoesActions.Resultado({
-                            type: 'assinatura',
-                            content: `Assinatura id ${response.id} criada com sucesso!`,
-                            dateTime: response.criadoEm
-                        }),
-                        new JuntadaActions.ReloadJuntadas()
-                    ]),
-                    catchError((err) => {
-                        const payload = {
-                            documentoId: action.payload.documento.id,
-                            error: err
-                        };
-                        console.log(err);
-                        return of(new JuntadaActions.AssinaDocumentoEletronicamenteFailed(payload));
-                    })
-                ))
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Salvando a assinatura ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Assinatura) => [
+                            new JuntadaActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new JuntadaActions.ReloadJuntadas()
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Erro ao salvar a assinatura!',
+                                status: 2, // erro
+                            }));
+                            return of(new JuntadaActions.AssinaDocumentoEletronicamenteFailed(err));
+                        })
+                    )
+                })
             );
 
     /**
@@ -168,5 +187,49 @@ export class JuntadaEffects {
                 ofType<JuntadaActions.ReloadJuntadas>(JuntadaActions.RELOAD_JUNTADAS),
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 tap(([action, pagination]) => this._store.dispatch(new JuntadaActions.GetJuntadas(pagination)))
+            );
+
+    /**
+     * Save Desentranhamento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveDesentranhamento: any =
+        this._actions
+            .pipe(
+                ofType<JuntadaActions.SaveDesentranhamento>(JuntadaActions.SAVE_DESENTRANHAMENTO),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'desentranhamento',
+                    content: 'Salvando o desentranhamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._desentranhamentoService.save(action.payload.desentranhamento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'desentranhamento',
+                                content: 'Desentranhamento id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Desentranhamento) => [
+                            new JuntadaActions.SaveDesentranhamentoSuccess(action.payload),
+                            new AddData<Desentranhamento>({data: [response], schema: desentranhamentoSchema}),
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'desentranhamento',
+                                content: 'Erro ao salvar o desentranhamento!',
+                                status: 2, // erro
+                            }));
+                            return of(new JuntadaActions.SaveDesentranhamentoFailed(err));
+                        })
+                    )
+                })
             );
 }

@@ -45,6 +45,7 @@
                           (excluded)="excludedAssuntos($event)"
                           (create)="create('assunto')"
                           (delete)="deleteAssunto($event)"
+                          (deleteBlocoEmmitter)="deleteBlocoAssunto($event)"
         ></cdk-assunto-grid>
     </mat-step>
     <mat-step [completed]="(interessados$ | async)?.length > 0">
@@ -71,7 +72,8 @@
                               (reload)="reloadInteressados($event)"
                               (excluded)="excludedInteressados($event)"
                               (create)="create('interessado')"
-                              (delete)="deleteInteressado($event)">
+                              (delete)="deleteInteressado($event)"
+                              (deleteBlocoEmmitter)="deleteBlocoInteressado($event)">
         </cdk-interessado-grid>
     </mat-step>
     <mat-step optional>
@@ -96,10 +98,13 @@
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
-                [actions]="['edit', 'assinar']"
+                [actions]="['edit', 'assinar', 'desentranharJuntada']"
                 [assinandoId]="(assinandoDocumentosId$ | async)"
+                [desentranhadoId]="(desentranhadoJuntadasId$ | async)"
+                [deletingIds]="(desentranhandoJuntadasId$ | async)"
                 (reload)="reloadJuntadas($event)"
                 (excluded)="excludedJuntadas($event)"
+                (desentranharJuntada)="desentranhar($event)"
                 (edit)="editar($event)"
                 (assinar)="assinar($event)">
             </cdk-juntada-grid>
@@ -127,7 +132,8 @@
                                       (reload)="reloadVinculacoesProcessos($event)"
                                       (excluded)="excludedVinculacoesProcessos($event)"
                                       (create)="create('vinculacao-processo')"
-                                      (delete)="deleteVinculacaoProcesso($event)">
+                                      (delete)="deleteVinculacaoProcesso($event)"
+                                      (deleteBlocoEmmitter)="deleteBlocoVinculacaoProcesso($event)">
         </cdk-vinculacao-processo-grid>
     </mat-step>
     <mat-step [stepControl]="formTarefa">
@@ -139,6 +145,7 @@
             [errors]="(errorsTarefa$ | async)"
             [fromProcesso]="true"
             [especieTarefaPagination]="especieTarefaPagination"
+            [setorOrigemPagination]="setorOrigemPagination"
             [logEntryPagination]="logEntryPagination"
             (save)="submitTarefa($event)"
             (abort)="doAbort()">
@@ -240,11 +247,14 @@
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
-                [actions]="['edit', 'assinar']"
+                [actions]="['edit', 'assinar', 'desentranharJuntada']"
                 [assinandoId]="(assinandoDocumentosId$ | async)"
+                [desentranhadoId]="(desentranhadoJuntadasId$ | async)"
+                [deletingIds]="(desentranhandoJuntadasId$ | async)"
                 (reload)="reloadJuntadas($event)"
                 (excluded)="excludedJuntadas($event)"
                 (edit)="editar($event)"
+                (desentranharJuntada)="desentranhar($event)"
                 (assinar)="assinar($event)">
             </cdk-juntada-grid>
         </div>
@@ -282,12 +292,12 @@
             [errors]="(errorsTarefa$ | async)"
             [fromProcesso]="true"
             [especieTarefaPagination]="especieTarefaPagination"
+            [setorOrigemPagination]="setorOrigemPagination"
             [logEntryPagination]="logEntryPagination"
             (save)="submitTarefa($event)"
             (abort)="doAbort()">
         </cdk-tarefa-form>
     </mat-step>
 </mat-vertical-stepper>
-
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

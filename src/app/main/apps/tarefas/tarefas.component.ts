@@ -252,11 +252,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'nova_tarefa') {
                 if (message.content.genero === this.routerState.params.generoHandle) {
                     this.novaTarefa = true;
@@ -747,7 +746,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             if (result.certificadoDigital) {
                 this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, certificadoDigital: true}));
             } else {
-                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, assinatura: {plainPassword: result.plainPassword}}));
+                this._store.dispatch(new fromStore.GetDocumentos({
+                    tarefaId: tarefa.id,
+                    assinatura: {plainPassword: result.plainPassword}
+                }));
             }
         });
     }
@@ -792,7 +794,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             sort: {},
             limit: 1,
             offset: 0,
-            populate: ['assuntoAdministrativo']
+            populate: ['populateAll']
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa({processoId: processoId, params: params}));

@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'modalidade-orgao-central-edit',
@@ -74,7 +75,11 @@ export class ModalidadeOrgaoCentralEditComponent implements OnInit {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveModalidadeOrgaoCentral(modalidadeOrgaoCentral));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveModalidadeOrgaoCentral({
+            modalidadeOrgaoCentral: modalidadeOrgaoCentral,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

@@ -141,7 +141,7 @@
             </button>
         </div>
         <mat-menu #filtroConclusaoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="conclusaoEm"
+            <cdk-date-filter [datetime]="true" campo="dataHoraConclusao"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraConclusaoEm($event)">
             </cdk-date-filter>

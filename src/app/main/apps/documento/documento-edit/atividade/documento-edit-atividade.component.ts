@@ -10,6 +10,7 @@ import {getTarefa} from '../../../tarefas/tarefa-detail/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {Back} from '../../../../../store';
 import {filter} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -97,7 +98,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
             this.especieAtividadePagination['context'] = {};
             if (tarefa.workflow) {
                 this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.especieTarefaFrom.id' : 'eq:' + tarefa.especieTarefa.id
+                    'transicoesWorkflow.workflow.id' : 'eq:' + tarefa.workflow.id
                 };
                 this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
             }
@@ -143,7 +144,11 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
     }
 
     submitAtividade(): void {
-        this._store.dispatch(new fromStore.SaveAtividade(this.values));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAtividade({
+            atividade: this.values,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

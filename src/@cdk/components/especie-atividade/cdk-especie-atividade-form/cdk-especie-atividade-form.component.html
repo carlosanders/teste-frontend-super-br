@@ -1,5 +1,9 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
+    <mat-checkbox formControlName="evento">
+        Evento
+    </mat-checkbox>
+
     <mat-form-field>
         <mat-label>Nome</mat-label>
         <input matInput #nome
@@ -39,6 +43,9 @@
                 (click)="showGeneroAtividadeGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('generoAtividade').hasError('formError')">
+            {{form.get('generoAtividade').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo">

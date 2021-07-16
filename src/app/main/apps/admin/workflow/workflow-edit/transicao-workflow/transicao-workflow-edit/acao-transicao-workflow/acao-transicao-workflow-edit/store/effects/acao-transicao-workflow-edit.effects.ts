@@ -39,25 +39,46 @@ export class AcaoTransicaoWorkflowEditEffect {
      *
      * @type {Observable<any>}
      */
-    @Effect()
     saveAcao: any =
         this._actions
             .pipe(
                 ofType<AcaoEditActions.SaveAcao>(AcaoEditActions.SAVE_ACAO),
-                switchMap(action => this._acaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'ação',
+                    content: 'Salvando a ação ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._acaoService.save(action.payload.acao, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'ação',
+                                content: 'Ação id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: AcaoTransicaoWorkflow) => [
                             new AcaoEditActions.SaveAcaoSuccess(),
                             new AcaoListActions.ReloadAcoes(),
                             new AddData<AcaoTransicaoWorkflow>({data: [response], schema: acaoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'acaoTransicaoWorkflow',
-                                content: `Acao id ${response.id} criada com sucesso!`,
-                                dateTime: moment()
-                            })
                         ]),
-                        catchError(err => of(new AcaoEditActions.SaveAcaoFailed(err)))
-                    ))
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'ação',
+                                content: 'Erro ao salvar a ação!',
+                                status: 2, // erro
+                            }));
+                            return of(new AcaoEditActions.SaveAcaoFailed(err));
+                        })
+                    )
+                })
             );
+
     /**
      * Save Acao Success
      */

@@ -6,7 +6,7 @@ import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/op
 
 import * as InteressadoActions from '../actions/interessado.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Interessado} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -86,17 +86,53 @@ export class InteressadosEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteInteressado: any =
+    deleteInteressado: Observable<InteressadoActions.InteressadoActionsAll> =
         this._actions
             .pipe(
                 ofType<InteressadoActions.DeleteInteressado>(InteressadoActions.DELETE_INTERESSADO),
-                mergeMap(action => this._interessadoService.destroy(action.payload).pipe(
-                        map(response => new InteressadoActions.DeleteInteressadoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'interessado',
+                        content: 'Apagando a interessado id ' + action.payload.interessadoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._interessadoService.destroy(action.payload.interessadoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Interessado id ' + action.payload.interessadoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Interessado>({
+                                id: response.id,
+                                schema: interessadoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new InteressadoActions.DeleteInteressadoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.interessadoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Erro ao apagar a interessado id ' + action.payload.interessadoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new InteressadoActions.DeleteInteressadoFailed(action.payload));
+                            return of(new InteressadoActions.DeleteInteressadoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 
     /**
@@ -109,21 +145,38 @@ export class InteressadosEffect {
         this._actions
             .pipe(
                 ofType<InteressadoActions.SaveInteressado>(InteressadoActions.SAVE_INTERESSADO),
-                switchMap(action => this._interessadoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'interessado',
+                    content: 'Salvando a interessado ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._interessadoService.save(action.payload.interessado).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Interessado id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Interessado) => [
                             new InteressadoActions.SaveInteressadoSuccess(),
                             new AddData<Interessado>({data: [response], schema: interessadoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'interessado',
-                                content: `Interessado id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'interessado',
+                                content: 'Erro ao salvar a interessado!',
+                                status: 2, // erro
+                            }));
                             return of(new InteressadoActions.SaveInteressadoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

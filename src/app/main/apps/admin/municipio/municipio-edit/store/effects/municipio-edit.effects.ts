@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as MunicipioEditActions from '../actions/municipio-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class MunicipioEditEffects {
@@ -82,20 +83,39 @@ export class MunicipioEditEffects {
         this._actions
             .pipe(
                 ofType<MunicipioEditActions.SaveMunicipio>(MunicipioEditActions.SAVE_MUNICIPIO),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'município',
+                    content: 'Salvando o município ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._municipioService.save(action.payload, context).pipe(
+                    return this._municipioService.save(action.payload.municipio, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'município',
+                                content: 'Município id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Municipio) => [
+                            new MunicipioEditActions.SaveMunicipioSuccess(response),
                             new MunicipioListActions.ReloadMunicipio(),
-                            new AddData<Municipio>({data: [response], schema: municipioSchema}),
-                            new MunicipioEditActions.SaveMunicipioSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new MunicipioEditActions.SaveMunicipioFailed(err));
-                    return caught;
+                            new AddData<Municipio>({data: [response], schema: municipioSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'município',
+                                content: 'Erro ao salvar o município!',
+                                status: 2, // erro
+                            }));
+                            return of(new MunicipioEditActions.SaveMunicipioFailed(err));
+                        })
+                    )
                 })
             );
 

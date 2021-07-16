@@ -6,7 +6,7 @@ import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, Documento} from '@cdk/models';
@@ -16,6 +16,7 @@ import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {DocumentosVinculadosActionsAll} from '../actions/documentos-vinculados.actions';
 
 @Injectable()
 export class DocumentosVinculadosEffect {
@@ -108,14 +109,49 @@ export class DocumentosVinculadosEffect {
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.DeleteDocumentoVinculado>(DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO),
-
-                mergeMap(action => this._documentoService.destroy(action.payload).pipe(
-                        map(response => new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documentoVinculado',
+                        content: 'Apagando a documentoVinculado id ' + action.payload.documentoVinculadoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoService.destroy(action.payload.documentoVinculadoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoVinculado',
+                                content: 'DocumentoVinculado id ' + action.payload.documentoVinculadoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Documento>({
+                                id: response.id,
+                                schema: documentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoVinculadoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoVinculado',
+                                content: 'Erro ao apagar a documentoVinculado id ' + action.payload.documentoVinculadoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(action.payload));
+                            return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 
     /**
@@ -172,6 +208,12 @@ export class DocumentosVinculadosEffect {
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamente>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Salvando a assinatura ...',
+                    status: 0, // carregando
+                }))),
                 switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(response),
@@ -184,6 +226,12 @@ export class DocumentosVinculadosEffect {
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Erro ao salvar a assinatura!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteFailed(err));
                         })
                     ))

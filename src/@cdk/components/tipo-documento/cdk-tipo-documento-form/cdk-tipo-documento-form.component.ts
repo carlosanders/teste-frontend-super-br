@@ -56,7 +56,7 @@ export class CdkTipoDocumentoFormComponent implements OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             sigla: [null, [Validators.required, Validators.minLength(3)]],
             especieDocumento: [null, [Validators.required]],
-            descricao: [null, [Validators.required]],
+            descricao: [null, [Validators.required, Validators.maxLength(255)]],
             ativo: [null],
         });
     }

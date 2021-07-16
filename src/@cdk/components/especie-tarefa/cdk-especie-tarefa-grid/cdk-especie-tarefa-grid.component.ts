@@ -50,6 +50,9 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     excluded = new EventEmitter<any>();
 
     @Output()
@@ -90,28 +93,13 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
             fixed: false
         },
         {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
             id: 'criadoEm',
             label: 'Criado Em',
             fixed: false
         },
         {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
             fixed: false
         },
         {
@@ -181,7 +169,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     hasExcluded = false;
     hasInatived = false;
 
-    isWorflow = false;
+    isWorkflow = false;
 
     /**
      * @param _changeDetectorRef
@@ -197,8 +185,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
 
     ngOnChanges(): void {
         if (this.especieTarefas) {
-            this.isWorflow = this.especieTarefas.some(item => item.valida !== null);
-            if (this.isWorflow) {
+            this.isWorkflow = this.especieTarefas.some(item => item.valida !== null);
+            if (this.isWorkflow) {
                 this.hasExcluded = true;
             }
         }
@@ -315,8 +303,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
         this.delete.emit(especieTarefaId);
     }
 
-    deleteEspecieTarefas(especieTarefasId): void {
-        especieTarefasId.forEach(especieTarefaId => this.deleteEspecieTarefa(especieTarefaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

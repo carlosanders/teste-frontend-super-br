@@ -206,11 +206,11 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
             tarefa.processo = processoBloco;
 
-            if (processoBloco.especieProcesso?.workflow) {
-                tarefa.workflow = processoBloco.especieProcesso.workflow;
-            }
-
-            this._store.dispatch(new fromStore.SaveTarefa(tarefa));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveTarefa({
+                tarefa: tarefa,
+                operacaoId: operacaoId
+            }));
         });
     }
 

@@ -13,7 +13,6 @@ import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {UnloadDocumento} from '../../../../store';
 import {
     GetDocumentos as GetDocumentosProcesso,
@@ -26,6 +25,7 @@ import {GetDocumentos as GetDocumentosAvulsos} from '../../../../../tarefas/tare
 import * as ProcessoViewActions from '../../../../../processo/processo-view/store/actions/processo-view.actions';
 import {UnloadComponenteDigital} from '../../../../componente-digital/store';
 import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class DocumentoAvulsoEditEffects {
@@ -63,21 +63,38 @@ export class DocumentoAvulsoEditEffects {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulso>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO),
-                switchMap(action => this._documentoAvulsoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento avulso',
+                    content: 'Salvando o documento avulso ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Documento avulso id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'documentoAvulso',
-                                content: `Documento Avulso id ${response.id} editado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Erro ao salvar o documento avulso!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

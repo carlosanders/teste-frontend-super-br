@@ -216,7 +216,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             this.especieAtividadePagination['context'] = {};
             if (tarefa.workflow) {
                 this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.especieTarefaFrom.id' : 'eq:' + tarefa.especieTarefa.id
+                    'transicoesWorkflow.workflow.id' : 'eq:' + tarefa.workflow.id
                 };
                 this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
             }
@@ -364,7 +364,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         atividade.documentos = this.minutas;
 
-        this._store.dispatch(new fromStore.SaveAtividade(atividade));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAtividade({
+            atividade: atividade,
+            operacaoId: operacaoId
+        }));
     }
 
     checkModelo(): void {

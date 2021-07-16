@@ -57,7 +57,8 @@ export class ProcessoViewEffect {
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
                             ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.etiquetaFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,

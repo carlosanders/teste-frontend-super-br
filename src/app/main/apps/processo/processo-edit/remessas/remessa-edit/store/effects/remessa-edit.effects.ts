@@ -80,22 +80,39 @@ export class RemessaEditEffect {
         this._actions
             .pipe(
                 ofType<RemessaEditActions.SaveTramitacao>(RemessaEditActions.SAVE_TRAMITACAO),
-                switchMap(action => this._tramitacaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'remessa',
+                    content: 'Salvando a remessa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tramitacaoService.save(action.payload.tramitacao).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'remessa',
+                                content: 'Remessa id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Tramitacao) => [
                             new RemessaEditActions.SaveTramitacaoSuccess(),
                             new RemessaListActions.ReloadTramitacoes(),
-                            new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'remessa',
-                                content: `Remessa id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'remessa',
+                                content: 'Erro ao salvar a remessa!',
+                                status: 2, // erro
+                            }));
                             return of(new RemessaEditActions.SaveTramitacaoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

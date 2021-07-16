@@ -20,6 +20,7 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getDocumento} from '../../store/selectors';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-avulso-edit-anexos',
@@ -42,6 +43,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
     assinandoDocumentosVinculadosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId: number[] = [];
     javaWebStartOK = false;
+    lote: string;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -174,6 +176,20 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         documentos.forEach((documento: Documento) => this.doDeleteDocumentoVinculado(documento.id));
     }
 
+    delete(documentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
+    }
+
     doAssinaturaDocumentoVinculado(result): void {
         if (result.certificadoDigital) {
             this._store.dispatch(new fromStore.AssinaDocumentoVinculado(result.documento.id));
@@ -187,8 +203,10 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
-                    assinatura: assinatura
+                    assinatura: assinatura,
+                    operacaoId: operacaoId
                 }));
             });
         }

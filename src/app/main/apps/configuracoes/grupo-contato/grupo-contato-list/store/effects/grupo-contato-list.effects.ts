@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as GrupoContatoListActions from '../actions';
 
 import {GrupoContatoService} from '@cdk/services/grupo-contato.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {GrupoContato} from '@cdk/models';
 import {grupoContato as grupoContatoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class GrupoContatoListEffect {
@@ -73,16 +73,54 @@ export class GrupoContatoListEffect {
      *
      * @type {Observable<any>}
      */
-    deleteGrupoContato: any = createEffect(() => this._actions
+    @Effect()
+    deleteGrupoContato: Observable<GrupoContatoListActions.GrupoContatoListActionsAll> =
+        this._actions
             .pipe(
                 ofType<GrupoContatoListActions.DeleteGrupoContato>(GrupoContatoListActions.DELETE_GRUPO_CONTATO),
-                mergeMap(action => this._grupoContatoService.destroy(action.payload).pipe(
-                        map(response => new GrupoContatoListActions.DeleteGrupoContatoSuccess(response.id)),
-                        catchError(err => of(new GrupoContatoListActions.DeleteGrupoContatoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            ))
-                    ))
-            ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'grupoContato',
+                        content: 'Apagando a grupoContato id ' + action.payload.grupoContatoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._grupoContatoService.destroy(action.payload.grupoContatoId).pipe(
+                        tap(x=> console.log(action.payload)),
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'grupoContato',
+                                content: 'GrupoContato id ' + action.payload.grupoContatoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<GrupoContato>({
+                                id: response.id,
+                                schema: grupoContatoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new GrupoContatoListActions.DeleteGrupoContatoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.grupoContatoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'grupoContato',
+                                content: 'Erro ao apagar a grupoContato id ' + action.payload.grupoContatoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new GrupoContatoListActions.DeleteGrupoContatoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 }

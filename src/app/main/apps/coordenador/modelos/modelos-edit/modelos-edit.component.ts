@@ -14,6 +14,7 @@ import {getRouterState} from 'app/store/reducers';
 import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'coordenador-modelos-edit',
@@ -211,8 +212,11 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             modelo.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
         }
 
-        this._store.dispatch(new fromStore.SaveModelo(modelo));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveModelo({
+            modelo: modelo,
+            operacaoId: operacaoId
+        }));
 
     }
-
 }

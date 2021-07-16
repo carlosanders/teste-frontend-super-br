@@ -21,6 +21,7 @@ import {MercureService} from '@cdk/services/mercure.service';
 import {Back} from '../../../../../store';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
 import {MatDialog} from '@cdk/angular/material';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'dados-basicos',
@@ -159,8 +160,11 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                 .replace(/-+/g, '');
         }
 
-        this._store.dispatch(new fromStore.SaveProcesso(processo));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveProcesso({
+            processo: processo,
+            operacaoId: operacaoId
+        }));
     }
 
     abort(): void {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as LocalizadorEditActions from '../actions/localizador-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class LocalizadorEditEffect {
@@ -81,17 +82,38 @@ export class LocalizadorEditEffect {
         this._actions
             .pipe(
                 ofType<LocalizadorEditActions.SaveLocalizador>(LocalizadorEditActions.SAVE_LOCALIZADOR),
-                switchMap(action => this._localizadorService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'localizador',
+                    content: 'Salvando o localizador ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._localizadorService.save(action.payload.localizador).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'localizador',
+                                content: 'Localizador id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Localizador) => [
                             new LocalizadorEditActions.SaveLocalizadorSuccess(),
                             new LocalizadorListActions.ReloadLocalizadores(),
                             new AddData<Localizador>({data: [response], schema: localizadorSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new LocalizadorEditActions.SaveLocalizadorFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'localizador',
+                                content: 'Erro ao salvar o localizador!',
+                                status: 2, // erro
+                            }));
+                            return of(new LocalizadorEditActions.SaveLocalizadorFailed(err));
+                        })
+                    )
                 })
             );
 

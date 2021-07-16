@@ -163,6 +163,9 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Garantia>();
 
     @Output()
@@ -247,7 +250,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     loadPage(): void {
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: this.gridFilter.filters,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {['criadoEm']: 'DESC'}
@@ -286,7 +289,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     deleteGarantias(garantiasId): void {
-        garantiasId.forEach(garantiaId => this.deleteGarantia(garantiaId));
+        this.deleteBlocoEmmitter.emit(garantiasId);
         this.selectedIds = this.selectedIds.filter(id => garantiasId.indexOf(id) === -1);
         this.recompute();
     }

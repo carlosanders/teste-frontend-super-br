@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as SetorEditActions from '../actions/setor-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class SetorEditEffects {
@@ -81,17 +82,38 @@ export class SetorEditEffects {
         this._actions
             .pipe(
                 ofType<SetorEditActions.SaveSetor>(SetorEditActions.SAVE_SETOR),
-                switchMap(action => this._setorService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'setor',
+                    content: 'Salvando o setor ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._setorService.save(action.payload.setor).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'setor',
+                                content: 'Setor id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Setor) => [
                             new SetorEditActions.SaveSetorSuccess(),
                             new SetorListActions.ReloadSetores(),
                             new AddData<Setor>({data: [response], schema: setorSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new SetorEditActions.SaveSetorFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'setor',
+                                content: 'Erro ao salvar o setor!',
+                                status: 2, // erro
+                            }));
+                            return of(new SetorEditActions.SaveSetorFailed(err));
+                        })
+                    )
                 })
             );
 

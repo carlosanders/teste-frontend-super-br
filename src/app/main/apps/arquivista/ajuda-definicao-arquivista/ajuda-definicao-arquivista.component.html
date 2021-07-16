@@ -1,0 +1,461 @@
+<div *ngIf="titulo === 'arquivista definicao'">
+    <h3><strong>ARQUIVISTA</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+        O SUPP é um SIGAD que possui avançados recursos de apoio à produção de conteúdo jurídico e de controle de fluxos
+        administrativos, focado na integração com os sistemas informatizados do Poder Judiciário e do Poder Executivo.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                SIGAD
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            Um <strong>S</strong>istema <strong>I</strong>nformatizado de <strong>G</strong>estão <strong>A</strong>rquivística
+            de <strong>D</strong>ocumentos consiste em um conjunto de procedimentos e operações técnicas, característico
+            do sistema de gestão arquivística de documentos, processado por computador. <br>
+            O SIGAD trata os documentos a partir de uma concepção orgânica, ou seja, os documentos possuem uma
+            inter-relação que reflete as atividades da instituição que os criou.
+            A concepção do SIGAD tem que se dar a partir da implementação de uma política arquivística no órgão ou
+            entidade.
+        </p>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+        O SUPP é híbrido, isto é, comporta documentos digitais e documentos físicos. Inclui operações como: captura de
+        documentos, aplicação do plano de classificação, controle de versões, controle sobre os prazos de guarda e
+        destinação, armazenamento seguro e procedimentos que garantam o acesso e a preservação a médio e longo prazo de
+        documentos <strong>arquivísticos</strong> digitais e não digitais confiáveis e autênticos.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        No caso dos documentos digitais, o SUPP abrange todos os tipos de documentos arquivísticos da AGU, ou seja,
+        textos, imagens, vídeos, gravações sonoras, mensagens de correio eletrônico, páginas web, bases de dados, dentre
+        outras possibilidades de um vasto repertório de diversidade crescente.
+    </p>
+    <h3><strong>Gestão Arquivística de Documentos</strong></h3>
+    <h4><strong>Conceitos</strong></h4>
+    <p style="text-align: justify;text-indent: 20px">
+        Os documentos produzidos e recebidos no decorrer das atividades de um órgão ou entidade, independente do meio em
+        que se apresentam, registram suas políticas, funções, procedimentos e decisões.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Nesse sentido, constituem-se em <strong>documentos arquivísticos</strong>, os quais conferem aos órgãos e
+        entidades a capacidade de:
+    </p>
+    <ul style="text-align: justify">
+        <li>Conduzir as atividades de forma transparente, possibilitando a governança e o controle social das
+            informações;
+        </li>
+        <li>Apoiar e documentar a elaboração de políticas e o processo de tomada de decisão;</li>
+        <li>Possibilitar a continuidade das atividades em caso de sinistros;</li>
+        <li>Fornecer evidência em caso de litígios;</li>
+        <li>Proteger os interesses do órgão ou entidade e os direitos dos funcionários e dos usuários ou clientes;</li>
+        <li>Assegurar e documentar as atividades de pesquisa, desenvolvimento e inovação, bem como a pesquisa
+            histórica;
+        </li>
+        <li>Manter a memória corporativa e coletiva;</li>
+        <li>Controle e gestão do sigilo.</li>
+    </ul>
+    <p style="text-align: justify;text-indent: 20px">
+        Para conferir essa capacidade, os documentos arquivísticos precisam ser <strong>confiáveis</strong>, <strong>autênticos</strong>,
+        <strong>acessíveis</strong>, <strong>compreensíveis</strong> e possam ser preservados, o que só é possível por
+        meio da implantação de um programa de gestão arquivística de documentos.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        No bojo do conceito de gestão arquivística de documentos está a teoria das três idades, na qual os documentos
+        passam por três idades.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                TEORIA DAS TRÊS IDADES
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul style="text-align: justify">
+
+            <li>CORRENTE: refere-se aos documentos que estão em curso, isto é, tramitando ou que foram arquivados, mas
+                que são objeto de consultas frequentes; eles são conservados nos locais onde foram produzidos sob a
+                responsabilidade do órgão produtor;
+            </li>
+            <li>INTERMEDIÁRIA: refere-se aos documentos que não são mais de uso corrente, mas que, por conservarem ainda
+                algum interesse administrativo, aguardam, no arquivo intermediário, o cumprimento do prazo estabelecido
+                em tabela de temporalidade e destinação para serem eliminados ou recolhidos ao arquivo permanente;
+            </li>
+            <li>PERMANENTE: refere-se aos documentos que devem ser definitivamente preservados devido a seu valor
+                histórico, probatório ou informativo.
+            </li>
+        </ul>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+        A passagem dos documentos de uma idade para outra é definida por meio do processo de avaliação (<strong>Temporalidade
+        e Destinação</strong>), que leva em conta a frequência de uso dos documentos por seus produtores e a
+        identificação de seus valores primário e secundário.
+        Para mais informações, acesse a Ajuda de <a href="javascript:void(0)" (click)="carregar('transicoes')">Temporalidades
+        e Destinações de um Processo</a>.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                VALOR PRIMÁRIO E SECUNDÁRIO
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            O valor primário é atribuído aos documentos considerando a sua utilidade administrativa imediata, isto é, as
+            razões pelas quais esses documentos foram criados.
+            O valor secundário refere-se ao valor atribuído aos documentos em função da sua utilidade para fins
+            diferentes daqueles para os quais foram originalmente produzidos, como, por exemplo, provas judiciais e
+            administrativas e pesquisas acadêmicas.
+        </p>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+        O <strong>“Código de classificação de documentos de arquivo para a administração pública:
+        atividades-meio”</strong> e a <strong>“Tabela básica de temporalidade e destinação de documentos de arquivo
+        relativos às atividades-meio da administração pública”</strong> aprovados pelo <strong>CONARQ</strong> são
+        instrumentos fundamentais para a implementação da gestão arquivística de documentos.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Além de aprovar e publicar esses instrumentos, regulamentando a classificação e avaliação de documentos, o
+        <strong>CONARQ</strong> regulamentou também, em suas resoluções, os procedimentos de eliminação, transferência e
+        recolhimento de documentos .
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Os órgãos e entidades devem estabelecer, documentar, instituir e manter políticas, procedimentos e práticas para
+        a gestão arquivística de documentos, com base nas diretrizes estabelecidas pelo CONARQ.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                GESTÃO ARQUIVÍSTICA DE DOCUMENTOS
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            Compreende:
+        </p>
+        <ul style="text-align: justify">
+
+            <li>Definição da política arquivística;</li>
+            <li>Designação de responsabilidades;</li>
+            <li>Planejamento do programa de gestão;</li>
+            <li>Implantação do programa de gestão.</li>
+        </ul>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+        O documento digital apresenta especificidades que podem comprometer sua autenticidade, uma vez que é suscetível
+        à degradação física dos seus meios, à obsolescência tecnológica de hardware, software e de formatos e a
+        intervenções não autorizadas, que podem ocasionar adulteração e destruição.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Somente com procedimentos de gestão arquivística é possível assegurar as características de um documento
+        arquivístico digitais.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                CARACTERÍSTICAS DE UM DOCUMENTO ARQUIVÍSTICO
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            <mat-expansion-panel style="text-align: center;margin-left: 20px">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        ORGANICIDADE
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+        <p>
+            O documento arquivístico se caracteriza pela organicidade, ou seja, pelas relações que mantém com os demais
+            documentos do órgão ou entidade e que refletem suas funções e atividades. Os documentos arquivísticos não
+            são coletados artificialmente, mas estão ligados uns aos outros por um elo que se materializa no plano de
+            classificação, o qual os contextualiza no conjunto a que pertencem. Os documentos arquivísticos apresentam
+            um conjunto de relações que devem ser mantidas. Os procedimentos de gestão arquivística devem registrar e
+            manter as relações entre os documentos e a sequência das atividades realizadas por meio da aplicação de um
+            plano de classificação.
+        </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                UNICIDADE
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            O documento arquivístico é único no conjunto documental ao qual pertence; podem existir cópias em um ou mais
+            grupos de documentos, mas cada cópia é única em seu lugar, porque o conjunto de suas relações com os demais
+            documentos do grupo é sempre único. O programa de gestão arquivística deve prever a identificação de cada
+            documento individualmente, sem perder de vista o conjunto de relações que o envolve.
+        </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                CONFIABILIDADE
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            Um documento arquivístico confiável é aquele que tem a capacidade de sustentar os fatos que atesta. A
+            confiabilidade está relacionada ao momento em que o documento é produzido e à veracidade do seu conteúdo.
+            Para tanto há que ser dotado de completeza e ter seus procedimentos de criação bem controlados. Dificilmente
+            pode-se assegurar a veracidade do conteúdo de um documento, ela é inferida a partir da completeza e dos
+            procedimentos de criação. A confiabilidade é uma questão de grau, ou seja, um documento pode ser mais ou
+            menos confiável. Para garantir a confiabilidade, o programa de gestão arquivística dos órgãos e entidades
+            deve assegurar que os documentos arquivísticos sejam produzidos da seguinte forma: no momento em que ocorre
+            a ação, ou imediatamente após, por pessoas diretamente envolvidas na condução das atividades e devidamente
+            autorizadas; com o grau de completeza requerido tanto pelo próprio órgão ou entidade como pelo sistema
+            jurídico.
+        </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                AUTENTICIDADE
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            Um documento arquivístico autêntico é aquele que é o que diz ser, independente de se tratar de minuta,
+            original ou cópia, e que é livre de adulterações ou qualquer outro tipo de corrupção. Enquanto a
+            confiabilidade está relacionada ao momento da produção, a autenticidade está ligada à transmissão do
+            documento e à sua preservação e custódia. Um documento autêntico é aquele que se mantém da mesma forma como
+            foi produzido e, portanto, apresenta o mesmo grau de confiabilidade que tinha no momento de sua produção.
+            Assim, um documento não completamente confiável, mas transmitido e preservado sem adulteração ou qualquer
+            outro tipo de corrupção, é autêntico. Exigência: para assegurar a autenticidade dos documentos
+            arquivísticos, o programa de gestão arquivística tem que garantir sua identidade e integridade . Para tanto
+            deve implementar e documentar políticas e procedimentos que controlem a transmissão, a manutenção, a
+            avaliação, a destinação e a preservação dos documentos, garantindo que os mesmos estejam protegidos contra
+            acréscimos, supressão, alteração, uso e ocultação indevidos.
+        </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                ACESSIBILIDADE
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            Um documento arquivístico acessível é aquele que pode ser localizado, recuperado, apresentado e
+            interpretado. Para assegurar a acessibilidade, o programa de gestão arquivística deve garantir a transmissão
+            de documentos para outros sistemas sem perda de informação e de funcionalidade. O sistema deve ser capaz de
+            recuperar qualquer documento, em qualquer tempo e de apresentá-lo com a mesma forma que tinha no momento da
+            sua criação.
+        </p>
+    </mat-expansion-panel>
+    </p>
+    </mat-expansion-panel>
+    <h4><strong>Captura</strong></h4>
+    <p style="text-align: justify;text-indent: 20px">
+        Consiste em declarar um documento como sendo um documento arquivístico, incorporando-o ao sistema de gestão
+        arquivística, por meio das seguintes ações:
+    </p>
+
+    <ul style="text-align: justify">
+        <li>Registro</li>
+        <li>Classificação</li>
+        <li>Atribuição de restrição de acesso</li>
+        <li>Arquivamento</li>
+    </ul>
+    <p style="text-align: justify;text-indent: 20px">
+        Os objetivos da captura são:
+    </p>
+
+    <ul style="text-align: justify">
+
+        <li>Identificar o documento como documento arquivístico;</li>
+        <li>Demonstrar a relação orgânica dos documentos.</li>
+    </ul>
+    <p style="text-align: justify;text-indent: 20px">
+        A captura é a incorporação de um documento ao sistema de gestão arquivística, quando passará a seguir as rotinas
+        de tramitação e arquivamento. Uma vez capturado, o documento poderá ser incluído num fluxo de trabalho e
+        posteriormente arquivado.
+    </p>
+
+    <h4><strong>Registro</strong></h4>
+    <p style="text-align: justify;text-indent: 20px">
+        Consiste em formalizar a captura do documento arquivístico dentro do sistema de gestão arquivística por meio da
+        atribuição de um número identificador e de uma descrição informativa.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Em um SIGAD, essa descrição informativa é a atribuição de metadados.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        O registro tem por objetivo demonstrar que o documento foi produzido ou recebido e capturado pelo sistema de
+        gestão arquivística de documentos, bem como facilitar sua recuperação. Os documentos podem ser registrados em
+        níveis diferentes dentro de um sistema de gestão arquivística de documentos, ou seja, além do número
+        identificador atribuído pelo sistema, um documento pode receber também um número único de processo/dossiê ao
+        qual pertence.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        As atividades de protocolo são constituídas pelo conjunto de operações que visam o controle dos documentos
+        produzidos e recebidos que tramitam no órgão ou entidade, assegurando sua localização, recuperação e acesso.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Após o recebimento dos documentos, o serviço de protocolo faz o registro, atribuindo número e data de entrada,
+        anotando o código de classificação e o assunto e procedendo à distribuição do documento nas unidades
+        destinatárias.
+    </p>
+    <h4><strong>Classificação</strong></h4>
+    <p style="text-align: justify;text-indent: 20px">
+        Ato ou efeito de analisar e identificar o conteúdo dos documentos arquivísticos e de selecionar a classe sob a
+        qual serão recuperados. Essa classificação é feita a partir de um plano de classificação elaborado pelo órgão ou
+        entidade.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        A classificação determina o agrupamento de documentos em unidades menores e o agrupamento destas em unidades
+        maiores, formando o arquivo do órgão ou entidade. Para tanto, deve tomar por base o conteúdo do documento, que
+        reflete a atividade que o gerou e determina o uso da informação nele contida.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        A classificação também define a organização física dos documentos, constituindo-se em referencial básico para
+        sua recuperação.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Os objetivos da classificação são:
+    </p>
+
+    <ul style="text-align: justify">
+
+        <li>Estabelecer a relação orgânica dos documentos arquivísticos;</li>
+        <li>Assegurar que os documentos sejam identificados de forma consistente ao longo do tempo;</li>
+        <li>Auxiliar a recuperação de todos os documentos arquivísticos relacionados a uma determinada função ou
+            atividade;
+        </li>
+        <li>Possibilitar a avaliação de um grupo de documentos de forma que os documentos associados sejam transferidos,
+            recolhidos ou eliminados em conjunto.
+        </li>
+    </ul>
+    <p style="text-align: justify;text-indent: 20px">
+        A classificação deve se basear no plano de classificação e envolve os seguintes passos:
+    </p>
+    <ul style="text-align: justify">
+
+        <li>Identificar a ação que o documento registra;</li>
+        <li>Localizar a ação ou atividade no plano de classificação;</li>
+        <li>Comparar a atividade com a estrutura organizacional para verificar se é apropriada à unidade que gerou o
+            documento;
+        </li>
+        <li>Aplicar a classificação ao documento.</li>
+    </ul>
+    <h4><strong>Avaliação, Temporalidade e Destinação</strong></h4>
+    <p style="text-align: justify;text-indent: 20px">
+        A avaliação é uma atividade vital em um programa de gestão arquivística de documentos, pois permite racionalizar
+        o acúmulo dos documentos nas fases corrente e intermediária, facilitando a constituição dos arquivos
+        permanentes.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Os prazos de guarda e as ações de destinação deverão estar formalizados na tabela de temporalidade e destinação
+        do órgão ou entidade. Os prazos de guarda referem-se ao tempo necessário para o arquivamento dos documentos nas
+        fases corrente e intermediária, objetivando atender exclusivamente às necessidades da administração que os
+        gerou, baseado em estimativas de uso.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Nesse sentido, nenhum documento deverá ser conservado por tempo maior que o necessário. A aplicação dos
+        critérios de avaliação é feita com base na teoria das três idades e efetiva-se, primeiramente, nos arquivos
+        correntes, a fim de se distinguirem os documentos de valor eventual (de eliminação sumária) daqueles de valor
+        probatório e/ou informativo.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Deve se evitar a transferência para os arquivos intermediários de documentos que não tenham sido anteriormente
+        avaliados, pois as atividades de avaliação e seleção nesses arquivos são extremamente onerosas do ponto de vista
+        técnico e gerencial.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        A destinação dos documentos é efetivada após a atividade de seleção, que consiste na separação dos documentos de
+        valor permanente daqueles passíveis de eliminação, mediante critérios e técnicas estabelecidos na tabela de
+        temporalidade e destinação.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        A complexidade e a abrangência de conhecimentos exigidos pelo processo de avaliação, que implica o
+        estabelecimento de critérios de valor, requerem a participação de pessoas ligadas a diversas áreas profissionais
+        do órgão ou entidade, conforme legislação vigente.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        O sistema de gestão arquivística de documentos, particularmente no caso de um SIGAD, deve identificar a
+        temporalidade e a destinação prevista para o documento no momento da captura e do registro, de acordo com os
+        prazos e as ações previstas na tabela de temporalidade e destinação do órgão ou entidade. Essa informação deve
+        ser registrada em um metadado associado ao documento.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        O sistema de gestão arquivística de documentos deve prever as seguintes ações:
+    </p>
+    <ul style="text-align: justify">
+        <li>Retenção dos documentos, por um determinado período, no arquivo corrente do órgão ou entidade que os
+            gerou.
+        </li>
+        <li>Eliminação física;</li>
+        <li>Transferência;</li>
+        <li>Recolhimento para instituição arquivística;</li>
+    </ul>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                ELIMINAR
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p style="text-align: justify;text-indent: 20px">
+            Eliminar significa destruir os documentos que, na avaliação, foram considerados sem valor para a guarda
+            permanente.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            A eliminação deve ser precedida da elaboração de listagem, do edital de ciência de eliminação e do termo de
+            eliminação, segundo a legislação vigente e deve obedecer aos seguintes princípios:
+        </p>
+        <ul style="text-align: justify">
+            <li>A eliminação deverá sempre ser autorizada pela autoridade arquivística na sua esfera de competência;
+            </li>
+            <li>Os documentos arquivísticos que estiverem pendentes, sob litígio ou investigação, não poderão ser
+                destruídos;
+            </li>
+            <li>A eliminação deverá ser realizada de forma a impossibilitar a recuperação posterior de qualquer
+                informação confidencial contida nos documentos eliminados, como por exemplo, dados de identificação
+                pessoal ou assinatura.
+            </li>
+            <li>Todas as cópias dos documentos eliminados, incluindo cópias de segurança e cópias de preservação,
+                independente do suporte, deverão ser destruídas.
+            </li>
+        </ul>
+    </mat-expansion-panel>
+    <h4><strong>Transferência</strong></h4>
+    <p style="text-align: justify;text-indent: 20px">
+        Transferência é a passagem de documentos do arquivo corrente para o arquivo intermediário, onde aguardarão o
+        cumprimento dos prazos de guarda e a destinação final. Ao serem transferidos, os documentos deverão ser
+        acompanhados de listagem de transferência.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        A transferência pode ser realizada de diferentes formas:
+    </p>
+    <ul style="text-align: justify">
+        <li>Transferência para uma área de armazenamento apropriada sob controle do órgão ou entidade que produziu o
+            documento;
+        </li>
+        <li>Transferência para uma instituição arquivística, que ficará responsável pela custódia do documento.</li>
+    </ul>
+    <p style="text-align: justify;text-indent: 20px">
+        Quando os documentos transferidos ficam sob a custódia de um órgão ou entidade diferente da que os produziu, a
+        organização responsável pela custódia tem a obrigação de mantê-los e gerenciá-los de forma adequada, garantindo
+        sua destinação final, preservação e acesso. Todas essas obrigações devem estar formalizadas em um contrato
+        firmado entre o órgão ou entidade que produziu os documentos e o responsável pela sua custódia.
+    </p>
+    <h4><strong>Recolhimento</strong></h4>
+    <p style="text-align: justify;text-indent: 20px">
+        Recolhimento é a entrada de documentos em arquivos permanentes de acordo com a jurisdição arquivística a que
+        pertencem. Os documentos a serem recolhidos devem ser acompanhados de instrumentos que permitam sua
+        identificação e controle, segundo a legislação vigente.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        Os procedimentos de transferência e recolhimento de arquivos digitais para instituição arquivística que implicam
+        a transposição desses documentos de um SIGAD para outro sistema informatizado, deverão adotar algumas
+        providências no que diz respeito a:
+    </p>
+    <ul style="text-align: justify">
+        <li>Compatibilidade de suporte e formato, de acordo com as normas previstas pela instituição arquivística
+            recebedora;
+        </li>
+        <li>Documentação técnica necessária para interpretar o documento digital (processamento e estrutura dos
+            dados);
+        </li>
+        <li>Instrumento descritivo que inclua os metadados atribuídos aos documentos digitais e informações que
+            possibilitem a presunção de autenticidade dos documentos recolhidos à instituição arquivística;
+        </li>
+        <li>Informações sobre as migrações realizadas no órgão produtor.</li>
+    </ul>
+
+<div *ngIf="titulo === 'transicoes'">
+    <ajuda-transicoes></ajuda-transicoes>
+    <a href="javascript:void(0)" (click)="carregar('arquivista')">Voltar ao <strong>ajuda Definições Arquivísticas</strong></a>
+</div>

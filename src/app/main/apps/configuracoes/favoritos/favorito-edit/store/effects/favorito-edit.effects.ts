@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as FavoritoEditActions from '../actions/favorito-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class FavoritoEditEffect {
@@ -81,18 +82,37 @@ export class FavoritoEditEffect {
         this._actions
             .pipe(
                 ofType<FavoritoEditActions.SaveFavorito>(FavoritoEditActions.SAVE_FAVORITO),
-                switchMap(action => this._favoritoService.save(action.payload).pipe(
-                        mergeMap((response: Favorito) => [
-                            new FavoritoEditActions.SaveFavoritoSuccess(),
-                            new FavoritoListActions.ReloadFavoritos(),
-                            new AddData<Favorito>({data: [response], schema: favoritoSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new FavoritoEditActions.SaveFavoritoFailed(err));
-                    return caught;
-                })
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'favorito',
+                    content: 'Salvando o favorito ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._favoritoService.save(action.payload.favorito).pipe(
+                    tap((response) =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'favorito',
+                            content: 'Favorito id ' + response.id + ' salvo com sucesso.',
+                            status: 1, // sucesso
+                        }))
+                    ),
+                    mergeMap((response: Favorito) => [
+                        new FavoritoEditActions.SaveFavoritoSuccess(),
+                        new FavoritoListActions.ReloadFavoritos(),
+                        new AddData<Favorito>({data: [response], schema: favoritoSchema})
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'favorito',
+                            content: 'Erro ao salvar o favorito!',
+                            status: 2, // erro
+                        }));
+                        return of(new FavoritoEditActions.SaveFavoritoFailed(err));
+                    })
+                ))
             );
 
     /**

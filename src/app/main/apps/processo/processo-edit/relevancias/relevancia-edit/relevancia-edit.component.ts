@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getProcesso} from '../../../store/selectors';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'relevancia-edit',
@@ -88,8 +89,11 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveRelevancia(relevancia));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveRelevancia({
+            relevancia: relevancia,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

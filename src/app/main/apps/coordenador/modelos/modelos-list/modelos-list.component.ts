@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class ModelosListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     actions: string[];
     colunas: string[];
@@ -160,8 +162,18 @@ export class ModelosListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', `${modeloId}/especie-setor`)]);
     }
 
-    delete(modeloId: number): void {
-        this._store.dispatch(new fromStore.DeleteModelo(modeloId));
+    delete(modeloId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteModelo({
+            modeloId: modeloId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoCapaActions from '../actions';
@@ -22,6 +22,7 @@ import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {LoginService} from '../../../../../auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -118,7 +119,8 @@ export class ProcessoCapaEffect {
                     return this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,
@@ -163,7 +165,8 @@ export class ProcessoCapaEffect {
                     return this._interessadoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,
@@ -208,7 +211,8 @@ export class ProcessoCapaEffect {
                     return this._vinculacaoProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,
@@ -249,7 +253,8 @@ export class ProcessoCapaEffect {
                 switchMap(action => this._acompanhamentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.listFilter
+                            ...action.payload.listFilter,
+                            ...action.payload.gridFilter,
                         }),
                         action.payload.imit,
                         action.payload.offset,
@@ -285,25 +290,43 @@ export class ProcessoCapaEffect {
         this._actions
             .pipe(
                 ofType<ProcessoCapaActions.SaveAcompanhamento>(ProcessoCapaActions.SAVE_ACOMPANHAMENTO),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'acompanhamento',
+                    content: 'Salvando a acompanhamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const acompanhamento = new Compartilhamento();
                     acompanhamento.usuario = this._loginService.getUserProfile();
-                    acompanhamento.processo = action.payload;
-                    return this._acompanhamentoService.save(acompanhamento).pipe(
+                    acompanhamento.processo = action.payload.processo;
+                    return this._acompanhamentoService.save(action.payload.acompanhamento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acompanhamento',
+                                content: 'Acompanhamento id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Compartilhamento) => [
-                            new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema}),
                             new ProcessoCapaActions.SaveAcompanhamentoSuccess(response),
-                            new ProcessoCapaActions.GetProcesso(action.payload)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessoCapaActions.SaveAcompanhamentoFailed(err));
-                    return caught;
+                            new ProcessoCapaActions.GetProcesso(action.payload),
+                            new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acompanhamento',
+                                content: 'Erro ao salvar a acompanhamento!',
+                                status: 2, // erro
+                            }));
+                            return of(new ProcessoCapaActions.SaveAcompanhamentoFailed(err));
+                        })
+                    )
                 })
             );
-
 
     /**
      * Delete Acompanhamento

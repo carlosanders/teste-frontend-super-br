@@ -15,11 +15,12 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getSelectedTarefas} from '../store/selectors';
+import {getSelectedTarefas} from '../store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-etiqueta-create',
@@ -159,7 +160,11 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             vinculacaoEtiqueta.tarefa = tarefa;
             vinculacaoEtiqueta.privada = false;
 
-            this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(vinculacaoEtiqueta));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta({
+                vinculacaoEtiqueta: vinculacaoEtiqueta,
+                operacaoId: operacaoId
+            }));
         });
     }
 

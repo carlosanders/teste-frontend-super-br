@@ -8,11 +8,11 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    SimpleChange,
+    SimpleChange, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {
     Colaborador,
     EspecieTarefa,
@@ -32,6 +32,8 @@ import {of} from 'rxjs';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -102,6 +104,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     logEntryPagination: Pagination;
 
+    @Input()
+    lotacaoPagination: Pagination;
+
     especieTarefaList: EspecieTarefa[] = [];
 
     especieTarefaListIsLoading: boolean;
@@ -160,6 +165,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     clearForm = false;
+
+    lotacaoControl: FormControl = new FormControl('');
+
+    @ViewChild('autoCompleteLotacao', {static: false, read: MatAutocompleteTrigger})
+    autoCompleteLotacao: MatAutocompleteTrigger;
+
+    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
     /**
      * Constructor
@@ -225,7 +237,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             'contatos.usuario.colaborador.lotacoes.setor',
             'contatos.usuario.colaborador.lotacoes.setor.unidade',
         ];
-        this.grupoContatoPagination.filter = {'usuario.id': 'eq:'+this._loginService.getUserProfile().id};
+        this.grupoContatoPagination.filter = {'usuario.id': 'eq:' + this._loginService.getUserProfile().id};
+        this.lotacaoPagination = new Pagination;
+        this.lotacaoPagination.populate = [
+            'setor',
+            'setor.unidade',
+            'colaborador',
+            'colaborador.usuario'
+        ];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -250,7 +269,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 };
             }
             if (this.form.get('processo').value?.especieProcesso?.workflow) {
-                this.addFilterProcessoWorfkflow();
+                this.addFilterProcessoWorkflow();
             }
         } else {
             if (this.mode !== 'bloco-edit') {
@@ -609,6 +628,21 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             ).subscribe();
         }
 
+        this.lotacaoControl.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (value && typeof value === 'object') {
+                    this.clearValidators();
+                    this._changeDetectorRef.markForCheck();
+                    this.processaLotacao(value);
+                }
+                return of([]);
+
+            })
+        ).subscribe();
+
+
         this.alteraPrazoDias();
         this.validaPrazo();
     }
@@ -647,7 +681,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     alteraPrazoFinal(): void {
         const a = this.form.get('dataHoraInicioPrazo').value.format('YYYY-MM-DD');
         const b = this.form.get('dataHoraFinalPrazo').value.format('HH:mm:ss');
-        const dataHoraFinalPrazo = moment(a+'T'+b);
+        const dataHoraFinalPrazo = moment(a + 'T' + b);
         const dias = this.form.get('prazoDias').value;
         if (!dias) {
             return;
@@ -747,7 +781,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
 
             if (this.tarefa.processo?.especieProcesso?.workflow) {
-                this.addFilterProcessoWorfkflow();
+                this.addFilterProcessoWorkflow();
             }
         }
 
@@ -894,7 +928,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showEspecieTarefaGrid(): void {
 
-        this.addFilterProcessoWorfkflow();
+        this.addFilterProcessoWorkflow();
         this.activeCard = 'especie-tarefa-gridsearch';
     }
 
@@ -1172,28 +1206,26 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         );
     }
 
-    addFilterProcessoWorfkflow(): void {
+    addFilterProcessoWorkflow(): void {
         // caso processo seja de workflow-edit verificar espécies permitidas
-        this.especieTarefaPagination['context'] = {};
+        this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
         if (this.form.get('processo').value?.especieProcesso?.workflow?.especieTarefaInicial) {
-
             if (!this.form.get('id').value) {
                 if (!this.form.get('processo').value.tarefaAtualWorkflow) {
                     this.especieTarefaPagination.filter['workflows.id'] = 'eq:'
                         + this.form.get('processo').value.especieProcesso.workflow.id;
                     this.especieTarefaPagination.filter['id'] = 'eq:'
                         + this.form.get('processo').value.especieProcesso.workflow.especieTarefaInicial.id;
-                } else {
+                }
+
+                if (this.form.get('processo').value.tarefaAtualWorkflow &&
+                    this.form.get('processo').value.tarefaAtualWorkflow.dataHoraConclusaoPrazo) {
                     this.especieTarefaPagination.filter['transicoesWorkflowTo.workflow.id'] = 'eq:'
                         + this.form.get('processo').value.especieProcesso.workflow.id;
-                    this.especieTarefaPagination.filter['transicoesWorkflowTo.especieTarefaFrom.id'] = 'eq:'
-                        + this.form.get('processo').value.tarefaAtualWorkflow.especieTarefa.id;
                 }
             } else {
                 this.form.get('especieTarefa').disable();
             }
-
-            this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
         }
     }
 
@@ -1230,5 +1262,58 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             }
         });
+    }
+
+    checkLotacao(): void {
+        const value = this.lotacaoControl.value;
+        if (!value || typeof value !== 'object') {
+            this.lotacaoControl.setValue(null);
+        }
+    }
+
+    selectLotacao(lotacao: Lotacao): void {
+        this.processaLotacao(lotacao);
+        this.activeCard = 'form';
+    }
+
+    showLotacaoGrid(): void {
+        this.lotacaoControl.setValue(null);
+        this.autoCompleteLotacao.closePanel();
+        this.menuTrigger.closeMenu();
+        this.activeCard = 'lotacao-gridsearch';
+    }
+
+    processaLotacao(lotacao: Lotacao): void {
+        if (this.form.get('distribuicaoAutomatica').value) {
+            if (this.form.get('blocoResponsaveis').value) {
+                const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === lotacao.setor.id));
+                if (!findDuplicate) {
+                    const setor = lotacao.setor;
+                    this.blocoResponsaveis = [...this.blocoResponsaveis, {setor}];
+                }
+            } else {
+                this.form.get('unidadeResponsavel').setValue(lotacao.setor.unidade, {emitEvent: false});
+                this.form.get('setorResponsavel').setValue(lotacao.setor);
+            }
+        } else if (!this.form.get('distribuicaoAutomatica').value) {
+            if (this.form.get('blocoResponsaveis').value) {
+                const findDuplicate = this.blocoResponsaveis.some(item => (item.usuario.id === lotacao.colaborador.usuario.id));
+                if (!findDuplicate) {
+                    const usuario = lotacao.colaborador.usuario;
+                    const setor = lotacao.setor;
+                    this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                }
+            } else {
+                this.form.get('unidadeResponsavel').setValue(lotacao.setor.unidade, {emitEvent: false});
+                this.form.get('setorResponsavel').setValue(lotacao.setor);
+                this._changeDetectorRef.detectChanges();
+                setTimeout(() => {
+                    this.form.get('usuarioResponsavel').setValue(lotacao.colaborador.usuario);
+                }, 500);
+            }
+        }
+        this.lotacaoControl.setValue(null);
+        this.autoCompleteLotacao?.closePanel();
+        this.menuTrigger?.closeMenu();
     }
 }

@@ -3,16 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RemessaListActions from '../actions';
 
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Tramitacao} from '@cdk/models';
 import {tramitacao as tramitacaoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
+import {RemessaListActionsAll} from '../actions';
 
 @Injectable()
 export class RemessaListEffect {
@@ -77,20 +78,52 @@ export class RemessaListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteTramitacao: any =
+    deleteTramitacao: Observable<RemessaListActions.RemessaListActionsAll> =
         this._actions
             .pipe(
                 ofType<RemessaListActions.DeleteTramitacao>(RemessaListActions.DELETE_TRAMITACAO),
-                mergeMap(action => this._tramitacaoService.destroy(action.payload).pipe(
-                        map(response => new RemessaListActions.DeleteTramitacaoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tramitacao',
+                        content: 'Apagando a tramitacao id ' + action.payload.tramitacaoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._tramitacaoService.destroy(action.payload.tramitacaoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tramitacao',
+                                content: 'Tramitacao id ' + action.payload.tramitacaoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Tramitacao>({
+                                id: response.id,
+                                schema: tramitacaoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RemessaListActions.DeleteTramitacaoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.tramitacaoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tramitacao',
+                                content: 'Erro ao apagar a tramitacao id ' + action.payload.tramitacaoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new RemessaListActions.DeleteTramitacaoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new RemessaListActions.DeleteTramitacaoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 }

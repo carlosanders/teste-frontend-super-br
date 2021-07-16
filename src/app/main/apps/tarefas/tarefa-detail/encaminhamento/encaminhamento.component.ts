@@ -103,11 +103,11 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
                     title: 'Confirmação',
                     confirmLabel: 'Sim',
                     cancelLabel: 'Não',
+                    message: 'Deseja realmente arquivar o processo ' + this.tarefa.processo.NUPFormatado + '?'
                 },
                 disableClose: false
             });
 
-            this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.tarefa.processo.NUPFormatado + '?';
             this.confirmDialogRef.afterClosed().subscribe((result) => {
                 if (result) {
                     this._store.dispatch(new fromStore.SaveProcesso(this.tarefa.processo));

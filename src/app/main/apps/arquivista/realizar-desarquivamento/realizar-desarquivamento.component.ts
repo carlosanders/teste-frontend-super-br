@@ -9,6 +9,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {getProcesso} from '../../processo/store';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'realizar-desarquivamento',
@@ -85,7 +86,12 @@ export class RealizarDesarquivamentoComponent implements OnInit {
                         transicao[key] = value;
                     }
                 );
-                this._store.dispatch(new fromStore.SaveRealizarDesarquivamento(transicao));
+
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.SaveRealizarDesarquivamento({
+                    transicao: transicao,
+                    operacaoId: operacaoId
+                }));
             }
             this.confirmDialogRef = null;
         });

@@ -19,6 +19,8 @@ import {CdkEtiquetaAutocompleteModule} from '../../../etiqueta/cdk-etiqueta-auto
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkTarefaAutocompleteModule} from '../../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
 import {CdkDocumentoAutocompleteModule} from '../../../documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -43,6 +45,8 @@ import {CdkDocumentoAutocompleteModule} from '../../../documento/cdk-documento-a
         CdkTarefaAutocompleteModule,
         CdkDocumentoAutocompleteModule,
         CdkProcessoAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         VinculacaoEtiquetaService,

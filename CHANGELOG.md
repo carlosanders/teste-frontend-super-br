@@ -392,3 +392,47 @@
 
 * Correção para reconectar ao chat ao dar F5 
 * Correção na assinatura dentro do grid de juntadas
+* Correção na exibição de tarefas e atividades do workflow
+* Correção nos filtros da lista de tarefas
+* Correção na colocação em bloco de etiquetas
+* Correção para correta exibição do módulo do usuário externo validado
+* Outras correções relevantes
+
+1.5.2
+
+* Correção no setor origem na distribuição do processo em passos
+
+1.5.3
+
+* Melhoria painel de visualização do painel de tarefas em kanban
+* Melhoria Implementado componente de histórico de processos na tela de edição
+* Melhoria Adicionada opção no angular.json para possibilitar instalação de módulos no frontend através de links simbólicos
+* Correção nas pesquisas de processo e de componente digital
+* Correção de nome do componente no css de classificacao-gridsearch
+* Correção de gridsearch de municipio para trazer o estado no grid
+* Correção na assinatura de método save do parent generic service para possibilitar envio de atributo populate para o backend
+* Correção na visualização dos documentos do protocolo eletrônico
+* Correção para exibir o zoom corretamente na visualização de html em processos
+* Correção mensagem de confirmação ao editar sigilos de documentos
+* Correção campo de pesquisa de assuntos de processos (autocomplete)
+* Correção campos de pesquisa de documentos por autor, redator e destinatário (textual) 
+* Correção de erro no estado da aplicação ao salvar dados básicos de documento
+* Correção na liberação da pesquisa de processos e documentos
+* Correção para omitir configurações de aparência ainda não homologados
+
+1.6.0
+
+* Melhoria criado componente de autocomplete de lotações
+* Melhoria criado componente gridsearch de lotações
+* Melhoria criado botão no formulário de tarefas para consultar lotações
+* Melhoria criado método para preencher unidade, setor e usuário da tarefa de acordo com a lotação selecionada no autocomplete/gridsearch
+* Melhoria criada ação para limpar a mensagem mais recente do Mercure
+* Melhoria alerta informativo ao usuário quando processo recebeu nova(s) juntada(s)
+* Melhoria botão de reload de juntadas na listagem do processo-view
+* Melhoria vinculação de juntadas ao arrastar uma juntada para outra juntada na visão de processo
+* Correção de mensagens desaparecidas nos dialogs de confirmação
+* Corrigido erro em notificações sem contexto preenchido
+* Corrigida não exibição de mensagem ao abrir relatório com erro de geração
+* Corrigidas consultas de relatórios de query para get em visualização e detalhe de relatório
+* Renomeadas ações com nomes em duplicidade
+* Corrigidos comportamentos indevidos nos campos do formulário de criação de relatórios ao alterar tipo/espécie de relatório

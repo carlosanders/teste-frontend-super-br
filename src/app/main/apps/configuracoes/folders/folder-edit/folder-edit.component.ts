@@ -10,6 +10,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'folder-edit',
@@ -96,7 +97,13 @@ export class FolderEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveFolder(folder));
+        console.log("folder-edit");
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveFolder({
+            folder: folder,
+            operacaoId: operacaoId
+        }));
+
     }
 
     doAbort(): void {

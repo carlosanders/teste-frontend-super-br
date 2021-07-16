@@ -14,6 +14,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Pagination, VinculacaoRepositorio} from '@cdk/models';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy 
     deletedIds$: Observable<any>;
     modalidadeOrgaoCentralPagination: Pagination = new Pagination();
     repositorioPagination: Pagination = new Pagination();
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -107,8 +109,18 @@ export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy 
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoRepositorioId]);
     }
 
-    delete(vinculacaoRepositorioId: number): void {
-        this._store.dispatch(new fromStore.DeleteRepositorioEspecieSetor(vinculacaoRepositorioId));
+    delete(vinculacaoRepositorioId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteRepositorioEspecieSetor({
+            vinculacaoRepositorioId: vinculacaoRepositorioId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

@@ -11,6 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'numero-unico-documento-edit',
@@ -107,7 +108,11 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
 
         numeroUnicoDocumento.setor = this.setor;
 
-        this._store.dispatch(new fromStore.SaveNumeroUnicoDocumento(numeroUnicoDocumento));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveNumeroUnicoDocumento({
+            numeroUnicoDocumento: numeroUnicoDocumento,
+            operacaoId: operacaoId
+        }));
     }
 
 }

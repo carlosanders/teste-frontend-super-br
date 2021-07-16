@@ -109,14 +109,50 @@ export class AtividadeCreateBlocoDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumento>(AtividadeBlocoCreateDocumentosActionsAll.DELETE_DOCUMENTO_BLOCO),
-                mergeMap(action => this._documentoService.destroy(action.payload).pipe(
-                            map(response => new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoFailed(action.payload));
-                            })
-                        ), 25
-                ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documento',
+                        content: 'Apagando a documento id ' + action.payload.documentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoService.destroy(action.payload.documentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + action.payload.documentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Documento>({
+                                id: response.id,
+                                schema: documentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao apagar a documento id ' + action.payload.documentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Converte Documento
@@ -317,21 +353,38 @@ export class AtividadeCreateBlocoDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamente>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-                    mergeMap((response: Assinatura) => [
-                        new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteSuccess(response),
-                        new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                        new OperacoesActions.Resultado({
-                            type: 'assinatura',
-                            content: `Assinatura id ${response.id} criada com sucesso!`,
-                            dateTime: response.criadoEm
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assinatura',
+                    content: 'Salvando a assinatura ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Assinatura) => [
+                            new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteSuccess(response),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assinatura',
+                                content: 'Erro ao salvar a assinatura!',
+                                status: 2, // erro
+                            }));
+                            return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    ]),
-                    catchError((err) => {
-                        console.log(err);
-                        return of(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoEletronicamenteFailed(err));
-                    })
-                ), 25)
+                    )
+                })
             );
 
     @Effect({dispatch: false})

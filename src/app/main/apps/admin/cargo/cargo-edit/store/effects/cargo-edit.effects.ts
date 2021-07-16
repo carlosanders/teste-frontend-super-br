@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as CargoEditActions from '../actions/cargo-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class CargoEditEffects {
@@ -82,20 +83,39 @@ export class CargoEditEffects {
         this._actions
             .pipe(
                 ofType<CargoEditActions.SaveCargo>(CargoEditActions.SAVE_CARGO),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'cargo',
+                    content: 'Salvando o cargo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._cargoService.save(action.payload, context).pipe(
+                    return this._cargoService.save(action.payload.cargo, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'cargo',
+                                content: 'Cargo id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Cargo) => [
+                            new CargoEditActions.SaveCargoSuccess(response),
                             new CargoListActions.ReloadCargo(),
-                            new AddData<Cargo>({data: [response], schema: cargoSchema}),
-                            new CargoEditActions.SaveCargoSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new CargoEditActions.SaveCargoFailed(err));
-                    return caught;
+                            new AddData<Cargo>({data: [response], schema: cargoSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'cargo',
+                                content: 'Erro ao salvar o cargo!',
+                                status: 2, // erro
+                            }));
+                            return of(new CargoEditActions.SaveCargoFailed(err));
+                        })
+                    )
                 })
             );
 

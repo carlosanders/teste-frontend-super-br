@@ -72,11 +72,6 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: false
         },
         {
-            id: 'processo',
-            label: 'NUP',
-            fixed: false
-        },
-        {
             id: 'criadoPor.nome',
             label: 'Criado Por',
             fixed: false

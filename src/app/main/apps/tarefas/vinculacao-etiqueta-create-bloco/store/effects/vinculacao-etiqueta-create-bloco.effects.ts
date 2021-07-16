@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
@@ -30,10 +30,10 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
             .pipe(
                 select(getRouterState),
             ).subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**
@@ -46,33 +46,43 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA),
-                mergeMap(action => this._vinculacaoEtiquetaService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'etiqueta',
+                    content: 'Salvando a etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                        tap((response) => {
+                            response => response.tarefa = null;
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'etiqueta',
+                                content: 'Etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }));
+                        }),
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaSuccess(action.payload),
                             new AddChildData<VinculacaoEtiqueta>({
-                                data: [{...action.payload, ...response}],
+                                data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: tarefaSchema,
-                                parentId: action.payload.tarefa.id
+                                parentId: action.payload.vinculacaoEtiqueta.tarefa.id
                             }),
-                            new OperacoesActions.Resultado({
-                                type: 'vinculacao_etiqueta',
-                                content: `Etiqueta na tarefa id ${action.payload.tarefa.id} criada com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'vinculacao_etiqueta',
-                                content: `Houve erro no etiqueta na tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'etiqueta',
+                                content: 'Erro ao salvar a etiqueta!',
+                                status: 2, // erro
                             }));
-                            return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(action.payload));
+                            return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
-
 }

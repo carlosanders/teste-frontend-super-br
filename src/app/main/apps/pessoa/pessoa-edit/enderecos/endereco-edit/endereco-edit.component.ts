@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'endereco-edit',
@@ -93,8 +94,11 @@ export class EnderecoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveEndereco(endereco));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEndereco({
+            endereco: endereco,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {

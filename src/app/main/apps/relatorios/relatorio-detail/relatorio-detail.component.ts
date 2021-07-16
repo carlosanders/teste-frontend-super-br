@@ -27,6 +27,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'relatorio-detail',
@@ -184,7 +185,13 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({relatorio: this.relatorio, etiqueta: etiqueta}));
+        this._store.dispatch(new CreateVinculacaoEtiqueta({}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({
+            relatorio: this.relatorio,
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        }));
     }
 
     onEtiquetaEdit(values): void {

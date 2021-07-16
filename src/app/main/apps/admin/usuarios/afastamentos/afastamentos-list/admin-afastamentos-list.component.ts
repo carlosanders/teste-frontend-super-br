@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'coordenador-afastamentos-list',
@@ -27,6 +28,7 @@ export class AdminAfastamentosListComponent implements OnInit {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     colaboradorPagination: Pagination = new Pagination();
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -94,8 +96,18 @@ export class AdminAfastamentosListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + afastamentoId]);
     }
 
-    delete(afastamentoId: number): void {
-        this._store.dispatch(new fromStore.DeleteAfastamento(afastamentoId));
+    delete(afastamentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteAfastamento({
+            afastamentoId: afastamentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

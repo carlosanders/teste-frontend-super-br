@@ -96,37 +96,37 @@ export class CdkClassificacaoFilterComponent {
         }
 
         if (this.form.get('prazoGuardaFaseCorrenteAno').value) {
-            this.form.get('prazoGuardaFaseCorrenteAno').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'prazoGuardaFaseCorrenteAno': `eq:%${bit}%`});
+            this.form.get('prazoGuardaFaseCorrenteAno').value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
+                andXFilter.push({'prazoGuardaFaseCorrenteAno': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prazoGuardaFaseCorrenteMes').value) {
-            this.form.get('prazoGuardaFaseCorrenteMes').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('prazoGuardaFaseCorrenteMes').value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
                 andXFilter.push({'prazoGuardaFaseCorrenteMes': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prazoGuardaFaseCorrenteDia').value) {
-            this.form.get('prazoGuardaFaseCorrenteDia').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('prazoGuardaFaseCorrenteDia').value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
                 andXFilter.push({'prazoGuardaFaseCorrenteDia': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prazoGuardaFaseIntermediariaAno').value) {
-            this.form.get('prazoGuardaFaseIntermediariaAno').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('prazoGuardaFaseIntermediariaAno').value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
                 andXFilter.push({'prazoGuardaFaseIntermediariaAno': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prazoGuardaFaseIntermediariaMes').value) {
-            this.form.get('prazoGuardaFaseIntermediariaMes').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('prazoGuardaFaseIntermediariaMes').value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
                 andXFilter.push({'prazoGuardaFaseIntermediariaMes': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prazoGuardaFaseIntermediariaDia').value) {
-            this.form.get('prazoGuardaFaseIntermediariaDia').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('prazoGuardaFaseIntermediariaDia').value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach((bit) => {
                 andXFilter.push({'prazoGuardaFaseIntermediariaDia': `like:%${bit}%`});
             });
         }

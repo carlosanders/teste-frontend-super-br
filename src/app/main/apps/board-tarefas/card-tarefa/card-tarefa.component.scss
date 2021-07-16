@@ -1,0 +1,253 @@
+@import "../../../../../@cdk/scss/cdk";
+
+card-tarefa {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 16px 0 !important;
+    border-radius: 4px;
+    border: 1px solid;
+    cursor: pointer;
+
+    .list-card-not-read {
+        width: 4px;
+        height: 100%;
+        position: absolute;
+        inset: inherit;
+        background-color: #000000;
+        border-radius: 4px 0px 0px 4px;
+    }
+
+    .list-card-sort-handle {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px;
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .list-card-details {
+        padding: 16px 16px 16px 16px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+
+        .list-card-labels {
+            margin-bottom: 6px;
+
+            .list-card-label {
+                width: 32px;
+                height: 6px;
+                border-radius: 6px;
+                margin: 0 6px 6px 0;
+            }
+        }
+
+        .drag-n-drop-message {
+            display: flex;
+            align-content: center;
+            width: 100%;
+            flex-direction: column;
+
+            .drag-n-drop-message-item {
+                padding: 10px;
+                display: flex;
+                align-content: center;
+                border-radius: 5px;
+                text-align: center;
+                width: 100%;
+                flex-direction: column;
+            }
+        }
+
+        .list-card-name {
+            font-size: 14px;
+            font-weight: 600;
+
+            flex-direction: column;
+            box-sizing: border-box;
+            display: flex;
+
+            .info-icons {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .actions {
+                flex: 0 1 auto;
+                box-sizing: border-box;
+                flex-direction: row;
+                display: flex;
+                align-items: center;
+            }
+
+        }
+
+        .list-card-content {
+
+            display: flex;
+            flex-direction: row;
+
+            .list-card-content-group {
+                display: flex;
+                flex-direction: column;
+                align-content: center;
+                align-self: center;
+                flex: 1 1 auto;
+
+                .subtitle {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    font-style: italic;
+                    font-size: 12px;
+                }
+
+                .info-box {
+                    display: flex;
+                    border: dashed 1px #ccc;
+                    padding: 8px;
+                }
+            }
+            .list-card-content-actions {
+                display: flex;
+                align-items: center;
+            }
+
+        }
+
+        .list-card-subtitles{
+            display: flex;
+        }
+
+        .list-card-badges {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-top: 8px;
+
+            .badge {
+                flex-direction: row;
+                box-sizing: border-box;
+                display: flex;
+                place-content: center flex-start;
+                align-items: center;
+
+                font-size: 10px;
+                border-radius: 2px;
+                margin-bottom: 2px;
+                margin-right: 2px;
+                padding: 3px 6px;
+                cursor: pointer;
+
+                background-color: rgba(0, 0, 0, 0.08);
+
+                .badge-color {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 4px;
+                    border-radius: 50%;
+                }
+
+                mat-icon {
+                    margin-right: 4px;
+                }
+            }
+        }
+
+        .list-card-members {
+            margin-bottom: 12px;
+
+            .list-card-member {
+                margin-right: 8px;
+
+                .list-card-member-avatar {
+                    border-radius: 50%;
+                    width: 32px;
+                    height: 32px;
+                }
+            }
+        }
+    }
+
+    .list-card-footer {
+        border-top: 1px solid;
+        padding: 0 16px;
+        display: flex;
+        box-sizing: border-box;
+        flex-direction: row;
+
+        .footer-items-left {
+            height: 48px;
+            flex-direction: row;
+            box-sizing: border-box;
+            display: flex;
+            flex: 1 1 auto;
+
+            .value {
+                padding-left: 8px;
+            }
+
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+
+        .footer-items-right {
+            height: 48px;
+            flex-direction: row;
+            display: flex;
+            place-content: center flex-end;
+            flex: 1 1 auto;
+
+            .value {
+                padding-left: 8px;
+            }
+
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+    }
+
+    &:not(.has-handle):not(.move-disabled),
+    &.has-handle [ngxdraghandle],
+    &.has-handle [ngxDragHandle] {
+        //cursor: move;
+    }
+
+    .ngx-dnd-content {
+        user-select: none;
+    }
+
+    &.gu-mirror {
+        position: fixed !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        opacity: 0.8;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+        filter: alpha(opacity=80);
+        @include mat-elevation(7);
+    }
+
+    &.gu-hide {
+        display: none !important;
+    }
+
+    &.gu-unselectable {
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+    }
+
+    &.gu-transit {
+        opacity: 0.2;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+        filter: alpha(opacity=20);
+    }
+}
+

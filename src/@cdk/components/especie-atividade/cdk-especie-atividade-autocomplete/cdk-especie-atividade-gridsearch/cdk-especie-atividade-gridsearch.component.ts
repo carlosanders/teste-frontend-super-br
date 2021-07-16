@@ -14,9 +14,8 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {EspecieAtividade, Pagination} from '@cdk/models';
-
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
+import {EspecieAtividade, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-atividade-gridsearch',
@@ -45,6 +44,9 @@ export class CdkEspecieAtividadeGridsearchComponent implements OnInit {
 
     @Input()
     mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoAtividade.nome', 'actions'];
@@ -77,7 +79,8 @@ export class CdkEspecieAtividadeGridsearchComponent implements OnInit {
             JSON.stringify(params.sort),
             JSON.stringify(params.populate),
             JSON.stringify(params.context))
-            .pipe(finalize(() => this.loading = false),
+            .pipe(
+                finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe((response) => {
                 this.especieAtividades = response['entities'];

@@ -183,6 +183,9 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<Endereco>();
 
     @Output()
@@ -307,8 +310,8 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
         this.delete.emit(enderecoId);
     }
 
-    deleteEnderecos(enderecosId): void {
-        enderecosId.forEach(enderecoId => this.deleteEndereco(enderecoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

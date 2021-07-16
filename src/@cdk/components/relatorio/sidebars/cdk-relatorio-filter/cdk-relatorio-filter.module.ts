@@ -20,6 +20,8 @@ import {CdkEspecieRelatorioAutocompleteModule} from '../../../especie-relatorio/
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkGeneroRelatorioAutocompleteModule} from '../../../genero-relatorio/cdk-genero-relatorio-autocomplete/cdk-genero-relatorio-autocomplete.module';
 import {CdkTipoRelatorioAutocompleteModule} from '../../../tipo-relatorio/cdk-tipo-relatorio-autocomplete/cdk-tipo-relatorio-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -45,6 +47,8 @@ import {CdkTipoRelatorioAutocompleteModule} from '../../../tipo-relatorio/cdk-ti
         CdkSetorAutocompleteModule,
         CdkGeneroRelatorioAutocompleteModule,
         CdkTipoRelatorioAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         EspecieRelatorioService,

@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-nome-filter',
@@ -20,6 +21,11 @@ export class CdkNomeFilterComponent {
 
     @Input()
     mode = 'list';
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -57,12 +63,16 @@ export class CdkNomeFilterComponent {
             andXFilter.push({'pessoa.id': `eq:${this.form.get('pessoa').value.id}`});
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
+        if (this.filterCriadoEm?.length) {
+            this.filterCriadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
+        if (this.filterAtualizadoEm?.length) {
+            this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
         }
 
         if (this.form.get('criadoPor').value) {
@@ -84,6 +94,16 @@ export class CdkNomeFilterComponent {
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-nome-filter').close();
     }
+    
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
 
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
@@ -98,6 +118,7 @@ export class CdkNomeFilterComponent {
 
     limpar(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.emite();
     }
 }

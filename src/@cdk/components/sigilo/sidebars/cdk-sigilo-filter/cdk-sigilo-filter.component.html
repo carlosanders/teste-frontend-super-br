@@ -17,7 +17,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>CódigoIndexacao</mat-label>
+            <mat-label>Código Indexacao</mat-label>
             <input matInput #codigoIndexacao
                    name="codigoIndexacao"
                    formControlName="codigoIndexacao">
@@ -50,6 +50,7 @@
             <mat-button-toggle value="todos" [checked]=true class="button-toggle-custom">Todos</mat-button-toggle>
             <mat-button-toggle value="false" class="button-toggle-custom">Não</mat-button-toggle>
         </mat-button-toggle-group>
+
 
         <mat-form-field>
             <input matInput placeholder="Modalidade da Categoria do Sigilo"
@@ -100,26 +101,12 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Data da Validade do Sigilo</mat-label>
-            <input matInput formControlName="dataHoraValidadeSigilo" [matDatetimepicker]="dataHoraValidadeSigilo">
-            <mat-datetimepicker-toggle matSuffix [for]="dataHoraValidadeSigilo"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataHoraValidadeSigilo type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Data do Início do Sigilo</mat-label>
-            <input matInput formControlName="dataHoraInicioSigilo" [matDatetimepicker]="dataHoraInicioSigilo">
-            <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioSigilo"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataHoraInicioSigilo type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Criado Em</mat-label>
-            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuarioCriadoPor.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
         </mat-form-field>
 
         <mat-form-field>
@@ -131,14 +118,61 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Atualizado Em</mat-label>
-            <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraValidadeSigilo?.length}">Data da Validade do Sigilo</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraValidadeSigilo"
+                    [ngClass]="{'filtrado': filterDataHoraValidadeSigilo?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraValidadeSigilo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="false" campo="dataHoraValidadeSigilo"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraValidadeSigilo($event)">
+            </cdk-date-filter>
+        </mat-menu>
 
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterDataHoraInicioSigilo?.length}">Data do Início do Sigilo</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraInicioSigilo"
+                    [ngClass]="{'filtrado': filterDataHoraInicioSigilo?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataHoraInicioSigilo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="false" campo="dataHoraInicioSigilo"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraDataHoraInicioSigilo($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
+                    [ngClass]="{'filtrado': filterCriadoEm?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="criadoEm"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraCriadoEm($event)">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': filterAtualizadoEm?.length}">Atualizado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm"
+                    [ngClass]="{'filtrado': filterAtualizadoEm?.length}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroAtualizadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="atualizadoEm"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraAtualizadoEm($event)">
+            </cdk-date-filter>
+        </mat-menu>
     </form>
 </div>
 

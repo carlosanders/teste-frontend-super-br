@@ -1,0 +1,16 @@
+board-tarefas {
+    flex: 1 1 auto;
+    display: flex;
+
+    .board-content {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        overflow: auto;
+
+        .loading {
+            margin: auto 0;
+        }
+    }
+}
+

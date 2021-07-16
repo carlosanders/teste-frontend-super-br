@@ -178,6 +178,12 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                             return of(true);
                         })
                     )
+            },
+            {
+                index: 160,
+                nome: 'Histórico',
+                link: 'historico',
+                role: 'ROLE_COLABORADOR'
             }
         );
 

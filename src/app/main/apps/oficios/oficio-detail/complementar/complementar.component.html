@@ -34,6 +34,7 @@
                                      [assinandoId]="(assinandoDocumentosId$ | async)"
                                      [convertendoId]="(convertendoDocumentosId$ | async)"
                                      (delete)="doDelete($event)"
+                                     (deleteBlocoEmmitter)="deleteBloco($event)"
                                      (verResposta)="doVerResposta($event)"
                                      (assinatura)="doAssinatura($event)"
                                      (removeAssinatura)="doRemoveAssinatura($event)"

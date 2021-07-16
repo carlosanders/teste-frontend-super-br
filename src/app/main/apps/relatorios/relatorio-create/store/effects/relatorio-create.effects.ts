@@ -51,9 +51,22 @@ export class RelatorioCreateEffect {
         this._actions
             .pipe(
                 ofType<RelatorioCreateActions.SaveRelatorio>(RelatorioCreateActions.SAVE_RELATORIO),
-                switchMap((action) => {
-                    const context = JSON.stringify({formato: action.payload.formato});
-                    return this._relatorioService.save(action.payload, context).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'relatório',
+                    content: 'Salvando a relatório ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._relatorioService.save(action.payload.relatorio).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relatorio',
+                                content: 'Relatório id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Relatorio) => [
                             new RelatorioCreateActions.SaveRelatorioSuccess(),
                             new fromStoreRelatorio.UnloadRelatorios({reset: true}),
@@ -73,16 +86,18 @@ export class RelatorioCreateEffect {
                                 ]
                             }),
                             new AddData<Relatorio>({data: [response], schema: relatorioSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'relatorio',
-                                content: `Relatorio id ${response.id} criada com sucesso!`
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relatório',
+                                content: 'Erro ao salvar a relatório!',
+                                status: 2, // erro
+                            }));
                             return of(new RelatorioCreateActions.SaveRelatorioFailed(err));
                         })
-                    );
+                    )
                 })
             );
 

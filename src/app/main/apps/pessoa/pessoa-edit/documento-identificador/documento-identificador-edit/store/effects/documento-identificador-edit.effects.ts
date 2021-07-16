@@ -81,24 +81,40 @@ export class DocumentoIdentificadorEditEffect {
         this._actions
             .pipe(
                 ofType<DocumentoIdentificadorEditActions.SaveDocumentoIdentificador>(DocumentoIdentificadorEditActions.SAVE_DOCUMENTO_IDENTIFICADOR),
-                switchMap(action => this._documentoIdentificadorService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento identificador',
+                    content: 'Salvando o documento identificador ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._documentoIdentificadorService.save(action.payload.documentoIdentificador).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento identificador',
+                                content: 'Documento identificador id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: DocumentoIdentificador) => [
                             new DocumentoIdentificadorEditActions.SaveDocumentoIdentificadoruccess(),
                             new DocumentoIdentificadorListActions.ReloadDocumentoIdentificador(),
-                            new AddData<DocumentoIdentificador>({data: [response], schema: documentoIdentificadorchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'documentoIdentificador',
-                                content: `Documento Identificador id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<DocumentoIdentificador>({data: [response], schema: documentoIdentificadorchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento identificador',
+                                content: 'Erro ao salvar o documento identificador!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentoIdentificadorEditActions.SaveDocumentoIdentificadorFailed(err));
                         })
-                    ))
+                    )
+                })
             );
-
 
     /**
      * Save DocumentoIdentificador Success

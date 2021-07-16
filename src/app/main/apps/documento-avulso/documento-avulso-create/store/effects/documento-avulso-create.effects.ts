@@ -50,10 +50,22 @@ export class DocumentoAvulsoCreateEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento avulso',
+                    content: 'Salvando o documento avulso ...',
+                    status: 0, // carregando
+                }))),
                 mergeMap(action => this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
                         tap((response) => {
                             this.routeOficio = action.payload.routeOficio;
                             this._store.dispatch(new GetDocumentos());
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Documento avulso id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // carregando
+                            }));
                             if (action.payload.documentoAvulso.blocoProcessos || action.payload.documentoAvulso.blocoDestinatarios)
                             {
                                 this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
@@ -69,13 +81,19 @@ export class DocumentoAvulsoCreateEffect {
                             new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess(),
                             new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
                             new OperacoesActions.Resultado({
-                                type: 'documentoAvulso',
-                                content: `Documento id ${response.id} criada com sucesso!`,
+                                type: 'documento avulso',
+                                content: `Documento id ${response.id} criado com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log (err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Erro ao salvar o documento!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoFailed(err));
                         })
                     ))

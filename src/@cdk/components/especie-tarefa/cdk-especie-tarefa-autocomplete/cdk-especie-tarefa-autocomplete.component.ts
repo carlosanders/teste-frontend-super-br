@@ -39,7 +39,7 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
     @Input()
     especieTarefaListIsLoading: boolean;
 
-    isWorflow = false;
+    isWorkflow = false;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
@@ -90,7 +90,7 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
         ).subscribe((response) => {
             this.especieTarefaList = response['entities'];
             if (this.pagination['context'] && this.pagination['context'].processoId) {
-                this.isWorflow = true;
+                this.isWorkflow = true;
             }
             this._changeDetectorRef.markForCheck();
         });

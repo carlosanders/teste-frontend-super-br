@@ -18,6 +18,8 @@ export class EspecieAtividade {
 
     ativo?: boolean;
 
+    valida?: boolean;
+
     @Type(() => GeneroAtividade)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoAtividade?: GeneroAtividade;
@@ -62,6 +64,7 @@ export class EspecieAtividade {
         this.nome = null;
         this.descricao = null;
         this.ativo = null;
+        this.valida = null;
         this.generoAtividade = null;
         this.criadoPor = null;
         this.criadoEm = null;

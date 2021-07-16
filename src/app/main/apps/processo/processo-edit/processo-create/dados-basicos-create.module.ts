@@ -17,7 +17,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkSidebarModule} from '@cdk/components';
+import {CdkConfirmDialogModule, CdkSidebarModule} from '@cdk/components';
 import {DadosBasicosCreateComponent} from './dados-basicos-create.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
@@ -43,6 +43,7 @@ import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.servi
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
 import {CdkProcessoModalClassificacaoRestritaModule} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module';
+import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 
 const routes: Routes = [
     {
@@ -106,7 +107,8 @@ modulesConfig.forEach((module) => {
         CdkInteressadoGridModule,
         CdkVinculacaoProcessoGridModule,
         MatDialogModule,
-        CdkProcessoModalClassificacaoRestritaModule
+        CdkProcessoModalClassificacaoRestritaModule,
+        CdkConfirmDialogModule
     ],
     providers: [
         ProcessoService,
@@ -116,6 +118,7 @@ modulesConfig.forEach((module) => {
         VinculacaoProcessoService,
         TarefaService,
         ConfiguracaoNupService,
+        DesentranhamentoService,
         fromGuards.ResolveGuard
     ]
 })

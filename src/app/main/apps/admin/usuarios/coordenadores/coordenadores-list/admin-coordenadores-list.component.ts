@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'admin-coordenadores-list',
@@ -30,6 +31,7 @@ export class AdminCoordenadoresListComponent implements OnInit {
     orgaoCentralPagination: Pagination = new Pagination();
     unidadePagination: Pagination = new Pagination();
     setorPagination: Pagination = new Pagination();
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -103,8 +105,18 @@ export class AdminCoordenadoresListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + coordenadorId]);
     }
 
-    delete(coordenadorId: number): void {
-        this._store.dispatch(new fromStore.DeleteCoordenador(coordenadorId));
+    delete(coordenadorId: number	, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteCoordenador({
+            coordenadorId: coordenadorId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

@@ -21,9 +21,20 @@ export const getJuntadaId = createSelector(
     (state: ProcessoViewVinculacaoDocumentoState) => state.loaded ? state.loaded.value : null
 );
 
+export const getJuntadaVinculadaId = createSelector(
+    getProcessoViewVinculacaoDocumentoState,
+    (state: ProcessoViewVinculacaoDocumentoState) => state.loadedVinculada ? state.loadedVinculada.value : null
+);
+
 export const getJuntada = createSelector(
     schemaSelectors.getNormalizedEntities,
     getJuntadaId,
+    schemaSelectors.entityProjector
+);
+
+export const getJuntadaVinculada = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getJuntadaVinculadaId,
     schemaSelectors.entityProjector
 );
 
@@ -35,6 +46,11 @@ export const getIsSaving = createSelector(
 export const getHasLoaded = createSelector(
     getProcessoViewVinculacaoDocumentoState,
     (state: ProcessoViewVinculacaoDocumentoState) => state.loaded
+);
+
+export const getHasLoadedVinculada = createSelector(
+    getProcessoViewVinculacaoDocumentoState,
+    (state: ProcessoViewVinculacaoDocumentoState) => state.loadedVinculada
 );
 
 export const getErrors = createSelector(

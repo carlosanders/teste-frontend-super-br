@@ -20,6 +20,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'usuario-edit',
@@ -139,7 +140,11 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveUsuario(usuario));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveUsuario({
+            usuario: usuario,
+            operacaoId: operacaoId
+        }));
      }
 
     doAbortUsuario(): void {
@@ -154,7 +159,11 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveColaborador(colaborador));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveColaborador({
+            colaborador: colaborador,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbortColaborador(): void {

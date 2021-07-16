@@ -17,6 +17,8 @@ import {CdkPessoaAutocompleteModule} from '../../../pessoa/cdk-pessoa-autocomple
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkModalidadeRelacionamentoPessoalAutocompleteModule} from '../../../modalidade-relacionamento-pessoal/cdk-modalidade-relacionamento-pessoal-autocomplete/cdk-modalidade-relacionamento-pessoal-autocomplete.module';
 import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +41,8 @@ import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem
         CdkPessoaAutocompleteModule,
         CdkModalidadeRelacionamentoPessoalAutocompleteModule,
         CdkOrigemDadosAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         RelacionamentoPessoalService,

@@ -12,6 +12,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'coordenador-edit',
@@ -121,8 +122,11 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
 
         coordenador.usuario = this.usuario;
 
-        this._store.dispatch(new fromStore.SaveCoordenador(coordenador));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveCoordenador({
+            coordenador: coordenador,
+            operacaoId: operacaoId
+        }));
     }
 
 }

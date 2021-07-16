@@ -168,7 +168,12 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
             );
 
             tramitacao.processo = processoBloco;
-            this._store.dispatch(new fromStore.SaveTramitacao(tramitacao));
+
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveTramitacao({
+                tramitacao: tramitacao,
+                operacaoId: operacaoId
+            }));
         });
     }
 

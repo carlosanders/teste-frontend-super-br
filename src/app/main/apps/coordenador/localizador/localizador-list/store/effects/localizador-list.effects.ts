@@ -3,13 +3,13 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as LocalizadorListActions from '../actions';
 
 import {LocalizadorService} from '@cdk/services/localizador.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
 import {localizador as localizadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -80,21 +80,53 @@ export class LocalizadorListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteLocalizador: any =
+    deleteLocalizador: Observable<LocalizadorListActions.LocalizadorListActionsAll> =
         this._actions
             .pipe(
                 ofType<LocalizadorListActions.DeleteLocalizador>(LocalizadorListActions.DELETE_LOCALIZADOR),
-                mergeMap(action => this._localizadorService.destroy(action.payload).pipe(
-                        map(response => new LocalizadorListActions.DeleteLocalizadorSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'localizador',
+                        content: 'Apagando a localizador id ' + action.payload.localizadorId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._localizadorService.destroy(action.payload.localizadorId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'localizador',
+                                content: 'Localizador id ' + action.payload.localizadorId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Localizador>({
+                                id: response.id,
+                                schema: localizadorSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new LocalizadorListActions.DeleteLocalizadorSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.localizadorId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'localizador',
+                                content: 'Erro ao apagar a localizador id ' + action.payload.localizadorId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new LocalizadorListActions.DeleteLocalizadorFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new LocalizadorListActions.DeleteLocalizadorFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 
     /**

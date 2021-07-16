@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as TipoAcaoWorkflowEditActions from '../actions/tipo-acao-workflow-edit.actions';
 import * as TipoAcaoWorkflowListActions
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TipoAcaoWorkflowEditEffects {
@@ -83,20 +84,39 @@ export class TipoAcaoWorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflow>(TipoAcaoWorkflowEditActions.SAVE_TIPO_ACAO_WORKFLOW),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tipo ação workflow',
+                    content: 'Salvando o tipo ação workflow ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._tipoAcaoWorkflowService.save(action.payload, context).pipe(
+                    return this._tipoAcaoWorkflowService.save(action.payload.tipoAcaoWorkflow, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipo ação workflow',
+                                content: 'Tipo ação workflow id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: TipoAcaoWorkflow) => [
+                            new TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflowSuccess(response),
                             new TipoAcaoWorkflowListActions.ReloadTipoAcaoWorkflow(),
-                            new AddData<TipoAcaoWorkflow>({data: [response], schema: tipoAcaoWorkflowSchema}),
-                            new TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflowSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflowFailed(err));
-                    return caught;
+                            new AddData<TipoAcaoWorkflow>({data: [response], schema: tipoAcaoWorkflowSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipo ação workflow',
+                                content: 'Erro ao salvar o tipo ação workflow!',
+                                status: 2, // erro
+                            }));
+                            return of(new TipoAcaoWorkflowEditActions.SaveTipoAcaoWorkflowFailed(err));
+                        })
+                    )
                 })
             );
 

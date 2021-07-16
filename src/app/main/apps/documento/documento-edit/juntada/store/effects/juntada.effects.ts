@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as JuntadaActions from '../actions/juntada.actions';
@@ -87,21 +87,38 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<JuntadaActions.SaveJuntada>(JuntadaActions.SAVE_JUNTADA),
-                switchMap(action => this._juntadaService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'juntada',
+                    content: 'Salvando a juntada ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._juntadaService.save(action.payload.juntada).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'juntada',
+                                content: 'Juntada id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Juntada) => [
                             new JuntadaActions.SaveJuntadaSuccess(),
                             new UpdateData<Juntada>({id: response.id, schema: juntadaSchema, changes: {descricao: response.descricao}}),
-                            new OperacoesActions.Resultado({
-                                type: 'juntada',
-                                content: `Juntada id ${response.id} editada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Juntada>({data: [response], schema: juntadaSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'juntada',
+                                content: 'Erro ao salvar a juntada!',
+                                status: 2, // erro
+                            }));
                             return of(new JuntadaActions.SaveJuntadaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
-
 }

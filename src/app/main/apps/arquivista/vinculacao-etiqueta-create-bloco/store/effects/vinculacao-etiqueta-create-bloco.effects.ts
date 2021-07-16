@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
@@ -31,10 +31,10 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
             .pipe(
                 select(getRouterState),
             ).subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**
@@ -47,8 +47,26 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA),
-                mergeMap(action => this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
-                        tap(response => response.processo = null),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação da etiqueta',
+                    content: 'Salvando a vinculação da etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                        tap((response) => {
+                            response.processo = null;
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação da etiqueta',
+                                content: `Processo id ${action.payload.vinculacaoEtiqueta.processo.id} etiquetado com sucesso!`,
+                                status: 1, // sucesso
+                                success: true,
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
+                        }),
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaSuccess(action.payload),
                             new AddChildData<VinculacaoEtiqueta>({
@@ -57,35 +75,19 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                                 parentSchema: processoSchema,
                                 parentId: action.payload.vinculacaoEtiqueta.processo.id
                             }),
-                            new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'vinculacao_etiqueta',
-                                content: `Processo id ${action.payload.vinculacaoEtiqueta.processo.id} etiquetado com sucesso!`,
-                                status: 1, // sucesso
-                                success: true,
-                                lote: action.payload.loteId,
-                                redo: 'inherent'
-                            })
                         ]),
                         catchError((err) => {
-                            const payload = {
-                                id: action.payload.vinculacaoEtiqueta.processo.id,
-                                error: err
-                            };
-                            console.log (err);
-                            const erroString = CdkUtils.errorsToString(err);
+                            console.log(err);
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
-                                type: 'vinculacao_etiqueta-edit',
-                                content: `Houve erro ao etiquetar o processo id ${action.payload.vinculacaoEtiqueta.processo.id}! ${erroString}`,
+                                type: 'vinculacaoEtiqueta',
+                                content: 'Erro ao salvar a vinculacaoEtiqueta!',
                                 status: 2, // erro
-                                success: false,
-                                lote: action.payload.loteId,
-                                redo: 'inherent'
                             }));
-                            return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(action.payload));
+                            return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(err));
                         })
-                    ), 25)
+                    )
+                })
             );
 
     @Effect({dispatch: false})
