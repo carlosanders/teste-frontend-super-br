@@ -150,4 +150,32 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    zoomIn() {
+        if (this.zoom < 10) {
+            this.zoom++;
+        }
+    }
+
+    zoomOut() {
+        if (this.zoom > 0) {
+            this.zoom--;
+        }
+    }
+
+    getZoomClass(filename) {
+        return this.isHtml(filename) ? `zoom-${this.zoom}x` : '';
+    }
+
+    getLayoutClass(filename) {
+        if (!this.isHtml(filename)) {
+            return;
+        }
+
+        return this.expandirTela ? 'expanded-panel' : 'compact-panel';
+    }
+
+    isHtml(filename) {
+        const name = filename.split('.');
+        return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
+    }
 }
