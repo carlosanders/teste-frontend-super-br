@@ -1,6 +1,6 @@
 context('Administrador', () => {
     beforeEach(() => {
-        cy.login();
+        cy.login('00000000004');
     })
 
     //Teste desativado por erro de implementação, deverá ser reativado assim que for corrigido
