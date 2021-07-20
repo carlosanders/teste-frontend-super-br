@@ -9,12 +9,15 @@
         <input matInput #cep
                name="cep"
                formControlName="cep"
-               maxlength="255">
+               maxlength="255" required>
         <button matSuffix mat-button mat-icon-button
                 [disabled]="!form.get('cep').value"
                 (click)="getEnderecoByCep()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('cep').hasError('formError')">
+            {{form.get('cep').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -22,7 +25,7 @@
         <input matInput #logradouro
                name="logradouro"
                formControlName="logradouro"
-               maxlength="255">
+               maxlength="255" required>
     </mat-form-field>
 
     <mat-form-field>
@@ -46,7 +49,7 @@
         <input matInput #bairro
                name="bairro"
                formControlName="bairro"
-               maxlength="255">
+               maxlength="255" required>
     </mat-form-field>
 
     <mat-form-field>
