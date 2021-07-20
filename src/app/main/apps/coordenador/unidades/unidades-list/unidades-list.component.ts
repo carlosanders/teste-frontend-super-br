@@ -74,7 +74,7 @@ export class UnidadesOrgaoCentralListComponent implements OnInit, OnDestroy {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                'modalidadeOrgaoCentral.id': this.routerState.params.entidadeHandle,
+                'modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params.entidadeHandle,
                 'parent': 'isNull'
             },
             gridFilter: {
