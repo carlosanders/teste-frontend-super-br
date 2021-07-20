@@ -73,6 +73,10 @@ export class CdkAcaoTransicaoWorkflowListComponent {
         this.deleteBlocoEmmitter.emit(ids);
     }
 
+    doDelete(id): void {
+        this.delete.emit(id);
+    }
+
     doCreate(): void {
         this.create.emit();
     }
