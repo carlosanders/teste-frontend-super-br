@@ -439,3 +439,6 @@
 * Adicionado zoom aos relatórios html
 * Corrigindo problemas no css de relatórios
 * Correção em mensagem no dialog de informação de nova versão
+* Correção de bug quando realizado logout estando dentro de alguma tela de detalhamento (tarefa, processo, relatório, ofício etc)
+* Correção de erro no console ao deslogar de dentro de listagens (tarefa, arquivo, relatórios, ofícios, protocolo-externo etc)
+* Correção padronização nas entidades no normalizr

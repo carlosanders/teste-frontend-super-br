@@ -177,13 +177,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.currentRelatorioId = parseInt(routerState.state.params['relatorioHandle'], 0);
             }
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentRelatorioId = parseInt(routerState.state.params['relatorioHandle'], 0);
         });
 
         this._store
