@@ -106,14 +106,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
-
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.processo$.pipe(

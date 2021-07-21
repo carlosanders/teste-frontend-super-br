@@ -113,22 +113,22 @@ export const volume = new schema.Entity('volume');
 export const vinculacaoPessoaUsuario = new schema.Entity('vinculacao-pessoa-usuario');
 export const vinculacaoSetorMunicipio = new schema.Entity('vinculacao-setor-municipio');
 export const workflow = new schema.Entity('workflow');
-export const transicaoWorkflow = new schema.Entity('transicaoWorkflow');
-export const validacaoTransicaoWorkflow = new schema.Entity('validacaoTransicaoWorkflow');
-export const acaoTransicaoWorkflow = new schema.Entity('acaoTransicaoWorkflow');
-export const modalidadeAcaoEtiqueta = new schema.Entity('modalidadeAcaoEtiqueta');
-export const tipoAcaoWorkflow = new schema.Entity('tipoAcaoWorkflow');
-export const tipoValidacaoWorkflow = new schema.Entity('tipoValidacaoWorkflow');
+export const transicaoWorkflow = new schema.Entity('transicao-workflow');
+export const validacaoTransicaoWorkflow = new schema.Entity('validacao-transicao-workflow');
+export const acaoTransicaoWorkflow = new schema.Entity('acao-transicao-workflow');
+export const modalidadeAcaoEtiqueta = new schema.Entity('modalidade-acao-etiqueta');
+export const tipoAcaoWorkflow = new schema.Entity('tipo-acao-workflow');
+export const tipoValidacaoWorkflow = new schema.Entity('tipo-validacao-workflow');
 export const tipoNotificacao = new schema.Entity('tipo-notificacao');
-export const configuracaoNup = new schema.Entity('configuracaoNup');
+export const configuracaoNup = new schema.Entity('configuracao-nup');
 export const tipoContato = new schema.Entity('tipo-contato');
 export const grupoContato = new schema.Entity('grupo-contato');
 export const contato = new schema.Entity('contato');
 export const chat = new schema.Entity('chat');
 export const chatMensagem = new schema.Entity('chat-mensagem');
 export const chatParticipante = new schema.Entity('chat-participante');
-export const statusBarramento = new schema.Entity('statusBarramento');
-export const vinculacaoPessoaBarramento = new schema.Entity('vinculacaoPessoaBarramento');
+export const statusBarramento = new schema.Entity('status-barramento');
+export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-barramento');
 
 acao.define({
     criadoPor: usuario,

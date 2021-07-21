@@ -16,7 +16,7 @@
         <cdk-acao-transicao-workflow-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
                             [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
                             [total]="acoes.length"
-                            (deleteBlocoEmmitter)="deleteBloco($event)"
+                            (delete)="doDelete($event)"
                             [@animate]="{value:'*',params:{y:'100%'}}">
         </cdk-acao-transicao-workflow-list-item>
     </div>

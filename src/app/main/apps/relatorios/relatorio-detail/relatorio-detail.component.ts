@@ -22,7 +22,7 @@ import {getMaximizado} from '../store/selectors';
 import {ToggleMaximizado} from '../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
@@ -138,6 +138,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
             }
         });
         this.relatorio$.pipe(
+            filter(relatorio => !!relatorio),
             takeUntil(this._unsubscribeAll)
         ).subscribe((relatorio) => {
             this.relatorio = relatorio;
