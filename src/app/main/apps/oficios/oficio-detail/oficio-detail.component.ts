@@ -12,13 +12,13 @@ import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
+import {DeleteVinculacaoEtiqueta} from './store';
 import {Documento, DocumentoAvulso, Etiqueta, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {getMaximizado} from '../store/selectors';
 import {ToggleMaximizado} from '../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
@@ -56,6 +56,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     maximizado = false;
 
     vinculacaoEtiquetaPagination: Pagination;
+    vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
 
     private _profile: Usuario;
 
@@ -116,31 +117,17 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
-            }
-        });
-
-        this._store.pipe(
-            select(getRouterState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            if (routerState) {
                 this.mode = routerState.state.params['oficioTargetHandle'];
-            }
-        });
-
-        this._store.pipe(
-            select(getRouterState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            if (routerState) {
                 this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
         });
 
         this.documentoAvulso$.pipe(
+            filter(documentoAvulso => !!documentoAvulso),
             takeUntil(this._unsubscribeAll)
         ).subscribe((documentoAvulso) => {
             this.documentoAvulso = documentoAvulso;
+            this.vinculacoesEtiquetas = documentoAvulso.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => vinculacaoEtiqueta.etiqueta.sistema);
         });
 
         this.documentos$.pipe(
@@ -167,7 +154,6 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy(): void {
-
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

@@ -147,7 +147,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             };
         }
 
-        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
+        this.pessoasConveniadas = this._profile?.vinculacoesPessoasUsuarios;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -166,19 +166,9 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
+                this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
             }
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
         });
 
         this.documentosAvulso$.pipe(

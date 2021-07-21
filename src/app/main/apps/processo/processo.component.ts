@@ -149,13 +149,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.processo$.subscribe((processo) => {

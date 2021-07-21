@@ -39,6 +39,7 @@ export class AcaoTransicaoWorkflowEditEffect {
      *
      * @type {Observable<any>}
      */
+    @Effect()
     saveAcao: any =
         this._actions
             .pipe(

@@ -24,7 +24,7 @@ import {
 import {LoginService} from '../../../auth/login/login.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {getRouterState, getScreenState} from '../../../../store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {getModalidadeTransicao} from '../arquivista-list/store';
 
@@ -123,6 +123,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
             }
         });
         this.processo$.pipe(
+            filter(processo => !!processo),
             takeUntil(this._unsubscribeAll)
         ).subscribe((processo) => {
             this.processo = processo;

@@ -17,7 +17,6 @@ import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {
-    CreateVinculacaoEtiqueta,
     DeleteVinculacaoEtiqueta,
     expandirTela,
     getEtiqueta,
@@ -27,7 +26,7 @@ import {
 import {DarCienciaTarefaCancel, DarCienciaTarefaFlush, getMaximizado, ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
@@ -176,6 +175,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
         this.tarefa$.pipe(
+            filter(tarefa => !!tarefa),
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefa) => {
             this.tarefa = tarefa;

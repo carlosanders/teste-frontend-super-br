@@ -18,7 +18,7 @@ import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculac
 import {getMaximizado, ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
@@ -101,6 +101,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         });
 
         this.processo$.pipe(
+            filter(processo => !!processo),
             takeUntil(this._unsubscribeAll)
         ).subscribe((processo) => {
             this.processo = processo;

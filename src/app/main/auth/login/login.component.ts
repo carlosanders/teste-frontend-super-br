@@ -101,14 +101,11 @@ export class LoginComponent implements OnInit {
                 data: {
                     title: 'Nova versão lançada',
                     confirmLabel: 'Recarregar',
-                    hideCancel: true
+                    hideCancel: true,
+                    message: 'Uma nova versão do sistema (' + versionChanged + ') está disponível. O sistema precisa ser recarregado.'
                 },
                 disableClose: true
             });
-
-            dialogRef
-                .componentInstance
-                .confirmMessage = 'Uma nova versão do sistema (' + versionChanged + ') está disponível. O sistema precisa ser recarregado.';
 
             dialogRef.afterClosed().subscribe((result) => {
                 if (result) {

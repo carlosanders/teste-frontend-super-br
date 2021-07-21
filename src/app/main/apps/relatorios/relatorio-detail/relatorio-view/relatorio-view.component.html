@@ -4,6 +4,16 @@
         <div>
             <h3 *ngIf="!loading">{{fileName}}</h3>
         </div>
+
+        <div class="right">
+            <button mat-mini-fab (click)="zoomOut()" *ngIf="isHtml(fileName)">
+                <mat-icon class="mat-18">zoom_out</mat-icon>
+            </button>
+            &nbsp;
+            <button mat-mini-fab (click)="zoomIn()"  *ngIf="isHtml(fileName)">
+                <mat-icon class="mat-18">zoom_in</mat-icon>
+            </button>
+        </div>
     </div>
 </div>
 <!-- / HEADER -->
@@ -14,13 +24,17 @@
         <mat-spinner diameter="24"></mat-spinner>
     </div>
 
-    <div class="sem-relatorios" *ngIf="!loading && (relatorios)?.length === 0" >
+    <div class="sem-relatorios" *ngIf="!loading && !relatorio?.id">
         <span class="no-relatorios-text hint-text">Nenhum relatório</span>
     </div>
 
-    <div *ngIf="!loading && (relatorios)?.length > 0" class="relatorio-view-relatorio-content">
-        <iframe id="iframe-relatorios"
+    <div *ngIf="!loading && !!relatorio?.id"
+         class="relatorio-view-relatorio-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
+        <iframe id="iframe-relatorios" *ngIf="src"
                 [src]="src">
         </iframe>
+        <div class="div-about-blank" *ngIf="!src">
+            <span class="no-relatorios-text hint-text">Nenhum relatório</span>
+        </div>
     </div>
 </div>

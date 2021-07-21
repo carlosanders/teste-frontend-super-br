@@ -81,7 +81,7 @@ export class AcaoTransicaoWorkflowListComponent implements OnInit {
     delete(acaoTransicaoWorkflowId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteAcao({
-            acaoTransicaoWorkflowId: acaoTransicaoWorkflowId,
+            acaoId: acaoTransicaoWorkflowId,
             operacaoId: operacaoId,
             loteId: loteId,
         }));

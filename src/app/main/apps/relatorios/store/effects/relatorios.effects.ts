@@ -49,17 +49,17 @@ export class RelatoriosEffect {
             .pipe(
                 ofType<RelatoriosActions.GetRelatorios>(RelatoriosActions.GET_RELATORIOS),
                 switchMap(action => this._relatorioService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.folderFilter,
-                            ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter,
-                            ...action.payload.gridFilter,
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))),
+                    JSON.stringify({
+                        ...action.payload.filter,
+                        ...action.payload.folderFilter,
+                        ...action.payload.listFilter,
+                        ...action.payload.etiquetaFilter,
+                        ...action.payload.gridFilter,
+                    }),
+                    action.payload.limit,
+                    action.payload.offset,
+                    JSON.stringify(action.payload.sort),
+                    JSON.stringify(action.payload.populate))),
                 concatMap(response => [
                     new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),
                     new RelatoriosActions.GetRelatoriosSuccess({
@@ -92,9 +92,10 @@ export class RelatoriosEffect {
                 map((action) => {
 
                     this._router.navigate([
-                        'apps/relatorios/' + this.routerState.params.generoHandle + '/' +
-                        this.routerState.params.typeHandle + '/' +
-                        this.routerState.params.targetHandle + '/relatorio/' + action.payload.relatorioId + '/visualizar']
+                            'apps/relatorios/' + this.routerState.params.generoHandle + '/' +
+                            this.routerState.params.typeHandle + '/' +
+                            this.routerState.params.targetHandle + '/relatorio/' + action.payload.relatorioId + '/visualizar'
+                        ]
                     ).then();
 
                     return new RelatoriosActions.SetCurrentRelatorioSuccess();
@@ -185,18 +186,18 @@ export class RelatoriosEffect {
             .pipe(
                 ofType<RelatoriosActions.SetFolderOnSelectedRelatorios>(RelatoriosActions.SET_FOLDER_ON_SELECTED_RELATORIOS),
                 concatMap(action => this._relatorioService.patch(action.payload.relatorio, {folder: action.payload.folder.id}).pipe(
-                        mergeMap((response: any) => [
-                                new RelatoriosActions.SetFolderOnSelectedRelatoriosSuccess(response),
-                                new OperacoesActions.Resultado({
-                                    type: 'relatorio',
-                                    content: `Relatorio id ${response.id} editada com sucesso!`,
-                                    dateTime: response.criadoEm
-                                })
-                            ],
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new RelatoriosActions.SetFolderOnSelectedRelatoriosFailed(err));
+                    mergeMap((response: any) => [
+                            new RelatoriosActions.SetFolderOnSelectedRelatoriosSuccess(response),
+                            new OperacoesActions.Resultado({
+                                type: 'relatorio',
+                                content: `Relatorio id ${response.id} editada com sucesso!`,
+                                dateTime: response.criadoEm
                             })
-                        )))
+                        ],
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new RelatoriosActions.SetFolderOnSelectedRelatoriosFailed(err));
+                        })
+                    )))
             );
 }
