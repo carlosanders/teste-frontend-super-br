@@ -23,5 +23,7 @@
     @include cdk-theme-options-theme($theme);
     @include cdk-material-color-picker-theme($theme);
     @include cdk-widget-theme($theme);
+
+    @include angular-material-typography($typography-configuration);
 }
 

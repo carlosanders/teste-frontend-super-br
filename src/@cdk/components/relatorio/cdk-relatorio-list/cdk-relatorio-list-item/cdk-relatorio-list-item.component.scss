@@ -2,7 +2,7 @@ cdk-relatorio-list-item {
 
     flex: 0 1 auto;
     display: flex;
-    padding: 16px 16px 16px 24px;
+    padding: 8px 2px 8px 8px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     text-transform: none;
     cursor: pointer;
@@ -22,7 +22,6 @@ cdk-relatorio-list-item {
         }
 
         .info {
-
             word-break: break-word;
             hyphens: auto;
             -webkit-hyphens: auto;
@@ -31,12 +30,11 @@ cdk-relatorio-list-item {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+            margin: 0px 0px 0px 2px;
 
             &.nao-lido {
                 font-weight: bold;
             }
-
-            margin: 0 16px 0 8px;
 
             .title {
                 flex: 1 1 auto;
@@ -85,9 +83,13 @@ cdk-relatorio-list-item {
         .actions {
             flex: 0 1 auto;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
             align-items: center;
+
+            > .mat-icon-button {
+                width: 30px;
+            }
         }
     }
 }

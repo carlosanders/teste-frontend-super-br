@@ -1,19 +1,15 @@
 cdk-tarefa-list {
-
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-
     border-right: 1px solid rgba(0, 0, 0, 0.12);
 
     > .page-layout {
-
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
 
         > .header {
-
             flex: 0 1 auto;
             display: flex;
             flex-direction: row;
@@ -21,8 +17,9 @@ cdk-tarefa-list {
             align-items: center;
             padding-left: 8px;
             padding-right: 8px;
-
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            height: 49px;
+            background: #fafafa;
 
             .drag-n-drop-ref {
                 display: flex;

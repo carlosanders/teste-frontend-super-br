@@ -11,7 +11,7 @@ processo-view-main-sidebar {
         flex: 0 1 auto;
         display: flex;
         flex-direction: column;
-        padding: 8px;
+        padding: 0px 8px 0px 0px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
         > .actions {
@@ -20,6 +20,14 @@ processo-view-main-sidebar {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
+
+            > .mat-icon-button {
+                width: 32px;
+            }
+
+            > .espaco-icones {
+                margin: 3px 2px 5px 4px;
+            }
 
             .sort-asc {
                 moz-transform: rotateX(180deg);
@@ -209,7 +217,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 16px;
+            padding: 8px 0px 8px 8px;
             cursor: pointer;
 
             .index {
@@ -532,7 +540,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 16px;
+            padding: 8px 0px 8px 8px;
             cursor: pointer;
 
             .etiquetas {

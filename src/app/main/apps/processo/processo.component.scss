@@ -1,25 +1,31 @@
 @import "@cdk/scss/cdk";
 
 processo {
-
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     width: 10vw;
 
     > .page-layout {
+        padding-top: 6px;
 
-        padding-top: 10px;
+        > .sidebar {
+            width: 200px !important;
+            min-width: 200px !important;
+            max-width: 200px !important;
+        }
 
         > .center {
-
-            > .header {
+            > .headers {
                 flex: 0 1 auto;
                 display: flex;
                 flex-direction: row;
-                height: 58px !important;
-                min-height: 58px !important;
-                max-height: 58px !important;
+                border-left: 1px solid rgba(0, 0, 0, 0.12);
+                border-top: 1px solid rgba(0, 0, 0, 0.12);
+                border-right: 1px solid rgba(0, 0, 0, 0.12);
+                border-radius: 12px 12px 0px 0px;
+                background: #fafafa;
+                box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
 
                 > .search-wrapper {
                     flex: 1 1 auto;
@@ -27,18 +33,17 @@ processo {
                     flex-direction: row;
                     justify-content: flex-start;
                     align-items: center;
-
                     border-radius: 28px;
                     overflow: hidden;
                     @include mat-elevation(1);
                     height: 46px;
+                    box-shadow: none;
 
                     > .sidebar-toggle {
                         margin: 0 0 0 6px;
                         width: 56px;
                         height: 56px;
                         border-radius: 0;
-                        border-right: 1px solid;
                     }
 
                     > .search {
@@ -47,9 +52,7 @@ processo {
                         flex-direction: row;
                         justify-content: flex-start;
                         align-items: center;
-
                         height: 46px;
-                        padding: 0 8px;
 
                         > cdk-etiqueta-chips {
                             margin-left: 16px;
@@ -64,6 +67,5 @@ processo {
             }
         }
     }
-
 }
 

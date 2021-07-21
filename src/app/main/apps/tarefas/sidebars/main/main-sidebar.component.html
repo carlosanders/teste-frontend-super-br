@@ -27,7 +27,7 @@
         <div class="nav-item">
             <div class="menu_content menu_tarefa">
                 <div class="menu_content_label">
-                    MINHAS TAREFAS
+                    Minhas Tarefas
                 </div>
                 <div class="menu_content_button">
                     <button mat-icon-button [matMenuTriggerFor]="menuMain" class="btn_menu_folder"
@@ -170,7 +170,9 @@
             </section>
         </div>
 
-        <div class="nav-subheader">COMPARTILHAMENTO</div>
+        <div class="menu_content menu_tarefa">
+            <div class="menu_content_label">Compartilhamento</div>
+        </div>
 
         <div class="nav-item">
             <a class="nav-link" matRipple
@@ -604,9 +606,8 @@
 
 <!-- SIDEBAR FOOT -->
 <div class="footer">
-    <mat-divider></mat-divider>
     <div class="actions">
-        <mat-toolbar>
+        <mat-toolbar class="class-toolbar">
             <button disabled mat-icon-button class="secondary-text"
                     routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent"
                     matTooltip="Tarefas">

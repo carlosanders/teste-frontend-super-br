@@ -12,7 +12,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" *ngIf="!(expandir$ | async)">
+        <div class="headers" *ngIf="!(expandir$ | async)">
             <div class="search-wrapper" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo?.id">
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
                         matTooltip="Menu do processo"
@@ -28,7 +28,7 @@
                 <div class="search">
                     <mat-icon class="secondary-text mr-8">label</mat-icon>
                     <cdk-vinculacao-etiqueta-chips
-                        [placeholder]="'Adicionar etiquetas para o processo'"
+                        [placeholder]="'Adicionar etiquetas no processo'"
                         [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
                         (create)="onEtiquetaCreate($event)"
                         (edit)="onEtiquetaEdit($event)"

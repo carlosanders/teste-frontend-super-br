@@ -1,10 +1,10 @@
 <!-- SIDEBAR HEADER -->
-<div class="header p-8">
+<div class="header">
     <div class="actions">
         <button mat-mini-fab
                 [matTooltip]="'Criar Minuta'"
                 *ngIf="tarefa"
-                class="m-8 active accent"
+                class="espaco-icones active accent"
                 [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
                 #menuTriggerList="matMenuTrigger"
                 (click)="$event.stopPropagation()">

@@ -8,29 +8,31 @@ admin {
         flex: 1 1 auto;
         display: flex;
 
-        > .center {
+        > .sidebar {
+            width: 261px !important;
+            min-width: 261px !important;
+            max-width: 261px !important;
+        }
 
+        > .center {
             flex: 1 1 auto;
             display: flex;
 
             > .header {
-
                 flex: 0 1 auto;
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
                 align-items: center;
-
-                height: 30px !important;
-                min-height: 30px !important;
-                max-height: 30px !important;
-
+                height: 10px !important;
+                min-height: 10px !important;
+                max-height: 10px !important;
             }
 
             > .content-card {
-
                 flex: 1 1 auto;
                 display: flex;
+                border-radius: 12px 12px 0px 0px;
 
                 > .content {
 

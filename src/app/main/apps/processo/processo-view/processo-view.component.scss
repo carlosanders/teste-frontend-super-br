@@ -4,6 +4,8 @@ processo-view {
 
     flex: 1 1 auto;
     display: flex;
+    border-radius: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
 
     > .page-layout {
         flex: 1 1 auto;
@@ -11,9 +13,9 @@ processo-view {
         flex-direction: row;
 
         > .sidebar {
-            width: 280px !important;
-            min-width: 280px !important;
-            max-width: 280px !important;
+            width: 202px !important;
+            min-width: 202px !important;
+            max-width: 202px !important;
         }
 
         > .center {
@@ -28,10 +30,10 @@ processo-view {
                 justify-content: flex-start;
                 align-items: center;
                 padding: 8px;
-
-                height: 56px !important;
-                min-height: 56px !important;
-                max-height: 56px !important;
+                background: #fafafa;
+                height: 38px !important;
+                min-height: 38px !important;
+                max-height: 38px !important;
 
                 .juntada-navigation {
                     flex: 1 1 auto;

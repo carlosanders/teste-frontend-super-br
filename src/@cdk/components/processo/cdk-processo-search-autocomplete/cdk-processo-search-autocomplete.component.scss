@@ -1,25 +1,6 @@
 cdk-processo-search-autocomplete {
     flex: 1 1 auto;
     display: flex;
-
-
-    > .content {
-        //
-        //flex: 1 1 auto;
-        //display: flex;
-        //flex-direction: column;
-        background: yellow;
-
-    }
-
-    > .content[max-width~="600px"] {
-        //
-        //flex: 1 1 auto;
-        //display: flex;
-        //flex-direction: column;
-        background: red;
-
-    }
 }
 .span-block {
     display: block;
@@ -34,7 +15,7 @@ cdk-processo-search-autocomplete {
     min-height: 48px !important;
     height: auto !important;
     line-height: normal !important;
-    padding: 10px 10px 10px 10px !important;
+    padding: 10px 10px 0px 10px !important;
 }
 
 .multiline-auto-complete-options-responsive {
@@ -43,5 +24,4 @@ cdk-processo-search-autocomplete {
     line-height: normal !important;
     padding: 5px !important;
     white-space: normal !important;
-    font-size: 14px !important;
 }

@@ -1,12 +1,24 @@
 board-tarefas {
     flex: 1 1 auto;
     display: flex;
+    background: white;
+
+    .sidebar {
+        width: 180px !important;
+        min-width: 180px !important;
+        max-width: 180px !important;
+    }
+
+    .body-tarefa {
+        background: white;
+    }
 
     .board-content {
         height: 100%;
         display: flex;
         flex-direction: row;
         overflow: auto;
+        padding: 12px 0px 0px 10px;
 
         .loading {
             margin: auto 0;

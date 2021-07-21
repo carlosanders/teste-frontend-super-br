@@ -33,7 +33,7 @@ vertical-layout-1 {
     }
 
     .quick-panel.folded:not(.unfolded) {
-        max-height: 50px;
+        max-height: 41px;
         z-index: -1;
     }
 
@@ -46,6 +46,10 @@ vertical-layout-1 {
         height: 100%;
         z-index: 1;
         min-width: 0;
+
+        .toolbar-divisor {
+            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 35%);
+        }
 
         // Container 1
         > .container {

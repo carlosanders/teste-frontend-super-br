@@ -7,16 +7,12 @@ coordenador-main-sidebar {
         display: flex;
         flex: 0 1 auto;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-
-        > .logo {
-            display: flex;
-            flex: 1 1 auto;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-        }
+        margin: 15px 0px 5px 0px;
+        height: 25px !important;
+        min-height: 25px !important;
+        max-height: 25px !important;
     }
 
     > .content {
@@ -25,11 +21,34 @@ coordenador-main-sidebar {
         flex-direction: column;
         height: 0;
         overflow-y: auto;
-        padding-top: 8px;
+
+        .subtitulo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 15px;
+        }
 
         .nav .nav-subheader {
             white-space: pre-wrap;
+            color: rgba(0, 0, 0, 0.50);
+            font-weight: 600;
+            padding-left: 10px;
+            margin-bottom: 1px;
+            margin-top: 30px;
         }
+    }
 
+    .nav-item {
+        .nav-link {
+            display: flex !important;
+            align-items: center !important;
+            padding: 0px 10px 0px 10px !important;
+            border-radius: 0px 12px 12px 0px !important;
+            margin-right: 16px !important;
+            height: 40px !important;
+            min-height: 40px !important;
+            max-height: 64px !important;
+        }
     }
 }

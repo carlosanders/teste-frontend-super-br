@@ -6,7 +6,7 @@ export const locale = {
             FOLDERS                 : 'PASTAS',
             NO_MESSAGES             : 'Não existem relatórios!',
             SELECT_A_MESSAGE_TO_READ: 'Selecione um relatório',
-            SEARCH_PLACEHOLDER: 'Filtre os relatórios pela etiqueta'
+            SEARCH_PLACEHOLDER: 'Filtrar os relatórios pela etiqueta'
         }
     }
 };

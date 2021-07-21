@@ -63,3 +63,9 @@ cdk-sidebar {
     z-index: 999;
     opacity: 0;
 }
+
+.sidebar {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}

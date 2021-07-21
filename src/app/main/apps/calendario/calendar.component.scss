@@ -1,6 +1,12 @@
 @import "src/@cdk/scss/cdk";
 @import "../../../../../node_modules/angular-calendar/scss/angular-calendar";
 
+.sidebar {
+    width: 185px !important;
+    min-width: 185px !important;
+    max-width: 185px !important;
+}
+
 .cal-month-view {
 
     .cal-header {
@@ -190,15 +196,16 @@
     max-height: 100%;
 
     .header {
-        height: 200px;
-        min-height: 200px;
-        max-height: 200px;
+        height: 100px;
+        min-height: 100px;
+        max-height: 100px;
         position: relative;
         background-size: 100% auto;
         background-position: 0 50%;
         background-repeat: no-repeat;
         background-color: #FAFAFA;
         color: #FFFFFF;
+        padding: 10px;
 
         @include media-breakpoint(xs) {
             height: 164px;
@@ -226,7 +233,7 @@
             background-position: 0 85%;
         }
         &.Mar {
-            background-image: url('/assets/images/calendar/autumn.jpg');
+            background-image: url('/assets/images/calendar/summer.jpg');
             background-position: 0 40%;
         }
         &.Apr {
@@ -238,7 +245,7 @@
             background-position: 0 40%;
         }
         &.Jun {
-            background-image: url('/assets/images/calendar/winter.jpg');
+            background-image: url('/assets/images/calendar/autumn.jpg');
             background-position: 0 80%;
         }
         &.Jul {
@@ -250,7 +257,7 @@
             background-position: 0 80%;
         }
         &.Sep {
-            background-image: url('/assets/images/calendar/spring.jpg');
+            background-image: url('/assets/images/calendar/winter.jpg');
             background-position: 0 40%;
         }
         &.Oct {
@@ -262,7 +269,7 @@
             background-position: 0 40%;
         }
         &.Dec {
-            background-image: url('/assets/images/calendar/summer.jpg');
+            background-image: url('/assets/images/calendar/spring.jpg');
             background-position: 0 85%;
         }
 
@@ -308,5 +315,6 @@
 
     .content {
         height: 100%;
+        padding: 8px;
     }
 }

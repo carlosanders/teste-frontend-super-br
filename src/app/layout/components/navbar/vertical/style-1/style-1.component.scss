@@ -80,8 +80,8 @@ cdk-sidebar {
                                 .nav-item {
 
                                     .nav-link {
-                                        border-radius: 20px;
-                                        margin: 0 12px;
+                                        border-radius: 0px;
+                                        margin: 0px;
                                         padding: 0 12px;
                                     }
                                 }
@@ -126,10 +126,11 @@ navbar {
             flex: 1 0 auto;
             align-items: center;
             justify-content: space-between;
-            min-height: 56px;
-            max-height: 56px;
-            height: 56px;
+            min-height: 47px;
+            max-height: 47px;
+            height: 47px;
             padding: 12px 12px 12px 20px;
+            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 35%);
 
             @include media-breakpoint('xs') {
                 min-height: 56px;
@@ -167,9 +168,6 @@ navbar {
             flex: 1 1 auto;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-
-            background: linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%),
-            linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%);
 
             background-repeat: no-repeat;
             background-size: 100% 40px, 100% 10px;

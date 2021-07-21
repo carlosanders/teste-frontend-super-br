@@ -92,6 +92,7 @@ export class PathComponent implements OnInit {
         this.mapaNome.set('especie-setor', 'espécie setores');
         this.mapaNome.set('especie-tarefas', 'espécie tarefas');
         this.mapaNome.set('lotacoes', 'lotações');
+        this.mapaNome.set('modalidade-acao-etiqueta', 'modalidade ações etiquetas');
         this.mapaNome.set('modalidade-orgao-central', 'modalidade orgãos centrais');
         this.mapaNome.set('municipios', 'municípios');
         this.mapaNome.set('notificacoes', 'notificações');

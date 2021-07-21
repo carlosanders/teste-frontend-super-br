@@ -5,9 +5,9 @@
     .cdk-search-bar {
         display: flex;
         flex: 0 1 auto;
-        min-width: 64px;
-        height: 64px;
         font-size: 13px;
+        height: 53px;
+        padding-top: 8px;
 
         @include media-breakpoint('xs') {
             height: 56px;
@@ -25,15 +25,14 @@
                 flex: 1 1 auto;
                 justify-content: flex-start;
                 align-items: center;
-                border-radius: 28px;
+                border-radius: 12px;
                 background: white;
                 margin: 0px 16px;
                 padding-left: 8px;
-                height: 45px;
+                height: 38px;
                 @include mat-elevation(1);
 
                 .input-field {
-                    font: 400 16px/1.125 Muli, Helvetica Neue, Arial, sans-serif;
                     margin-left: 16px;
                 }
             }
@@ -41,11 +40,10 @@
             .cdk-search-bar-expander,
             .cdk-search-bar-collapser {
                 cursor: pointer;
-                padding: 0 20px;
+                padding: 1px 0px 0px 0px;
                 margin: 0;
-                width: 64px !important;
+                width: 55px !important;
                 height: 64px !important;
-                line-height: 64px !important;
 
                 @include media-breakpoint('xs') {
                     height: 56px !important;
@@ -54,9 +52,9 @@
             }
 
             .cdk-search-bar-loader {
-                width: 64px !important;
-                height: 64px !important;
-                line-height: 64px !important;
+                width: 55px !important;
+                height: 55px !important;
+                line-height: 55px !important;
 
                 @include media-breakpoint('xs') {
                     height: 56px !important;
@@ -77,7 +75,6 @@
                 display: none;
                 flex: 1 0 auto;
                 min-height: 64px;
-                font-size: 16px;
                 background-color: transparent;
                 color: currentColor;
             }

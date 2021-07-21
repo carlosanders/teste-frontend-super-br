@@ -114,7 +114,7 @@ export class CdkSidebarComponent implements OnInit, OnDestroy
     {
         // Set the defaults
         this.foldedAutoTriggerOnHover = true;
-        this.foldedWidth = 64;
+        this.foldedWidth = 40;
         this.foldedChanged = new EventEmitter();
         this.openedChanged = new EventEmitter();
         this.opened = false;

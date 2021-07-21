@@ -2,6 +2,8 @@ board-tarefas-main-sidebar {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
+    background: whitesmoke;
+    border: 1px solid rgba(0, 0, 0, 0.12);
 
     > .side-header {
         display: flex;
@@ -9,7 +11,6 @@ board-tarefas-main-sidebar {
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-
         height: 64px !important;
         min-height: 64px !important;
         max-height: 64px !important;
@@ -22,31 +23,52 @@ board-tarefas-main-sidebar {
             align-items: center;
 
             .logo-text {
-                font-size: 24px;
+                font-size: 19px;
             }
         }
     }
 
     > .content {
-
         display: flex;
         flex: 1 1 auto;
         flex-direction: column;
         height: 0;
         overflow-y: auto;
+
+        .nav-item {
+            .nav-link {
+                display: flex !important;
+                align-items: center !important;
+                padding: 0px 18px 0px 10px !important;
+                border-radius: 0px 12px 12px 0px !important;
+                margin-right: 8px !important;
+                height: 40px !important;
+                min-height: 40px !important;
+                max-height: 64px !important;
+            }
+        }
     }
 
     > .footer {
         display: flex;
         flex: 0 1 auto;
-        flex-direction: column;
+        align-items: center;
+        flex-direction: row;
 
         > .actions {
             display: flex;
             flex: 1 1 auto;
             flex-direction: row;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
+
+            > .class-toolbar {
+                display: flex;
+                justify-content: space-around;
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                margin: 8px;
+                border-radius: 12px;
+            }
         }
     }
 }

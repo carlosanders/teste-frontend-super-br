@@ -36,6 +36,25 @@
     }
 }
 
+$typography-configuration: mat-typography-config(
+    $font-family: 'Muli, Roboto, "Helvetica Neue", sans-serif',
+    $display-4:     mat-typography-level(112px, 112px, 300),
+    $display-3:     mat-typography-level(56px, 56px, 400),
+    $display-2:     mat-typography-level(45px, 48px, 400),
+    $display-1:     mat-typography-level(34px, 40px, 400),
+    $headline:      mat-typography-level(24px, 32px, 400),
+    $title:         mat-typography-level(20px, 32px, 500),
+    $subheading-2:  mat-typography-level(16px, 28px, 400),
+    $subheading-1:  mat-typography-level(15px, 24px, 400),
+    $body-2:        mat-typography-level(13px, 24px, 500),
+    $body-1:        mat-typography-level(13px, 20px, 400),
+    $caption:       mat-typography-level(12px, 20px, 400),
+    $button:        mat-typography-level(13px, 14px, 500),
+        // Line-height must be unit-less fraction of the font-size.
+    $input:         mat-typography-level(13px, 1.25, 400)
+);
+
+
 // -----------------------------------------------------------------------------------------------------
 // @ Typography
 // -----------------------------------------------------------------------------------------------------
@@ -47,12 +66,22 @@ html {
 }
 
 body {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 html, body {
     -webkit-font-smoothing: auto;
     -moz-osx-font-smoothing: auto;
+}
+
+.mat-form-field label {
+    font-size: 13px !important;
+}
+.mat-radio-label-content {
+    font-size: 13px !important;
+}
+.mat-option {
+    font-size: 13px !important;
 }
 
 // Headings
@@ -62,27 +91,27 @@ h1, h2, h3, h4, h5, h6,
 }
 
 h1, .h1 {
-    font-size: 24px;
+    font-size: 22px;
 }
 
 h2, .h2 {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 h3, .h3 {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 h4, .h4 {
-    font-size: 15px;
-}
-
-h5, .h5 {
     font-size: 13px;
 }
 
+h5, .h5 {
+    font-size: 11px;
+}
+
 h6, .h6 {
-    font-size: 12px;
+    font-size: 10px;
 }
 
 // Links
