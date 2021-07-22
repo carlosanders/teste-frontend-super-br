@@ -167,7 +167,7 @@ export class UsuarioEditEffects {
             .pipe(
                 ofType<UsuarioEditActions.SaveUsuarioSuccess>(UsuarioEditActions.SAVE_USUARIO_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.usuarioHandle), 'listar')]).then();
+                    this._router.navigate([this.routerState.url.replace(('criar'), action.payload.id)]).then();
                 })
             );
 

@@ -6,6 +6,7 @@ export interface UsuarioEditState {
     errors: any;
     loading: boolean;
     loaded: any;
+    nextColaborador: boolean;
 }
 
 export const UsuarioEditInitialState: UsuarioEditState = {
@@ -13,7 +14,8 @@ export const UsuarioEditInitialState: UsuarioEditState = {
     saving: false,
     errors: false,
     loading: false,
-    loaded: false
+    loaded: false,
+    nextColaborador: false
 };
 
 export function UsuarioEditReducer(
@@ -76,7 +78,8 @@ export function UsuarioEditReducer(
                     value: action.payload.id
                 },
                 saving: false,
-                errors: false
+                errors: false,
+                nextColaborador: true
             };
         }
 
@@ -85,6 +88,13 @@ export function UsuarioEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case UsuarioEditActions.NEXT_STEP_COLABORADOR_SUCCESS: {
+            return {
+                ...state,
+                nextColaborador: false
             };
         }
 

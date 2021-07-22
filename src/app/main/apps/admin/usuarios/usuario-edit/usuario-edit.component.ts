@@ -4,7 +4,8 @@ import {
     Component,
     OnDestroy,
     OnInit,
-    ViewEncapsulation
+    ViewEncapsulation,
+    ViewChild
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -22,6 +23,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
+import {MatStepper} from '@angular/material/stepper';
+
 @Component({
     selector: 'usuario-edit',
     templateUrl: './usuario-edit.component.html',
@@ -32,8 +35,11 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 })
 export class UsuarioEditComponent implements OnInit, OnDestroy {
 
+    @ViewChild('stepper') stepper: MatStepper;
+
     routerState: any;
     isSaving$: Observable<boolean>;
+    nextColaborador$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
     usuario$: Observable<Usuario>;
@@ -61,6 +67,14 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
+        this._store
+            .pipe(select(fromStore.getNextColaborador))
+            .subscribe((nextColaborador) => {
+                if (nextColaborador) {
+                    this.stepper.next();
+                    this._store.dispatch(new fromStore.NextStepColaboradorSuccess({}));
+                }
+            });
 
         this._store
             .pipe(select(getRouterState))
