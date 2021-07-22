@@ -1,6 +1,6 @@
-<div id="yyy" class="list mat-elevation-z1 corpo-cartao" fxLayout="column">
+<div class="list mat-elevation-z1 corpo-cartao" fxLayout="column">
     <!-- LIST HEADER -->
-    <div id="xxx" class="list-header cartao-head" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="list-header cartao-head" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
         <div fxFlex="1 0 auto" class="list-header-name">
             {{folder.nome | titlecase}}
         </div>
@@ -17,7 +17,7 @@
             </mat-menu>
         </div>
     </div>
-    <div class="list-control" fxLayout="row" id="aaa">
+    <div class="list-control" fxLayout="row">
         <div class="control-left">
             <mat-checkbox class="ml-8" (click)="doToggleSelectAll($event)"
                           [checked]="!!controls.folderSelectedIds.length"
@@ -98,7 +98,7 @@
     </div>
     <!-- LIST HEADER -->
     <!-- LIST CONTENT -->
-    <div class="list-content" fxLayout="column" id="bbb"
+    <div class="list-content" fxLayout="column"
          #folderListColumnContent
          infiniteScroll
          [scrollWindow]="false"

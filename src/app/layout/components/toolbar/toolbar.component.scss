@@ -86,7 +86,7 @@ toolbar {
     .quick-panel-toggle-button3{
 
         min-width: 56px;
-        height: 60px;
+        height: 58px;
 
         @include media-breakpoint('xs') {
             height: 62px;
@@ -160,15 +160,13 @@ toolbar {
     }
 
     .actions {
-        margin-left: 20px;
+        margin-left: 10px;
+        width: 120px;
 
         .mat-icon {
             cursor: pointer;
             margin-left: 10px;
         }
-        //.mat-icon {
-        //    margin: 10px;
-        //}
     }
 }
 
