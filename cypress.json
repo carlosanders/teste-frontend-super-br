@@ -8,6 +8,12 @@
     "pluginsFile": "tests/e2e/plugins/index.ts",
     "videoUploadOnPasses": false,
     "screenshotOnRunFailure": true,
-
+        
+    "chromeWebSecurity": false,
+    "retries": {
+      "runMode": 2,
+      "openMode": 0 
+    },
+    
     "baseUrl": "http://localhost:4200"
 }
