@@ -15,6 +15,7 @@ export const GET_USUARIO = '[COORDENADOR USUARIO EDIT] GET USUARIO';
 export const GET_USUARIO_SUCCESS = '[COORDENADOR USUARIO EDIT] GET USUARIO SUCCESS';
 export const GET_USUARIO_FAILED = '[COORDENADOR USUARIO EDIT] GET USUARIO FAILED';
 
+export const NEXT_STEP_COLABORADOR_SUCCESS = '[COORDENADOR USUARIO EDIT] NEXT_STEP COLABORADOR_SUCCESS';
 export const SAVE_COLABORADOR = '[COORDENADOR USUARIO EDIT] SAVE COLABORADOR';
 export const SAVE_COLABORADOR_SUCCESS = '[COORDENADOR USUARIO EDIT] SAVE COLABORADOR SUCCESS';
 export const SAVE_COLABORADOR_FAILED = '[COORDENADOR USUARIO EDIT] SAVE COLABORADOR FAILED';
@@ -152,6 +153,18 @@ export class CreateUsuarioSuccess implements Action
 }
 
 /**
+ * Next Step Colaborador
+ */
+ export class NextStepColaboradorSuccess implements Action
+ {
+     readonly type = NEXT_STEP_COLABORADOR_SUCCESS;
+
+     constructor(public payload: any)
+     {
+     }
+ }
+
+/**
  * Save Colaborador
  */
 export class SaveColaborador implements Action
@@ -199,6 +212,7 @@ export type UsuarioEditActionsAll
     | UpdateUsuario
     | UpdateUsuarioSuccess
     | UpdateUsuarioFailed
+    | NextStepColaboradorSuccess
     | SaveColaborador
     | SaveColaboradorSuccess
     | SaveColaboradorFailed;
