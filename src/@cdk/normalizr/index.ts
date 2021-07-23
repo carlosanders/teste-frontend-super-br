@@ -1057,6 +1057,7 @@ chat.define({
     atualizadoPor: usuario,
     apagadoPor: usuario,
     ultimaMensagem: chatMensagem,
+    chatParticipante: chatParticipante,
     capa: componenteDigital
 });
 

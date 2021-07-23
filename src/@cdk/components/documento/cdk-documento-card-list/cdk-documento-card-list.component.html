@@ -131,4 +131,10 @@
                         (clicked)="onClick($event)"
                         (changedSelected)="toggleInSelected($event)">
     </cdk-documento-card>
+    <div class="loading" *ngIf="saving">
+        <mat-spinner class="anexos-loading" diameter="24"></mat-spinner>
+    </div>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner class="anexos-loading" diameter="24"></mat-spinner>
+    </div>
 </div>

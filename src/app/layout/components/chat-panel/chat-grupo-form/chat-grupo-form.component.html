@@ -1,0 +1,91 @@
+<chat-mensagem-header class="chat-header"
+                      [chat]="chat"
+                      (sairChatHandler)="removerParticipante($event)"
+                      (chatParticipantesHandler)="chatParticipantes($event)"
+                      (excluirChatHandler)="excluirChat($event)"
+                      (chatFormHandler)="chatForm($event)"
+                      (fecharChatHandler)="cancelForm()">
+</chat-mensagem-header>
+
+<div class="content">
+    <form [formGroup]="chatGrupoForm" name="chatGrupoForm"
+          (ngSubmit)="salvarChatGrupo()"
+          (keydown.enter)="salvarChatGrupo(); $event.preventDefault();"
+          *ngIf="activeCard === 'form'">
+
+        <div class="image-box-capa">
+            <img class="img-capa avatar" [src]="capa.conteudo|safeResourceUrl" *ngIf="capa?.id">
+            <img class="img-capa avatar" src="assets/images/avatars/User.png" *ngIf="!capa?.id">
+            <button mat-icon-button type="button" (click)="uploadImagemCapa()" [ngSwitch]="!!capa?.id === true">
+                <mat-icon *ngSwitchCase="true">mode_edit</mat-icon>
+                <mat-icon *ngSwitchCase="false">photo</mat-icon>
+            </button>
+        </div>
+
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome"
+                   required
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <textarea formControlName="descricao"
+                      matInput #descricao
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="4"
+                      cdkAutosizeMaxRows="10"
+                      maxlength="255" minlength="3" upperCase></textarea>
+            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+            <mat-error *ngIf="chatGrupoForm.get('descricao').hasError('formError')">
+                {{chatGrupoForm.get('descricao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-error *ngIf="chatGrupoForm.hasError('rulesError')">{{chatGrupoForm.errors.rulesError}}</mat-error>
+
+        <div class="actions">
+            <button mat-raised-button color="accent" type="submit" [disabled]="chatGrupoForm.invalid" *ngIf="!saving">
+                SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" (click)="cancelForm()" *ngIf="!saving">
+                CANCELAR
+            </button>
+            <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+        </div>
+    </form>
+    <form fxLayoutGap="16px" *ngIf="activeCard !== 'form'">
+        <image-cropper
+            #imgCapaCropComponent
+            [imageChangedEvent]="imagemCapaEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="1/1"
+            [resizeToWidth]="254"
+            [autoCrop]="false"
+            format="jpeg"
+            [roundCropper]="true"
+            (imageCropped)="imagemCapaCropped($event)">
+        </image-cropper>
+
+        <mat-error *ngIf="chatGrupoForm.hasError('rulesError')">{{chatGrupoForm.errors.rulesError}}</mat-error>
+
+        <div class="actions">
+            <button mat-raised-button color="accent" (click)="cropImgCapa()"
+                    *ngIf="!saving">
+                RECORTAR
+            </button>
+            <button mat-raised-button color="warn" type="button" (click)="cancelCrop()">
+                CANCELAR
+            </button>
+        </div>
+    </form>
+    <input hidden type="file"
+           (change)="changeImgCapaUpload($event)"
+           name="imgCapaUpload"
+           #imgCapaUpload
+           accept="{{uploadImagesMimeTypes}}">
+</div>

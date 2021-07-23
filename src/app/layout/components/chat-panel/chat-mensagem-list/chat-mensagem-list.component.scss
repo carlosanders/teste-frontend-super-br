@@ -8,6 +8,11 @@ chat-mensagem-list {
     position: relative;
     padding: 0px 0px 0px 5px;
 
+    .chat-mensagem-error {
+        display: flex;
+        place-content: center;
+    }
+
     .loading {
         padding-top: 10px;
         align-items: center;
