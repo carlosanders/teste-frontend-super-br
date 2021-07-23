@@ -14,6 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'lembretes',
@@ -124,7 +125,12 @@ export class LembretesComponent implements OnInit, OnDestroy {
                 lembrete[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveLembrete(lembrete));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveLembrete({
+            lembrete: lembrete,
+            operacaoId: operacaoId
+        }));
     }
 
 }

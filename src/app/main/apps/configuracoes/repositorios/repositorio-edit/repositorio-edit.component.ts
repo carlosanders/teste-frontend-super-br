@@ -11,6 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'repositorio-edit',
@@ -101,7 +102,11 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
 
         repositorio.usuario = this.usuario;
 
-        this._store.dispatch(new fromStore.SaveRepositorio(repositorio));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveRepositorio({
+            repositorio: repositorio,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

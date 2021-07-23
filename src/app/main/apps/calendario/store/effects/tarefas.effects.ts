@@ -88,21 +88,38 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.SaveTarefa>(TarefasActions.SAVE_TAREFA),
-                mergeMap(action => this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Alterando a tarefa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + response.id + ' alterando com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Tarefa) => [
                             new TarefasActions.SaveTarefaSuccess(response),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao alterar a tarefa!',
+                                status: 2, // erro
+                            }));
                             return of(new TarefasActions.SaveTarefaFailed(err));
                         })
-                    ), 25)
+                    )
+                })
             );
 
     /**

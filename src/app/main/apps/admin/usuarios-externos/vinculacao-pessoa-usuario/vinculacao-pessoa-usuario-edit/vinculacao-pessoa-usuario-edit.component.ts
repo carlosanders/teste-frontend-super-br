@@ -7,6 +7,7 @@ import * as fromStore from './store';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-pessoa-usuario-edit',
@@ -62,7 +63,10 @@ export class VinculacaoPessoaUsuarioEditComponent implements OnInit {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveVinculacaoPessoaUsuario(vinculacaoPessoaUsuario));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoPessoaUsuario({
+            vinculacaoPessoaUsuario: vinculacaoPessoaUsuario,
+            operacaoId: operacaoId
+        }));
     }
 }

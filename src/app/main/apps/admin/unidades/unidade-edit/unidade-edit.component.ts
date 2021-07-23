@@ -18,6 +18,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'unidade-edit',
@@ -131,6 +132,10 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
             unidade.unidade = unid;
         }
 
-        this._store.dispatch(new fromStore.SaveUnidade(unidade));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveUnidade({
+            unidade: unidade,
+            operacaoId: operacaoId
+        }));
     }
 }

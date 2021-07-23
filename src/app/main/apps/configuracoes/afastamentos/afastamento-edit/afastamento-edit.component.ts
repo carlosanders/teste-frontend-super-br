@@ -10,6 +10,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'afastamento-edit',
@@ -99,8 +100,11 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
 
         afastamento.colaborador = this.colaborador;
 
-        this._store.dispatch(new fromStore.SaveAfastamento(afastamento));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAfastamento({
+            afastamento: afastamento,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

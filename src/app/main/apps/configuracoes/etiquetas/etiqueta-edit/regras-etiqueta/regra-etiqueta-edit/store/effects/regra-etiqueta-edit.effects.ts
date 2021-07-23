@@ -46,23 +46,41 @@ export class RegraEtiquetaEditEffect {
         this._actions
             .pipe(
                 ofType<RegraEtiquetaEditActions.SaveRegraEtiqueta>(RegraEtiquetaEditActions.SAVE_REGRA_ETIQUETA),
-                switchMap(action => this._regraEtiquetaService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'regra de etiqueta',
+                    content: 'Salvando a regra de etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._regraEtiquetaService.save(action.payload.regraEtiqueta).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'regra de etiqueta',
+                                content: 'Regra de etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: RegraEtiqueta) => [
                             new RegraEtiquetaEditActions.SaveRegraEtiquetaSuccess(),
                             new RegraEtiquetaListActions.ReloadRegrasEtiqueta(),
-                            new AddData<RegraEtiqueta>({data: [response], schema: regraEtiquetaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'regraEtiqueta',
-                                content: `Regra id ${response.id} criada com sucesso!`,
-                                dateTime: moment()
-                            })
+                            new AddData<RegraEtiqueta>({data: [response], schema: regraEtiquetaSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'regra de etiqueta',
+                                content: 'Erro ao salvar a regra de etiqueta!',
+                                status: 2, // erro
+                            }));
                             return of(new RegraEtiquetaEditActions.SaveRegraEtiquetaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
     /**
      * Save RegraEtiqueta Success
      */

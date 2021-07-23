@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-usuario-edit',
@@ -90,16 +91,17 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const vinculacaoUsuario = new VinculacaoUsuario();
-
         Object.entries(values).forEach(
             ([key, value]) => {
                 vinculacaoUsuario[key] = value;
             }
         );
-
-        this._store.dispatch(new fromStore.SaveVinculacaoUsuario(vinculacaoUsuario));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoUsuario({
+            vinculacaoUsuario: vinculacaoUsuario,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

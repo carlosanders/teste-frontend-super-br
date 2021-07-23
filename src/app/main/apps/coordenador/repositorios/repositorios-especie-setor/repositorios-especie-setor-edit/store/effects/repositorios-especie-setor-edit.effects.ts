@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as RepositoriosEspecieSetorEditActions from '../actions/repositorios-especie-setor-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class RepositoriosEspecieSetorEditEffects {
@@ -82,17 +83,38 @@ export class RepositoriosEspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosEspecieSetorEditActions.SaveRepositorioEspecieSetor>(RepositoriosEspecieSetorEditActions.SAVE_REPOSITORIO_ESPECIE_SETOR),
-                switchMap(action => this._vinculacaoRepositorioService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'repositório espécie de setor',
+                    content: 'Salvando o repositório espécie de setor ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoRepositorioService.save(action.payload.repositorioEspecieSetor).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositório espécie de setor',
+                                content: 'Repositório espécie de setor id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: VinculacaoRepositorio) => [
                             new RepositoriosEspecieSetorEditActions.SaveRepositorioEspecieSetorSuccess(),
                             new RepositoriosEspecieSetorListActions.ReloadRepositoriosEspecieSetor(),
                             new AddData<VinculacaoRepositorio>({data: [response], schema: vinculacaoRepositorioSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new RepositoriosEspecieSetorEditActions.SaveRepositorioEspecieSetorFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'repositório espécie de setor',
+                                content: 'Erro ao salvar o repositório espécie de setor!',
+                                status: 2, // erro
+                            }));
+                            return of(new RepositoriosEspecieSetorEditActions.SaveRepositorioEspecieSetorFailed(err));
+                        })
+                    )
                 })
             );
 

@@ -80,23 +80,41 @@ export class GarantiaEditEffect {
         this._actions
             .pipe(
                 ofType<GarantiaEditActions.SaveGarantia>(GarantiaEditActions.SAVE_GARANTIA),
-                switchMap(action => this._garantiaService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'garantia',
+                    content: 'Salvando a garantia ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._garantiaService.save(action.payload.garantia).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'garantia',
+                                content: 'Garantia id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Garantia) => [
                             new GarantiaEditActions.SaveGarantiaSuccess(),
                             new GarantiaListActions.ReloadGarantias(),
-                            new AddData<Garantia>({data: [response], schema: garantiaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'garantia',
-                                content: `Garantia id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Garantia>({data: [response], schema: garantiaSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'garantia',
+                                content: 'Erro ao salvar a garantia!',
+                                status: 2, // erro
+                            }));
                             return of(new GarantiaEditActions.SaveGarantiaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
     /**
      * Save Garantia Success
      */

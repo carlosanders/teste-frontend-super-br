@@ -14,6 +14,7 @@ import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
 import {Setor} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'competencia-edit',
@@ -122,6 +123,10 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
 
         vinculacaoSetorMunicipio.setor = this.unidade;
 
-        this._store.dispatch(new fromStore.SaveCompetencia(vinculacaoSetorMunicipio));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveCompetencia({
+            vinculacaoSetorMunicipio: vinculacaoSetorMunicipio,
+            operacaoId: operacaoId
+        }));
     }
 }

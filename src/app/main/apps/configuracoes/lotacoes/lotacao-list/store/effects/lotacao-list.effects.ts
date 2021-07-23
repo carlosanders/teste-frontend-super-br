@@ -138,19 +138,38 @@ export class LotacaoListEffect {
         this._actions
             .pipe(
                 ofType<LotacaoListActions.SaveLotacao>(LotacaoListActions.SAVE_LOTACAO),
-                switchMap(action => this._lotacaoService.patch(action.payload.lotacao, action.payload.changes).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'lotação',
+                    content: 'Salvando a lotação ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._lotacaoService.patch(action.payload.lotacao, action.payload.changes).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'lotação',
+                                content: 'Lotação id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Lotacao) => [
                             new UpdateData<Lotacao>({id: response.id, schema: lotacaoSchema, changes: {principal: response.principal}}),
-                            new LotacaoListActions.SaveLotacaoSuccess(),  new OperacoesActions.Resultado({
-                                type: 'lotacao',
-                                content: `Lotação id ${response.id} editada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new LotacaoListActions.SaveLotacaoSuccess(),
+                            new AddData<Lotacao>({data: [response], schema: lotacaoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'lotacao',
+                                content: 'Erro ao salvar a lotação!',
+                                status: 2, // erro
+                            }));
                             return of(new LotacaoListActions.SaveLotacaoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 }

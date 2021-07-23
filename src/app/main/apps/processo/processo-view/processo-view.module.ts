@@ -17,7 +17,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
+import {DndModule} from 'ngx-drag-drop';
 import {ProcessoViewComponent} from './processo-view.component';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
@@ -98,6 +98,7 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
         MatFormFieldModule,
         MatDialogModule,
+        DndModule,
 
         InfiniteScrollModule,
 

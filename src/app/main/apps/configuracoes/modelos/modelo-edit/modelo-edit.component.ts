@@ -8,6 +8,7 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'modelo-edit',
@@ -94,7 +95,11 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
 
         modelo.usuario = this.usuario;
 
-        this._store.dispatch(new fromStore.SaveModelo(modelo));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveModelo({
+            modelo: modelo,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

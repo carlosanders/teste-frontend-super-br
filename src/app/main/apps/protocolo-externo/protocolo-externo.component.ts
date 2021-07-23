@@ -161,6 +161,8 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
+                this.currentPessoaConveniadaId = parseInt(routerState.state.params['targetHandle'], 0);
             }
         });
 
@@ -168,18 +170,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             takeUntil(this._unsubscribeAll)
         ).subscribe((loading) => {
             this.loading = loading;
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentPessoaConveniadaId = parseInt(routerState.state.params['targetHandle'], 0);
         });
 
         this.processos$.pipe(

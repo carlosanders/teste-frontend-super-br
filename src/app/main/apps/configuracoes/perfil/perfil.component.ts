@@ -23,6 +23,7 @@ import {Back} from "../../../../store";
 import {filter} from "rxjs/operators";
 import {ComponenteDigitalService} from "../../../../../@cdk/services/componente-digital.service";
 import {ImageCropperComponent} from "ngx-image-cropper";
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'perfil',
@@ -119,7 +120,12 @@ export class PerfilComponent implements OnInit, OnDestroy {
         usuario.id = this.usuario.id;
         values['imgPerfil'] = this.usuario?.imgPerfil?.id;
         values['imgChancela'] = this.usuario?.imgChancela?.id;
-        this._store.dispatch(new fromStore.SaveProfile({usuario: usuario, changes: values}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveProfile({
+            usuario: usuario,
+            changes: values,
+            operacaoId: operacaoId,
+        }));
     }
 
     doAbort(): void {
@@ -195,7 +201,11 @@ export class PerfilComponent implements OnInit, OnDestroy {
         componenteDigital.fileName = 'imagem_chancela.jpeg';
         componenteDigital.tamanho = event.base64.length;
 
-        this._store.dispatch(new UploadImagemChancela(componenteDigital));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.UploadImagemChancela({
+            componenteDigital: componenteDigital,
+            operacaoId: operacaoId
+        }));
     }
 
     cropImgPerfil(): void

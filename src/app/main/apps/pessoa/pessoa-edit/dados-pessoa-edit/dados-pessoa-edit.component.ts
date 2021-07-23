@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {takeUntil} from 'rxjs/operators';
 import {Back, getRouterState} from '../../../../../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'dados-pessoa-edit',
@@ -106,7 +107,12 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SavePessoa({pessoa: pessoa, select: values.select}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SavePessoa({
+            pessoa: pessoa,
+            select: values.select,
+            operacaoId: operacaoId
+        }));
 
     }
 

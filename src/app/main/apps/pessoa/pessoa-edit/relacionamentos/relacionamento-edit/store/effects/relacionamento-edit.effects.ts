@@ -80,23 +80,41 @@ export class RelacionamentoEditEffect {
         this._actions
             .pipe(
                 ofType<RelacionamentoEditActions.SaveRelacionamento>(RelacionamentoEditActions.SAVE_RELACIONAMENTO),
-                switchMap(action => this._relacionamentoPessoalService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'relacionamento',
+                    content: 'Salvando o relacionamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._relacionamentoPessoalService.save(action.payload.relacionamento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relacionamento',
+                                content: 'Relacionamento id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: RelacionamentoPessoal) => [
                             new RelacionamentoEditActions.SaveRelacionamentoSuccess(),
                             new RelacionamentoListActions.ReloadRelacionamentos(),
-                            new AddData<RelacionamentoPessoal>({data: [response], schema: relacionamentoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'relacionamento',
-                                content: `Relacionamento id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<RelacionamentoPessoal>({data: [response], schema: relacionamentoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relacionamento',
+                                content: 'Erro ao salvar o relacionamento!',
+                                status: 2, // erro
+                            }));
                             return of(new RelacionamentoEditActions.SaveRelacionamentoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
     /**
      * Save Relacionamento Success
      */

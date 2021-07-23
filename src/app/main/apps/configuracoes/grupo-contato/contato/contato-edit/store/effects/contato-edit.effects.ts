@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ContatoEditActions from '../actions/contato-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ContatoEditEffect {
@@ -73,21 +74,45 @@ export class ContatoEditEffect {
      *
      * @type {Observable<any>}
      */
-    saveContato: any = createEffect(() => this._actions
+    @Effect()
+    saveContato: any =
+        this._actions
             .pipe(
                 ofType<ContatoEditActions.SaveContato>(ContatoEditActions.SAVE_CONTATO),
-                switchMap(action => this._contatoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'contato',
+                    content: 'Salvando o contato ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._contatoService.save(action.payload.contato).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'contato',
+                                content: 'Contato id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Contato) => [
                             new ContatoEditActions.SaveContatoSuccess(),
                             new ContatoListActions.ReloadContato(),
                             new AddData<Contato>({data: [response], schema: contatoSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    this._store.dispatch(new ContatoEditActions.SaveContatoFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'contato',
+                                content: 'Erro ao salvar o contato!',
+                                status: 2, // erro
+                            }));
+                            return of(new ContatoEditActions.SaveContatoFailed(err));
+                        })
+                    )
                 })
-            ));
+            );
 
     /**
      * Save Contato Success

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store';
 import * as ClassificacaoTreeListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
@@ -11,7 +11,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Classificacao} from '@cdk/models';
 import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 import * as ClassificacaoListActions from '../../../classificacao-list/store/actions/classificacao-list.actions';
-
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ClassificacaoTreeListEffects {
@@ -82,19 +82,38 @@ export class ClassificacaoTreeListEffects {
         this._actions
             .pipe(
                 ofType<ClassificacaoTreeListActions.SaveClassificacao>(ClassificacaoTreeListActions.SAVE_CLASSIFICACAO),
-                switchMap(action => this._classificacaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'classificacao',
+                    content: 'Salvando a classificacao ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._classificacaoService.save(action.payload.classificacao).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'classificacao',
+                                content: 'Classificacao id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Classificacao) => [
+                            new ClassificacaoTreeListActions.SaveClassificacaoSuccess(response),
                             new ClassificacaoListActions.ReloadClassificacao(),
-                            new AddData<Classificacao>({data: [response], schema: classificacaoSchema}),
-                            new ClassificacaoTreeListActions.SaveClassificacaoSuccess(response)
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ClassificacaoTreeListActions.SaveClassificacaoFailed(err));
-                    return caught;
+                            new AddData<Classificacao>({data: [response], schema: classificacaoSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'classificacao',
+                                content: 'Erro ao salvar a classificacao!',
+                                status: 2, // erro
+                            }));
+                            return of(new ClassificacaoTreeListActions.SaveClassificacaoFailed(err));
+                        })
+                    )
                 })
             );
-
-
 }

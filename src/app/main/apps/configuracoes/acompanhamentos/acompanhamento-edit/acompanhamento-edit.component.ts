@@ -10,6 +10,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'acompanhamento-edit',
@@ -96,7 +97,11 @@ export class AcompanhamentoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveAcompanhamento(acompanhamento));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAcompanhamento({
+            acompanhamento: acompanhamento,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

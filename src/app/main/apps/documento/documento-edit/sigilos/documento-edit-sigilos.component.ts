@@ -216,9 +216,11 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         );
 
         sigilo.documento = this.documento;
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveSigiloDocumento({
             documentoId: this.documento.id,
-            sigilo: sigilo
+            sigilo: sigilo,
+            operacaoId: operacaoId
         }));
     }
 

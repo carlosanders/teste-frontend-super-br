@@ -249,6 +249,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
+                this.targetHandle = routerState.state.params['targetHandle'];
+            }
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
         });
 
@@ -301,19 +308,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }, 30000);
             } else {
                 clearInterval(this.assinaturaInterval);
-            }
-        });
-
-        this.routerState$.pipe(
-            distinctUntilChanged(),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
-            this.targetHandle = routerState.state.params['targetHandle'];
-
-            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
-            if (this.snackSubscription) {
-                this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
         });
 

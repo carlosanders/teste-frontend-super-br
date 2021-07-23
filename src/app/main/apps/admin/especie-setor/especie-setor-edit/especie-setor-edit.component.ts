@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'especie-setor-edit',
@@ -76,7 +77,12 @@ export class EspecieSetorEditComponent implements OnInit {
                 especieSetor[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveEspecieSetor(especieSetor));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEspecieSetor({
+            especieSetor: especieSetor,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

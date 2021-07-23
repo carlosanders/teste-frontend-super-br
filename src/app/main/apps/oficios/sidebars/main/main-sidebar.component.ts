@@ -43,6 +43,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
      *
      * @param _store
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoAppState>,

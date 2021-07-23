@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as NumeroUnicoDocumentoEditActions from '../actions/numero-unico-documento-edit.actions';
@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class NumeroUnicoDocumentoEditEffect {
@@ -84,17 +85,38 @@ export class NumeroUnicoDocumentoEditEffect {
         this._actions
             .pipe(
                 ofType<NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumento>(NumeroUnicoDocumentoEditActions.SAVE_NUMERO_UNICO_DOCUMENTO),
-                switchMap(action => this._numeroUnicoDocumentoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'número único do documento',
+                    content: 'Salvando o número único do documento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._numeroUnicoDocumentoService.save(action.payload.numeroUnicoDocumento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'número único do documento',
+                                content: 'Número único do documento id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: NumeroUnicoDocumento) => [
                             new NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumentoSuccess(),
                             new NumeroUnicoDocumentoListActions.ReloadNumerosUnicosDocumentos(),
                             new AddData<NumeroUnicoDocumento>({data: [response], schema: numeroUnicoDocumentoSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumentoFailed(err));
-                    return caught;
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'número único do documento',
+                                content: 'Erro ao salvar o número único do documento!',
+                                status: 2, // erro
+                            }));
+                            return of(new NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumentoFailed(err));
+                        })
+                    )
                 })
             );
 

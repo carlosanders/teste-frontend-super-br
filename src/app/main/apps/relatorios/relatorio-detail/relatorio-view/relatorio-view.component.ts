@@ -23,7 +23,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'relatorio-view',
@@ -34,30 +34,31 @@ import {getRouterState} from '../../../../../store/reducers';
 })
 export class RelatorioViewComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-    binary$: Observable<any>;
-
-    relatorios$: Observable<Relatorio[]>;
-    relatorios: Relatorio[] = [];
+    @Output()
+    select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
+
+    binary$: Observable<any>;
+
+    relatorio$: Observable<Relatorio>;
+    relatorio: Relatorio;
 
     fileName = '';
 
     src: any;
     loading = false;
 
-    pagination$: any;
-    pagination: any;
-
     routerState: any;
     routerState$: Observable<any>;
 
     chaveAcesso: string;
 
-    @Output()
-    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+    zoom: number = 0;
+    expandirTela: boolean = false;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -76,14 +77,13 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
     ) {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
 
-        this.relatorios$ = this._store.pipe(select(fromStore.getRelatorios));
-        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.relatorio$ = this._store.pipe(select(fromStore.getRelatorio));
         this.routerState$ = this._store.pipe(select(getRouterState));
-        this.relatorios$.pipe(filter(relatorios => !!relatorios)).subscribe(
-            (relatorios) => {
-                this.relatorios = relatorios;
-            }
-        );
+        this.relatorio$.pipe(
+            filter(relatorio => !!relatorio)
+        ).subscribe((relatorio) => {
+            this.relatorio = relatorio;
+        });
 
         this.binary$.subscribe(
             (binary) => {
@@ -100,7 +100,7 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     } else {
                         const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                            const downloadLink = document.createElement('a');
+                        const downloadLink = document.createElement('a');
                         const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                         downloadLink.target = '_blank';
                         downloadLink.href = sanitizedUrl;
@@ -114,18 +114,16 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
                         }, 100);
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                     }
+
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
                 } else {
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    this.fileName = '';
+                    this.src = false;
                 }
                 this.loading = binary.loading;
                 this._changeDetectorRef.markForCheck();
             }
-        );
-
-        this.pagination$.subscribe(
-            pagination => this.pagination = pagination
         );
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
@@ -149,11 +147,39 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.UnloadRelatorios({reset: true}));
+        this._store.dispatch(new fromStore.UnloadRelatorio({reset: true}));
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    zoomIn() {
+        if (this.zoom < 10) {
+            this.zoom++;
+        }
+    }
+
+    zoomOut() {
+        if (this.zoom > 0) {
+            this.zoom--;
+        }
+    }
+
+    getZoomClass(filename) {
+        return this.isHtml(filename) ? `zoom-${this.zoom}x` : '';
+    }
+
+    getLayoutClass(filename) {
+        if (!this.isHtml(filename)) {
+            return;
+        }
+
+        return this.expandirTela ? 'expanded-panel' : 'compact-panel';
+    }
+
+    isHtml(filename) {
+        const name = filename.split('.');
+        return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
+    }
 }

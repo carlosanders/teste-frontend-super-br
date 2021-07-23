@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ModeloEditActions from '../actions/modelo-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ModeloEditEffect {
@@ -79,18 +80,37 @@ export class ModeloEditEffect {
         this._actions
             .pipe(
                 ofType<ModeloEditActions.SaveModelo>(ModeloEditActions.SAVE_MODELO),
-                switchMap(action => this._modeloService.save(action.payload).pipe(
-                        mergeMap((response: Modelo) => [
-                            new ModeloEditActions.SaveModeloSuccess(),
-                            new ModeloListActions.ReloadModelos(),
-                            new AddData<Modelo>({data: [response], schema: modeloSchema})
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ModeloEditActions.SaveModeloFailed(err));
-                    return caught;
-                })
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'modelo',
+                    content: 'Salvando o modelo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => this._modeloService.save(action.payload.modelo).pipe(
+                    tap((response) =>
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'modelo',
+                            content: 'Modelo id ' + response.id + ' salvo com sucesso.',
+                            status: 1, // sucesso
+                        }))
+                    ),
+                    mergeMap((response: Modelo) => [
+                        new ModeloEditActions.SaveModeloSuccess(),
+                        new ModeloListActions.ReloadModelos(),
+                        new AddData<Modelo>({data: [response], schema: modeloSchema})
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'modelo',
+                            content: 'Erro ao salvar o modelo!',
+                            status: 2, // erro
+                        }));
+                        return of(new ModeloEditActions.SaveModeloFailed(err));
+                    })
+                ))
             );
 
     /**

@@ -429,3 +429,16 @@
 * Melhoria criada ação para limpar a mensagem mais recente do Mercure
 * Melhoria alerta informativo ao usuário quando processo recebeu nova(s) juntada(s)
 * Melhoria botão de reload de juntadas na listagem do processo-view
+* Melhoria vinculação de juntadas ao arrastar uma juntada para outra juntada na visão de processo
+* Correção de mensagens desaparecidas nos dialogs de confirmação
+* Corrigido erro em notificações sem contexto preenchido
+* Corrigida não exibição de mensagem ao abrir relatório com erro de geração
+* Corrigidas consultas de relatórios de query para get em visualização e detalhe de relatório
+* Renomeadas ações com nomes em duplicidade
+* Corrigidos comportamentos indevidos nos campos do formulário de criação de relatórios ao alterar tipo/espécie de relatório
+* Adicionado zoom aos relatórios html
+* Corrigindo problemas no css de relatórios
+* Correção em mensagem no dialog de informação de nova versão
+* Correção de bug quando realizado logout estando dentro de alguma tela de detalhamento (tarefa, processo, relatório, ofício etc)
+* Correção de erro no console ao deslogar de dentro de listagens (tarefa, arquivo, relatórios, ofícios, protocolo-externo etc)
+* Correção padronização nas entidades no normalizr

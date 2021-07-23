@@ -9,7 +9,7 @@
         <input matInput #nome
                name="nome"
                formControlName="nome"
-               maxlength="255" minlength="3" upperCase>
+               maxlength="255" upperCase required>
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
         <mat-error *ngIf="form.get('nome').hasError('formError')">
             {{form.get('nome').errors.formError}}
@@ -24,7 +24,7 @@
                   #autosize="cdkTextareaAutosize"
                   cdkAutosizeMinRows="4"
                   cdkAutosizeMaxRows="10"
-                  maxlength="255" minlength="3" upperCase></textarea>
+                  maxlength="255" upperCase required></textarea>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         <mat-error *ngIf="form.get('descricao').hasError('formError')">
             {{form.get('descricao').errors.formError}}
@@ -34,7 +34,7 @@
     <mat-form-field>
         <input matInput placeholder="Gênero Atividade"
                formControlName="generoAtividade"
-               [matAutocomplete]="generoAtividade.autocomplete">
+               [matAutocomplete]="generoAtividade.autocomplete" required>
         <cdk-genero-atividade-autocomplete
             #generoAtividade="generoAtividadeAutocomplete"
             [control]="form.get('generoAtividade')">
@@ -52,10 +52,8 @@
         Ativo
     </mat-checkbox>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

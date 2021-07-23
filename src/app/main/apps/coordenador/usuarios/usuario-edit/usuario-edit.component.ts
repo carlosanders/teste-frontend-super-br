@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
@@ -13,6 +13,9 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
+
+import {MatStepper} from '@angular/material/stepper';
 
 @Component({
     selector: 'usuario-edit',
@@ -23,6 +26,8 @@ import {Back} from 'app/store/actions';
     animations: cdkAnimations
 })
 export class UsuarioEditComponent implements OnInit, OnDestroy {
+
+    @ViewChild('stepper') stepper: MatStepper;
 
     routerState: any;
     isSaving$: Observable<boolean>;
@@ -51,6 +56,14 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
+        this._store
+        .pipe(select(fromStore.getNextColaborador))
+        .subscribe((nextColaborador) => {
+            if (nextColaborador) {
+                this.stepper.next();
+                this._store.dispatch(new fromStore.NextStepColaboradorSuccess({}));
+            }
+        });
 
         this._store
             .pipe(select(getRouterState))
@@ -129,7 +142,11 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveUsuario(usuario));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveUsuario({
+            usuario: usuario,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbortUsuario(): void {
@@ -144,7 +161,11 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveColaborador(colaborador));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveColaborador({
+            colaborador: colaborador,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbortColaborador(): void {

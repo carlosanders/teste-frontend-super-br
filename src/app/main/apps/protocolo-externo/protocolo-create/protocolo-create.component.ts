@@ -29,6 +29,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../modules/dynamic.service';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'protocolo-create',
@@ -273,7 +274,11 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         processo.procedencia = this.pessoaProcedencia;
         processo.titulo = values.setorAtual.especieSetor.nome;
 
-        this._store.dispatch(new fromStore.SaveProcesso(processo));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveProcesso({
+            processo: processo,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {
@@ -318,9 +323,11 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    processoId: this.processo.id
+                    processoId: this.processo.id,
+                    operacaoId: operacaoId
                 }));
             });
         }

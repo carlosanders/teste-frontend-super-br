@@ -68,7 +68,7 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             username: [null, [Validators.required, Validators.maxLength(11), Validators.minLength(11)]],
-            nome: [null, [Validators.required, Validators.maxLength(255), Validators.minLength(5)]],
+            nome: [null, [Validators.required, Validators.maxLength(255), Validators.minLength(3)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2), Validators.max(4)]],
             enabled: [true],

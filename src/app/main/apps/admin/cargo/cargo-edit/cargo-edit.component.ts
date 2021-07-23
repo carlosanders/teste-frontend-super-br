@@ -8,6 +8,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'cargo-edit',
@@ -26,7 +27,6 @@ export class CargoEditComponent implements OnInit {
     cargo$: Observable<Cargo>;
     formCargo: FormGroup;
     estadoPagination: Pagination;
-
 
     constructor(
         private _store: Store<fromStore.CargoEditAppState>,
@@ -74,7 +74,12 @@ export class CargoEditComponent implements OnInit {
                 cargo[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveCargo(cargo));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveCargo({
+            cargo: cargo,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

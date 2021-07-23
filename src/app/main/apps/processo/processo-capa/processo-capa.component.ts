@@ -18,6 +18,7 @@ import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {Router} from '@angular/router';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'processo-capa',
@@ -105,14 +106,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
-
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.processo$.pipe(
@@ -236,7 +231,11 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
     acompanharProcesso(checked, processo): void {
         if (checked) {
-            this._store.dispatch(new fromStore.SaveAcompanhamento(processo));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcompanhamento({
+                processo: processo,
+                operacaoId: operacaoId
+            }));
         } else {
             const payload = {
                 'acompanhamentoId': processo.compartilhamentoUsuario.id,

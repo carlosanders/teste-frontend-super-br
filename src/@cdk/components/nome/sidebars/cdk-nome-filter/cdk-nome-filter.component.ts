@@ -94,7 +94,7 @@ export class CdkNomeFilterComponent {
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-nome-filter').close();
     }
-    
+
     filtraCriadoEm(value: any): void {
         this.filterCriadoEm = value;
         this.limparFormFiltroDatas$.next(false);

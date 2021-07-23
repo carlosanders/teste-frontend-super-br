@@ -33,6 +33,11 @@ const routes: Routes = [
         path: ':juntadaHandle',
         component: VinculacaoDocumentoComponent,
         canActivate: [fromGuards.ResolveGuard]
+    },
+    {
+        path: ':juntadaHandle/:juntadaVinculadaHandle',
+        component: VinculacaoDocumentoComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
