@@ -20,6 +20,9 @@ export class Chat {
 
     grupo?: boolean;
 
+    @Exclude({ toPlainOnly: true })
+    chatParticipante?: ChatParticipante;
+
     @Type(() => ComponenteDigital)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     capa: ComponenteDigital;
@@ -66,6 +69,7 @@ export class Chat {
     constructor() {
         this.id = null;
         this.uuid = null;
+        this.chatParticipante = null;
         this.nome = null;
         this.descricao = null;
         this.ativo = null;

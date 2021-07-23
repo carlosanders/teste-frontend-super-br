@@ -14,6 +14,7 @@ export interface ChatMensagemState {
     loading: boolean;
     saving: boolean;
     saved: boolean;
+    errors: any;
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
@@ -34,6 +35,7 @@ export const ChatMensagemInitialState: ChatMensagemState = {
     loaded: false,
     saving: false,
     saved: false,
+    errors: null,
     deletedIds: [],
     deletingIds: []
 };
@@ -56,7 +58,8 @@ export function ChatMensagemReducer(
                     populate: action.payload.populate,
                     sort: action.payload.sort,
                     total: state.pagination.total
-                }
+                },
+                errors: null,
             };
         }
 
@@ -93,7 +96,8 @@ export function ChatMensagemReducer(
                     populate: action.payload.populate,
                     sort: action.payload.sort,
                     total: state.pagination.total
-                }
+                },
+                errors: null,
             };
         }
 
@@ -123,7 +127,8 @@ export function ChatMensagemReducer(
             return {
                 ...state,
                 saving: true,
-                saved: false
+                saved: false,
+                errors: null
             };
         }
 
@@ -157,8 +162,16 @@ export function ChatMensagemReducer(
         }
 
         case ChatMensagemActions.UNLOAD_CHAT_MENSAGENS: {
-            state = ChatMensagemInitialState;
-            return state;
+            return {
+                ...ChatMensagemInitialState
+            }
+        }
+
+        case ChatMensagemActions.CHAT_MENSAGENS_LIMPAR_ERROS: {
+            return {
+                ...state,
+                errors: null
+            };
         }
 
         default:
