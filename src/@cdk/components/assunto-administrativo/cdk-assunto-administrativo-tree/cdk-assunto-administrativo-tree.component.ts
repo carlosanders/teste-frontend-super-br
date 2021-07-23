@@ -135,11 +135,11 @@ export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
     loadForms(): void {
         this.formAssuntoAdministrativo = this._formBuilder.group({
             id: [null],
-            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
             parent: [null],
-            dispositivoLegal: [null, [Validators.required]],
-            codigoCNJ: [null, [Validators.required]],
-            glossario: [null, [Validators.required]],
+            dispositivoLegal: [null, [Validators.maxLength(255)]],
+            codigoCNJ: [null, [Validators.minLength(3), Validators.maxLength(25)]],
+            glossario: [null, [Validators.maxLength(255)]],
             ativo: [null],
         });
         this.formPesquisa = this._formBuilder.group({
