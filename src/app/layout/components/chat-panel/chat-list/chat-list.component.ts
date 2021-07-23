@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import {Chat} from "@cdk/models";
 import {LoginService} from "../../../../main/auth/login/login.service";
-import {ChatUtils} from "../utils/chat.utils";
 
 @Component({
     selector: 'chat-list',
@@ -32,12 +31,8 @@ export class ChatListComponent implements OnInit
 
     /**
      * @param _loginService
-     * @param chatUtils
      */
-    constructor(
-        private _loginService: LoginService,
-        public chatUtils: ChatUtils
-    )
+    constructor(private _loginService: LoginService)
     {
     }
 

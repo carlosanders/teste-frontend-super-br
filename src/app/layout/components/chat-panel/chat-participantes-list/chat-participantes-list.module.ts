@@ -9,14 +9,20 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 
 import {ChatStoreModule} from "../store/store.module";
 import {CdkSharedModule} from "@cdk/shared.module";
-import {ChatMensagemListComponent} from "./chat-mensagem-list.component";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {ChatParticipantesListComponent} from "./chat-participantes-list.component";
 import {PipesModule} from "@cdk/pipes/pipes.module";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatMenuModule} from "@angular/material/menu";
 import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
+import {ChatMensagemHeaderModule} from "../chat-mensagem-header/chat-mensagem-header.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {CdkUsuarioAutocompleteModule} from "@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module";
+import {MatAutocompleteModule} from "@cdk/angular/material";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
     declarations: [
-        ChatMensagemListComponent
+        ChatParticipantesListComponent
     ],
     imports: [
         MatButtonModule,
@@ -24,20 +30,26 @@ import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
         MatIconModule,
         MatInputModule,
         MatTabsModule,
+        MatToolbarModule,
+        MatMenuModule,
         MatTooltipModule,
         MatRippleModule,
-        MatProgressSpinnerModule,
         ChatStoreModule,
         CdkSharedModule,
         PipesModule,
-        ChatImagemModule
+        ChatImagemModule,
+        ChatMensagemHeaderModule,
+        MatProgressSpinnerModule,
+        MatAutocompleteModule,
+        InfiniteScrollModule,
+        CdkUsuarioAutocompleteModule
     ],
     providers: [
     ],
     exports: [
-        ChatMensagemListComponent
+        ChatParticipantesListComponent
     ]
 })
-export class ChatMensagemListModule
+export class ChatParticipantesListModule
 {
 }

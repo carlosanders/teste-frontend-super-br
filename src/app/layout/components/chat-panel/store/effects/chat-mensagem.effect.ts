@@ -95,6 +95,10 @@ export class ChatMensagemEffects {
                 concatMap((action) => {
                     return this._chatMensagemService.save(action.payload).pipe(
                         mergeMap((response: ChatMensagem) => [
+                            new AddData<ChatMensagem>({
+                                data: [action.payload],
+                                schema: chatMensagemSchema
+                            }),
                             new ChatMensagemActions.EnviarMensagemSuccess(response),
                         ])
                     );

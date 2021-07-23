@@ -30,7 +30,7 @@
                             border-color: map-get($foreground, divider);
                         }
 
-                        .sidenav-header {
+                        .chat-header {
 
                             mat-toolbar {
                                 border-bottom-color: map-get($foreground, divider);
@@ -50,7 +50,7 @@
                             }
                         }
 
-                        .sidenav-content {
+                        .chat-content {
 
                             .contact-list,
                             .chat-list {

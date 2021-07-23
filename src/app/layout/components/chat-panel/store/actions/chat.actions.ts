@@ -8,12 +8,15 @@ export const CHAT_SAVE = '[CHAT PANEL] CHAT SAVE';
 export const CHAT_SAVE_SUCCESS = '[CHAT PANEL] CHAT SAVE SUCCESS';
 export const CHAT_SAVE_FAILED = '[CHAT PANEL] CHAT SAVE FAILED';
 export const CHAT_UPDATED_BROADCAST = '[CHAT PANEL] CHAT UPDATED BROADCAST';
-export const ADD_PARTICIPANT = '[CHAT PANEL] ADD PARTICIPANT';
-export const ADD_PARTICIPANT_SUCCESS = '[CHAT PANEL] ADD PARTICIPANT SUCCESS';
-export const ADD_PARTICIPANT_FAILED = '[CHAT PANEL] ADD PARTICIPANT FAILED';
+
 export const GET_CHAT = '[CHAT PANEL] GET CHAT';
 export const GET_CHAT_SUCCESS = '[CHAT PANEL] GET CHAT SUCCESS';
 export const GET_CHAT_FAILED = '[CHAT PANEL] GET CHAT FAILED';
+
+export const CHAT_EXCLUIR = '[CHAT PANEL] CHAT EXCLUIR';
+export const CHAT_EXCLUIR_SUCCESS = '[CHAT PANEL] CHAT EXCLUIR SUCCESS';
+export const CHAT_EXCLUIR_FAILED = '[CHAT PANEL] CHAT EXCLUIR FAILED';
+
 export const CRIAR_OU_RETORNAR = '[CHAT PANEL] CRIAR OU RETORNAR';
 export const CRIAR_OU_RETORNAR_SUCCESS = '[CHAT PANEL] CRIAR OU RETORNAR SUCCESS';
 export const CRIAR_OU_RETORNAR_FAILED = '[CHAT PANEL] CRIAR OU RETORNAR FAILED';
@@ -21,6 +24,13 @@ export const GET_CHAT_INCREMENT = '[CHAT PANEL] GET CHAT INCREMENT';
 export const GET_CHAT_INCREMENT_SUCCESS = '[CHAT PANEL] GET CHAT INCREMENT SUCCESS';
 export const GET_CHAT_INCREMENT_FAILED = '[CHAT PANEL] GET CHAT INCREMENT FAILED';
 export const RELOAD_CHAT = '[CHAT PANEL] RELOAD CHAT';
+
+export const UPLOAD_IMAGEM_CAPA = '[CHAT PANEL] UPLOAD IMAGEM CAPA';
+export const UPLOAD_IMAGEM_CAPA_SUCCESS = '[CHAT PANEL] UPLOAD IMAGEM CAPA SUCCESS';
+export const UPLOAD_IMAGEM_CAPA_FAILED = '[CHAT PANEL] UPLOAD IMAGEM CAPA FAILED';
+
+export const SET_CHAT_ACTIVE_CARD = '[CHAT PANEL] SET CHAT ACTIVE CARD';
+export const UNLOAD_CHAT = '[CHAT PANEL] UNLOAD CHAT';
 
 export class OpenChat implements Action
 {
@@ -67,27 +77,6 @@ export class ChatSaveSuccess implements Action
 export class ChatSaveFailed implements Action
 {
     readonly type = CHAT_SAVE_FAILED;
-
-    constructor(public payload: any) { }
-}
-
-export class AddParticipant implements Action
-{
-    readonly type = ADD_PARTICIPANT;
-
-    constructor(public payload: any) { }
-}
-
-export class AddParticipantSuccess implements Action
-{
-    readonly type = ADD_PARTICIPANT_SUCCESS;
-
-    constructor(public payload: any) { }
-}
-
-export class AddParticipantFailed implements Action
-{
-    readonly type = ADD_PARTICIPANT_FAILED;
 
     constructor(public payload: any) { }
 }
@@ -167,6 +156,62 @@ export class ReloadChat implements Action
     readonly type = RELOAD_CHAT;
 }
 
+export class UploadImagemCapa implements Action
+{
+    readonly type = UPLOAD_IMAGEM_CAPA;
+
+    constructor(public payload: any) { }
+}
+
+export class UploadImagemCapaSuccess implements Action
+{
+    readonly type = UPLOAD_IMAGEM_CAPA_SUCCESS;
+
+    constructor(public payload: any) { }
+}
+
+export class UploadImagemCapaFailed implements Action
+{
+    readonly type = UPLOAD_IMAGEM_CAPA_FAILED;
+
+    constructor(public payload: any) { }
+}
+
+export class SetChatActiveCard implements Action
+{
+    readonly type = SET_CHAT_ACTIVE_CARD;
+
+    constructor(public payload: any) { }
+}
+
+export class UnloadChat implements Action
+{
+    readonly type = UNLOAD_CHAT;
+
+    constructor(public payload: any) { }
+}
+
+export class ChatExcluir implements Action
+{
+    readonly type = CHAT_EXCLUIR;
+
+    constructor(public payload: any) { }
+}
+
+export class ChatExcluirSuccess implements Action
+{
+    readonly type = CHAT_EXCLUIR_SUCCESS;
+
+    constructor(public payload: any) { }
+}
+
+export class ChatExcluirFailed implements Action
+{
+    readonly type = CHAT_EXCLUIR_FAILED;
+
+    constructor(public payload: any) { }
+}
+
 export type ChatActionsAll
     = OpenChat
     | OpenChatSuccess
@@ -175,9 +220,6 @@ export type ChatActionsAll
     | ChatSave
     | ChatSaveSuccess
     | ChatSaveFailed
-    | AddParticipant
-    | AddParticipantSuccess
-    | AddParticipantFailed
     | GetChat
     | GetChatSuccess
     | GetChatFailed
@@ -189,5 +231,13 @@ export type ChatActionsAll
     | GetChatIncrementSuccess
     | GetChatIncrementFailed
     | ReloadChat
+    | UploadImagemCapa
+    | UploadImagemCapaSuccess
+    | UploadImagemCapaFailed
+    | SetChatActiveCard
+    | UnloadChat
+    | ChatExcluir
+    | ChatExcluirSuccess
+    | ChatExcluirFailed
     ;
 

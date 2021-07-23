@@ -1,7 +1,6 @@
 import {Component, Input, ViewEncapsulation} from '@angular/core';
-import {Chat} from "@cdk/models";
+import {ComponenteDigital} from "@cdk/models";
 import {LoginService} from "../../../../main/auth/login/login.service";
-import {ChatUtils} from "../utils/chat.utils";
 
 @Component({
     selector: 'chat-imagem',
@@ -12,16 +11,15 @@ import {ChatUtils} from "../utils/chat.utils";
 export class ChatImagemComponent
 {
     @Input()
-    chat: Chat = null;
-    @Input()
     mensagensNaoLidas: number = 0;
+    @Input()
+    imagem: ComponenteDigital = null;
 
     /**
      * @param _loginService
-     * @param chatUtils
      */
-    constructor(private _loginService: LoginService,
-                public chatUtils: ChatUtils)
+    constructor(private _loginService: LoginService)
     {
     }
+
 }
