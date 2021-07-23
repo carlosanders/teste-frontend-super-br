@@ -19,7 +19,6 @@ import {
     Juntada,
     Pagination,
     Processo,
-    Setor,
     Tarefa,
     Volume
 } from '@cdk/models';
@@ -27,7 +26,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
+import {getDocumentosHasLoaded, getIsSavingDocumentosVinculados, getSelectedVolume, getVolumes} from '../../store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -49,6 +48,7 @@ import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from "ngx-drag-drop";
+import {CdkUploadDialogComponent} from "../../../../../../../@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -190,6 +190,17 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     draggedJuntada: number = null;
 
+    // Upload de anexo em minuta/ofício
+    isSaving$: Observable<boolean>;
+    isLoadingDocumentosVinculados$: Observable<boolean>;
+    documentosVinculados$: Observable<Documento[]>;
+    selectedDocumentosVinculados$: Observable<Documento[]>;
+    deletingDocumentosVinculadosId$: Observable<number[]>;
+    assinandoDocumentosVinculadosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
+    alterandoDocumentosVinculadosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
+
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
 
@@ -329,35 +340,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 },
             ]
         };
-        /*
-        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
-            this.modeloPagination.filter.orX = [
-                ...this.modeloPagination.filter.orX,
-                {
-                    // Modelos do setor
-                    'modalidadeModelo.valor': 'eq:LOCAL',
-                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
-                },
-                {
-                    // Modelos da unidade por especie de setor
-                    'modalidadeModelo.valor': 'eq:LOCAL',
-                    'vinculacoesModelos.unidade.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                    'vinculacoesModelos.especieSetor.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
-                },
-                {
-                    // Modelos nacionais
-                    'modalidadeModelo.valor': 'eq:NACIONAL',
-                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                    'vinculacoesModelos.especieSetor.id': 'in:'
-                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
-                }
-
-            ];
-        }
-        */
+        // Upload de anexos em minutas
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
+        this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
+        this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
+        this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
+        this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
+        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+        this.removendoAssinaturaDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosVinculadosId));
+        this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
     }
 
     /**
@@ -840,25 +832,30 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             result.documento = documento;
-            if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
-            } else {
-                result.documento.componentesDigitais.forEach((componenteDigital) => {
-                    const assinatura = new Assinatura();
-                    assinatura.componenteDigital = componenteDigital;
-                    assinatura.algoritmoHash = 'A1';
-                    assinatura.cadeiaCertificadoPEM = 'A1';
-                    assinatura.cadeiaCertificadoPkiPath = 'A1';
-                    assinatura.assinatura = 'A1';
-                    assinatura.plainPassword = result.plainPassword;
-
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                        assinatura: assinatura,
-                        documento: result.documento
-                    }));
-                });
-            }
+            this.assinaDocumento(result);
         });
+    }
+
+    assinaDocumento(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    documento: result.documento
+                }));
+            });
+        }
+
     }
 
     doAssinaturaJuntada(documento: Documento): void {
@@ -1060,5 +1057,96 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     doJuntadaOutraAba(documento: Documento): void {
         this._store.dispatch(new fromStore.VisualizarJuntada(documento.id));
+    }
+
+    uploadAnexo(documento: Documento): void {
+        this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));
+        const dialogRef = this.dialog.open(CdkUploadDialogComponent, {
+            width: '600px',
+            data: {
+                documento: documento,
+                saving$: this.isSaving$,
+                isLoading$: this.isLoadingDocumentosVinculados$,
+                documentosVinculados$: this.documentosVinculados$,
+                selectedDocumentosVinculados$: this.selectedDocumentosVinculados$,
+                deletingDocumentosVinculadosId$: this.deletingDocumentosVinculadosId$,
+                assinandoDocumentosVinculadosId$: this.assinandoDocumentosId$,
+                removendoAssinaturaDocumentosVinculadosId$: this.removendoAssinaturaDocumentosId$,
+                alterandoDocumentosId$: this.alterandoDocumentosVinculadosId$,
+                downloadP7SDocumentosId$: this.downloadP7SDocumentosId$
+            }
+        });
+        // Subscribe nos eventos do componente
+        const alteraTipoSub = dialogRef.componentInstance.alteraTipoDocumento.subscribe((values) => {
+            this._store.dispatch(new fromStore.UpdateDocumentoVinculado(values));
+        });
+        const aprovaSub = dialogRef.componentInstance.aprovarDocumento.subscribe((documento: Documento) => {
+            this._store.dispatch(new fromStore.AprovarComponenteDigital({
+                documentoOrigem: documento
+            }))
+        });
+        const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((documento: Documento) => {
+            this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));
+        });
+        const assinaSub = dialogRef.componentInstance.assina.subscribe((result) => {
+            if (result.certificadoDigital) {
+                this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            } else {
+                result.documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: result.documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+            }
+        });
+        const changeSelectedSub = dialogRef.componentInstance.changeSelected.subscribe((selectedIds) => {
+            this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
+        });
+        const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe((documento: Documento) => {
+            this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+        });
+        const deleteSub = dialogRef.componentInstance.deleteDocumento.subscribe((result) => {
+            this.doDeleteDocumentoVinculado(result.documentoId, result.loteId);
+        });
+        const downloadP7SSub = dialogRef.componentInstance.downloadP7S.subscribe((documento: Documento) => {
+            documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+                this._store.dispatch(new fromStore.DownloadVinculadoP7S(componenteDigital));
+            });
+        });
+        const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((documentoId: number) => {
+            this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        });
+        // Unsubscribe em todas as assinaturas de eventos
+        dialogRef.afterClosed().subscribe(() => {
+            alteraTipoSub.unsubscribe();
+            aprovaSub.unsubscribe();
+            atualizaSub.unsubscribe();
+            assinaSub.unsubscribe();
+            changeSelectedSub.unsubscribe();
+            completeSub.unsubscribe();
+            deleteSub.unsubscribe();
+            downloadP7SSub.unsubscribe();
+            removeAssinaturaSub.unsubscribe();
+        });
+    }
+
+    doDeleteDocumentoVinculado(documentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
 }

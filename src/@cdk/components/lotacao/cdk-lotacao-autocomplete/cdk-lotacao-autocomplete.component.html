@@ -1,5 +1,6 @@
 <mat-autocomplete (closed)="fechado()" [displayWith]="displayLotacaoFn">
-    <mat-option [ngClass]="{'multiline': true}"
+    <mat-option [ngClass]="{'multiline': true, 'indisponivel': !lotacao.colaborador.usuario.isDisponivel}"
+                [disabled]="!lotacao.colaborador.usuario.isDisponivel"
                 *ngFor="let lotacao of lotacaoList"
                 [value]="lotacao">
         <div *ngIf="lotacao.setor?.unidade">{{ lotacao.setor.unidade.nome }}</div>
