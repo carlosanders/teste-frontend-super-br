@@ -31,15 +31,14 @@
                  [infiniteScrollDistance]="2"
                  [infiniteScrollThrottle]="50"
                  (scrolled)="onScrollChatList($event)">
-                <div *cdkIfOnDom [@animateStagger]="{value:'50'}">
-                    <chat-list
-                        fxLayout="column"
-                        (chatClickHandler)="openChat($event)"
-                        [chatList]="chatList"
-                        [chatOpen]="chatOpen"
-                        [loading]="chatLoading">
-                    </chat-list>
-                </div>
+                <chat-list
+                    *cdkIfOnDom [@animateStagger]="{value:'50'}"
+                    fxLayout="column"
+                    (chatClickHandler)="openChat($event)"
+                    [chatList]="chatList"
+                    [chatOpen]="chatOpen"
+                    [loading]="chatLoading">
+                </chat-list>
             </div>
         </mat-sidenav>
         <!-- /LEFT SIDENAV-->

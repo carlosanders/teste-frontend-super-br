@@ -1,9 +1,11 @@
 chat-list {
     display: flex;
+    flex: 1 1 auto;
 
     .loading {
-        margin: 0 auto;
         padding-bottom: 10px;
+        place-content: center center;
+        display: flex;
     }
 
     .chat-list-item {

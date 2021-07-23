@@ -10,6 +10,7 @@ export interface ChatState {
         filter: any;
         gridFilter: any;
         populate: any;
+        context: any;
         sort: any;
         total: number;
     };
@@ -34,6 +35,7 @@ export const ChatInitialState: ChatState = {
         filter: {},
         gridFilter: {},
         populate: [],
+        context: {},
         sort: {},
         total: 0,
     },
@@ -84,6 +86,7 @@ export function ChatReducer(
                     gridFilter: action.payload.gridFilter,
                     populate: action.payload.populate,
                     sort: action.payload.sort,
+                    context: action.payload.context,
                     total: state.pagination.total
                 }
             };
@@ -121,6 +124,7 @@ export function ChatReducer(
                     gridFilter: action.payload.gridFilter,
                     populate: action.payload.populate,
                     sort: action.payload.sort,
+                    context: action.payload.context,
                     total: state.pagination.total
                 }
             };
