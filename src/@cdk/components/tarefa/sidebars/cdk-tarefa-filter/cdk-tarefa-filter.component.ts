@@ -197,7 +197,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         }
 
         if (this.form.get('assunto').value) {
-            andXFilter.push({'processo.assuntos.tarefa.id': `eq:${this.form.get('assunto').value.id}`});
+            andXFilter.push({'processo.assuntos.assuntoAdministrativo.id': `eq:${this.form.get('assunto').value.id}`});
         }
 
         if (this.form.get('unidadeOrigem').value) {
@@ -267,7 +267,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
                 delete andXFilter['redistribuida'];
             }
         }
-        
+
         if (this.filterDataHoraLeitura?.length) {
             this.filterDataHoraLeitura.forEach((filter) => {
                 andXFilter.push(filter);

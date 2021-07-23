@@ -141,6 +141,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 }
             );
             desentranhamento.juntada = juntada;
+            desentranhamento.juntadasBloco = this.juntadasSelecionadas;
             this._store.dispatch(new fromStore.SaveDesentranhamento({
                 desentranhamento: desentranhamento,
                 operacaoId: operacaoId,
