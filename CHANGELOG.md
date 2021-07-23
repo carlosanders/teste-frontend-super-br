@@ -442,3 +442,4 @@
 * Correção de bug quando realizado logout estando dentro de alguma tela de detalhamento (tarefa, processo, relatório, ofício etc)
 * Correção de erro no console ao deslogar de dentro de listagens (tarefa, arquivo, relatórios, ofícios, protocolo-externo etc)
 * Correção padronização nas entidades no normalizr
+* Correção filtro de tarefas por assunto
