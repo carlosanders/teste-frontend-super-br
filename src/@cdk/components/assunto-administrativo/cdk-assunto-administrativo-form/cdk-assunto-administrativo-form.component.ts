@@ -57,11 +57,11 @@ export class CdkAssuntoAdministrativoFormComponent implements OnChanges, OnDestr
     loadForm(): void {
         this.form = this._formBuilder.group({
             id: [null],
-            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
             parent: [null],
-            dispositivoLegal: [null],
-            codigoCNJ: [null],
-            glossario: [null],
+            dispositivoLegal: [null, [Validators.maxLength(255)]],
+            codigoCNJ: [null, [Validators.minLength(3), Validators.maxLength(25)]],
+            glossario: [null, [Validators.maxLength(255)]],
             ativo: [null],
         });
     }

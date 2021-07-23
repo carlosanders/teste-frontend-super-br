@@ -10,6 +10,7 @@ import * as AssuntoAdministrativoListActions
 
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
+import {UpdateData} from '@cdk/ngrx-normalizr';
 import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
 import {AssuntoAdministrativo} from '@cdk/models';
 import {Router} from '@angular/router';
@@ -104,7 +105,12 @@ export class AssuntoAdministrativoEditEffects {
                         mergeMap((response: AssuntoAdministrativo) => [
                             new AssuntoAdministrativoEditActions.SaveAssuntoAdministrativoSuccess(response),
                             new AssuntoAdministrativoListActions.ReloadAssuntoAdministrativo(),
-                            new AddData<AssuntoAdministrativo>({data: [response], schema: assuntoAdministrativoSchema})
+                            new AddData<AssuntoAdministrativo>({data: [response], schema: assuntoAdministrativoSchema}),
+                            new UpdateData<AssuntoAdministrativo>({
+                                id: response.id,
+                                schema: assuntoAdministrativoSchema,
+                                changes: {parent: response.parent}
+                            })
                         ]),
                         catchError((err) => {
                             console.log(err);
