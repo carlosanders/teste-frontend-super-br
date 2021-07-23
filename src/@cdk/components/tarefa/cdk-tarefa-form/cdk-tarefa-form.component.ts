@@ -239,6 +239,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ];
         this.grupoContatoPagination.filter = {'usuario.id': 'eq:' + this._loginService.getUserProfile().id};
         this.lotacaoPagination = new Pagination;
+        this.lotacaoPagination.context = {
+            'semAfastamento': true
+        };
         this.lotacaoPagination.populate = [
             'setor',
             'setor.unidade',

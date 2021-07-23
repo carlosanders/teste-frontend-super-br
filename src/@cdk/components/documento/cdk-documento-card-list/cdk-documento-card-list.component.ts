@@ -107,6 +107,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     @Input()
     lixeiraMinutas = false;
 
+    @Input()
+    saving = false;
+
+    @Input()
+    loading = false;
+
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
 

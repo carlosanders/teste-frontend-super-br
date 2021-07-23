@@ -10,6 +10,7 @@ export class Pagination {
     populate: any;
     sort: any;
     total: number;
+    context: any;
 
     constructor() {
         this.limit = 10;
@@ -22,5 +23,6 @@ export class Pagination {
         this.folderFilter = {};
         this.populate = [];
         this.sort = {};
+        this.context = {};
     }
 }
