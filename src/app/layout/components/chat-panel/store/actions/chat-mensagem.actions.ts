@@ -13,8 +13,9 @@ export const GET_MENSAGENS_INCREMENT = '[CHAT PANEL MENSAGEM] GET MENSAGENS INCR
 export const GET_MENSAGENS_INCREMENT_SUCCESS = '[CHAT PANEL MENSAGEM] GET MENSAGENS INCREMENT SUCCESS';
 export const GET_MENSAGENS_INCREMENT_FAILED = '[CHAT PANEL MENSAGEM] GET MENSAGENS INCREMENT FAILED';
 export const MENSAGEM_RECEBIDA = '[CHAT PANEL MENSAGEM] MENSAGEM RECEBIDA';
-export const VERIFICA_MEMORIA_REDUX = '[CHAT PANEL MENSAGEM] VERIFICA MEMORIA REDUX';
 export const UNLOAD_CHAT_MENSAGENS = '[CHAT PANEL MENSAGEM] UNLOAD CHAT MENSAGEMS';
+
+export const CHAT_MENSAGENS_LIMPAR_ERROS = '[CHAT PANEL MENSAGEM] LIMPAR ERROS';
 
 export class EnviarMensagem implements Action
 {
@@ -107,16 +108,16 @@ export class MensagemRecebida implements Action
     constructor(public payload: any) { }
 }
 
-export class VerificaMemoriaRedux implements Action
-{
-    readonly type = VERIFICA_MEMORIA_REDUX;
-
-    constructor(public payload: any) { }
-}
-
 export class UnloadChatMensagens implements Action
 {
     readonly type = UNLOAD_CHAT_MENSAGENS;
+
+    constructor() { }
+}
+
+export class ChatMensagensLimparErros implements Action
+{
+    readonly type = CHAT_MENSAGENS_LIMPAR_ERROS;
 
     constructor() { }
 }
@@ -135,7 +136,7 @@ export type ChatMensagemActionsAll
     | GetMensagensIncrementSuccess
     | GetMensagensIncrementFailed
     | MensagemRecebida
-    | VerificaMemoriaRedux
     | UnloadChatMensagens
+    | ChatMensagensLimparErros
     ;
 
