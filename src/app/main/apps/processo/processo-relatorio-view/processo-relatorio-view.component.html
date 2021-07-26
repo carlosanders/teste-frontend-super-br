@@ -1,0 +1,20 @@
+<!-- CONTENT HEADER -->
+<div class="header">
+    <div class="actions">
+        <button mat-icon-button
+                (click)="back()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+</div>
+<!-- / CONTENT HEADER -->
+
+<!-- CONTENT -->
+<div class="content" cdkPerfectScrollbar>
+    <div class="processo-relatorio-view-content">
+        <iframe id="iframe-processo-relatorio" [src]="src"></iframe>
+    </div>
+</div>
+<!-- / CONTENT -->
