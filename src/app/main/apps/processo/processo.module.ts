@@ -63,6 +63,11 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path: 'relatorio',
+                loadChildren: () => import('./processo-relatorio-view/processo-relatorio-view.module').then(m => m.ProcessoRelatorioViewModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path: 'envia-email',
                 loadChildren: () => import('./processo-envia-email/processo-envia-email.module').then(m => m.ProcessoEnviaEmailModule),
             }

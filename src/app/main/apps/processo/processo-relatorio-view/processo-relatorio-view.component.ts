@@ -10,14 +10,14 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {Back} from "../../../../store";
 
 @Component({
-    selector: 'processo-etiqueta-view',
-    templateUrl: './processo-etiqueta-view.component.html',
-    styleUrls: ['./processo-etiqueta-view.component.scss'],
+    selector: 'processo-relatorio-view',
+    templateUrl: './processo-relatorio-view.component.html',
+    styleUrls: ['./processo-relatorio-view.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoEtiquetaViewComponent implements OnInit {
+export class ProcessoRelatorioViewComponent implements OnInit {
 
     routerState: any;
     binary$: Observable<any>;
@@ -36,7 +36,7 @@ export class ProcessoEtiquetaViewComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _sanitizer: DomSanitizer,
-        private _store: Store<fromStore.ProcessoEtiquetaViewAppState>
+        private _store: Store<fromStore.ProcessoRelatorioViewAppState>
     ) {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
 
