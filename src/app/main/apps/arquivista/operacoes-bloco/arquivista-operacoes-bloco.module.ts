@@ -20,6 +20,7 @@ import {ArquivistaOperacoesBlocoComponent} from './arquivista-operacoes-bloco.co
 import {RouterModule, Routes} from '@angular/router';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkProcessoGridModule} from "../../../../../@cdk/components/processo/cdk-processo-grid/cdk-processo-grid.module";
 
 const routes: Routes = [
     {
@@ -49,7 +50,8 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
+        CdkProcessoGridModule
     ],
     providers: [
         ProcessoService

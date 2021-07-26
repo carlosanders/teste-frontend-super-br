@@ -430,6 +430,7 @@
 * Melhoria alerta informativo ao usuário quando processo recebeu nova(s) juntada(s)
 * Melhoria botão de reload de juntadas na listagem do processo-view
 * Melhoria vinculação de juntadas ao arrastar uma juntada para outra juntada na visão de processo
+* Melhoria para visualizar lista de processos e localizador módulo arquivista
 * Correção de mensagens desaparecidas nos dialogs de confirmação
 * Corrigido erro em notificações sem contexto preenchido
 * Corrigida não exibição de mensagem ao abrir relatório com erro de geração
@@ -443,3 +444,6 @@
 * Correção de erro no console ao deslogar de dentro de listagens (tarefa, arquivo, relatórios, ofícios, protocolo-externo etc)
 * Correção padronização nas entidades no normalizr
 * Correção filtro de tarefas por assunto
+* Correção ao efetuar logoff de usuários externos
+* Correção de erro ao excluir ações do workflow
+* Correção de erro ao desentranhar juntadas
