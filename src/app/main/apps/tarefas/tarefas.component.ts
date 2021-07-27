@@ -788,7 +788,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             sort: {},
             limit: 1,
             offset: 0,
-            populate: ['populateAll']
+            populate: ['assuntoAdministrativo']
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa({processoId: processoId, params: params}));

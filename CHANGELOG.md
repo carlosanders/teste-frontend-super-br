@@ -448,3 +448,5 @@
 * Correção ao efetuar logoff de usuários externos
 * Correção de erro ao excluir ações do workflow
 * Correção de erro ao desentranhar juntadas
+* Correção bug ao salvar tarefa no menu de processo
+* Correção bug carregamento assunto e interessados
