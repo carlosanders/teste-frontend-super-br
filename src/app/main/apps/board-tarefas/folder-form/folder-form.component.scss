@@ -1,17 +1,17 @@
 folder-form {
-
-    width: 344px;
-    min-width: 344px;
-    max-width: 344px;
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
     padding-right: 24px !important;
     height: 100%;
 
     .new-folder {
-        border-radius: 2px;
+        border-radius: 12px;
         flex-direction: column;
         box-sizing: border-box;
         display: flex;
         align-items: center;
+        border: 1px solid rgba(0, 0, 0, 0.12);
 
         .new-folder-form-button {
             text-transform: none;
@@ -33,6 +33,10 @@ folder-form {
         .new-folder-form {
             padding: 16px;
             height: 64px;
+
+            > .icone {
+                width: 30px;
+            }
 
             > input {
                 height: 100%;

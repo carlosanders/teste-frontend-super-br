@@ -19,10 +19,10 @@
 
             <div *ngIf="!capa && !vinculacao && !documentoAvulso" class="juntada-navigation">
                 <div>
-                    <button mat-mini-fab class="previous accent cdk-white-fg"
+                    <button mat-icon-button
                             (click)="gotoPreviousStep()"
                             [disabled]="disabledBack()">
-                        <mat-icon>chevron_left</mat-icon>
+                        <mat-icon>navigate_before</mat-icon>
                     </button>
                 </div>
 
@@ -39,10 +39,10 @@
                         <mat-icon class="mat-18">zoom_in</mat-icon>
                     </button>
                     &nbsp;
-                    <button mat-mini-fab class="next accent cdk-white-fg"
+                    <button mat-icon-button
                             (click)="gotoNextStep()"
                             [disabled]="disabledNext()">
-                        <mat-icon>chevron_right</mat-icon>
+                        <mat-icon>navigate_next</mat-icon>
                     </button>
                 </div>
             </div>

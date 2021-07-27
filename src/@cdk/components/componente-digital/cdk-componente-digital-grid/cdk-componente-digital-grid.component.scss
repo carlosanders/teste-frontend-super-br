@@ -30,6 +30,12 @@ cdk-componente-digital-grid {
             width: 100% !important;
         }
 
+        > .tamanho-sidebar {
+            width: 320px;
+            min-width: 320px;
+            max-width: 320px;
+        }
+
         .actions {
             flex: 0 1 auto;
             display: flex;

@@ -49,7 +49,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     currentProcessoId: number;
     processos: Processo[] = [];
-    processoListSize = 35;
+    processoListSize = 22;
     processoListOriginalSize: number;
 
     processos$: Observable<Processo[]>;
@@ -290,26 +290,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     onResizeEndProcessoList(event: ResizeEvent): void {
-        const potencialProcessoListSize = (event.rectangle.width * this.processoListSize) / this.processoListOriginalSize;
-
-        if (potencialProcessoListSize < 30) {
-            this.processoListSize = 30;
-            setTimeout(() => {
-                this.processoListOriginalSize = this.processoListElement.nativeElement.offsetWidth;
-            }, 500);
-            return;
-        }
-
-        if (potencialProcessoListSize > 50) {
-            this.processoListSize = 50;
-            this.processoListOriginalSize = this.processoListElement.nativeElement.offsetWidth;
-            setTimeout(() => {
-                this.processoListOriginalSize = this.processoListElement.nativeElement.offsetWidth;
-            }, 500);
-            return;
-        }
-
-        this.processoListSize = (event.rectangle.width * this.processoListSize) / this.processoListOriginalSize;
         this.processoListOriginalSize = event.rectangle.width;
     }
 

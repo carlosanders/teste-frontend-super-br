@@ -62,7 +62,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     loaded: any;
 
-    tarefaListSize = 30;
+    tarefaListSize = 22;
     tarefaListOriginalSize: number;
 
     tarefas$: Observable<Tarefa[]>;
@@ -788,7 +788,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             sort: {},
             limit: 1,
             offset: 0,
-            populate: ['populateAll']
+            populate: ['assuntoAdministrativo']
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa({processoId: processoId, params: params}));

@@ -1,9 +1,7 @@
 cdk-relatorio-list {
-
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-
     border-right: 1px solid rgba(0, 0, 0, 0.12);
 
     > .page-layout {
@@ -19,7 +17,7 @@ cdk-relatorio-list {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
-            padding: 8px;
+            padding: 0px 8px;
 
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 

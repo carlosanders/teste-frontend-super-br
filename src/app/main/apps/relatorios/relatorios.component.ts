@@ -54,7 +54,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     currentRelatorioId: number;
 
     relatorios: Relatorio[] = [];
-    relatorioListSize = 30;
+    relatorioListSize = 22;
     relatorioListOriginalSize: number;
 
     relatorios$: Observable<Relatorio[]>;

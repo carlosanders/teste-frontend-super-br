@@ -14,6 +14,8 @@ cdk-vinculacao-etiqueta-chips {
 
         mat-form-field {
             flex: 1 1 auto;
+            > .mat-form-field-wrapper {
+            }
         }
 
         .mat-focused .placeholder {

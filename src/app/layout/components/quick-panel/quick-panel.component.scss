@@ -29,15 +29,15 @@ quick-panel {
         flex: 1 0 auto;
         align-items: center;
         justify-content: flex-start;
-        min-height: 56px;
-        max-height: 56px;
-        height: 56px;
+        min-height: 47px;
+        max-height: 47px;
+        height: 47px;
         padding: 12px 12px 12px 10px;
 
         @include media-breakpoint('xs') {
-            min-height: 56px;
-            max-height: 56px;
-            height: 56px;
+            min-height: 45px;
+            max-height: 45px;
+            height: 45px;
         }
 
         .logo {
