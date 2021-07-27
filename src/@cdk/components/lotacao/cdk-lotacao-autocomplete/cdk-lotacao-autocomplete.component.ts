@@ -12,7 +12,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {Pagination, Lotacao} from '@cdk/models';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {AbstractControl} from '@angular/forms';
-import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 
@@ -85,7 +85,8 @@ export class CdkLotacaoAutocompleteComponent implements OnInit {
                                 this.pagination.limit,
                                 this.pagination.offset,
                                 JSON.stringify(this.pagination.sort),
-                                JSON.stringify(this.pagination.populate))
+                                JSON.stringify(this.pagination.populate),
+                                JSON.stringify(this.pagination.context))
                                 .pipe(
                                     finalize(() => this.lotacaoListIsLoading = false),
                                     catchError(() => of([]))

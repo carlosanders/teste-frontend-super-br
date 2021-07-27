@@ -95,6 +95,12 @@ export class CdkComponenteDigitalCardListComponent {
     @Output()
     completed = new EventEmitter<ComponenteDigital>();
 
+    /**
+     * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
+     */
+    @Output()
+    completedAll = new EventEmitter<any>();
+
     private files: Array<FileUploadModel> = [];
 
     private currentFile: FileUploadModel = null;
@@ -226,6 +232,7 @@ export class CdkComponenteDigitalCardListComponent {
         } else {
             this.currentFile = null;
             this.uploading = false;
+            this.completedAll.emit(true);
         }
     }
 
@@ -290,6 +297,9 @@ export class CdkComponenteDigitalCardListComponent {
                         this.currentFile = null;
                         if (this.uploadMode !== 'linear') {
                             this.removeFileFromArray(file);
+                            if (!this.files.length) {
+                                this.completedAll.emit(true);
+                            }
                         }
                         this._changeDetectorRef.markForCheck();
                         this.erroUpload.emit('Ocorreu um erro ao realizar o upload, clique no menu do arquivo e em seguida em repetir para tentar novamente!');
@@ -309,6 +319,9 @@ export class CdkComponenteDigitalCardListComponent {
                             setTimeout(() => {
                                 if (this.uploadMode !== 'linear') {
                                     this.removeFileFromArray(file);
+                                    if (!this.files.length) {
+                                        this.completedAll.emit(true);
+                                    }
                                 }
 
                                 this.componentesDigitais = this.componentesDigitais.filter(cd => cd !== componenteDigital);

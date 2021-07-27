@@ -1,3 +1,7 @@
+<mat-error *ngIf="errorMessage" class="chat-mensagem-error">
+    {{errorMessage}}
+</mat-error>
+
 <div *ngIf="loading" class="loading">
     <mat-spinner diameter="24"></mat-spinner>
 </div>
@@ -10,7 +14,7 @@
                     'last-of-group': isLastMessageOfGroup(chatMensagem, i)
                 }">
     <chat-imagem *ngIf="shouldShowContactAvatar(chatMensagem, i)"
-        [chat]="chat">
+        [imagem]="chatMensagem.usuario.imgPerfil">
     </chat-imagem>
 
     <div class="bubble">

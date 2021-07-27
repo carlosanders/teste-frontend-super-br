@@ -31,6 +31,9 @@ export class ChatHeaderComponent implements OnInit
     @Output()
     pesquisaChatHandler = new EventEmitter<string>();
 
+    @Output()
+    criarGrupoHandler = new EventEmitter();
+
     @ViewChild('usuarioInput', {static: false})
     usuarioElementRef: ElementRef;
 
@@ -100,11 +103,10 @@ export class ChatHeaderComponent implements OnInit
         this._store.dispatch(new fromStore.CriarOuRetornar({
             usuario: this.usuarioForm.get('usuario').value,
             populate: [
-                'participantes.usuario',
-                'participantes.usuario.imgPerfil',
-                'ultimaMensagem.usuario',
-                'populateAll'
-            ]
+                'ultimaMensagem',
+                'capa'
+            ],
+            context: {'chat_individual_usuario': this._loginService.getUserProfile()?.id}
         }));
         this.cancelUsuarioForm();
     }
@@ -118,5 +120,10 @@ export class ChatHeaderComponent implements OnInit
     pesquisar(): void
     {
         this.pesquisaChatHandler.emit(this.pesquisaForm.get('pesquisa').value ?? '');
+    }
+
+    criarGrupo(): void
+    {
+        this.criarGrupoHandler.emit();
     }
 }

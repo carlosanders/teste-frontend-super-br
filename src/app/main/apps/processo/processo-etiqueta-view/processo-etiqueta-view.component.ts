@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Location} from '@angular/common';
+import {Back} from "../../../../store";
 
 @Component({
     selector: 'processo-etiqueta-view',
@@ -31,14 +31,12 @@ export class ProcessoEtiquetaViewComponent implements OnInit {
      * @param _router
      * @param _sanitizer
      * @param _store
-     * @param _location
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _sanitizer: DomSanitizer,
-        private _store: Store<fromStore.ProcessoEtiquetaViewAppState>,
-        private _location: Location
+        private _store: Store<fromStore.ProcessoEtiquetaViewAppState>
     ) {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
 
@@ -75,6 +73,6 @@ export class ProcessoEtiquetaViewComponent implements OnInit {
     }
 
     back(): void {
-        this._location.back();
+        this._store.dispatch(new Back());
     }
 }

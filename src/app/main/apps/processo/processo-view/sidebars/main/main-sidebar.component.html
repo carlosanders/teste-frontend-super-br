@@ -357,6 +357,14 @@
                                 <mat-icon color="accent">edit</mat-icon>
                                 <span>Alterar Tipo de Documento</span>
                             </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    mat-menu-item aria-label="upload anexo"
+                                    (click)="uploadAnexo(minuta)">
+                                <ng-container>
+                                    <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                    <span>Upload de Anexo</span>
+                                </ng-container>
+                            </button>
                         </mat-menu>
                     </div>
 

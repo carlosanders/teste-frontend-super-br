@@ -1,289 +1,284 @@
 <div class="content" *ngIf="tarefa">
 
+    <div class="check">
+        <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
+                      (click)="$event.stopPropagation();">
+        </mat-checkbox>
+    </div>
+
     <div class="info" [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
         <ng-template #dynamicText></ng-template>
 
-        <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
+        <div class="mb-4">
+            <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
 
-        <div class="title">
-            <div class="check">
-                <mat-checkbox [checked]="selected" (change)="onSelectedChange()"
-                              (click)="$event.stopPropagation();">
-                </mat-checkbox>
-            </div>
-            <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
-            </mat-icon>
-            <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
-            </mat-icon>
-            <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
-            <span>
+            <div class="title">
+                <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
+                </mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
+                </mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
+                <span>
                     NUP {{tarefa.processo?.NUP | formatNup}}
                 </span>
-            <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                      *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
-            </mat-icon>
-            <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                      *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
-            </mat-icon>
-            <mat-icon class="s-14" [matTooltip]="'Copiar NUP para o clipboard'"
-                      (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
-            </mat-icon>
-        </div>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                </mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
+                </mat-icon>
+                <mat-icon class="s-14 mt-8" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
+                </mat-icon>
+            </div>
 
-        <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-            <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.processo?.especieProcesso?.workflow ? ' (Workflow)' : '' }}</span>
-        </div>
+            <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
+                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.processo?.especieProcesso?.workflow ? ' (Workflow)' : '' }}</span>
+            </div>
 
-        <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
-            <span>Usuário com acesso negado ao processo</span>
-        </div>
+            <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
+                <span>Usuário com acesso negado ao processo</span>
+            </div>
 
-        <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
+            <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
                 <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
                     Ofício vinculado pendente de resposta
                 </span>
-            <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
+                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
                     Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}
                 </span>
-        </div>
+            </div>
 
-        <div class="subtitle" *ngIf="isOpen">
-            <div class="assunto">
+            <div class="subtitle" *ngIf="isOpen">
                 <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1 || loadingInteressados">
                     <mat-spinner diameter=16></mat-spinner>
                 </div>
-                <div *ngIf="tarefa.processo?.assuntos?.length > 0">
-                    <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
+                <div class="assunto">
+                    <div *ngIf="tarefa.processo?.assuntos?.length > 0">
+                        <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="interessados" *ngIf="!loadingInteressados && tarefa.processo?.interessados?.length > 0">
+                <div class="interessados" *ngIf="!loadingInteressados && tarefa.processo?.interessados?.length > 0">
                     <span
                         *ngFor="let nomeInteressado of (tarefa.processo?.interessados | formatInteressados: totalInteressados)">
                         {{nomeInteressado}}
                     </span>
+                </div>
             </div>
         </div>
 
-        <div class="cartao">
-            <div class="body mt-4">
-                <div>
-                    Id {{tarefa.id}}
-                </div>
+        <div class="body mt-4">
+            <div>
+                Id {{tarefa.id}}
+            </div>
 
-                <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
-                    {{tarefa.especieTarefa?.nome | titleCasePipe}}
-                </div>
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                {{tarefa.especieTarefa?.nome | titleCasePipe}}
+            </div>
 
-                <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
-                    {{tarefa.workflow ? 'Tarefa de Workflow' : ''}}
-                </div>
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                {{tarefa.workflow ? 'Tarefa de Workflow' : ''}}
+            </div>
 
-                <div *ngIf="displayedCampos.indexOf('setorResponsavel.nome') > -1">
-                    {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
-                </div>
+            <div *ngIf="displayedCampos.indexOf('setorResponsavel.nome') > -1">
+                {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+            </div>
 
-                <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel?.id !== usuarioAtual.id))">
-                    {{tarefa.usuarioResponsavel?.nome | titleCasePipe}}
-                </div>
+            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel?.id !== usuarioAtual.id))">
+                {{tarefa.usuarioResponsavel?.nome | titleCasePipe}}
+            </div>
 
-                <div *ngIf="tarefa.dataHoraDistribuicao && displayedCampos.indexOf('dataHoraDistribuicao') > -1">
-                    Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
-                </div>
+            <div *ngIf="tarefa.dataHoraDistribuicao && displayedCampos.indexOf('dataHoraDistribuicao') > -1">
+                Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
+            </div>
 
-                <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
-                    Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
-                    até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
-                </div>
+            <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+                Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+            </div>
 
-                <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
-                    Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
-                    até
-                    <mat-icon class="secondary-text" matTooltip="Prazo fechado">
-                        lock
-                    </mat-icon>
-                </div>
+            <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+                Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
+                até
+                <mat-icon class="secondary-text" matTooltip="Prazo fechado">
+                    lock
+                </mat-icon>
+            </div>
 
-                <div class="etiquetas">
-                    <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                         fxLayout="row" fxLayoutAlign="start center"
-                         (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
-                         [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
-                        <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
-                             [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                        <div
-                            class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
-                    </div>
-                </div>
-
-                <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao"
-                     (click)="$event.stopPropagation()">
-                    <span *ngIf="editandoObservacao === false">{{tarefa.observacao}}</span>
-                    <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Editar observação"
-                              (click)="$event.stopPropagation(); doEditarObservacao()">
-                        edit
-                    </mat-icon>
-                </div>
-                <div *ngIf="editandoObservacao === true" class="edit-observacao">
-                    <mat-form-field (click)="$event.stopPropagation()">
-                        <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
-                                  (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
-                                  upperCase>{{tarefa.observacao}}</textarea>
-                    </mat-form-field>
-                    <div class="actions">
-                        <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação"
-                                matTooltip="Salvar Observação" class="accent"
-                                (click)="$event.stopPropagation();">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <div class="spinner-container m-8" *ngIf="savingObservacao">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="drag-n-drop-ref">
-                    <div dndDragImageRef class="accent">
-                        <div *ngIf="countSelected > 1 && selected && dragging">
-                            {{countSelected}} tarefas selecionadas
-                        </div>
-                        <div *ngIf="dragging && (countSelected === 0 || countSelected === 1 && selected)">
-                            Movendo tarefa
-                        </div>
-                    </div>
+            <div class="etiquetas">
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
+                     fxLayout="row" fxLayoutAlign="start center"
+                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                     [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
+                    <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
+                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                    <div
+                        class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
             </div>
 
-            <div class="actions">
-
-                <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
-                        (click)="doToggleUrgente(); $event.stopPropagation();"
-                        aria-label="Toggle important" fxHide.xs>
-                    <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
-                    <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
-                </button>
-
-                <div class="spinner-container m-8" *ngIf="togglingUrgente">
-                    <mat-spinner diameter="24"></mat-spinner>
-                </div>
-
-                <button *ngIf="tarefa.apagadoEm && !undeleting" matTooltip="Restaurar tarefa"
-                        mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
-                        aria-label="Restaurar tarefa" fxHide.xs>
-                    <mat-icon class="secondary-text">undo</mat-icon>
-                </button>
-
-                <div class="spinner-container m-8"
-                     *ngIf="deleting || ciencia || pluginLoading || undeleting || assinando">
-                    <mat-spinner diameter="24"></mat-spinner>
-                </div>
-
-                <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando"
-                        mat-icon-button
-                        [matMenuTriggerFor]="moreMenu"
-                        aria-label="Ferramentas"
-                        (click)="$event.stopPropagation()">
-                    <mat-icon class="secondary-text">more_vert</mat-icon>
-                </button>
-
-                <mat-menu #moreMenu="matMenu">
-
-                    <button mat-menu-item aria-label="apagar"
-                            (click)="doDelete()">
-                        <ng-container>
-                            <mat-icon>delete</mat-icon>
-                            <span>Apagar</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="movimentar"
-                            (click)="doMovimentar()">
-                        <ng-container>
-                            <mat-icon>send</mat-icon>
-                            <span>Movimentar</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="editar tarefa"
-                            (click)="doEditTarefa()">
-                        <ng-container>
-                            <mat-icon>edit</mat-icon>
-                            <span>Editar Tarefa</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="observação"
-                            *ngIf="!tarefa.observacao"
-                            (click)="doEditarObservacao()">
-                        <ng-container>
-                            <span class="material-icons-outlined mat-icon mat-icon-no-color">edit_note</span>
-                            <span>Observação</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="editar processo"
-                            (click)="doEditProcesso()">
-                        <ng-container>
-                            <mat-icon>book</mat-icon>
-                            <span>Editar Processo</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="redistribuir tarefa"
-                            (click)="doRedistribuirTarefa()">
-                        <ng-container>
-                            <mat-icon>forward</mat-icon>
-                            <span>Redistribuir</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="dar ciencia"
-                            (click)="doCienciaTarefa()">
-                        <ng-container>
-                            <mat-icon>check</mat-icon>
-                            <span>Dar Ciência</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="criar tarefa"
-                            (click)="doCreateTarefa()">
-                        <ng-container>
-                            <mat-icon>check_box</mat-icon>
-                            <span>Criar Tarefa</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="enviar ofício"
-                            (click)="doCreateDocumentoAvulso()">
-                        <ng-container>
-                            <mat-icon>mail</mat-icon>
-                            <span>Criar Ofício</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="compartilhar"
-                            (click)="doCompartilhar()">
-                        <ng-container>
-                            <mat-icon>share</mat-icon>
-                            <span>Compartilhar</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="assinar minutas"
-                            *ngIf="canAssinarMinutas(tarefa)"
-                            (click)="doAssinaMinutas()">
-                        <ng-container>
-                            <mat-icon>lock</mat-icon>
-                            <span>Assinar Minutas</span>
-                        </ng-container>
-                    </button>
-
-                    <ng-template #dynamicComponent></ng-template>
-
-                </mat-menu>
+            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao"
+                 (click)="$event.stopPropagation()">
+                <span *ngIf="editandoObservacao === false">{{tarefa.observacao}}</span>
+                <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Editar observação"
+                          (click)="$event.stopPropagation(); doEditarObservacao()">
+                    edit
+                </mat-icon>
             </div>
-
+            <div *ngIf="editandoObservacao === true" class="edit-observacao">
+                <mat-form-field (click)="$event.stopPropagation()">
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
+                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
+                              upperCase>{{tarefa.observacao}}</textarea>
+                </mat-form-field>
+                <div class="actions">
+                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação"
+                            matTooltip="Salvar Observação" class="accent"
+                            (click)="$event.stopPropagation();">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <div class="spinner-container m-8" *ngIf="savingObservacao">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <div class="drag-n-drop-ref">
+            <div dndDragImageRef class="accent">
+                <div *ngIf="countSelected > 1 && selected && dragging">
+                    {{countSelected}} tarefas selecionadas
+                </div>
+                <div *ngIf="dragging && (countSelected === 0 || countSelected === 1 && selected)">
+                    Movendo tarefa
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="actions">
+
+        <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
+                (click)="doToggleUrgente(); $event.stopPropagation();"
+                aria-label="Toggle important" fxHide.xs>
+            <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
+            <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
+        </button>
+
+        <div class="spinner-container m-8" *ngIf="togglingUrgente">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+
+        <button *ngIf="tarefa.apagadoEm && !undeleting" matTooltip="Restaurar tarefa"
+                mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
+                aria-label="Restaurar tarefa" fxHide.xs>
+            <mat-icon class="secondary-text">undo</mat-icon>
+        </button>
+
+        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting || assinando">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+
+        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
+                [matMenuTriggerFor]="moreMenu"
+                aria-label="Ferramentas"
+                (click)="$event.stopPropagation()">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+
+            <button mat-menu-item aria-label="apagar"
+                    (click)="doDelete()">
+                <ng-container>
+                    <mat-icon>delete</mat-icon>
+                    <span>Apagar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="movimentar"
+                    (click)="doMovimentar()">
+                <ng-container>
+                    <mat-icon>send</mat-icon>
+                    <span>Movimentar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="editar tarefa"
+                    (click)="doEditTarefa()">
+                <ng-container>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar Tarefa</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="observação"
+                    *ngIf="!tarefa.observacao"
+                    (click)="doEditarObservacao()">
+                <ng-container>
+                    <span class="material-icons-outlined mat-icon mat-icon-no-color">edit_note</span>
+                    <span>Observação</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="editar processo"
+                    (click)="doEditProcesso()">
+                <ng-container>
+                    <mat-icon>book</mat-icon>
+                    <span>Editar Processo</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="redistribuir tarefa"
+                    (click)="doRedistribuirTarefa()">
+                <ng-container>
+                    <mat-icon>forward</mat-icon>
+                    <span>Redistribuir</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="dar ciencia"
+                    (click)="doCienciaTarefa()">
+                <ng-container>
+                    <mat-icon>check</mat-icon>
+                    <span>Dar Ciência</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="criar tarefa"
+                    (click)="doCreateTarefa()">
+                <ng-container>
+                    <mat-icon>check_box</mat-icon>
+                    <span>Criar Tarefa</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="enviar ofício"
+                    (click)="doCreateDocumentoAvulso()">
+                <ng-container>
+                    <mat-icon>mail</mat-icon>
+                    <span>Criar Ofício</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="compartilhar"
+                    (click)="doCompartilhar()">
+                <ng-container>
+                    <mat-icon>share</mat-icon>
+                    <span>Compartilhar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="assinar minutas"
+                    *ngIf="canAssinarMinutas(tarefa)"
+                    (click)="doAssinaMinutas()">
+                <ng-container>
+                    <mat-icon>lock</mat-icon>
+                    <span>Assinar Minutas</span>
+                </ng-container>
+            </button>
+
+            <ng-template #dynamicComponent></ng-template>
+
+        </mat-menu>
+    </div>
 </div>

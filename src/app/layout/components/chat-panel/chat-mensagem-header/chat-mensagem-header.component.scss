@@ -1,10 +1,51 @@
 chat-mensagem-header {
     display: flex;
 
-    mat-toolbar {
-        border-bottom: 1px solid;
-        min-height: 64px;
-        max-height: 64px;
-        height: 64px;
+    .chat-toolbar {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center flex-start;
+        align-items: center;
+        flex: 1 1 auto;
+
+        .chat-profile {
+            display: flex;
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: row;
+            align-items: center;
+
+            .avatar-wrapper {
+                chat-imagem {
+                    margin: 5px;
+                }
+            }
+
+            .chat-info {
+                display: flex;
+                flex-direction: column;
+                line-height: normal;
+
+                .chat-descricao {
+                    color: rgba(0, 0, 0, 0.54);
+                    font-size: 10px;
+                    text-rendering: optimizeLegibility;
+                    box-sizing: border-box;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 150px;
+                }
+            }
+
+        }
+
+        .chat-toolbar-actions {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: end;
+            flex-direction: column;
+        }
     }
 }

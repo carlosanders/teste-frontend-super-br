@@ -239,6 +239,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         ];
         this.grupoContatoPagination.filter = {'usuario.id': 'eq:' + this._loginService.getUserProfile().id};
         this.lotacaoPagination = new Pagination;
+        this.lotacaoPagination.context = {
+            'semAfastamento': true
+        };
         this.lotacaoPagination.populate = [
             'setor',
             'setor.unidade',
@@ -679,6 +682,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     alteraPrazoFinal(): void {
+        if (!this.form.get('dataHoraInicioPrazo').value || !this.form.get('dataHoraFinalPrazo').value) {
+            return;
+        }
         const a = this.form.get('dataHoraInicioPrazo').value.format('YYYY-MM-DD');
         const b = this.form.get('dataHoraFinalPrazo').value.format('HH:mm:ss');
         const dataHoraFinalPrazo = moment(a + 'T' + b);

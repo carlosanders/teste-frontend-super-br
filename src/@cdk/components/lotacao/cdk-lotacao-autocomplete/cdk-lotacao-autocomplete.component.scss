@@ -3,6 +3,9 @@ cdk-lotacao-autocomplete {
 }
 
 .mat-option {
+    &.indisponivel {
+        text-decoration: line-through;
+    }
     &.multiline {
         height: auto !important;
         line-height: 30px !important;

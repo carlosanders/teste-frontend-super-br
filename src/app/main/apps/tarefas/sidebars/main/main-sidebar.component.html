@@ -27,7 +27,7 @@
         <div class="nav-item">
             <div class="menu_content menu_tarefa">
                 <div class="menu_content_label">
-                    Minhas Tarefas
+                    MINHAS TAREFAS
                 </div>
                 <div class="menu_content_button">
                     <button mat-icon-button [matMenuTriggerFor]="menuMain" class="btn_menu_folder"
@@ -45,8 +45,9 @@
                      #element
                      (dndDragover)="dragOver($event, element, dropzoneEnabledFolders())"
                      (dndDrop)="onDrop([$event, null], dropzoneEnabledFolders())">
-                <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
-                   [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <div class="menu_content nav-link" matRipple
+                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
+                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
@@ -80,7 +81,8 @@
         <div class="nova-pasta" *ngIf="showAddFolder">
             <div class="campo-nova-pasta">
                 <mat-form-field [ngClass]="{'error': error}">
-                    <input matInput #inputFolder placeholder="Nome da pasta" [formControl]="newFolderCtrl" type="text" class="input-add-pasta" (keyup.enter)="addFolder()">
+                    <input matInput #inputFolder placeholder="Nome da pasta" [formControl]="newFolderCtrl" type="text"
+                           class="input-add-pasta" (keyup.enter)="addFolder()">
                 </mat-form-field>
                 <div class="actions">
                     <button mat-icon-button aria-label="Criar pasta" matTooltip="Criar pasta" class="accent"
@@ -147,7 +149,8 @@
                      #elementLixeira
                      (dndDragover)="dragOver($event, elementLixeira, dropzoneEnabledFolders('lixeira'))"
                      (dndDrop)="onDropDelete($event, dropzoneEnabledFolders('lixeira'))">
-                <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
+                <div class="menu_content nav-link" matRipple
+                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
@@ -170,15 +173,17 @@
             </section>
         </div>
 
-        <div class="menu_content menu_tarefa">
-            <div class="menu_content_label">Compartilhamento</div>
-        </div>
-
+        <div class="nav-subheader">COMPARTILHAMENTO</div>
         <div class="nav-item">
             <a class="nav-link" matRipple
                [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas/outros-usuarios'"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
-                <mat-icon class="nav-link-icon">share</mat-icon>
+                <mat-icon class="nav-link-icon"
+                          matBadge="{{tarefasPendentes['tarefas_compartilhadas_' + generoHandleAcentuado]}}"
+                          matBadgeColor="warn"
+                          matBadgeSize="small">
+                    share
+                </mat-icon>
                 <span>Outros Usuários</span>
             </a>
         </div>
@@ -256,7 +261,8 @@
                                          (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                                          (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                                          [routerLinkActive]="['active', 'accent']"
-                                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
+                                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
+                                         (click)="fecharSidebar()">
                                         <section class="setor">
                                             <div class="menu_content_label">
                                                 <div>
@@ -284,7 +290,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="lotacao-drop lotacao" *ngIf="usuariosOpen && setorLotacaoId === setor.id">
+                                    <div class="lotacao-drop lotacao"
+                                         *ngIf="usuariosOpen && setorLotacaoId === setor.id">
                                         <div class="loading-wrapper"
                                              *ngIf="(lotacaoLoading$ | async) && lotacoes?.length === 0">
                                             <mat-spinner class="loading" diameter="24"></mat-spinner>
@@ -378,7 +385,8 @@
                                  (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                                  (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                                  [routerLinkActive]="['active', 'accent']"
-                                 [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
+                                 [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
+                                 (click)="fecharSidebar()">
                                 <section class="setor">
                                     <div class="menu_content_label">
                                         <div>
@@ -464,7 +472,8 @@
                          (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                          (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                          [routerLinkActive]="['active', 'accent']"
-                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
+                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
+                         (click)="fecharSidebar()">
                         <section class="setor">
                             <div class="menu_content_label">
                                 <div>
@@ -534,7 +543,8 @@
                      (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                      (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                      [routerLinkActive]="['active', 'accent']"
-                     [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
+                     [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
+                     (click)="fecharSidebar()">
                     <section class="setor">
                         <div class="menu_content_label">
                             <div>
@@ -606,8 +616,9 @@
 
 <!-- SIDEBAR FOOT -->
 <div class="footer">
+    <mat-divider></mat-divider>
     <div class="actions">
-        <mat-toolbar class="class-toolbar">
+        <mat-toolbar>
             <button disabled mat-icon-button class="secondary-text"
                     routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent"
                     matTooltip="Tarefas">
@@ -617,7 +628,8 @@
                     routerLinkActive="mat-accent" matTooltip="Calendário">
                 <mat-icon>calendar_today</mat-icon>
             </button>
-            <button mat-icon-button class="secondary-text" routerLink="/apps/board-tarefas/administrativo" routerLinkActive="mat-accent" matTooltip="Quadro de Tarefas">
+            <button mat-icon-button class="secondary-text" routerLink="/apps/board-tarefas/administrativo"
+                    routerLinkActive="mat-accent" matTooltip="Quadro de Tarefas">
                 <mat-icon>assessment</mat-icon>
             </button>
         </mat-toolbar>
