@@ -9,23 +9,23 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {ProcessoEtiquetaViewComponent} from './processo-etiqueta-view.component';
+import {ProcessoRelatorioViewComponent} from './processo-relatorio-view.component';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {RouterModule, Routes} from '@angular/router';
-import {ProcessoEtiquetaViewStoreModule} from 'app/main/apps/processo/processo-etiqueta-view/store/store.module';
-import * as fromGuards from 'app/main/apps/processo/processo-etiqueta-view/store/guards';
+import {ProcessoRelatorioViewStoreModule} from 'app/main/apps/processo/processo-relatorio-view/store/store.module';
+import * as fromGuards from 'app/main/apps/processo/processo-relatorio-view/store/guards';
 import {modulesConfig} from 'modules/modules-config';
 import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
     {
         path: '',
-        component: ProcessoEtiquetaViewComponent,
+        component: ProcessoRelatorioViewComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
-const path = 'app/main/apps/processo/processo-etiqueta-view';
+const path = 'app/main/apps/processo/processo-relatorio-view';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -35,7 +35,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        ProcessoEtiquetaViewComponent
+        ProcessoRelatorioViewComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -47,7 +47,7 @@ modulesConfig.forEach((module) => {
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
-        ProcessoEtiquetaViewStoreModule,
+        ProcessoRelatorioViewStoreModule,
         MatTooltipModule
     ],
     providers: [
@@ -55,8 +55,8 @@ modulesConfig.forEach((module) => {
         fromGuards.ResolveGuard
     ],
     exports: [
-        ProcessoEtiquetaViewComponent
+        ProcessoRelatorioViewComponent
     ]
 })
-export class ProcessoEtiquetaViewModule {
+export class ProcessoRelatorioViewModule {
 }

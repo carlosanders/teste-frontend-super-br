@@ -68,6 +68,14 @@
                             <span>Imprimir Etiqueta</span>
                         </ng-container>
                     </button>
+                    <button mat-menu-item aria-label="imprimir etiqueta"
+                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                            (click)="imprimirRelatorio()">
+                        <ng-container>
+                            <mat-icon>description</mat-icon>
+                            <span>Imprimir Relatório</span>
+                        </ng-container>
+                    </button>
                     <button mat-menu-item aria-label="Autuar"
                             *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1"
                             (click)="doAutuar()">
