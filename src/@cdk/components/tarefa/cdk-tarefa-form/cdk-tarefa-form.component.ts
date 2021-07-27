@@ -682,6 +682,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     alteraPrazoFinal(): void {
+        if (!this.form.get('dataHoraInicioPrazo').value || !this.form.get('dataHoraFinalPrazo').value) {
+            return;
+        }
         const a = this.form.get('dataHoraInicioPrazo').value.format('YYYY-MM-DD');
         const b = this.form.get('dataHoraFinalPrazo').value.format('HH:mm:ss');
         const dataHoraFinalPrazo = moment(a + 'T' + b);
