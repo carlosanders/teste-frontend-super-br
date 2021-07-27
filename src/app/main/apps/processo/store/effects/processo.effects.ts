@@ -143,14 +143,17 @@ export class ProcessoEffect {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
-                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                    return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
                         tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'vinculação etiqueta',
-                                content: 'Vinculação da etiqueta id ' + response.id + ' salva com sucesso.',
-                                status: 1, // sucesso
-                            }))
+                            {
+                                response.processo = null;
+                                this._store.dispatch(new OperacoesActions.Operacao({
+                                    id: action.payload.operacaoId,
+                                    type: 'vinculação etiqueta',
+                                    content: 'Vinculação da etiqueta id ' + response.id + ' salva com sucesso.',
+                                    status: 1, // sucesso
+                                }));
+                            }
                         ),
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new AddChildData<VinculacaoEtiqueta>({
