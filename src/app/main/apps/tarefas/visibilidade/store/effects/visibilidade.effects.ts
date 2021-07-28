@@ -84,7 +84,7 @@ export class VisibilidadeEffect {
                     }));
                 }),
                 mergeMap((action) => {
-                    return this._processoService.destroy(action.payload.visibilidadeId).pipe(
+                    return this._processoService.destroyVisibilidade(action.payload.processoId, action.payload.visibilidadeId).pipe(
                         map((response) => {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
