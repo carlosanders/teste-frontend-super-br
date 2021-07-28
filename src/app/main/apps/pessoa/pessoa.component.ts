@@ -113,10 +113,7 @@ export class PessoaComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
-        this._router.navigate([
-                this.routerState.url.split('/pessoa/')[0]
-            ]
-        ).then();
+        this._router.navigate([this.routerState.url.split('/pessoa/')[0]]).then();
     }
 
     goBack(): void {
