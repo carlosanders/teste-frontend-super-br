@@ -46,6 +46,8 @@ export class DesentranhamentoComponent implements OnInit, OnDestroy {
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
+    juntadasBloco: Juntada[] = [];
+
     /**
      *
      * @param _store
@@ -89,6 +91,7 @@ export class DesentranhamentoComponent implements OnInit, OnDestroy {
             (juntada) => {
                 this.juntada = juntada;
                 this.selecionadas = [juntada];
+                this.juntadasBloco = this.selecionadas;
                 this.desentranhamento = new Desentranhamento();
                 this.desentranhamento.juntada = this.juntada;
 
@@ -125,6 +128,7 @@ export class DesentranhamentoComponent implements OnInit, OnDestroy {
         );
 
         desentranhamento.juntada = this.juntada;
+        desentranhamento.juntadasBloco = this.juntadasBloco;
 
         this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
             data: {

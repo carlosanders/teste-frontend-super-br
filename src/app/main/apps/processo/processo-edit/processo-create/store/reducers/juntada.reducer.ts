@@ -159,22 +159,22 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
         case JuntadaActions.SAVE_DESENTRANHAMENTO: {
             return {
                 ...state,
-                desentranhandoIds: [...state.desentranhandoIds, action.payload.juntada.id],
+                desentranhandoIds: [...state.desentranhandoIds, action.payload.desentranhamento.juntada.id],
             };
         }
 
         case JuntadaActions.SAVE_DESENTRANHAMENTO_SUCCESS: {
             return {
                 ...state,
-                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload.juntada.id),
-                desentranhadoIds: [...state.desentranhadoIds, action.payload.juntada.id]
+                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload.desentranhamento.juntada.id),
+                desentranhadoIds: [...state.desentranhadoIds, action.payload.desentranhamento.juntada.id]
             };
         }
 
         case JuntadaActions.SAVE_DESENTRANHAMENTO_FAILED: {
             return {
                 ...state,
-                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload.juntada.id),
+                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload.desentranhamento.juntada.id),
             };
         }
 

@@ -962,6 +962,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 const desentranhamento = new Desentranhamento();
                 desentranhamento.tipo = 'arquivo';
                 desentranhamento.juntada = juntada;
+                desentranhamento.juntadasBloco = [juntada];
                 const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.SaveDesentranhamento({
                     desentranhamento: desentranhamento,
