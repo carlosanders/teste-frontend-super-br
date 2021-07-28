@@ -65,6 +65,10 @@ const routes: Routes = [
             {
                 path       : 'vincular',
                 loadChildren: () => import('./vinculacao-documento/vinculacao-documento.module').then(m => m.VinculacaoDocumentoModule)
+            },
+            {
+                path       : 'desentranhar',
+                loadChildren: () => import('./desentranhamento/desentranhamento.module').then(m => m.DesentranhamentoModule)
             }
         ]
     },

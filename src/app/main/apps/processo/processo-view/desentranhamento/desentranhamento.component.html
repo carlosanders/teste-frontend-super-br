@@ -1,0 +1,17 @@
+<div class="content" cdkPerfectScrollbar>
+    <h2>Desentranhar juntada</h2>
+
+    <div>
+        {{(juntada$ | async).documento.tipoDocumento.nome}} - JUNTADA SEQUENCIAL {{(juntada$ | async).numeracaoSequencial}}
+    </div>
+
+    <cdk-desentranhamento-form
+        [desentranhamento]="desentranhamento"
+        [selecionadas]="selecionadas"
+        [processoDestinoPagination]="processoDestinoPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-desentranhamento-form>
+</div>

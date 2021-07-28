@@ -31,11 +31,7 @@ import * as fromStore from './store';
 import {
     getConfiguracaoNup,
     getTarefaIsSaving,
-    getVinculacaoProcessoIsSaving,
-    SaveAssunto,
-    SaveInteressado,
-    SaveTarefa,
-    SaveVinculacaoProcesso
+    getVinculacaoProcessoIsSaving
 } from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ActivatedRoute, Router} from '@angular/router';

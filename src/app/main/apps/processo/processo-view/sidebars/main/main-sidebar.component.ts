@@ -901,6 +901,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumentoId));
     }
 
+    doDesentranharSimples(juntadaId: number): void {
+        this._router.navigate([
+            this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+            '/visualizar/' + this.routerState.params.stepHandle + '/desentranhar/' + juntadaId
+        ]).then();
+    }
+
     checkTipoDocumento(): void {
         const value = this.form.get('tipoDocumentoMinutas').value;
         if (!value || typeof value !== 'object') {
