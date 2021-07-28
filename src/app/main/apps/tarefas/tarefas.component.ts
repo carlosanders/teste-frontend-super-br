@@ -422,17 +422,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     proccessEtiquetaFilter(): any {
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
-        const etiquetasId = [];
+        const andXFilter = [];
         this.etiquetas.forEach((e) => {
-            etiquetasId.push(e.id);
+            andXFilter.push({'vinculacoesEtiquetas.etiqueta.id': `eq:${e.id}`});
         });
         let etiquetaFilter = {};
-        if (etiquetasId.length) {
+        if (andXFilter.length) {
             etiquetaFilter = {
-                'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
+                'andX': andXFilter
             };
-        } else {
-
         }
         const nparams = {
             ...this.pagination,
