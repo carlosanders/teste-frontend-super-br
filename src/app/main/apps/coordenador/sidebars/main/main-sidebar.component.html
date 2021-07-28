@@ -1,6 +1,8 @@
 <!-- SIDEBAR HEADER -->
 <div class="header">
-    <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Coordenador</span>
+    <div class="logo">
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Coordenador</span>
+    </div>
 </div>
 <!-- / SIDEBAR HEADER -->
 
@@ -8,12 +10,12 @@
 <div class="content" cdkPerfectScrollbar>
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_ORGAO_CENTRAL'">
         <div *ngIf="this.orgaos?.length">
-            <div class="subtitulo">
-                <mat-icon>language</mat-icon>
-                <span>Órgão Central</span>
+            <div class="nav-subheader pl-8 mt-0">
+                <mat-icon class="mr-8">language</mat-icon>
+                <span>ÓRGÃO CENTRAL</span>
             </div>
             <div *ngFor="let orgao of orgaos">
-                <div class="nav-subheader">
+                <div class="nav-subheader mt-0">
                     <span>{{orgao.valor | uppercase}}</span>
                 </div>
                 <div class="nav-item" *ngFor="let link of linksNacional">
@@ -28,12 +30,12 @@
     </div>
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_UNIDADE'">
         <div *ngIf="this.unidades?.length">
-            <div class="subtitulo">
-                <mat-icon>language</mat-icon>
-                <span>Unidade</span>
+            <div class="nav-subheader pl-8 mt-0">
+                <mat-icon class="mr-8">language</mat-icon>
+                <span>UNIDADE</span>
             </div>
             <div *ngFor="let setor of unidades">
-                <div class="nav-subheader">
+                <div class="nav-subheader mt-0">
                     <span>{{setor.nome | uppercase}}</span>
                 </div>
                 <div class="nav-item" *ngFor="let link of linksUnidade">
@@ -57,12 +59,12 @@
     </div>
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_SETOR'">
         <div *ngIf="this.setores?.length">
-            <div class="subtitulo">
-                <mat-icon>language</mat-icon>
-                <span>Setor</span>
+            <div class="nav-subheader pl-8 mt-0">
+                <mat-icon class="mr-8">language</mat-icon>
+                <span>SETOR</span>
             </div>
             <div *ngFor="let setor of setores">
-                <div class="nav-subheader">
+                <div class="nav-subheader mt-0">
                     <span>{{setor.nome | uppercase}}</span>
                 </div>
                 <div class="nav-item" *ngFor="let link of linksLocal">

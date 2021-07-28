@@ -11,7 +11,7 @@ processo-view-main-sidebar {
         flex: 0 1 auto;
         display: flex;
         flex-direction: column;
-        padding: 0px 8px 0px 0px;
+        padding: 8px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
         > .actions {
@@ -217,7 +217,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 8px 0px 8px 8px;
+            padding: 16px;
             cursor: pointer;
 
             .index {
@@ -375,7 +375,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 8px 0px 8px 8px;
+            padding: 16px;
             cursor: pointer;
             margin-top: 2px;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
@@ -540,7 +540,7 @@ processo-view-main-sidebar {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 8px 0px 8px 8px;
+            padding: 16px;
             cursor: pointer;
 
             .etiquetas {

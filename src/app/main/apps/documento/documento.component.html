@@ -17,7 +17,7 @@
                 </mat-tab-group>
 
                 <button style="margin-left: auto;" *ngIf="(documento$ | async)?.processoOrigem?.id"
-                        class="mr-8" mat-icon-button
+                        mat-raised-button color="accent" class="mr-sm-12"
                         aria-label="visualizar processo"
                         matTooltip="Visualizar Processo em Nova Aba"
                         (click)="visualizarProcessoNovaAba()">
@@ -30,7 +30,7 @@
                     (click)="back()"
                     aria-label="fechar"
                     matTooltip="Fechar">
-                    <mat-icon class="black-fg">close</mat-icon>
+                    <mat-icon>close</mat-icon>
                 </button>
             </div>
         </div>

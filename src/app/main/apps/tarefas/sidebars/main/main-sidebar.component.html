@@ -45,9 +45,8 @@
                      #element
                      (dndDragover)="dragOver($event, element, dropzoneEnabledFolders())"
                      (dndDrop)="onDrop([$event, null], dropzoneEnabledFolders())">
-                <div class="menu_content nav-link" matRipple
-                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
-                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
+                   [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
@@ -81,8 +80,7 @@
         <div class="nova-pasta" *ngIf="showAddFolder">
             <div class="campo-nova-pasta">
                 <mat-form-field [ngClass]="{'error': error}">
-                    <input matInput #inputFolder placeholder="Nome da pasta" [formControl]="newFolderCtrl" type="text"
-                           class="input-add-pasta" (keyup.enter)="addFolder()">
+                    <input matInput #inputFolder placeholder="Nome da pasta" [formControl]="newFolderCtrl" type="text" class="input-add-pasta" (keyup.enter)="addFolder()">
                 </mat-form-field>
                 <div class="actions">
                     <button mat-icon-button aria-label="Criar pasta" matTooltip="Criar pasta" class="accent"
@@ -149,8 +147,7 @@
                      #elementLixeira
                      (dndDragover)="dragOver($event, elementLixeira, dropzoneEnabledFolders('lixeira'))"
                      (dndDrop)="onDropDelete($event, dropzoneEnabledFolders('lixeira'))">
-                <div class="menu_content nav-link" matRipple
-                     [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
+                <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
@@ -174,6 +171,7 @@
         </div>
 
         <div class="nav-subheader">COMPARTILHAMENTO</div>
+
         <div class="nav-item">
             <a class="nav-link" matRipple
                [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas/outros-usuarios'"

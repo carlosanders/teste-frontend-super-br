@@ -2,9 +2,13 @@
 
 processo-etiqueta-view {
 
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
+    height: 100%;
+
+    .sidebar {
+        width: 230px !important;
+        min-width: 230px !important;
+        max-width: 230px !important;
+    }
 
     .center {
 

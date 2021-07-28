@@ -62,7 +62,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     loaded: any;
 
-    tarefaListSize = 22;
+    tarefaListSize = 30;
     tarefaListOriginalSize: number;
 
     tarefas$: Observable<Tarefa[]>;

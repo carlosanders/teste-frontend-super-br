@@ -1,12 +1,6 @@
 @import "src/@cdk/scss/cdk";
 @import "../../../../../node_modules/angular-calendar/scss/angular-calendar";
 
-.sidebar {
-    width: 185px !important;
-    min-width: 185px !important;
-    max-width: 185px !important;
-}
-
 .cal-month-view {
 
     .cal-header {
@@ -196,16 +190,15 @@
     max-height: 100%;
 
     .header {
-        height: 100px;
-        min-height: 100px;
-        max-height: 100px;
+        height: 200px;
+        min-height: 200px;
+        max-height: 200px;
         position: relative;
         background-size: 100% auto;
         background-position: 0 50%;
         background-repeat: no-repeat;
         background-color: #FAFAFA;
         color: #FFFFFF;
-        padding: 10px;
 
         @include media-breakpoint(xs) {
             height: 164px;
@@ -315,6 +308,5 @@
 
     .content {
         height: 100%;
-        padding: 8px;
     }
 }
