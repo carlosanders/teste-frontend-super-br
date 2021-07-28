@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {Back} from '../../../../../store';
-import {filter} from 'rxjs/operators';
+import {filter, first} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
@@ -39,6 +39,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
     usuarioAprovacaoPagination: Pagination;
 
     values: any;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -106,7 +108,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
 
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(first()).subscribe((value) => {
             if (value === this.documento.id) {
                 this.submitAtividade();
             }
@@ -120,6 +122,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
