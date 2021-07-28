@@ -17,7 +17,6 @@ import {environment} from 'environments/environment';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import * as ProcessoViewDocumentosActions from "../actions/documentos.actions";
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -62,7 +61,13 @@ export class DocumentosVinculadosEffects {
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
                             'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                            'componentesDigitais'
+                            'componentesDigitais',
+                            'processoOrigem',
+                            'setorOrigem',
+                            'tarefaOrigem',
+                            'tarefaOrigem.usuarioResponsavel',
+                            'tarefaOrigem.vinculacoesEtiquetas',
+                            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                         ]
                     };
 

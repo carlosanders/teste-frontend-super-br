@@ -41,6 +41,9 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     changeSelected: EventEmitter<number[]> = new EventEmitter<number[]>();
 
     @Output()
+    clickDocumento: EventEmitter<Documento> = new EventEmitter<Documento>();
+
+    @Output()
     deleteDocumento: EventEmitter<any> = new EventEmitter<any>();
 
     @Output()
@@ -141,6 +144,7 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     }
 
     onClickedDocumentoVinculado(documento): void {
+        this.clickDocumento.emit(documento);
     }
 
     doDeleteDocumentoVinculado(documentoId: number, loteId: string = null): void {

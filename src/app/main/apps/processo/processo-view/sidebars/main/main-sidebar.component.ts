@@ -1120,6 +1120,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const changeSelectedSub = dialogRef.componentInstance.changeSelected.subscribe((selectedIds) => {
             this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
         });
+        const clickedSub = dialogRef.componentInstance.clickDocumento.subscribe((documento) => {
+            this._store.dispatch(new fromStore.ClickedDocumento({
+                documento: documento,
+                routeAtividade: this.routeAtividadeDocumento,
+                routeOficio: this.routeOficioDocumento
+            }));
+            dialogRef.close();
+        });
         const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe((documento: Documento) => {
             this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
         });
@@ -1141,6 +1149,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             atualizaSub.unsubscribe();
             assinaSub.unsubscribe();
             changeSelectedSub.unsubscribe();
+            clickedSub.unsubscribe();
             completeSub.unsubscribe();
             deleteSub.unsubscribe();
             downloadP7SSub.unsubscribe();

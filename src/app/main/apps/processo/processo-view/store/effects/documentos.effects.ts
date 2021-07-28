@@ -505,9 +505,9 @@ export class ProcessoViewDocumentosEffects {
 
                     let sidebar = action.payload.routeOficio + '/dados-basicos';
 
-                    if (!action.payload.documento.documentoAvulsoRemessa && !action.payload.documento.juntadaAtual) {
+                    if (!action.payload.documento.documentoAvulsoRemessa && !action.payload.documento.juntadaAtual && !action.payload.documento.vinculacaoDocumentoPrincipal) {
                         sidebar = 'editar/' + action.payload.routeAtividade;
-                    } else if (action.payload.documento.juntadaAtual) {
+                    } else if (action.payload.documento.juntadaAtual || action.payload.documento.vinculacaoDocumentoPrincipal) {
                         sidebar = 'editar/dados-basicos';
                     }
 
