@@ -88,7 +88,7 @@ export class AssuntoEditEffect {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._assuntoService.save(action.payload.assunto).pipe(
+                    return this._assuntoService.save(action.payload).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,

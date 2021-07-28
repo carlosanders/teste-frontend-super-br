@@ -87,7 +87,7 @@ export class VolumeEditEffect {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._volumeService.save(action.payload.volume).pipe(
+                    return this._volumeService.save(action.payload).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
