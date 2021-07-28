@@ -308,6 +308,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             setorResponsavel: [null, [Validators.required]],
             usuarioResponsavel: [null],
             blocoResponsaveis: [null],
+            grupoContato: [null],
             usuarios: [null],
             setores: [null],
             setorOrigem: [null, [Validators.required]],
