@@ -21,17 +21,16 @@ import {
 } from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../../atividades/atividade-create/store';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistribuindoId} from '../selectors';
 import {
-    DarCienciaTarefa,
+    DarCienciaTarefa, GetTarefas,
     RedistribuirTarefa,
     RedistribuirTarefaCancelSuccess,
     RedistribuirTarefaFailed,
     RedistribuirTarefaSuccess
 } from '../../../store';
-import {TarefaDetailActionsAll} from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
+import {GetTarefa} from "app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions";
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -402,18 +401,24 @@ export class TarefaDetailEffect {
                 tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tarefa',
-                    content: 'Salvando a tarefa ...',
+                    content: 'Salvando etiqueta para a tarefa ...',
                     status: 0, // carregando
                 }))),
-                switchMap(action => {
-                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                mergeMap(action => {
+                    const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+                    vinculacaoEtiqueta.tarefa = action.payload.tarefa;
+                    vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
+                    return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
                         tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
-                                status: 1, // sucesso
-                            }))
+                            {
+                               response.tarefa = null;
+                                this._store.dispatch(new OperacoesActions.Operacao({
+                                    id: action.payload.operacaoId,
+                                    type: 'tarefa',
+                                    content: 'Etiqueta id ' + response.id + ' salva com sucesso.',
+                                    status: 1, // sucesso
+                                }));
+                            }
                         ),
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new AddChildData<VinculacaoEtiqueta>({
@@ -421,23 +426,20 @@ export class TarefaDetailEffect {
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: tarefaSchema,
                                 parentId: action.payload.tarefa.id
-                            }),
-                            new GetDocumentos(),
-                            new TarefaDetailActions.SaveTarefaSuccess(),
-                            new AddData<VinculacaoEtiqueta>({data: [response], schema: vinculacaoEtiquetaSchema})
+                            })
                         ]),
                         catchError((err) => {
                             console.log(err);
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'tarefa',
-                                content: 'Erro ao salvar a tarefa!',
+                                content: 'Erro ao salvar etiquetar a tarefa!',
                                 status: 2, // erro
                             }));
                             return of(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     )
-                })
+                }, 25)
             );
 
     /**

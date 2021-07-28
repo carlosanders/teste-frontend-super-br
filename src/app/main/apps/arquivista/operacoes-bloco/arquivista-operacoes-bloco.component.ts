@@ -58,6 +58,8 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
 
     modalidadeTransicao$: Observable<ModalidadeTransicao>;
 
+    displayProcessos = false;
+
     /**
      *
      * @param _dynamicService
@@ -162,5 +164,9 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
 
     doAbort(): void {
         this._store.dispatch(new fromStoreProcessos.ChangeSelectedProcessos([]));
+    }
+
+    exibeProcessos(): void {
+        this.displayProcessos = !this.displayProcessos;
     }
 }

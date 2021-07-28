@@ -17,7 +17,6 @@ import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from "../../../../../../../../@cdk/services/componente-digital.service";
-import {DocumentosVinculadosActionsAll} from '../actions/documentos-vinculados.actions';
 
 @Injectable()
 export class DocumentosVinculadosEffects {

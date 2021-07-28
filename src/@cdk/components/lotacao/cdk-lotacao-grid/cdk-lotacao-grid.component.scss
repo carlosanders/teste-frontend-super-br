@@ -68,6 +68,9 @@ cdk-lotacao-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.indisponivel {
+                        text-decoration: line-through;
+                    }
                     &.error {
                         color: red;
                     }

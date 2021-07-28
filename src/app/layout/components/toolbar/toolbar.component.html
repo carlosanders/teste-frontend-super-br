@@ -1,42 +1,52 @@
-<mat-toolbar>
+<mat-toolbar class="p-0 mat-elevation-z1">
 
-    <div class="page-layout">
-        <div class="menu-flex">
-            <button mat-icon-button
+    <div class="toolbar-element" xFlex fxFill fxLayout="row" fxLayoutAlign="start center">
+
+        <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+
+            <button mat-icon-button class="navbar-toggle-button"
                     *ngIf="!hiddenNavbar && !rightNavbar" (click)="toggleSidebarOpen('navbar')" fxHide.gt-md>
                 <mat-icon class="secondary-text">menu</mat-icon>
             </button>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && !rightNavbar" fxHide.gt-md></div>
 
-            <div *ngIf="horizontalNavbar">
+            <div fxLayout="row" fxLayoutAlign="start center" *ngIf="horizontalNavbar">
                 <div class="logo ml-16">
                     <img class="logo-icon" [src]="_cdkConfigService.logo">
                 </div>
             </div>
         </div>
 
-        <div class="menus">
-            <button mat-button [matMenuTriggerFor]="userMenu" >
-                <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/User.png"
-                     *ngIf="!!userProfile?.imgPerfil?.id === false">
-                <img class="avatar mr-0 mr-sm-16" [src]="userProfile.imgPerfil.conteudo|safeResourceUrl"
-                     *ngIf="!!userProfile?.imgPerfil?.id === true">
-                <span class="username mr-12" fxHide fxShow.gt-sm>{{userProfile?.nome.split(' ')[0]}}</span>
-                <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
-            </button>
+        <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
 
-            <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-                <button mat-menu-item (click)="goConfiguracoes()">
-                    <mat-icon>account_circle</mat-icon>
-                    <span>Configurações</span>
+            <div class="avatar-element" >
+                <button mat-button [matMenuTriggerFor]="userMenu"
+                        class="user-button">
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/User.png"
+                             *ngIf="!!userProfile?.imgPerfil?.id === false">
+                        <img class="avatar mr-0 mr-sm-16" [src]="userProfile.imgPerfil.conteudo|safeResourceUrl"
+                             *ngIf="!!userProfile?.imgPerfil?.id === true">
+                        <span class="username mr-12" fxHide fxShow.gt-sm>{{userProfile?.nome.split(' ')[0]}}</span>
+                        <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+                    </div>
                 </button>
-                <button mat-menu-item (click)="goLogout()">
-                    <mat-icon>exit_to_app</mat-icon>
-                    <span>Sair</span>
-                </button>
-            </mat-menu>
 
+                <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+
+                    <button mat-menu-item (click)="goConfiguracoes()">
+                        <mat-icon>account_circle</mat-icon>
+                        <span>Configurações</span>
+                    </button>
+
+                    <button mat-menu-item (click)="goLogout()">
+                        <mat-icon>exit_to_app</mat-icon>
+                        <span>Sair</span>
+                    </button>
+
+                </mat-menu>
+            </div>
 
             <div class="toolbar-separator"></div>
 
@@ -47,7 +57,7 @@
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button botao-notificacao"
+                    class="quick-panel-toggle-button"
                     aria-label="Notificações"
                     [matMenuTriggerFor]="menuNoticacoes">
                 <mat-icon *ngIf="carregandoNotificacao">
@@ -93,11 +103,11 @@
                         <mat-list-item [class.non-readed]="!notificacao.dataHoraLeitura">
                             <div class="notification-item" (click)="$event.stopPropagation()">
                                 <mat-checkbox (change)="checkNotification($event.checked, notificacao)"></mat-checkbox>
-                                <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: initial; font-size: 13px;"
+                                <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: initial;"
                                    [innerHTML]="notificacao.conteudo">
                                 </p>
                                 <div class="actions">
-                                    <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)" *ngIf="!!getNotificacaoContext(notificacao)?.id">search</mat-icon>
+                                    <mat-icon class="mat-18" title="Abrir" (click)="$event.stopPropagation(); sendToTarget(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.id">search</mat-icon>
                                     <mat-icon class="mat-18" title="Download" (click)="$event.stopPropagation(); download(notificacao)" *ngIf="getNotificacaoContext(notificacao)?.componente_digital_id">cloud_download</mat-icon>
                                     <mat-icon class="mat-18" title="Marcar como lida" (click)="$event.stopPropagation(); toggleLida(notificacao)" *ngIf="!notificacao.dataHoraLeitura">done</mat-icon>
                                     <mat-icon class="mat-18" title="Remover" (click)="$event.stopPropagation(); removerNotificacao(notificacao)">delete</mat-icon>
@@ -118,7 +128,7 @@
 
             <button mat-icon-button
                     id="help"
-                    class="quick-panel-toggle-button2 botao-ajuda"
+                    class="quick-panel-toggle-button2"
                     (click)="toggleSidebarOpen('ajudaPanel')"
                     aria-label="Ajuda">
                 <mat-icon class="secondary-text">live_help</mat-icon>
@@ -127,7 +137,7 @@
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button2 botao-mensagem"
+                    class="quick-panel-toggle-button2"
                     (click)="toggleChatPanel()"
                     aria-label="Mensagem">
                 <mat-icon *ngIf="carregandoChat">
@@ -145,7 +155,7 @@
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button3 botao-operacoes"
+                    class="quick-panel-toggle-button3"
                     *ngIf="(!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen || this._cdkSidebarService.getSidebar('quickPanel').folded)
                      && operacoesProcessando === 0"
                     (click)="toggleQuickPanel()"

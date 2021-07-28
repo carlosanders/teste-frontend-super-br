@@ -1,28 +1,49 @@
 <mat-toolbar class="chat-toolbar">
-    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon class="cursor-pointer secondary-text" (click)="fecharChat()">arrow_back</mat-icon>
-            <div class="chat-profile" fxLayout="row" fxLayoutAlign="start center">
-                <div class="avatar-wrapper">
-                    <chat-imagem
-                        [chat]="chat">
-                    </chat-imagem>
-                </div>
-                <div class="chat-profile-name">
-                    {{chatUtils.getChatData(chat).nome}}
-                </div>
+    <mat-icon class="cursor-pointer secondary-text" (click)="fecharChat()">arrow_back</mat-icon>
+    <div class="chat-profile">
+        <div class="avatar-wrapper"  *ngIf="!!chat?.id">
+            <chat-imagem [imagem]="chat?.capa">
+            </chat-imagem>
+        </div>
+        <div class="chat-info">
+            <div class="chat-profile-name" *ngIf="!!chat?.id">
+                {{chat.nome}}
+            </div>
+            <div class="chat-profile-name" *ngIf="!chat?.id">
+                Novo Chat
+            </div>
+            <div class="chat-descricao" *ngIf="chat?.descricao?.length">
+                {{chat.descricao}}
             </div>
         </div>
-<!--        <div>-->
-<!--            <button mat-icon-button [matMenuTriggerFor]="contactMenu" aria-label="more">-->
-<!--                <mat-icon>more_vert</mat-icon>-->
-<!--            </button>-->
-<!--            <mat-menu #contactMenu="matMenu">-->
-<!--                <button mat-menu-item (click)="fecharChat()">-->
-<!--                    Fechar Conversa-->
-<!--                </button>-->
-<!--            </mat-menu>-->
-<!--        </div>-->
-
+    </div>
+    <div class="chat-toolbar-actions"
+         *ngIf="chat?.grupo">
+        <button mat-icon-button
+                [matMenuTriggerFor]="chatMensagemMenu"
+                aria-label="more">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #chatMensagemMenu="matMenu">
+            <button mat-menu-item (click)="chatForm()" *ngIf="chat.grupo && chat.chatParticipante?.administrador">
+                Alterar Chat
+            </button>
+            <button mat-menu-item *ngIf="chat.grupo" (click)="chatParticipantes()">
+                <span *ngIf="chat.chatParticipante?.administrador">
+                    Gerenciar Membros
+                </span>
+                <span *ngIf="!chat.chatParticipante?.administrador">
+                    Visualizar Membros
+                </span>
+            </button>
+            <button mat-menu-item *ngIf="chat.chatParticipante?.administrador && chat.grupo"
+                    (click)="excluirChat()">
+                Excluir Chat
+            </button>
+            <button mat-menu-item *ngIf="chat.grupo"
+                    (click)="sairChat()">
+                Sair do Chat
+            </button>
+        </mat-menu>
     </div>
 </mat-toolbar>

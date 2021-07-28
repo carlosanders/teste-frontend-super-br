@@ -1,10 +1,10 @@
 <!-- SIDEBAR HEADER -->
-<div class="header">
+<div class="header p-8">
     <div class="actions">
         <button mat-mini-fab
                 [matTooltip]="'Criar Minuta'"
                 *ngIf="tarefa"
-                class="espaco-icones active accent"
+                class="m-8 active accent"
                 [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
                 #menuTriggerList="matMenuTrigger"
                 (click)="$event.stopPropagation()">
@@ -261,7 +261,7 @@
                             </div>
                         </div>
                     </div>
-                    <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4">attach_file</mat-icon>
+                    <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4" (click)="uploadAnexo(minuta); $event.stopPropagation();">attach_file</mat-icon>
                     <mat-icon *ngIf="minuta.assinado" [matTooltip]="'Assinado'" class="ml-4 mr-4">lock</mat-icon>
                     <div class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="minutasMenu"
@@ -357,6 +357,14 @@
                                 <mat-icon color="accent">edit</mat-icon>
                                 <span>Alterar Tipo de Documento</span>
                             </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    mat-menu-item aria-label="upload anexo"
+                                    (click)="uploadAnexo(minuta)">
+                                <ng-container>
+                                    <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                    <span>Anexos</span>
+                                </ng-container>
+                            </button>
                         </mat-menu>
                     </div>
 
@@ -422,6 +430,7 @@
                             </div>
                         </div>
                     </div>
+                    <mat-icon *ngIf="oficio.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4" (click)="uploadAnexo(oficio); $event.stopPropagation();">attach_file</mat-icon>
                     <mat-icon *ngIf="oficio.assinado" class="ml-4 mr-4">lock</mat-icon>
                     <div class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="oficiosMenu"
@@ -506,6 +515,14 @@
                                     mat-menu-item>
                                 <mat-icon color="accent">edit</mat-icon>
                                 <span>Alterar Tipo de Documento</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    mat-menu-item aria-label="upload anexo"
+                                    (click)="uploadAnexo(oficio)">
+                                <ng-container>
+                                    <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                    <span>Upload de Anexo</span>
+                                </ng-container>
                             </button>
                         </mat-menu>
                     </div>
@@ -749,6 +766,13 @@
                             </ng-container>
                         </button>
 
+                        <button mat-menu-item aria-label="desentranhar" (click)="doDesentranharSimples(juntada.id)"
+                                *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR')">
+                            <ng-container>
+                                <mat-icon>low_priority</mat-icon>
+                                <span>Desentranhar</span>
+                            </ng-container>
+                        </button>
                     </mat-menu>
                 </div>
             </div>

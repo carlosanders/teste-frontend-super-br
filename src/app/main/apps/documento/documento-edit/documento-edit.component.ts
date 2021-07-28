@@ -224,7 +224,21 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     // -----------------------------------------------------------------------------------------------------
 
     onClickedDocumentoVinculado(documento): void {
-        this._store.dispatch(new ClickedDocumentoVinculado(documento));
+        let sidebar = 'editar/atividade';
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id + '/editor/ckeditor';
+        } else {
+            primary += '0';
+        }
+        if (documento.vinculacaoDocumentoPrincipal) {
+            sidebar = 'editar/dados-basicos';
+        }
+        this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id, {outlets: {primary: primary, sidebar: sidebar}}],
+            {
+                relativeTo: this._activatedRoute.parent // <--- PARENT activated route.
+            }).then();
     }
 
     back(): void {

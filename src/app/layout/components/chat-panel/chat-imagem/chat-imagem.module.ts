@@ -7,13 +7,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
-import {LoginService} from "../../../../main/auth/login/login.service";
 import {CdkSharedModule} from "@cdk/shared.module";
 import {ChatImagemComponent} from "./chat-imagem.component";
 import {PipesModule} from "../../../../../@cdk/pipes/pipes.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatBadgeModule} from "@angular/material/badge";
-import {ChatUtils} from "../utils/chat.utils";
 
 @NgModule({
     declarations: [
@@ -33,7 +31,6 @@ import {ChatUtils} from "../utils/chat.utils";
         PipesModule
     ],
     providers: [
-        ChatUtils
     ],
     exports: [
         ChatImagemComponent

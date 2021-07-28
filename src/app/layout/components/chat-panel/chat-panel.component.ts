@@ -12,28 +12,16 @@ import {
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {Observable, Subject} from 'rxjs';
-import {Chat, ChatMensagem, Usuario} from "@cdk/models";
+import {Chat, ChatMensagem, ChatParticipante, ComponenteDigital, Usuario} from "@cdk/models";
 import {select, Store} from '@ngrx/store';
 import {Router} from "@angular/router";
 import * as fromStore from './store';
-import {
-    CloseChat,
-    EnviarMensagem,
-    GetChat,
-    GetChatIncrement,
-    GetMensagens,
-    GetMensagensIncrement,
-    LimparMensagensNaoLidas,
-    OpenChat,
-    UnloadChatMensagens
-} from './store';
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
-import {filter, takeUntil} from "rxjs/operators";
+import {takeUntil} from "rxjs/operators";
 import {MercureService} from "@cdk/services/mercure.service";
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
-import {ChatUtils} from "./utils/chat.utils";
 
 @Component({
     selector: 'chat-panel',
@@ -73,6 +61,23 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     chatMensagensTimer:NodeJS.Timeout = null;
 
     /**
+     * Chat Participante Variables
+     */
+    chatParticipanteList: ChatParticipante[] = [];
+    chatParticipantePaginator: any;
+    chatParticipanteLoading: boolean = false;
+    chatParticipanteSaving: boolean = false;
+    chatParticipanteErrors: any = null;
+    chatParticipanteDeletingIds: number[] = [];
+
+    /**
+     * Chat Group Variables
+     */
+    chatFormCapa: ComponenteDigital = new ComponenteDigital;
+    chatFormSaving: boolean = false;
+    chatFormErrors: any = null;
+
+    /**
      * Global controls
      */
     chatMensagemForm: FormGroup;
@@ -97,7 +102,6 @@ export class ChatPanelComponent implements OnInit, OnDestroy
      * @param _cdkSidebarService
      * @param _formBuilder
      * @param _mercureService
-     * @param chatUtils
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -106,8 +110,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         private _loginService: LoginService,
         private _cdkSidebarService: CdkSidebarService,
         private _formBuilder: FormBuilder,
-        private _mercureService: MercureService,
-        public chatUtils: ChatUtils
+        private _mercureService: MercureService
     )
     {
         this.chatList$ = this._store.pipe(
@@ -166,6 +169,56 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         if (!this.usuarioLogado) {
             this._loginService.checkUserProfileChanges();
         }
+
+        this._store.pipe(
+            select(fromStore.getChatFormCapa),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(capa => this.chatFormCapa = capa);
+
+        this._store.pipe(
+            select(fromStore.getChatFormSaving),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(saving => this.chatFormSaving = saving);
+
+        this._store.pipe(
+            select(fromStore.getChatActiveCard),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(activeCard => this.activeCard = activeCard);
+
+        this._store.pipe(
+            select(fromStore.getChatFormErrors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(errors => this.chatFormErrors = errors);
+
+        this._store.pipe(
+            select(fromStore.getChatParticipanteList),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(chatParticipanteList => this.chatParticipanteList = chatParticipanteList);
+
+        this._store.pipe(
+            select(fromStore.getChatParticipantePagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(chatParticipantePaginator => this.chatParticipantePaginator = chatParticipantePaginator);
+
+        this._store.pipe(
+            select(fromStore.getChatParticipanteIsLoading),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(chatParticipanteLoading => this.chatParticipanteLoading = chatParticipanteLoading);
+
+        this._store.pipe(
+            select(fromStore.getChatParticipanteIsSaving),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(chatParticipanteSaving => this.chatParticipanteSaving = chatParticipanteSaving);
+
+        this._store.pipe(
+            select(fromStore.getChatParticipanteErrors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(chatParticipanteErrors => this.chatParticipanteErrors = chatParticipanteErrors);
+
+        this._store.pipe(
+            select(fromStore.getChatParticipanteDeletingIds),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(chatParticipanteDeletingIds => this.chatParticipanteDeletingIds = chatParticipanteDeletingIds);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -178,20 +231,26 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.chatOpen$.subscribe(chat => {
+
             if (!!this.chatOpen && this.chatOpen?.id != chat?.id) {
                 this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
             }
 
             if (chat?.id && chat?.id != this.chatOpen?.id) {
-                this.activeCard = 'chat-mensagem-list';
                 this.lastScrollMensagemHeight = null;
                 this.chatMensagemScrollBottom = true;
                 this.chatOpen = chat;
                 this._mercureService.subscribe('/v1/administrativo/chat/'+this.chatOpen.id);
-                this._mercureService.unsubscribe(this.usuarioLogado.username+'/chat');
 
-                this._store.dispatch(new LimparMensagensNaoLidas(this.chatUtils.getParticipante(chat.participantes)));
-                this._store.dispatch(new UnloadChatMensagens());
+                this._store.dispatch(new fromStore.UnloadChatMensagens());
+                this._store.dispatch(new fromStore.UnloadChatParticipantes());
+
+                this.getChatParticipantes({
+                    ...this.chatParticipantePaginator,
+                    limit: 10,
+                    offset: 0,
+                    sort: {'administrador': 'DESC', 'criadoEm': 'ASC'}
+                });
 
                 this.getChatMensagens({
                     ...this.chatMensagemPaginator,
@@ -199,13 +258,12 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                     limit: 10,
                     offset: 0,
                     populate: [
-                        'populateAll',
-                        'chat.participantes',
-                        'chat.participantes.usuario',
-                        'chat.participantes.usuario.imgPerfil',
-                        'chat.ultimaMensagem',
-                        'chat.ultimaMensagem.usuario'
+                        'chat',
+                        'usuario'
                     ],
+                    context: {
+                        'chat_individual_usuario': this.usuarioLogado?.id
+                    },
                     sort: {'criadoEm':'DESC'}
                 });
 
@@ -272,14 +330,15 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         if (keyword.length > 0) {
             gridFilter = {'keyword': keyword};
         }
-        this._store.dispatch(new GetChat({
+        this._store.dispatch(new fromStore.GetChat({
+            context: {
+                'chat_individual_usuario': this.usuarioLogado.id,
+                'chat_participante': this.usuarioLogado.id,
+            },
             gridFilter: gridFilter,
             populate: [
-                'participantes.usuario',
-                'participantes.usuario.imgPerfil',
                 'ultimaMensagem',
-                'ultimaMensagem.usuario',
-                'populateAll'
+                'capa',
             ],
             limit: 10,
             offset: 0,
@@ -304,7 +363,8 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     openChat(chat: Chat) : void
     {
         if (!this.chatOpen || this.chatOpen.id !== chat.id) {
-            this._store.dispatch(new OpenChat(chat));
+            this._store.dispatch(new fromStore.OpenChat(chat));
+            this.marcarMensagensLida(chat);
         }
     }
 
@@ -313,18 +373,36 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this.chatMensagens = [];
         this._changeDetectorRef.markForCheck();
 
-        this._store.dispatch(new GetMensagens({
+        this._store.dispatch(new fromStore.GetMensagens({
             ...paginator,
-            filter: {'chat.id': 'eq:'+this.chatOpen.id},
+            filter: {
+                'chat.id': 'eq:'+this.chatOpen.id,
+                'criadoEm': 'gte:'+this.chatOpen.chatParticipante.criadoEm
+            },
             populate: [
-                'populateAll',
-                'chat.participantes',
-                'chat.participantes.usuario',
-                'chat.participantes.usuario.imgPerfil',
-                'chat.ultimaMensagem',
-                'chat.ultimaMensagem.usuario',
+                'usuario',
+                'usuario.imgPerfil',
+                'chat',
             ],
             sort: {'criadoEm':'DESC'}
+        }));
+    }
+
+    getChatParticipantes(paginator:any, increment: boolean = false): void
+    {
+        this._store.dispatch(new fromStore.GetParticipantes({
+            pagination: {
+                ...paginator,
+                filter: {
+                    'chat.id': 'eq:' + this.chatOpen.id
+                },
+                populate: [
+                    'chat',
+                    'usuario',
+                    'usuario.imgPerfil',
+                ]
+            },
+            increment: increment
         }));
     }
 
@@ -333,14 +411,32 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         // this.toogleChatHandler.emit(false);
         if (this.chatOpen && this.chatOpen.id) {
             this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
-            this.activeCard = 'chat-list';
+            this.marcarMensagensLida(this.chatOpen);
+            this._store.dispatch(new fromStore.UnloadChatParticipantes());
+            this._store.dispatch(new fromStore.UnloadChatMensagens());
+
             this.getChatsUsuario();
-            this._store.dispatch(new LimparMensagensNaoLidas(
-                this.chatUtils.getParticipante(this.chatOpen.participantes))
-            );
         }
-        this._store.dispatch(new CloseChat(this.chatOpen));
+        this._store.dispatch(new fromStore.CloseChat(this.chatOpen));
         this.chatOpen = null;
+    }
+
+    marcarMensagensLida(chat: Chat): void
+    {
+        if (chat.chatParticipante?.mensagensNaoLidas) {
+            this._store.dispatch(new fromStore.LimparMensagensNaoLidas({
+                chat: chat,
+                populate: [
+                    'chat',
+                    'chat.ultimaMensagem',
+                    'chat.capa',
+                ],
+                context: {
+                    'chat_participante': this.usuarioLogado.id,
+                    'chat_individual_usuario': this.usuarioLogado.id
+                }
+            }));
+        }
     }
 
     closeSidebar() : void
@@ -361,7 +457,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             chatMensagem.mensagem = this.chatMensagemForm.get('mensagem').value;
             chatMensagem.usuario = this.usuarioLogado;
 
-            this._store.dispatch(new EnviarMensagem(chatMensagem));
+            this._store.dispatch(new fromStore.EnviarMensagem(chatMensagem));
             // Inclusão falsa da mensagem no array para melhoria de experiência do usuário
             this.chatMensagens.push(chatMensagem);
             this.chatMensagemForm.reset();
@@ -386,7 +482,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             limit: 10,
             offset: this.chatList.length
         };
-        this._store.dispatch(new GetChatIncrement(nparams));
+        this._store.dispatch(new fromStore.GetChatIncrement(nparams));
     }
 
     onScrollUpChatMessageList(scrollEvent: IInfiniteScrollEvent): void
@@ -404,7 +500,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         };
 
         this.lastScrollMensagemHeight = this.chatMensagemScrollElRef.nativeElement.scrollHeight;
-        this._store.dispatch(new GetMensagensIncrement(nparams));
+        this._store.dispatch(new fromStore.GetMensagensIncrement(nparams));
     }
 
     onScrollChatMessageList(scrollEvent: IInfiniteScrollEvent): void
@@ -439,6 +535,116 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 });
             }
         }
+    }
+
+    cancelChatGrupoForm(): void
+    {
+        let activeCard = ''
+        if (!this.chatOpen?.id) {
+
+            activeCard = 'chat-list';
+        } else {
+            activeCard = 'chat-mensagem-list';
+        }
+
+        this._store.dispatch(new fromStore.SetChatActiveCard(activeCard));
+    }
+
+    criarGrupo(): void
+    {
+        this._store.dispatch(new fromStore.SetChatActiveCard('chat-grupo-form'));
+        this.chatOpen = null;
+    }
+
+    salvarChat(chat: Chat): void
+    {
+        this._store.dispatch(new fromStore.ChatSave({
+            chat: chat,
+            populate: [
+                'capa',
+                'ultimaMensagem',
+            ],
+            context: {
+                'chat_individual_usuario': this.usuarioLogado?.id,
+                'chat_participante': this.usuarioLogado.id
+            }
+        }));
+    }
+
+    uploadImgCapaChat(capa: ComponenteDigital): void
+    {
+        this._store.dispatch(new fromStore.UploadImagemCapa(capa));
+    }
+
+    chatForm(chat: Chat): void {
+        this._store.dispatch(new fromStore.SetChatActiveCard('chat-grupo-form'));
+    }
+
+    chatParticipantes(chat: Chat): void {
+        this._store.dispatch(new fromStore.SetChatActiveCard('chat-participantes-list'));
+    }
+
+    adicionarParticipante(chatParticipante: ChatParticipante): void
+    {
+        this._store.dispatch(new fromStore.AddParticipante({
+            chatParticipante: chatParticipante,
+            populate: [
+                'usuario',
+                'usuario.imgPerfil',
+                'chat',
+                'chat.ultimaMensagem',
+            ]
+        }));
+    }
+
+    tornarAdministrador(chatParticipante: ChatParticipante): void
+    {
+        this._store.dispatch(new fromStore.UpdateParticipante({
+            chatParticipante: chatParticipante,
+            changes: {
+                administrador: true
+            },
+            populate: [
+                'usuario',
+                'usuario.imgPerfil',
+                'chat',
+                'chat.capa',
+            ]
+        }));
+    }
+
+    removerParticipante(chatParticipante: ChatParticipante): void
+    {
+        this._store.dispatch(new fromStore.RemoverParticipante({
+            chatParticipante: chatParticipante
+        }));
+    }
+
+    fecharParticipantes(): void
+    {
+        this._store.dispatch(new fromStore.SetChatActiveCard('chat-mensagem-list'));
+    }
+
+    onScrollDownChatParticipante() : void
+    {
+        if (this.chatParticipanteList.length >= this.chatParticipantePaginator.total) {
+            return;
+        }
+
+        const paginator = {
+            ...this.chatParticipantePaginator,
+            offset: this.chatParticipanteList.length,
+            limit: 10
+        };
+
+        this.getChatParticipantes(paginator, true);
+    }
+
+    excluirChat(chat: Chat): void
+    {
+        this._store.dispatch(new fromStore.ChatExcluir({
+            chat: chat
+        }));
     }
 
     /**

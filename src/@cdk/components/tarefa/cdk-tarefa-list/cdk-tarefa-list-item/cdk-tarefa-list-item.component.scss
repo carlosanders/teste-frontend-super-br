@@ -1,7 +1,8 @@
 cdk-tarefa-list-item {
+
     flex: 0 1 auto;
     display: flex;
-    padding: 4px 0px 4px 4px;
+    padding: 16px 16px 16px 24px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     text-transform: none;
     cursor: pointer;
@@ -9,14 +10,23 @@ cdk-tarefa-list-item {
     > .content {
         flex: 1 1 auto;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: flex-start;
         align-items: center;
 
+        .check {
+            flex: 0 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .info {
+
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
             word-break: break-word;
             hyphens: auto;
             -webkit-hyphens: auto;
@@ -42,17 +52,14 @@ cdk-tarefa-list-item {
                 font-weight: bold;
             }
 
+            margin: 0 16px 0 8px;
+
             .title {
                 flex: 1 1 auto;
                 display: flex;
                 flex-direction: row;
                 font-size: 15px;
                 font-weight: 600;
-                align-items: center;
-
-                .check {
-                    margin: 0px 8px 3px 0px;
-                }
             }
 
             .subtitle {
@@ -75,102 +82,81 @@ cdk-tarefa-list-item {
                 }
             }
 
-            .cartao {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
+            .body {
+                margin-top: 6px;
 
-                .body {
+                .observacao {
+                    margin-left: 10px;
                     display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    margin-top: 6px;
+                    flex-direction: row;
+                    align-items: center;
 
-                    .observacao {
-                        margin-left: 10px;
-                        display: flex;
-                        flex-direction: row;
+                    > span {
+                        font-style: italic;
+                        font-size: smaller;
+                        white-space: pre-wrap;
+                    }
+
+                    > mat-icon {
+                        margin-left: 4px;
+                        font-size: 18px;
                         align-items: center;
+                        line-height: 18px;
+                        min-width: 18px;
+                        min-height: 18px;
+                        width: 18px;
+                        height: 18px;
+                    }
 
-                        > span {
-                            font-style: italic;
-                            font-size: smaller;
-                            white-space: pre-wrap;
-                        }
+                    > mat-form-field {
+                        display: flex;
+                        flex: 1 1 auto;
 
-                        > mat-icon {
-                            margin-left: 4px;
-                            font-size: 18px;
-                            align-items: center;
-                            line-height: 18px;
-                            min-width: 18px;
-                            min-height: 18px;
-                            width: 18px;
-                            height: 18px;
-                        }
-
-                        > mat-form-field {
+                        > div.mat-form-field-wrapper {
                             display: flex;
                             flex: 1 1 auto;
-
-                            > div.mat-form-field-wrapper {
-                                display: flex;
-                                flex: 1 1 auto;
-                            }
-                        }
-
-                        > .actions {
-                            margin-left: 4px;
                         }
                     }
 
-                    .edit-observacao {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-
-                        > span {
-                            font-style: italic;
-                            font-size: smaller;
-                            white-space: pre-wrap;
-                        }
-
-                        > mat-icon {
-                            margin-left: 4px;
-                            font-size: 18px;
-                            align-items: center;
-                            line-height: 18px;
-                            min-width: 18px;
-                            min-height: 18px;
-                            width: 18px;
-                            height: 18px;
-                        }
-
-                        > mat-form-field {
-                            display: flex;
-                            flex: 1 1 auto;
-
-                            > div.mat-form-field-wrapper {
-                                display: flex;
-                                flex: 1 1 auto;
-                            }
-                        }
-
-                        > .actions {
-                            margin-left: 4px;
-                        }
+                    > .actions {
+                        margin-left: 4px;
                     }
                 }
 
-                .actions {
-                    flex: 0 1 auto;
+                .edit-observacao {
                     display: flex;
-                    flex-direction: column;
-                    justify-content: flex-start;
+                    flex-direction: row;
                     align-items: center;
 
-                    > .mat-icon-button {
-                        width: 30px;
+                    > span {
+                        font-style: italic;
+                        font-size: smaller;
+                        white-space: pre-wrap;
+                    }
+
+                    > mat-icon {
+                        margin-left: 4px;
+                        font-size: 18px;
+                        align-items: center;
+                        line-height: 18px;
+                        min-width: 18px;
+                        min-height: 18px;
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    > mat-form-field {
+                        display: flex;
+                        flex: 1 1 auto;
+
+                        > div.mat-form-field-wrapper {
+                            display: flex;
+                            flex: 1 1 auto;
+                        }
+                    }
+
+                    > .actions {
+                        margin-left: 4px;
                     }
                 }
             }
@@ -198,6 +184,14 @@ cdk-tarefa-list-item {
                     }
                 }
             }
+        }
+
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
         }
     }
 }

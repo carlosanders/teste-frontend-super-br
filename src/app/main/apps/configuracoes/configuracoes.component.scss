@@ -14,16 +14,23 @@ configuracoes {
             display: flex;
 
             > .header {
-                height: 10px !important;
-                min-height: 10px !important;
-                max-height: 10px !important;
+
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+
+                height: 72px !important;
+                min-height: 72px !important;
+                max-height: 72px !important;
+
             }
 
             > .content-card {
 
                 flex: 1 1 auto;
                 display: flex;
-                border-radius: 12px 12px 0px 0px;
 
                 > .content {
 
