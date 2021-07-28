@@ -11,7 +11,6 @@ chat-mensagem-header {
 
         .chat-profile {
             display: flex;
-            display: flex;
             flex: 1 1 auto;
             flex-direction: row;
             align-items: center;
@@ -44,7 +43,7 @@ chat-mensagem-header {
         .chat-toolbar-actions {
             display: flex;
             flex: 1 1 auto;
-            align-items: end;
+            align-items: flex-end;
             flex-direction: column;
         }
     }
