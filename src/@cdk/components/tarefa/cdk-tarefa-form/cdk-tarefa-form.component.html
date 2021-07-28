@@ -103,6 +103,7 @@
                     </div>
                     <cdk-lotacao-autocomplete
                         #lotacao="lotacaoAutocomplete"
+                        [mode]="'search'"
                         [control]="lotacaoControl"
                         [pagination]="lotacaoPagination">
                     </cdk-lotacao-autocomplete>
@@ -428,6 +429,7 @@
 <cdk-lotacao-gridsearch
     *ngIf="activeCard === 'lotacao-gridsearch'"
     [pagination]="lotacaoPagination"
+    [mode]="'search'"
     (selected)="selectLotacao($event)"
     (cancel)="cancel()">
 </cdk-lotacao-gridsearch>

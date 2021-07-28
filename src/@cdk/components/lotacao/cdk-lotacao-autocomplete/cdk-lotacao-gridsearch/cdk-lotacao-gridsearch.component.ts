@@ -44,6 +44,9 @@ export class CdkLotacaoGridsearchComponent implements OnInit {
     loading: boolean;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'colaborador.usuario.nome', 'setor.nome', 'setor.unidade.nome', 'principal', 'actions'];
 
     /**

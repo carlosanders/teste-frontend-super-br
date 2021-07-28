@@ -1,5 +1,5 @@
 <mat-autocomplete (closed)="fechado()" [displayWith]="displayLotacaoFn">
-    <mat-option [ngClass]="{'multiline': true, 'indisponivel': !lotacao.colaborador.usuario.isDisponivel}"
+    <mat-option [ngClass]="{'multiline': true, 'indisponivel': mode == 'search' && !lotacao.colaborador?.usuario.isDisponivel}"
                 [disabled]="!lotacao.colaborador.usuario.isDisponivel"
                 *ngFor="let lotacao of lotacaoList"
                 [value]="lotacao">

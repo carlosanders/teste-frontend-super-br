@@ -34,6 +34,9 @@ export class CdkLotacaoAutocompleteComponent implements OnInit {
     control: AbstractControl;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     lotacaoList: Lotacao[];
 
     @Input()
