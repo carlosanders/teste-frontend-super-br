@@ -3,17 +3,14 @@
 cdk-processo-list-item {
     display: block;
     position: relative;
-    padding: 8px 2px 8px 8px;;
+    padding: 16px 16px 16px 24px;
     border-bottom: 1px solid #d8d8d8;
     text-transform: none;
     cursor: pointer;
     flex-shrink: 0;
 
     mat-expansion-panel{
-        margin-top: 8px !important;
-        > .mat-expansion-panel-header {
-            height: 31px;
-        }
+        margin-top: 15px !important;
 
         .lembrete {
             margin-left: 8px;

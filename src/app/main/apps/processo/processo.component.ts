@@ -104,8 +104,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso));
 
         this.vinculacaoEtiquetaPagination = new Pagination();
-        if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO'))
-        {
+        if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO')) {
             this.vinculacaoEtiquetaPagination.filter = {
                 orX: [
                     {
@@ -254,8 +253,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             + '/visualizar', '_blank');
     }
 
-   imprimirEtiqueta(): void {
+    imprimirEtiqueta(): void {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
+    }
+
+    imprimirRelatorio(): void {
+        this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'relatorio']).then();
     }
 
     arquivarProcesso(): void {

@@ -11,10 +11,6 @@ export class ChatParticipante {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome?: string;
-
-    descricao?: string;
-
     administrador?: boolean;
 
     mensagensNaoLidas?: number;
@@ -54,8 +50,6 @@ export class ChatParticipante {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.nome = null;
-        this.descricao = null;
         this.administrador = null;
         this.usuario = null;
         this.chat = null;

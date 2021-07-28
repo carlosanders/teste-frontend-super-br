@@ -1,0 +1,87 @@
+<chat-mensagem-header class="chat-header"
+                      [chat]="chat"
+                      (fecharChatHandler)="fechar()"
+                      (chatFormHandler)="chatForm($event)"
+                      (sairChatHandler)="removerParticipante($event)"
+                      (excluirChatHandler)="excluirChat($event)"
+                      (chatParticipantesHandler)="chatParticipantes($event)">
+</chat-mensagem-header>
+<div class="chat-header" *ngIf="chat.grupo && chat.chatParticipante?.administrador">
+    <mat-toolbar class="chat-toolbar">
+        <mat-toolbar-row>
+            <form [formGroup]="participanteForm" name="participanteForm"
+                  (ngSubmit)="adicionarParticipante()"
+                  (keydown.enter)="adicionarParticipante(); $event.preventDefault();">
+
+                <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="s-16 secondary-text">search</mat-icon>
+                        <input
+                            #usuarioInput
+                            fxFlex
+                            matInput placeholder="Adicionar usuário..."
+                            formControlName="usuario"
+                            [matAutocomplete]="usuario.autocomplete"
+                            (blur)="checkUsuario()"
+                            required>
+                    </div>
+                </div>
+                <cdk-usuario-autocomplete
+                    #usuario="usuarioAutocomplete"
+                    [control]="participanteForm.get('usuario')"
+                    [pagination]="usuarioPagination">
+                </cdk-usuario-autocomplete>
+                <button type="submit" mat-icon-button
+                        *ngIf="!saving"
+                        [disabled]="participanteForm.invalid">
+                    <mat-icon class="secondary-text">done</mat-icon>
+                </button>
+                <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+            </form>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+<mat-error *ngIf="errorMessage" class="chat-participantes-error">
+    {{errorMessage}}
+</mat-error>
+<div class="content"
+     infiniteScroll
+     [scrollWindow]="false"
+     [infiniteScrollDistance]="5"
+     [infiniteScrollThrottle]="150"
+     (scrolled)="scrollDown()">
+    <div class="chat-participantes-list-item" *ngFor="let participante of chatParticipanteList | sortByDate: 'criadoEm':'DESC':false">
+        <div class="chat-profile">
+            <div class="avatar-wrapper">
+                <chat-imagem [imagem]="participante.usuario.imgPerfil">
+                </chat-imagem>
+            </div>
+            <div class="chat-info">
+                <div class="chat-profile-name">
+                    {{participante.usuario.nome}}
+                </div>
+                <div class="chat-role" *ngIf="participante.administrador">
+                    Administrador
+                </div>
+            </div>
+        </div>
+        <div class="chat-participantes-actions"
+             *ngIf="chat.chatParticipante?.administrador && participante.id !== chat.chatParticipante?.id">
+            <button mat-icon-button
+                    [matMenuTriggerFor]="chatParticipanteMenu"
+                    *ngIf="!saving"
+                    aria-label="more">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #chatParticipanteMenu="matMenu">
+                <button mat-menu-item *ngIf="!participante.administrador" (click)="tornarAdministrador(participante)">
+                    Tornar Administrador
+                </button>
+                <button mat-menu-item (click)="removerParticipante(participante)">
+                    Excluir Participante
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+    <mat-spinner class="loading" color="accent" diameter="24" *ngIf="loading"></mat-spinner>
+</div>

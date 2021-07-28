@@ -10,6 +10,11 @@ cdk-tarefa-form {
         margin-bottom: 16px;
     }
 
+    .align-icon {
+        display: flex;
+        flex-direction: row;
+    }
+
     .dias-uteis {
         display: flex;
         flex: 0 1 auto;

@@ -49,7 +49,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     currentProcessoId: number;
     processos: Processo[] = [];
-    processoListSize = 22;
+    processoListSize = 30;
     processoListOriginalSize: number;
 
     processos$: Observable<Processo[]>;

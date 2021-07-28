@@ -10,7 +10,7 @@
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header" [ngClass]="viewDate | date:'MMM': null: 'en'">
+        <div class="header p-16 p-sm-24" [ngClass]="viewDate | date:'MMM': null: 'en'">
 
             <div class="header-content" fxLayout="column" fxLayoutAlign="space-between">
 
@@ -94,7 +94,7 @@
         <!-- / HEADER -->
 
         <!-- CONTENT -->
-        <div class="content" cdkPerfectScrollbar [@animate]="{value:'*',params:{delay:'200ms',y:'50px'}}">
+        <div class="content" class="p-24" cdkPerfectScrollbar [@animate]="{value:'*',params:{delay:'200ms',y:'50px'}}">
             <div [ngSwitch]="view">
                 <mwl-calendar-month-view
                     *ngSwitchCase="'month'"

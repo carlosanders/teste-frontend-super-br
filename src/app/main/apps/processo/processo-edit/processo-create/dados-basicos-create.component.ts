@@ -31,11 +31,7 @@ import * as fromStore from './store';
 import {
     getConfiguracaoNup,
     getTarefaIsSaving,
-    getVinculacaoProcessoIsSaving,
-    SaveAssunto,
-    SaveInteressado,
-    SaveTarefa,
-    SaveVinculacaoProcesso
+    getVinculacaoProcessoIsSaving
 } from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -166,6 +162,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     pessoa: Pessoa;
     lote: string;
+
+    editandoProcedencia = false;
+    editandoInteressado = false;
 
     private _unsubscribeAll: Subject<any>;
 
@@ -312,6 +311,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             setorResponsavel: [null, [Validators.required]],
             usuarioResponsavel: [null],
             blocoResponsaveis: [null],
+            grupoContato: [null],
             usuarios: [null],
             setores: [null],
             setorOrigem: [null, [Validators.required]],
@@ -602,16 +602,22 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onActivate(componentReference): void  {
         if (componentReference.select) {
-            componentReference.select.subscribe((pessoa: Pessoa) => {
-                if (!this.processo.id) {
+            if (this.editandoProcedencia) {
+                componentReference.select.subscribe((pessoa: Pessoa) => {
                     this.procedencia = pessoa;
-                }
-                else {
+                    if (this.routerState.url.includes('/pessoa')) {
+                        this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+                    }
+                });
+            } else {
+                componentReference.select.subscribe((pessoa: Pessoa) => {
                     this.pessoa = pessoa;
                     this.interessadoActivated = 'form';
-                }
-                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
-            });
+                    if (this.routerState.url.includes('/pessoa')) {
+                        this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+                    }
+                });
+            }
         }
     }
 
@@ -622,18 +628,26 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     gerirProcedencia(): void {
+        this.editandoProcedencia = true;
+        this.editandoInteressado = false;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/listar']).then();
     }
 
     editProcedencia(pessoaId: number): void {
+        this.editandoProcedencia = true;
+        this.editandoInteressado = false;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
     gerirPessoa(): void {
+        this.editandoProcedencia = false;
+        this.editandoInteressado = true;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/listar']).then();
     }
 
     editPessoa(pessoaId: number): void {
+        this.editandoProcedencia = false;
+        this.editandoInteressado = true;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
@@ -948,6 +962,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 const desentranhamento = new Desentranhamento();
                 desentranhamento.tipo = 'arquivo';
                 desentranhamento.juntada = juntada;
+                desentranhamento.juntadasBloco = [juntada];
                 const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.SaveDesentranhamento({
                     desentranhamento: desentranhamento,

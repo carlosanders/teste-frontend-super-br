@@ -1,18 +1,5 @@
 pesquisa {
     flex: 1 1 auto;
     display: flex;
-
-    > .page-layout {
-        > .center {
-            > .header {
-                height: 10px !important;
-                min-height: 10px !important;
-                max-height: 10px !important;
-            }
-            > .content-card {
-                border-radius: 12px 12px 0px 0px;
-            }
-        }
-    }
 }
 

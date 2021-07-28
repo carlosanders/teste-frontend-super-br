@@ -36,6 +36,8 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     juntadas: Juntada[] = [];
     juntadasSelecionadas: Juntada[] = [];
 
+    juntadasBloco: Juntada[] = [];
+
     desentranhamento: Desentranhamento;
 
     errors$: Observable<any>;
@@ -141,6 +143,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 }
             );
             desentranhamento.juntada = juntada;
+            desentranhamento.juntadasBloco = this.juntadasBloco;
             this._store.dispatch(new fromStore.SaveDesentranhamento({
                 desentranhamento: desentranhamento,
                 operacaoId: operacaoId,
@@ -204,6 +207,9 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         const juntadasIds = [];
         juntadas.forEach((juntada) => {
             juntadasIds.push(juntada.id);
+            if (!this.juntadasBloco.find((j) => j.id === juntada.id)){
+                this.juntadasBloco.push(juntada);
+            }
         });
         this._store.dispatch(new fromStore.SetSelectedJuntadas(juntadasIds));
     }

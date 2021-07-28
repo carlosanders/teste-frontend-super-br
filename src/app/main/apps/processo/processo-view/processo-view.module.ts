@@ -37,6 +37,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
 import {MatCardModule} from "@angular/material/card";
+import {CdkUploadDialogModule} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.module';
 
 const routes: Routes = [
     {
@@ -64,6 +65,10 @@ const routes: Routes = [
             {
                 path       : 'vincular',
                 loadChildren: () => import('./vinculacao-documento/vinculacao-documento.module').then(m => m.VinculacaoDocumentoModule)
+            },
+            {
+                path       : 'desentranhar',
+                loadChildren: () => import('./desentranhamento/desentranhamento.module').then(m => m.DesentranhamentoModule)
             }
         ]
     },
@@ -113,6 +118,7 @@ modulesConfig.forEach((module) => {
         CdkVolumeAutocompleteModule,
         CdkModeloAutocompleteModule,
         CdkUploadModule,
+        CdkUploadDialogModule,
         CdkComponenteDigitalCardListModule,
         CdkTipoDocumentoAutocompleteModule,
         MatProgressBarModule,
