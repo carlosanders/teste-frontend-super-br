@@ -91,6 +91,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     vinculacao = false;
 
+    desentranhamento = false;
+
     documentoAvulso = false;
 
     modelos = false;
@@ -223,6 +225,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
                     routerState.state.params.stepHandle === 'default';
                 this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
+                this.desentranhamento = routerState.state.url.indexOf('/desentranhar') !== -1;
                 this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
                 this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;

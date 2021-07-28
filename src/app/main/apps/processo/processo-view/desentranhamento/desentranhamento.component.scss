@@ -1,0 +1,12 @@
+desentranhamento {
+    flex: 1 1 auto;
+    display: flex;
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        padding: 8px;
+    }
+}
