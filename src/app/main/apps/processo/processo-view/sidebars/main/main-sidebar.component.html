@@ -261,7 +261,7 @@
                             </div>
                         </div>
                     </div>
-                    <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4">attach_file</mat-icon>
+                    <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4" (click)="uploadAnexo(minuta); $event.stopPropagation();">attach_file</mat-icon>
                     <mat-icon *ngIf="minuta.assinado" [matTooltip]="'Assinado'" class="ml-4 mr-4">lock</mat-icon>
                     <div class="actions">
                         <button mat-icon-button [matMenuTriggerFor]="minutasMenu"
@@ -362,7 +362,7 @@
                                     (click)="uploadAnexo(minuta)">
                                 <ng-container>
                                     <mat-icon color="accent">picture_as_pdf</mat-icon>
-                                    <span>Upload de Anexo</span>
+                                    <span>Anexos</span>
                                 </ng-container>
                             </button>
                         </mat-menu>
