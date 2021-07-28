@@ -46,41 +46,23 @@ export class VisibilidadeEditEffect {
         this._actions
             .pipe(
                 ofType<VisibilidadeEditActions.SaveVisibilidade>(VisibilidadeEditActions.SAVE_VISIBILIDADE),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'visibilidade',
-                    content: 'Salvando a visibilidade ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._processoService.createVisibilidade(action.payload.processoId, action.payload.visibilidade).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'visibilidade',
-                                content: 'Visibilidade id ' + response.id + ' salva com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
+                switchMap(action => this._processoService.createVisibilidade(action.payload.processoId, action.payload.visibilidade).pipe(
                         mergeMap((response: Visibilidade) => [
                             new VisibilidadeEditActions.SaveVisibilidadeSuccess(),
                             new VisibilidadeListActions.ReloadVisibilidades(),
-                            new AddData<Visibilidade>({data: [response], schema: visibilidadeSchema})
+                            new AddData<Visibilidade>({data: [response], schema: visibilidadeSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'visibilidade',
+                                content: `Visibilidade id ${response.id} criada com sucesso!`,
+                                dateTime: moment()
+                            })
                         ]),
                         catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'visibilidade',
-                                content: 'Erro ao salvar a visibilidade!',
-                                status: 2, // erro
-                            }));
+                            console.log (err);
                             return of(new VisibilidadeEditActions.SaveVisibilidadeFailed(err));
                         })
-                    )
-                })
+                    ))
             );
-
     /**
      * Save Visibilidade Success
      */

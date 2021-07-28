@@ -34,6 +34,7 @@ export class FolderEditComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -97,7 +98,6 @@ export class FolderEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        console.log("folder-edit");
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveFolder({
             folder: folder,
