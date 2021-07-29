@@ -450,3 +450,7 @@
 * Correção de erro ao desentranhar juntadas
 * Correção bug ao salvar tarefa no menu de processo
 * Correção bug carregamento assunto e interessados
+
+1.6.1
+
+* Correção de bug na escolha da especie de atividade ao movimentar o processo
