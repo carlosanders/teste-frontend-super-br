@@ -454,3 +454,7 @@
 1.6.1
 
 * Correção de bug na escolha da especie de atividade ao movimentar o processo
+
+1.6.2
+
+* Upgrade angular
