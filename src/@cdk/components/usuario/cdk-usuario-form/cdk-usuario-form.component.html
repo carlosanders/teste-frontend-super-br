@@ -32,18 +32,24 @@
             <mat-label>Nome</mat-label>
             <input matInput #nome
                    name="nome"
-                   formControlName="nome"
+                   formControlName="nome" required
                    maxlength="255" upperCase>
             <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            <mat-error *ngIf="form.get('nome').hasError('formError')">
+                {{form.get('nome').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Email</mat-label>
             <input matInput #email
                    name="email"
-                   formControlName="email"
+                   formControlName="email" required
                    maxlength="255">
             <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
+            <mat-error *ngIf="form.get('email').hasError('formError')">
+                {{form.get('email').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="usuario && usuario.id">

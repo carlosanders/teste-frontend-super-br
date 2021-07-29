@@ -76,10 +76,22 @@ export class ComponenteDigitalEffects {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-                switchMap(action => this._componenteDigitalService.patch(action.payload.componenteDigital, action.payload.changes).pipe(
-                        tap((response) => {
-                            this._store.dispatch(new GetDocumentos());
-                        }),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: 'Salvando o componente digital ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._componenteDigitalService.patch(action.payload.componenteDigital, action.payload.changes).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'componente digital',
+                                content: 'Componente digital id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                             new ComponenteDigitalActions.GetDocumento({
@@ -91,19 +103,21 @@ export class ComponenteDigitalEffects {
                                     changes: {modelo: response.modelo, conteudo: response.conteudo}
                                 }
                             ),
-                            new OperacoesActions.Resultado({
-                                type: 'componenteDigital',
-                                content: `Componente Digital id ${response.id} atualizado com sucesso!`,
-                                dateTime: response.atualizadoEm
-                            })
+                            new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'componente digital',
+                                content: 'Erro ao salvar o componente digital!',
+                                status: 2, // erro
+                            }));
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
                         })
-                    ))
+                    )
+                })
             );
-
 
     /**
      * Get Documento with router parameters

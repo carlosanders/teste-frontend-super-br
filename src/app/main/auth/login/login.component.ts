@@ -101,14 +101,11 @@ export class LoginComponent implements OnInit {
                 data: {
                     title: 'Nova versão lançada',
                     confirmLabel: 'Recarregar',
-                    hideCancel: true
+                    hideCancel: true,
+                    message: 'Uma nova versão do sistema (' + versionChanged + ') está disponível. O sistema precisa ser recarregado.'
                 },
                 disableClose: true
             });
-
-            dialogRef
-                .componentInstance
-                .confirmMessage = 'Uma nova versão do sistema (' + versionChanged + ') está disponível. O sistema precisa ser recarregado.';
 
             dialogRef.afterClosed().subscribe((result) => {
                 if (result) {
@@ -128,6 +125,7 @@ export class LoginComponent implements OnInit {
         this.config$.pipe(
             filter(config => !!config)
         ).subscribe((config) => {
+            this.config = config;
             window.document.title = config.sigla;
             this.cdkConfigService.logo = config.logo;
             this.cdkConfigService.icone = config.icone;

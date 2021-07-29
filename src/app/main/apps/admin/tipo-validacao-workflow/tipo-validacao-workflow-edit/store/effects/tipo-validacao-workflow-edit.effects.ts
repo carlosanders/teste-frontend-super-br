@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as TipoValidacaoWorkflowEditActions from '../actions/tipo-validacao-workflow-edit.actions';
 import * as TipoValidacaoWorkflowListActions
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TipoValidacaoWorkflowEditEffects {
@@ -83,20 +84,39 @@ export class TipoValidacaoWorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowEditActions.SaveTipoValidacaoWorkflow>(TipoValidacaoWorkflowEditActions.SAVE_TIPO_VALIDACAO_WORKFLOW),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tipo de validação do workflow',
+                    content: 'Salvando o tipo de validação do workflow ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._tipoValidacaoWorkflowService.save(action.payload, context).pipe(
+                    return this._tipoValidacaoWorkflowService.save(action.payload.tipoValidacaoWorkflow, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipo de validação do workflow',
+                                content: 'Tipo de validação do workflow id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: TipoValidacaoWorkflow) => [
+                            new TipoValidacaoWorkflowEditActions.SaveTipoValidacaoWorkflowSuccess(response),
                             new TipoValidacaoWorkflowListActions.ReloadTipoValidacaoWorkflow(),
-                            new AddData<TipoValidacaoWorkflow>({data: [response], schema: tipoValidacaoWorkflowSchema}),
-                            new TipoValidacaoWorkflowEditActions.SaveTipoValidacaoWorkflowSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TipoValidacaoWorkflowEditActions.SaveTipoValidacaoWorkflowFailed(err));
-                    return caught;
+                            new AddData<TipoValidacaoWorkflow>({data: [response], schema: tipoValidacaoWorkflowSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipo de validação do workflow',
+                                content: 'Erro ao salvar o tipo de validação do workflow!',
+                                status: 2, // erro
+                            }));
+                            return of(new TipoValidacaoWorkflowEditActions.SaveTipoValidacaoWorkflowFailed(err));
+                        })
+                    )
                 })
             );
 

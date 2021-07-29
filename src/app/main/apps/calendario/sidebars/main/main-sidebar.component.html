@@ -21,7 +21,7 @@
             </a>
         </div>
 
-        <div class="nav-subheader">COMPARTILHAMENTO</div>
+        <div class="nav-subheader">Compartilhamento</div>
 
         <div class="nav-item">
             <a class="nav-link" matRipple [routerLink]="'/apps/calendario/compartilhadas/outros-usuarios'"
@@ -57,14 +57,16 @@
 
 <!-- SIDEBAR FOOT -->
 <div class="footer">
-    <mat-divider></mat-divider>
     <div class="actions">
-        <mat-toolbar>
+        <mat-toolbar class="class-toolbar">
         <button mat-icon-button class="secondary-text" routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent" matTooltip="Tarefas">
             <mat-icon>check_box</mat-icon>
         </button>
         <button disabled mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas" routerLinkActive="mat-accent" matTooltip="Calendário">
             <mat-icon>calendar_today</mat-icon>
+        </button>
+        <button mat-icon-button class="secondary-text" routerLink="/apps/board-tarefas/administrativo" routerLinkActive="mat-accent" matTooltip="Quadro de Tarefas">
+            <mat-icon>assessment</mat-icon>
         </button>
     </mat-toolbar>
 </div>

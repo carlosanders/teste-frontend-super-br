@@ -114,40 +114,54 @@ export class OficioDetailEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    createVinculacaoEtiqueta: Observable<any> =
+    createVinculacaoEtiqueta: any =
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoDetailActions.CreateVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.CREATE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação da etiqueta',
+                    content: 'Salvando a vinculação da etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.documentoAvulso = action.payload.documentoAvulso;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
-                    return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap(response => response.documentoAvulso = null),
-                        mergeMap(response => [
+                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação da etiqueta',
+                                content: 'Vinculação da etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: VinculacaoEtiqueta) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: documentoAvulsoSchema,
                                 parentId: action.payload.documentoAvulso.id
                             }),
-                            new OperacoesActions.Resultado({
-                                type: 'oficio',
-                                content: `Documento Avulso id ${response.id} etiquetada com sucesso!`,
-                                dateTime: response.criadoEm
-                            }),
                             new DocumentoAvulsoDetailActions.GetDocumentoAvulso({
                                 id: `eq:${this.routerState.params.documentoAvulsoHandle}`
-                            })
+                            }),
+                            new AddData<VinculacaoEtiqueta>({data: [response], schema: vinculacaoEtiquetaSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoEtiqueta',
+                                content: 'Erro ao salvar a vinculação da etiqueta!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentoAvulsoDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                }, 25)
+                    )
+                })
             );
-
 
     /**
      * Delete Vinculacao Etiqueta
@@ -186,19 +200,42 @@ export class OficioDetailEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
-                mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                        mergeMap(response => [
-                            new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação etiqueta',
+                    content: 'Salvando a vinculação etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação etiqueta',
+                                content: 'Vinculação etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: VinculacaoEtiqueta) => [
+                            new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
                                 schema: vinculacaoEtiquetaSchema,
                                 changes: {conteudo: response.conteudo, privada: response.privada}
-                            })
+                            }),
+                            new AddData<VinculacaoEtiqueta>({data: [response], schema: vinculacaoEtiquetaSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação etiqueta',
+                                content: 'Erro ao salvar a vinculação etiqueta!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    ), 25)
+                    )
+                })
             );
 }

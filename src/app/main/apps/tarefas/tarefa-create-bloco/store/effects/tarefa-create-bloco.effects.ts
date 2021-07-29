@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as TarefaCreateBlocoActions from '../actions/tarefa-create-bloco.actions';
 
@@ -14,7 +14,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 
 @Injectable()
 export class TarefaCreateBlocoEffect {
@@ -46,28 +45,38 @@ export class TarefaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateBlocoActions.SaveTarefa>(TarefaCreateBlocoActions.SAVE_TAREFA),
-                mergeMap(action => this._tarefaService.save(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaCreateBlocoActions.SaveTarefaSuccess(action.payload),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-                            new OperacoesActions.Resultado({
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Salvando a tarefa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tarefaService.save(action.payload.tarefa).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'tarefa',
-                                content: `Tarefa no processo ${action.payload.processo.NUP} criado com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
+                                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Tarefa) => [
+                            new TarefaCreateBlocoActions.SaveTarefaSuccess(response),
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'tarefa',
-                                content: `Houve erro na tarefa no processo ${action.payload.processo.NUP}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
+                                content: 'Erro ao salvar a tarefa!',
+                                status: 2, // erro
                             }));
-                            return of(new TarefaCreateBlocoActions.SaveTarefaFailed(action.payload));
+                            return of(new TarefaCreateBlocoActions.SaveTarefaFailed(err));
                         })
-                    ), 25)
+                    )
+                })
             );
 
 }

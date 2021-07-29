@@ -129,37 +129,53 @@ export class ProcessoEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    createVinculacaoEtiqueta: Observable<any> =
+    createVinculacaoEtiqueta: any =
         this._actions
             .pipe(
                 ofType<ProcessoActions.CreateVinculacaoEtiqueta>(ProcessoActions.CREATE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação etiqueta',
+                    content: 'Salvando a vinculação da etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap(response => response.processo = null),
-                        mergeMap(response => [
+                        tap((response) =>
+                            {
+                                response.processo = null;
+                                this._store.dispatch(new OperacoesActions.Operacao({
+                                    id: action.payload.operacaoId,
+                                    type: 'vinculação etiqueta',
+                                    content: 'Vinculação da etiqueta id ' + response.id + ' salva com sucesso.',
+                                    status: 1, // sucesso
+                                }));
+                            }
+                        ),
+                        mergeMap((response: VinculacaoEtiqueta) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: processoSchema,
                                 parentId: action.payload.processo.id
-                            }),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} etiquetado com sucesso!`,
-                                dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação da etiqueta',
+                                content: 'Erro ao salvar a vinculação da etiqueta!',
+                                status: 2, // erro
+                            }));
                             return of(new ProcessoActions.CreateVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                }, 25)
+                    )
+                })
             );
-
 
     /**
      * Save conteúdo vinculação etiqueta no processo
@@ -314,22 +330,41 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.SaveAcompanhamento>(ProcessoActions.SAVE_ACOMPANHAMENTO),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'acompanhamento',
+                    content: 'Salvando a acompanhamento ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const acompanhamento = new Compartilhamento();
                     acompanhamento.usuario = this._loginService.getUserProfile();
                     acompanhamento.processo = action.payload;
-                    return this._acompanhamentoService.save(acompanhamento).pipe(
+                    return this._acompanhamentoService.save(action.payload.acompanhamento).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acompanhamento',
+                                content: 'Acompanhamento id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Compartilhamento) => [
-                            new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema}),
                             new ProcessoActions.SaveAcompanhamentoSuccess(response),
-                            new ProcessoActions.GetProcesso(action.payload)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessoActions.SaveAcompanhamentoFailed(err));
-                    return caught;
+                            new ProcessoActions.GetProcesso(action.payload),
+                            new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'acompanhamento',
+                                content: 'Erro ao salvar a acompanhamento!',
+                                status: 2, // erro
+                            }));
+                            return of(new ProcessoActions.SaveAcompanhamentoFailed(err));
+                        })
+                    )
                 })
             );
 

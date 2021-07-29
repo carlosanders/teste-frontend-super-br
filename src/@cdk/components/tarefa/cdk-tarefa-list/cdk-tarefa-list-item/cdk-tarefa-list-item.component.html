@@ -49,10 +49,10 @@
             </div>
 
             <div class="subtitle" *ngIf="isOpen">
+                <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1 || loadingInteressados">
+                    <mat-spinner diameter=16></mat-spinner>
+                </div>
                 <div class="assunto">
-                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1 || loadingInteressados">
-                        <mat-spinner diameter=16></mat-spinner>
-                    </div>
                     <div *ngIf="tarefa.processo?.assuntos?.length > 0">
                         <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
                     </div>

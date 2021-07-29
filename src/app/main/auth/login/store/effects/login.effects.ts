@@ -93,7 +93,7 @@ export class LoginEffects {
                             if (error && error.error && error.error.code && error.error.code === 401) {
                                 msg = 'Dados incorretos!';
                             }
-                            return of(new LoginActions.LoginFailure({error: msg}));
+                            return of(new LoginActions.LoginGovBrFailure({error: msg}));
                         })
                     )
                 ));
@@ -148,6 +148,20 @@ export class LoginEffects {
     );
 
     @Effect({dispatch: false})
+    public LoginGovBrFailuer: Observable<any> = this.actions.pipe(
+        ofType<LoginActions.LoginGovBrFailure>(LoginActions.LOGIN_GOV_BR_FAILURE),
+        tap((action) => {
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            let url = '';
+            if (action.payload?.url && action.payload?.url.indexOf('/apps') > -1) {
+                url = '?url=' + action.payload.url;
+            }
+            this.router.navigateByUrl('/auth/login' + url).then(() => {});
+        })
+    );
+
+    @Effect({dispatch: false})
     LoginRefreshTokenFailure: Observable<any> = this.actions.pipe(
         ofType(LoginActions.LOGIN_REFRESH_TOKEN_FAILURE)
     );
@@ -156,8 +170,6 @@ export class LoginEffects {
     public Logout: Observable<any> = this.actions.pipe(
         ofType<LoginActions.Logout>(LoginActions.LOGOUT),
         tap((action) => {
-            this.loginService.removeToken();
-            this.loginService.removeUserProfile();
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
             let url = '';
@@ -165,6 +177,8 @@ export class LoginEffects {
                 url = '?url=' + action.payload.url;
             }
             this.router.navigateByUrl('/auth/login' + url).then(() => {
+                this.loginService.removeToken();
+                this.loginService.removeUserProfile();
                 window.location.reload();
             });
         })

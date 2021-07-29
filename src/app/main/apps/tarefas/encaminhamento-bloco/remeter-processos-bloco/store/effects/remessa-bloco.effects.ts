@@ -46,32 +46,37 @@ export class RemessaBlocoEffects {
         this._actions
             .pipe(
                 ofType<RemessaBlocoActions.SaveTramitacao>(RemessaBlocoActions.SAVE_TRAMITACAO),
-                mergeMap(action => this._tramitacaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tramitacao',
+                    content: 'Salvando a tramitacao ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tramitacaoService.save(action.payload.tramitacao).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tramitacao',
+                                content: 'Tramitacao id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Tramitacao) => [
-                            new RemessaBlocoActions.SaveTramitacaoSuccess(action.payload),
-                            new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'remessa',
-                                content: `Remessa no processo ${action.payload.processo.NUPFormatado} criada com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
+                            new RemessaBlocoActions.SaveTramitacaoSuccess(response),
+                            new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            const payload = {
-                                id: action.payload.processo.id,
-                                errors: err
-                            };
-                            const erroString = CdkUtils.errorsToString(err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'remessa',
-                                content: `Houve erro ao criar remessa no processo ${action.payload.processo.NUPFormatado}! ${erroString}`,
-                                success: false,
-                                dateTime: moment()
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tramitacao',
+                                content: 'Erro ao salvar a tramitacao!',
+                                status: 2, // erro
                             }));
-                            return of(new RemessaBlocoActions.SaveTramitacaoFailed(payload));
+                            return of(new RemessaBlocoActions.SaveTramitacaoFailed(err));
                         })
-                    ), 25)
+                    )
+                })
             );
 }

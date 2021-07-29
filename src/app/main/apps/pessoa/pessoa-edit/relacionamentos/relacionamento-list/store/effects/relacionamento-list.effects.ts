@@ -3,16 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RelacionamentoListActions from '../actions';
 
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {RelacionamentoPessoal} from '@cdk/models';
 import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class RelacionamentoListEffect {
@@ -79,20 +79,52 @@ export class RelacionamentoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteRelacionamento: any =
+    deleteRelacionamento: Observable<RelacionamentoListActions.RelacionamentoListActionsAll> =
         this._actions
             .pipe(
                 ofType<RelacionamentoListActions.DeleteRelacionamento>(RelacionamentoListActions.DELETE_RELACIONAMENTO),
-                mergeMap(action => this._relacionamentoPessoalService.destroy(action.payload).pipe(
-                        map(response => new RelacionamentoListActions.DeleteRelacionamentoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'relacionamento',
+                        content: 'Apagando a relacionamento id ' + action.payload.relacionamentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._relacionamentoPessoalService.destroy(action.payload.relacionamentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relacionamento',
+                                content: 'Relacionamento id ' + action.payload.relacionamentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<RelacionamentoPessoal>({
+                                id: response.id,
+                                schema: relacionamentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new RelacionamentoListActions.DeleteRelacionamentoSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new RelacionamentoListActions.DeleteRelacionamentoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            const payload = {
+                                id: action.payload.relacionamentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'relacionamento',
+                                content: 'Erro ao apagar a relacionamento id ' + action.payload.relacionamentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new RelacionamentoListActions.DeleteRelacionamentoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

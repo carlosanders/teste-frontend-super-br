@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as AtividadeCreateBlocoActions from '../actions/atividade-create-bloco.actions';
 
@@ -14,7 +14,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 import {RemoveTarefa} from '../../../store';
 import {AddProcessoEncaminhamento} from '../../../encaminhamento-bloco/store';
 
@@ -48,28 +47,38 @@ export class AtividadeCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateBlocoActions.SaveAtividade>(AtividadeCreateBlocoActions.SAVE_ATIVIDADE),
-                mergeMap(action => this._atividadeService.save(action.payload).pipe(
-                        mergeMap((response: Atividade) => [
-                            new AtividadeCreateBlocoActions.SaveAtividadeSuccess(action.payload),
-                            new AddData<Atividade>({data: [response], schema: atividadeSchema}),
-                            new OperacoesActions.Resultado({
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'atividade',
+                    content: 'Salvando a atividade ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._atividadeService.save(action.payload.atividade).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'atividade',
-                                content: `Atividade na tarefa id ${action.payload.tarefa.id} criado com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
+                                content: 'Atividade id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Atividade) => [
+                            new AtividadeCreateBlocoActions.SaveAtividadeSuccess(response),
+                            new AddData<Atividade>({data: [response], schema: atividadeSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'atividade',
-                                content: `Houve erro no atividade na tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
+                                content: 'Erro ao salvar a atividade!',
+                                status: 2, // erro
                             }));
-                            return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(action.payload));
+                            return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(err));
                         })
-                    ), 25)
+                    )
+                })
             );
 
     /**

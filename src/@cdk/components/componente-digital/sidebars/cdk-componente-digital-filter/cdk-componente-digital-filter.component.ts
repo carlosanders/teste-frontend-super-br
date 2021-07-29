@@ -11,6 +11,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
+import {CdkConfirmDialogComponent} from "../../../confirm-dialog/confirm-dialog.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
     selector: 'cdk-componente-digital-filter',
@@ -36,15 +38,22 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
     filterCriadoEm = [];
     filterJuntadoEm = [];
 
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
+
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
+        private _matDialog: MatDialog,
     ) {
         this.form = this._formBuilder.group({
-            conteudo: [null, [Validators.required]],
+            conteudo: [null],
             codigo: [null],
+            autor: [null],
+            redator: [null],
+            destinatario: [null],
             tamanho: [null],
             extensao: [null],
             processo: [null],
@@ -84,6 +93,24 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             });
         }
 
+        if (this.form.get('autor').value) {
+            this.form.get('autor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'documento.autor': `like:%${bit}%`});
+            });
+        }
+
+        if (this.form.get('redator').value) {
+            this.form.get('redator').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'documento.redator': `like:%${bit}%`});
+            });
+        }
+
+        if (this.form.get('destinatario').value) {
+            this.form.get('destinatario').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'documento.destinatario': `like:%${bit}%`});
+            });
+        }
+
         if (this.form.get('processo').value) {
             andXFilter.push({'documento.juntadaAtual.volume.processo.id': `eq:${this.form.get('processo').value.id}`});
         }
@@ -104,10 +131,6 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             this.filterJuntadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });
-        }
-
-        if (this.form.get('editavel').value) {
-            andXFilter.push({'editavel': `eq:${this.form.get('editavel').value}`});
         }
 
         if (this.filterCriadoEm?.length) {
@@ -135,9 +158,18 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
 
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
+            this.selected.emit(request);
+        } else {
+            this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Erro!',
+                    message: ' Ao menos um campo deve ser preenchido!',
+                    confirmLabel: 'Fechar',
+                    hideCancel: true,
+                },
+                disableClose: false,
+            });
         }
-
-        this.selected.emit(request);
     }
 
     filtraCriadoEm(value: any): void {
@@ -162,7 +194,6 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
-        this.emite();
     }
 }
 

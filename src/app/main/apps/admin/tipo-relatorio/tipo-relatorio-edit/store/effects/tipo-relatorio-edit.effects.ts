@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as TipoRelatorioEditActions from '../actions/tipo-relatorio-edit.actions';
@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TipoRelatorioEditEffects {
@@ -82,20 +83,39 @@ export class TipoRelatorioEditEffects {
         this._actions
             .pipe(
                 ofType<TipoRelatorioEditActions.SaveTipoRelatorio>(TipoRelatorioEditActions.SAVE_TIPO_RELATORIO),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tipo de relatório',
+                    content: 'Salvando o tipo de relatório ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._tipoRelatorioService.save(action.payload, context).pipe(
+                    return this._tipoRelatorioService.save(action.payload.tipoRelatorio, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipo de relatório',
+                                content: 'Tipo de relatório id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: TipoRelatorio) => [
+                            new TipoRelatorioEditActions.SaveTipoRelatorioSuccess(response),
                             new TipoRelatorioListActions.ReloadTipoRelatorio(),
-                            new AddData<TipoRelatorio>({data: [response], schema: tipoRelatorioSchema}),
-                            new TipoRelatorioEditActions.SaveTipoRelatorioSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TipoRelatorioEditActions.SaveTipoRelatorioFailed(err));
-                    return caught;
+                            new AddData<TipoRelatorio>({data: [response], schema: tipoRelatorioSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tipoRelatorio',
+                                content: 'Erro ao salvar o tipo de relatório!',
+                                status: 2, // erro
+                            }));
+                            return of(new TipoRelatorioEditActions.SaveTipoRelatorioFailed(err));
+                        })
+                    )
                 })
             );
 

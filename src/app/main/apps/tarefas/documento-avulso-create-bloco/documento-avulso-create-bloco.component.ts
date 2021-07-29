@@ -21,6 +21,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Back} from '../../../../store/actions';
 import {LoginService} from '../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-avulso-create',
@@ -186,7 +187,11 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             documentoAvulso.processo = tarefaBloco.processo;
             documentoAvulso.tarefaOrigem = tarefaBloco;
 
-            this._store.dispatch(new fromStore.SaveDocumentoAvulso(documentoAvulso));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveDocumentoAvulso({
+                documentoAvulso: documentoAvulso,
+                operacaoId: operacaoId
+            }));
         });
     }
 

@@ -26,7 +26,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {ComplementarStoreModule} from './store/store.module';
 import {AtividadeService} from '@cdk/services/atividade.service';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
@@ -74,12 +73,10 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
         MatTabsModule,
         MatBadgeModule,
-
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,
         CdkUploadModule,
         CdkAtividadeFormModule,
-
         ComplementarStoreModule,
         TranslateModule,
         CdkSharedModule,

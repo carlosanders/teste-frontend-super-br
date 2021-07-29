@@ -1,15 +1,30 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
     <mat-form-field>
-        <input matInput placeholder="Documento Vinculado"
-               formControlName="documentoVinculado"
-               [matAutocomplete]="documento.autocomplete" required
-               (blur)="checkDocumentoVinculado()">
+        <input matInput placeholder="Documento Principal"
+               formControlName="documento"
+               [matAutocomplete]="documento.autocomplete"
+               [readonly]="!!vinculacaoDocumento.documento">
         <cdk-documento-autocomplete
             #documento="documentoAutocomplete"
+            [control]="form.get('documento')">
+        </cdk-documento-autocomplete>
+        <mat-error *ngIf="form.get('documento').hasError('formError')">
+            {{form.get('documento').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Documento Vinculado"
+               formControlName="documentoVinculado"
+               [readonly]="!!documentoVinculado"
+               [matAutocomplete]="documentoVinculado.autocomplete" required
+               (blur)="checkDocumentoVinculado()">
+        <cdk-documento-autocomplete
+            #documentoVinculado="documentoAutocomplete"
             [control]="form.get('documentoVinculado')"
             [pagination]="documentoVinculadoPagination">
         </cdk-documento-autocomplete>
         <button *ngIf="form.get('documentoVinculado').enabled" matSuffix mat-button mat-icon-button
+                [disabled]="!!documentoVinculado"
                 (click)="showDocumentoVinculadoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>

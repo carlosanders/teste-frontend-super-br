@@ -39,6 +39,7 @@ export class CdkAssinaturaFilterComponent {
             dataHoraAssinatura: [null],
             componenteDigital: [null],
             origemDados: [null],
+            assinadoPor: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],

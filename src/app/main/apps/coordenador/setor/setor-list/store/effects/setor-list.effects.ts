@@ -3,17 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as SetorListActions from '../actions';
 
 import {SetorService} from '@cdk/services/setor.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models/setor.model';
 import {setor as setorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class SetorListEffects {
@@ -80,20 +80,52 @@ export class SetorListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteSetor: any =
+    deleteSetor: Observable<SetorListActions.SetorListActionsAll> =
         this._actions
             .pipe(
                 ofType<SetorListActions.DeleteSetor>(SetorListActions.DELETE_SETOR),
-                mergeMap(action => this._setorService.destroy(action.payload).pipe(
-                        map(response => new SetorListActions.DeleteSetorSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'setor',
+                        content: 'Apagando a setor id ' + action.payload.setorId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._setorService.destroy(action.payload.setorId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'setor',
+                                content: 'Setor id ' + action.payload.setorId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Setor>({
+                                id: response.id,
+                                schema: setorSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new SetorListActions.DeleteSetorSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.setorId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'setor',
+                                content: 'Erro ao apagar a setor id ' + action.payload.setorId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new SetorListActions.DeleteSetorFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new SetorListActions.DeleteSetorFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

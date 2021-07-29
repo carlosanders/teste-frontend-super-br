@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'aviso-edit',
@@ -120,7 +121,11 @@ export class AvisoEditComponent implements OnInit {
             aviso.unidade = null;
         }
 
-        this._store.dispatch(new fromStore.SaveAviso(aviso));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAviso({
+            aviso: aviso,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'nome-edit',
@@ -93,7 +94,11 @@ export class NomeEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveNome(nome));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveNome({
+            nome: nome,
+            operacaoId: operacaoId
+        }));
 
     }
 

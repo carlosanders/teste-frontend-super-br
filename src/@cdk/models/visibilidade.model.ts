@@ -11,6 +11,7 @@ export class Visibilidade {
     poderes?: string[];
 
     constructor() {
+        this.id = null;
         this.label = null;
         this.tipo = null;
         this.valor = null;

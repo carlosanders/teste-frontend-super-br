@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -13,18 +13,29 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Relatorio} from '@cdk/models/relatorio.model';
 import {relatorio as relatorioSchema} from '@cdk/normalizr';
 import {RelatorioService} from '@cdk/services/relatorio.service';
-import {getCurrentStep, getIndex, getPagination} from '../selectors';
+import {getCurrentStep, getIndex} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {DeselectRelatorioAction} from "../../../store";
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
+import {ComponenteDigital} from "../../../../../../../../@cdk/models";
 
 @Injectable()
 export class RelatorioViewEffect {
     routerState: any;
 
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
     constructor(
         private _actions: Actions,
         private _relatorioService: RelatorioService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _matSnackBar: MatSnackBar
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -36,38 +47,30 @@ export class RelatorioViewEffect {
     }
 
     /**
-     * Get Relatorios with router parameters
+     * Get Relatorio with router parameters
      *
      * @type {Observable<any>}
      */
     @Effect()
-    getRelatorios: Observable<any> =
+    getRelatorio: Observable<any> =
         this._actions
             .pipe(
-                ofType<RelatorioViewActions.GetRelatorios>(RelatorioViewActions.GET_RELATORIOS),
-                switchMap(action => this._relatorioService.query(
-                    JSON.stringify({
-                        ...action.payload.filter,
-                        ...action.payload.folderFilter,
-                        ...action.payload.listFilter,
-                        ...action.payload.etiquetaFilter
-                    }),
-                    action.payload.limit,
-                    action.payload.offset,
-                    JSON.stringify(action.payload.sort),
+                ofType<RelatorioViewActions.GetRelatorio>(RelatorioViewActions.GET_RELATORIO),
+                switchMap(action => this._relatorioService.get(
+                    action.payload.id,
                     JSON.stringify(action.payload.populate))),
                 mergeMap(response => [
-                    new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),
-                    new RelatorioViewActions.GetRelatoriosSuccess({
-                        index: response['entities'].map(
+                    new AddData<Relatorio>({data: [response], schema: relatorioSchema}),
+                    new RelatorioViewActions.GetRelatorioSuccess({
+                        index: [response].map(
                             (relatorio) => {
                                 let componentesDigitaisIds = [];
-                                if (relatorio.documento.componentesDigitais && relatorio.documento.componentesDigitais !== null) {
+                                if (relatorio.documento?.componentesDigitais && relatorio.documento?.componentesDigitais !== null) {
                                     componentesDigitaisIds = relatorio.documento.componentesDigitais.map(
                                         cd => cd.id
                                     );
                                 }
-                                if (relatorio.documento.vinculacoesDocumentos && relatorio.documento.vinculacoesDocumentos !== null) {
+                                if (relatorio.documento?.vinculacoesDocumentos && relatorio.documento?.vinculacoesDocumentos !== null) {
                                     relatorio.documento.vinculacoesDocumentos.map(
                                         (vinculacaoDocumento) => {
                                             vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
@@ -79,18 +82,16 @@ export class RelatorioViewEffect {
                                 return componentesDigitaisIds;
                             }
                         ),
-                        entitiesId: response['entities'].map(relatorio => relatorio.id),
+                        entityId: response?.id,
                         loaded: {
                             id: 'relatorioHandle',
                             value: this.routerState.params.relatorioHandle
-                        },
-                        total: response['total']
+                        }
                     })
                 ]),
-                catchError((err, caught) => {
+                catchError((err) => {
                     console.log(err);
-                    this._store.dispatch(new RelatorioViewActions.GetRelatoriosFailed(err));
-                    return caught;
+                    return of(new RelatorioViewActions.GetRelatorioFailed(err));
                 })
             );
 
@@ -105,7 +106,7 @@ export class RelatorioViewEffect {
                 withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
                 switchMap(([action, index, currentStep]) => {
                     if (typeof index[currentStep.step] === 'undefined' || typeof index[currentStep.step][currentStep.subStep] === 'undefined') {
-                        return throwError(new Error('não há documentos'));
+                        return throwError(new Error('Não há documentos'));
                     }
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
                         {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
@@ -113,26 +114,31 @@ export class RelatorioViewEffect {
 
                     return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
                 }),
-                map((response: any) => new RelatorioViewActions.SetCurrentStepSuccess(response)),
-                catchError((err, caught) => {
-                    this._store.dispatch(new RelatorioViewActions.SetCurrentStepFailed(err));
-                    return caught;
+                map((response: ComponenteDigital) => new RelatorioViewActions.SetCurrentStepSuccess(response)),
+                catchError((err) => {
+                    console.log(err);
+                    const error = err.message || err.statusText || 'Erro desconhecido!';
+                    this._matSnackBar.open(error, 'Fechar', {
+                        horizontalPosition: this.horizontalPosition,
+                        verticalPosition: this.verticalPosition,
+                        panelClass: ['danger-snackbar'],
+                        duration: 30000
+                    });
+                    this._store.dispatch(new DeselectRelatorioAction());
+                    return of(new RelatorioViewActions.SetCurrentStepFailed(err));
                 })
             );
 
     /**
-     * Set Current Step
+     * Get Relatorio Success
      */
     @Effect({dispatch: false})
-    getRelatoriosSuccess: any =
+    getRelatorioSuccess: any =
         this._actions
             .pipe(
-                ofType<RelatorioViewActions.GetRelatoriosSuccess>(RelatorioViewActions.GET_RELATORIOS_SUCCESS),
-                withLatestFrom(this._store.pipe(select(getPagination))),
-                tap(([action, pagination]) => {
-                    if (pagination.offset === 0) {
-                        this._store.dispatch(new RelatorioViewActions.SetCurrentStep({step: 0, subStep: 0}));
-                    }
+                ofType<RelatorioViewActions.GetRelatorioSuccess>(RelatorioViewActions.GET_RELATORIO_SUCCESS),
+                tap((action) => {
+                    this._store.dispatch(new RelatorioViewActions.SetCurrentStep({step: 0, subStep: 0}));
                 }),
                 catchError((err, caught) => {
                     this._store.dispatch(new RelatorioViewActions.SetCurrentStepFailed(err));

@@ -50,7 +50,7 @@
         <mat-menu #moreMenu="matMenu">
 
             <button mat-menu-item aria-label="apagar"
-                    (click)="doDeleteRelatorioBloco()">
+                    (click)="deleteBloco(selectedIds)">
                 <ng-container>
                     <mat-icon>delete</mat-icon>
                     <span>Apagar</span>
@@ -94,7 +94,7 @@
             <div class="toolbar-separator"></div>
 
             <div>
-                {{relatorios?.length}}/{{pagination.total}}
+                {{relatorios?.length ?? 0}}/{{pagination.total}}
             </div>
         </div>
     </div>
@@ -111,7 +111,7 @@
             <mat-spinner class="loading" diameter="24"></mat-spinner>
         </div>
 
-        <div class="no-relatorios-text" *ngIf="relatorios?.length === 0 && !loading">
+        <div class="no-relatorios-text" *ngIf="(!relatorios || relatorios?.length === 0) && !loading">
             <span class="hint-text">{{ 'RELATORIO.NO_MESSAGES' | translate }}</span>
         </div>
 

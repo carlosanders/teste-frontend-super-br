@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'grupo-contato-list',
@@ -34,6 +34,7 @@ export class GrupoContatoListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -130,8 +131,17 @@ export class GrupoContatoListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', grupoContatoId + '/contato/listar')]);
     }
 
-    delete(grupoContatoId: number): void {
-        this._store.dispatch(new fromStore.DeleteGrupoContato(grupoContatoId));
+    delete(grupoContatoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteGrupoContato({
+            grupoContatoId: grupoContatoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
 
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
+    }
 }

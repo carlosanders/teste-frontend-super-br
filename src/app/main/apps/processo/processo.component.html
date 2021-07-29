@@ -28,7 +28,7 @@
                 <div class="search">
                     <mat-icon class="secondary-text mr-8">label</mat-icon>
                     <cdk-vinculacao-etiqueta-chips
-                        [placeholder]="'Adicionar etiquetas para o processo'"
+                        [placeholder]="'Adicionar etiquetas no processo'"
                         [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
                         (create)="onEtiquetaCreate($event)"
                         (edit)="onEtiquetaEdit($event)"
@@ -66,6 +66,14 @@
                         <ng-container>
                             <mat-icon>video_label</mat-icon>
                             <span>Imprimir Etiqueta</span>
+                        </ng-container>
+                    </button>
+                    <button mat-menu-item aria-label="imprimir etiqueta"
+                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                            (click)="imprimirRelatorio()">
+                        <ng-container>
+                            <mat-icon>description</mat-icon>
+                            <span>Imprimir Relatório</span>
                         </ng-container>
                     </button>
                     <button mat-menu-item aria-label="Autuar"

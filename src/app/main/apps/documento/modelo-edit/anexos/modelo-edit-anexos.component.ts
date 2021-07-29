@@ -18,6 +18,7 @@ import {Location} from '@angular/common';
 import {getMercureState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'modelo-edit-anexos',
@@ -161,7 +162,11 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
-                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({assinatura: assinatura}));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
+                    assinatura: assinatura,
+                    operacaoId: operacaoId
+                }));
             });
         }
     }

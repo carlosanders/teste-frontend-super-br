@@ -15,6 +15,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ProcessoEtiquetaViewStoreModule} from 'app/main/apps/processo/processo-etiqueta-view/store/store.module';
 import * as fromGuards from 'app/main/apps/processo/processo-etiqueta-view/store/guards';
 import {modulesConfig} from 'modules/modules-config';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
     {
@@ -46,7 +47,8 @@ modulesConfig.forEach((module) => {
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
-        ProcessoEtiquetaViewStoreModule
+        ProcessoEtiquetaViewStoreModule,
+        MatTooltipModule
     ],
     providers: [
         ProcessoService,

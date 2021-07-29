@@ -14,6 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'modelo-list',
@@ -33,6 +34,7 @@ export class ModeloListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      *
@@ -154,8 +156,18 @@ export class ModeloListComponent implements OnInit, OnDestroy {
         ).then();
     }
 
-    delete(modeloId: number): void {
-        this._store.dispatch(new fromStore.DeleteModelo(modeloId));
+    delete(modeloId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteModelo({
+            modeloId: modeloId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

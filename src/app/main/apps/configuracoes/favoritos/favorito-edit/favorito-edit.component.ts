@@ -11,6 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'favorito-edit',
@@ -122,8 +123,11 @@ export class FavoritoEditComponent implements OnInit, OnDestroy {
         favorito.label = values.label;
         favorito.prioritario = values.prioritario ? values.prioritario : false;
 
-        this._store.dispatch(new fromStore.SaveFavorito(favorito));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveFavorito({
+            favorito: favorito,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

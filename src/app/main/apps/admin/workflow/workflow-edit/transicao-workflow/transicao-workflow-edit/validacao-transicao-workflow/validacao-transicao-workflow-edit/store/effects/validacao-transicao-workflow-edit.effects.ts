@@ -12,7 +12,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 import {ValidacaoTransicaoWorkflowService} from '@cdk/services/validacao-transicao-workflow.service';
 
 @Injectable()
@@ -44,19 +43,40 @@ export class ValidacaoTransicaoWorkflowEditEffect {
         this._actions
             .pipe(
                 ofType<ValidacaoEditActions.SaveValidacao>(ValidacaoEditActions.SAVE_VALIDACAO),
-                switchMap(action => this._validacaoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'validação',
+                    content: 'Salvando a validação ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._validacaoService.save(action.payload.validacao, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'validacao',
+                                content: 'Validação id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: ValidacaoTransicaoWorkflow) => [
                             new ValidacaoEditActions.SaveValidacaoSuccess(),
                             new ValidacaoListActions.ReloadValidacoes(),
-                            new AddData<ValidacaoTransicaoWorkflow>({data: [response], schema: validacaoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'validacaoTransicaoWorkflow',
-                                content: `Validacao id ${response.id} criada com sucesso!`,
-                                dateTime: moment()
-                            })
+                            new AddData<ValidacaoTransicaoWorkflow>({data: [response], schema: validacaoSchema})
                         ]),
-                        catchError(err => of(new ValidacaoEditActions.SaveValidacaoFailed(err)))
-                    ))
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'validação',
+                                content: 'Erro ao salvar a validação!',
+                                status: 2, // erro
+                            }));
+                            return of(new ValidacaoEditActions.SaveValidacaoFailed(err));
+                        })
+                    )
+                })
             );
     /**
      * Save Validacao Success

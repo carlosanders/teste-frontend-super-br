@@ -20,7 +20,21 @@
         </div>
     </div>
 
-    <cdk-login-form (save)="this.onSubmit($event)"
+    <div class="login-gov-br" *ngIf="!!config && this.routerState.queryParams['code']">
+        <div class="gov-br-wrapper" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+            <div class="logo">
+                <img [src]="config.logo">
+            </div>
+
+            <div class="subtitle">Realizando o login através do Gov.Br</div>
+            <div class="loading-gov-br">
+                <mat-spinner color="accent" diameter="36"></mat-spinner>
+            </div>
+        </div>
+    </div>
+
+    <cdk-login-form *ngIf="!this.routerState.queryParams['code']"
+                    (save)="this.onSubmit($event)"
                     [certificadoDigital]="certificadoDigital"
                     [config]="(config$ | async)"
                     [version]="version"

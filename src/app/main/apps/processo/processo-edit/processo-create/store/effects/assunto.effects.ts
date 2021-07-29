@@ -3,15 +3,16 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import * as AssuntoActions from '../actions/assunto.actions';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {assunto as assuntoSchema} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
-import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {getAssuntosPagination} from '../selectors';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import {AssuntoActionsAll} from '../actions/assunto.actions';
 
 @Injectable()
 export class AssuntosEffect {
@@ -84,17 +85,53 @@ export class AssuntosEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteAssunto: any =
+    deleteAssunto: Observable<AssuntoActions.AssuntoActionsAll> =
         this._actions
             .pipe(
                 ofType<AssuntoActions.DeleteAssunto>(AssuntoActions.DELETE_ASSUNTO),
-                mergeMap(action => this._assuntoService.destroy(action.payload).pipe(
-                        map(response => new AssuntoActions.DeleteAssuntoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'assunto',
+                        content: 'Apagando a assunto id ' + action.payload.assuntoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._assuntoService.destroy(action.payload.assuntoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Assunto id ' + action.payload.assuntoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Assunto>({
+                                id: response.id,
+                                schema: assuntoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new AssuntoActions.DeleteAssuntoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.assuntoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Erro ao apagar a assunto id ' + action.payload.assuntoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new AssuntoActions.DeleteAssuntoFailed(action.payload));
+                            return of(new AssuntoActions.DeleteAssuntoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 
     /**
@@ -107,21 +144,38 @@ export class AssuntosEffect {
         this._actions
             .pipe(
                 ofType<AssuntoActions.SaveAssunto>(AssuntoActions.SAVE_ASSUNTO),
-                switchMap(action => this._assuntoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assunto',
+                    content: 'Salvando o assunto ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assuntoService.save(action.payload.assunto).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Assunto id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Assunto) => [
                             new AssuntoActions.SaveAssuntoSuccess(),
-                            new AddData<Assunto>({data: [response], schema: assuntoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'assunto',
-                                content: `Assunto id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Assunto>({data: [response], schema: assuntoSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assunto',
+                                content: 'Erro ao salvar o assunto!',
+                                status: 2, // erro
+                            }));
                             return of(new AssuntoActions.SaveAssuntoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

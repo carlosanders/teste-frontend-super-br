@@ -12,7 +12,6 @@
             <mat-label>Conteúdo</mat-label>
             <input matInput #conteudo
                    name="conteudo"
-                   [required]="isColaborador"
                    formControlName="conteudo">
         </mat-form-field>
 
@@ -68,6 +67,27 @@
             </cdk-processo-autocomplete>
         </mat-form-field>
 
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-label>Autor</mat-label>
+            <input matInput #autor
+                   name="autor"
+                   formControlName="autor">
+        </mat-form-field>
+
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-label>Redator</mat-label>
+            <input matInput #redator
+                   name="redator"
+                   formControlName="redator">
+        </mat-form-field>
+
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-label>Destinatário</mat-label>
+            <input matInput #destinatario
+                   name="destinatario"
+                   formControlName="destinatario">
+        </mat-form-field>
+
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
@@ -96,7 +116,7 @@
             </cdk-date-filter>
         </mat-menu>
 
-        Editor de Textos
+        <div class="mt-8">Editor de Textos</div>
         <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="editavel" *showIfRole="'ROLE_COLABORADOR'">
             <mat-button-toggle value="true" class="button-toggle-custom">Sim</mat-button-toggle>
             <mat-button-toggle value="todos" [checked]=true class="button-toggle-custom">Todos</mat-button-toggle>

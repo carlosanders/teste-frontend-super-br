@@ -57,23 +57,10 @@ export class ResolveGuard implements CanActivate {
             select(getRelatoriosLoaded),
             tap((loaded: any) => {
                  if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-
-                    let relatorioFilter = null;
-
-                    const routeParams = of('relatorioHandle');
-                    routeParams.subscribe((param) => {
-                        relatorioFilter = `eq:${this.routerState.params[param]}`;
-                    });
-
                     const params = {
-                        filter: {
-                            id: relatorioFilter
-                        },
-                        listFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {},
+                        id: this.routerState.params['relatorioHandle'],
                         populate: [
+                            'populateAll',
                             'documento',
                             'documento.tipoDocumento',
                             'documento.componentesDigitais',
@@ -86,7 +73,7 @@ export class ResolveGuard implements CanActivate {
                         ]
                     };
 
-                    this._store.dispatch(new fromStore.GetRelatorios(params));
+                    this._store.dispatch(new fromStore.GetRelatorio(params));
                  }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),

@@ -48,6 +48,9 @@ export class CdkAcaoTransicaoWorkflowListComponent {
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     create = new EventEmitter<any>();
 
     hasExcluded = false;
@@ -66,8 +69,12 @@ export class CdkAcaoTransicaoWorkflowListComponent {
         this.reload.emit();
     }
 
-    doDeleteacao(acaoTransicaoWorkflowId): void {
-        this.delete.emit(acaoTransicaoWorkflowId);
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
+    }
+
+    doDelete(id): void {
+        this.delete.emit(id);
     }
 
     doCreate(): void {

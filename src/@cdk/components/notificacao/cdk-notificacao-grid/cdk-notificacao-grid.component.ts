@@ -182,6 +182,9 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     selected = new EventEmitter<Notificacao>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: NotificacaoDataSource;
@@ -307,6 +310,10 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
 
     deleteNotificacoes(notificacoesId): void {
         notificacoesId.forEach(notificacaoId => this.deleteNotificacao(notificacaoId));
+    }
+
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

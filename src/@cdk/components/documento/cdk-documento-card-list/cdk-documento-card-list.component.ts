@@ -45,6 +45,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     deleteBloco = new EventEmitter<Documento[]>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     assinatura = new EventEmitter<number>();
 
     @Output()
@@ -103,6 +106,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     lixeiraMinutas = false;
+
+    @Input()
+    saving = false;
+
+    @Input()
+    loading = false;
 
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
@@ -201,10 +210,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         const documentosBloco = [];
         this.documentos.forEach((documento: Documento) => {
             if (this.selectedIds.indexOf(documento.id) > -1) {
-                documentosBloco.push(documento);
+                documentosBloco.push(documento.id);
             }
         });
-        this.deleteBloco.emit(documentosBloco);
+        this.deleteBlocoEmmitter.emit(documentosBloco);
     }
 
     doAssinaturaDocumentoBloco(): void {
@@ -306,5 +315,4 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.selectedIds.forEach(documentoId => this.doRestaurar(documentoId));
         this.deselectAll();
     }
-
 }

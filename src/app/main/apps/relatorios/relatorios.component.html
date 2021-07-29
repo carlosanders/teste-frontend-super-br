@@ -23,7 +23,7 @@
                 <div class="search">
                     <mat-icon class="secondary-text">search</mat-icon>
                     <cdk-etiqueta-chips [etiquetas]="etiquetas"
-                                        [placeholder]="'Filtre os relatórios pelas etiquetas'"
+                                        [placeholder]="'Filtrar os relatórios pelas etiquetas'"
                                         (create)="addEtiqueta($event)"
                                         [pagination]="vinculacaoEtiquetaPagination"
                                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
@@ -69,13 +69,14 @@
                                      (selected)="setCurrentRelatorio($event)"
                                      (folder)="setFolderOnSelectedRelatorios($event)"
                                      (delete)="deleteRelatorio($event)"
+                                     (deleteBlocoEmmitter)="deleteBlocoRelatorio($event)"
                                      (etiquetarBloco)="doEtiquetarBloco()"
                                      [mobileMode]="mobileMode"
                                      (criaRelatorio)="criarRelatorio()">
                     </cdk-relatorio-list>
 
                 </div>
-                
+
                 <div class="relatorio-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [fxFlex]="100"

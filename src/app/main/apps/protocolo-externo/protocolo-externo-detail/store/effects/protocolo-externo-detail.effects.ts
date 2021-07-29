@@ -130,14 +130,50 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.DeleteProcesso>(ProcessoDetailActions.DELETE_PROCESSO),
-                mergeMap(action => this._processoService.destroy(action.payload).pipe(
-                            map(response => new ProcessoDetailActions.DeleteProcessoSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new ProcessoDetailActions.DeleteProcessoFailed(action.payload));
-                            })
-                        ), 25
-                ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'processo',
+                        content: 'Apagando a processo id ' + action.payload.processoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._processoService.destroy(action.payload.processoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Processo id ' + action.payload.processoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Processo>({
+                                id: response.id,
+                                schema: processoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new ProcessoDetailActions.DeleteProcessoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.processoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Erro ao apagar a processo id ' + action.payload.processoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new ProcessoDetailActions.DeleteProcessoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Save Processo
@@ -178,33 +214,47 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.CreateVinculacaoEtiqueta>(ProcessoDetailActions.CREATE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'vinculação etiqueta',
+                    content: 'Salvando a vinculação etiqueta ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
-                    return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap(response => response.processo = null),
-                        mergeMap(response => [
+                    return this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação etiqueta',
+                                content: 'Vinculação etiqueta id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: VinculacaoEtiqueta) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: processoSchema,
                                 parentId: action.payload.processo.id
                             }),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} etiquetada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<VinculacaoEtiqueta>({data: [response], schema: vinculacaoEtiquetaSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculação etiqueta',
+                                content: 'Erro ao salvar a vinculação etiqueta!',
+                                status: 2, // erro
+                            }));
                             return of(new ProcessoDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                }, 25)
+                    )
+                })
             );
-
 
     /**
      * Save conteúdo vinculação etiqueta na processo

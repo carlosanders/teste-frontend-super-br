@@ -132,15 +132,15 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this.desabilitaCampos();
 
         this.form.get('generoRelatorio').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('especieRelatorio').enable();
+                this.form.get('especieRelatorio').reset();
                 this.especieRelatorioPagination.filter = {'generoRelatorio.id': `eq:${value.id}`};
             } else {
-                this.form.get('especieRelatorio').setValue(null);
+                this.form.get('especieRelatorio').reset();
                 this.form.get('especieRelatorio').disable();
             }
         });
@@ -148,12 +148,13 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('especieRelatorio').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('tipoRelatorio').enable();
+                this.form.get('tipoRelatorio').setValue(null);
                 this.tipoRelatorioPagination.filter = {
                     ...this.tipoRelatorioPagination.filter,
                     ...{'especieRelatorio.id': `eq:${this.form.get('especieRelatorio').value.id}`}
                 };
             } else {
-                this.form.get('tipoRelatorio').setValue(null);
+                this.form.get('tipoRelatorio').reset();
                 this.form.get('tipoRelatorio').disable();
             }
         });
@@ -161,6 +162,9 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('tipoRelatorio').valueChanges.subscribe((value) => {
             if (value && value.parametros) {
                 this.processaParametros(value);
+            } else {
+                this.form.get('unidade').reset();
+                this.form.get('unidade').disable();
             }
         });
 
@@ -177,7 +181,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
                             this._changeDetectorRef.markForCheck();
                         }
                         if (value === null) {
-                            this.form.get('setor').setValue('');
+                            this.form.get('setor').setValue(null);
                             this.form.get('setor').disable();
                         }
                         return of([]);
@@ -190,15 +194,17 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-
                 if (value && typeof value === 'object') {
-
                     if (this.form.get('usuario').enabled)
                     {
                         this.form.get('usuario').reset();
                         this.usuarioPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
                         this._changeDetectorRef.markForCheck();
                     }
+                }
+                if (value === null) {
+                    this.form.get('usuario').reset();
+                    this.form.get('usuario').disable();
                 }
 
                 return of([]);
@@ -211,7 +217,6 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
             try {
                 const data = JSON.parse(this.errors.error.message);
@@ -243,8 +248,8 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    processaParametros(value): void {
 
+    processaParametros(value): void {
         const parametros = value.parametros.split(',');
 
         this.form.get('unidade').enable();

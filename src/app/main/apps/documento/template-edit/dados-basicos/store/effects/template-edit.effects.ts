@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TemplateEditActions from '../actions';
@@ -101,21 +101,38 @@ export class TemplateEditEffects {
         this._actions
             .pipe(
                 ofType<TemplateEditActions.SaveTemplate>(TemplateEditActions.SAVE_TEMPLATE),
-                switchMap(action => this._templateService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'template',
+                    content: 'Salvando o template ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._templateService.save(action.payload.template).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'template',
+                                content: 'Template id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Template) => [
                             new TemplateEditActions.SaveTemplateSuccess(),
-                            new AddData<Template>({data: [response], schema: templateSchema}),
                             new TemplateEditActions.GetTemplate(),
-                            new OperacoesActions.Resultado({
-                                type: 'template',
-                                content: `Template id ${response.id} editado com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Template>({data: [response], schema: templateSchema})
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'template',
+                                content: 'Erro ao salvar o template!',
+                                status: 2, // erro
+                            }));
                             return of(new TemplateEditActions.SaveTemplateFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 }

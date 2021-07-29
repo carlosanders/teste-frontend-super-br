@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'tipo-acao-workflow-edit',
@@ -74,8 +75,11 @@ export class TipoAcaoWorkflowEditComponent implements OnInit {
             }
         );
 
-
-        this._store.dispatch(new fromStore.SaveTipoAcaoWorkflow(tipoAcaoWorkflow));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTipoAcaoWorkflow({
+            tipoAcaoWorkflow: tipoAcaoWorkflow,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

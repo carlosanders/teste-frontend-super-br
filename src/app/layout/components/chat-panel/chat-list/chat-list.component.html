@@ -2,11 +2,11 @@
      (click)="chatClick(chat)">
     <chat-imagem
         class="mat-badge"
-        [chat]="chat"
-        [mensagensNaoLidas]="chatUtils.getChatData(chat, chatOpen).mensagensNaoLidas">
+        [imagem]="chat.capa"
+        [mensagensNaoLidas]="chat.chatParticipante?.mensagensNaoLidas">
     </chat-imagem>
     <div class="chat-info">
-        <span class="chat-nome">{{chatUtils.getChatData(chat).nome}}</span>
+        <span class="chat-nome">{{chat.nome}}</span>
         <span class="chat-mensagem">
             {{chat?.ultimaMensagem?.mensagem}}{{chat?.ultimaMensagem?.componenteDigital?.fileName}}
         </span>

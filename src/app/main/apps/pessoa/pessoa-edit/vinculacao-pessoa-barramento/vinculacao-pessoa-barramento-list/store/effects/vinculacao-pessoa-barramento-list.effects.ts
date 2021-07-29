@@ -3,15 +3,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as VinculacaoPessoaBarramentoListActions from '../actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoPessoaBarramento as vinculacaoPessoaBarramentoSchema} from '@cdk/normalizr/index';
 import {VinculacaoPessoaBarramentoService} from "@cdk/services/vinculacao-pessoa-barramento.service";
 import {VinculacaoPessoaBarramento} from "@cdk/models/vinculacao-pessoa-barramento";
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class VinculacaoPessoaBarramentoListEffect {
@@ -78,16 +79,50 @@ export class VinculacaoPessoaBarramentoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteVinculacaoPessoaBarramento: any =
+    deleteVinculacaoPessoaBarramento: Observable<VinculacaoPessoaBarramentoListActions.VinculacaoPessoaBarramentoListActionsAll> =
         this._actions
             .pipe(
                 ofType<VinculacaoPessoaBarramentoListActions.DeleteVinculacaoPessoaBarramento>(VinculacaoPessoaBarramentoListActions.DELETE_VINCULACAO_PESSOA_BARRAMENTO),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'vinculacaoPessoaBarramento',
+                        content: 'Apagando a vinculacaoPessoaBarramento id ' + action.payload.vinculacaoPessoaBarramentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
                 mergeMap((action) => {
-                    return this._vinculacaoPessoaBarramentoService.destroy(action.payload).pipe(
-                        map((response) => new VinculacaoPessoaBarramentoListActions.DeleteVinculacaoPessoaBarramentoSuccess(response.id)),
+                    return this._vinculacaoPessoaBarramentoService.destroy(action.payload.vinculacaoPessoaBarramentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoPessoaBarramento',
+                                content: 'VinculacaoPessoaBarramento id ' + action.payload.vinculacaoPessoaBarramentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<VinculacaoPessoaBarramento>({
+                                id: response.id,
+                                schema: vinculacaoPessoaBarramentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new VinculacaoPessoaBarramentoListActions.DeleteVinculacaoPessoaBarramentoSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new VinculacaoPessoaBarramentoListActions.DeleteVinculacaoPessoaBarramentoFailed(action.payload));
+                            const payload = {
+                                id: action.payload.vinculacaoPessoaBarramentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'vinculacaoPessoaBarramento',
+                                content: 'Erro ao apagar a vinculacaoPessoaBarramento id ' + action.payload.vinculacaoPessoaBarramentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new VinculacaoPessoaBarramentoListActions.DeleteVinculacaoPessoaBarramentoFailed(payload));
                         })
                     );
                 }, 25)

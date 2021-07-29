@@ -17,6 +17,7 @@ import {Pagination} from '@cdk/models';
 import {VinculacaoPessoaBarramento} from "@cdk/models/vinculacao-pessoa-barramento";
 import {Back} from "../../../../../../store";
 import {getPessoa} from "../../dados-pessoa-edit/store";
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacaoPessoaBarramento-edit',
@@ -99,8 +100,11 @@ export class VinculacaoPessoaBarramentoEditComponent implements OnInit, OnDestro
         vinculacaoPessoaBarramento.nomeRepositorio = vinculacaoPessoaBarramento.nomeRepositorio['nome'];
         vinculacaoPessoaBarramento.pessoa = this.pessoa;
 
-        this._store.dispatch(new fromStore.SaveVinculacaoPessoaBarramento(vinculacaoPessoaBarramento));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoPessoaBarramento({
+            vinculacaoPessoaBarramento: vinculacaoPessoaBarramento,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {

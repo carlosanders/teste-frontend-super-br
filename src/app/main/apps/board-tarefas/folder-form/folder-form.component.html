@@ -1,0 +1,31 @@
+<div class="list new-folder mat-elevation-z1">
+
+    <button *ngIf="!controls.formActive" mat-button class="new-folder-form-button" (click)="doOpenForm()">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <div *ngIf="controls.saving" class="loading mat-button">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+            <mat-icon class="accent" *ngIf="!controls.saving">add</mat-icon>
+            <span>Criar Pasta</span>
+        </div>
+    </button>
+
+    <form *ngIf="controls.formActive && !controls.saving" class="new-folder-form" [formGroup]="controls.form"
+          (ngSubmit)="doSave()" (keydown.enter)="doSave(); $event.preventDefault();"
+          fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+        <input formControlName="nome" #inputNome style="width: 155px" placeholder="Nome" [ngClass]="{'error': !!controls.errors}">
+
+        <button mat-icon-button class="icone" type="submit">
+            <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button class="icone" (click)="doClose()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </form>
+
+    <div class="form-errors mat-error" *ngIf="controls.errors">
+        {{ controls.errors }}
+    </div>
+</div>
+

@@ -1,0 +1,140 @@
+<div class="list mat-elevation-z1 corpo-cartao" fxLayout="column">
+    <!-- LIST HEADER -->
+    <div class="list-header cartao-head" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="1 0 auto" class="list-header-name">
+            {{folder.nome | titlecase}}
+        </div>
+        <div fxFlex="0 1 auto" *ngIf="folder.id && !controls.deletingIds.includes(folder.id)">
+            <button mat-icon-button class="list-header-option-button" [matMenuTriggerFor]="listMenu"
+                    [disabled]="isActionsDisabled()">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #listMenu="matMenu">
+                <button mat-menu-item
+                        (click)="doRemoveFolder(folder)">
+                    Excluir Pasta
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+    <div class="list-control" fxLayout="row">
+        <div class="control-left">
+            <mat-checkbox class="ml-8" (click)="doToggleSelectAll($event)"
+                          [checked]="!!controls.folderSelectedIds.length"
+                          [indeterminate]="controls.isIndeterminate"
+                          [disabled]="isActionsDisabled()">
+            </mat-checkbox>
+
+            <span *ngIf="controls.folderSelectedIds.length">
+                {{controls.folderSelectedIds.length}}
+            </span>
+
+            <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                    aria-label="Ferramentas"
+                    [disabled]="isActionsDisabled()"
+                    *ngIf="controls.folderSelectedIds.length">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="apagar"
+                        (click)="doDeleteTarefas(controls.folderSelectedIds)">
+                    <ng-container>
+                        <mat-icon>delete</mat-icon>
+                        <span>Apagar</span>
+                    </ng-container>
+                </button>
+                <button mat-menu-item aria-label="dar ciência"
+                        (click)="doCienciaTarefas(controls.folderSelectedIds)">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar ciência</span>
+                    </ng-container>
+                </button>
+            </mat-menu>
+        </div>
+
+        <div class="control-right">
+            <button class="refresh" mat-icon-button
+                    (click)="doReload()"
+                    [disabled]="isActionsDisabled()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="selectMenu"
+                    aria-label="ordenar"
+                    matTooltip="Ordenar">
+                <mat-icon>sort</mat-icon>
+            </button>
+            <mat-menu fxHide #selectMenu="matMenu">
+                <button mat-menu-item
+                        (click)="doSort({'dataHoraFinalPrazo': 'ASC'})"
+                        [disabled]="isActionsDisabled()">
+                    Final do Prazo
+                </button>
+                <button mat-menu-item
+                        (click)="doSort({'dataHoraDistribuicao': 'DESC'})"
+                        [disabled]="isActionsDisabled()">
+                    Data da Distribuição
+                </button>
+            </mat-menu>
+
+            <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">
+                <mat-select [formControl]="controls.campos" multiple>
+                    <div *ngFor="let campo of controls.allCampos">
+                        <mat-option *ngIf="!campo.fixed" [value]="campo.id">{{ campo.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="toolbar-separator"></div>
+
+            <div>
+                {{tarefaList ? tarefaList.length : 0}}/{{pagination?.total || 0}}
+            </div>
+        </div>
+    </div>
+    <!-- LIST HEADER -->
+    <!-- LIST CONTENT -->
+    <div class="list-content" fxLayout="column"
+         #folderListColumnContent
+         infiniteScroll
+         [scrollWindow]="false"
+         [infiniteScrollDistance]="5"
+         [infiniteScrollThrottle]="150"
+         (scrolled)="doLoadMoreTarefas()"
+         dndDropzone
+         dndDragoverClass="folder-list-column-drag-over"
+         dndDropzoneDisabledClass="folder-list-column-drag-over-disabled"
+         [dndDisableIf]="!isDropzoneEnabled()"
+         (dndDrop)="onDrop([$event, folder], isDropzoneEnabled())">
+
+        <div class="list-cards ngx-dnd-container">
+
+            <card-tarefa
+                class="board-tarefas-card ngx-dnd-item"
+                [ngClass]="{'card-tarefa-disabled': isTarefaDisabled(tarefa)}"
+                *ngFor="let tarefa of tarefaList"
+                [tarefa]="tarefa"
+                [folderSelectedIds]="controls.folderSelectedIds"
+                [disableActions]="isTarefaDisabled(tarefa)"
+                [displayedCampos]="controls.displayedCampos"
+                (openTarefaHandler)="doOpenTarefa($event[0], $event[1])"
+                (deleteTarefaHandler)="doDeleteTarefas($event)"
+                (cienciaTarefaHandler)="doCienciaTarefas($event)"
+            >
+            </card-tarefa>
+
+            <div *ngIf="controls.loading" class="loading">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+
+            <div class="empty-tarefa-list" *ngIf="!tarefaList?.length && !controls.loading">
+                <span class="hint-text">Não existem tarefas!</span>
+            </div>
+        </div>
+    </div>
+    <!-- / LIST CONTENT -->
+</div>

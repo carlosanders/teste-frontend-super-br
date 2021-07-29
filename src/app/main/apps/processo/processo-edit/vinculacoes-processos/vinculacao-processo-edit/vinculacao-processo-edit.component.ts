@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {getProcesso} from '../../../store/selectors';
 import {Back} from '../../../../../../store/actions';
 import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-processo-edit',
@@ -101,8 +102,11 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveVinculacaoProcesso(vinculacaoProcesso));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoProcesso({
+            vinculacaoProcesso: vinculacaoProcesso,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

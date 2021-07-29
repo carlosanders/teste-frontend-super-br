@@ -9,6 +9,7 @@ import {getEtiqueta} from '../../store/selectors';
 import {Back} from 'app/store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'regra-etiqueta-edit',
@@ -158,7 +159,11 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
         regraEtiqueta.criteria = criteria;
         regraEtiqueta.etiqueta = this.etiqueta;
 
-        this._store.dispatch(new fromStore.SaveRegraEtiqueta(regraEtiqueta));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveRegraEtiqueta({
+            regraEtiqueta: regraEtiqueta,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'etiqueta-list',
@@ -33,6 +34,7 @@ export class EtiquetaListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -133,8 +135,17 @@ export class EtiquetaListComponent implements OnInit, OnDestroy {
         this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/regras']);
     }
 
-    delete(etiquetaId: number): void {
-        this._store.dispatch(new fromStore.DeleteEtiqueta(etiquetaId));
+    delete(etiquetaId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteEtiqueta({
+            etiquetaId: etiquetaId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
 
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
+    }
 }

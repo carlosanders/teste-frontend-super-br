@@ -80,23 +80,41 @@ export class EnderecoEditEffect {
         this._actions
             .pipe(
                 ofType<EnderecoEditActions.SaveEndereco>(EnderecoEditActions.SAVE_ENDERECO),
-                switchMap(action => this._enderecoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'endereco',
+                    content: 'Salvando o endereco ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._enderecoService.save(action.payload.endereco).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'endereco',
+                                content: 'Endereco id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Endereco) => [
                             new EnderecoEditActions.SaveEnderecoSuccess(),
                             new EnderecoListActions.ReloadEnderecos(),
-                            new AddData<Endereco>({data: [response], schema: enderecoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'endereco',
-                                content: `Endereco id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Endereco>({data: [response], schema: enderecoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'endereco',
+                                content: 'Erro ao salvar o endereco!',
+                                status: 2, // erro
+                            }));
                             return of(new EnderecoEditActions.SaveEnderecoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
     /**
      * Save Endereco Success
      */

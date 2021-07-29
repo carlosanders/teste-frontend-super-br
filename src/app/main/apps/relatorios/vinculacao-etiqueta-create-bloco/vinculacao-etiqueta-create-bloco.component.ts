@@ -20,6 +20,7 @@ import * as fromStoreRelatorio from '../store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'vinculacao-etiqueta-create',
@@ -159,7 +160,11 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             vinculacaoEtiqueta.relatorio = relatorio;
             vinculacaoEtiqueta.privada = false;
 
-            this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(vinculacaoEtiqueta));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta({
+                vinculacaoEtiqueta: vinculacaoEtiqueta,
+                operacaoId: operacaoId
+            }));
         });
     }
 }

@@ -31,11 +31,7 @@ import * as fromStore from './store';
 import {
     getConfiguracaoNup,
     getTarefaIsSaving,
-    getVinculacaoProcessoIsSaving,
-    SaveAssunto,
-    SaveInteressado,
-    SaveTarefa,
-    SaveVinculacaoProcesso
+    getVinculacaoProcessoIsSaving
 } from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -50,6 +46,7 @@ import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selector
 import {getProcesso} from '../../store';
 import {configuracaoNup, documento as documentoSchema} from '@cdk/normalizr';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -164,6 +161,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     genero = 'administrativo';
 
     pessoa: Pessoa;
+    lote: string;
+
+    editandoProcedencia = false;
+    editandoInteressado = false;
 
     private _unsubscribeAll: Subject<any>;
 
@@ -310,6 +311,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             setorResponsavel: [null, [Validators.required]],
             usuarioResponsavel: [null],
             blocoResponsaveis: [null],
+            grupoContato: [null],
             usuarios: [null],
             setores: [null],
             setorOrigem: [null, [Validators.required]],
@@ -591,21 +593,31 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 .replace(/-+/g, '');
         }
 
-        this._store.dispatch(new fromStore.SaveProcesso(processo));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveProcesso({
+            processo: processo,
+            operacaoId: operacaoId
+        }));
     }
 
     onActivate(componentReference): void  {
         if (componentReference.select) {
-            componentReference.select.subscribe((pessoa: Pessoa) => {
-                if (!this.processo.id) {
+            if (this.editandoProcedencia) {
+                componentReference.select.subscribe((pessoa: Pessoa) => {
                     this.procedencia = pessoa;
-                }
-                else {
+                    if (this.routerState.url.includes('/pessoa')) {
+                        this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+                    }
+                });
+            } else {
+                componentReference.select.subscribe((pessoa: Pessoa) => {
                     this.pessoa = pessoa;
                     this.interessadoActivated = 'form';
-                }
-                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
-            });
+                    if (this.routerState.url.includes('/pessoa')) {
+                        this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+                    }
+                });
+            }
         }
     }
 
@@ -616,18 +628,26 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     gerirProcedencia(): void {
+        this.editandoProcedencia = true;
+        this.editandoInteressado = false;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/listar']).then();
     }
 
     editProcedencia(pessoaId: number): void {
+        this.editandoProcedencia = true;
+        this.editandoInteressado = false;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
     gerirPessoa(): void {
+        this.editandoProcedencia = false;
+        this.editandoInteressado = true;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/listar']).then();
     }
 
     editPessoa(pessoaId: number): void {
+        this.editandoProcedencia = false;
+        this.editandoInteressado = true;
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
@@ -654,7 +674,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         assunto.processo = this.processo;
 
-        this._store.dispatch(new SaveAssunto(assunto));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAssunto({
+            assunto: assunto,
+            operacaoId: operacaoId
+        }));
     }
 
     submitInteressado(values): void {
@@ -668,7 +692,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         interessado.processo = this.processo;
 
-        this._store.dispatch(new SaveInteressado(interessado));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveInteressado({
+            interessado: interessado,
+            operacaoId: operacaoId
+        }));
     }
 
     submitVinculacaoProcesso(values): void {
@@ -682,7 +710,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         vinculacaoProcesso.processo = this.processo;
 
-        this._store.dispatch(new SaveVinculacaoProcesso(vinculacaoProcesso));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVinculacaoProcesso({
+            vinculacaoProcesso: vinculacaoProcesso,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTarefa(values): void {
@@ -694,7 +726,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             }
         );
 
-        this._store.dispatch(new SaveTarefa(tarefa));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId
+        }));
     }
 
     upload(): void {
@@ -771,9 +807,20 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteAssunto(assuntoId: number): void {
-        this._store.dispatch(new fromStore.DeleteAssunto(assuntoId));
+    deleteAssunto(assuntoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteAssunto({
+            assuntoId: assuntoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
+
+    deleteBlocoAssunto(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteAssunto(id, this.lote));
+    }
+
 
     reloadInteressados(params): void {
         this._store.dispatch(new fromStore.GetInteressados({
@@ -808,8 +855,18 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteInteressado(interessadoId: number): void {
-        this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+    deleteInteressado(interessadoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteInteressado({
+            interessadoId: interessadoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoInteressado(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteInteressado(id, this.lote));
     }
 
     reloadVinculacoesProcessos(params): void {
@@ -845,8 +902,18 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteVinculacaoProcesso(vinculacaoProcessoId: number): void {
-        this._store.dispatch(new fromStore.DeleteVinculacaoProcesso(vinculacaoProcessoId));
+    deleteVinculacaoProcesso(vinculacaoProcessoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteVinculacaoProcesso({
+            vinculacaoProcessoId: vinculacaoProcessoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBlocoVinculacaoProcesso(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.deleteVinculacaoProcesso(id, this.lote));
     }
 
     create(form): void {
@@ -886,16 +953,21 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
+                message: 'Este procedimento é irreversível. Deseja realmente desentranhar a juntada?'
             },
             disableClose: false
         });
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Este procedimento é irreversível. Deseja realmente desentranhar a juntada?';
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const desentranhamento = new Desentranhamento();
                 desentranhamento.tipo = 'arquivo';
                 desentranhamento.juntada = juntada;
-                this._store.dispatch(new fromStore.SaveDesentranhamento(desentranhamento));
+                desentranhamento.juntadasBloco = [juntada];
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.SaveDesentranhamento({
+                    desentranhamento: desentranhamento,
+                    operacaoId: operacaoId
+                }));
             }
             this.confirmDialogRef = null;
         });
@@ -939,9 +1011,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    documento: result.documento
+                    documento: result.documento,
+                    operacaoId: operacaoId
                 }));
             });
         }

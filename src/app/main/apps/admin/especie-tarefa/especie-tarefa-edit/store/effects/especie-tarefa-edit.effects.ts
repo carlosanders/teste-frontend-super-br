@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as EspecieTarefaEditActions from '../actions/especie-tarefa-edit.actions';
@@ -16,6 +16,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class EspecieTarefaEditEffects {
@@ -84,20 +85,39 @@ export class EspecieTarefaEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieTarefaEditActions.SaveEspecieTarefa>(EspecieTarefaEditActions.SAVE_ESPECIE_TAREFA),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'espécie tarefa',
+                    content: 'Salvando a espécie tarefa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._especieTarefaService.save(action.payload, context).pipe(
+                    return this._especieTarefaService.save(action.payload.especieTarefa, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie tarefa',
+                                content: 'Espécie tarefa id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: EspecieTarefa) => [
+                            new EspecieTarefaEditActions.SaveEspecieTarefaSuccess(response),
                             new EspecieTarefaListActions.ReloadEspecieTarefa(),
-                            new AddData<EspecieTarefa>({data: [response], schema: especieTarefaSchema}),
-                            new EspecieTarefaEditActions.SaveEspecieTarefaSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new EspecieTarefaEditActions.SaveEspecieTarefaFailed(err));
-                    return caught;
+                            new AddData<EspecieTarefa>({data: [response], schema: especieTarefaSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie tarefa',
+                                content: 'Erro ao salvar a espécie tarefa!',
+                                status: 2, // erro
+                            }));
+                            return of(new EspecieTarefaEditActions.SaveEspecieTarefaFailed(err));
+                        })
+                    )
                 })
             );
 

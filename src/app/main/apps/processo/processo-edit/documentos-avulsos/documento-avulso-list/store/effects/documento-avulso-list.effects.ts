@@ -9,11 +9,11 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoAvulsoListActions from '../actions';
 
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {DocumentoAvulso} from '@cdk/models';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class DocumentoAvulsoListEffect {
@@ -80,21 +80,53 @@ export class DocumentoAvulsoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteDocumentoAvulso: any =
+    deleteDocumentoAvulso: Observable<DocumentoAvulsoListActions.DocumentoAvulsoListActionsAll> =
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoListActions.DeleteDocumentoAvulso>(DocumentoAvulsoListActions.DELETE_DOCUMENTO_AVULSO),
-                mergeMap(action => this._documentoAvulsoService.destroy(action.payload).pipe(
-                        map(response => new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documentoAvulso',
+                        content: 'Apagando a documentoAvulso id ' + action.payload.documentoAvulsoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoAvulsoService.destroy(action.payload.documentoAvulsoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoAvulso',
+                                content: 'DocumentoAvulso id ' + action.payload.documentoAvulsoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<DocumentoAvulso>({
+                                id: response.id,
+                                schema: documentoAvulsoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoAvulsoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documentoAvulso',
+                                content: 'Erro ao apagar a documentoAvulso id ' + action.payload.documentoAvulsoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(payload));
                         })
-                    ))
+                    );
+                }, 25)
             );
 
     /**

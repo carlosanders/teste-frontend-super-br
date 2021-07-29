@@ -21,6 +21,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'compartilhamento-create',
@@ -126,7 +127,11 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
             compartilhamento.tarefa = tarefa;
 
-            this._store.dispatch(new fromStore.SaveCompartilhamento(compartilhamento));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveCompartilhamento({
+                compartilhamento: compartilhamento,
+                operacaoId: operacaoId
+            }));
         });
     }
 

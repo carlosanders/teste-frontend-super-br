@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from '../../../../../store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'usuarios-externos-edit',
@@ -98,7 +99,11 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveUsuarioExternos(usuario));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveUsuarioExternos({
+            usuario: usuario,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

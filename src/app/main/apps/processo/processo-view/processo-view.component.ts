@@ -91,6 +91,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     vinculacao = false;
 
+    desentranhamento = false;
+
     documentoAvulso = false;
 
     modelos = false;
@@ -223,9 +225,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
                     routerState.state.params.stepHandle === 'default';
                 this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
+                this.desentranhamento = routerState.state.url.indexOf('/desentranhar') !== -1;
                 this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
                 this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
         });
 
@@ -233,12 +237,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((loading) => {
             this.loadingJuntadas = loading;
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.processo$.subscribe(
@@ -475,6 +473,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     isHtml(filename) {
         const name = filename.split('.');
-        return 'HTML' == [...name].pop();
+        return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
     }
 }

@@ -1,0 +1,26 @@
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayLotacaoFn">
+    <mat-option [ngClass]="{'multiline': true, 'indisponivel': mode == 'search' && !lotacao.colaborador?.usuario.isDisponivel}"
+                [disabled]="!lotacao.colaborador.usuario.isDisponivel"
+                *ngFor="let lotacao of lotacaoList"
+                [value]="lotacao">
+        <div *ngIf="lotacao.setor?.unidade">{{ lotacao.setor.unidade.nome }}</div>
+        <div *ngIf="lotacao.setor">
+            <span *ngIf="lotacao.setor.unidade">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            {{ lotacao.setor.nome }} ({{ lotacao.setor.sigla}})
+        </div>
+        <div [ngClass]="{'strong': true}">
+            <span *ngIf="lotacao.setor.unidade">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <span *ngIf="lotacao.setor">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            {{ lotacao.colaborador.usuario.nome }}
+        </div>
+    </mat-option>
+    <mat-option *ngIf="lotacaoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -10,19 +10,19 @@
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header" *ngIf="routerState?.url?.indexOf('/capa') === -1 && !vinculacao && !documentoAvulso && !modelos">
+        <div class="header" *ngIf="routerState?.url?.indexOf('/capa') === -1 && !vinculacao && !desentranhamento && !documentoAvulso && !modelos">
 
             <button mat-icon-button class="sidebar-toggle mr-16 cdk-black-fg" fxHide.gt-md
                     (click)="toggleSidebar(this.sidebarName)">
                 <mat-icon>menu</mat-icon>
             </button>
 
-            <div *ngIf="!capa && !vinculacao && !documentoAvulso" class="juntada-navigation">
+            <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso" class="juntada-navigation">
                 <div>
-                    <button mat-mini-fab class="previous accent cdk-white-fg"
+                    <button mat-icon-button
                             (click)="gotoPreviousStep()"
                             [disabled]="disabledBack()">
-                        <mat-icon>chevron_left</mat-icon>
+                        <mat-icon>navigate_before</mat-icon>
                     </button>
                 </div>
 
@@ -39,10 +39,10 @@
                         <mat-icon class="mat-18">zoom_in</mat-icon>
                     </button>
                     &nbsp;
-                    <button mat-mini-fab class="next accent cdk-white-fg"
+                    <button mat-icon-button
                             (click)="gotoNextStep()"
                             [disabled]="disabledNext()">
-                        <mat-icon>chevron_right</mat-icon>
+                        <mat-icon>navigate_next</mat-icon>
                     </button>
                 </div>
             </div>
@@ -67,7 +67,7 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <div *ngIf="!capa && !vinculacao && !documentoAvulso && !modelos" class="processo-view-juntada">
+            <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso && !modelos" class="processo-view-juntada">
 
                 <div class="loading" *ngIf="(loading$ | async)">
                     <mat-spinner diameter="24"></mat-spinner>

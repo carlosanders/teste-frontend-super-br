@@ -8,6 +8,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {FormBuilder} from '@angular/forms';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'assunto-administrativo-tree-list',
@@ -55,7 +56,12 @@ export class AssuntoAdministrativoTreeListComponent implements OnInit {
                 assuntoAdministrativo[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveAssuntoAdministrativo(assuntoAdministrativo));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAssuntoAdministrativo({
+            assuntoAdministrativo: assuntoAdministrativo,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

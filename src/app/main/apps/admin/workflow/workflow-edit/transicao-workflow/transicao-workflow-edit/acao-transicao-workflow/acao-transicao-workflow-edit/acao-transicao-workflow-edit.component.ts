@@ -24,6 +24,7 @@ import {getRouterState} from '../../../../../../../../../store';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {LoginService} from '../../../../../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'acao-transicao-workflow-edit',
@@ -239,7 +240,11 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
         acaoTransicaoWorkflow.transicaoWorkflow = new TransicaoWorkflow();
         acaoTransicaoWorkflow.transicaoWorkflow.id = this.routerState.params.transicaoWorkflowHandle;
 
-        this._store.dispatch(new fromStore.SaveAcao(acaoTransicaoWorkflow));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAcao({
+            acao: acaoTransicaoWorkflow,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTrigger2(values): void {
@@ -268,7 +273,11 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
         transicaoWorkflow.id = this.routerState.params.transicaoWorkflowHandle;
         acao.transicaoWorkflow = transicaoWorkflow;
 
-        this._store.dispatch(new fromStore.SaveAcao(acao));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAcao({
+            acao: acao,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTrigger3(values): void {
@@ -283,7 +292,11 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
         transicaoWorkflow.id = this.routerState.params.transicaoWorkflowHandle;
         acao.transicaoWorkflow = transicaoWorkflow;
 
-        this._store.dispatch(new fromStore.SaveAcao(acao));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAcao({
+            acao: acao,
+            operacaoId: operacaoId
+        }));
     }
 
     submitTrigger4(values): void {
@@ -325,9 +338,18 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
                 this.destinos.push(destino);
             });
             contexto['blocoResponsaveis'] = this.destinos;
-            this._store.dispatch(new fromStore.SaveAcao(this.tratarValores(contexto)));
+
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcao({
+                acao: this.tratarValores(contexto),
+                operacaoId: operacaoId
+            }));
         } else if (!values.blocoDestinatarios) {
-            this._store.dispatch(new fromStore.SaveAcao(this.tratarValores(contexto)));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcao({
+                acao: this.tratarValores(contexto),
+                operacaoId: operacaoId
+            }));
         }
     }
 

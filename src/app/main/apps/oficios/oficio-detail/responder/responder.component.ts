@@ -26,6 +26,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {getDocumentosComplementares} from '../complementar/store/selectors';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'responder',
@@ -69,6 +70,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
     javaWebStartOK = false;
 
     assinaturaInterval = null;
+    lote: string;
 
         /**
          *
@@ -226,8 +228,18 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDelete(documentoId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.doDelete(id, this.lote));
     }
 
     doVerResposta(documento): void {
@@ -247,7 +259,11 @@ export class ResponderComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura}));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    operacaoId: operacaoId
+                }));
             });
         }
     }

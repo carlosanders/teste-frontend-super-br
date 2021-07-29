@@ -162,6 +162,9 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
     selected = new EventEmitter<NumeroUnicoDocumento>();
 
     @Output()
@@ -288,8 +291,8 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
         this.delete.emit(numeroUnicoDocumentoId);
     }
 
-    deleteNumerosUnicosDocumentos(numerosUnicosDocumentoId): void {
-        numerosUnicosDocumentoId.forEach(numeroUnicoDocumentoId => this.deleteNumeroUnicoDocumento(numeroUnicoDocumentoId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**

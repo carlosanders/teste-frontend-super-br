@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {SetSteps} from '../../../../store/actions';
+import {SetSteps} from '../../../../store';
 
 @Injectable()
 export class TarefaEffect {
@@ -46,22 +46,39 @@ export class TarefaEffect {
         this._actions
             .pipe(
                 ofType<TarefaActions.SaveTarefa>(TarefaActions.SAVE_TAREFA),
-                switchMap(action => this._tarefaService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Salvando a tarefa ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._tarefaService.save(action.payload.tarefa).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Tarefa) => [
                             new TarefaActions.SaveTarefaSuccess(),
                             new SetSteps({steps: false}),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao salvar a tarefa!',
+                                status: 2, // erro
+                            }));
                             return of(new TarefaActions.SaveTarefaFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

@@ -18,6 +18,7 @@ import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../store';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'pessoa-list',
@@ -39,6 +40,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     @Output()
     select: EventEmitter<Pessoa> = new EventEmitter();
@@ -109,8 +111,18 @@ export class PessoaListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
-    delete(pessoaId: number): void {
-        this._store.dispatch(new fromStore.DeletePessoa(pessoaId));
+    delete(pessoaId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeletePessoa({
+            pessoaId: pessoaId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     cancel(): void {

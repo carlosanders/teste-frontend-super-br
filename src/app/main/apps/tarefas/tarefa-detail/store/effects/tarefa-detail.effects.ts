@@ -21,16 +21,16 @@ import {
 } from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../../atividades/atividade-create/store';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistribuindoId} from '../selectors';
 import {
-    DarCienciaTarefa,
+    DarCienciaTarefa, GetTarefas,
     RedistribuirTarefa,
     RedistribuirTarefaCancelSuccess,
     RedistribuirTarefaFailed,
     RedistribuirTarefaSuccess
 } from '../../../store';
+import {GetTarefa} from "app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions";
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -143,14 +143,50 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.DeleteTarefa>(TarefaDetailActions.DELETE_TAREFA),
-                mergeMap(action => this._tarefaService.destroy(action.payload).pipe(
-                            map(response => new TarefaDetailActions.DeleteTarefaSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new TarefaDetailActions.DeleteTarefaFailed(action.payload));
-                            })
-                        )
-                ));
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Apagando a tarefa id ' + action.payload.tarefaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._tarefaService.destroy(action.payload.tarefaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + action.payload.tarefaId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Tarefa>({
+                                id: response.id,
+                                schema: tarefaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new TarefaDetailActions.DeleteTarefaSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.tarefaId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao apagar a tarefa id ' + action.payload.tarefaId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new TarefaDetailActions.DeleteTarefaFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Save Tarefa
@@ -358,35 +394,51 @@ export class TarefaDetailEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    createVinculacaoEtiqueta: Observable<any> =
+    createVinculacaoEtiqueta: any =
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.CreateVinculacaoEtiqueta>(TarefaDetailActions.CREATE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Salvando etiqueta para a tarefa ...',
+                    status: 0, // carregando
+                }))),
+                mergeMap(action => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.tarefa = action.payload.tarefa;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap(response => response.tarefa = null),
-                        mergeMap(response => [
+                        tap((response) =>
+                            {
+                               response.tarefa = null;
+                                this._store.dispatch(new OperacoesActions.Operacao({
+                                    id: action.payload.operacaoId,
+                                    type: 'tarefa',
+                                    content: 'Etiqueta id ' + response.id + ' salva com sucesso.',
+                                    status: 1, // sucesso
+                                }));
+                            }
+                        ),
+                        mergeMap((response: VinculacaoEtiqueta) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: tarefaSchema,
                                 parentId: action.payload.tarefa.id
-                            }),
-                            new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} etiquetada com sucesso!`,
-                                dateTime: response.criadoEm
-                            }),
-                            new GetDocumentos()
+                            })
                         ]),
                         catchError((err) => {
                             console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao salvar etiquetar a tarefa!',
+                                status: 2, // erro
+                            }));
                             return of(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
-                    );
+                    )
                 }, 25)
             );
 

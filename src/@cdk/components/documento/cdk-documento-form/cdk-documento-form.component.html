@@ -36,7 +36,7 @@
         <input matInput #localizadorOriginal
                name="localizadorOriginal"
                formControlName="localizadorOriginal"
-               maxlength="255">
+               maxlength="255" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                 (click)="showLogEntryGrid('ativo')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -57,7 +57,7 @@
         <input matInput #autor
                name="autor"
                formControlName="autor"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -65,7 +65,7 @@
         <input matInput #redator
                name="redator"
                formControlName="redator"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -73,7 +73,7 @@
         <input matInput #destinatario
                name="destinatario"
                formControlName="destinatario"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>

@@ -12,6 +12,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'coordenador-lotacao-edit',
@@ -142,8 +143,11 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveLotacao(lotacao));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveLotacao({
+            lotacao: lotacao,
+            operacaoId: operacaoId
+        }));
     }
 
 }

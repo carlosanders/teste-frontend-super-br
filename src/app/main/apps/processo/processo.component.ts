@@ -28,6 +28,7 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkUtils} from '../../../../@cdk/utils';
 
 @Component({
     selector: 'processo',
@@ -103,8 +104,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso));
 
         this.vinculacaoEtiquetaPagination = new Pagination();
-        if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO'))
-        {
+        if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO')) {
             this.vinculacaoEtiquetaPagination.filter = {
                 orX: [
                     {
@@ -148,13 +148,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.processo$.subscribe((processo) => {
@@ -229,7 +224,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({
+            processo: this.processo,
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        }));
     }
 
     onEtiquetaEdit(values): void {
@@ -253,8 +253,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             + '/visualizar', '_blank');
     }
 
-   imprimirEtiqueta(): void {
+    imprimirEtiqueta(): void {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
+    }
+
+    imprimirRelatorio(): void {
+        this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'relatorio']).then();
     }
 
     arquivarProcesso(): void {
@@ -263,18 +267,18 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             data: {
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
+                message: 'Deseja realmente arquivar o processo ' + this.processo.NUPFormatado + '?',
                 cancelLabel: 'Não',
             },
             disableClose: false
         });
-
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.processo.NUPFormatado + '?';
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const populate = JSON.stringify([
                     'setorAtual',
                     'setorAtual.especieSetor',
+                    'setorAtual.unidade',
                     'modalidadeFase'
                 ]);
                 this._store.dispatch(new fromStore.ArquivarProcesso({processo: this.processo, populate: populate}));

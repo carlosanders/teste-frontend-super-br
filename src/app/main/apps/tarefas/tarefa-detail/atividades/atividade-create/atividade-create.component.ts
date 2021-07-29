@@ -364,7 +364,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         atividade.documentos = this.minutas;
 
-        this._store.dispatch(new fromStore.SaveAtividade(atividade));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAtividade({
+            atividade: atividade,
+            operacaoId: operacaoId
+        }));
     }
 
     checkModelo(): void {

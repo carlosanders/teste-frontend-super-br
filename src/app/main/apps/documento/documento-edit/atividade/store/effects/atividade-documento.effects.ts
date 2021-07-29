@@ -41,25 +41,42 @@ export class AtividadeDocumentoEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    saveAtividade: any =
+        saveAtividade: any =
         this._actions
             .pipe(
                 ofType<AtividadeDocumentoActions.SaveAtividade>(AtividadeDocumentoActions.SAVE_ATIVIDADE),
-                switchMap(action => this._atividadeService.save(action.payload).pipe(
-                        mergeMap((response: Atividade) => [
-                            new AtividadeDocumentoActions.SaveAtividadeSuccess(action.payload),
-                            new AddData<Atividade>({data: [response], schema: atividadeSchema}),
-                            new OperacoesActions.Resultado({
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'atividade',
+                    content: 'Salvando a atividade ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._atividadeService.save(action.payload.atividade).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
                                 type: 'atividade',
-                                content: `Atividade id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                                content: 'Atividade id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Atividade) => [
+                            new AtividadeDocumentoActions.SaveAtividadeSuccess(response),
+                            new AddData<Atividade>({data: [response], schema: atividadeSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'atividade',
+                                content: 'Erro ao salvar a atividade!',
+                                status: 2, // erro
+                            }));
                             return of(new AtividadeDocumentoActions.SaveAtividadeFailed(err));
                         })
-                    ))
+                    )
+                })
             );
 
     /**

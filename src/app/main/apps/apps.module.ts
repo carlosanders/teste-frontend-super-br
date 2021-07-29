@@ -16,7 +16,7 @@ const routes = [
         path        : 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
         canActivate: [RoleGuard],
-        data: {roles: ['ROLE_ADMIN']}
+        data: {roles: ['ROLE_ADMIN', 'ROLE_*_ADMIN']}
     },
     {
         path        : 'arquivista',
@@ -93,6 +93,12 @@ const routes = [
     {
         path        : 'tarefa',
         loadChildren: () => import('./tarefas/tarefa-detail/tarefa-detail.module').then(m => m.TarefaDetailModule),
+        canActivate: [RoleGuard],
+        data: {roles: ['ROLE_COLABORADOR']}
+    },
+    {
+        path        : 'board-tarefas',
+        loadChildren: () => import('./board-tarefas/board-tarefas.module').then(m => m.BoardTarefasModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_COLABORADOR']}
     }

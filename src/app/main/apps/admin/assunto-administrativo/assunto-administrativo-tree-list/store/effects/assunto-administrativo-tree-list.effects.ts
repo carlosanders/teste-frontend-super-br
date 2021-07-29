@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as AssuntoAdministrativoTreeListActions from '../actions';
@@ -14,7 +14,7 @@ import {AssuntoAdministrativo} from '@cdk/models';
 import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
 import * as AssuntoAdministrativoListActions
     from '../../../assunto-administrativo-list/store/actions/assunto-administrativo-list.actions';
-
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class AssuntoAdministrativoTreeListEffects {
@@ -85,19 +85,39 @@ export class AssuntoAdministrativoTreeListEffects {
         this._actions
             .pipe(
                 ofType<AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativo>(AssuntoAdministrativoTreeListActions.SAVE_ASSUNTO_ADMINISTRATIVO),
-                switchMap(action => this._assuntoAdministrativoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'assuntoAdministrativo',
+                    content: 'Salvando a assuntoAdministrativo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._assuntoAdministrativoService.save(action.payload.assuntoAdministrativo).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assuntoAdministrativo',
+                                content: 'AssuntoAdministrativo id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: AssuntoAdministrativo) => [
+                            new AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativoSuccess(response),
                             new AssuntoAdministrativoListActions.ReloadAssuntoAdministrativo(),
-                            new AddData<AssuntoAdministrativo>({data: [response], schema: assuntoAdministrativoSchema}),
-                            new AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativoSuccess(response)
-                        ])
-                    )),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativoFailed(err));
-                    return caught;
+                            new AddData<AssuntoAdministrativo>({data: [response], schema: assuntoAdministrativoSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'assuntoAdministrativo',
+                                content: 'Erro ao salvar a assuntoAdministrativo!',
+                                status: 2, // erro
+                            }));
+                            return of(new AssuntoAdministrativoTreeListActions.SaveAssuntoAdministrativoFailed(err));
+                        })
+                    )
                 })
             );
-
 
 }

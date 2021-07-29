@@ -22,6 +22,9 @@ import {Router} from '@angular/router';
 import {Documento, Pagination, Sigilo, Usuario} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
 import {LoginService} from '../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'documento-edit-sigilos',
@@ -32,6 +35,9 @@ import {LoginService} from '../../../../auth/login/login.service';
     animations: cdkAnimations
 })
 export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
 
     documento$: Observable<Documento>;
     documento: Documento;
@@ -45,8 +51,6 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
     sigiloIsSaving$: Observable<boolean>;
     sigiloErrors$: Observable<any>;
     sigiloLoading$: Observable<boolean>;
-    deletingSigiloIds$: Observable<any>;
-    deletedSigiloIds$: Observable<any>;
     paginationSigilo$: Observable<any>;
 
     unidadePagination: Pagination;
@@ -59,6 +63,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
     container: ViewContainerRef;
 
     routerState: any;
+    lote: string;
 
     /**
      *
@@ -69,6 +74,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
      * @param _loginService
      * @param _dynamicService
      * @param _ref
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditSigilosAppState>,
@@ -77,7 +83,8 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         private _sanitizer: DomSanitizer,
         public _loginService: LoginService,
         private _dynamicService: DynamicService,
-        private _ref: ChangeDetectorRef
+        private _ref: ChangeDetectorRef,
+        private _matDialog: MatDialog
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this._store
@@ -93,8 +100,6 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         this.sigilos$ = this._store.pipe(select(fromStore.getSigilos));
         this.sigiloIsSaving$ = this._store.pipe(select(fromStore.getIsSavingSigilos));
         this.sigiloErrors$ = this._store.pipe(select(fromStore.getErrorsSigilos));
-        this.deletingSigiloIds$ = this._store.pipe(select(fromStore.getDeletingSigiloIds));
-        this.deletedSigiloIds$ = this._store.pipe(select(fromStore.getDeletedSigiloIds));
         this.sigiloLoading$ = this._store.pipe(select(fromStore.getSigilosIsLoading));
         this.paginationSigilo$ = this._store.pipe(select(fromStore.getSigilosPagination));
         this.sigilo$ = this._store.pipe(select(fromStore.getSigilo));
@@ -133,7 +138,16 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
                 this.pagination = pagination;
             }
         });
-
+        this.sigiloIsSaving$.subscribe((next) => {
+            if (!next) {
+                this.formSigilos = false;
+            }
+        });
+        this.sigiloErrors$.subscribe((next) => {
+            if (next) {
+                this.formSigilos = true;
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -167,7 +181,32 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
     }
 
     submitSigilo(values): void {
+        if (this.sigilo) {
+            this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                },
+                disableClose: true
+            });
 
+            this.confirmDialogRef.componentInstance
+                .confirmMessage = 'Atenção, a desclassificação, redução do grau de sigilo ou alteração de restrição de acesso de um documento precisam ser confimadas. Deseja prosseguir?';
+
+            this.confirmDialogRef.afterClosed().subscribe((result) => {
+                if (result) {
+                    this.doSalvarSigilo(values);
+                }
+
+                this.confirmDialogRef = null;
+            });
+        } else {
+            this.doSalvarSigilo(values);
+        }
+    }
+
+    doSalvarSigilo(values): void {
         const sigilo = new Sigilo();
 
         Object.entries(values).forEach(
@@ -177,28 +216,17 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         );
 
         sigilo.documento = this.documento;
-        this._store.dispatch(new fromStore.SaveSigiloDocumento({documentoId: this.documento.id, sigilo: sigilo}));
-
-        this.sigiloIsSaving$.subscribe((next) => {
-            if (!next) {
-                this.formSigilos = false;
-            }
-        });
-
-        this.sigiloErrors$.subscribe((next) => {
-            if (next) {
-                this.formSigilos = true;
-            }
-        });
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveSigiloDocumento({
+            documentoId: this.documento.id,
+            sigilo: sigilo,
+            operacaoId: operacaoId
+        }));
     }
 
     editSigilo(sigiloId: number): void {
         this.formSigilos = true;
         this._store.dispatch(new fromStore.GetSigilo({sigiloId: sigiloId}));
-    }
-
-    deleteSigilo(sigiloId: number): void {
-        this._store.dispatch(new fromStore.DeleteSigilo({documentoId: this.documento.id, sigiloId: sigiloId}));
     }
 
     reloadSigilos(params): void {

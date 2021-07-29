@@ -8,6 +8,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {filter} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'acao-transicao-workflow-list',
@@ -26,6 +27,7 @@ export class AcaoTransicaoWorkflowListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -76,8 +78,18 @@ export class AcaoTransicaoWorkflowListComponent implements OnInit {
         }));
     }
 
-    delete(acaoTransicaoWorkflowId: number): void {
-        this._store.dispatch(new fromStore.DeleteAcao(acaoTransicaoWorkflowId));
+    delete(acaoTransicaoWorkflowId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteAcao({
+            acaoId: acaoTransicaoWorkflowId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     create(): void {

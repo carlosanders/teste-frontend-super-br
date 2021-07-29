@@ -3,17 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as FavoritoListActions from '../actions';
 
 import {FavoritoService} from '@cdk/services/favorito.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Favorito} from '@cdk/models';
 import {favorito as favoritoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class FavoritoListEffect {
@@ -78,20 +78,52 @@ export class FavoritoListEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteFavorito: any =
+    deleteFavorito: Observable<FavoritoListActions.FavoritoListActionsAll> =
         this._actions
             .pipe(
                 ofType<FavoritoListActions.DeleteFavorito>(FavoritoListActions.DELETE_FAVORITO),
-                mergeMap(action => this._favoritoService.destroy(action.payload).pipe(
-                        map(response => new FavoritoListActions.DeleteFavoritoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'favorito',
+                        content: 'Apagando a favorito id ' + action.payload.favoritoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._favoritoService.destroy(action.payload.favoritoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'favorito',
+                                content: 'Favorito id ' + action.payload.favoritoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            new UpdateData<Favorito>({
+                                id: response.id,
+                                schema: favoritoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
+                            return new FavoritoListActions.DeleteFavoritoSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.favoritoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'favorito',
+                                content: 'Erro ao apagar a favorito id ' + action.payload.favoritoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
-                            return of(new FavoritoListActions.DeleteFavoritoFailed(
-                                {
-                                    [action.payload]: CdkUtils.errorsToString(err)
-                                })
-                            );
+                            return of(new FavoritoListActions.DeleteFavoritoFailed(payload));
                         })
-                    ), 25)
+                    );
+                }, 25)
             );
 }

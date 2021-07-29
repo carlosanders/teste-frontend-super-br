@@ -8,6 +8,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'municipio-edit',
@@ -75,7 +76,12 @@ export class MunicipioEditComponent implements OnInit {
                 municipio[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveMunicipio(municipio));
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveMunicipio({
+            municipio: municipio,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

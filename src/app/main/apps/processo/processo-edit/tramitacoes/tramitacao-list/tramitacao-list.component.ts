@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'tramitacao-list',
@@ -26,6 +27,7 @@ export class TramitacaoListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -102,8 +104,18 @@ export class TramitacaoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'recebimento/') + tramitacaoId]);
     }
 
-    delete(tramitacaoId: number): void {
-        this._store.dispatch(new fromStore.DeleteTramitacao(tramitacaoId));
+    delete(tramitacaoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteTramitacao({
+            tramitacaoId: tramitacaoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     view(tramitacaoId: number): void {

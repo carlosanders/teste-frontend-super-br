@@ -89,7 +89,9 @@
 <!-- / SIDE PANEL -->
 
 <!-- AJUDA PANEL -->
-<cdk-sidebar name="ajudaPanel" position="right" [ngClass]="{'ajuda-panel': !mobileMode, 'ajuda-panel-mobile': mobileMode}">
+<cdk-sidebar name="ajudaPanel" position="right"
+             [ngClass]="{'ajuda-panel': !mobileMode, 'ajuda-panel-mobile': mobileMode}"
+             [hidden]="cdkConfig.layout.toolbar.hidden">
     <ajuda-panel></ajuda-panel>
 </cdk-sidebar>
 <!-- / AJUDA PANEL -->
@@ -99,7 +101,7 @@
              [ngClass]="{'chat-open': chatOpen === true}"
              [folded]="false"
              [foldedAutoTriggerOnHover]="false"
-             [hidden]="false">
+             [hidden]="cdkConfig.layout.toolbar.hidden">
     <chat-panel
         (toogleChatHandler)="toogleChat($event)">
     </chat-panel>
@@ -112,7 +114,7 @@
              lockedOpen="gt-md"
              [foldedWidth]="56"
              [foldedAutoTriggerOnHover]="false"
-             [hidden]="false">
+             [hidden]="cdkConfig.layout.toolbar.hidden">
     <quick-panel></quick-panel>
 </cdk-sidebar>
 <!-- / QUICK PANEL -->
@@ -140,9 +142,9 @@
 <!-- LEFT NAVBAR -->
 <ng-template #leftNavbar>
     <cdk-sidebar name="navbar" class="navbar-cdk-sidebar"
-                  [folded]="cdkConfig.layout.navbar.folded"
-                  lockedOpen="gt-md"
-                  *ngIf="!cdkConfig.layout.navbar.hidden">
+                 [folded]="cdkConfig.layout.navbar.folded"
+                 lockedOpen="gt-md"
+                 *ngIf="!cdkConfig.layout.navbar.hidden">
         <navbar [variant]="cdkConfig.layout.navbar.variant" class="left-navbar"></navbar>
     </cdk-sidebar>
 </ng-template>
@@ -151,9 +153,9 @@
 <!-- RIGHT NAVBAR -->
 <ng-template #rightNavbar>
     <cdk-sidebar name="navbar" position="right" class="navbar-cdk-sidebar"
-                  [folded]="cdkConfig.layout.navbar.folded"
-                  lockedOpen="gt-md"
-                  *ngIf="!cdkConfig.layout.navbar.hidden">
+                 [folded]="cdkConfig.layout.navbar.folded"
+                 lockedOpen="gt-md"
+                 *ngIf="!cdkConfig.layout.navbar.hidden">
         <navbar [variant]="cdkConfig.layout.navbar.variant" class="right-navbar"></navbar>
     </cdk-sidebar>
 </ng-template>

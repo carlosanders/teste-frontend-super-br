@@ -80,23 +80,41 @@ export class VolumeEditEffect {
         this._actions
             .pipe(
                 ofType<VolumeEditActions.SaveVolume>(VolumeEditActions.SAVE_VOLUME),
-                switchMap(action => this._volumeService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'volume',
+                    content: 'Salvando o volume ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._volumeService.save(action.payload).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'volume',
+                                content: 'Volume id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Volume) => [
                             new VolumeEditActions.SaveVolumeSuccess(),
                             new VolumeListActions.ReloadVolumes(),
-                            new AddData<Volume>({data: [response], schema: volumeSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'volume',
-                                content: `Volume id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Volume>({data: [response], schema: volumeSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'volume',
+                                content: 'Erro ao salvar o volume!',
+                                status: 2, // erro
+                            }));
                             return of(new VolumeEditActions.SaveVolumeFailed(err));
                         })
-                    ))
+                    )
+                })
             );
+
     /**
      * Save Volume Success
      */

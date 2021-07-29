@@ -43,7 +43,8 @@
                            [deletingIds]="(deletingVisibilidadeIds$ | async)"
                            [deletedIds]="(deletedVisibilidadeIds$ | async)"
                            [actions]="['delete']"
-                           (delete)="deleteVisibilidade($event)">
+                           (delete)="delete($event)"
+                           (deleteBlocoEmmitter)="deleteBloco($event)">
     </cdk-visibilidade-list>
 
 </div>

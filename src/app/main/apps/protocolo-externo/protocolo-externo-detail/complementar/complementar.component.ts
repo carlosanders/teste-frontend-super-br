@@ -20,9 +20,10 @@ import {Documento} from '@cdk/models/documento.model';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Assinatura, ComponenteDigital, Processo, Usuario} from '@cdk/models';
-import {getProcesso} from '../store/selectors';
+import {getProcesso} from '../store';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'complementar',
@@ -65,7 +66,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
-
+    lote: string;
 
     /**
      *
@@ -171,8 +172,18 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDelete(documentoId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.doDelete(id, this.lote));
     }
 
     doVerResposta(documento): void {
@@ -196,10 +207,12 @@ export class ComplementarComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     documentoId: result.documento.id,
                     assinatura: assinatura,
-                    processoId: this.processo.id
+                    processoId: this.processo.id,
+                    operacaoId: operacaoId
                 }));
             });
         }
@@ -218,7 +231,10 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new fromStore.GetDocumentos({'processoOrigem.id': `eq:${this.processo.id}`}));
+        this._store.dispatch(new fromStore.GetDocumentos({
+            'processoOrigem.id': `eq:${this.processo.id}`,
+            'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+        }));
     }
 
     doConverte(documentoId): void {

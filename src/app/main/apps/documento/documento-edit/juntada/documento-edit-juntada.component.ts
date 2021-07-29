@@ -21,6 +21,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-edit-juntada',
@@ -137,7 +138,11 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
             }
         );
 
-        this._store.dispatch(new fromStore.SaveJuntada(juntada));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveJuntada({
+            juntada: juntada,
+            operacaoId: operacaoId
+        }));
     }
 
 }

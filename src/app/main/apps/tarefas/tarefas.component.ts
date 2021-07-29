@@ -249,14 +249,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
+                this.targetHandle = routerState.state.params['targetHandle'];
+            }
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'nova_tarefa') {
                 if (message.content.genero === this.routerState.params.generoHandle) {
                     this.novaTarefa = true;
@@ -302,19 +308,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }, 30000);
             } else {
                 clearInterval(this.assinaturaInterval);
-            }
-        });
-
-        this.routerState$.pipe(
-            distinctUntilChanged(),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
-            this.targetHandle = routerState.state.params['targetHandle'];
-
-            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
-            if (this.snackSubscription) {
-                this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
         });
 
@@ -429,17 +422,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     proccessEtiquetaFilter(): any {
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
-        const etiquetasId = [];
+        const andXFilter = [];
         this.etiquetas.forEach((e) => {
-            etiquetasId.push(e.id);
+            andXFilter.push({'vinculacoesEtiquetas.etiqueta.id': `eq:${e.id}`});
         });
         let etiquetaFilter = {};
-        if (etiquetasId.length) {
+        if (andXFilter.length) {
             etiquetaFilter = {
-                'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
+                'andX': andXFilter
             };
-        } else {
-
         }
         const nparams = {
             ...this.pagination,
@@ -747,7 +738,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             if (result.certificadoDigital) {
                 this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, certificadoDigital: true}));
             } else {
-                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, assinatura: {plainPassword: result.plainPassword}}));
+                this._store.dispatch(new fromStore.GetDocumentos({
+                    tarefaId: tarefa.id,
+                    assinatura: {plainPassword: result.plainPassword}
+                }));
             }
         });
     }
@@ -792,7 +786,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             sort: {},
             limit: 1,
             offset: 0,
-            populate: ['populateAll']
+            populate: ['assuntoAdministrativo']
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa({processoId: processoId, params: params}));

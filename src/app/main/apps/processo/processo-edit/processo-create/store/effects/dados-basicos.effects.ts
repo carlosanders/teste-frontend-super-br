@@ -94,18 +94,38 @@ export class DadosBasicosEffect {
         this._actions
             .pipe(
                 ofType<DadosBasicosActions.SaveProcesso>(DadosBasicosActions.SAVE_PROCESSO),
-                switchMap(action => this._processoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'processo',
+                    content: 'Salvando o processo ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._processoService.save(action.payload.processo).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Processo id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: Processo) => [
                             new DadosBasicosActions.SaveProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<Processo>({data: [response], schema: processoSchema})
                         ]),
-                        catchError(err => of(new DadosBasicosActions.SaveProcessoFailed(err)))
-                    ))
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'processo',
+                                content: 'Erro ao salvar o processo!',
+                                status: 2, // erro
+                            }));
+                            return of(new DadosBasicosActions.SaveProcessoFailed(err));
+                        })
+                    )
+                })
             );
 
     /**

@@ -1,0 +1,90 @@
+<div *ngIf="titulo === 'enviaarquivista'">
+    <h3><strong>ENVIANDO UM PROCESSO PARA O ARQUIVO</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+        O SUPP é um SIGAD que possui avançados recursos de apoio à produção de conteúdo jurídico e de controle de fluxos
+        administrativos, focado na integração com os sistemas informatizados do Poder Judiciário e do Poder Executivo.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                SIGAD
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+            Um <strong>S</strong>istema <strong>I</strong>nformatizado de <strong>G</strong>estão <strong>A</strong>rquivística
+            de <strong>D</strong>ocumentos consiste em um conjunto de procedimentos e operações técnicas, característico
+            do sistema de gestão arquivística de documentos, processado por computador. <br>
+            O SIGAD trata os documentos a partir de uma concepção orgânica, ou seja, os documentos possuem uma
+            inter-relação que reflete as atividades da instituição que os criou.
+            A concepção do SIGAD tem que se dar a partir da implementação de uma política arquivística no órgão ou
+            entidade.
+        </p>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+        O SUPP é híbrido, isto é, comporta documentos digitais e documentos físicos. Inclui operações como: captura de
+        documentos, aplicação do plano de classificação, controle de versões, controle sobre os prazos de guarda e
+        destinação, armazenamento seguro e procedimentos que garantam o acesso e a preservação a médio e longo prazo de
+        documentos <strong>arquivísticos</strong> digitais e não digitais confiáveis e autênticos.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+        No caso dos documentos digitais, o SUPP abrange todos os tipos de documentos arquivísticos da AGU, ou seja,
+        textos, imagens, vídeos, gravações sonoras, mensagens de correio eletrônico, páginas web, bases de dados, dentre
+        outras possibilidades de um vasto repertório de diversidade crescente.
+    </p>
+
+    <h3><strong>Enviando um processo para o Arquivo</strong></h3>
+    <p style="text-align: justify;margin-left: 40px">
+        Existem várias maneiras de enviar um processo para o Arquivo. Vamos acompanhar cada uma a seguir.
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        1. <strong>Na página de visualização do Processo</strong>:
+    </p>
+    <p style="text-align: justify;margin-left: 50px">
+        Ao visualizar um processo, podemos rapidamente realizar o procedimento de enviar o processo para o Arquivo. 
+        Basta clicar nos 3 pontinhos <img src="assets/images/ajuda/tresPontinhos.png" style="width: 10px;"class="fr-fic fr-dii">  
+        no canto superior direito da tela de visualização. Lá, várias opções aparecem. 
+        Uma delas é o atalho de arquivamento, opção “Arquivar”:
+    </p>
+    <p style="text-align: center;">
+        <img src="assets/images/ajuda/arquivarMenuProcesso.png" style="width: 400px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        2. <strong>Criando uma tarefa arquivística a partir de outra tarefa e enviando para o arquivo</strong>:
+    </p>
+    <p style="text-align: justify;margin-left: 50px">
+        Para isso, ao visualizar o seu painel de tarefas, basta acionar nos 3 pontinhos da tarefa <img src="assets/images/ajuda/tresPontinhos.png" style="width: 10px;"class="fr-fic fr-dii"> e escolher a opção Criar Tarefa:
+    </p>
+    <p style="text-align: center;">
+        <img src="assets/images/ajuda/arquivarCriarTarefa.png" style="width: 150px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        3. <strong>Criando uma tarefa arquivística diretamente no processo e enviando para o arquivo</strong>:
+    </p>
+    <p style="text-align: justify;margin-left: 50px">
+        Para isso, ao visualizar o processo, basta alcançar o seu menu de Edição e na janela de Tarefas, criar uma:
+    </p>
+    <p style="text-align: center;">
+        <img src="assets/images/ajuda/arquivarCriarTarefaProcesso.png" style="width: 400px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        4.<strong>No momento após o Encerramento de uma tarefa</strong>:
+    </p>
+    <p style="text-align: justify;margin-left: 50px">
+        Ao encerrar uma tarefa, no Encaminhamento do Processo uma opção de arquivar o processo também aparece:
+    </p>
+    <p style="text-align: center;">
+        <img src="assets/images/ajuda/arquivarEncaminhamento.png" style="width: 600px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;margin-left: 50px">
+        Assim, uma tarefa é enviada para o Arquivo da Unidade.
+    </p>
+    <br><br>
+    <p style="text-align: justify;margin-left: 30px">
+        Depois desses passos apontados aqui, os Arquivistas que devem conduzir o resto dos procedimentos.
+    </p>
+</div>
+
+<div *ngIf="titulo === 'transicoes'">
+    <ajuda-transicoes></ajuda-transicoes>
+    <a href="javascript:void(0)" (click)="carregar('arquivista')">Voltar ao <strong>ajuda Arquivista</strong></a>
+</div>

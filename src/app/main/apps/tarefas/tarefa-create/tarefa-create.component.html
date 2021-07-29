@@ -1,5 +1,5 @@
 <div class="content" cdkPerfectScrollbar>
-    <mat-list *ngIf="operacoes.length > 0" fxFlex cdkScrollTo>
+    <mat-list *ngIf="operacoes.length > 1" fxFlex cdkScrollTo>
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
@@ -10,8 +10,12 @@
         </mat-list-item>
     </mat-list>
 
+    <div class="loading" *ngIf="operacoes.length == 1">
+        <mat-spinner diameter="24"></mat-spinner>
+    </div>
+
     <cdk-tarefa-form
-        *ngIf="operacoes.length <= 1"
+        *ngIf="operacoes.length < 1"
         [tarefa]="tarefa"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -20,6 +24,7 @@
         [setorOrigemPagination]="setorOrigemPagination"
         [setorResponsavelPagination]="setorResponsavelPagination"
         [setorOrigemPaginationTree]="setorOrigemPaginationTree"
+        [lotacaoPagination]="lotacaoPagination"
         (save)="submit($event)"
         (abort)="cancel()"
         (processo)="verificaVisibilidadeProcesso($event)">

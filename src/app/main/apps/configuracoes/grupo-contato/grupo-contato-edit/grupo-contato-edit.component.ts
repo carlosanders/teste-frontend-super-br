@@ -10,6 +10,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'grupo-contato-edit',
@@ -97,8 +98,12 @@ export class GrupoContatoEditComponent implements OnInit, OnDestroy {
 
         grupoContato.usuario = this.usuario;
         grupoContato.ativo = true;
-        this._store.dispatch(new fromStore.SaveGrupoContato(grupoContato));
 
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveGrupoContato({
+            grupoContato: grupoContato,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {

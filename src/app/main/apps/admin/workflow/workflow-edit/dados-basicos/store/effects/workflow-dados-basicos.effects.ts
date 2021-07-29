@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as WorkflowDadosBasicos from '../actions/workflow-dados-basicos.actions';
@@ -14,6 +14,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {WorkflowService} from '@cdk/services/workflow.service';
 import {Workflow} from '@cdk/models';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class WorkflowDadosBasicosEffects {
@@ -45,20 +46,38 @@ export class WorkflowDadosBasicosEffects {
         this._actions
             .pipe(
                 ofType<WorkflowDadosBasicos.SaveWorkflow>(WorkflowDadosBasicos.SAVE_WORKFLOW),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'workflow',
+                    content: 'Salvando o workflow ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._workflowService.save(action.payload, context).pipe(
-                        mergeMap((response: Workflow) =>
-                            [
-                                new AddData<Workflow>({data: [response], schema: workflowSchema}),
-                                new WorkflowDadosBasicos.SaveWorkflowSuccess(action.payload),
-                            ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new WorkflowDadosBasicos.SaveWorkflowFailed(err));
-                    return caught;
+                    return this._workflowService.save(action.payload.workflow, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'workflow',
+                                content: 'Workflow id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
+                        mergeMap((response: Workflow) => [
+                            new WorkflowDadosBasicos.SaveWorkflowSuccess(response),
+                            new AddData<Workflow>({data: [response], schema: workflowSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'workflow',
+                                content: 'Erro ao salvar o workflow!',
+                                status: 2, // erro
+                            }));
+                            return of(new WorkflowDadosBasicos.SaveWorkflowFailed(err));
+                        })
+                    )
                 })
             );
 

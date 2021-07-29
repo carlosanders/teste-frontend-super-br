@@ -14,6 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {NumeroUnicoDocumento, Pagination} from '@cdk/models';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class NumeroUnicoDocumentoListComponent implements OnInit, OnDestroy {
     deletedIds$: Observable<any>;
     setorPagination: Pagination = new Pagination();
     tipoDocumentoPagination: Pagination = new Pagination();
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -112,8 +114,18 @@ export class NumeroUnicoDocumentoListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + numeroUnicoDocumentoId]);
     }
 
-    delete(numeroUnicoDocumentoId: number): void {
-        this._store.dispatch(new fromStore.DeleteNumeroUnicoDocumento(numeroUnicoDocumentoId));
+    delete(numeroUnicoDocumentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteNumeroUnicoDocumento({
+            numeroUnicoDocumentoId: numeroUnicoDocumentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    deleteBloco(ids: number[]) {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
 }

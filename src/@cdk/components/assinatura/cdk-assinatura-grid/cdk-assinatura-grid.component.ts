@@ -71,6 +71,36 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
             fixed: false
         },
         {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
             id: 'actions',
             label: '',
             fixed: true
@@ -111,6 +141,9 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
 
     @Output()
     selected = new EventEmitter<Assinatura>();
@@ -238,8 +271,8 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
         this.delete.emit(assinaturaId);
     }
 
-    deleteAssinaturas(assinaturasId): void {
-        assinaturasId.forEach(assinaturaId => this.deleteAssinatura(assinaturaId));
+    deleteBloco(ids): void {
+        this.deleteBlocoEmmitter.emit(ids);
     }
 
     /**
@@ -302,7 +335,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCreate(): void {
         this.create.emit();
-        
+
     }
 
     getProp(obj, prop) {

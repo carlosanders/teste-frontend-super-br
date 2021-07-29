@@ -11,7 +11,7 @@ import {Location} from '@angular/common';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 
 @Component({
     selector: 'componente-digital',
@@ -28,6 +28,7 @@ export class ComponenteDigitalComponent implements OnInit, OnDestroy {
     /**
      * @param _changeDetectorRef
      * @param _store
+     * @param _location
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

@@ -11,6 +11,7 @@
     [deletingIds]="(deletingAssinaturaIds$ | async)"
     [deletedIds]="(deletedAssinaturaIds$ | async)"
     [deletingErrors]="(deletingAssinaturaErrors$ | async)"
-    (delete)="deleteAssinatura($event)"
+    (delete)="delete($event)"
+    (deleteBlocoEmmitter)="deleteBloco($event)"
     (reload)="reloadAssinaturas($event)">
 </cdk-assinatura-grid>

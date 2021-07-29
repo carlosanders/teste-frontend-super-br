@@ -11,6 +11,8 @@ export const SAVE_VINCULACAO_DOCUMENTO = '[PROCESSO VIEW JUNTADA VINCULACAO DOCU
 export const SAVE_VINCULACAO_DOCUMENTO_SUCCESS = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] SAVE VINCULACAO_DOCUMENTO SUCCESS';
 export const SAVE_VINCULACAO_DOCUMENTO_FAILED = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] SAVE VINCULACAO_DOCUMENTO FAILED';
 
+export const UNLOAD_JUNTADA_VINCULADA = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] UNLOAD JUNTADA VINCULADA';
+
 /**
  * Get Juntada
  */
@@ -107,6 +109,18 @@ export class CreateVinculacaoDocumentoSuccess implements Action
     }
 }
 
+/**
+ * Unload Juntada Vinculada
+ */
+export class UnloadJuntadaVinculada implements Action
+{
+    readonly type = UNLOAD_JUNTADA_VINCULADA;
+
+    constructor()
+    {
+    }
+}
+
 export type ProcessoViewVinculacaoDocumentoActionsAll
     = GetJuntada
     | GetJuntadaSuccess
@@ -115,5 +129,6 @@ export type ProcessoViewVinculacaoDocumentoActionsAll
     | CreateVinculacaoDocumentoSuccess
     | SaveVinculacaoDocumento
     | SaveVinculacaoDocumentoSuccess
-    | SaveVinculacaoDocumentoFailed;
+    | SaveVinculacaoDocumentoFailed
+    | UnloadJuntadaVinculada;
 

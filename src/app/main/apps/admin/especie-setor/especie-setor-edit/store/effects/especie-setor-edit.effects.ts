@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as EspecieSetorEditActions from '../actions/especie-setor-edit.actions';
 import * as EspecieSetorListActions from '../../../especie-setor-list/store/actions/especie-setor-list.actions';
@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class EspecieSetorEditEffects {
@@ -81,20 +82,39 @@ export class EspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieSetorEditActions.SaveEspecieSetor>(EspecieSetorEditActions.SAVE_ESPECIE_SETOR),
-                switchMap((action) => {
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'espécie setor',
+                    content: 'Salvando a espécie setor ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._especieSetorService.save(action.payload, context).pipe(
+                    return this._especieSetorService.save(action.payload.especieSetor, context).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie setor',
+                                content: 'Espécie setor id ' + response.id + ' salva com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: EspecieSetor) => [
+                            new EspecieSetorEditActions.SaveEspecieSetorSuccess(response),
                             new EspecieSetorListActions.ReloadEspecieSetor(),
-                            new AddData<EspecieSetor>({data: [response], schema: especieSetorSchema}),
-                            new EspecieSetorEditActions.SaveEspecieSetorSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new EspecieSetorEditActions.SaveEspecieSetorFailed(err));
-                    return caught;
+                            new AddData<EspecieSetor>({data: [response], schema: especieSetorSchema})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'espécie setor',
+                                content: 'Erro ao salvar a espécie setor!',
+                                status: 2, // erro
+                            }));
+                            return of(new EspecieSetorEditActions.SaveEspecieSetorFailed(err));
+                        })
+                    )
                 })
             );
 

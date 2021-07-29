@@ -11,6 +11,7 @@ import {getProcesso} from '../../../store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from '../../../../../../store/actions';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'interessado-edit',
@@ -99,8 +100,11 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveInteressado(interessado));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveInteressado({
+            interessado: interessado,
+            operacaoId: operacaoId
+        }));
     }
 
     onActivate(componentReference): void  {

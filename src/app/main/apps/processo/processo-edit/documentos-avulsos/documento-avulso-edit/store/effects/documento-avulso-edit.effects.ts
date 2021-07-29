@@ -81,24 +81,40 @@ export class DocumentoAvulsoEditEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulso>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO),
-                switchMap(action => this._documentoAvulsoService.save(action.payload).pipe(
+                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento avulso',
+                    content: 'Salvando o documento avulso ...',
+                    status: 0, // carregando
+                }))),
+                switchMap(action => {
+                    return this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
+                        tap((response) =>
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Documento avulso id ' + response.id + ' salvo com sucesso.',
+                                status: 1, // sucesso
+                            }))
+                        ),
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
                             new DocumentoAvulsoListActions.ReloadDocumentosAvulsos(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'documentoAvulso',
-                                content: `Documento Avulso id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
+                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento avulso',
+                                content: 'Erro ao salvar o documento avulso!',
+                                status: 2, // erro
+                            }));
                             return of(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
                         })
-                    ))
+                    )
+                })
             );
-
 
     /**
      * Save DocumentoAvulso Success
