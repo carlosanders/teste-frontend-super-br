@@ -23,7 +23,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../store';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {distinctUntilKeyChanged, filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
@@ -152,10 +152,16 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        this.processo$.subscribe((processo) => {
-            this.processo = processo;
-            this.refresh();
-        });
+        this.processo$
+            .pipe(
+                filter(processo => !!processo),
+                distinctUntilKeyChanged('id')
+            )
+            .subscribe((processo) => {
+                this.processo = processo;
+                this.iniciaModulos();
+                this.refresh();
+            });
 
         this.pluginLoading$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -165,6 +171,14 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        this.iniciaModulos();
+    }
+
+    iniciaModulos(): void {
+        if (this.container !== undefined) {
+            this.container.clear();
+        }
+
         let path = 'app/main/apps/processo';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -176,6 +190,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 }));
             }
         });
+        if (this.containerConverter !== undefined) {
+            this.containerConverter.clear();
+        }
         path = 'app/main/apps/processo#converter';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -187,6 +204,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 }));
             }
         });
+        this._changeDetectorRef.detectChanges();
     }
 
     /**
