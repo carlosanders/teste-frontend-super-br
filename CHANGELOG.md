@@ -468,3 +468,8 @@
 * Correção do label opcional para portugues nos steppers
 * Correção quebra de linhas nas juntados da visualização do processo
 * Ajuste layout do formulario de nota de rodapé no editor de textos
+* Correção de erro no lançamento de bloco de atividades
+* Correção de erro carregamento de favoritos em bloco de tarefas
+* Correção no ordenamento de versões de documentos
+* Correção no upload de fotos no perfil
+* Correção vinculação de documentos

@@ -65,13 +65,17 @@ export class DocumentoEditVersoesComponent implements OnInit, OnDestroy {
         ).subscribe((cd) => {
             this.componenteDigital = cd;
 
-            if (this.componenteDigital) {
+            if (this.componenteDigital){
                 this.logEntryPagination = new Pagination();
                 this.logEntryPagination.filter = {
                     entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
                     target: 'hash',
-                    id: + this.componenteDigital.id};
-            }
+                    id: + this.componenteDigital.id
+                };
+                this.logEntryPagination.sort = {
+                    logId: 'DESC'
+                };
+            };
         });
     }
 
