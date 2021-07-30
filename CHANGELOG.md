@@ -462,3 +462,9 @@
 1.6.3
 
 * Sem mudanças
+
+1.6.4
+
+* Correção do label opcional para portugues nos steppers
+* Correção quebra de linhas nas juntados da visualização do processo
+* Ajuste layout do formulario de nota de rodapé no editor de textos
