@@ -622,7 +622,7 @@
                         <div class="desentranhado">DESENTRANHADO</div>
                     </div>
                     <div *ngIf="juntada.ativo">
-                        <div class="descricao">{{juntada.descricao}}</div>
+                        <div class="descricao">{{juntada.descricao.split('/').join(' ')}}</div>
                         <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
                         <div
                             *ngIf="juntada.documento.origemDados !== undefined && juntada.documento.origemDados.status === 0">

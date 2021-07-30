@@ -16,8 +16,8 @@
             editor_name: false,
             // Basic properties of the dialog window: title, minimum size.
             title: 'Gerenciador de Notas',
-            minWidth: 700,
-            minHeight: 200,
+            minWidth: 600,
+            minHeight: 100,
             footnotes_el: false,
 
             // Dialog window contents definition.
@@ -35,7 +35,7 @@
                             id: 'new_footnote',
                             'class': 'footnote_text',
                             label: 'Nova Nota:',
-                            inputStyle: 'height: 400px',
+                            inputStyle: 'height: 300px',
                         },
                         {
                             // Text input field for the footnotes title (explanation).
@@ -102,7 +102,7 @@
                 // Allow page to scroll with dialog to allow for many/long footnotes
                 // (https://github.com/andykirk/CKEditorFootnotes/issues/12)
                 jQuery('.cke_dialog').css({'position': 'absolute', 'top': '2%'});
-                jQuery('.cke_dialog_ui_text').css({'overflow': 'scroll', 'height': '200px'});
+                jQuery('.cke_dialog_ui_text').css({'overflow': 'scroll', 'height': '100px'});
 
                 var current_editor_id = dialog.getParentEditor().id;
 
@@ -126,9 +126,9 @@
                     config.allowedContent = 'br em strong; a[!href]';
                     config.enterMode = CKEDITOR.ENTER_BR;
                     config.autoParagraph = false;
-                    config.height = 400;
+                    config.height = 300;
                     config.resize_enabled = false;
-                    config.autoGrow_minHeight = 200;
+                    config.autoGrow_minHeight = 100;
                     config.removePlugins = 'footnotes,printsemzoom,salvar,assinar,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,placeholder,campos,specialchar,fastimage,elementspath';
                     config.removeButtons = 'Cut,Copy,Paste,PasteText,Undo,Redo,Find,Maximize,Replace';
                     config.on = {
