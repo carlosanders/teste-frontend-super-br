@@ -265,11 +265,8 @@ processo-view-main-sidebar {
                 }
 
                 .descricao {
+                    display: flex;
                     font-weight: bold;
-                    word-break: break-word;
-                    hyphens: auto;
-                    -webkit-hyphens: auto;
-                    -moz-hyphens: auto;
                 }
 
                 .numero {
@@ -425,6 +422,7 @@ processo-view-main-sidebar {
                 }
 
                 .descricao {
+                    display: flex;
                     font-weight: bold;
                 }
 
@@ -577,6 +575,7 @@ processo-view-main-sidebar {
                 }
 
                 .descricao {
+                    display: flex;
                     font-weight: bold;
                 }
 
