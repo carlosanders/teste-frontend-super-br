@@ -159,7 +159,7 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
             gridFilter: this.gridFilter.filters,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: {logId: 'DESC'}
         });
     }
 

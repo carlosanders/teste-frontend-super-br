@@ -65,7 +65,6 @@ export class CdkVersaoGridsearchComponent implements OnInit {
         private _logEntryService: LogEntryService
     ) {
         this.loading = false;
-        this.pagination = new Pagination();
     }
 
     ngOnInit(): void {
