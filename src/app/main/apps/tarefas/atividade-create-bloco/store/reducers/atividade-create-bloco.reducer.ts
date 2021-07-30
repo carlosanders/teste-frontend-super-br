@@ -25,21 +25,21 @@ export function AtividadeCreateBlocoReducer(
         case AtividadeCreateBlocoActions.SAVE_ATIVIDADE: {
             return {
                 ...state,
-                savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
+                savingTarefasId: [...state.savingTarefasId, action.payload.atividade?.tarefa?.id]
             };
         }
 
         case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_SUCCESS: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.atividade?.tarefa?.id)
             };
         }
 
         case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_FAILED: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.atividade?.tarefa?.id),
                 errors: action.payload
             };
         }

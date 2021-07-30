@@ -26,6 +26,7 @@
 
     <cdk-atividade-form *ngIf="operacoes.length === 0"
                         [atividade]="atividade"
+                        [blocoTarefasFavorito]="tarefas"
                         [especieAtividadePagination]="especieAtividadePagination"
                         [temMinutas]="!!minutas.length"
                         [saving]="(isSaving$ | async)"
