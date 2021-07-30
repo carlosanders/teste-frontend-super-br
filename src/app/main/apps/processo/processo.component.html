@@ -40,7 +40,8 @@
 
             </div>
 
-            <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
+            <div class="spinner-container m-8"
+                 *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
                 <mat-spinner diameter="20"></mat-spinner>
             </div>
 
@@ -91,10 +92,11 @@
                         </ng-container>
                     </button>
                     <button mat-menu-item aria-label="alterar acompanhamento"
-                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo" (click)="acompanharProcesso(processo)" >
+                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo"
+                            (click)="acompanharProcesso(processo)">
                         <ng-container>
                             <mat-icon>done</mat-icon>
-                            <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo'  : 'Acompanhar Processo'}}</span>
+                            <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo' : 'Acompanhar Processo'}}</span>
                         </ng-container>
                     </button>
                     <button mat-menu-item *ngIf="containerConverter?.length"
@@ -106,7 +108,7 @@
                         </ng-container>
                     </button>
                     <mat-menu #moreMenuConverter="matMenu">
-                            <ng-template #dynamicComponentConverter></ng-template>
+                        <ng-template #dynamicComponentConverter></ng-template>
                     </mat-menu>
 
                     <ng-template #dynamicComponent></ng-template>
