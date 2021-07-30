@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Juntada, Pagination, VinculacaoDocumento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -35,6 +35,8 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
     routerState: any;
 
     displayedColumns = ['juntadaAtual.id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions'];
+
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *
@@ -97,6 +99,8 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -36,39 +36,43 @@ export class ProfileEffect {
     }
 
     saveProfile: any = createEffect(() => {
-        return this._actions.pipe(
+        return this._actions
+            .pipe(
                 ofType<ProfileActions.SaveProfile>(ProfileActions.SAVE_PERFIL),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'profile',
-                    content: 'Alterando o usuário ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
-                    tap((response) =>
-                        this._store.dispatch(new OperacoesActions.Operacao({
-                            id: action.payload.operacaoId,
-                            type: 'profile',
-                            content: 'Usuário id ' + response.id + ' salvo com sucesso.',
-                            status: 1, // sucesso
-                        }))
-                    ),
-                    mergeMap((response: Usuario) => [
-                        new ProfileActions.SaveProfileSuccess(),
-                        new AddData<Usuario>({data: [response], schema: usuarioSchema}),
-                        new LoginActions.LoginProfile({redirect: false})
-                    ]),
-                    catchError((err) => {
-                        console.log(err);
-                        this._store.dispatch(new OperacoesActions.Operacao({
-                            id: action.payload.operacaoId,
-                            type: 'profile',
-                            content: 'Erro ao alterar o usuário!',
-                            status: 2, // erro
-                        }));
-                        return of(new ProfileActions.SaveProfileFailed(err));
-                    })
-                ))
+                switchMap((action) => {
+                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+                        mergeMap((response: Usuario) => [
+                            new UpdateData<Usuario>({id: response.id, schema: usuarioSchema, changes: {assinaturaHTML: response.assinaturaHTML}}),
+                            new ProfileActions.SaveProfileSuccess(),  new OperacoesActions.Resultado({
+                                type: 'usuario',
+                                content: `Usuário id ${response.id} editado com sucesso!`,
+                                dateTime: response.criadoEm
+                            }),
+                            new LoginActions.LoginProfile({redirect: false})
+                        ]),
+                        catchError((err) => {
+                            return of(new ProfileActions.SaveProfileFailed(err));
+                        })
+                    );
+                })
+            );
+    });
+
+    uploadImagemPerfil: any = createEffect(() => {
+        return this._actions
+            .pipe(
+                ofType<ProfileActions.UploadImagemPerfil>(ProfileActions.UPLOAD_IMAGEM_PERFIL),
+                switchMap((action) => {
+                    return this._componenteDigitalService.save(action.payload).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema}),
+                            new ProfileActions.UploadImagemPerfilSuccess(response)
+                        ]),
+                        catchError((err) => {
+                            return of(new ProfileActions.UploadImagemPerfilFailed(err));
+                        })
+                    );
+                })
             );
     });
 
@@ -76,38 +80,17 @@ export class ProfileEffect {
         return this._actions
             .pipe(
                 ofType<ProfileActions.UploadImagemChancela>(ProfileActions.UPLOAD_IMAGEM_CHANCELA),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'componente digital',
-                    content: 'Salvando o componente digital ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'componente digital',
-                                content: 'Componente digital id ' + response.id + ' salva com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
+                switchMap((action) => {
+                    return this._componenteDigitalService.save(action.payload).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema}),
                             new ProfileActions.UploadImagemChancelaSuccess(response)
                         ]),
                         catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'componente digital',
-                                content: 'Erro ao salvar o componente digital!',
-                                status: 2, // erro
-                            }));
-                            return of(new ProfileActions.UploadImagemPerfilFailed(err));
+                            return of(new ProfileActions.UploadImagemChancelaFailed(err));
                         })
-                    )
+                    );
                 })
-            )
+            );
     });
 }

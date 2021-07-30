@@ -14,7 +14,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Atividade, DocumentoAvulso, EspecieAtividade, Pagination, Setor, Usuario} from '@cdk/models';
+import {Atividade, DocumentoAvulso, EspecieAtividade, Pagination, Setor, Tarefa, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -85,6 +85,9 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     documentoAvulsoVinculado: DocumentoAvulso;
+
+    @Input()
+    blocoTarefasFavorito: Tarefa[] = [];
 
     form: FormGroup;
 
@@ -356,11 +359,20 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     getFavoritosEspecieAtividade(): void {
+        let especieTarefaIdFavorito = 0;
+        if (this.atividade && this.atividade.tarefa) {
+            especieTarefaIdFavorito = this.atividade.tarefa.especieTarefa.id;
+        }
+        if (this.blocoTarefasFavorito && this.blocoTarefasFavorito.length > 0)
+        {
+            especieTarefaIdFavorito = this.blocoTarefasFavorito[0].especieTarefa.id;
+        }
+
         this.especieAtividadeListIsLoading = true;
         this._favoritoService.query(
             JSON.stringify({
                 objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieAtividade',
-                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_especie_atividade'
+                context: 'eq:atividade_' + especieTarefaIdFavorito + '_especie_atividade'
             }),
             5,
             0,
