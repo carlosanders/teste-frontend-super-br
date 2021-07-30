@@ -71,6 +71,9 @@ export class DocumentoAvulsoEditVersoesComponent implements OnInit, OnDestroy {
                     entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
                     target: 'hash',
                     id: + this.componenteDigital.id};
+                this.logEntryPagination.sort = {
+                    logId: 'DESC'
+                };
             }
         });
     }
