@@ -81,14 +81,26 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
-    _profile: any;
-
     @Input()
     mode = 'regular';
+
+    _profile: any;
 
     form: FormGroup;
 
     activeCard = 'form';
+
+    parametros = [];
+
+    parametrizados = [
+        'unidade',
+        'setor',
+        'usuario',
+        'dataHoraInicio',
+        'dataHoraFim'
+    ];
+
+    invalid = true;
 
     /**
      * Constructor
@@ -102,13 +114,13 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             observacao: [null],
-            formato: [null, [Validators.required]],
+            formato: ['html', [Validators.required]],
             generoRelatorio: [null, [Validators.required]],
             especieRelatorio: [null, [Validators.required]],
             tipoRelatorio: [null, [Validators.required]],
-            unidade: [null],
-            setor: [null],
-            usuario: [null],
+            unidade: [null, [Validators.required]],
+            setor: [null, [Validators.required]],
+            usuario: [null, [Validators.required]],
             dataHoraInicio: [null],
             dataHoraFim: [null]
         });
@@ -134,80 +146,128 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
         this.desabilitaCampos();
 
-        this.form.get('generoRelatorio').valueChanges.subscribe((value) => {
-            if (value) {
-                this.form.get('especieRelatorio').enable();
-                this.form.get('especieRelatorio').reset();
-                this.especieRelatorioPagination.filter = {'generoRelatorio.id': `eq:${value.id}`};
-            } else {
-                this.form.get('especieRelatorio').reset();
-                this.form.get('especieRelatorio').disable();
-            }
-        });
+        this.form.get('generoRelatorio').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('especieRelatorio').enable();
+                        this.form.get('especieRelatorio').reset();
+                        this.especieRelatorioPagination.filter = {'generoRelatorio.id': `eq:${value.id}`};
+                    } else {
+                        this.form.get('especieRelatorio').reset();
+                        this.form.get('especieRelatorio').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
 
-        this.form.get('especieRelatorio').valueChanges.subscribe((value) => {
-            if (value) {
-                this.form.get('tipoRelatorio').enable();
-                this.form.get('tipoRelatorio').setValue(null);
-                this.tipoRelatorioPagination.filter = {
-                    ...this.tipoRelatorioPagination.filter,
-                    ...{'especieRelatorio.id': `eq:${this.form.get('especieRelatorio').value.id}`}
-                };
-            } else {
-                this.form.get('tipoRelatorio').reset();
-                this.form.get('tipoRelatorio').disable();
-            }
-        });
+        this.form.get('especieRelatorio').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('tipoRelatorio').enable();
+                        this.form.get('tipoRelatorio').setValue(null);
+                        this.tipoRelatorioPagination.filter = {
+                            ...this.tipoRelatorioPagination.filter,
+                            ...{'especieRelatorio.id': `eq:${this.form.get('especieRelatorio').value.id}`}
+                        };
+                    } else {
+                        this.form.get('tipoRelatorio').reset();
+                        this.form.get('tipoRelatorio').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
 
-        this.form.get('tipoRelatorio').valueChanges.subscribe((value) => {
-            if (value && value.parametros) {
-                this.processaParametros(value);
-            } else {
-                this.form.get('unidade').reset();
-                this.form.get('unidade').disable();
-            }
-        });
+        this.form.get('tipoRelatorio').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object' && value.parametros) {
+                        this.processaParametros(value);
+                    } else {
+                        this.form.get('unidade').reset();
+                        this.form.get('unidade').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
 
-        if (this.form.get('unidade')) {
-            this.form.get('unidade').valueChanges.pipe(
-                debounceTime(300),
-                distinctUntilChanged(),
-                switchMap((value) => {
-                        if (value && typeof value === 'object') {
+        this.form.get('unidade').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        if (this.parametros.includes('setor')) {
+                            this.invalid = true;
                             this.form.get('setor').enable();
                             this.form.get('setor').reset();
                             this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
                             this.setorPagination.filter['parent'] = 'isNotNull';
-                            this._changeDetectorRef.markForCheck();
+                        } else {
+                            this.invalid = false;
                         }
-                        if (value === null) {
-                            this.form.get('setor').setValue(null);
-                            this.form.get('setor').disable();
-                        }
-                        return of([]);
                     }
-                )
-            ).subscribe();
-        }
+                    if (value === null) {
+                        this.invalid = true;
+                        this.form.get('setor').setValue(null);
+                        this.form.get('setor').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
 
         this.form.get('setor').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                if (value && typeof value === 'object') {
-                    if (this.form.get('usuario').enabled)
-                    {
-                        this.form.get('usuario').reset();
-                        this.usuarioPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
-                        this._changeDetectorRef.markForCheck();
+                    if (value && typeof value === 'object') {
+                        if (this.parametros.includes('usuario')) {
+                            this.invalid = true;
+                            this.form.get('usuario').enable();
+                            this.form.get('usuario').reset();
+                            this.usuarioPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
+                        } else {
+                            this.invalid = false;
+                        }
                     }
-                }
-                if (value === null) {
-                    this.form.get('usuario').reset();
-                    this.form.get('usuario').disable();
-                }
+                    if (value === null) {
+                        if (this.parametros.includes('setor')) {
+                            this.invalid = true;
+                        }
+                        this.form.get('usuario').reset();
+                        this.form.get('usuario').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
 
-                return of([]);
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('usuario').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.invalid = false;
+                    }
+                    if (value === null && this.parametros.includes('usuario')) {
+                        this.invalid = true;
+                    }
+                    this._changeDetectorRef.markForCheck();
+
+                    return of([]);
                 }
             )
         ).subscribe();
@@ -250,14 +310,37 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     processaParametros(value): void {
+        this.parametros = [];
         const parametros = value.parametros.split(',');
-
-        this.form.get('unidade').enable();
+        if (parametros.length > 0) {
+            if (parametros.includes('setor')) {
+                if (!parametros.includes('unidade')) {
+                    parametros.push('unidade');
+                }
+            }
+            if (parametros.includes('usuario')) {
+                if (!parametros.includes('unidade')) {
+                    parametros.push('unidade');
+                }
+                if (!parametros.includes('setor')) {
+                    parametros.push('setor');
+                }
+            }
+        }
+        this.parametrizados.forEach((campo) => {
+            if (!parametros.includes(campo)) {
+                this.form.get(campo).reset();
+                this.form.get(campo).disable();
+            }
+        });
 
         if (parametros.length > 0) {
             parametros.forEach((field) => {
-                const control = this.form.get(field);
-                control.enable();
+                this.parametros.push(field);
+                if (field !== 'setor' && field !== 'usuario') {
+                    const control = this.form.get(field);
+                    control.enable();
+                }
             });
         }
     }
@@ -265,11 +348,10 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     desabilitaCampos(): void {
         this.form.get('especieRelatorio').disable();
         this.form.get('tipoRelatorio').disable();
-        this.form.get('unidade').disable();
-        this.form.get('setor').disable();
-        this.form.get('usuario').disable();
-        this.form.get('dataHoraInicio').disable();
-        this.form.get('dataHoraFim').disable();
+        this.parametrizados.forEach((campo) => {
+            this.form.get(campo).reset();
+            this.form.get(campo).disable();
+        });
     }
 
     submit(): void {

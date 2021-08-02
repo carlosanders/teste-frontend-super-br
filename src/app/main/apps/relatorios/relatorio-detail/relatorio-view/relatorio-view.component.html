@@ -6,6 +6,10 @@
         </div>
 
         <div class="right">
+            <button mat-mini-fab (click)="print()" *ngIf="isHtml(fileName)">
+                <mat-icon class="mat-18">print</mat-icon>
+            </button>
+            &nbsp;
             <button mat-mini-fab (click)="zoomOut()" *ngIf="isHtml(fileName)">
                 <mat-icon class="mat-18">zoom_out</mat-icon>
             </button>
@@ -30,7 +34,7 @@
 
     <div *ngIf="!loading && !!relatorio?.id"
          class="relatorio-view-relatorio-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
-        <iframe id="iframe-relatorios" *ngIf="src"
+        <iframe id="iframe-relatorios" name="iframe-relatorios" *ngIf="src"
                 [src]="src">
         </iframe>
         <div class="div-about-blank" *ngIf="!src">
