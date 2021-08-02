@@ -477,3 +477,7 @@
 1.6.5
 
 * Correção quebra de linhas nas juntados da visualização do processo quando ja anexos e multiplos componentes digitais
+* Correção comportamento de filtros de criação de relatórios
+* Correção css de filtros de criação de relatórios
+* Correção ao trocar tipo de relatório, filtros anteriores continuavam sendo exibidos
+* Correção ao digitar nos campos de autocomplete, formulário era liberado para envio
