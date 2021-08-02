@@ -174,7 +174,7 @@ export function RelatoriosReducer(state = RelatoriosInitialState, action: Relato
         case RelatoriosActions.TOGGLE_MAXIMIZADO: {
             return {
                 ...state,
-                maximizado: !state.maximizado
+                maximizado: action.payload
             };
         }
 
