@@ -219,7 +219,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
-    doToggleMaximizado(): void {
-        this._store.dispatch(new ToggleMaximizado());
+    doToggleMaximizado(valor: boolean): void {
+        this._store.dispatch(new ToggleMaximizado(valor));
     }
 }

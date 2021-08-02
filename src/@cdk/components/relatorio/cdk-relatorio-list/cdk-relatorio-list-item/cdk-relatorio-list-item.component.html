@@ -24,12 +24,6 @@
             </div>
         </div>
 
-        <div class="subtitle" *ngIf="!relatorio.documento">
-            <div class="spinner-container m-8">
-                <mat-spinner diameter="24"></mat-spinner>
-            </div>
-        </div>
-
         <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
             <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of relatorio.vinculacoesEtiquetas"
                  fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.conteudo">
@@ -40,10 +34,28 @@
         </div>
     </div>
 
+    <div class="subtitle" *ngIf="relatorio.status === 0 || (relatorio.status === null && !relatorio.documento)">
+        <div class="spinner-container m-8">
+            <mat-spinner matTooltip="Gerando relatório" diameter="24"></mat-spinner>
+        </div>
+    </div>
+
+    <div class="subtitle" *ngIf="relatorio.status === 1 || (relatorio.status === null && relatorio.documento)">
+        <div class="m-8">
+            <mat-icon class="green-fg" matTooltip="Sucesso">check</mat-icon>
+        </div>
+    </div>
+
+    <div class="subtitle" *ngIf="relatorio.status >= 2">
+        <div class="m-8">
+            <mat-icon class="red-fg" matTooltip="Erro na geraçao do relatorio">clear</mat-icon>
+        </div>
+    </div>
+
     <div class="actions">
 
         <div class="spinner-container m-8" *ngIf="deleting">
-            <mat-spinner diameter="24"></mat-spinner>
+            <mat-spinner matTooltip="Deletando relatório" diameter="24"></mat-spinner>
         </div>
 
         <button *ngIf="!deleting" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
