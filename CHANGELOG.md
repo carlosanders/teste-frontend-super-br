@@ -477,3 +477,4 @@
 * Correção css de filtros de criação de relatórios
 * Correção ao trocar tipo de relatório, filtros anteriores continuavam sendo exibidos
 * Correção ao digitar nos campos de autocomplete, formulário era liberado para envio
+* Melhoria recebendo status do relatório do backend e do mercure

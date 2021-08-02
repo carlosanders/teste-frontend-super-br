@@ -24,10 +24,11 @@ export class Relatorio {
 
     parametros?: string;
 
+    status?: number;
+
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
-
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -73,5 +74,6 @@ export class Relatorio {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.status = null;
     }
 }

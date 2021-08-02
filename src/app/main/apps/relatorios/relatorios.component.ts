@@ -30,9 +30,13 @@ import {Etiqueta, Folder, Pagination, Usuario} from '@cdk/models';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
-import {CdkUtils} from '../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
+import {MercureService} from '@cdk/services/mercure.service';
+import {plainToClass} from 'class-transformer';
+import {relatorio as relatorioSchema} from '@cdk/normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 
 @Component({
     selector: 'relatorios',
@@ -102,6 +106,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('relatorioListElement', {read: ElementRef, static: true}) relatorioListElement: ElementRef;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
@@ -109,6 +114,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _router
      * @param _store
      * @param _loginService
+     * @param _mercureService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -117,7 +123,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         private _relatorioService: RelatorioService,
         private _router: Router,
         private _store: Store<fromStore.RelatoriosAppState>,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _mercureService: MercureService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -181,14 +188,23 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
-                if (message && message.type && message.type === 'relatorio_create') {
-                    this._store.dispatch(new LoadRelatorioSuccess(message.content.relatorio));
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
+            if (message && message.type && message.type === 'relatorio_create') {
+                this._store.dispatch(new LoadRelatorioSuccess(message.content.relatorio));
+            }
+            if (message.type === 'addData') {
+                switch (message.content['@type']) {
+                    case 'Relatorio':
+                        this._store.dispatch(new AddData<Relatorio>({
+                            data: [plainToClass(Relatorio, message.content)],
+                            schema: relatorioSchema
+                        }));
+                        break;
                 }
+            }
         });
 
         this.loading$.pipe(
@@ -204,8 +220,25 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.relatorios$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(relatorios => !!relatorios)
         ).subscribe((relatorio) => {
+            // coloca todos que devem estar
+            const mercureSubscribed = [];
+            relatorio.forEach((relatorio) => {
+                if (mercureSubscribed.indexOf(relatorio['@id']) === -1) {
+                    mercureSubscribed.push(relatorio['@id']);
+                }
+            });
+            // retira todos que nao devem estar
+            const mercureUnsubscribed = [];
+            this.relatorios.forEach((relatorio) => {
+                if (mercureSubscribed.indexOf(relatorio['@id']) === -1) {
+                    mercureUnsubscribed.push(relatorio['@id']);
+                }
+            });
+            this._mercureService.unsubscribe(mercureUnsubscribed);
+            this._mercureService.subscribe(mercureSubscribed);
             this.relatorios = relatorio;
         });
 
@@ -247,7 +280,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             this._changeDetectorRef.markForCheck();
         });
 
-
         this.PesquisaRelatorio = 'relatorio';
     }
 
@@ -271,15 +303,15 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
 
-            this._store.dispatch(new fromStore.UnloadRelatorios({reset: false}));
+        this._store.dispatch(new fromStore.UnloadRelatorios({reset: false}));
 
-            const nparams = {
-                ...this.pagination,
-                listFilter: params.listFilter,
-                sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
-            };
+        const nparams = {
+            ...this.pagination,
+            listFilter: params.listFilter,
+            sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
+        };
 
-            this._store.dispatch(new fromStore.GetRelatorios(nparams));
+        this._store.dispatch(new fromStore.GetRelatorios(nparams));
     }
 
     setCurrentRelatorio(relatorio: Relatorio): void {
@@ -362,7 +394,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     changeSelectedIds(ids: number[]): void {
-           this._store.dispatch(new fromStore.ChangeSelectedRelatorios(ids));
+        this._store.dispatch(new fromStore.ChangeSelectedRelatorios(ids));
     }
 
     setFolderOnSelectedRelatorios(folder): void {
