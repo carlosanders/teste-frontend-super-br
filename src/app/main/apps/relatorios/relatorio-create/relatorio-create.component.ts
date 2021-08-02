@@ -121,8 +121,11 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
                     } else {
 
                         const className = campo.replace(/^./, str => str.toUpperCase());
-                        const nClass = 'SuppCore\\AdministrativoBackend\\Entity\\' +
+                        let nClass = 'SuppCore\\AdministrativoBackend\\Entity\\' +
                             className;
+                        if (campo === 'unidade') {
+                            nClass = 'SuppCore\\AdministrativoBackend\\Entity\\Setor';
+                        }
 
                         arrayParams[campo] = {
                             name: campo,
