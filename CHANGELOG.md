@@ -473,3 +473,7 @@
 * Correção no ordenamento de versões de documentos
 * Correção no upload de fotos no perfil
 * Correção vinculação de documentos
+
+1.6.5
+
+* Correção quebra de linhas nas juntados da visualização do processo quando ja anexos e multiplos componentes digitais
