@@ -1,10 +1,11 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <input matInput placeholder="Espécie Ativididade Lançada"
+        <input matInput placeholder="Espécie Atividade Lançada"
                formControlName="especieAtividade"
                [matAutocomplete]="especieAtividade.autocomplete">
         <cdk-especie-atividade-autocomplete
+            [pagination]="especieAtividadePagination"
             #especieAtividade="especieAtividadeAutocomplete"
             [control]="form.get('especieAtividade')">
         </cdk-especie-atividade-autocomplete>
