@@ -14,7 +14,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Pagination, Setor, Usuario} from '@cdk/models';
+import {Pagination, Processo, Setor, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
@@ -78,6 +78,9 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     usuarioPagination: Pagination;
 
+    @Input()
+    processoPagination: Pagination;
+
     @Output()
     abort = new EventEmitter<any>();
 
@@ -96,6 +99,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         'unidade',
         'setor',
         'usuario',
+        'processo',
         'dataHoraInicio',
         'dataHoraFim'
     ];
@@ -121,6 +125,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
             unidade: [null, [Validators.required]],
             setor: [null, [Validators.required]],
             usuario: [null, [Validators.required]],
+            processo: [null, [Validators.required]],
             dataHoraInicio: [null],
             dataHoraFim: [null]
         });
@@ -132,6 +137,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.unidadePagination.filter = {parent: 'isNull'};
         this.setorPagination = new Pagination();
         this.usuarioPagination = new Pagination();
+        this.processoPagination = new Pagination();
 
         this._profile = _loginService.getUserProfile();
     }
@@ -263,6 +269,23 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.invalid = false;
                     }
                     if (value === null && this.parametros.includes('usuario')) {
+                        this.invalid = true;
+                    }
+                    this._changeDetectorRef.markForCheck();
+
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('processo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.invalid = false;
+                    }
+                    if (value === null && this.parametros.includes('processo')) {
                         this.invalid = true;
                     }
                     this._changeDetectorRef.markForCheck();
@@ -466,6 +489,24 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showUsuarioGrid(): void {
         this.activeCard = 'usuario-gridsearch';
+    }
+
+    checkProcesso(): void {
+        const value = this.form.get('processo').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('processo').setValue(null);
+        }
+    }
+
+    selectProcesso(processo: Processo): void {
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
+        this.activeCard = 'form';
+    }
+
+    showProcessoGrid(): void {
+        this.activeCard = 'processo-gridsearch';
     }
 
     cancel(): void {

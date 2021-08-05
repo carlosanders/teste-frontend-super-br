@@ -19,6 +19,9 @@ import {CdkEspecieRelatorioGridsearchModule} from '@cdk/components/especie-relat
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkEspecieProcessoAutocompleteModule} from "../../especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module";
+import {CdkProcessoGridsearchModule} from "../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module";
+import {ProcessoService} from "../../../services/processo.service";
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
@@ -34,6 +37,7 @@ import {CdkGeneroRelatorioGridsearchModule} from '../../genero-relatorio/cdk-gen
 import {MatCardModule} from '@angular/material/card';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
+import {CdkProcessoAutocompleteModule} from "../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module";
 
 @NgModule({
     declarations: [
@@ -63,6 +67,8 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkTipoRelatorioAutocompleteModule,
         CdkTipoRelatorioGridsearchModule,
         CdkProcessoGridModule,
+        CdkEspecieProcessoAutocompleteModule,
+        CdkProcessoGridsearchModule,
 
         CdkSharedModule,
         MatRadioModule,
@@ -74,11 +80,13 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
         MatRadioModule,
+        CdkProcessoAutocompleteModule,
     ],
     providers: [
         EspecieRelatorioService,
         UsuarioService,
-        LoginService
+        LoginService,
+        ProcessoService
     ],
     exports: [
         CdkRelatorioFormComponent
