@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="sem-juntadas" *ngIf="!(loading$ | async) && (juntadas)?.length === 0">
-                    <span class="no-juntadas-text hint-text"> Não há documentos juntados</span>
+                    <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
                 <div *ngIf="!(loading$ | async) && (juntadas)?.length > 0"
@@ -83,7 +83,7 @@
                             [src]="src">
                     </iframe>
                     <div class="div-about-blank" *ngIf="!src">
-                        <span class="no-juntadas-text hint-text"> Não há documentos</span>
+                        <span class="no-juntadas-text hint-text">Não há documentos</span>
                     </div>
                 </div>
             </div>

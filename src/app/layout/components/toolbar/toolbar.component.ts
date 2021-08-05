@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
@@ -45,11 +45,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     titulo = 'processo';
 
-    quickPanelLockedOpen: boolean;
-
     operacoesProcessando = 0;
     operacoesPendentes = 0;
-    shepherdService: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -63,6 +60,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _router
      * @param _componenteDigitalService
+     * @param _changeDetectorRef
      */
     constructor(
         public _cdkConfigService: CdkConfigService,
@@ -72,7 +70,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _notificacaoService: NotificacaoService,
         private _store: Store<fromStore.State>,
         private _router: Router,
-        private _componenteDigitalService: ComponenteDigitalService
+        private _componenteDigitalService: ComponenteDigitalService,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -204,6 +203,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                         this.operacoesPendentes = this.operacoesProcessando;
                     }
                 }
+                this._changeDetectorRef.detectChanges();
             });
 
         this._loginService.getUserProfileChanges()
