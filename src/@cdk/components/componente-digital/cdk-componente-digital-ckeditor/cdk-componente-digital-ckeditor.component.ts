@@ -243,6 +243,10 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this.fetch();
             }
 
+            this.editor?.getCommand('saveCmd').enable();
+            this.editor?.getCommand('assinarCmd').enable();
+            this.editor?.getCommand('pdfCmd').enable();
+
             if (this.salvando) {
                 this._componenteDigitalService.completedEditorSave.next(this.salvando);
                 this.salvando = false;
@@ -300,7 +304,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         } else {
             this.src = null;
         }
-        this._changeDetectorRef.markForCheck();
+        this._changeDetectorRef.detectChanges();
     }
 
     b64DecodeUnicode(str): any {
@@ -335,6 +339,10 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         this.editor = e.editor;
         const me = this;
+
+        this.editor?.getCommand('saveCmd').enable();
+        this.editor?.getCommand('assinarCmd').enable();
+        this.editor?.getCommand('pdfCmd').enable();
 
         this.editor.getCommand('campoCmd').enable();
         this.editor.getCommand('repositorioCmd').enable();
@@ -449,13 +457,28 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doSave(): void {
-         if (this.hashAntigo) {
-            this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
-                (conteudo) => {
-                    this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
-                    this.editor.resetDirty();
+        this.editor.getCommand('saveCmd').disable();
+        this.editor.getCommand('assinarCmd').disable();
+        this.editor.getCommand('pdfCmd').disable();
+        if (this.hashAntigo) {
+            try {
+                if (!this.src) {
+                    alert('Um documento em branco não pode ser salvo. Se houver texto, temos uma inconsistência grave, favor favor salvar o trabalho manualmente em outro local e recarregar o editor!');
                 }
-            );
+                this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
+                    (conteudo) => {
+                        if (!conteudo) {
+                            alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
+                        }
+                        this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
+                        this.editor.resetDirty();
+                    }
+                );
+            } catch (err) {
+                alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
+            }
+        } else {
+            alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
         }
     }
 

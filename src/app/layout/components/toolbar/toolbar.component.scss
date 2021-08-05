@@ -28,6 +28,10 @@ toolbar {
         }
     }
 
+    .hidden {
+        display: none !important;
+    }
+
     .user-button,
     cdk-search-bar,
     .language-button,
