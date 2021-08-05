@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {ErrorHandler, LOCALE_ID, NgModule} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import {BrowserModule} from '@angular/platform-browser';
@@ -31,6 +31,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {CdkLoginDialogModule} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.module';
 import {MatStepperIntl} from "@angular/material/stepper";
 import {CdkMatStepperIntl} from "../@cdk/angular/cdk-mat-stepper-intl";
+import {GlobalErrorHandler} from "./global-error-handler";
 
 registerLocaleData(localePt, 'pt');
 
@@ -102,6 +103,7 @@ const routingConfiguration: ExtraOptions = {
         ModelModule
     ],
     providers: [
+        {provide: ErrorHandler, useClass: GlobalErrorHandler},
         {provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

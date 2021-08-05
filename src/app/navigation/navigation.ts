@@ -1,8 +1,18 @@
 import {CdkNavigation} from '@cdk/types';
+import {modulesConfig} from "../../modules/modules-config";
 
-export const navigationConverter = {
+export let navigationConverter = {
     'arquivistico': 'arquivístico'
 };
+
+modulesConfig.forEach((module) => {
+    if (module.navigationConverter?.hasOwnProperty('mainMenu')) {
+        navigationConverter = {
+            ...navigationConverter,
+            ...module.navigationConverter.mainMenu
+        }
+    }
+});
 
 export const navigation: CdkNavigation[] = [
     {
