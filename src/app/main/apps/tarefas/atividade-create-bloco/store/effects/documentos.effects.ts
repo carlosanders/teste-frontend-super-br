@@ -359,7 +359,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                     content: 'Salvando a assinatura ...',
                     status: 0, // carregando
                 }))),
-                switchMap(action => {
+                mergeMap(action => {
                     return this._assinaturaService.save(action.payload.assinatura).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({

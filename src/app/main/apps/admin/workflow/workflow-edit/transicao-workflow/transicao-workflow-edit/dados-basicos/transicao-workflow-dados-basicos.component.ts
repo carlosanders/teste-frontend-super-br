@@ -46,6 +46,7 @@ export class TransicaoWorkflowDadosBasicosComponent implements OnInit {
 
         this.especieTarefaPagination = new Pagination();
         this.especieAtividadePagination = new Pagination();
+        this.especieAtividadePagination.populate = ['generoAtividade'];
         this.workflowPagination = new Pagination();
         this.workflowPagination.populate = ['populateAll', 'especieProcesso'];
 
