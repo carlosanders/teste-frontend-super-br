@@ -6,23 +6,20 @@ import {Subject} from 'rxjs';
 })
 export class CdkProcessoFilterService
 {
-    private _filters: any = {};
+    private _filters: any = [];
 
-    private _clear: Subject<any> = new Subject();
+    public collect: Subject<any> = new Subject();
+    public clear: Subject<any> = new Subject();
 
     get filters(): any {
         return this._filters;
     }
 
-    set filters(value: any) {
-        this._filters = value;
+    public addFilter(value: any) {
+        this._filters.push(value);
     }
 
-    get clear(): Subject<any> {
-        return this._clear;
-    }
-
-    set clear(value: Subject<any>) {
-        this._clear = value;
+    public reset() {
+        this._filters = [];
     }
 }

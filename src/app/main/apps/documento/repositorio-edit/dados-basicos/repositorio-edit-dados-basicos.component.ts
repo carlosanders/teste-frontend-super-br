@@ -19,6 +19,7 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {take} from "rxjs/operators";
 
 @Component({
     selector: 'repositorio-edit-dados-basicos',
@@ -68,7 +69,7 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
     ngOnInit(): void {
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(take(1)).subscribe((value) => {
             if (value === this.documento.id) {
                 this.submit();
             }

@@ -190,6 +190,15 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                             window.URL.revokeObjectURL(sanitizedUrl);
                         }, 100);
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                        setTimeout(() => {
+                            const element: HTMLIFrameElement = document.getElementById('iframe-juntadas') as HTMLIFrameElement;
+                            const iframe = element?.contentWindow?.document;
+                            if (iframe !== null) {
+                                iframe.open();
+                                iframe.write('<html><head><title></title><style>html, body, .center-container { height: 100%; overflow: hidden } .center-container { display: flex; align-items: center; justify-content: center; }</style></head><body><div class="center-container">Download Realizado!</div></body></html>');
+                                iframe.close();
+                            }
+                        });
                     }
 
                     this.fileName = binary.src.fileName;
