@@ -332,7 +332,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         }));
     }
 
-    doDeleteBloco(ids: number[]) {
+    doDeleteBloco(ids) {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.doDelete(id, this.lote));
     }
@@ -349,7 +349,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             });
             this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
         } else {
-            result.documentos.forEach((documento) => {
+            result?.documentos?.forEach((documento) => {
                 documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
                     assinatura.componenteDigital = componenteDigital;
@@ -373,7 +373,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         if (result.certificadoDigital) {
             this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
-            result.documento.componentesDigitais.forEach((componenteDigital) => {
+            result?.documento?.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
                 assinatura.componenteDigital = componenteDigital;
                 assinatura.algoritmoHash = 'A1';

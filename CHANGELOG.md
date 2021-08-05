@@ -484,3 +484,5 @@
 * Melhoria recebendo status do relatório do backend e do mercure
 * Melhoria para exibir informação que um componente digital não html/pdf teve o download realizado no visualizador do processo
 * Melhoria para logar no backend erros ocorridos no frontend
+* Correção na assinatura de minutas em bloco
+* Correção na pesquisa de outro numero processo
