@@ -38,6 +38,10 @@ import {MatCardModule} from '@angular/material/card';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {CdkProcessoAutocompleteModule} from "../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module";
+import {CdkClassificacaoAutocompleteModule} from "../../classificacao/cdk-classificacao-autocomplete/cdk-classificacao-autocomplete.module";
+import {CdkClassificacaoGridsearchModule} from "../../classificacao/cdk-classificacao-autocomplete/cdk-classificacao-gridsearch/cdk-classificacao-gridsearch.module";
+import {CdkClassificacaoGridModule} from "../../classificacao/cdk-classificacao-grid/cdk-classificacao-grid.module";
+import {ClassificacaoService} from "../../../services/classificacao.service";
 
 @NgModule({
     declarations: [
@@ -69,6 +73,9 @@ import {CdkProcessoAutocompleteModule} from "../../processo/cdk-processo-autocom
         CdkProcessoGridModule,
         CdkEspecieProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,
+        CdkClassificacaoAutocompleteModule,
+        CdkClassificacaoGridsearchModule,
+        CdkClassificacaoGridModule,
 
         CdkSharedModule,
         MatRadioModule,
@@ -81,12 +88,14 @@ import {CdkProcessoAutocompleteModule} from "../../processo/cdk-processo-autocom
         CdkSetorGridsearchModule,
         MatRadioModule,
         CdkProcessoAutocompleteModule,
+        CdkClassificacaoAutocompleteModule,
     ],
     providers: [
         EspecieRelatorioService,
         UsuarioService,
         LoginService,
-        ProcessoService
+        ProcessoService,
+        ClassificacaoService
     ],
     exports: [
         CdkRelatorioFormComponent

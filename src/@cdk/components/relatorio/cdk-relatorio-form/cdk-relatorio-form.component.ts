@@ -14,14 +14,14 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Pagination, Processo, Setor, Usuario} from '@cdk/models';
+import {Classificacao, Pagination, Processo, Setor, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
 import {TipoRelatorio} from '../../../models/tipo-relatorio.model';
 import {EspecieRelatorio} from '../../../models/especie-relatorio.model';
 import {GeneroRelatorio} from '../../../models/genero-relatorio.model';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 @Component({
@@ -81,6 +81,9 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     processoPagination: Pagination;
 
+    @Input()
+    classificacaoPagination: Pagination;
+
     @Output()
     abort = new EventEmitter<any>();
 
@@ -100,8 +103,10 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         'setor',
         'usuario',
         'processo',
+        'classificacao',
         'dataHoraInicio',
-        'dataHoraFim'
+        'dataHoraFim',
+        'prazoGuardaFaseCorrenteAno'
     ];
 
     invalid = true;
@@ -126,8 +131,10 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
             setor: [null, [Validators.required]],
             usuario: [null, [Validators.required]],
             processo: [null, [Validators.required]],
+            classificacao: [null, [Validators.required]],
             dataHoraInicio: [null],
-            dataHoraFim: [null]
+            dataHoraFim: [null],
+            prazoGuardaFaseCorrenteAno: [null]
         });
 
         this.tipoRelatorioPagination = new Pagination();
@@ -138,6 +145,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorPagination = new Pagination();
         this.usuarioPagination = new Pagination();
         this.processoPagination = new Pagination();
+        this.classificacaoPagination = new Pagination();
 
         this._profile = _loginService.getUserProfile();
     }
@@ -198,6 +206,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
                     if (value && typeof value === 'object' && value.parametros) {
                         this.processaParametros(value);
                     } else {
+                        this.invalid = false;
                         this.form.get('unidade').reset();
                         this.form.get('unidade').disable();
                     }
@@ -286,6 +295,40 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.invalid = false;
                     }
                     if (value === null && this.parametros.includes('processo')) {
+                        this.invalid = true;
+                    }
+                    this._changeDetectorRef.markForCheck();
+
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('classificacao').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.invalid = false;
+                    }
+                    if (value === null && this.parametros.includes('classificacao')) {
+                        this.invalid = true;
+                    }
+                    this._changeDetectorRef.markForCheck();
+
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('prazoGuardaFaseCorrenteAno').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'string') {
+                        this.invalid = false;
+                    }
+                    if (value === null && this.parametros.includes('prazoGuardaFaseCorrenteAno')) {
                         this.invalid = true;
                     }
                     this._changeDetectorRef.markForCheck();
@@ -507,6 +550,24 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showProcessoGrid(): void {
         this.activeCard = 'processo-gridsearch';
+    }
+
+    checkClassificacao(): void {
+        const value = this.form.get('classificacao').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('classificacao').setValue(null);
+        }
+    }
+
+    selectClassificacao(classificacao: Classificacao): void {
+        if (classificacao) {
+            this.form.get('classificacao').setValue(classificacao);
+        }
+        this.activeCard = 'form';
+    }
+
+    showClassificacaoGrid(): void {
+        this.activeCard = 'classificacao-gridsearch';
     }
 
     cancel(): void {

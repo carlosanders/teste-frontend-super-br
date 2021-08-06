@@ -144,6 +144,27 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-form-field *ngIf="!form.get('classificacao').disabled">
+            <input matInput placeholder="Classificação"
+                   formControlName="classificacao"
+                   [readonly]="!form.get('classificacao').enabled"
+                   [matAutocomplete]="classificacao.autocomplete" required
+                   (blur)="checkClassificacao()">
+            <cdk-classificacao-autocomplete
+                #classificacao="classificacaoAutocomplete"
+                [control]="form.get('classificacao')"
+                [pagination]="classificacaoPagination">
+            </cdk-classificacao-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    [disabled]="!form.get('classificacao').enabled"
+                    (click)="showClassificacaoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('classificacao').hasError('formError')">
+                {{form.get('classificacao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
         <mat-form-field *ngIf="!form.get('dataHoraInicio').disabled">
             <mat-label>Início</mat-label>
             <input matInput formControlName="dataHoraInicio" [matDatetimepicker]="dataHoraInicio"
@@ -161,6 +182,15 @@
             <mat-datetimepicker #dataHoraFim type="datetime" openOnFocus="true" timeInterval="5"
                                 required></mat-datetimepicker>
         </mat-form-field>
+
+        <mat-form-field *ngIf="!form.get('prazoGuardaFaseCorrenteAno').disabled">
+            <input matInput placeholder="Prazo de Guarda da Fase Corrente em Anos"
+                   formControlName="prazoGuardaFaseCorrenteAno" required>
+            <mat-error *ngIf="form.get('prazoGuardaFaseCorrenteAno').hasError('formError')">
+                {{form.get('prazoGuardaFaseCorrenteAno').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
     </div>
 
     <div *ngIf="form.get('tipoRelatorio').value && this.parametros.length > 0" class="tipo-relatorio-formato">
@@ -257,3 +287,11 @@
     (selected)="selectProcesso($event)"
     (cancel)="cancel()">
 </cdk-processo-gridsearch>
+
+<cdk-classificacao-gridsearch
+    *ngIf="activeCard === 'classificacao-gridsearch'"
+    [pagination]="classificacaoPagination"
+    (selected)="selectClassificacao($event)"
+    (cancel)="cancel()">
+</cdk-classificacao-gridsearch>
+
