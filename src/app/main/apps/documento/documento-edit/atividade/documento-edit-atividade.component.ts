@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {Back} from '../../../../../store';
-import {filter, first} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
@@ -108,7 +108,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
 
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.pipe(first()).subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
             if (value === this.documento.id) {
                 this.submitAtividade();
             }

@@ -27,7 +27,7 @@
                 </div>
 
                 <div>
-                    <h3 *ngIf="!(loading$ | async)">{{fileName}}</h3>
+                    <h3 [ngClass]="{'warn' : unsafe}" *ngIf="!(loading$ | async)">{{fileName}}</h3>
                 </div>
 
                 <div class="right">
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="sem-juntadas" *ngIf="!(loading$ | async) && (juntadas)?.length === 0">
-                    <span class="no-juntadas-text hint-text"> Não há documentos juntados</span>
+                    <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
                 <div *ngIf="!(loading$ | async) && (juntadas)?.length > 0"
@@ -82,8 +82,13 @@
                     <iframe id="iframe-juntadas" *ngIf="src"
                             [src]="src">
                     </iframe>
-                    <div class="div-about-blank" *ngIf="!src">
-                        <span class="no-juntadas-text hint-text"> Não há documentos</span>
+                    <div class="div-about-blank" *ngIf="!src && !downloadUrl">
+                        <span class="no-juntadas-text hint-text">Não há documentos</span>
+                    </div>
+                    <div class="div-about-blank" *ngIf="downloadUrl">
+                        <button mat-raised-button color="accent" (click)="doDownload()">
+                            DOWNLOAD
+                        </button>
                     </div>
                 </div>
             </div>

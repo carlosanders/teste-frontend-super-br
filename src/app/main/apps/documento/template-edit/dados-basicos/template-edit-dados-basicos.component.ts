@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Documento, Template} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -19,6 +19,7 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {takeUntil} from "rxjs/operators";
 
 @Component({
     selector: 'template-edit-dados-basicos',
@@ -42,6 +43,8 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
     container: ViewContainerRef;
 
     values: any;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -72,7 +75,7 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
     ngOnInit(): void {
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
             if (value === this.documento.id) {
                 this.submit();
             }
@@ -96,6 +99,8 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadTemplate());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

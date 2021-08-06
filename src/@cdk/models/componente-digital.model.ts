@@ -31,6 +31,9 @@ export class ComponenteDigital {
     @Exclude({toPlainOnly: true})
     assinado?: boolean;
 
+    @Exclude({toPlainOnly: true})
+    unsafe?: boolean;
+
     fileName?: string;
 
     @Exclude({toPlainOnly: true})
@@ -190,6 +193,7 @@ export class ComponenteDigital {
         this.editavel = null;
         this.convertidoPdf = null;
         this.assinado = null;
+        this.unsafe = null;
         this.modalidadeAlvoInibidor = null;
         this.modalidadeTipoInibidor = null;
         this.modelo = null;
@@ -202,7 +206,6 @@ export class ComponenteDigital {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-
         this.file = null;
         this.state = null;
         this.inProgress = null;

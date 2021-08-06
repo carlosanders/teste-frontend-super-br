@@ -473,13 +473,18 @@
 * Correção no ordenamento de versões de documentos
 * Correção no upload de fotos no perfil
 * Correção vinculação de documentos
+
+1.6.5
+
+* Correção quebra de linhas nas juntados da visualização do processo quando ja anexos e multiplos componentes digitais
 * Correção comportamento de filtros de criação de relatórios
 * Correção css de filtros de criação de relatórios
 * Correção ao trocar tipo de relatório, filtros anteriores continuavam sendo exibidos
 * Correção ao digitar nos campos de autocomplete, formulário era liberado para envio
 * Melhoria recebendo status do relatório do backend e do mercure
-
-1.6.5
-
+* Melhoria para exibir informação que um componente digital não html/pdf teve o download realizado no visualizador do processo
+* Melhoria para logar no backend erros ocorridos no frontend
 * Correção na assinatura de minutas em bloco
 * Correção na pesquisa de outro numero processo
+* Melhoria fazer o download não html/pdf no processo view por demanda do usuário
+* Correção no roteamento de movimentacao de processos com uso de plugins

@@ -660,10 +660,10 @@
                         </div>
                         <div
                             *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); let k = index;"
-                            class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                            class="tipo-documento" fxLayout="column" fxLayoutAlign="start center">
                             <div
                                 *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); let z = index;"
-                                class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                class="tipo-documento" fxLayout="column" fxLayoutAlign="start center">
                                 <mat-icon class="ml-16 s-14">attach_file</mat-icon>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
