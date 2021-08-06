@@ -486,3 +486,5 @@
 * Melhoria para logar no backend erros ocorridos no frontend
 * Correção na assinatura de minutas em bloco
 * Correção na pesquisa de outro numero processo
+* Melhoria fazer o download não html/pdf no processo view por demanda do usuário
+* Correção no roteamento de movimentacao de processos com uso de plugins
