@@ -488,3 +488,4 @@
 * Correção na pesquisa de outro numero processo
 * Melhoria fazer o download não html/pdf no processo view por demanda do usuário
 * Correção no roteamento de movimentacao de processos com uso de plugins
+* Correção no form de parâmetros dos Relatórios
