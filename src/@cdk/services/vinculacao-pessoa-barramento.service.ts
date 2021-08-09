@@ -19,7 +19,7 @@ export class VinculacaoPessoaBarramentoService extends ParentGenericService<Vinc
     }
 
     consultaRepositorio(params: HttpParams = new HttpParams()): Observable<any> {
-        return this.http.get(`${environment.api_url}barramento/vinculacao_pessoa_barramento/consulta_repositorio` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/vinculacao_pessoa_barramento/consulta_repositorio` + environment.xdebug, {params});
     }
 
     consultaEstrutura(filters: any = '{}'): Observable<any> {
