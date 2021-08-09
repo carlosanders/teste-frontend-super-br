@@ -1225,7 +1225,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     addFilterProcessoWorkflow(): void {
         // caso processo seja de workflow-edit verificar espécies permitidas
-        this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
+        this.especieTarefaPagination['context'] = {processoId: this.form.get('processo')?.value?.id};
         if (this.form.get('processo').value?.especieProcesso?.workflow?.especieTarefaInicial) {
             if (!this.form.get('id').value) {
                 if (!this.form.get('processo').value.tarefaAtualWorkflow) {

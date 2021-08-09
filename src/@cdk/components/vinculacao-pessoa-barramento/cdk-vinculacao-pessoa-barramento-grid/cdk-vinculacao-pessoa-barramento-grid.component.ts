@@ -40,8 +40,8 @@ export class CdkVinculacaoPessoaBarramentoGridComponent implements AfterViewInit
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'pessoa.nome', 'nomeRepositorio', 'nomeEstrutura',
-        'actions'];
+    displayedColumns: string[] = ['select', 'id', 'pessoa.nome', 'repositorio', 'nomeRepositorio',
+        'nomeEstrutura', 'estrutura', 'actions'];
 
     allColumns: any[] = [
         {
