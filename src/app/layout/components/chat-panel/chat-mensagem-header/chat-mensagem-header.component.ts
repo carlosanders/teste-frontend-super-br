@@ -10,8 +10,7 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
-import {Chat} from "../../../../../@cdk/models";
-import {ChatUtils} from "../utils/chat.utils";
+import {Chat, ChatParticipante} from "@cdk/models";
 
 @Component({
     selector: 'chat-mensagem-header',
@@ -28,12 +27,19 @@ export class ChatMensagemHeaderComponent implements OnInit, OnChanges
     @Output()
     fecharChatHandler = new EventEmitter();
 
-    /**
-     * @param chatUtils
-     * @param _changeDetectorRef
-     */
-    constructor(public chatUtils:ChatUtils,
-                private _changeDetectorRef:ChangeDetectorRef)
+    @Output()
+    chatFormHandler = new EventEmitter<Chat>();
+
+    @Output()
+    excluirChatHandler = new EventEmitter<Chat>();
+
+    @Output()
+    chatParticipantesHandler = new EventEmitter<Chat>();
+
+    @Output()
+    sairChatHandler = new EventEmitter<ChatParticipante>();
+
+    constructor(private _changeDetectorRef:ChangeDetectorRef)
     {
     }
 
@@ -53,9 +59,29 @@ export class ChatMensagemHeaderComponent implements OnInit, OnChanges
         this.fecharChatHandler.emit();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this._changeDetectorRef.markForCheck();
+    chatForm(): void
+    {
+        this.chatFormHandler.emit(this.chat);
     }
 
+    chatParticipantes(): void
+    {
+        this.chatParticipantesHandler.emit(this.chat);
+    }
+
+    sairChat(): void
+    {
+        this.sairChatHandler.emit(this.chat.chatParticipante);
+    }
+
+    excluirChat(): void
+    {
+        this.excluirChatHandler.emit(this.chat);
+    }
+
+    ngOnChanges(changes: SimpleChanges): void
+    {
+        this._changeDetectorRef.markForCheck();
+    }
 
 }

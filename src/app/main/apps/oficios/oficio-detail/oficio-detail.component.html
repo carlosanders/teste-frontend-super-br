@@ -13,7 +13,7 @@
         </button>
 
         <cdk-vinculacao-etiqueta-chips
-               [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
+               [vinculacoesEtiquetas]="vinculacoesEtiquetas"
                (create)="onEtiquetaCreate($event)"
                (edit)="onEtiquetaEdit($event)"
                [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"

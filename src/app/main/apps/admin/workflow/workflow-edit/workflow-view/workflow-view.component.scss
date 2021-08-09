@@ -16,22 +16,21 @@ workflow-view {
             flex-direction: column;
 
             > .header {
-                flex: 0 1 auto;
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 24px;
-
-                height: 56px !important;
-                min-height: 56px !important;
-                max-height: 56px !important;
+                flex: 0 1 auto !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: flex-start !important;
+                align-items: center !important;
+                height: 40px !important;
+                min-height: 40px !important;
+                max-height: 40px !important;
+                padding-left: 6px !important;
             }
 
             > .content {
                 flex: 1 1 auto;
                 display: flex;
-                padding: 8px;
+                padding: 3px 2px 0px 2px;
 
                 > .loading {
                     flex: 1 1 auto;
@@ -44,6 +43,7 @@ workflow-view {
                 > .workflow-view-content {
                     flex: 1 1 auto;
                     display: flex;
+                    border-radius: 12px 12px 0px 0px;
                     @include mat-elevation(1);
 
                     > iframe {

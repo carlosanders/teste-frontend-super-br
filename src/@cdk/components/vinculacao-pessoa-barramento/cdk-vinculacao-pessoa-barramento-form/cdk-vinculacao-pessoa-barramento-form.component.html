@@ -2,11 +2,9 @@
 
     <mat-form-field>
         <mat-label>Nome do Repositório</mat-label>
-        <input matInput
-               formControlName="nomeRepositorio"
+        <input matInput formControlName="nomeRepositorio"
                [matAutocomplete]="nomeRepositorio.autocomplete"
-               (blur)="checkNomeRepositorio()"
-        >
+               (blur)="checkNomeRepositorio()">
         <cdk-repositorio-barramento-autocomplete
             #nomeRepositorio="repositorioBarramentoAutocomplete"
             [control]="form.get('nomeRepositorio')">

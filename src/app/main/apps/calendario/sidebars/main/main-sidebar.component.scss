@@ -47,6 +47,27 @@ calendario-main-sidebar {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
+
+            > .class-toolbar {
+                display: flex;
+                justify-content: space-around;
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                margin: 8px;
+                border-radius: 12px;
+            }
+        }
+    }
+
+    .nav-item {
+        .nav-link {
+            display: flex !important;
+            align-items: center !important;
+            padding: 0px 10px 0px 10px !important;
+            border-radius: 0px 12px 12px 0px !important;
+            margin-right: 16px !important;
+            height: 40px !important;
+            min-height: 40px !important;
+            max-height: 64px !important;
         }
     }
 }

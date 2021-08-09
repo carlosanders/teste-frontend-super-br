@@ -11,7 +11,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" fxHide.lt-md *ngIf="!(maximizado$ | async)">
+        <div class="header" *ngIf="!(maximizado$ | async)">
 
             <div class="search-wrapper">
 
@@ -23,7 +23,7 @@
                 <div class="search">
                     <mat-icon class="secondary-text">search</mat-icon>
                     <cdk-etiqueta-chips [etiquetas]="etiquetas"
-                                        [placeholder]="'Filtre os relatórios pelas etiquetas'"
+                                        [placeholder]="'Filtrar os relatórios pelas etiquetas'"
                                         (create)="addEtiqueta($event)"
                                         [pagination]="vinculacaoEtiquetaPagination"
                                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
@@ -51,7 +51,8 @@
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'mostra-lista': !currentRelatorioId && !mostraCriar,
-                        'esconde-lista': currentRelatorioId || mostraCriar
+                        'esconde-lista': currentRelatorioId || mostraCriar,
+                        'maximizado': (maximizado$ | async)
                      }">
                     <cdk-relatorio-list
                                      (scrolled)="onScroll()"

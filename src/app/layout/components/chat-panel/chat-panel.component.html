@@ -21,24 +21,24 @@
         <mat-sidenav class="sidenav sidenav-left" position="start" opened="true" mode="side"
                      [disableClose]="true"
                      *ngIf="activeCard === 'chat-list'">
-            <chat-header class="sidenav-header"
-                (pesquisaChatHandler)="pesquisaChat($event)">
+            <chat-header class="chat-header"
+                (pesquisaChatHandler)="pesquisaChat($event)"
+                (criarGrupoHandler)="criarGrupo()">
             </chat-header>
-            <div class="sidenav-content" fxFlex
+            <div class="chat-content" fxFlex
                  infiniteScroll
                  [scrollWindow]="false"
                  [infiniteScrollDistance]="2"
                  [infiniteScrollThrottle]="50"
                  (scrolled)="onScrollChatList($event)">
-                <div *cdkIfOnDom [@animateStagger]="{value:'50'}">
-                    <chat-list
-                        fxLayout="column"
-                        (chatClickHandler)="openChat($event)"
-                        [chatList]="chatList"
-                        [chatOpen]="chatOpen"
-                        [loading]="chatLoading">
-                    </chat-list>
-                </div>
+                <chat-list
+                    *cdkIfOnDom [@animateStagger]="{value:'50'}"
+                    fxLayout="column"
+                    (chatClickHandler)="openChat($event)"
+                    [chatList]="chatList"
+                    [chatOpen]="chatOpen"
+                    [loading]="chatLoading">
+                </chat-list>
             </div>
         </mat-sidenav>
         <!-- /LEFT SIDENAV-->
@@ -47,9 +47,13 @@
                      [disableClose]="true"
                      *ngIf="!!chatOpen && activeCard === 'chat-mensagem-list'">
             <div class="chat" fxFlex fxLayout="column">
-                <chat-mensagem-header class="sidenav-header"
+                <chat-mensagem-header class="chat-header"
                     [chat]="chatOpen"
-                    (fecharChatHandler)="fecharChat()">
+                    (fecharChatHandler)="fecharChat()"
+                    (chatFormHandler)="chatForm($event)"
+                    (sairChatHandler)="removerParticipante($event)"
+                    (excluirChatHandler)="excluirChat($event)"
+                    (chatParticipantesHandler)="chatParticipantes($event)">
                 </chat-mensagem-header>
                 <div class="chat-content"
                      #chatMensagemScroll
@@ -62,6 +66,7 @@
                      (scroll)="onScrollChatMessageList($event)">
                     <chat-mensagem-list
                         [chat]="chatOpen"
+                        [errors]="chatParticipanteErrors"
                         [loading]="(chatMensagemLoading$ | async)"
                         [chatMensagens]="chatMensagens">
                     </chat-mensagem-list>
@@ -92,5 +97,47 @@
             </div>
         </mat-sidenav>
         <!-- /RIGHT SIDENAV-->
+        <!-- CHAT GROUP FORM SIDENAV-->
+        <mat-sidenav class="sidenav sidenav-right" position="start" opened="true" mode="side"
+                     [disableClose]="true"
+                     *ngIf="activeCard === 'chat-grupo-form'">
+            <chat-grupo-form
+                (cancelFormHandler)="cancelChatGrupoForm()"
+                (chatForm)="chatForm($event)"
+                (chatParticipantesHandler)="chatParticipantes($event)"
+                (removerParticipanteHandler)="removerParticipante($event)"
+                (imagemCapaCroppedHandler)="uploadImgCapaChat($event)"
+                (excluirChatHandler)="excluirChat($event)"
+                (saveHandler)="salvarChat($event)"
+                [chat]="chatOpen"
+                [capa]="chatFormCapa"
+                [saving]="chatFormSaving"
+                [errors]="chatFormErrors || chatParticipanteErrors">
+            </chat-grupo-form>
+        </mat-sidenav>
+        <!-- /CHAT GROUP FORM SIDENAV-->
+        <!-- CHAT PARTICIPANTES SIDENAV-->
+        <mat-sidenav class="sidenav sidenav-right" position="start" opened="true" mode="side"
+                     [disableClose]="true"
+                     *ngIf="activeCard === 'chat-participantes-list'">
+            <chat-participantes-list
+                (fecharHandler)="fecharParticipantes()"
+                (chatParticipantesHandler)="chatParticipantes($event)"
+                (chatFormHandler)="chatForm($event)"
+                (imagemCapaCroppedHandler)="uploadImgCapaChat($event)"
+                (adicionarParticipanteHandler)="adicionarParticipante($event)"
+                (tornarAdministradorHandler)="tornarAdministrador($event)"
+                (removerParticipanteHandler)="removerParticipante($event)"
+                (excluirChatHandler)="excluirChat($event)"
+                (scrollDownHandler)="onScrollDownChatParticipante()"
+                [chat]="chatOpen"
+                [chatParticipanteList]="chatParticipanteList"
+                [saving]="chatParticipanteSaving"
+                [loading]="chatParticipanteLoading"
+                [errors]="chatParticipanteErrors"
+            >
+            </chat-participantes-list>
+        </mat-sidenav>
+        <!-- /CHAT PARTICIPANTES SIDENAV-->
     </mat-sidenav-container>
 </div>

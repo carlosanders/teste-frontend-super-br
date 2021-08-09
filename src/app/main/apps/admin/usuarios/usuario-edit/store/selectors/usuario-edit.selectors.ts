@@ -27,6 +27,11 @@ export const getIsSaving = createSelector(
     (state: UsuarioEditState) => state.saving
 );
 
+export const getNextColaborador = createSelector(
+    getUsuarioEditState,
+    (state: UsuarioEditState) => state.nextColaborador
+);
+
 export const getHasLoaded = createSelector(
     getUsuarioEditState,
     (state: UsuarioEditState) => state.loaded

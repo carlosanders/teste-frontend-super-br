@@ -34,14 +34,16 @@ import {getRouterState} from '../../../../../store';
 })
 export class RelatorioViewComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @Output()
+    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+
+    @ViewChildren(CdkPerfectScrollbarDirective)
+    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
+
     binary$: Observable<any>;
 
     relatorio$: Observable<Relatorio>;
     relatorio: Relatorio;
-
-    @ViewChildren(CdkPerfectScrollbarDirective)
-    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
 
     fileName = '';
 
@@ -53,8 +55,10 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
 
     chaveAcesso: string;
 
-    @Output()
-    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+    zoom: number = 0;
+    expandirTela: boolean = false;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -150,23 +154,23 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    zoomIn() {
+    zoomIn(): void {
         if (this.zoom < 10) {
             this.zoom++;
         }
     }
 
-    zoomOut() {
+    zoomOut(): void {
         if (this.zoom > 0) {
             this.zoom--;
         }
     }
 
-    getZoomClass(filename) {
+    getZoomClass(filename): string {
         return this.isHtml(filename) ? `zoom-${this.zoom}x` : '';
     }
 
-    getLayoutClass(filename) {
+    getLayoutClass(filename): string {
         if (!this.isHtml(filename)) {
             return;
         }
@@ -174,8 +178,13 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
         return this.expandirTela ? 'expanded-panel' : 'compact-panel';
     }
 
-    isHtml(filename) {
+    isHtml(filename): boolean {
         const name = filename.split('.');
         return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
+    }
+
+    print(): void {
+        window.frames['iframe-relatorios'].focus();
+        window.frames['iframe-relatorios'].print();
     }
 }

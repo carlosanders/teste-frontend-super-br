@@ -1,52 +1,70 @@
 <div class="actions" *ngIf="processos">
 
     <mat-icon class="s-32">schedule</mat-icon>
-    <div class="mat-title mb-16">{{processos.length}} processos selecionados</div>
+    <div class="mat-title mb-16">{{processos.length}} processos selecionados
+        <mat-icon style="cursor: pointer;"
+                  matTooltip="Visualizar processos"
+                  *ngIf="!displayProcessos" (click)="exibeProcessos()">grid_on</mat-icon>
+        <mat-icon style="cursor: pointer;"
+                  matTooltip="Visualizar ações"
+                  *ngIf="displayProcessos" (click)="exibeProcessos()">grid_off</mat-icon>
+    </div>
 
-    <button mat-menu-item aria-label="editar"
-            (click)="doEditarBloco()">
-        <ng-container>
-            <mat-icon>edit</mat-icon>
-            <span>Editar</span>
-        </ng-container>
-    </button>
-
-    <button mat-menu-item aria-label="etiquetar"
-            (click)="doEtiquetarBloco()">
-        <ng-container>
-            <mat-icon>label</mat-icon>
-            <span>Etiquetar</span>
-        </ng-container>
-    </button>
-
-    <button mat-menu-item aria-label="registrar extravio"
-            (click)="doRegistrarExtravioBloco()">
-        <ng-container>
-            <mat-icon>swap_horiz</mat-icon>
-            <span>Registrar Extravio</span>
-        </ng-container>
-    </button>
-
-    <ng-template #dynamicComponent></ng-template>
-
-    <ng-template [ngIf]="(modalidadeTransicao$ | async)">
-        <button mat-menu-item aria-label="realizar temporalidade e destinação"
-                (click)="doTransicaoBloco()">
-            <ng-container>
-                <mat-icon>swap_horiz</mat-icon>
-                <span>Realizar {{(modalidadeTransicao$ | async).valor | titlecase}}</span>
-            </ng-container>
-        </button>
+    <ng-template [ngIf]="displayProcessos">
+        <cdk-processo-grid
+            [processos]="processos"
+            [total]="processos.length"
+            [mode]="'indeterminate'"
+            [displayedColumns]="['NUP','modalidadeMeio','localizador.nome']">
+        </cdk-processo-grid>
     </ng-template>
 
-    <ng-template [ngIf]="!(modalidadeTransicao$ | async) || (modalidadeTransicao$ | async).valor !== 'TRANSFERÊNCIA'">
-        <button mat-menu-item aria-label="desarquivar"
-                (click)="doDesarquivarBloco()">
+    <ng-template [ngIf]="!displayProcessos">
+        <button mat-menu-item aria-label="editar"
+                (click)="doEditarBloco()">
             <ng-container>
-                <mat-icon>swap_horiz</mat-icon>
-                <span>Desarquivar</span>
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
             </ng-container>
         </button>
+
+        <button mat-menu-item aria-label="etiquetar"
+                (click)="doEtiquetarBloco()">
+            <ng-container>
+                <mat-icon>label</mat-icon>
+                <span>Etiquetar</span>
+            </ng-container>
+        </button>
+
+        <button mat-menu-item aria-label="registrar extravio"
+                (click)="doRegistrarExtravioBloco()">
+            <ng-container>
+                <mat-icon>swap_horiz</mat-icon>
+                <span>Registrar Extravio</span>
+            </ng-container>
+        </button>
+
+        <ng-template #dynamicComponent></ng-template>
+
+        <ng-template [ngIf]="(modalidadeTransicao$ | async)">
+            <button mat-menu-item aria-label="realizar temporalidade e destinação"
+                    (click)="doTransicaoBloco()">
+                <ng-container>
+                    <mat-icon>swap_horiz</mat-icon>
+                    <span>Realizar {{(modalidadeTransicao$ | async).valor | titlecase}}</span>
+                </ng-container>
+            </button>
+        </ng-template>
+
+        <ng-template [ngIf]="!(modalidadeTransicao$ | async) || (modalidadeTransicao$ | async).valor !== 'TRANSFERÊNCIA'">
+            <button mat-menu-item aria-label="desarquivar"
+                    (click)="doDesarquivarBloco()">
+                <ng-container>
+                    <mat-icon>swap_horiz</mat-icon>
+                    <span>Desarquivar</span>
+                </ng-container>
+            </button>
+        </ng-template>
     </ng-template>
 
     <button class="mt-16" mat-raised-button aria-label="cancelar" color="warn"

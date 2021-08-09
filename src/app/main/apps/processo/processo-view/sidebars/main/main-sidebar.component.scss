@@ -21,6 +21,14 @@ processo-view-main-sidebar {
             justify-content: flex-start;
             align-items: center;
 
+            > .mat-icon-button {
+                width: 32px;
+            }
+
+            > .espaco-icones {
+                margin: 3px 2px 5px 4px;
+            }
+
             .sort-asc {
                 moz-transform: rotateX(180deg);
                 -o-transform: rotateX(180deg);
@@ -257,11 +265,8 @@ processo-view-main-sidebar {
                 }
 
                 .descricao {
+                    display: flex;
                     font-weight: bold;
-                    word-break: break-word;
-                    hyphens: auto;
-                    -webkit-hyphens: auto;
-                    -moz-hyphens: auto;
                 }
 
                 .numero {
@@ -417,6 +422,7 @@ processo-view-main-sidebar {
                 }
 
                 .descricao {
+                    display: flex;
                     font-weight: bold;
                 }
 
@@ -569,6 +575,7 @@ processo-view-main-sidebar {
                 }
 
                 .descricao {
+                    display: flex;
                     font-weight: bold;
                 }
 

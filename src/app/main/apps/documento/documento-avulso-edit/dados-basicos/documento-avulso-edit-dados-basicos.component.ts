@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Documento, DocumentoAvulso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -22,6 +22,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {CdkUtils} from '@cdk/utils';
+import {take, takeUntil} from "rxjs/operators";
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -46,6 +47,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     errorsRemetendo: any;
 
     remeterDocAvulso = false;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
@@ -87,7 +90,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     ngOnInit(): void {
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
             if (value === this.documento.id && this.remeterDocAvulso) {
                 this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
             }
@@ -119,6 +122,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     ngOnDestroy(): void {
         this.remeterDocAvulso = false;
         this._store.dispatch(new fromStore.UnloadDocumentoAvulso());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

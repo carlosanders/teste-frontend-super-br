@@ -705,6 +705,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 this.tarefasPendentes['lixeira_' + this.generoHandleAcentuado] = 0;
             }
 
+            if (this.counterState['tarefas_compartilhadas_' + this.generoHandleAcentuado] !== undefined) {
+                this.tarefasPendentes['tarefas_compartilhadas_' + this.generoHandleAcentuado] = this.counterState['tarefas_compartilhadas_' + this.generoHandleAcentuado];
+            } else {
+                this.tarefasPendentes['tarefas_compartilhadas_' + this.generoHandleAcentuado] = 0;
+            }
         }
         this._changeDetectorRef.markForCheck();
     }

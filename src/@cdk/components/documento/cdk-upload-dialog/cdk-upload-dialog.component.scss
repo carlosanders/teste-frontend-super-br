@@ -1,0 +1,29 @@
+@import "@cdk/scss/cdk";
+
+cdk-upload-dialog {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+
+    > .documentos-vinculados {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0;
+        overflow-y: auto;
+
+        ng-template {
+            display: flex;
+            flex: 1 1 auto;
+        }
+
+        > .loading {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .anexos-loading {
+                display: flex;
+            }
+        }
+    }
+}

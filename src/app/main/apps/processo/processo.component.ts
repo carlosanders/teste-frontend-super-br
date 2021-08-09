@@ -23,7 +23,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../store';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {distinctUntilKeyChanged, filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
@@ -104,8 +104,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso));
 
         this.vinculacaoEtiquetaPagination = new Pagination();
-        if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO'))
-        {
+        if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO')) {
             this.vinculacaoEtiquetaPagination.filter = {
                 orX: [
                     {
@@ -149,19 +148,20 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
         });
 
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-        });
-
-        this.processo$.subscribe((processo) => {
-            this.processo = processo;
-            this.refresh();
-        });
+        this.processo$
+            .pipe(
+                filter(processo => !!processo),
+                distinctUntilKeyChanged('id')
+            )
+            .subscribe((processo) => {
+                this.processo = processo;
+                this.iniciaModulos();
+                this.refresh();
+            });
 
         this.pluginLoading$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -171,6 +171,14 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        this.iniciaModulos();
+    }
+
+    iniciaModulos(): void {
+        if (this.container !== undefined) {
+            this.container.clear();
+        }
+
         let path = 'app/main/apps/processo';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -182,6 +190,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 }));
             }
         });
+        if (this.containerConverter !== undefined) {
+            this.containerConverter.clear();
+        }
         path = 'app/main/apps/processo#converter';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -193,6 +204,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 }));
             }
         });
+        this._changeDetectorRef.detectChanges();
     }
 
     /**
@@ -259,8 +271,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             + '/visualizar', '_blank');
     }
 
-   imprimirEtiqueta(): void {
+    imprimirEtiqueta(): void {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
+    }
+
+    imprimirRelatorio(): void {
+        this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'relatorio']).then();
     }
 
     arquivarProcesso(): void {

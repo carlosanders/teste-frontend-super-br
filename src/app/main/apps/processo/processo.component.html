@@ -28,7 +28,7 @@
                 <div class="search">
                     <mat-icon class="secondary-text mr-8">label</mat-icon>
                     <cdk-vinculacao-etiqueta-chips
-                        [placeholder]="'Adicionar etiquetas para o processo'"
+                        [placeholder]="'Adicionar etiquetas no processo'"
                         [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
                         (create)="onEtiquetaCreate($event)"
                         (edit)="onEtiquetaEdit($event)"
@@ -40,7 +40,8 @@
 
             </div>
 
-            <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
+            <div class="spinner-container m-8"
+                 *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
                 <mat-spinner diameter="20"></mat-spinner>
             </div>
 
@@ -68,6 +69,14 @@
                             <span>Imprimir Etiqueta</span>
                         </ng-container>
                     </button>
+                    <button mat-menu-item aria-label="imprimir etiqueta"
+                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                            (click)="imprimirRelatorio()">
+                        <ng-container>
+                            <mat-icon>description</mat-icon>
+                            <span>Imprimir Relatório</span>
+                        </ng-container>
+                    </button>
                     <button mat-menu-item aria-label="Autuar"
                             *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1"
                             (click)="doAutuar()">
@@ -83,10 +92,11 @@
                         </ng-container>
                     </button>
                     <button mat-menu-item aria-label="alterar acompanhamento"
-                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo" (click)="acompanharProcesso(processo)" >
+                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo"
+                            (click)="acompanharProcesso(processo)">
                         <ng-container>
                             <mat-icon>done</mat-icon>
-                            <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo'  : 'Acompanhar Processo'}}</span>
+                            <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo' : 'Acompanhar Processo'}}</span>
                         </ng-container>
                     </button>
                     <button mat-menu-item *ngIf="containerConverter?.length"
@@ -98,7 +108,7 @@
                         </ng-container>
                     </button>
                     <mat-menu #moreMenuConverter="matMenu">
-                            <ng-template #dynamicComponentConverter></ng-template>
+                        <ng-template #dynamicComponentConverter></ng-template>
                     </mat-menu>
 
                     <ng-template #dynamicComponent></ng-template>

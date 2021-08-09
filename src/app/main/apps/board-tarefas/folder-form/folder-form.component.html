@@ -14,12 +14,12 @@
           (ngSubmit)="doSave()" (keydown.enter)="doSave(); $event.preventDefault();"
           fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
-        <input formControlName="nome" #inputNome fxFlex placeholder="Nome" [ngClass]="{'error': !!controls.errors}">
+        <input formControlName="nome" #inputNome style="width: 155px" placeholder="Nome" [ngClass]="{'error': !!controls.errors}">
 
-        <button mat-icon-button fxFlex="0 1 auto" type="submit">
+        <button mat-icon-button class="icone" type="submit">
             <mat-icon>check</mat-icon>
         </button>
-        <button mat-icon-button fxFlex="0 1 auto" (click)="doClose()">
+        <button mat-icon-button class="icone" (click)="doClose()">
             <mat-icon>close</mat-icon>
         </button>
     </form>

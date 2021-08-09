@@ -430,12 +430,66 @@
 * Melhoria alerta informativo ao usuário quando processo recebeu nova(s) juntada(s)
 * Melhoria botão de reload de juntadas na listagem do processo-view
 * Melhoria vinculação de juntadas ao arrastar uma juntada para outra juntada na visão de processo
+* Melhoria para visualizar lista de processos e localizador módulo arquivista
 * Correção de mensagens desaparecidas nos dialogs de confirmação
 * Corrigido erro em notificações sem contexto preenchido
 * Corrigida não exibição de mensagem ao abrir relatório com erro de geração
 * Corrigidas consultas de relatórios de query para get em visualização e detalhe de relatório
 * Renomeadas ações com nomes em duplicidade
 * Corrigidos comportamentos indevidos nos campos do formulário de criação de relatórios ao alterar tipo/espécie de relatório
-* Adicionado zoom aos relatórios html
+* Melhoria adicionado zoom aos relatórios html
 * Corrigindo problemas no css de relatórios
 * Correção em mensagem no dialog de informação de nova versão
+* Correção de bug quando realizado logout estando dentro de alguma tela de detalhamento (tarefa, processo, relatório, ofício etc)
+* Correção de erro no console ao deslogar de dentro de listagens (tarefa, arquivo, relatórios, ofícios, protocolo-externo etc)
+* Correção padronização nas entidades no normalizr
+* Correção filtro de tarefas por assunto
+* Melhoria geração de relatório completo do processo
+* Correção ao efetuar logoff de usuários externos
+* Correção de erro ao excluir ações do workflow
+* Correção de erro ao desentranhar juntadas
+* Correção bug ao salvar tarefa no menu de processo
+* Correção bug carregamento assunto e interessados
+
+1.6.1
+
+* Correção de bug na escolha da especie de atividade ao movimentar o processo
+
+1.6.2
+
+* Upgrade angular
+
+1.6.3
+
+* Sem mudanças
+
+1.6.4
+
+* Correção do label opcional para portugues nos steppers
+* Correção quebra de linhas nas juntados da visualização do processo
+* Ajuste layout do formulario de nota de rodapé no editor de textos
+* Correção de erro no lançamento de bloco de atividades
+* Correção de erro carregamento de favoritos em bloco de tarefas
+* Correção no ordenamento de versões de documentos
+* Correção no upload de fotos no perfil
+* Correção vinculação de documentos
+
+1.6.5
+
+* Correção quebra de linhas nas juntados da visualização do processo quando ja anexos e multiplos componentes digitais
+* Correção comportamento de filtros de criação de relatórios
+* Correção css de filtros de criação de relatórios
+* Correção ao trocar tipo de relatório, filtros anteriores continuavam sendo exibidos
+* Correção ao digitar nos campos de autocomplete, formulário era liberado para envio
+* Melhoria recebendo status do relatório do backend e do mercure
+* Melhoria para exibir informação que um componente digital não html/pdf teve o download realizado no visualizador do processo
+* Melhoria para logar no backend erros ocorridos no frontend
+* Correção na assinatura de minutas em bloco
+* Correção na pesquisa de outro numero processo
+* Melhoria fazer o download não html/pdf no processo view por demanda do usuário
+* Correção no roteamento de movimentacao de processos com uso de plugins
+* Correção no form de parâmetros dos Relatórios
+* Correçao carregamento gridsearch especie-tarefa no tarefa form
+* Correçao de bug ao salvar form de usuario externo
+* Correçao form de vinculaçao pessoa-barramento
+* Correçao carregamento de repositorios no form pessoa-barramento

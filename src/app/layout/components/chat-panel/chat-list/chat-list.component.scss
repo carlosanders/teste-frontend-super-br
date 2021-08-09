@@ -1,14 +1,16 @@
 chat-list {
     display: flex;
+    flex: 1 1 auto;
 
     .loading {
-        margin: 0 auto;
         padding-bottom: 10px;
+        place-content: center center;
+        display: flex;
     }
 
     .chat-list-item {
         display: flex;
-        flex: 1 1 auto;
+        flex: 0 1 auto;
 
         chat-imagem {
             margin: 5px;
@@ -32,7 +34,7 @@ chat-list {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                max-width: 150px;
+                max-width: 230px;
             }
         }
     }

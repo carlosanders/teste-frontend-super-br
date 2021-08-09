@@ -18,6 +18,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../actions';
 import * as fromStoreTarefaDetail from '../../../../tarefas/tarefa-detail/store';
 import {DomSanitizer} from '@angular/platform-browser';
+import * as fromStore from '../../store';
 
 @Injectable()
 export class ComponentesDigitaisEffects {
@@ -234,8 +235,6 @@ export class ComponentesDigitaisEffects {
                 })
             );
 
-
-
     /**
      * Visualizar Juntada em outra aba
      *
@@ -295,4 +294,38 @@ export class ComponentesDigitaisEffects {
                  return caught;
              })
          );
+
+    /**
+     * Aprovar Componente Digital
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    aprovarComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.AprovarComponenteDigital>(ComponenteDigitalActions.APROVAR_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    const componenteDigital = new ComponenteDigital();
+                    componenteDigital.documentoOrigem = action.payload.documentoOrigem;
+
+                    return this._componenteDigitalService.aprovar(componenteDigital).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new ComponenteDigitalActions.AprovarComponenteDigitalSuccess(response),
+                            new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'componenteDigital',
+                                content: `Componente Digital id ${response.id} criado com sucesso!`,
+                                dateTime: response.criadoEm
+                            }),
+                            new fromStore.GetDocumentosVinculados(action.payload.documentoOrigem)
+                        ]),
+                    );
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                    return caught;
+                })
+            );
 }

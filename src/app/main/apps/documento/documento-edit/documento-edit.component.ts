@@ -20,12 +20,11 @@ import {getRouterState} from 'app/store/reducers';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
-import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
+import {getTarefa} from '../../tarefas/tarefa-detail/store';
 import {LoginService} from '../../../auth/login/login.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
-import {ClickedDocumentoVinculado} from './anexos/store/actions';
 
 @Component({
     selector: 'documento-edit',
@@ -149,7 +148,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * On init
      */
     ngOnInit(): void {
-
         if (this._router.url.indexOf('/juntadas') === -1) {
             this.tarefa$.subscribe((tarefa) => {
                 this.tarefa = tarefa;
@@ -167,6 +165,22 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+
+                const path = 'app/main/apps/documento/documento-edit';
+                modulesConfig.forEach((module) => {
+                    if (module.components.hasOwnProperty(path)) {
+                        module.components[path].forEach(((c) => {
+                            this._dynamicService.loadComponent(c)
+                                .then(componentFactory => this.container.createComponent(componentFactory));
+                        }));
+                    }
+
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividade') &&
+                        module.routerLinks[path]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividade = module.routerLinks[path]['atividade'][this.routerState.params.generoHandle];
+                    }
+                });
             }
         });
 
@@ -224,7 +238,21 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     // -----------------------------------------------------------------------------------------------------
 
     onClickedDocumentoVinculado(documento): void {
-        this._store.dispatch(new ClickedDocumentoVinculado(documento));
+        let sidebar = 'editar/atividade';
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id + '/editor/ckeditor';
+        } else {
+            primary += '0';
+        }
+        if (documento.vinculacaoDocumentoPrincipal) {
+            sidebar = 'editar/dados-basicos';
+        }
+        this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id, {outlets: {primary: primary, sidebar: sidebar}}],
+            {
+                relativeTo: this._activatedRoute.parent // <--- PARENT activated route.
+            }).then();
     }
 
     back(): void {

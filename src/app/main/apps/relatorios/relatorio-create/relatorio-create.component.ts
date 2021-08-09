@@ -118,11 +118,20 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
                             value: relatorio[campo].format('YYYY-MM-DDTHH:mm:ss'),
                             type: 'dateTime'
                         };
+                    } else if(campo === 'prazoGuardaFaseCorrenteAno'){
+                        arrayParams[campo] = {
+                            name: campo,
+                            value: relatorio[campo],
+                            type: 'int'
+                        };
                     } else {
 
                         const className = campo.replace(/^./, str => str.toUpperCase());
-                        const nClass = 'SuppCore\\AdministrativoBackend\\Entity\\' +
+                        let nClass = 'SuppCore\\AdministrativoBackend\\Entity\\' +
                             className;
+                        if (campo === 'unidade') {
+                            nClass = 'SuppCore\\AdministrativoBackend\\Entity\\Setor';
+                        }
 
                         arrayParams[campo] = {
                             name: campo,

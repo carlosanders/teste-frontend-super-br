@@ -8,12 +8,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 import {ChatStoreModule} from "../store/store.module";
-import {LoginService} from "../../../../main/auth/login/login.service";
 import {CdkSharedModule} from "@cdk/shared.module";
 import {ChatMensagemListComponent} from "./chat-mensagem-list.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {PipesModule} from "../../../../../@cdk/pipes/pipes.module";
-import {ChatUtils} from "../utils/chat.utils";
+import {PipesModule} from "@cdk/pipes/pipes.module";
 import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
 
 @NgModule({
@@ -35,7 +33,6 @@ import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
         ChatImagemModule
     ],
     providers: [
-        ChatUtils
     ],
     exports: [
         ChatMensagemListComponent

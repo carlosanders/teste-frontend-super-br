@@ -28,6 +28,10 @@ toolbar {
         }
     }
 
+    .hidden {
+        display: none !important;
+    }
+
     .user-button,
     cdk-search-bar,
     .language-button,
@@ -103,7 +107,7 @@ toolbar {
 .notification-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex: auto;
 
     button {
@@ -111,7 +115,7 @@ toolbar {
     }
 
     .actions {
-        margin-left: 20px;
+        margin-left: auto;
 
         .mat-icon {
             cursor: pointer;

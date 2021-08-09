@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {ErrorHandler, LOCALE_ID, NgModule} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import {BrowserModule} from '@angular/platform-browser';
@@ -23,13 +23,15 @@ import {LayoutModule} from 'app/layout/layout.module';
 import {AuthGuard} from './main/guard';
 import {LoginInterceptor} from './main/auth/login/login.interceptor';
 import {LogoutInterceptor} from './main/auth/login/logout.interceptor';
-import {LoginService} from './main/auth/login/login.service';
 
 import {ModelModule} from '@cdk/models';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';
 import {LoginStoreModule} from './main/auth/login/store/store.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CdkLoginDialogModule} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.module';
+import {MatStepperIntl} from "@angular/material/stepper";
+import {CdkMatStepperIntl} from "../@cdk/angular/cdk-mat-stepper-intl";
+import {GlobalErrorHandler} from "./global-error-handler";
 
 registerLocaleData(localePt, 'pt');
 
@@ -101,9 +103,11 @@ const routingConfiguration: ExtraOptions = {
         ModelModule
     ],
     providers: [
+        {provide: ErrorHandler, useClass: GlobalErrorHandler},
         {provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+        {provide: MatStepperIntl, useClass: CdkMatStepperIntl},
         {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
         {provide: LOCALE_ID, useValue: 'pt'},
         AuthGuard

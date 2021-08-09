@@ -46,7 +46,7 @@
             [control]="form.get('especieTarefa')"
             [pagination]="especieTarefaPagination">
         </cdk-especie-tarefa-autocomplete>
-        <button [disabled]="form.get('processo').value?.especieProcesso?.workflow"
+        <button [disabled]="!form.get('processo').value || form.get('processo').value?.especieProcesso?.workflow"
                 matSuffix mat-button mat-icon-button
                 (click)="getFavoritosEspecieTarefa()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
@@ -66,7 +66,8 @@
                       mode === 'bloco-create' ||
                       blocoEdit.blocoEditDistribuicao">
 
-        <mat-card-subtitle *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao">Responsável
+        <mat-card-subtitle *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao">
+            Responsável
         </mat-card-subtitle>
 
         <mat-slide-toggle formControlName="distribuicaoAutomatica"
@@ -83,19 +84,18 @@
                     Bloco de Responsáveis
                 </mat-slide-toggle>
             </div>
+
+            <button mat-mini-fab color="accent" class="button-lotacao" [matMenuTriggerFor]="lotacoesMenu" #menuTrigger="matMenuTrigger">
+                <mat-icon matTooltip="Consultar lotações">person</mat-icon>
+            </button>
         </div>
-
-        <button mat-button mat-icon-button class="button-lotacao" [matMenuTriggerFor]="lotacoesMenu" #menuTrigger="matMenuTrigger">
-            <span matTooltip="Consultar lotações" class="material-icons-outlined mat-icon">person_search</span>
-        </button>
-
         <mat-menu #lotacoesMenu="matMenu">
-            <h4 class="p-4 mt-4 mb-4">Consulta de lotações</h4>
+            <h4 class="p-4 mt-4 mb-4">Consulta de Lotações</h4>
             <div class="p-8 mb-4" style="width: 400px !important" fxLayoutGap="16px" fxLayout="column"
                  fxLayoutAlign="start" fxFlex="1 0 auto" (click)="$event.stopPropagation()">
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
-                        <input matInput placeholder="Nome do colaborador"
+                        <input matInput placeholder="Nome do Colaborador"
                                [formControl]="lotacaoControl"
                                #autoCompleteLotacao
                                [matAutocomplete]="lotacao.autocomplete"
@@ -103,6 +103,7 @@
                     </div>
                     <cdk-lotacao-autocomplete
                         #lotacao="lotacaoAutocomplete"
+                        [mode]="'search'"
                         [control]="lotacaoControl"
                         [pagination]="lotacaoPagination">
                     </cdk-lotacao-autocomplete>
@@ -428,6 +429,7 @@
 <cdk-lotacao-gridsearch
     *ngIf="activeCard === 'lotacao-gridsearch'"
     [pagination]="lotacaoPagination"
+    [mode]="'search'"
     (selected)="selectLotacao($event)"
     (cancel)="cancel()">
 </cdk-lotacao-gridsearch>

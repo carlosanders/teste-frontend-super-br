@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Juntada, Processo, Usuario} from '@cdk/models';
+import {Juntada, Processo, Tarefa, Usuario} from '@cdk/models';
 
 export class Desentranhamento {
 
@@ -22,6 +22,10 @@ export class Desentranhamento {
     observacao?: string;
 
     tipo?: string;
+
+    @Type(() => Juntada)
+    @Transform(value => value ? value.map(d => d.id) : null, { toPlainOnly: true })
+    juntadasBloco?: Juntada[];
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

@@ -242,7 +242,7 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
 
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveAcao({
-            acaoTransicaoWorkflow: acaoTransicaoWorkflow,
+            acao: acaoTransicaoWorkflow,
             operacaoId: operacaoId
         }));
     }

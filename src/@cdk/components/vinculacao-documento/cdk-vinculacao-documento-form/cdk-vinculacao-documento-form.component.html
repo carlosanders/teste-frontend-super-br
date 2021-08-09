@@ -15,7 +15,7 @@
     <mat-form-field>
         <input matInput placeholder="Documento Vinculado"
                formControlName="documentoVinculado"
-               [readonly]="!!documentoVinculado"
+               [readonly]="!form.get('documento').value"
                [matAutocomplete]="documentoVinculado.autocomplete" required
                (blur)="checkDocumentoVinculado()">
         <cdk-documento-autocomplete
@@ -24,7 +24,7 @@
             [pagination]="documentoVinculadoPagination">
         </cdk-documento-autocomplete>
         <button *ngIf="form.get('documentoVinculado').enabled" matSuffix mat-button mat-icon-button
-                [disabled]="!!documentoVinculado"
+                [disabled]="!form.get('documento').value"
                 (click)="showDocumentoVinculadoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>

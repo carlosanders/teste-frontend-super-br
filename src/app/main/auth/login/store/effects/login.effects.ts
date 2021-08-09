@@ -170,8 +170,6 @@ export class LoginEffects {
     public Logout: Observable<any> = this.actions.pipe(
         ofType<LoginActions.Logout>(LoginActions.LOGOUT),
         tap((action) => {
-            this.loginService.removeToken();
-            this.loginService.removeUserProfile();
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
             let url = '';
@@ -179,6 +177,8 @@ export class LoginEffects {
                 url = '?url=' + action.payload.url;
             }
             this.router.navigateByUrl('/auth/login' + url).then(() => {
+                this.loginService.removeToken();
+                this.loginService.removeUserProfile();
                 window.location.reload();
             });
         })

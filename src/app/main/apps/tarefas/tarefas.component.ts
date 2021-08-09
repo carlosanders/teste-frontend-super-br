@@ -25,7 +25,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -249,6 +249,28 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
+                this.targetHandle = routerState.state.params['targetHandle'];
+
+                //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+                if (this.snackSubscription) {
+                    this._store.dispatch(new fromStore.DeleteTarefaFlush());
+                }
+
+                const path = 'app/main/apps/tarefas';
+                modulesConfig.forEach((module) => {
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividades') &&
+                        module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+                    }
+
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
+                        module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
+                    }
+                });
             }
         });
 
@@ -301,19 +323,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }, 30000);
             } else {
                 clearInterval(this.assinaturaInterval);
-            }
-        });
-
-        this.routerState$.pipe(
-            distinctUntilChanged(),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
-            this.targetHandle = routerState.state.params['targetHandle'];
-
-            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
-            if (this.snackSubscription) {
-                this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
         });
 
@@ -428,17 +437,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     proccessEtiquetaFilter(): any {
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
-        const etiquetasId = [];
+        const andXFilter = [];
         this.etiquetas.forEach((e) => {
-            etiquetasId.push(e.id);
+            andXFilter.push({'vinculacoesEtiquetas.etiqueta.id': `eq:${e.id}`});
         });
         let etiquetaFilter = {};
-        if (etiquetasId.length) {
+        if (andXFilter.length) {
             etiquetaFilter = {
-                'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
+                'andX': andXFilter
             };
-        } else {
-
         }
         const nparams = {
             ...this.pagination,
@@ -794,7 +801,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             sort: {},
             limit: 1,
             offset: 0,
-            populate: ['populateAll']
+            populate: ['assuntoAdministrativo']
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa({processoId: processoId, params: params}));
