@@ -63,12 +63,14 @@ export class AppComponent implements OnInit, OnDestroy {
         modulesConfig.forEach((module) => {
             if (module.mainMenu) {
                 module.mainMenu.forEach((i) => {
-                    i.entries.forEach((j) => {
-                        this.navigation[0].children.forEach((n, idx) => {
-                            if (n.id === i.id) {
-                                this.navigation[0].children[idx].children.push(j);
-                            }
-                        });
+                    this.navigation[0].children.forEach((n) => {
+                        if (n.id === i.id) {
+                            i.entries.forEach((j) => {
+                                n.children.push(j);
+                            });
+
+                            n.role = [].concat(i['role'] ?? [], n.role);
+                        }
                     });
                 });
             }

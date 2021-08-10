@@ -48,7 +48,8 @@ export const navigation: CdkNavigation[] = [
                             title: '0',
                             bg : '#F44336',
                             fg: '#FFFFFF'
-                        }
+                        },
+                        role: 'ROLE_COLABORADOR'
                     },
                     {
                         id: 'tarefas_pendentes_arquivístico',
