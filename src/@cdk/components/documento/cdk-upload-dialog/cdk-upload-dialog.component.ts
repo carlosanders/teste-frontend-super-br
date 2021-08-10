@@ -50,6 +50,9 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     assina: EventEmitter<any> = new EventEmitter<any>();
 
     @Output()
+    assinaBloco: EventEmitter<any> = new EventEmitter<any>();
+
+    @Output()
     alteraTipoDocumento: EventEmitter<any> = new EventEmitter<any>();
 
     @Output()
@@ -161,6 +164,10 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
 
     doAssinaturaDocumentoVinculado(result): void {
         this.assina.emit(result);
+    }
+
+    doAssinaturaBloco(result): void {
+        this.assinaBloco.emit(result);
     }
 
     doAlterarTipoDocumento(values): void {

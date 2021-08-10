@@ -7,6 +7,8 @@ import {VisualizarProcessoComponent} from './visualizar-processo.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
 import {modulesConfig} from 'modules/modules-config';
+import {ProcessoStoreModule} from '../../processo/store/store.module';
+import {AcompanhamentoService} from "../../../../../@cdk/services/acompanhamento.service";
 
 const routes: Routes = [
     {
@@ -41,11 +43,14 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
 
+        ProcessoStoreModule,
+
         MatTooltipModule,
         MatProgressSpinnerModule
 
     ],
     providers: [
+        AcompanhamentoService
     ],
     exports: [
         VisualizarProcessoComponent

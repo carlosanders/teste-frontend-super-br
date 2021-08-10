@@ -5,6 +5,17 @@ cdk-atividade-form {
     display: flex;
     flex-direction: column;
 
+    .encerrar-tarefa {
+        display: flex;
+        flex-direction: row;
+        flex: 1 1 auto;
+        align-items: center;
+
+        span {
+            margin-left: 16px;
+        }
+    }
+
     mat-radio-group {
         padding: 16px;
         display: flex;

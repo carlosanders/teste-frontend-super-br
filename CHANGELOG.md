@@ -495,3 +495,15 @@
 * Correçao carregamento de repositorios no form pessoa-barramento
 * Correção para permitir apenas modelos "em branco" na automatização do workflow e das etiquetas
 * Correção para permitir apagar anexos da minuta
+* Correção apagar anexos dentro do editor de minuta
+* Correção apagar anexos dentro do editor de ofício
+* Correção assinatura de anexos dentro de editor de minuta
+* Correção assinatura de anexos dentro de editor de ofício
+* Correção apagar anexos em bloco dentro de editor de minuta
+* Correção apagar anexos em bloco dentro de editor de ofício
+* Correção remover assinatura de anexos dentro de editor de minuta
+* Correção remover assinatura de anexos dentro de editor de ofício
+* Melhoria possibilitar seleção de minutas que serão destinadas ao criar atividade sem encerrar tarefa
+* Melhoria clareza ao usuário que todas as minutas serão destinadas ao criar atividade encerrando tarefa
+* Melhoria exibir todas as minutas da tarefa no editor, na sidebar de atividade, e possibilitar navegação entre elas
+* Correção atualizar minuta na listagem ao fechar dialog de upload de anexos diretamente do processo-view

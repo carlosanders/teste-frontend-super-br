@@ -30,7 +30,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkUtils} from '@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
@@ -46,7 +46,13 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 })
 export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
@@ -57,7 +63,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     errorEditor$: Observable<any>;
     loading$: Observable<boolean>;
 
-    private _profile: Colaborador;
+    form: FormGroup;
 
     loadedMinutas: any;
 
@@ -69,6 +75,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     minutas: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
     selectedMinutas: Documento[] = [];
+    selectedIds$: Observable<number[]>;
+    disabledIds: number[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
@@ -90,14 +98,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     modeloPagination: Pagination;
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
-    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
-
     routeAtividadeDocumento = 'atividade';
 
     mensagemErro = null;
@@ -110,16 +110,20 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     assinaturaInterval = null;
 
-        /**
-         *
-         * @param _store
-         * @param _loginService
-         * @param _router
-         * @param _changeDetectorRef
-         * @param _dynamicService
-         * @param _formBuilder
-         * @param _snackBar
-         */
+    private _unsubscribeAll: Subject<any> = new Subject();
+
+    private _profile: Colaborador;
+
+    /**
+     *
+     * @param _store
+     * @param _loginService
+     * @param _router
+     * @param _changeDetectorRef
+     * @param _dynamicService
+     * @param _formBuilder
+     * @param _snackBar
+     */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
         public _loginService: LoginService,
@@ -129,6 +133,21 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         private _formBuilder: FormBuilder,
         private _snackBar: MatSnackBar
     ) {
+        this.form = this._formBuilder.group({
+            id: [null],
+            encerraTarefa: [null],
+            destinacaoMinutas: [null],
+            respostaDocumentoAvulso: [null],
+            especieAtividade: [null, [Validators.required]],
+            dataHoraConclusao: [null, [Validators.required]],
+            usuario: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]],
+            documento: [null],
+            tarefa: [null],
+            unidadeAprovacao: [null, [Validators.required]],
+            setorAprovacao: [null, [Validators.required]],
+            usuarioAprovacao: [null, [Validators.required]]
+        });
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -139,6 +158,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoIds));
 
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
@@ -216,11 +236,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             this.especieAtividadePagination['context'] = {};
             if (tarefa.workflow) {
                 this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.workflow.id' : 'eq:' + tarefa.workflow.id
+                    'transicoesWorkflow.workflow.id': 'eq:' + tarefa.workflow.id
                 };
-                this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
+                this.especieAtividadePagination['context'] = {tarefaId: tarefa.id};
             }
-
         });
 
         this._store.pipe(
@@ -279,11 +298,16 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                     (!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
                 this._changeDetectorRef.markForCheck();
 
+                if (this.atividade.encerraTarefa) {
+                    this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
+                    this.disabledIds = this.minutas.map(minuta => minuta.id);
+                }
+
                 this.lixeiraMinutas$.subscribe((lixeira) => {
                     if (lixeira) {
                         this.minutas = documentos.filter(documento => (documento.apagadoEm));
                     }
-                } );
+                });
             }
         );
 
@@ -362,7 +386,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             }
         );
 
-        atividade.documentos = this.minutas;
+        if (atividade.encerraTarefa) {
+            atividade.documentos = this.minutas;
+        } else {
+            atividade.documentos = this.selectedMinutas;
+        }
 
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveAtividade({
@@ -576,10 +604,22 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new Back());
     }
 
+    changeEncerramentoTarefa(value: boolean): void {
+        this.atividade.encerraTarefa = value;
+        if (value) {
+            const selectedIds = this.minutas.map(minuta => minuta.id);
+            this.changedSelectedIds(selectedIds);
+            this.disabledIds = selectedIds;
+        } else {
+            this.changedSelectedIds([]);
+            this.disabledIds = [];
+        }
+    }
+
     minutasExcluidas(): void {
         this.minutas = [];
         const params = {
-            filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id, 'juntadaAtual':'isNull'},
+            filter: {'tarefaOrigem.id': 'eq:' + this.tarefa.id, 'juntadaAtual': 'isNull'},
             sort: {id: 'DESC'},
             populate: [
                 'tipoDocumento',
