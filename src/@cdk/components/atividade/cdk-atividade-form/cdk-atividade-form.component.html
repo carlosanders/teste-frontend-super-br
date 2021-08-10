@@ -2,7 +2,7 @@
       name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-card *ngIf="temMinutas">
-        <label id="minutas-rg">Selecione a destinação das minutas</label>
+        <label id="minutas-rg">Selecione a destinação das minutas selecionadas</label>
         <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical')}"
                          formControlName="destinacaoMinutas" aria-labelledby="minutas-rg" required>
             <mat-radio-button [value]="'juntar'">
@@ -96,10 +96,12 @@
 
     </mat-card>
 
-
-    <mat-slide-toggle formControlName="encerraTarefa">
-        Encerrar a tarefa
-    </mat-slide-toggle>
+    <div class="encerrar-tarefa">
+        <mat-slide-toggle formControlName="encerraTarefa">
+            Encerrar a tarefa
+        </mat-slide-toggle>
+        <span *ngIf="form.get('encerraTarefa').value">O encerramento da tarefa implica a destinação de todas as minutas</span>
+    </div>
 
     <mat-form-field>
         <input matInput placeholder="Espécie de Atividade"
@@ -167,7 +169,7 @@
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
+                [disabled]="form.invalid || lixeiraMinutas" *ngIf="!saving">
             MOVIMENTAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
