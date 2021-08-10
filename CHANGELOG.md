@@ -507,3 +507,7 @@
 * Melhoria clareza ao usuário que todas as minutas serão destinadas ao criar atividade encerrando tarefa
 * Melhoria exibir todas as minutas da tarefa no editor, na sidebar de atividade, e possibilitar navegação entre elas
 * Correção atualizar minuta na listagem ao fechar dialog de upload de anexos diretamente do processo-view
+* Correção css de listagem de documentos em atividades
+* Correção em código de componente de atividades em bloco
+* Correção em loadings de remoção de documentos em atividades em bloco
+* Correção de modularização do componente de operações em bloco para movimentação de tarefas

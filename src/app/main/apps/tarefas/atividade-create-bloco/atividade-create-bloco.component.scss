@@ -1,13 +1,23 @@
 atividade-create-bloco {
     display: flex;
     flex: 1 1 auto;
+    flex-direction: column;
+    padding: 8px;
+
     > .content {
         display: flex;
         flex: 1 1 auto;
         padding: 8px;
         flex-direction: column;
-        mat-card {
-            margin-bottom: 5px;
+        height: 0;
+        overflow-y: auto;
+
+        > .upload {
+            padding-bottom: 16px;
+            display: flex;
+            flex: 0 1 auto;
+            flex-direction: row;
+            flex-wrap: wrap;
         }
     }
 }

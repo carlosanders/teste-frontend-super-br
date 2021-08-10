@@ -3,27 +3,30 @@
 
     <h2>Atividade em bloco de tarefas</h2>
 
-    <cdk-minutas-atividade-card-list *ngIf="operacoes.length === 0"
-                                     [documentos]="minutas"
-                                     [deletingId]="(deletingDocumentosId$ | async)"
-                                     [assinandoId]="(assinandoDocumentosId$ | async)"
-                                     [convertendoId]="(convertendoDocumentosId$ | async)"
-                                     [alterandoId]="(alterandoDocumentosId$ | async)"
-                                     [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
-                                     [downloadId]="(downloadP7SDocumentosId$ | async)"
-                                     [disabledSelects]="disabledIds"
-                                     (delete)="doDelete($event)"
-                                     (deleteBloco)="doDeleteBloco($event)"
-                                     (assinatura)="doAssinatura($event)"
-                                     (assinaturaBloco)="doAssinaturaBloco($event)"
-                                     (removeAssinatura)="doRemoveAssinatura($event)"
-                                     (converte)="doConverte($event)"
-                                     (converteHtml)="doConverteHtml($event)"
-                                     (downloadP7S)="doDownloadP7S($event)"
-                                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
-                                     (clicked)="onClicked($event)"
-                                     (changedSelectedIds)="changedSelectedIds($event)">
-    </cdk-minutas-atividade-card-list>
+    <div class="upload">
+        <cdk-minutas-atividade-card-list *ngIf="operacoes.length === 0"
+                                         [documentos]="minutas"
+                                         [selectedIds]="(selectedIds$ | async)"
+                                         [deletingId]="(deletingDocumentosId$ | async)"
+                                         [assinandoId]="(assinandoDocumentosId$ | async)"
+                                         [convertendoId]="(convertendoDocumentosId$ | async)"
+                                         [alterandoId]="(alterandoDocumentosId$ | async)"
+                                         [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                                         [downloadId]="(downloadP7SDocumentosId$ | async)"
+                                         [disabledSelects]="disabledIds"
+                                         (delete)="doDelete($event)"
+                                         (deleteBlocoEmmitter)="doDeleteBloco($event)"
+                                         (assinatura)="doAssinatura($event)"
+                                         (assinaturaBloco)="doAssinaturaBloco($event)"
+                                         (removeAssinatura)="doRemoveAssinatura($event)"
+                                         (converte)="doConverte($event)"
+                                         (converteHtml)="doConverteHtml($event)"
+                                         (downloadP7S)="doDownloadP7S($event)"
+                                         (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                         (clicked)="onClicked($event)"
+                                         (changedSelectedIds)="changedSelectedIds($event)">
+        </cdk-minutas-atividade-card-list>
+    </div>
 
     <cdk-atividade-form *ngIf="operacoes.length === 0"
                         [atividade]="atividade"
@@ -48,7 +51,6 @@
                [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
-
 </div>
 
 <router-outlet></router-outlet>

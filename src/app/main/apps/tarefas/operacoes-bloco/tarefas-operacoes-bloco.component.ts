@@ -129,11 +129,12 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             }
         });
 
+        const path2 = 'app/main/apps/tarefas';
         modulesConfig.forEach((module) => {
-            if (module.routerLinks.hasOwnProperty(path) &&
-                module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
-                module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
+            if (module.routerLinks.hasOwnProperty(path2) &&
+                module.routerLinks[path2].hasOwnProperty('atividade-bloco') &&
+                module.routerLinks[path2]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividadeBloco = module.routerLinks[path2]['atividade-bloco'][this.routerState.params.generoHandle];
             }
         });
     }

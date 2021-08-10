@@ -18,9 +18,9 @@ import {getTarefa} from '../../../tarefas/tarefa-detail/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {Back, getRouterState} from '../../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {CdkUtils} from '../../../../../../@cdk/utils';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {CdkUtils} from '@cdk/utils';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'documento-edit-atividade',
