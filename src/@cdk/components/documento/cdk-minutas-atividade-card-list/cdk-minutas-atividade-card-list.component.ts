@@ -132,6 +132,7 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
 
     hasSelected = false;
 
+    @Input()
     isIndeterminate = false;
 
     form: FormGroup;
@@ -173,9 +174,8 @@ export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
             this.selectedIds = [...selectedDocumentoIds, documentoId];
         }
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
-
         this.changedSelectedIds.emit(this.selectedIds);
+        this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
     }
 
     doDelete(documentoId): void {

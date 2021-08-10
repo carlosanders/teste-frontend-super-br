@@ -16,6 +16,7 @@ export interface AtividadeCreateDocumentosState {
     downloadDocumentosP7SIds: number[];
     loadDocumentosExcluidos: boolean;
     lixeiraMinutas: boolean;
+    saving: boolean;
     loading: boolean;
     loaded: boolean;
     error: any;
@@ -36,6 +37,7 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     undeletingDocumentoIds: [],
     bufferingDelete: 0,
     loadDocumentosExcluidos: false,
+    saving: false,
     loading: false,
     loaded: false,
     lixeiraMinutas: false,
@@ -55,14 +57,18 @@ export function AtividadeCreateDocumentosReducer(
 
                 return {
                     ...state,
+                    saving: false,
                     loaded: false,
+                    loading: true,
                     loadDocumentosExcluidos: true,
                     lixeiraMinutas: true
                 };
             } else {
                 return {
                     ...state,
+                    saving: false,
                     loaded: false,
+                    loading: true,
                     loadDocumentosExcluidos: false,
                     lixeiraMinutas: false
                 };
@@ -72,9 +78,17 @@ export function AtividadeCreateDocumentosReducer(
         case AtividadeCreateDocumentosActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
+                loading: false,
                 documentosId: action.payload.entitiesId,
                 documentosLoaded: action.payload.loaded,
                 loadDocumentosExcluidos: false
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.GET_DOCUMENTOS_FAILED: {
+            return {
+                ...state,
+                loading: false
             };
         }
 
@@ -302,6 +316,13 @@ export function AtividadeCreateDocumentosReducer(
             return {
                 ...state,
                 undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id)
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.SET_SAVING: {
+            return {
+                ...state,
+                saving: !state.loading
             };
         }
 
