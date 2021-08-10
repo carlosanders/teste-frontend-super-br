@@ -493,3 +493,5 @@
 * Correçao de bug ao salvar form de usuario externo
 * Correçao form de vinculaçao pessoa-barramento
 * Correçao carregamento de repositorios no form pessoa-barramento
+* Correção para permitir apenas modelos "em branco" na automatização do workflow e das etiquetas
+* Correção para permitir apagar anexos da minuta

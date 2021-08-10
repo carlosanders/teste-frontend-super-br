@@ -183,7 +183,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     doDeleteDocumentoVinculado(documentoId, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
-            documentoId: documentoId,
+            documentoVinculadoId: documentoId,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
