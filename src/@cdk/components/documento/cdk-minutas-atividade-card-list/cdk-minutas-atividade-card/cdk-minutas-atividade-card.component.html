@@ -1,0 +1,152 @@
+<div fxLayout="row">
+
+    <div fxFlex fxLayoutAlign="center center"
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa && !disabledSelect, 'light-green-100':documento.documentoAvulsoRemessa && !disabledSelect, 'grey-100':disabledSelect}">
+        <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
+                      (change)="toggleInSelected(documento.id)"
+                      (click)="$event.stopPropagation();"
+                      [disabled]="disabledSelect">
+        </mat-checkbox>
+    </div>
+
+    <div fxFlex class="p-8 file" fxLayout="column" (click)="onClick(documento)"
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa && !disabledSelect, 'light-green-100':documento.documentoAvulsoRemessa && !disabledSelect, 'grey-100 disabled':disabledSelect}">
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>
+            <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
+            <div class="mr-8">{{documento.tipoDocumento?.sigla || 'OUT'}}</div>
+            <mat-icon *ngIf="documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa"
+                      class="ml-8 mr-8">edit
+            </mat-icon>
+            <mat-icon
+                *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraRemessa && !documento.documentoAvulsoRemessa.dataHoraResposta"
+                class="ml-8 mr-8">screen_share
+            </mat-icon>
+            <mat-icon *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta"
+                      class="ml-8 mr-8">reply
+            </mat-icon>
+            <mat-icon *ngIf="documento.assinado" class="ml-8 mr-8">lock</mat-icon>
+            <mat-icon *ngIf="documento.apagadoEm" class="ml-8 mr-8">delete</mat-icon>
+        </div>
+
+        <div class="space" fxLayout="row" fxLayoutAlign="start center">
+        </div>
+
+    </div>
+
+    <div class="more-vert"
+         *ngIf="mode !== 'editor'"
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa && !disabledSelect, 'light-green-100':documento.documentoAvulsoRemessa && !disabledSelect, 'grey-100 disabled':disabledSelect}">
+        <button
+            *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !undeleting"
+            mat-icon-button
+            [disabled]="disabledSelect"
+            [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
+            <mat-icon>expand_more</mat-icon>
+        </button>
+
+        <div *ngIf="deleting || assinando || convertendo || download || removendoAssinatura || alterando || undeleting"
+             class="spinner-container m-8">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+
+        <mat-menu #menuDocumento="matMenu">
+            <ng-template [ngIf]="!documento.apagadoEm">
+                <button
+                    [disabled]="!podeDeletar"
+                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa)
+                    && this._loginService.isGranted('ROLE_COLABORADOR') && actions.indexOf('delete') > -1"
+                    fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
+                    <mat-icon color="accent">delete</mat-icon>
+                    <span>Apagar</span>
+                </button>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura()" mat-menu-item>
+                    <mat-icon color="accent">lock</mat-icon>
+                    <span>Assinar</span>
+                </button>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)"
+                        mat-menu-item
+                        *ngIf="documento.assinado && _loginService.isGranted('ROLE_COLABORADOR')">
+                    <mat-icon color="accent">lock_open</mat-icon>
+                    <span>Remover Assinatura</span>
+                </button>
+
+                <button fxLayout="row" fxLayoutAlign="start center"
+                        (click)="doConverte(documento.id)"
+                        *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.extensao === 'html' && actions.indexOf('converterPDF') > -1"
+                        mat-menu-item>
+                    <mat-icon color="accent">picture_as_pdf</mat-icon>
+                    <span>Converter em PDF</span>
+                </button>
+
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverteHtml(documento.id)"
+                        *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.convertidoPdf && actions.indexOf('converterHTML') > -1"
+                        mat-menu-item>
+                    <mat-icon color="accent">restore_page</mat-icon>
+                    <span>Converter em HTML</span>
+                </button>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento)" mat-menu-item
+                        *ngIf="documento.assinado && actions.indexOf('downloadP7S') > -1">
+                    <mat-icon color="accent">get_app</mat-icon>
+                    <span>Download em P7S</span>
+                </button>
+                <button
+                    *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta && actions.indexOf('verResposta') > -1"
+                    fxLayout="row" fxLayoutAlign="start center"
+                    (click)="doVerResposta(documento.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
+                    <mat-icon color="accent">picture_as_pdf</mat-icon>
+                    <span>Ver Resposta</span>
+                </button>
+                <button fxLayout="row" fxLayoutAlign="start center"
+                        [disabled]="!podeAlterarTipoDocumento"
+                        *showIfRole="'ROLE_COLABORADOR'"
+                        [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
+                    <mat-icon color="accent">edit</mat-icon>
+                    <span>Alterar Tipo de Documento</span>
+                </button>
+            </ng-template>
+            <ng-template [ngIf]="documento.apagadoEm">
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(documento.id)" mat-menu-item>
+                    <mat-icon color="accent">undo</mat-icon>
+                    <span>Restaurar</span>
+                </button>
+            </ng-template>
+
+        </mat-menu>
+    </div>
+
+    <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento" id="testeMenu">
+        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+              fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()">
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input mat-menu-item matInput placeholder="Tipo de Documento"
+                           formControlName="tipoDocumento"
+                           [matAutocomplete]="tipoDocumento.autocomplete"
+                           (blur)="checkTipoDocumento()">
+                </div>
+                <cdk-tipo-documento-autocomplete
+                    #tipoDocumento="tipoDocumentoAutocomplete"
+                    [control]="form.get('tipoDocumento')"
+                    [pagination]="tipoDocumentoPagination">
+                </cdk-tipo-documento-autocomplete>
+                <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
+                    {{form.get('tipoDocumento').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="salvarTipoDocumento(documento)">
+                SALVAR
+            </button>
+        </form>
+    </mat-menu>
+
+    <div class="card-divider full-width"></div>
+
+    <div class="p-8" fxLayout="row" fxLayoutAlign="end center" fxHide>
+        <button mat-button color="accent">
+            <mat-icon class="secondary-text">delete</mat-icon>
+        </button>
+    </div>
+
+</div>

@@ -1,4 +1,13 @@
 <div class="atividade" *ngIf="this.atividade && this.tarefa">
+    <cdk-minutas-atividade-card-list
+        [documentos]="minutas"
+        [selectedIds]="(selectedIds$ | async)"
+        [mode]="'editor'"
+        [disabledSelects]="disabledIds"
+        (clicked)="onClicked($event)"
+        (changedSelectedIds)="changedSelectedIds($event)">
+    </cdk-minutas-atividade-card-list>
+
     <cdk-atividade-form
         [atividade]="atividade"
         [documentoAvulsoVinculado]="tarefa.processo?.documentoAvulsoOrigem"
@@ -7,9 +16,11 @@
         [setorAprovacaoPagination]="setorAprovacaoPagination"
         [usuarioAprovacaoPagination]="usuarioAprovacaoPagination"
         [temMinutas]="true"
+        [form]="form"
         [mode]="'vertical'"
         [saving]="(atividadeIsSaving$ | async)"
         [errors]="(atividadeErrors$ | async)"
+        (changeEncerramentoTarefa)="changeEncerramentoTarefa($event)"
         (save)="preSubmitAtividade($event)"
         (abort)="doAbort()">
     </cdk-atividade-form>

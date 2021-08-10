@@ -33,6 +33,7 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {modulesConfig} from 'modules/modules-config';
 import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {CdkMinutasAtividadeCardListModule} from "../../../../../../../@cdk/components/documento/cdk-minutas-atividade-card-list/cdk-minutas-atividade-card-list.module";
 
 const routes: Routes = [
     {
@@ -87,6 +88,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         CdkModeloAutocompleteModule,
+        CdkMinutasAtividadeCardListModule,
     ],
     providers: [
         AtividadeService,

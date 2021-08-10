@@ -50,6 +50,41 @@ export class ProcessoViewDocumentosEffects {
     }
 
     /**
+     * Reload Documento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    reloadDocumento: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.ReloadDocumento>(ProcessoViewDocumentosActions.RELOAD_DOCUMENTO),
+                switchMap((action) => {
+                    const populate = [
+                        'tipoDocumento',
+                        'documentoAvulsoRemessa',
+                        'documentoAvulsoRemessa.documentoResposta',
+                        'componentesDigitais',
+                    ];
+
+                    return this._documentoService.get(action.payload, JSON.stringify(populate)).pipe(
+                        mergeMap(response => [
+                            new AddData<Documento>({data: [response], schema: documentoSchema}),
+                            new ProcessoViewDocumentosActions.ReloadDocumentoSuccess(response.id)
+                        ]),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload,
+                                error: err
+                            };
+                            console.log(err);
+                            return of(new ProcessoViewDocumentosActions.ReloadDocumentoFailed(payload));
+                        })
+                    );
+                }),
+            );
+
+    /**
      * Get Documentos with router parameters
      *
      * @type {Observable<any>}
@@ -292,7 +327,7 @@ export class ProcessoViewDocumentosEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaDocumento>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO),
-                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
                     .pipe(
                         map(response => new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response)),
                         catchError((err, caught) => {
@@ -316,7 +351,7 @@ export class ProcessoViewDocumentosEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaJuntada>(ProcessoViewDocumentosActions.ASSINA_JUNTADA),
-                switchMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                     .pipe(
                         mergeMap(response => [
                             new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response),
@@ -412,7 +447,7 @@ export class ProcessoViewDocumentosEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaDocumentoEletronicamente>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
+                mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                     mergeMap((response: Assinatura) => [
                         new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
                         new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -449,7 +484,7 @@ export class ProcessoViewDocumentosEffects {
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaJuntadaEletronicamente>(ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE),
                 withLatestFrom(this._store.pipe(select(getPagination))),
-                switchMap(([action, pagination]) => this._assinaturaService.save(action.payload.assinatura).pipe(
+                mergeMap(([action, pagination]) => this._assinaturaService.save(action.payload.assinatura).pipe(
                     mergeMap((response: Assinatura) => [
                         new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteSuccess(action.payload.documento.id),
                         new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),

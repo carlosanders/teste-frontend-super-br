@@ -210,7 +210,7 @@ export class DocumentosVinculadosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamente>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE),
-                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
+                mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                     mergeMap((response: Assinatura) => [
                         new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(action.payload.documento.id),
                         new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),

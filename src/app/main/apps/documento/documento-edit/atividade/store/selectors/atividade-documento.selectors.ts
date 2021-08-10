@@ -15,3 +15,4 @@ export const getAtividadeErrors = createSelector(
     getAtividadeDocumentoState,
     (state: AtividadeDocumentoState) => state.errors
 );
+

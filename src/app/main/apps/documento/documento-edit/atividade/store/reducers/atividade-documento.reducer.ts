@@ -7,7 +7,7 @@ export interface AtividadeDocumentoState {
 
 export const AtividadeDocumentoInitialState: AtividadeDocumentoState = {
     saving: false,
-    errors: false
+    errors: false,
 };
 
 export function AtividadeDocumentoReducer(state = AtividadeDocumentoInitialState, action: AtividadeDocumentoActions.AtividadeDocumentoActionsAll): AtividadeDocumentoState {
@@ -15,6 +15,7 @@ export function AtividadeDocumentoReducer(state = AtividadeDocumentoInitialState
 
         case AtividadeDocumentoActions.CREATE_ATIVIDADE: {
             return {
+                ...state,
                 saving: false,
                 errors: false
             };

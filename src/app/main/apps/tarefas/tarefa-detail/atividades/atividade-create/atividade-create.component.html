@@ -72,13 +72,16 @@
             </form>
         </mat-menu>
 
-        <cdk-documento-card-list [documentos]="minutas"
+        <cdk-minutas-atividade-card-list
+                                 [documentos]="minutas"
+                                 [selectedIds]="(selectedIds$ | async)"
                                  [deletingId]="(deletingDocumentosId$ | async)"
                                  [assinandoId]="(assinandoDocumentosId$ | async)"
                                  [alterandoId]="(alterandoDocumentosId$ | async)"
                                  [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
                                  [downloadId] ="(downloadP7SDocumentosId$ | async)"
+                                 [disabledSelects]="disabledIds"
                                  (delete)="doDelete($event)"
                                  (deleteBloco)="doDeleteBloco($event)"
                                  (assinaturaBloco)="doAssinaturaBloco($event)"
@@ -95,7 +98,7 @@
                                  [lixeiraMinutas]="(lixeiraMinutas$| async)"
                                  (sairLixeira)="doSairLixeiraMinutas($event)"
                                  [undeletingId]="(undeletingDocumentosId$ | async)">
-        </cdk-documento-card-list>
+        </cdk-minutas-atividade-card-list>
         <cdk-componente-digital-card-list class="componente-digital-card"
                                           #ckdUpload
                                           [tarefaOrigem]="tarefa"
@@ -110,8 +113,11 @@
         [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
         [especieAtividadePagination]="especieAtividadePagination"
         [mode]="mode"
+        [form]="form"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        [lixeiraMinutas]="(lixeiraMinutas$ | async)"
+        (changeEncerramentoTarefa)="changeEncerramentoTarefa($event)"
         (save)="submit($event)"
         (abort)="doAbort()">
     </cdk-atividade-form>
