@@ -87,6 +87,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     loadDocumentosExcluidos$: Observable<boolean>;
     lixeiraMinutas$: Observable<boolean>;
     undeletingDocumentosId$: Observable<number[]>;
+    saving$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
     screen$: Observable<any>;
 
     mobileMode = false;
@@ -154,6 +156,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._profile = _loginService.getUserProfile().colaborador;
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
         this.errorEditor$ = this._store.pipe(select(fromStore.getComponentesDigitaisErrors));
+        this.saving$ = this._store.pipe(select(fromStore.getIsSavingDocumentos));
+        this.isLoading$ = this._store.pipe(select(fromStore.getIsLoadingDocumentos));
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
@@ -441,9 +445,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
-    doDeleteBloco(documentos: Documento[]): void {
+    doDeleteBloco(documentosId: number[]): void {
         this.lote = CdkUtils.makeId();
-        documentos.forEach((documento: Documento) => this.doDelete(documento.id, this.lote));
+        documentosId.forEach((documentoId: number) => this.doDelete(documentoId, this.lote));
     }
 
     doDelete(documentoId: number, loteId: string = null): void {
@@ -562,6 +566,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     onComplete(): void {
+        this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+    }
+
+    onCompleteAll(): void {
         this._store.dispatch(new fromStoreTarefaDetail.GetTarefa({
             id: this.routerState.params['tarefaHandle']
         }));

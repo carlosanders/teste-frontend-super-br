@@ -34,9 +34,9 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {CdkAssinaturaEletronicaPluginComponent} from '../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {UpdateData} from '../../../../@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '../../../../@cdk/normalizr';
+import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr';
 
 @Component({
     selector: 'tarefas',
