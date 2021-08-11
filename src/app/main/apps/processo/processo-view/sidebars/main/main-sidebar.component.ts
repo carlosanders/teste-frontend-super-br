@@ -838,7 +838,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     assinaDocumento(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -1095,9 +1095,37 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((documento: Documento) => {
             this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));
         });
+        const assinaBlocoSub = dialogRef.componentInstance.assinaBloco.subscribe((result) => {
+            if (result.certificadoDigital) {
+                const documentosId = [];
+                result.documentos.forEach((documento) => {
+                    documentosId.push(documento.id);
+                });
+                this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+            } else {
+                result.documentos.forEach((documento) => {
+                    documento.componentesDigitais.forEach((componenteDigital) => {
+                        const assinatura = new Assinatura();
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                });
+            }
+        });
         const assinaSub = dialogRef.componentInstance.assina.subscribe((result) => {
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+                this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
             } else {
                 result.documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -1147,6 +1175,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             alteraTipoSub.unsubscribe();
             aprovaSub.unsubscribe();
             atualizaSub.unsubscribe();
+            assinaBlocoSub.unsubscribe();
             assinaSub.unsubscribe();
             changeSelectedSub.unsubscribe();
             clickedSub.unsubscribe();
@@ -1154,6 +1183,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             deleteSub.unsubscribe();
             downloadP7SSub.unsubscribe();
             removeAssinaturaSub.unsubscribe();
+            this._store.dispatch(new fromStore.ReloadDocumento(documento.id));
         });
     }
 

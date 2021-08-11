@@ -57,6 +57,9 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     errors: any;
 
     @Input()
+    lixeiraMinutas: boolean = false;
+
+    @Input()
     mode = 'horizontal';
 
     @Output()
@@ -89,6 +92,10 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     blocoTarefasFavorito: Tarefa[] = [];
 
+    @Output()
+    changeEncerramentoTarefa: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -210,6 +217,14 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             )
         ).subscribe();
 
+        this.form.get('encerraTarefa').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                this.changeEncerramentoTarefa.emit(value);
+                return of([]);
+            })
+        ).subscribe();
     }
 
     /**
@@ -234,7 +249,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         }
 
-        if (!this.errors) {
+        if (!this.errors && !changes['temMinutas'] && !changes['lixeiraMinutas']) {
             Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
@@ -363,8 +378,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.atividade && this.atividade.tarefa) {
             especieTarefaIdFavorito = this.atividade.tarefa.especieTarefa.id;
         }
-        if (this.blocoTarefasFavorito && this.blocoTarefasFavorito.length > 0)
-        {
+        if (this.blocoTarefasFavorito && this.blocoTarefasFavorito.length > 0) {
             especieTarefaIdFavorito = this.blocoTarefasFavorito[0].especieTarefa.id;
         }
 

@@ -12,9 +12,16 @@ export const ASSINA_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT] ASSINA DOCUMENTO VIN
 export const ASSINA_DOCUMENTO_VINCULADO_SUCCESS = '[DOCUMENTO EDIT] ASSINA DOCUMENTO VINCULADO SUCCESS';
 export const ASSINA_DOCUMENTO_VINCULADO_FAILED = '[DOCUMENTO EDIT] ASSINA DOCUMENTO VINCULADO FAILED';
 
+export const PREPARA_ASSINATURA_VINCULADO_SUCCESS = '[DOCUMENTO EDIT] PREPARA ASSINATURA DOCUMENTO VINCULADO SUCCESS';
+export const PREPARA_ASSINATURA_VINCULADO_FAILED = '[DOCUMENTO EDIT] PREPARA ASSINATURA DOCUMENTO VINCULADO FAILED';
+
 export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE = '[DOCUMENTO EDIT] ASSINA DOCUMENTO VINCULADO ELETRONICAMENTE';
 export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_SUCCESS = '[DOCUMENTO EDIT] ASSINA DOCUMENTO VINCULADO  ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED = '[DOCUMENTO EDIT] ASSINA DOCUMENTO VINCULADO ELETRONICAMENTE FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT] REMOVE ASSINATURA DOCUMENTO VINCULADO';
+export const REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_SUCCESS = '[DOCUMENTO EDIT] REMOVE ASSINATURA DOCUMENTO VINCULADO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_FAILED = '[DOCUMENTO EDIT] REMOVE ASSINATURA DOCUMENTO VINCULADO FAILED';
 
 export const CLICKED_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT] CLICKED DOCUMENTO VINCULADO';
 export const COMPLETE_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT] COMPLETE DOCUMENTO VINCULADO';
@@ -28,6 +35,8 @@ export const UPDATE_DOCUMENTO_FAILED = '[DOCUMENTO EDIT] UPDATE DOCUMENTO FAILED
 export const DOWNLOAD_DOCUMENTO_P7S = '[DOCUMENTO EDIT] DOWNLOAD DOCUMENTOP7S DOCUMENTO';
 export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[DOCUMENTO EDIT] DOWNLOAD DOCUMENTOP7S DOCUMENTO SUCCESS';
 export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[DOCUMENTO EDIT] DOWNLOAD DOCUMENTOP7S FAILED';
+
+export const SET_SAVING = '[DOCUMENTO EDIT] SET SAVING COMPONENTES DIGITAIS';
 
 /**
  * Get Documentos Vinculados
@@ -138,6 +147,30 @@ export class AssinaDocumentoVinculadoFailed implements Action
 }
 
 /**
+ * Prepara Assinatura Vinculado Success
+ */
+export class PreparaAssinaturaVinculadoSuccess implements Action
+{
+    readonly type = PREPARA_ASSINATURA_VINCULADO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Prepara Assinatura Vinculado Failed
+ */
+export class PreparaAssinaturaVinculadoFailed implements Action
+{
+    readonly type = PREPARA_ASSINATURA_VINCULADO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Assina Documento Vinculado Eletronicamente
  */
 export class AssinaDocumentoVinculadoEletronicamente implements Action
@@ -167,6 +200,42 @@ export class AssinaDocumentoVinculadoEletronicamenteSuccess implements Action
 export class AssinaDocumentoVinculadoEletronicamenteFailed implements Action
 {
     readonly type = ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Vinculado
+ */
+export class RemoveAssinaturaDocumentoVinculado implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_VINCULADO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Vinculado Success
+ */
+export class RemoveAssinaturaDocumentoVinculadoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Vinculado Failed
+ */
+export class RemoveAssinaturaDocumentoVinculadoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_FAILED;
 
     constructor(public payload: any)
     {
@@ -274,6 +343,15 @@ export class DownloadP7SFailed implements Action
     }
 }
 
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -283,9 +361,14 @@ export type DocumentosVinculadosActionsAll
     | AssinaDocumentoVinculado
     | AssinaDocumentoVinculadoSuccess
     | AssinaDocumentoVinculadoFailed
+    | PreparaAssinaturaVinculadoSuccess
+    | PreparaAssinaturaVinculadoFailed
     | AssinaDocumentoVinculadoEletronicamente
     | AssinaDocumentoVinculadoEletronicamenteSuccess
     | AssinaDocumentoVinculadoEletronicamenteFailed
+    | RemoveAssinaturaDocumentoVinculado
+    | RemoveAssinaturaDocumentoVinculadoSuccess
+    | RemoveAssinaturaDocumentoVinculadoFailed
     | DeleteDocumentoVinculado
     | DeleteDocumentoVinculadoSuccess
     | DeleteDocumentoVinculadoFailed
@@ -295,4 +378,5 @@ export type DocumentosVinculadosActionsAll
     | UpdateDocumentoFailed
     | DownloadP7S
     | DownloadP7SFailed
-    | DownloadP7SSuccess;
+    | DownloadP7SSuccess
+    | SetSavingComponentesDigitais;

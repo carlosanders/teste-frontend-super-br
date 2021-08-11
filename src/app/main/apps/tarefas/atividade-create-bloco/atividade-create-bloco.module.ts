@@ -35,6 +35,7 @@ import {MatCardModule} from '@angular/material/card';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
+import {CdkMinutasAtividadeCardListModule} from '@cdk/components/documento/cdk-minutas-atividade-card-list/cdk-minutas-atividade-card-list.module';
 
 const routes: Routes = [
     {
@@ -92,7 +93,8 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         CdkDocumentoCardListModule,
-        PipesModule
+        PipesModule,
+        CdkMinutasAtividadeCardListModule
     ],
     providers: [
         AtividadeService,

@@ -15,19 +15,19 @@ import {cdkAnimations} from '@cdk/animations';
 import {Documento, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {CdkAssinaturaEletronicaPluginComponent} from "../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
-import {filter} from "rxjs/operators";
-import {MatDialog} from "../../../angular/material";
+import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {filter} from 'rxjs/operators';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
-    selector: 'cdk-documento-card-list',
-    templateUrl: './cdk-documento-card-list.component.html',
-    styleUrls: ['./cdk-documento-card-list.component.scss'],
+    selector: 'cdk-minutas-atividade-card-list',
+    templateUrl: './cdk-minutas-atividade-card-list.component.html',
+    styleUrls: ['./cdk-minutas-atividade-card-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
+export class CdkMinutasAtividadeCardListComponent implements OnInit, OnChanges {
 
     @Input()
     actions = ['delete', 'alterarTipo', 'removerAssinatura', 'converterPDF', 'converterHTML', 'downloadP7S', 'verResposta', 'select'];
@@ -37,6 +37,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     documentos: Documento[];
+
+    @Input()
+    disabledSelects: number[] = [];
+
+    @Input()
+    mode = 'atividade';
 
     @Output()
     delete = new EventEmitter<number>();
@@ -121,10 +127,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
+    @Input()
     selectedIds: number[] = [];
 
     hasSelected = false;
 
+    @Input()
     isIndeterminate = false;
 
     form: FormGroup;
@@ -166,9 +174,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
             this.selectedIds = [...selectedDocumentoIds, documentoId];
         }
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
-
         this.changedSelectedIds.emit(this.selectedIds);
+        this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
     }
 
     doDelete(documentoId): void {
@@ -217,6 +224,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     doAssinaturaDocumentoBloco(): void {
+        this.doAssinatura(this.selectedIds);
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
@@ -253,12 +261,14 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
      * @param ev
      */
     toggleSelectAll(ev): void {
-        ev.preventDefault();
+        if (!this.disabledSelects.length) {
+            ev.preventDefault();
 
-        if (this.selectedIds.length && this.selectedIds.length > 0) {
-            this.deselectAll();
-        } else {
-            this.selectAll();
+            if (this.selectedIds.length && this.selectedIds.length > 0) {
+                this.deselectAll();
+            } else {
+                this.selectAll();
+            }
         }
     }
 

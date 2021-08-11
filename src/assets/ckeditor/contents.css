@@ -85,7 +85,7 @@ p.numerado {
 }
 
 img {
-	max-width: 185mm;
+	max-width: 160mm;
 }
 
 table {
@@ -94,7 +94,8 @@ table {
 	border-color: black;
 	border-collapse: collapse;
 	font-size: 11pt;
-	max-width: 210mm;
+	max-width: 160mm;
+    word-break: break-word;
 }
 
 table th {

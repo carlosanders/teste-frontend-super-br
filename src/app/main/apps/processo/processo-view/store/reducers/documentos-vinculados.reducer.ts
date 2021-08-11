@@ -75,19 +75,19 @@ export function DocumentosVinculadosReducer(
             };
         }
 
-        case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO_FAILED: {
-            return {
-                ...state,
-                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
-            };
-        }
-
         case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO_SUCCESS: {
             return {
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
                 documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO_FAILED: {
+            return {
+                ...state,
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
             };
         }
 
@@ -175,7 +175,9 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.UPDATE_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
-                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id]
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
+                loaded: false,
+                loading: true,
             };
         }
 
@@ -184,7 +186,9 @@ export function DocumentosVinculadosReducer(
                 ...state,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                documentosId: state.documentosId.filter(id => id !== action.payload),
+                loaded: true,
+                loading: false,
             };
         }
 

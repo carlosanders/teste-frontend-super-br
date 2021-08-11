@@ -12,14 +12,31 @@ export const ASSINA_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT DOCUMENTO AVULSO] ASS
 export const ASSINA_DOCUMENTO_VINCULADO_SUCCESS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] ASSINA DOCUMENTO VINCULADO SUCCESS';
 export const ASSINA_DOCUMENTO_VINCULADO_FAILED = '[DOCUMENTO EDIT DOCUMENTO AVULSO] ASSINA DOCUMENTO VINCULADO FAILED';
 
+export const PREPARA_ASSINATURA_VINCULADO_SUCCESS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] PREPARA ASSINATURA DOCUMENTO VINCULADO SUCCESS';
+export const PREPARA_ASSINATURA_VINCULADO_FAILED = '[DOCUMENTO EDIT DOCUMENTO AVULSO] PREPARA ASSINATURA DOCUMENTO VINCULADO FAILED';
+
 export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE = '[DOCUMENTO EDIT DOCUMENTO AVULSO] ASSINA DOCUMENTO VINCULADO ELETRONICAMENTE';
 export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_SUCCESS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] ASSINA DOCUMENTO VINCULADO  ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED = '[DOCUMENTO EDIT DOCUMENTO AVULSO] ASSINA DOCUMENTO VINCULADO ELETRONICAMENTE FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT DOCUMENTO AVULSO] REMOVE ASSINATURA DOCUMENTO VINCULADO';
+export const REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_SUCCESS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] REMOVE ASSINATURA DOCUMENTO VINCULADO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_FAILED = '[DOCUMENTO EDIT DOCUMENTO AVULSO] REMOVE ASSINATURA DOCUMENTO VINCULADO FAILED';
 
 export const CLICKED_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT DOCUMENTO AVULSO] CLICKED DOCUMENTO VINCULADO';
 export const COMPLETE_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT DOCUMENTO AVULSO] COMPLETE DOCUMENTO VINCULADO';
 
 export const CHANGE_SELECTED_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] CHANGE SELECTED DOCUMENTOS VINCULADOS';
+
+export const UPDATE_DOCUMENTO = '[DOCUMENTO EDIT DOCUMENTO AVULSO] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_FAILED = '[DOCUMENTO EDIT DOCUMENTO AVULSO] UPDATE DOCUMENTO FAILED';
+
+export const DOWNLOAD_DOCUMENTO_P7S = '[DOCUMENTO EDIT DOCUMENTO AVULSO] DOWNLOAD DOCUMENTOP7S DOCUMENTO';
+export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] DOWNLOAD DOCUMENTOP7S DOCUMENTO SUCCESS';
+export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[DOCUMENTO EDIT DOCUMENTO AVULSO] DOWNLOAD DOCUMENTOP7S FAILED';
+
+export const SET_SAVING = '[DOCUMENTO EDIT DOCUMENTO AVULSO] SET SAVING COMPONENTES DIGITAIS';
 
 /**
  * Get Documentos Vinculados
@@ -130,6 +147,30 @@ export class AssinaDocumentoVinculadoFailed implements Action
 }
 
 /**
+ * Prepara Assinatura Vinculado Success
+ */
+export class PreparaAssinaturaVinculadoSuccess implements Action
+{
+    readonly type = PREPARA_ASSINATURA_VINCULADO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Prepara Assinatura Vinculado Failed
+ */
+export class PreparaAssinaturaVinculadoFailed implements Action
+{
+    readonly type = PREPARA_ASSINATURA_VINCULADO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Assina Documento Vinculado Eletronicamente
  */
 export class AssinaDocumentoVinculadoEletronicamente implements Action
@@ -159,6 +200,42 @@ export class AssinaDocumentoVinculadoEletronicamenteSuccess implements Action
 export class AssinaDocumentoVinculadoEletronicamenteFailed implements Action
 {
     readonly type = ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Vinculado
+ */
+export class RemoveAssinaturaDocumentoVinculado implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_VINCULADO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Vinculado Success
+ */
+export class RemoveAssinaturaDocumentoVinculadoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Vinculado Failed
+ */
+export class RemoveAssinaturaDocumentoVinculadoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_FAILED;
 
     constructor(public payload: any)
     {
@@ -199,6 +276,82 @@ export class CompleteDocumentoVinculado implements Action
     }
 }
 
+/**
+ * Update Documento
+ */
+export class UpdateDocumento implements Action
+{
+    readonly type = UPDATE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Success
+ */
+export class UpdateDocumentoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Documento Failed
+ */
+export class UpdateDocumentoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
+ * Download Documento P7S
+ */
+export class DownloadP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -208,10 +361,22 @@ export type DocumentosVinculadosActionsAll
     | AssinaDocumentoVinculado
     | AssinaDocumentoVinculadoSuccess
     | AssinaDocumentoVinculadoFailed
+    | PreparaAssinaturaVinculadoSuccess
+    | PreparaAssinaturaVinculadoFailed
     | AssinaDocumentoVinculadoEletronicamente
     | AssinaDocumentoVinculadoEletronicamenteSuccess
     | AssinaDocumentoVinculadoEletronicamenteFailed
+    | RemoveAssinaturaDocumentoVinculado
+    | RemoveAssinaturaDocumentoVinculadoSuccess
+    | RemoveAssinaturaDocumentoVinculadoFailed
     | DeleteDocumentoVinculado
     | DeleteDocumentoVinculadoSuccess
     | DeleteDocumentoVinculadoFailed
-    | ChangeSelectedDocumentosVinculados;
+    | ChangeSelectedDocumentosVinculados
+    | UpdateDocumento
+    | UpdateDocumentoSuccess
+    | UpdateDocumentoFailed
+    | DownloadP7S
+    | DownloadP7SFailed
+    | DownloadP7SSuccess
+    | SetSavingComponentesDigitais;

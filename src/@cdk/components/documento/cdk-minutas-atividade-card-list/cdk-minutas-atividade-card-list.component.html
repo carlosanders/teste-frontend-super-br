@@ -1,0 +1,142 @@
+<div class="toolbar pt-8 pb-8 pl-0 pr-8" *ngIf="loading || saving || loadingDocumentosExcluidos || lixeiraMinutas || documentos?.length > 0">
+    <div class="multiple-choices" *ngIf="documentos.length > 0">
+
+        <mat-checkbox (click)="toggleSelectAll($event)"
+                      [checked]="selectedIds.length > 0"
+                      [disabled]="disabledSelects.length > 0"
+                      *ngIf="documentos.length > 1 && mode !== 'editor'"
+                      [indeterminate]="isIndeterminate">
+        </mat-checkbox>
+
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu" #menuTriggerList="matMenuTrigger"
+                aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                [disabled]="disabledSelects.length > 0"
+                *ngIf="documentos.length > 1 && selectedIds?.length > 1 && disabledSelects.length === 0">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <div *ngIf="!lixeiraMinutas">
+                <button
+                    [disabled]="actions.indexOf('delete') === -1"
+                    mat-menu-item aria-label="remover"
+                    *showIfRole="'ROLE_COLABORADOR'"
+                    (click)="doDeleteDocumentoBloco()">
+                    <ng-container>
+                        <mat-icon>delete</mat-icon>
+                        <span>Apagar Minutas</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="assinar"
+                        (click)="doAssinaturaDocumentoBloco()">
+                    <ng-container>
+                        <mat-icon>lock</mat-icon>
+                        <span>Assinar</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="remover assinatura"
+                        *showIfRole="'ROLE_COLABORADOR'"
+                        (click)="doRemoveAssinaturaDocumentoBloco()">
+                    <ng-container>
+                        <mat-icon>lock_open</mat-icon>
+                        <span>Remover Assinaturas</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="editar tarefa"
+                        (click)="doConverteDocumentoBloco()">
+                    <ng-container>
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        <span>Converter em PDF</span>
+                    </ng-container>
+                </button>
+
+                <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
+                        *showIfRole="'ROLE_COLABORADOR'"
+                        [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Alterar Tipo de Documento</span>
+                </button>
+            </div>
+
+            <div *ngIf="lixeiraMinutas">
+                <button mat-menu-item aria-label="remover" *showIfRole="'ROLE_COLABORADOR'"
+                        (click)="doRestaurarBloco()">
+                    <ng-container>
+                        <mat-icon>undo</mat-icon>
+                        <span>Restaurar Minutas</span>
+                    </ng-container>
+                </button>
+            </div>
+        </mat-menu>
+    </div>
+
+    <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento">
+        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+              fxFlex="1 0 auto" [formGroup]="form" (click)="$event.stopPropagation()">
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
+                    <input matInput placeholder="Tipo de Documento"
+                           formControlName="tipoDocumen"
+                           [matAutocomplete]="tipoDocumento.autocomplete"
+                           (blur)="checkTipoDocument()">
+                </div>
+                <cdk-tipo-documento-autocomplete
+                    #tipoDocumento="tipoDocumentoAutocomplete"
+                    [control]="form.get('tipoDocumen')"
+                    [pagination]="tipoDocumentoPagination">
+                </cdk-tipo-documento-autocomplete>
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="doAlterarDocumentoBloco()">
+                SALVAR
+            </button>
+        </form>
+    </mat-menu>
+
+    <button mat-mini-fab *ngIf="!loadingDocumentosExcluidos && lixeiraMinutas"
+            class="m-4 active accent" aria-label="Sair da lixeira"
+            (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
+        <mat-icon class="secondary-text">exit_to_app</mat-icon>
+    </button>
+
+    <div *ngIf="loadingDocumentosExcluidos" class="spinner-container m-8">
+        <mat-spinner diameter="24"></mat-spinner>
+    </div>
+
+    <cdk-minutas-atividade-card class="ml-8 mb-8"
+                                *ngFor="let documento of documentos"
+                                [documento]="documento"
+                                [selected]="selectedIds?.indexOf(documento.id) > -1"
+                                [deleting]="deletingId?.indexOf(documento.id) > -1"
+                                [assinando]="assinandoId?.indexOf(documento.id) > -1"
+                                [alterando]="alterandoId?.indexOf(documento.id) > -1"
+                                [undeleting]="undeletingId?.indexOf(documento.id) > -1"
+                                [removendoAssinatura]="removendoAssinaturaId?.indexOf(documento.id) > -1"
+                                [convertendo]="convertendoId?.indexOf(documento.id) > -1"
+                                [download]="downloadId?.indexOf(documento.id) > -1"
+                                [disabledSelect]="disabledSelects.indexOf(documento.id) > -1"
+                                [mode]="mode"
+                                [actions]="actions"
+                                [tipoDocumentoPagination]="tipoDocumentoPagination"
+                                [tiposDocumentosNaoEditaveis]="tiposDocumentosNaoEditaveis"
+                                (delete)="doDelete($event)"
+                                (verResposta)="doVerResposta($event)"
+                                (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                (assinatura)="doAssinatura($event)"
+                                (removeAssinatura)="doRemoveAssinatura($event)"
+                                (converte)="doConverte($event)"
+                                (converteHtml)="doConverteHtml($event)"
+                                (downloadP7s)="doDownloadP7S($event)"
+                                (restaurar)="doRestaurar($event)"
+                                (clicked)="onClick($event)"
+                                (changedSelected)="toggleInSelected($event)">
+    </cdk-minutas-atividade-card>
+    <div class="loading" *ngIf="saving">
+        <mat-spinner class="anexos-loading" diameter="24"></mat-spinner>
+    </div>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner class="anexos-loading" diameter="24"></mat-spinner>
+    </div>
+</div>

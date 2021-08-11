@@ -72,15 +72,20 @@
             </form>
         </mat-menu>
 
-        <cdk-documento-card-list [documentos]="minutas"
+        <cdk-minutas-atividade-card-list
+                                 [documentos]="minutas"
+                                 [selectedIds]="(selectedIds$ | async)"
                                  [deletingId]="(deletingDocumentosId$ | async)"
                                  [assinandoId]="(assinandoDocumentosId$ | async)"
                                  [alterandoId]="(alterandoDocumentosId$ | async)"
                                  [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
                                  [downloadId] ="(downloadP7SDocumentosId$ | async)"
+                                 [disabledSelects]="disabledIds"
+                                 [saving]="(saving$ | async)"
+                                 [loading]="(isLoading$ | async)"
                                  (delete)="doDelete($event)"
-                                 (deleteBloco)="doDeleteBloco($event)"
+                                 (deleteBlocoEmmitter)="doDeleteBloco($event)"
                                  (assinaturaBloco)="doAssinaturaBloco($event)"
                                  (removeAssinatura)="doRemoveAssinatura($event)"
                                  (assinatura)="doAssinatura($event)"
@@ -95,11 +100,12 @@
                                  [lixeiraMinutas]="(lixeiraMinutas$| async)"
                                  (sairLixeira)="doSairLixeiraMinutas($event)"
                                  [undeletingId]="(undeletingDocumentosId$ | async)">
-        </cdk-documento-card-list>
+        </cdk-minutas-atividade-card-list>
         <cdk-componente-digital-card-list class="componente-digital-card"
                                           #ckdUpload
                                           [tarefaOrigem]="tarefa"
                                           (completed)="onComplete()"
+                                          (completedAll)="onCompleteAll()"
                                           (erroUpload)="erroUpload($event)">
         </cdk-componente-digital-card-list>
     </div>
@@ -110,8 +116,11 @@
         [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
         [especieAtividadePagination]="especieAtividadePagination"
         [mode]="mode"
+        [form]="form"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        [lixeiraMinutas]="(lixeiraMinutas$ | async)"
+        (changeEncerramentoTarefa)="changeEncerramentoTarefa($event)"
         (save)="submit($event)"
         (abort)="doAbort()">
     </cdk-atividade-form>
