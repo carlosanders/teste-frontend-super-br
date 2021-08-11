@@ -239,8 +239,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(assuntoAdministrativo.id) > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && assuntoAdministrativo.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(assuntoAdministrativo.id) > -1 && !hasExcluded || assuntoAdministrativo.immutable === true"
                                 (click)="editAssuntoAdministrativo(assuntoAdministrativo.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
@@ -252,8 +252,8 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(assuntoAdministrativo.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(assuntoAdministrativo.id) > -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(assuntoAdministrativo.id) === -1 && !hasExcluded && assuntoAdministrativo.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(assuntoAdministrativo.id) > -1 || assuntoAdministrativo.immutable === true"
                                 (click)="deleteAssuntoAdministrativo(assuntoAdministrativo.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">

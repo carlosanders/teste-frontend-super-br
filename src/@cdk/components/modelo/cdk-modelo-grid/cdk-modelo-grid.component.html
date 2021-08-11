@@ -284,8 +284,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(modelo.id) > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && modelo.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(modelo.id) > -1 || modelo.immutable === true"
                                 (click)="editModelo(modelo.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
@@ -293,8 +293,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('editConteudo') > -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(modelo.id) > -1"
+                                *ngIf="actions.indexOf('editConteudo') > -1 && !hasExcluded && modelo.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(modelo.id) > -1 || modelo.immutable === true"
                                 (click)="editConteudoModelo(modelo.documento)"
                                 aria-label="editar conteúdo"
                                 matTooltip="Editar Conteúdo">
@@ -311,8 +311,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modelo.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(modelo.id) > -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modelo.id) === -1 && !hasExcluded && modelo.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(modelo.id) > -1 || modelo.immutable === true"
                                 (click)="deleteModelo(modelo.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">

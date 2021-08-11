@@ -212,8 +212,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(modalidadevinculacaoProcesso.id) > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && modalidadevinculacaoProcesso.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(modalidadevinculacaoProcesso.id) > -1 || modalidadevinculacaoProcesso.immutable === true"
                                 (click)="editModalidadeVinculacaoProcesso(modalidadevinculacaoProcesso.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
@@ -226,8 +226,8 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidadevinculacaoProcesso.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(modalidadevinculacaoProcesso.id) > -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidadevinculacaoProcesso.id) === -1 && !hasExcluded && modalidadevinculacaoProcesso.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(modalidadevinculacaoProcesso.id) > -1 || modalidadevinculacaoProcesso.immutable === true"
                                 (click)="deleteModalidadeVinculacaoProcesso(modalidadevinculacaoProcesso.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">

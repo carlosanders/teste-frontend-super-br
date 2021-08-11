@@ -211,8 +211,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(especieSetor.id) > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && especieSetor.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(especieSetor.id) > -1 && !hasExcluded || especieSetor.immutable === true"
                                 (click)="editEspecieSetor(especieSetor.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
