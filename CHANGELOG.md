@@ -512,3 +512,5 @@
 * Correção em loadings de remoção de documentos em atividades em bloco
 * Correção de modularização do componente de operações em bloco para movimentação de tarefas
 * Correção na largura máxima de imagens e tabelas no editor de textos
+* Melhoria minutas da tarefa iniciam todas selecionadas ao criar atividade
+* Melhoria Ocultando o checkbox de selecionar todas as minutas caso Encerrar Tarefa estiver marcado

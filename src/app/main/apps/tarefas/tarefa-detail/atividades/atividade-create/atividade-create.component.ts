@@ -300,16 +300,20 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             (documentos) => {
                 this.minutas = documentos.filter(documento =>
                     (!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
-                this._changeDetectorRef.markForCheck();
+
+                this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
 
                 if (this.atividade.encerraTarefa) {
-                    this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
                     this.disabledIds = this.minutas.map(minuta => minuta.id);
                 }
+                this._changeDetectorRef.markForCheck();
 
                 this.lixeiraMinutas$.subscribe((lixeira) => {
                     if (lixeira) {
                         this.minutas = documentos.filter(documento => (documento.apagadoEm));
+                        this.changedSelectedIds([]);
+                        this.disabledIds = [];
+                        this._changeDetectorRef.markForCheck();
                     }
                 });
             }
@@ -619,7 +623,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             this.changedSelectedIds(selectedIds);
             this.disabledIds = selectedIds;
         } else {
-            this.changedSelectedIds([]);
             this.disabledIds = [];
         }
     }
