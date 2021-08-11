@@ -203,8 +203,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(generoProcesso.id) > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && generoProcesso.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(generoProcesso.id) > -1 || generoProcesso.immutable === true"
                                 (click)="editGeneroProcesso(generoProcesso.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
@@ -216,8 +216,8 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(generoProcesso.id) === -1"
-                                [disabled]="deletedIds?.indexOf(generoProcesso.id) > -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(generoProcesso.id) === -1 && generoProcesso.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(generoProcesso.id) > -1 || generoProcesso.immutable === true"
                                 (click)="deleteGeneroProcesso(generoProcesso.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">
