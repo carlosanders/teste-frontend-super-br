@@ -262,12 +262,13 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             (documentos) => {
                 this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
                 this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
-                this._changeDetectorRef.markForCheck();
+
+                this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
 
                 if (this.atividade.encerraTarefa) {
-                    this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
                     this.disabledIds = this.minutas.map(minuta => minuta.id);
                 }
+                this._changeDetectorRef.markForCheck();
             }
         );
 
@@ -457,7 +458,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             this.changedSelectedIds(selectedIds);
             this.disabledIds = selectedIds;
         } else {
-            this.changedSelectedIds([]);
             this.disabledIds = [];
         }
     }
