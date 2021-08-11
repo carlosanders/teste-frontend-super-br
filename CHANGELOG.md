@@ -511,3 +511,4 @@
 * Correção em código de componente de atividades em bloco
 * Correção em loadings de remoção de documentos em atividades em bloco
 * Correção de modularização do componente de operações em bloco para movimentação de tarefas
+* Correção na largura máxima de imagens e tabelas no editor de textos
