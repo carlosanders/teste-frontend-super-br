@@ -25,7 +25,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -34,9 +34,9 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {CdkAssinaturaEletronicaPluginComponent} from '../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {UpdateData} from '../../../../@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '../../../../@cdk/normalizr';
+import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr';
 
 @Component({
     selector: 'tarefas',
@@ -251,11 +251,26 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routerState = routerState.state;
                 this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
                 this.targetHandle = routerState.state.params['targetHandle'];
-            }
 
-            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
-            if (this.snackSubscription) {
-                this._store.dispatch(new fromStore.DeleteTarefaFlush());
+                //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+                if (this.snackSubscription) {
+                    this._store.dispatch(new fromStore.DeleteTarefaFlush());
+                }
+
+                const path = 'app/main/apps/tarefas';
+                modulesConfig.forEach((module) => {
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividades') &&
+                        module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+                    }
+
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
+                        module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
+                    }
+                });
             }
         });
 

@@ -1,8 +1,18 @@
 import {CdkNavigation} from '@cdk/types';
+import {modulesConfig} from "../../modules/modules-config";
 
-export const navigationConverter = {
+export let navigationConverter = {
     'arquivistico': 'arquivístico'
 };
+
+modulesConfig.forEach((module) => {
+    if (module.navigationConverter?.hasOwnProperty('mainMenu')) {
+        navigationConverter = {
+            ...navigationConverter,
+            ...module.navigationConverter.mainMenu
+        }
+    }
+});
 
 export const navigation: CdkNavigation[] = [
     {
@@ -38,7 +48,8 @@ export const navigation: CdkNavigation[] = [
                             title: '0',
                             bg : '#F44336',
                             fg: '#FFFFFF'
-                        }
+                        },
+                        role: 'ROLE_COLABORADOR'
                     },
                     {
                         id: 'tarefas_pendentes_arquivístico',

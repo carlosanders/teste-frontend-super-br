@@ -217,7 +217,6 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     doAssinaturaDocumentoBloco(): void {
-        this.doAssinatura(this.selectedIds);
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });

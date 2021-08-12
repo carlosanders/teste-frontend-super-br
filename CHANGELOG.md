@@ -473,3 +473,44 @@
 * Correção no ordenamento de versões de documentos
 * Correção no upload de fotos no perfil
 * Correção vinculação de documentos
+
+1.6.5
+
+* Correção quebra de linhas nas juntados da visualização do processo quando ja anexos e multiplos componentes digitais
+* Correção comportamento de filtros de criação de relatórios
+* Correção css de filtros de criação de relatórios
+* Correção ao trocar tipo de relatório, filtros anteriores continuavam sendo exibidos
+* Correção ao digitar nos campos de autocomplete, formulário era liberado para envio
+* Melhoria recebendo status do relatório do backend e do mercure
+* Melhoria para exibir informação que um componente digital não html/pdf teve o download realizado no visualizador do processo
+* Melhoria para logar no backend erros ocorridos no frontend
+* Correção na assinatura de minutas em bloco
+* Correção na pesquisa de outro numero processo
+* Melhoria fazer o download não html/pdf no processo view por demanda do usuário
+* Correção no roteamento de movimentacao de processos com uso de plugins
+* Correção no form de parâmetros dos Relatórios
+* Correçao carregamento gridsearch especie-tarefa no tarefa form
+* Correçao de bug ao salvar form de usuario externo
+* Correçao form de vinculaçao pessoa-barramento
+* Correçao carregamento de repositorios no form pessoa-barramento
+* Correção para permitir apenas modelos "em branco" na automatização do workflow e das etiquetas
+* Correção para permitir apagar anexos da minuta
+* Correção apagar anexos dentro do editor de minuta
+* Correção apagar anexos dentro do editor de ofício
+* Correção assinatura de anexos dentro de editor de minuta
+* Correção assinatura de anexos dentro de editor de ofício
+* Correção apagar anexos em bloco dentro de editor de minuta
+* Correção apagar anexos em bloco dentro de editor de ofício
+* Correção remover assinatura de anexos dentro de editor de minuta
+* Correção remover assinatura de anexos dentro de editor de ofício
+* Melhoria possibilitar seleção de minutas que serão destinadas ao criar atividade sem encerrar tarefa
+* Melhoria clareza ao usuário que todas as minutas serão destinadas ao criar atividade encerrando tarefa
+* Melhoria exibir todas as minutas da tarefa no editor, na sidebar de atividade, e possibilitar navegação entre elas
+* Correção atualizar minuta na listagem ao fechar dialog de upload de anexos diretamente do processo-view
+* Correção css de listagem de documentos em atividades
+* Correção em código de componente de atividades em bloco
+* Correção em loadings de remoção de documentos em atividades em bloco
+* Correção de modularização do componente de operações em bloco para movimentação de tarefas
+* Correção na largura máxima de imagens e tabelas no editor de textos
+* Melhoria minutas da tarefa iniciam todas selecionadas ao criar atividade
+* Melhoria Ocultando o checkbox de selecionar todas as minutas caso Encerrar Tarefa estiver marcado

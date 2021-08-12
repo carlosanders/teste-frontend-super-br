@@ -16,10 +16,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as AtividadeBlocoCreateDocumentosActionsAll from '../actions/documentos.actions';
 import {getSelectedTarefas} from '../../../store';
-import * as fromStore from "../index";
-import * as OperacoesActions from "../../../../../../store/actions/operacoes.actions";
-import {AssinaturaService} from "../../../../../../../@cdk/services/assinatura.service";
-import {ComponenteDigitalService} from "../../../../../../../@cdk/services/componente-digital.service";
+import * as fromStore from '../index';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
 export class AtividadeCreateBlocoDocumentosEffect {
@@ -359,7 +359,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                     content: 'Salvando a assinatura ...',
                     status: 0, // carregando
                 }))),
-                switchMap(action => {
+                mergeMap(action => {
                     return this._assinaturaService.save(action.payload.assinatura).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({

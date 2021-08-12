@@ -7,7 +7,9 @@ export interface DocumentosVinculadosState {
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     alterandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
     downloadDocumentosP7SIds: number[];
+    saving: boolean;
     loading: boolean;
     loaded: boolean;
     error: any;
@@ -20,7 +22,9 @@ export const DocumentosVinculadosInitialState: DocumentosVinculadosState = {
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
     alterandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
     downloadDocumentosP7SIds: [],
+    saving: false,
     loading: false,
     loaded: false,
     error: null,
@@ -32,11 +36,28 @@ export function DocumentosVinculadosReducer(
 ): DocumentosVinculadosState {
     switch (action.type) {
 
+        case DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS: {
+            return {
+                ...state,
+                saving: false,
+                loading: true,
+                documentosLoaded: false,
+            };
+        }
+
         case DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS_SUCCESS: {
             return {
                 ...state,
+                loading: false,
                 documentosId: action.payload.entitiesId,
                 documentosLoaded: action.payload.loaded,
+            };
+        }
+
+        case DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS_FAILED: {
+            return {
+                ...state,
+                loading: false
             };
         }
 
@@ -50,7 +71,7 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoVinculadoId]
             };
         }
 
@@ -60,6 +81,13 @@ export function DocumentosVinculadosReducer(
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
                 documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO_FAILED: {
+            return {
+                ...state,
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
             };
         }
 
@@ -81,6 +109,59 @@ export function DocumentosVinculadosReducer(
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosVinculadosActions.PREPARA_ASSINATURA_VINCULADO_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id),
+                error: action.payload.error
+            };
+        }
+
+        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                error: false
+            };
+        }
+
+        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
+                error: false
+            };
+        }
+
+        case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
+                error: action.payload.error
+            };
+        }
+
+        case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+            };
+        }
+
+        case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_SUCCESS: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
@@ -114,11 +195,11 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.UPDATE_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                loaded: false,
                 loading: false,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
             };
         }
-
 
         case DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S: {
             return {
@@ -136,6 +217,12 @@ export function DocumentosVinculadosReducer(
             return {
                 ...state,
                 downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
+            };
+        }
+        case DocumentosVinculadosActions.SET_SAVING: {
+            return {
+                ...state,
+                saving: !state.loading
             };
         }
 

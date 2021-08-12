@@ -22,6 +22,16 @@ export const getDocumentos = createSelector(
     schemaDocumentoSelectors.entitiesProjector
 );
 
+export const getIsLoadingDocumentos = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.loading
+);
+
+export const getIsSavingDocumentos = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.saving
+);
+
 export const getDocumentosHasLoaded = createSelector(
     getAtividadeCreateDocumentosState,
     (state: AtividadeCreateDocumentosState) => state.documentosLoaded

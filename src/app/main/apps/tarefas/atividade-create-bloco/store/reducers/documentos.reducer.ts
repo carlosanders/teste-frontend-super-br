@@ -56,7 +56,7 @@ export function AtividadeBlocoCreateDocumentosReducer(
         case AtividadeBlocoCreateDocumentosActionsAll.DELETE_DOCUMENTO_BLOCO: {
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoId]
             };
         }
 
@@ -72,6 +72,14 @@ export function AtividadeBlocoCreateDocumentosReducer(
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
                 documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.DELETE_DOCUMENTO_BLOCO_FAILED: {
+            return {
+                ...state,
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.id)
             };
         }
 

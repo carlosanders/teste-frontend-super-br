@@ -7,9 +7,6 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {
-    AtividadeCreateDocumentosState
-} from "../../../tarefa-detail/atividades/atividade-create/store";
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
@@ -46,7 +43,7 @@ export const getAssinandoDocumentosId = createSelector(
 
 export const getRemovendoAssinaturaDocumentosId = createSelector(
     getAtividadeCreateBlocoDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state.removendoAssinaturaDocumentoIds
+    (state: AtividadeBlocoCreateDocumentosState) => state.removendoAssinaturaDocumentoIds
 );
 
 export const getAlterandoDocumentosId = createSelector(
@@ -61,12 +58,12 @@ export const getConvertendoDocumentosId = createSelector(
 
 export const getConvertendoDocumentosHtmlId = createSelector(
     getAtividadeCreateBlocoDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state.convertendoDocumentoHtmlIds
+    (state: AtividadeBlocoCreateDocumentosState) => state.convertendoDocumentoHtmlIds
 );
 
 export const getDownloadDocumentosP7SId = createSelector(
     getAtividadeCreateBlocoDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state.downloadDocumentosP7SIds
+    (state: AtividadeBlocoCreateDocumentosState) => state.downloadDocumentosP7SIds
 );
 
 export const getSelectedDocumentoIds = createSelector(

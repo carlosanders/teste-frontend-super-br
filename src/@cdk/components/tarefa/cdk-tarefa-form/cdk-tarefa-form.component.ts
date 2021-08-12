@@ -12,7 +12,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {
     Colaborador,
     EspecieTarefa,
@@ -34,6 +34,7 @@ import {SetorService} from '@cdk/services/setor.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {MatMenuTrigger} from "@angular/material/menu";
+import {modulesConfig} from '../../../../modules/modules-config';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -266,9 +267,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
                 this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO'};
             } else {
+                const path = '@cdk/components/tarefa/cdk-tarefa-form';
+                let generoAffinity = '';
+                modulesConfig.forEach((module) => {
+                    if (module.generoAffinity?.hasOwnProperty(path) &&
+                        module.generoAffinity[path].hasOwnProperty(this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase())
+                    ) {
+                        generoAffinity = ',' + module.generoAffinity[path][this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()].join(',');
+                    }
+                });
                 this.especieTarefaPagination.filter = {
                     'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,' +
-                        this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()
+                        this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase() +
+                        generoAffinity
                 };
             }
             if (this.form.get('processo').value?.especieProcesso?.workflow) {
@@ -1214,7 +1225,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     addFilterProcessoWorkflow(): void {
         // caso processo seja de workflow-edit verificar espécies permitidas
-        this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
+        this.especieTarefaPagination['context'] = {processoId: this.form.get('processo')?.value?.id};
         if (this.form.get('processo').value?.especieProcesso?.workflow?.especieTarefaInicial) {
             if (!this.form.get('id').value) {
                 if (!this.form.get('processo').value.tarefaAtualWorkflow) {

@@ -50,7 +50,7 @@ export class RegisterEffects {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._usuarioService.save(action.payload.register).pipe(
+                    return this._usuarioService.save(action.payload.usuario).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,

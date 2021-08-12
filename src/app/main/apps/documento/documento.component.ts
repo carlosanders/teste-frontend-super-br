@@ -321,17 +321,20 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         if (indice === 1) {
             this.modoProcesso = 2;
             let primary: string;
-            primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + this.routerState.params['stepHandle'];
-            const steps = this.routerState.params['stepHandle'].split('-');
+            const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
+            primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
+            const steps = stepHandle ? stepHandle.split('-') : false;
             this._router.navigate([{outlets: {primary: primary}}],
                 {
                     relativeTo: this._activatedRoute
                 })
                 .then(() => {
-                    this._store.dispatch(new SetCurrentStep({
-                        step: steps[0],
-                        subStep: steps[1]
-                    }));
+                    if (steps) {
+                        this._store.dispatch(new SetCurrentStep({
+                            step: steps[0],
+                            subStep: steps[1]
+                        }));
+                    }
                 });
         } else {
             this.modoProcesso = 1;

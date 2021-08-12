@@ -1,0 +1,25 @@
+@import '../../../../scss/cdk';
+
+cdk-minutas-atividade-card {
+
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+
+    .disabled {
+        cursor: default !important;
+    }
+
+    .more-vert {
+        height: 44px;
+    }
+
+    .file {
+        cursor: pointer;
+        border-right: 1px solid rgba(0, 0, 0, 0.12);;
+    }
+
+    .space {
+        height: 4px;
+    }
+}
+

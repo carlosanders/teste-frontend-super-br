@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -66,6 +66,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         public _loginService: LoginService,
         private _router: Router,
         private _matDialog: MatDialog,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
         this.form = this._formBuilder.group({
             processo: [null],
@@ -107,7 +108,10 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
                 if (module.components.hasOwnProperty(path)) {
                     module.components[path].forEach(((c) => {
                         this._dynamicService.loadComponent(c)
-                            .then(componentFactory => this.container.createComponent(componentFactory));
+                            .then(componentFactory => {
+                                this.container.createComponent(componentFactory);
+                                this._changeDetectorRef.detectChanges();
+                            });
                     }));
                 }
             });
@@ -152,7 +156,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         }
 
         if (this.form.get('outroNumero').value) {
-            this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                this.form.get('outroNumero').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'outroNumero': `like:%${bit}%`});
             });
         }
@@ -219,6 +223,15 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             filters: {},
         };
 
+        this._cdkProcessoFilterService.reset();
+        this._cdkProcessoFilterService.collect.next();
+
+        if (this._cdkProcessoFilterService.filters.length) {
+            this._cdkProcessoFilterService.filters.forEach((f) => {
+                andXFilter.push(f);
+            });
+        }
+
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
             this.selected.emit(request);
@@ -264,6 +277,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
+        this._cdkProcessoFilterService.clear.next();
     }
 
     showClassificacao(): boolean {

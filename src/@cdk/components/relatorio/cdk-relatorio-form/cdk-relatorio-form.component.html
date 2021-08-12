@@ -30,7 +30,7 @@
             [control]="form.get('especieRelatorio')"
             [pagination]="especieRelatorioPagination">
         </cdk-especie-relatorio-autocomplete>
-        <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoRelatorio').value"
+        <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieRelatorio').enabled"
                 (click)="showEspecieRelatorioGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
@@ -51,7 +51,7 @@
             [pagination]="tipoRelatorioPagination">
         </cdk-tipo-relatorio-autocomplete>
         <button matSuffix mat-button mat-icon-button
-                [disabled]="!form.get('especieRelatorio').value"
+                [disabled]="!form.get('tipoRelatorio').enabled"
                 (click)="showTipoRelatorioGrid()">
             <mat-icon matTooltip="Procurar tipo relatório">search</mat-icon>
         </button>
@@ -61,9 +61,8 @@
         </mat-error>
     </mat-form-field>
 
-    <div *ngIf="form.get('tipoRelatorio').value" class="tipo-relatorio-filtros">
-
-        <mat-form-field>
+    <div *ngIf="form.get('tipoRelatorio').value && this.parametros.length > 0" class="tipo-relatorio-filtros">
+        <mat-form-field *ngIf="!form.get('unidade').disabled">
             <input matInput placeholder="Unidade"
                    formControlName="unidade"
                    [matAutocomplete]="unidade.autocomplete" required
@@ -74,6 +73,7 @@
                 [pagination]="unidadePagination">
             </cdk-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button
+                    [disabled]="!form.get('unidade').enabled"
                     (click)="showUnidadeGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -82,7 +82,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="!form.get('setor').disabled">
             <input matInput placeholder="Setor"
                    formControlName="setor"
                    [matAutocomplete]="setor.autocomplete" required
@@ -92,7 +92,8 @@
                 [control]="form.get('setor')"
                 [pagination]="setorPagination">
             </cdk-setor-autocomplete>
-            <button *ngIf="form.get('setor').enabled" matSuffix mat-button mat-icon-button
+            <button matSuffix mat-button mat-icon-button
+                    [disabled]="!form.get('setor').enabled"
                     (click)="showSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -101,8 +102,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field
-            *ngIf="form.get('usuario').enabled && (mode === 'regular')">
+        <mat-form-field *ngIf="!form.get('usuario').disabled">
             <input matInput placeholder="Usuário"
                    formControlName="usuario"
                    [readonly]="!form.get('setor').enabled"
@@ -113,7 +113,8 @@
                 [control]="form.get('usuario')"
                 [pagination]="usuarioPagination">
             </cdk-usuario-autocomplete>
-            <button *ngIf="form.get('setor').enabled" matSuffix mat-button mat-icon-button
+            <button matSuffix mat-button mat-icon-button
+                    [disabled]="!form.get('usuario').enabled"
                     (click)="showUsuarioGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -122,9 +123,49 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field
-            *ngIf="form.get('dataHoraInicio').enabled &&
-                                    mode === 'regular'">
+        <mat-form-field *ngIf="!form.get('processo').disabled">
+            <input matInput placeholder="Processo"
+                   formControlName="processo"
+                   [readonly]="!form.get('processo').enabled"
+                   [matAutocomplete]="processo.autocomplete" required
+                   (blur)="checkProcesso()">
+            <cdk-processo-autocomplete
+                #processo="processoAutocomplete"
+                [control]="form.get('processo')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    [disabled]="!form.get('processo').enabled"
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processo').hasError('formError')">
+                {{form.get('processo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="!form.get('classificacao').disabled">
+            <input matInput placeholder="Classificação"
+                   formControlName="classificacao"
+                   [readonly]="!form.get('classificacao').enabled"
+                   [matAutocomplete]="classificacao.autocomplete" required
+                   (blur)="checkClassificacao()">
+            <cdk-classificacao-autocomplete
+                #classificacao="classificacaoAutocomplete"
+                [control]="form.get('classificacao')"
+                [pagination]="classificacaoPagination">
+            </cdk-classificacao-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    [disabled]="!form.get('classificacao').enabled"
+                    (click)="showClassificacaoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('classificacao').hasError('formError')">
+                {{form.get('classificacao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="!form.get('dataHoraInicio').disabled">
             <mat-label>Início</mat-label>
             <input matInput formControlName="dataHoraInicio" [matDatetimepicker]="dataHoraInicio"
                    required>
@@ -133,9 +174,7 @@
                                 required></mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field
-            *ngIf="form.get('dataHoraFim').enabled &&
-                                    mode === 'regular'">
+        <mat-form-field *ngIf="!form.get('dataHoraFim').disabled">
             <mat-label>Fim</mat-label>
             <input matInput formControlName="dataHoraFim" [matDatetimepicker]="dataHoraFim"
                    required>
@@ -144,10 +183,17 @@
                                 required></mat-datetimepicker>
         </mat-form-field>
 
+        <mat-form-field *ngIf="!form.get('prazoGuardaFaseCorrenteAno').disabled">
+            <input matInput placeholder="Prazo de Guarda da Fase Corrente em Anos"
+                   formControlName="prazoGuardaFaseCorrenteAno" required>
+            <mat-error *ngIf="form.get('prazoGuardaFaseCorrenteAno').hasError('formError')">
+                {{form.get('prazoGuardaFaseCorrenteAno').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
     </div>
 
-    <div *ngIf="form.get('tipoRelatorio').value" class="tipo-relatorio-formato">
-
+    <div *ngIf="form.get('tipoRelatorio').value && this.parametros.length > 0" class="tipo-relatorio-formato">
         <mat-form-field
             *ngIf="mode === 'regular' || mode === 'bloco-create'">
             <textarea formControlName="observacao" matInput placeholder="Observação" maxlength="255"></textarea>
@@ -156,7 +202,6 @@
                 {{form.get('observacao').errors.formError}}
             </mat-error>
         </mat-form-field>
-
 
         <div>Formato</div>
 
@@ -183,7 +228,7 @@
     <div class="actions">
         <button type="submit" mat-raised-button color="accent"
                 (click)="submit()"
-                [disabled]="form.invalid || !valid" *ngIf="!saving">
+                [disabled]="form.invalid || !valid || invalid" *ngIf="!saving">
             SALVAR
         </button>
 
@@ -235,3 +280,18 @@
     (selected)="selectUsuario($event)"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
+
+<cdk-processo-gridsearch
+    *ngIf="activeCard === 'processo-gridsearch'"
+    [pagination]="processoPagination"
+    (selected)="selectProcesso($event)"
+    (cancel)="cancel()">
+</cdk-processo-gridsearch>
+
+<cdk-classificacao-gridsearch
+    *ngIf="activeCard === 'classificacao-gridsearch'"
+    [pagination]="classificacaoPagination"
+    (selected)="selectClassificacao($event)"
+    (cancel)="cancel()">
+</cdk-classificacao-gridsearch>
+

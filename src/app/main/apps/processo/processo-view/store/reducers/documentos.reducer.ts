@@ -86,6 +86,28 @@ export function ProcessoViewDocumentosReducer(
             };
         }
 
+        case ProcessoViewDocumentosActions.RELOAD_DOCUMENTO: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload]
+            };
+        }
+
+        case ProcessoViewDocumentosActions.RELOAD_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProcessoViewDocumentosActions.RELOAD_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload.id),
+                error: action.payload.error
+            };
+        }
+
         case ProcessoViewDocumentosActions.COMPLETE_DOCUMENTO: {
             return {
                 ...state,

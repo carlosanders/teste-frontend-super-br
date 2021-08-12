@@ -100,6 +100,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     zoom: number = 0;
     expandirTela: boolean = false;
 
+    downloadUrl = null;
+    unsafe = false;
+
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -174,25 +177,19 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     const blob = new Blob([byteArray], {type: binary.src.mimetype});
                     const URL = window.URL;
                     if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
+                        this.downloadUrl = null;
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     } else {
-                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                            const downloadLink = document.createElement('a');
-                        const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
-                        downloadLink.target = '_blank';
-                        downloadLink.href = sanitizedUrl;
-                        downloadLink.download = binary.src.fileName;
-                        document.body.appendChild(downloadLink);
-                        downloadLink.click();
-                        document.body.removeChild(downloadLink);
-                        setTimeout(() => {
-                            // For Firefox it is necessary to delay revoking the ObjectURL
-                            window.URL.revokeObjectURL(sanitizedUrl);
-                        }, 100);
-                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                        this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     }
 
-                    this.fileName = binary.src.fileName;
+                    if (binary.src.unsafe) {
+                        this.unsafe = true;
+                        this.fileName = binary.src.fileName + ' - Exibido em PDF por Segurança!'
+                    } else {
+                        this.fileName = binary.src.fileName;
+                        this.unsafe = false;
+                    }
                     this.select.emit(binary.src);
                 } else {
                     this.fileName = '';
@@ -474,5 +471,31 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     isHtml(filename) {
         const name = filename.split('.');
         return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
+    }
+
+    doDownload() {
+        const downloadLink = document.createElement('a');
+        const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.downloadUrl);
+        downloadLink.target = '_blank';
+        downloadLink.href = sanitizedUrl;
+        downloadLink.download = this.fileName;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        setTimeout(() => {
+            // For Firefox it is necessary to delay revoking the ObjectURL
+            window.URL.revokeObjectURL(sanitizedUrl);
+        }, 100);
+        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+        setTimeout(() => {
+            const element: HTMLIFrameElement = document.getElementById('iframe-juntadas') as HTMLIFrameElement;
+            const iframe = element?.contentWindow?.document;
+            if (iframe !== null) {
+                iframe.open();
+                iframe.write('<html><head><title></title><style>html, body, .center-container { height: 100%; overflow: hidden } .center-container { display: flex; align-items: center; justify-content: center; }</style></head><body><div class="center-container">Download Realizado!</div></body></html>');
+                iframe.close();
+            }
+        });
+        this.downloadUrl = null;
     }
 }

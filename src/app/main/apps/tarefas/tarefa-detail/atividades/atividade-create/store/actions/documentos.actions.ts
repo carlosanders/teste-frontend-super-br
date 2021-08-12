@@ -51,6 +51,8 @@ export const UNDELETE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] UNDELETE DOCUMENTO 
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[ATIVIDADE CREATE] CHANGE SELECTED DOCUMENTOS';
 
+export const SET_SAVING = '[ATIVIDADE CREATE] SET SAVING COMPONENTES DIGITAIS';
+
 /**
  * Unload Documentos
  */
@@ -463,6 +465,15 @@ export class UndeleteDocumentoFailed implements Action {
     }
 }
 
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
+
 export type AtividadeCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -500,4 +511,5 @@ export type AtividadeCreateDocumentosActionsAll
     | UnloadDocumentos
     | UndeleteDocumento
     | UndeleteDocumentoSuccess
-    | UndeleteDocumentoFailed;
+    | UndeleteDocumentoFailed
+    | SetSavingComponentesDigitais;

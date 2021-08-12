@@ -96,8 +96,12 @@ export class VinculacaoPessoaBarramentoEditComponent implements OnInit, OnDestro
             }
         );
 
-        vinculacaoPessoaBarramento.nomeEstrutura = vinculacaoPessoaBarramento.nomeEstrutura['nome'];
-        vinculacaoPessoaBarramento.nomeRepositorio = vinculacaoPessoaBarramento.nomeRepositorio['nome'];
+        if (vinculacaoPessoaBarramento.nomeEstrutura !== null) {
+            vinculacaoPessoaBarramento.nomeEstrutura = vinculacaoPessoaBarramento.nomeEstrutura['nome'];
+        }
+        if (vinculacaoPessoaBarramento.nomeRepositorio !== null) {
+            vinculacaoPessoaBarramento.nomeRepositorio = vinculacaoPessoaBarramento.nomeRepositorio['nome'];
+        }
         vinculacaoPessoaBarramento.pessoa = this.pessoa;
 
         const operacaoId = CdkUtils.makeId();

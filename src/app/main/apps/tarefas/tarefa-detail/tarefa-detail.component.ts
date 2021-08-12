@@ -172,6 +172,22 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
+
+                const path = 'app/main/apps/tarefas/tarefa-detail';
+                modulesConfig.forEach((module) => {
+                    if (module.components.hasOwnProperty(path)) {
+                        module.components[path].forEach(((c) => {
+                            this._dynamicService.loadComponent(c)
+                                .then( componentFactory  => this.container.createComponent(componentFactory));
+                        }));
+                    }
+
+                    if (module.routerLinks.hasOwnProperty(path) &&
+                        module.routerLinks[path].hasOwnProperty('atividades') &&
+                        module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                        this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+                    }
+                });
             }
         });
         this.tarefa$.pipe(

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -14,13 +14,14 @@ export class PessoaService extends ParentGenericService<Pessoa> {
     constructor(
         protected modelService: ModelService,
         protected http: HttpClient,
+        @Inject('serviceModule') @Optional() private serviceModule: string
     ) {
-        super(modelService, 'administrativo/pessoa', Pessoa);
+        super(modelService, `${serviceModule ?? 'administrativo'}/pessoa`, Pessoa);
     }
 
     patch(pessoa: Pessoa, changes: any): Observable<Pessoa> {
         return this.http.patch(
-            `${environment.api_url}${'administrativo/pessoa'}/${pessoa.id}` + environment.xdebug,
+            `${environment.api_url}${this.serviceModule ?? 'administrativo'}/pessoa/${pessoa.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map((response) => {
@@ -40,7 +41,7 @@ export class PessoaService extends ParentGenericService<Pessoa> {
         params['populate'] = populate;
         params['context'] = context;
 
-        return this.modelService.search('administrativo/pessoa', new HttpParams({fromObject: params}))
+        return this.modelService.search(`${this.serviceModule ?? 'administrativo'}/pessoa`, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
             );

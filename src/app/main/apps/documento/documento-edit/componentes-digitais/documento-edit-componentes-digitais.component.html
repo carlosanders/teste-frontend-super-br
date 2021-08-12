@@ -19,6 +19,7 @@
 <cdk-componente-digital-card-list #ckdUploadComponenteDigital
                                   *ngIf="!formComponentesDigitais"
                                   [mode]="'documento-edit'"
+                                  [uploadMode]="'linear'"
                                   [documento]="(documento$ | async)"
                                   (completed)="onCompleteComponenteDigital()">
 </cdk-componente-digital-card-list>
