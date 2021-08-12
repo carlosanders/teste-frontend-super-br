@@ -38,6 +38,12 @@ export function DocumentosReducer(state = DocumentosInitialState, action: Docume
             };
         }
 
+        case DocumentosActions.UNLOAD_DOCUMENTOS: {
+            return {
+                ...DocumentosInitialState
+            };
+        }
+
         default:
             return state;
 

@@ -10,8 +10,7 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu" #menuTriggerList="matMenuTrigger"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                [disabled]="disabledSelects.length > 0"
-                *ngIf="documentos.length > 1 && selectedIds?.length > 1 && disabledSelects.length === 0">
+                *ngIf="documentos.length > 1 && selectedIds?.length > 1 && mode !== 'editor'">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 

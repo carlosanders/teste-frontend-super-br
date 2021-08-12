@@ -213,6 +213,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadDocumentos());
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
@@ -257,38 +258,40 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
     }
 
     onClicked(documento): void {
-        let primary: string;
-        primary = 'componente-digital/';
-        let componenteDigital = null;
+        if (!this.disabledIds.includes(documento.id)) {
+            let primary: string;
+            primary = 'componente-digital/';
+            let componenteDigital = null;
 
-        if (documento.componentesDigitais[0]) {
-            componenteDigital = documento.componentesDigitais[0];
-            primary += componenteDigital.id;
-        } else {
-            primary += '0';
-        }
+            if (documento.componentesDigitais[0]) {
+                componenteDigital = documento.componentesDigitais[0];
+                primary += componenteDigital.id;
+            } else {
+                primary += '0';
+            }
 
-        if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
-            primary += '/editor/ckeditor';
-        } else {
-            primary += '/visualizar';
-        }
+            if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
+                primary += '/editor/ckeditor';
+            } else {
+                primary += '/visualizar';
+            }
 
-        const sidebar = 'editar/' + this.routeAtividadeDocumento;
+            const sidebar = 'editar/' + this.routeAtividadeDocumento;
 
-        this._router.navigate([
-                this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
-                '/documento/' + documento.id,
+            this._router.navigate([
+                    this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                    '/documento/' + documento.id,
+                    {
+                        outlets: {
+                            primary: primary,
+                            sidebar: sidebar
+                        }
+                    }],
                 {
-                    outlets: {
-                        primary: primary,
-                        sidebar: sidebar
-                    }
-                }],
-            {
-                relativeTo: this._activatedRoute.parent,
-                queryParams: {lixeira: null}
-            }).then();
+                    relativeTo: this._activatedRoute.parent,
+                    queryParams: {lixeira: null}
+                }).then();
+        }
     }
 
     changeEncerramentoTarefa(value: boolean): void {
