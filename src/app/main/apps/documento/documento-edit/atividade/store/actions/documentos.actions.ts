@@ -6,6 +6,8 @@ export const GET_DOCUMENTOS_FAILED = '[ATIVIDADE DOCUMENTO] GET DOCUMENTOS FAILE
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[ATIVIDADE DOCUMENTO] CHANGE SELECTED DOCUMENTOS';
 
+export const UNLOAD_DOCUMENTOS = '[ATIVIDADE DOCUMENTO] UNLOAD DOCUMENTOS';
+
 /**
  * Get Documentos
  */
@@ -54,8 +56,21 @@ export class ChangeSelectedDocumentos implements Action
     }
 }
 
+/**
+ * Unload Documentos
+ */
+export class UnloadDocumentos implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS;
+
+    constructor()
+    {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
     | GetDocumentosFailed
-    | ChangeSelectedDocumentos;
+    | ChangeSelectedDocumentos
+    | UnloadDocumentos;

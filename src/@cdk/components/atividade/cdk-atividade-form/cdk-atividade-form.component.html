@@ -100,7 +100,7 @@
         <mat-slide-toggle formControlName="encerraTarefa">
             Encerrar a tarefa
         </mat-slide-toggle>
-        <span *ngIf="form.get('encerraTarefa').value">O encerramento da tarefa implica a destinação de todas as minutas</span>
+        <span *ngIf="form.get('encerraTarefa').value && temMinutas">O encerramento da tarefa implica a destinação de todas as minutas</span>
     </div>
 
     <mat-form-field>

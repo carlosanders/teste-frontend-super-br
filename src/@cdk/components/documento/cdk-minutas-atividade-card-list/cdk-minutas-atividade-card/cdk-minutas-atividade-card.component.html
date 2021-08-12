@@ -10,7 +10,7 @@
     </div>
 
     <div fxFlex class="p-8 file" fxLayout="column" (click)="onClick(documento)"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa && !disabledSelect, 'light-green-100':documento.documentoAvulsoRemessa && !disabledSelect, 'grey-100 disabled':disabledSelect}">
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa && !disabledSelect, 'light-green-100':documento.documentoAvulsoRemessa && !disabledSelect, 'grey-100':disabledSelect, 'disabled':disabledSelect && mode === 'editor'}">
 
         <div fxLayout="row" fxLayoutAlign="start center">
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>
@@ -37,11 +37,10 @@
 
     <div class="more-vert"
          *ngIf="mode !== 'editor'"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa && !disabledSelect, 'light-green-100':documento.documentoAvulsoRemessa && !disabledSelect, 'grey-100 disabled':disabledSelect}">
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa && !disabledSelect, 'light-green-100':documento.documentoAvulsoRemessa && !disabledSelect, 'grey-100':disabledSelect}">
         <button
             *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !undeleting"
             mat-icon-button
-            [disabled]="disabledSelect"
             [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>
