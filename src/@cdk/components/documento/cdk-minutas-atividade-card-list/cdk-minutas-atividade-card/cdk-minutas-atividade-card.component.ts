@@ -197,9 +197,7 @@ export class CdkMinutasAtividadeCardComponent implements OnInit {
     }
 
     onClick(documento): void {
-        if (!this.disabledSelect) {
-            this.clicked.emit(documento);
-        }
+        this.clicked.emit(documento);
     }
 
     selectTipoDocumento(tipoDocumento: TipoDocumento): void {
