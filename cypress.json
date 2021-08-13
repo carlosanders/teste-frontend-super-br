@@ -1,5 +1,6 @@
 {
     "$schema": "https://on.cypress.io/cypress.schema.json",
+    "projectId": "supp",
     "integrationFolder": "tests/e2e/integration",
     "supportFile": "tests/e2e/support/index.ts",
     "fixturesFolder": "tests/e2e/fixtures",
@@ -8,12 +9,11 @@
     "pluginsFile": "tests/e2e/plugins/index.ts",
     "videoUploadOnPasses": false,
     "screenshotOnRunFailure": true,
-        
     "chromeWebSecurity": false,
     "retries": {
       "runMode": 2,
-      "openMode": 0 
+      "openMode": 0
     },
-    
-    "baseUrl": "http://localhost:4200"
+
+    "baseUrl": "https://superbr-dev.dth.nuvem.gov.br"
 }
