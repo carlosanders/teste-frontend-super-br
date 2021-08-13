@@ -2,8 +2,8 @@
 
     <ng-container>
         <div class="image-box-perfil">
-            <img class="img-perfil" [src]="usuario.imgPerfil.conteudo|safeResourceUrl" *ngIf="!!usuario.imgPerfil?.id === true">
-            <img class="img-perfil" src="assets/images/avatars/User.png" *ngIf="!!usuario.imgPerfil?.id === false">
+            <img class="img-perfil" [src]="usuario.imgPerfil.conteudo|safeResourceUrl" *ngIf="!!usuario.imgPerfil?.conteudo === true">
+            <img class="img-perfil" src="assets/images/avatars/User.png" *ngIf="!!usuario.imgPerfil?.conteudo === false">
             <button mat-icon-button (click)="doUploadImagemPerfil()" [ngSwitch]="!!usuario.imgPerfil">
                 <mat-icon *ngSwitchCase="true">mode_edit</mat-icon>
                 <mat-icon *ngSwitchCase="false">photo</mat-icon>
