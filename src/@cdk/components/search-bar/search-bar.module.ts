@@ -10,6 +10,8 @@ import {CdkProcessoAutocompleteModule} from '../processo/cdk-processo-autocomple
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -28,7 +30,9 @@ import {MatDialogModule} from '@angular/material/dialog';
         MatFormFieldModule,
 
         CdkProcessoAutocompleteModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatMenuModule,
+        MatTooltipModule
     ],
     exports: [
         CdkSearchBarComponent
