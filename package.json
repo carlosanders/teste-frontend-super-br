@@ -111,6 +111,8 @@
         "typescript": "4.2.4",
         "webpack-bundle-analyzer": "4.4.2",
         "cypress": "7.6.0",
-        "cypress-plugin-tab": "1.0.5"
+        "cypress-plugin-tab": "1.0.5",
+        "cypress-downloadfile": "1.2.1",
+        "cypress-file-upload": "5.0.8"
     }
 }
