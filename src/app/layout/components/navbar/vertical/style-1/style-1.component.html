@@ -31,9 +31,9 @@
         <div class="h5 email hint-text mt-8">{{userProfile?.email}}</div>
         <div class="avatar-container">
             <img class="avatar" src="assets/images/avatars/User.png"
-                 *ngIf="!!userProfile?.imgPerfil?.id === false">
+                 *ngIf="!!userProfile?.imgPerfil?.conteudo === false">
             <img class="avatar" [src]="userProfile.imgPerfil.conteudo|safeResourceUrl"
-                 *ngIf="!!userProfile?.imgPerfil?.id === true">
+                 *ngIf="!!userProfile?.imgPerfil?.conteudo === true">
         </div>
 
     </div>
