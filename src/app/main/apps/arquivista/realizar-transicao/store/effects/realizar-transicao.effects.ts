@@ -58,7 +58,7 @@ export class RealizarTransicaoEffects {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._transicaoService.save(action.payload.realizarTransicao).pipe(
+                    return this._transicaoService.save(action.payload.transicao).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
