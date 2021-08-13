@@ -63,7 +63,7 @@ protocolo-externo {
                     }
                 }
 
-                > &.current-processo-selected {
+                &.current-processo-selected {
                     .search-wrapper {
                         display: none !important;
                     }
