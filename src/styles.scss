@@ -103,6 +103,13 @@ mat-header-cell, .mat-header-cell {
     padding: 0.75rem !important;
 }
 
+div.menu-busca {
+    max-width: 600px !important;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    top: 64px !important;
+}
+
 div.menuNotificacao {
     max-width: 880px !important;
     padding-bottom: 0 !important;
@@ -112,6 +119,41 @@ div.menuNotificacao {
 
 div.menuTipoDocumento {
     width: 400px;
+}
+
+div.menu-busca {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    .custom-search-header {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: space-between;
+        margin-left: 15px;
+        margin-right: 15px;
+
+        .title {
+            font-size: 18px;
+            margin-bottom: 5px;
+            margin-right: 3px;
+        }
+    }
+
+    .campo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        margin-left: 15px;
+        margin-right: 15px;
+
+        &.selected {
+            cursor: default;
+            font-weight: bold;
+        }
+    }
 }
 
 .mat-list-base .mat-list-item {
