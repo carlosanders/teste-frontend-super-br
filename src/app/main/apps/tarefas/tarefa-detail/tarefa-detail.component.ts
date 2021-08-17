@@ -153,7 +153,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => this.container.createComponent(componentFactory));
+                        .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
             }
 
@@ -168,28 +168,32 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-
-                const path = 'app/main/apps/tarefas/tarefa-detail';
-                modulesConfig.forEach((module) => {
-                    if (module.components.hasOwnProperty(path)) {
-                        module.components[path].forEach(((c) => {
-                            this._dynamicService.loadComponent(c)
-                                .then( componentFactory  => this.container.createComponent(componentFactory));
-                        }));
-                    }
-
-                    if (module.routerLinks.hasOwnProperty(path) &&
-                        module.routerLinks[path].hasOwnProperty('atividades') &&
-                        module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                        this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
-                    }
-                });
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
+                this.sheetRef.dismiss();
             }
+
+            this.routerState = routerState.state;
+
+            const path = 'app/main/apps/tarefas/tarefa-detail';
+            modulesConfig.forEach((module) => {
+                if (module.components.hasOwnProperty(path)) {
+                    module.components[path].forEach(((c) => {
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.container.createComponent(componentFactory));
+                    }));
+                }
+
+                if (module.routerLinks.hasOwnProperty(path) &&
+                    module.routerLinks[path].hasOwnProperty('atividades') &&
+                    module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+                }
+            });
         });
+
         this.tarefa$.pipe(
             filter(tarefa => !!tarefa),
             takeUntil(this._unsubscribeAll)
@@ -197,6 +201,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             this.tarefa = tarefa;
             this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
+
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
@@ -342,16 +347,13 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this._store.dispatch(new fromStore.DarCienciaTarefaFlush());
                 this._store.dispatch(new DarCienciaTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
         });
     }
 
     doCreateTarefa(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id]).then();
-        //this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
-    }
-
-    onUploadClick(): void {
-        this.cdkUpload.onClick();
     }
 
     doToggleMaximizado(valor: boolean): void {

@@ -136,6 +136,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+    snackSubscriptionType: string;
     lote: string;
 
     usuarioAtual: Usuario;
@@ -242,36 +243,34 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.novaTarefa = false;
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
-                this.targetHandle = routerState.state.params['targetHandle'];
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
+                this.sheetRef.dismiss();
+            }
 
-                //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
-                if (this.snackSubscription) {
-                    this._store.dispatch(new fromStore.DeleteTarefaFlush());
+            this.routerState = routerState.state;
+            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
+            this.targetHandle = routerState.state.params['targetHandle'];
+
+            const path = 'app/main/apps/tarefas';
+            modulesConfig.forEach((module) => {
+                if (module.routerLinks.hasOwnProperty(path) &&
+                    module.routerLinks[path].hasOwnProperty('atividades') &&
+                    module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
                 }
 
-                const path = 'app/main/apps/tarefas';
-                modulesConfig.forEach((module) => {
-                    if (module.routerLinks.hasOwnProperty(path) &&
-                        module.routerLinks[path].hasOwnProperty('atividades') &&
-                        module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                        this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
-                    }
-
-                    if (module.routerLinks.hasOwnProperty(path) &&
-                        module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
-                        module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                        this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
-                    }
-                });
-            }
+                if (module.routerLinks.hasOwnProperty(path) &&
+                    module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
+                    module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
+                }
+            });
         });
 
         this._store.pipe(
@@ -519,10 +518,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'delete') {
+                // temos um snack de exclusão aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -530,16 +535,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletada(s)'
             }
         });
 
+        this.snackSubscriptionType = 'delete';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStore.DeleteTarefaCancel());
             } else {
                 this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 
@@ -675,10 +684,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'ciencia') {
+                // temos um snack de ciência aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -686,16 +701,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Dando ciência'
+                text: 'Ciência'
             }
         });
 
+        this.snackSubscriptionType = 'ciencia';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStore.DarCienciaTarefaCancel());
             } else {
                 this._store.dispatch(new fromStore.DarCienciaTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 
