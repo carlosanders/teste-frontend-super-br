@@ -248,10 +248,14 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+            this.routerState = routerState.state;
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this.sheetRef.dismiss();
             }
         });
 
@@ -494,7 +498,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletada(s)'
             }
         });
 
@@ -504,6 +508,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             } else {
                 this._store.dispatch(new fromStore.DeleteDocumentoFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
         });
     }
 

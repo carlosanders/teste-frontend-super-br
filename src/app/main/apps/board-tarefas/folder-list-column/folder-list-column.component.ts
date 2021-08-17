@@ -21,6 +21,8 @@ import {CdkUtils} from "@cdk/utils";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackBarDesfazerComponent} from "@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
+import {getRouterState} from "../../../../store";
+import {modulesConfig} from "../../../../../modules/modules-config";
 
 @Component({
     selector: 'folder-list-column',
@@ -84,7 +86,8 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
         isIndeterminate: false,
         loading:  true,
         sheetRef: null,
-        snackSubscription: null
+        snackSubscription: null,
+        snackSubscriptionType: null
     }
 
     constructor(private _store: Store<fromStore.BoardTarefasAppState>,
@@ -224,6 +227,17 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                 return of([]);
             })
         ).subscribe();
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            // caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.controls.snackSubscription) {
+                this.controls.sheetRef.dismiss();
+            }
+        });
     }
 
     doOpenTarefa(tarefa: Tarefa, openWindow: boolean): void
@@ -311,9 +325,15 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
     doDeleteTarefas(deletingIdsList: number[]): void
     {
         if (this.controls.snackSubscription) {
-            this.controls.sheetRef.dismiss();
-            this.controls.snackSubscription.unsubscribe();
-            this.controls.snackSubscription = null;
+            if (this.controls.snackSubscriptionType === 'delete') {
+                // temos um snack de exclusão aberto, temos que ignorar
+                this.controls.snackSubscription.unsubscribe();
+                this.controls.sheetRef.dismiss();
+                this.controls.snackSubscriptionType = null;
+                this.controls.snackSubscription = null;
+            } else {
+                this.controls.sheetRef.dismiss();
+            }
         }
 
         this.controls.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -359,15 +379,25 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                     }));
                 });
             }
+            this.controls.snackSubscription.unsubscribe();
+            this.controls.snackSubscriptionType = null;
+            this.controls.snackSubscription = null;
         });
     }
 
     doCienciaTarefas(tarefasIdsList: number[]): void
     {
         if (this.controls.snackSubscription) {
-            this.controls.sheetRef.dismiss();
-            this.controls.snackSubscription.unsubscribe();
-            this.controls.snackSubscription = null;
+            if (this.controls.snackSubscriptionType === 'ciencia') {
+                // temos um snack de ciência aberto, temos que ignorar
+                this.controls.snackSubscription.unsubscribe();
+                this.controls.sheetRef.dismiss();
+                this.controls.snackSubscriptionType = null;
+                this.controls.snackSubscription = null;
+            } else {
+                // O snack é de outro tipo, concluí-lo
+                this.controls.sheetRef.dismiss();
+            }
         }
 
         this.controls.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -375,7 +405,7 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Dando ciência'
+                text: 'Ciência'
             }
         });
 
@@ -405,6 +435,9 @@ export class FolderListColumnComponent implements OnInit, OnDestroy{
                     }));
                 });
             }
+            this.controls.snackSubscription.unsubscribe();
+            this.controls.snackSubscriptionType = null;
+            this.controls.snackSubscription = null;
         });
     }
 
