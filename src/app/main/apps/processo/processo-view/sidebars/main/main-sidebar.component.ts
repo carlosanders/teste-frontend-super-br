@@ -47,8 +47,8 @@ import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
-import {DndDragImageOffsetFunction, DndDropEvent} from "ngx-drag-drop";
-import {CdkUploadDialogComponent} from "../../../../../../../@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component";
+import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
+import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -360,20 +360,24 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+            this.routerState = routerState.state;
 
-                if (routerState.state.params['processoHandle'] && this.processoId !== routerState.state.params['processoHandle']) {
-                    if (this.processoId) {
-                        this._mercureService.unsubscribe('juntadas_' + this.processoId);
-                    }
-                    this.processoId = routerState.state.params['processoHandle'];
-                    this._mercureService.subscribe('juntadas_' + this.processoId);
+            if (routerState.state.params['processoHandle'] && this.processoId !== routerState.state.params['processoHandle']) {
+                if (this.processoId) {
+                    this._mercureService.unsubscribe('juntadas_' + this.processoId);
                 }
+                this.processoId = routerState.state.params['processoHandle'];
+                this._mercureService.subscribe('juntadas_' + this.processoId);
+            }
 
-                this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
+            this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this.sheetRef.dismiss();
             }
         });
 
@@ -967,7 +971,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletado(s)'
             }
         });
 
@@ -977,6 +981,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this._store.dispatch(new fromStore.DeleteDocumentoFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
         });
     }
 
@@ -1018,8 +1024,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     enviarDocumentoEmail(juntadaId): void {
         this._router.navigateByUrl(this.routerState.url.split('/processo/' +
-            this.routerState.params.processoHandle +
-            '/visualizar')[0] + '/processo/' +
+                this.routerState.params.processoHandle +
+                '/visualizar')[0] + '/processo/' +
             this.routerState.params.processoHandle + '/envia-email/' + juntadaId).then();
     }
 

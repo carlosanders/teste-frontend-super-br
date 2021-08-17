@@ -28,7 +28,7 @@ import {getProcessosIdsEncaminhar} from '../encaminhamento-bloco/store';
 import {CdkUtils} from '@cdk/utils';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {DynamicService} from "../../../../../modules/dynamic.service";
+import {DynamicService} from 'modules/dynamic.service';
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -174,11 +174,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
 
         this.processosIdsEncaminhar$.pipe(
@@ -206,9 +204,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 this.especieAtividadePagination['context'] = {};
                 if (tarefas[0].workflow) {
                     this.especieAtividadePagination.filter = {
-                        'transicoesWorkflow.workflow.id' : 'eq:' + tarefas[0].workflow.id
+                        'transicoesWorkflow.workflow.id': 'eq:' + tarefas[0].workflow.id
                     };
-                    this.especieAtividadePagination['context'] = { tarefaId: tarefas[0].id };
+                    this.especieAtividadePagination['context'] = {tarefaId: tarefas[0].id};
                 }
             } else if (this.processosIdsEncaminhar.length > 0) {
                 // tslint:disable-next-line:max-line-length
