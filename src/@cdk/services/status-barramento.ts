@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModelService } from '@cdk/services/model.service';
 import { plainToClass, classToPlain } from 'class-transformer';
 import { PaginatedResponse } from '@cdk/models/paginated.response';
 import {StatusBarramento} from "../models/status-barramento";
+import {Processo} from "../models";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class StatusBarramentoService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
     ) {
     }
 
@@ -63,5 +65,13 @@ export class StatusBarramentoService {
                     })
                 );
         }
+    }
+
+    sincronizaBarramento(processo: Processo, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
+        params['context'] = context;
+        return this.modelService.get(`administrativo/status_barramento/${processo.id}/sincroniza_barramento` + environment.xdebug, params)
+            .pipe(
+                map(response => response)
+            );
     }
 }

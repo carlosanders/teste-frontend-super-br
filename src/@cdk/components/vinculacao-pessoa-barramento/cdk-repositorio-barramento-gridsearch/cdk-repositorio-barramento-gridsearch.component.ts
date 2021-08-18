@@ -82,7 +82,9 @@ export class CdkRepositorioBarramentoGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-            this.dataSource = response;
+            this.dataSource = response.sort(function(a,b) {
+                return a['id']-b['id']
+            });
             this._changeDetectorRef.markForCheck();
         });
     }

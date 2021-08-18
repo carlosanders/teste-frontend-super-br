@@ -31,7 +31,6 @@ export const SET_STEPS = '[PROCESSO] SET STEPS';
 
 export const EXPANDIR_PROCESSO = '[PROCESSO VIEW] EXPANDIR PROCESSO';
 
-
 export const GET_ACOMPANHAMENTO = '[PROCESSO] GET ACOMPANHAMENTO';
 export const GET_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] GET ACOMPANHAMENTO SUCCESS';
 export const GET_ACOMPANHAMENTO_FAILED = '[PROCESSO] GET ACOMPANHAMENTO FAILED';
@@ -52,6 +51,8 @@ export const DELETE_ACOMPANHAMENTO_FAILED = '[PROCESSO] DELETE ACOMPANHAMENTO PR
 export const ADD_PLUGIN_LOADING = '[PROCESSO] ADD PLUGIN LOADING';
 export const REMOVE_PLUGIN_LOADING = '[PROCESSO] REMOVE PLUGIN LOADING';
 
+export const SINCRONIZA_BARRAMENTO = '[PROCESSO] SINCRONIZACAO BARRAMENTO';
+export const SINCRONIZA_BARRAMENTO_SUCCESS = '[PROCESSO] SINCRONIZACAO BARRAMENTO SUCCESS';
 
 /**
  * Expandir Processo
@@ -418,7 +419,6 @@ export class CreateAcompanhamentoSuccess implements Action {
     }
 }
 
-
 /**
  * Delete Acompanhamento
  */
@@ -479,6 +479,30 @@ export class RemovePluginLoading implements Action
     }
 }
 
+/**
+ * Sincroniza Barramento
+ */
+export class SincronizaBarramento implements Action
+{
+    readonly type = SINCRONIZA_BARRAMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Sincroniza Barramento Success
+ */
+export class SincronizaBarramentoSuccess implements Action
+{
+    readonly type = SINCRONIZA_BARRAMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -515,4 +539,6 @@ export type ProcessoActionsAll
     | DeleteAcompanhamentoSuccess
     | DeleteAcompanhamentoFailed
     | AddPluginLoading
-    | RemovePluginLoading;
+    | RemovePluginLoading
+    | SincronizaBarramento
+    | SincronizaBarramentoSuccess;

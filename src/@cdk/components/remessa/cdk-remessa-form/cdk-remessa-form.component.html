@@ -75,8 +75,7 @@
             [pagination]="pessoaDestinoPagination">
         </cdk-pessoa-autocomplete>
         <button *ngIf="form.get('pessoaDestino').value &&
-                form.get('pessoaDestino').value.id &&
-                form.get('mecanismoRemessa').value !== 'barramento'"
+                form.get('pessoaDestino').value.id"
                 matSuffix mat-button
                 mat-icon-button
                 (click)="doEditPessoaDestino()">
