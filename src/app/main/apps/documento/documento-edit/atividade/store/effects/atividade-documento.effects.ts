@@ -13,7 +13,12 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {UnloadDocumento} from '../../../../store';
 import {RemoveTarefa} from '../../../../../tarefas/store';
-import {GetJuntadas, UnloadJuntadas} from '../../../../../processo/processo-view/store';
+import {
+    GetDocumentos as GetDocumentosProcesso,
+    GetJuntadas,
+    UnloadDocumentos,
+    UnloadJuntadas
+} from '../../../../../processo/processo-view/store';
 import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
 
 @Injectable()
@@ -94,43 +99,51 @@ export class AtividadeDocumentoEffects {
                         this._store.dispatch(new GetTarefa({id: action.payload.tarefa.id}));
                     }
                     this._store.dispatch(new UnloadDocumento());
-                    if (this.routerState.url.indexOf('/processo') !== -1) {
-                        this._store.dispatch(new UnloadJuntadas({reset: false}));
-                        let processoFilter = null;
+                    const url = this.routerState.url;
+                    if (action.payload.encerraTarefa) {
+                        const split = url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
+                        this._router.navigate([url.split(split)[0] + '/encaminhamento']).then();
+                    } else {
+                        this._router.navigate([url.split('/documento')[0]]).then(() => {
+                            if (url.indexOf('/processo') !== -1) {
+                                this._store.dispatch(new UnloadDocumentos());
+                                this._store.dispatch(new GetDocumentosProcesso());
+                                this._store.dispatch(new UnloadJuntadas({reset: false}));
+                                let processoFilter = null;
 
-                        const routeParams = of('processoHandle');
-                        routeParams.subscribe((param) => {
-                            processoFilter = `eq:${this.routerState.params[param]}`;
+                                const routeParams = of('processoHandle');
+                                routeParams.subscribe((param) => {
+                                    processoFilter = `eq:${this.routerState.params[param]}`;
+                                });
+
+                                const params = {
+                                    filter: {
+                                        'volume.processo.id': processoFilter,
+                                        'vinculada': 'eq:0'
+                                    },
+                                    listFilter: {},
+                                    limit: 10,
+                                    offset: 0,
+                                    sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                                    populate: [
+                                        'volume',
+                                        'documento',
+                                        'documento.origemDados',
+                                        'documento.tipoDocumento',
+                                        'documento.componentesDigitais',
+                                        'documento.vinculacoesDocumentos',
+                                        'documento.vinculacoesDocumentos.documentoVinculado',
+                                        'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                                        'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                                        'documento.vinculacoesEtiquetas',
+                                        'documento.vinculacoesEtiquetas.etiqueta'
+                                    ]
+                                };
+
+                                this._store.dispatch(new GetJuntadas(params));
+                            }
                         });
-
-                        const params = {
-                            filter: {
-                                'volume.processo.id': processoFilter,
-                                'vinculada': 'eq:0'
-                            },
-                            listFilter: {},
-                            limit: 10,
-                            offset: 0,
-                            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
-                            populate: [
-                                'volume',
-                                'documento',
-                                'documento.origemDados',
-                                'documento.tipoDocumento',
-                                'documento.componentesDigitais',
-                                'documento.vinculacoesDocumentos',
-                                'documento.vinculacoesDocumentos.documentoVinculado',
-                                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                                'documento.vinculacoesEtiquetas',
-                                'documento.vinculacoesEtiquetas.etiqueta'
-                            ]
-                        };
-
-                        this._store.dispatch(new GetJuntadas(params));
                     }
-                    const split = this.routerState.url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
-                    this._router.navigate([this.routerState.url.split(split)[0] + '/encaminhamento']).then();
                 })
             );
 
