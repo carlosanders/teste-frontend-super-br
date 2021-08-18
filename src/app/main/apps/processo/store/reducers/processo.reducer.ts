@@ -264,6 +264,27 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
+        case ProcessoActions.SINCRONIZA_BARRAMENTO: {
+            return {
+                ...state,
+                loading: true,
+                saving: true,
+                errors: false,
+                pluginLoading: [...state.pluginLoading, 'sincroniza_barramento']
+            };
+        }
+
+        case ProcessoActions.SINCRONIZA_BARRAMENTO_SUCCESS: {
+            return {
+                ...state,
+                entityId: action.payload.id,
+                saving: false,
+                loading: false,
+                errors: false,
+                pluginLoading: state.pluginLoading.filter(value => value !== 'sincroniza_barramento')
+            };
+        }
+
         default:
             return state;
     }

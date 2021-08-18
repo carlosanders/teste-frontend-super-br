@@ -47,12 +47,12 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
     ngOnInit(): void {
 
         this.control.valueChanges.pipe(
-            debounceTime(300),
+            debounceTime(600),
             distinctUntilChanged(),
-            filter(term => !!term && term.length >= 2),
+            filter(term => !!term && term.length >= 5),
             switchMap((value) => {
 
-                if (typeof value === 'string' && value.length >= 2) {
+                if (typeof value === 'string' && value.length >= 5) {
                     const filterParam = {
                         nome: value,
                         filter: this.pagination.filter,

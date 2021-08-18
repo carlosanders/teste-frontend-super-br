@@ -517,3 +517,9 @@
 * Melhoria no componente de desfazer operação em segundo plano (ação de fechar)
 * Correção bugs no comportamento do componente de desfazer operações em segundo plano
 * Correção CSS dos botões de voltar/avançar no componente de processo-view
+
+1.7.0
+
+* Melhoria para resincronizar os componentes digitais de processo do barramento
+* Correção para inclusão de nova pessoa com vinculação da pessoa com barramento
+* Correção na pesquisa de estrutura e repositorio através do barramento
