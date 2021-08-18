@@ -318,4 +318,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             this._store.dispatch(new fromStore.DeleteAcompanhamento(payload));
         }
     }
+
+    sincronizarBarramento(processo): void {
+        this._store.dispatch(new fromStore.SincronizaBarramento(processo));
+    }
 }
