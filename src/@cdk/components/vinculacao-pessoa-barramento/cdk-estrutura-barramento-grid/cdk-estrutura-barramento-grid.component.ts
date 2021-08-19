@@ -42,7 +42,7 @@ export class CdkEstruturaBarramentoGridComponent implements AfterViewInit, OnIni
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'hierarquia', 'actions'];
 
     allColumns: any[] = [
         {
@@ -63,6 +63,11 @@ export class CdkEstruturaBarramentoGridComponent implements AfterViewInit, OnIni
         {
             id: 'sigla',
             label: 'sigla',
+            fixed: false
+        },
+        {
+            id: 'hierarquia',
+            label: 'hierarquia',
             fixed: false
         },
         {

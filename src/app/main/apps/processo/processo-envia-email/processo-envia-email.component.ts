@@ -87,11 +87,13 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
-       const payload = {
-           usuarioId: values.usuario.id,
-           juntadaId: this.juntada.id
-       };
-       this._store.dispatch(new fromStore.EnviaEmail(payload));
+       if (this.juntada.id) {
+           const payload = {
+               usuarioId: values.usuario.id,
+               juntadaId: this.juntada.id
+           };
+           this._store.dispatch(new fromStore.EnviaEmail(payload));
+       }
     }
 
     cancel(): void {

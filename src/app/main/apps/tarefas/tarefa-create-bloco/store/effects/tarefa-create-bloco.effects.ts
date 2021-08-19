@@ -51,7 +51,7 @@ export class TarefaCreateBlocoEffect {
                     content: 'Salvando a tarefa ...',
                     status: 0, // carregando
                 }))),
-                switchMap(action => {
+                mergeMap(action => {
                     return this._tarefaService.save(action.payload.tarefa).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
