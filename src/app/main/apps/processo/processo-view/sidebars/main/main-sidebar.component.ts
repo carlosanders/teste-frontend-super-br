@@ -1069,7 +1069,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doJuntadaOutraAba(documento: Documento): void {
-        this._store.dispatch(new fromStore.VisualizarJuntada(documento.id));
+        this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[0].id));
     }
 
     uploadAnexo(documento: Documento): void {
