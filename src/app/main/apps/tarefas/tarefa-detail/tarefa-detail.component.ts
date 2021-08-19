@@ -43,7 +43,7 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -93,7 +93,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     snackSubscription: any;
     lote: string;
 
-    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
+    @ViewChild('dynamicComponent', {read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
      * @param _changeDetectorRef
@@ -147,7 +147,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoading));
     }
 
-    ngAfterViewInit(): void {
+    iniciaModulos(): void {
+        if (this.container) {
+            this.container.clear();
+        }
         const path = 'app/main/apps/tarefas/tarefa-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -163,6 +166,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
             }
         });
+        this._changeDetectorRef.markForCheck();
     }
 
     ngOnInit(): void {
@@ -176,22 +180,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
             this.routerState = routerState.state;
-
-            const path = 'app/main/apps/tarefas/tarefa-detail';
-            modulesConfig.forEach((module) => {
-                if (module.components.hasOwnProperty(path)) {
-                    module.components[path].forEach(((c) => {
-                        this._dynamicService.loadComponent(c)
-                            .then(componentFactory => this.container.createComponent(componentFactory));
-                    }));
-                }
-
-                if (module.routerLinks.hasOwnProperty(path) &&
-                    module.routerLinks[path].hasOwnProperty('atividades') &&
-                    module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                    this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
-                }
-            });
         });
 
         this.tarefa$.pipe(
@@ -199,6 +187,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefa) => {
             this.tarefa = tarefa;
+            this.iniciaModulos();
             this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
 
