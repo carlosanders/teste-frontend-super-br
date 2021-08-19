@@ -70,21 +70,19 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value: string) => {
-                    let termFilterNUP = {
-                        orX: []
-                    };
+                    let termFilter = [];
                     value = value.split('.').join('').split('/').join('').replace('-', '');
                     value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         const filter = {};
                         filter[this.searchField] = `like:%${bit}%`;
-                        termFilterNUP.orX.push(filter);
+                        termFilter.push(filter);
                     });
-                    if (typeof value === 'string' && (termFilterNUP.orX.length)) {
+                    if (typeof value === 'string' && (termFilter.length)) {
                         this.processoSearchListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...termFilterNUP
+                            andX: termFilter
                         };
                         return this._processoService.search(
                             JSON.stringify(filterParam),

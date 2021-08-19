@@ -74,7 +74,11 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
     }
 
     displayEstruturaBarramentoFn(estruturaBarramento): string {
-        return estruturaBarramento ? estruturaBarramento.nome + ' - ID ' +
+        return estruturaBarramento ? estruturaBarramento.nome + ' - ' +
+            estruturaBarramento.sigla + ' / ' +
+            estruturaBarramento.hierarquia[0]['sigla']+ ' / ' +
+            estruturaBarramento.hierarquia[1]['sigla']+ ' / ' +
+            estruturaBarramento.hierarquia[2]['sigla'] + ' - ID ' +
             estruturaBarramento.numeroDeIdentificacaoDaEstrutura : null;
     }
 }
