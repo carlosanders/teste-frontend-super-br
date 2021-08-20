@@ -17,6 +17,7 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
 import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
+import {StatusBarramentoService} from "../../../../@cdk/services/status-barramento";
 
 const routes: Routes = [
     {
@@ -63,6 +64,7 @@ modulesConfig.forEach((module) => {
         fromGuards.ResolveGuard,
         ProcessoService,
         AcompanhamentoService,
+        StatusBarramentoService,
         ModalidadeTransicaoService
     ],
     entryComponents: [SnackBarDesfazerComponent],
