@@ -1,17 +1,14 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-
 import {select, Store} from '@ngrx/store';
-
 import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
