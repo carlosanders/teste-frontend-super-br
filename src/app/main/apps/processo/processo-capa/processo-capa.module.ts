@@ -27,6 +27,7 @@ import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-proces
 import {MatCardModule} from '@angular/material/card';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {StatusBarramentoService} from "../../../../../@cdk/services/status-barramento";
 
 const routes: Routes = [
     {
@@ -71,6 +72,7 @@ const routes: Routes = [
     providers: [
         ProcessoService,
         AcompanhamentoService,
+        StatusBarramentoService,
         fromGuards.ResolveGuard
     ]
 })
