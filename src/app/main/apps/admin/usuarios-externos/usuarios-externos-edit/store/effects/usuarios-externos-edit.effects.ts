@@ -92,7 +92,7 @@ export class UsuariosExternosEditEffects {
                 }))),
                 switchMap(action => {
                     const context = JSON.stringify({isAdmin: true});
-                    return this._usuarioService.save(action.payload.usuariosExternos, context).pipe(
+                    return this._usuarioService.save(action.payload.usuario, context).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
