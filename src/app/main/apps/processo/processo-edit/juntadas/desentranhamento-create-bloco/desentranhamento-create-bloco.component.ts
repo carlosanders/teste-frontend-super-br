@@ -14,7 +14,7 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
@@ -100,13 +100,16 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             this.pagination = pagination;
         });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this.sheetRef.dismiss();
             }
         });
 
@@ -173,7 +176,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 panelClass: ['cdk-white-bg'],
                 data: {
                     icon: 'low_priority',
-                    text: 'Desentranhando'
+                    text: 'Desentranhada(s)'
                 }
             });
 
@@ -183,6 +186,8 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 } else {
                     this._store.dispatch(new fromStore.SaveDesentranhamentoFlush());
                 }
+                this.snackSubscription.unsubscribe();
+                this.snackSubscription = null;
             });
         });
     }

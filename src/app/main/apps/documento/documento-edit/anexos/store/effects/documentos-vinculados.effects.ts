@@ -61,8 +61,7 @@ export class DocumentosVinculadosEffects {
 
                     const params = {
                         filter: {
-                            'vinculacaoDocumentoPrincipal.documento.id': documentoId,
-                            'juntadaAtual': 'isNull'
+                            'vinculacaoDocumentoPrincipal.documento.id': documentoId
                         },
                         limit: 10,
                         offset: 0,

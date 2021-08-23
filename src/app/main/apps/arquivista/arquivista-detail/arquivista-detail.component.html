@@ -33,7 +33,7 @@
             <mat-icon class="black-fg">swap_horiz</mat-icon>
         </button>
 
-        <button mat-icon-button *ngIf="(processo$ | async).modalidadeFase.valor === 'INTERMEDIÁRIA'"
+        <button mat-icon-button *ngIf="(processo$ | async).modalidadeFase?.valor === 'INTERMEDIÁRIA'"
                 aria-label="Desarquivar" matTooltip="Desarquivar"
                 [routerLink]="[(processo$ | async)?.id, 'desarquivar']"
                 [routerLinkActive]="['active', 'accent']">

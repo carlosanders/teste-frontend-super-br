@@ -514,3 +514,17 @@
 * Correção na largura máxima de imagens e tabelas no editor de textos
 * Melhoria minutas da tarefa iniciam todas selecionadas ao criar atividade
 * Melhoria Ocultando o checkbox de selecionar todas as minutas caso Encerrar Tarefa estiver marcado
+* Melhoria no componente de desfazer operação em segundo plano (ação de fechar)
+* Correção bugs no comportamento do componente de desfazer operações em segundo plano
+* Correção CSS dos botões de voltar/avançar no componente de processo-view
+
+1.6.6
+
+* Melhoria para resincronizar os componentes digitais de processo do barramento
+* Correção para inclusão de nova pessoa com vinculação da pessoa com barramento
+* Correção na pesquisa de estrutura e repositorio através do barramento
+* Correção abrir juntada em outra aba
+* Correção movimentar tarefas em bloco
+* Correção criar tarefas em bloco
+* Correção no desarquivamento de processos em fase intermediária
+* Correção carregamento de anexos ao editar

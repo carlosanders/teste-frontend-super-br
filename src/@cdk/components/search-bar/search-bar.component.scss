@@ -5,8 +5,6 @@
     .cdk-search-bar {
         display: flex;
         flex: 0 1 auto;
-        min-width: 64px;
-        height: 64px;
         font-size: 13px;
 
         @include media-breakpoint('xs') {
@@ -41,16 +39,7 @@
             .cdk-search-bar-expander,
             .cdk-search-bar-collapser {
                 cursor: pointer;
-                padding: 0 20px;
                 margin: 0;
-                width: 64px !important;
-                height: 64px !important;
-                line-height: 64px !important;
-
-                @include media-breakpoint('xs') {
-                    height: 56px !important;
-                    line-height: 56px !important;
-                }
             }
 
             .cdk-search-bar-loader {

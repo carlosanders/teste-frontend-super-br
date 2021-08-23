@@ -63,7 +63,7 @@ relatorios {
                     }
                 }
 
-                > &.current-relatorio-selected {
+                &.current-relatorio-selected {
                     .search-wrapper {
                         display: none !important;
                     }
