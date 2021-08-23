@@ -156,7 +156,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         }
 
         if (this.form.get('outroNumero').value) {
-                this.form.get('outroNumero').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'outroNumero': `like:%${bit}%`});
             });
         }
