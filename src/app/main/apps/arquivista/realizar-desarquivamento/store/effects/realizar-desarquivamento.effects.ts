@@ -51,18 +51,21 @@ export class RealizarDesarquivamentoEffects {
         this._actions
             .pipe(
                 ofType<RealizarDesarquivamentoActions.SaveRealizarDesarquivamento>(RealizarDesarquivamentoActions.SAVE_REALIZAR_DESARQUIVAMENTO),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                tap((action) =>
+                {
+                    console.log(action);
+                    this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
-                    type: 'realizar transição',
+                    type: 'transicao',
                     content: 'Salvando a realização da transicao ...',
                     status: 0, // carregando
-                }))),
+                }))}),
                 switchMap(action => {
-                    return this._transicaoService.save(action.payload.realizarTransicao).pipe(
+                    return this._transicaoService.save(action.payload.transicao).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
-                                type: 'realizar transição',
+                                type: 'transicao',
                                 content: 'Realização da transicao id ' + response.id + ' salva com sucesso.',
                                 status: 1, // sucesso
                             }))
@@ -75,7 +78,7 @@ export class RealizarDesarquivamentoEffects {
                             console.log(err);
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
-                                type: 'realizar transição',
+                                type: 'transicao',
                                 content: 'Erro ao salvar a realização da transicao!',
                                 status: 2, // erro
                             }));
