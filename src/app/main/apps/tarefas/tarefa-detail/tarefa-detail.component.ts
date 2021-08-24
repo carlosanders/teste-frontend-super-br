@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -76,9 +75,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     routerState: any;
 
     accept = 'application/pdf';
-
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
 
     maximizado$: Observable<boolean>;
     maximizado = false;
@@ -186,8 +182,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
             filter(tarefa => !!tarefa),
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefa) => {
+            if (!this.tarefa || this.tarefa.id !== tarefa.id) {
+                this.iniciaModulos();
+            }
             this.tarefa = tarefa;
-            this.iniciaModulos();
             this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
 
