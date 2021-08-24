@@ -10,6 +10,7 @@
                                  [deletingId]="(deletingDocumentosId$ | async)"
                                  [assinandoId]="(assinandoDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
+                                 [alterandoId]="(alterandoDocumentosId$ | async)"
                                  (delete)="doDelete($event)"
                                  (deleteBloco)="doDeleteBloco($event)"
                                  (verResposta)="doVerResposta($event)"
@@ -17,7 +18,8 @@
                                  (converte)="doConverte($event)"
                                  (converteHtml)="doConverteHtml($event)"
                                  (clicked)="onClicked($event)"
-                                 (changedSelectedIds)="changedSelectedIds($event)">
+                                 (changedSelectedIds)="changedSelectedIds($event)"
+                                 (alterarTipoDocumento)="doAlterarTipoDocumento($event)">
         </cdk-documento-card-list>
     </div>
 </div>
