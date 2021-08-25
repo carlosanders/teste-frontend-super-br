@@ -113,11 +113,6 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
             fixed: false
         },
         {
-            id: 'documento.componentesDigitais.extensao',
-            label: 'Componentes Digitais',
-            fixed: false
-        },
-        {
             id: 'criadoPor.nome',
             label: 'Criado Por',
             fixed: false

@@ -86,18 +86,18 @@ export class TransicaoWorkflowListEffects {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
                         type: 'workflow',
-                        content: 'Apagando a workflow id ' + action.payload.workflowId + '...',
+                        content: 'Apagando a workflow id ' + action.payload.transicaoWorkflowId + '...',
                         status: 0, // carregando
                         lote: action.payload.loteId
                     }));
                 }),
                 mergeMap((action) => {
-                    return this._transicaoWorkflowService.destroy(action.payload.workflowId).pipe(
+                    return this._transicaoWorkflowService.destroy(action.payload.transicaoWorkflowId).pipe(
                         map((response) => {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'workflow',
-                                content: 'Workflow id ' + action.payload.workflowId + ' deletada com sucesso.',
+                                content: 'Workflow id ' + action.payload.transicaoWorkflowId + ' deletada com sucesso.',
                                 status: 1, // sucesso
                                 lote: action.payload.loteId
                             }));

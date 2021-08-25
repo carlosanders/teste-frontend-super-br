@@ -56,7 +56,7 @@ export class ComponenteDigitalEffects {
                         limit: action.payload.limit ? action.payload.limit : 5,
                         offset: action.payload.offset ? action.payload.offset : 0,
                         sort: action.payload.sort ? action.payload.sort : {numeracaoSequencial: 'ASC'},
-                        populate: []
+                        populate: [ 'populateAll' ]
                     };
 
                     return this._componenteDigitalService.query(

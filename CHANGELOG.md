@@ -528,3 +528,13 @@
 * Correção criar tarefas em bloco
 * Correção no desarquivamento de processos em fase intermediária
 * Correção carregamento de anexos ao editar
+
+1.7.0
+
+* Correção ao tentar remover uma transição no workflow #585
+* Correção ao desativar um localizador de um setor da unidade #158
+* Correção checkbox de espécie de setor do Modelo Nacional e da Tese Nacional some #120
+* Correção ao desativar um Modelo Nacional e uma Tese Nacional #118
+* Correção ao alterar o tipo de documento do ofício nada muda aparentemente #348
+* Correção Coluna F da tabela de relatórios de tarefas não tem cabeçalho #328
+
