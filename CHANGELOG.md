@@ -529,7 +529,7 @@
 * Correção no desarquivamento de processos em fase intermediária
 * Correção carregamento de anexos ao editar
 
-1.7.0
+1.6.7
 
 * Correção ao tentar remover uma transição no workflow #585
 * Correção ao desativar um localizador de um setor da unidade #158
@@ -537,4 +537,7 @@
 * Correção ao desativar um Modelo Nacional e uma Tese Nacional #118
 * Correção ao alterar o tipo de documento do ofício nada muda aparentemente #348
 * Correção Coluna F da tabela de relatórios de tarefas não tem cabeçalho #328
+* Correção campo "Criado Por" em branco nas Juntadas do Processo #430
+* Correção colunas desordenadas na tela da listagem de pessoas cadastradas #540 
+* Correção criação de tarefa para Unidade fechada por protocolo.
 
