@@ -58,12 +58,6 @@ export class TarefaCreateEffect {
                         ]),
                         catchError((err) => {
                             console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Houve erro na tarefa no processo ${action.payload.processo.NUP} para o setor ${action.payload.setorResponsavel.nome}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
-                            }));
                             return of(new TarefaCreateActions.SaveTarefaFailed(err));
                         })
                     ))
