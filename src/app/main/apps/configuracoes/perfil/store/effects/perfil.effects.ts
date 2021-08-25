@@ -81,7 +81,7 @@ export class ProfileEffect {
             .pipe(
                 ofType<ProfileActions.UploadImagemChancela>(ProfileActions.UPLOAD_IMAGEM_CHANCELA),
                 switchMap((action) => {
-                    return this._componenteDigitalService.save(action.payload).pipe(
+                    return this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new AddData<ComponenteDigital>({data: [response], schema: componenteDigitalSchema}),
                             new ProfileActions.UploadImagemChancelaSuccess(response)
