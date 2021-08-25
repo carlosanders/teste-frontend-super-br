@@ -202,7 +202,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'especie'];
 
     @Input()
     layout = 'horizontal';

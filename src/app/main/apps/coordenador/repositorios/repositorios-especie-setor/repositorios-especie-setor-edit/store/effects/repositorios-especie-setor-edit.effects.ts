@@ -89,8 +89,9 @@ export class RepositoriosEspecieSetorEditEffects {
                     content: 'Salvando o repositório espécie de setor ...',
                     status: 0, // carregando
                 }))),
+                tap(action => (console.log(action))),
                 switchMap(action => {
-                    return this._vinculacaoRepositorioService.save(action.payload.repositorioEspecieSetor).pipe(
+                    return this._vinculacaoRepositorioService.save(action.payload.vinculacaoRepositorio).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
