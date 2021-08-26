@@ -541,4 +541,5 @@
 * Correção colunas desordenadas na tela da listagem de pessoas cadastradas #540 
 * Correção criação de tarefa para Unidade fechada por protocolo.
 * Correção do encaminhamento em bloco de tarefas
+* Correção salvar sigilo legal com categoria #243
 * Correção ao criar nova tarefa vinculada ao workflow #602
