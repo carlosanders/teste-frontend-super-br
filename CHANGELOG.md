@@ -493,3 +493,53 @@
 * Correçao de bug ao salvar form de usuario externo
 * Correçao form de vinculaçao pessoa-barramento
 * Correçao carregamento de repositorios no form pessoa-barramento
+* Correção para permitir apenas modelos "em branco" na automatização do workflow e das etiquetas
+* Correção para permitir apagar anexos da minuta
+* Correção apagar anexos dentro do editor de minuta
+* Correção apagar anexos dentro do editor de ofício
+* Correção assinatura de anexos dentro de editor de minuta
+* Correção assinatura de anexos dentro de editor de ofício
+* Correção apagar anexos em bloco dentro de editor de minuta
+* Correção apagar anexos em bloco dentro de editor de ofício
+* Correção remover assinatura de anexos dentro de editor de minuta
+* Correção remover assinatura de anexos dentro de editor de ofício
+* Melhoria possibilitar seleção de minutas que serão destinadas ao criar atividade sem encerrar tarefa
+* Melhoria clareza ao usuário que todas as minutas serão destinadas ao criar atividade encerrando tarefa
+* Melhoria exibir todas as minutas da tarefa no editor, na sidebar de atividade, e possibilitar navegação entre elas
+* Correção atualizar minuta na listagem ao fechar dialog de upload de anexos diretamente do processo-view
+* Correção css de listagem de documentos em atividades
+* Correção em código de componente de atividades em bloco
+* Correção em loadings de remoção de documentos em atividades em bloco
+* Correção de modularização do componente de operações em bloco para movimentação de tarefas
+* Correção na largura máxima de imagens e tabelas no editor de textos
+* Melhoria minutas da tarefa iniciam todas selecionadas ao criar atividade
+* Melhoria Ocultando o checkbox de selecionar todas as minutas caso Encerrar Tarefa estiver marcado
+* Melhoria no componente de desfazer operação em segundo plano (ação de fechar)
+* Correção bugs no comportamento do componente de desfazer operações em segundo plano
+* Correção CSS dos botões de voltar/avançar no componente de processo-view
+
+1.6.6
+
+* Melhoria para resincronizar os componentes digitais de processo do barramento
+* Correção para inclusão de nova pessoa com vinculação da pessoa com barramento
+* Correção na pesquisa de estrutura e repositorio através do barramento
+* Correção abrir juntada em outra aba
+* Correção movimentar tarefas em bloco
+* Correção criar tarefas em bloco
+* Correção no desarquivamento de processos em fase intermediária
+* Correção carregamento de anexos ao editar
+
+1.6.7
+
+* Correção ao tentar remover uma transição no workflow #585
+* Correção ao desativar um localizador de um setor da unidade #158
+* Correção checkbox de espécie de setor do Modelo Nacional e da Tese Nacional some #120
+* Correção ao desativar um Modelo Nacional e uma Tese Nacional #118
+* Correção ao alterar o tipo de documento do ofício nada muda aparentemente #348
+* Correção Coluna F da tabela de relatórios de tarefas não tem cabeçalho #328
+* Correção campo "Criado Por" em branco nas Juntadas do Processo #430
+* Correção colunas desordenadas na tela da listagem de pessoas cadastradas #540 
+* Correção criação de tarefa para Unidade fechada por protocolo.
+* Correção do encaminhamento em bloco de tarefas
+* Correção salvar sigilo legal com categoria #243
+* Correção ao criar nova tarefa vinculada ao workflow #602

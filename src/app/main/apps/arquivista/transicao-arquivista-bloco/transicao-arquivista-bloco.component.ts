@@ -11,7 +11,7 @@ import {select, Store} from '@ngrx/store';
 import {ModalidadeTransicao, Processo, Transicao} from '@cdk/models';
 import * as fromStore from './store';
 import {getOperacoes, getRouterState, RouterStateUrl} from '../../../../store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
@@ -31,7 +31,6 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 })
 export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
     loading: boolean;
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
@@ -43,13 +42,15 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
 
     total = 0;
 
-    private routerState: RouterStateUrl;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     operacoes: any[] = [];
 
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+
+    private routerState: RouterStateUrl;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.TransicaoArquivistaBlocoAppState>,
@@ -94,14 +95,17 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
                 }
             );
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this.sheetRef.dismiss();
             }
         });
     }
@@ -129,21 +133,19 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
     submit(values): void {
         const loteId = CdkUtils.makeId();
 
+        const tituloModalidadeTransicao = this.modalidadeTransicao.valor.toLowerCase();
+
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
+                message: 'Deseja realmente realizar a ' + tituloModalidadeTransicao +
+                    ' em bloco? NUPs apensos ou anexos sofrerão a mesma temporalidade e destinação.'
             },
             disableClose: false
         });
 
-        const tituloModalidadeTransicao = this.modalidadeTransicao.valor.toLowerCase();
-
-        this.confirmDialogRef
-            .componentInstance
-            .confirmMessage = 'Deseja realmente realizar a ' + tituloModalidadeTransicao +
-            ' em bloco? NUPs apensos ou anexos sofrerão a mesma temporalidade e destinação.';
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.operacoes = [];
@@ -195,6 +197,8 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
                         } else {
                             this._store.dispatch(new fromStore.SaveTransicaoArquivistaFlush());
                         }
+                        this.snackSubscription.unsubscribe();
+                        this.snackSubscription = null;
                     });
 
                 });

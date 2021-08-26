@@ -12,7 +12,7 @@
         [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="colunas"
-        [actions]="['actions', 'showInatived']"
+        [actions]="['create', 'edit', 'editConteudo', 'delete', 'showInatived', 'especie']"
         [mode]="'search'"
         (inatived)="inatived($event)"
         (reload)="reload($event)"

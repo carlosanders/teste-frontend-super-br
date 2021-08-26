@@ -53,7 +53,7 @@ export class AtividadeCreateBlocoEffect {
                     content: 'Salvando a atividade ...',
                     status: 0, // carregando
                 }))),
-                switchMap(action => {
+                mergeMap(action => {
                     return this._atividadeService.save(action.payload.atividade).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({

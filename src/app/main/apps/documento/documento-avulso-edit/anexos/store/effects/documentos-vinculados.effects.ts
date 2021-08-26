@@ -16,7 +16,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {DocumentosVinculadosActionsAll} from '../actions/documentos-vinculados.actions';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -28,7 +29,8 @@ export class DocumentosVinculadosEffects {
         private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _componenteDigitalService: ComponenteDigitalService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -71,7 +73,13 @@ export class DocumentosVinculadosEffects {
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
                             'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                            'componentesDigitais'
+                            'componentesDigitais',
+                            'processoOrigem',
+                            'setorOrigem',
+                            'tarefaOrigem',
+                            'tarefaOrigem.usuarioResponsavel',
+                            'tarefaOrigem.vinculacoesEtiquetas',
+                            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                         ]
                     };
 
@@ -157,7 +165,7 @@ export class DocumentosVinculadosEffects {
             );
 
     /**
-     * Delete Documento Vinculado
+     * Assina Documento Vinculado
      *
      * @type {Observable<any>}
      */
@@ -166,26 +174,30 @@ export class DocumentosVinculadosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculado>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO),
-                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
-                            .pipe(
-                                map(response => new DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess(response)),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
-                                })
-                            ), 25
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
+                    .pipe(
+                        map(response => new DocumentosVinculadosActions.PreparaAssinaturaVinculadoSuccess(response)),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload,
+                                error: err
+                            };
+                            console.log(err);
+                            return of(new DocumentosVinculadosActions.PreparaAssinaturaVinculadoFailed(payload));
+                        })
+                    ), 25
                 ));
 
     /**
-     * Assina Documento Vinculado
+     * Prepara Assinatura Success
      *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
-    assinaDocumentoVinculadoSuccess: any =
+    preparaAssinaturaSuccess: any =
         this._actions
             .pipe(
-                ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_SUCCESS),
+                ofType<DocumentosVinculadosActions.PreparaAssinaturaVinculadoSuccess>(DocumentosVinculadosActions.PREPARA_ASSINATURA_VINCULADO_SUCCESS),
                 tap((action) => {
                     if (action.payload.secret) {
                         const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
@@ -216,7 +228,7 @@ export class DocumentosVinculadosEffects {
                     content: 'Salvando a assinatura ...',
                     status: 0, // carregando
                 }))),
-                switchMap(action => {
+                mergeMap(action => {
                     return this._assinaturaService.save(action.payload.assinatura).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
@@ -227,10 +239,19 @@ export class DocumentosVinculadosEffects {
                             }))
                         ),
                         mergeMap((response: Assinatura) => [
-                            new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(response),
+                            new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(action.payload.documento.id),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new UpdateData<Documento>({
+                                id: action.payload.documento.id,
+                                schema: documentoSchema,
+                                changes: {assinado: true}
+                            }),
                         ]),
                         catchError((err) => {
+                            const payload = {
+                                documentoId: action.payload.documento.id,
+                                error: err
+                            };
                             console.log(err);
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
@@ -238,11 +259,36 @@ export class DocumentosVinculadosEffects {
                                 content: 'Erro ao salvar a assinatura!',
                                 status: 2, // erro
                             }));
-                            return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteFailed(err));
+                            return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteFailed(payload));
                         })
                     )
                 })
             );
+
+    /**
+     * Remove Assinatura de Documento
+     */
+    @Effect()
+    removeAssinaturaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.RemoveAssinaturaDocumentoVinculado>(DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO),
+                mergeMap(action => this._documentoService.removeAssinatura(action.payload)
+                    .pipe(
+                        mergeMap(response => [
+                            new DocumentosVinculadosActions.RemoveAssinaturaDocumentoVinculadoSuccess(action.payload),
+                            new UpdateData<Documento>({
+                                id: action.payload,
+                                schema: documentoSchema,
+                                changes: {assinado: false}
+                            })
+                        ]),
+                        catchError((err, caught) => {
+                            console.log(err);
+                            return of(new DocumentosVinculadosActions.RemoveAssinaturaDocumentoVinculadoFailed(action.payload));
+                        })
+                    ), 25
+                ));
 
     /**
      * Clicked Documento Vinculado
@@ -266,11 +312,85 @@ export class DocumentosVinculadosEffects {
                     if (action.payload.vinculacaoDocumentoPrincipal) {
                         sidebar = 'oficio/dados-basicos';
                     }
-                    this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {outlets: {primary: primary, sidebar: sidebar}}],
+                    this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
+                            outlets: {
+                                primary: primary,
+                                sidebar: sidebar
+                            }
+                        }],
                         {
                             relativeTo: this._activatedRoute.parent // <--- PARENT activated route.
                         }).then();
                 })
             );
 
+    /**
+     * Update Documento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    updateDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.UpdateDocumento>(DocumentosVinculadosActions.UPDATE_DOCUMENTO),
+                mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+                    mergeMap((response: Documento) => [
+                        new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
+                        new AddData<Documento>({data: [response], schema: documentoSchema}),
+                        new DocumentosVinculadosActions.GetDocumentosVinculados()
+                    ]),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
+                    })
+                ), 25)
+            );
+
+    /**
+     * Download P7S
+     *
+     * @type {Observable<any>}
+     *
+     * */
+    @Effect()
+    downloadP7S: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.DownloadP7S>(DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_P7S),
+                mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload.id)
+                    .pipe(
+                        map((response) => {
+                            if (response) {
+                                const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                                const byteNumbers = new Array(byteCharacters.length);
+                                for (let i = 0; i < byteCharacters.length; i++) {
+                                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                }
+                                const byteArray = new Uint8Array(byteNumbers);
+                                const blob = new Blob([byteArray], {type: response.mimetype});
+                                const URL = window.URL;
+                                const data = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = data;
+                                link.download = response.fileName;
+                                link.dispatchEvent(new MouseEvent('click', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                }));
+                                setTimeout(() => {
+                                    window.URL.revokeObjectURL(data);
+                                    link.remove();
+                                }, 100);
+                            }
+                            return new DocumentosVinculadosActions.DownloadP7SSuccess(action.payload);
+                        }),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosVinculadosActions.DownloadP7SFailed(action.payload));
+                        })
+                    ), 25
+                )
+            );
 }

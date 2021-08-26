@@ -27,7 +27,8 @@ import {modulesConfig} from 'modules/modules-config';
 import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.service';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {ProcessoStoreModule} from '../../processo/store/store.module';
-import {AcompanhamentoService} from '../../../../../@cdk/services/acompanhamento.service';
+import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
+import {StatusBarramentoService} from "@cdk/services/status-barramento";
 
 const routes: Routes = [
     {
@@ -125,7 +126,8 @@ routes[0].children.push({
         DocumentoService,
         fromGuards.ResolveGuard,
         ModalidadeEtiquetaService,
-        EtiquetaService
+        EtiquetaService,
+        StatusBarramentoService
     ]
 })
 export class TarefaDetailModule {

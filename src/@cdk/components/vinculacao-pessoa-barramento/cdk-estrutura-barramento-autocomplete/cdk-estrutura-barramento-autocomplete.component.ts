@@ -47,12 +47,12 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
     ngOnInit(): void {
 
         this.control.valueChanges.pipe(
-            debounceTime(300),
+            debounceTime(600),
             distinctUntilChanged(),
-            filter(term => !!term && term.length >= 2),
+            filter(term => !!term && term.length >= 5),
             switchMap((value) => {
 
-                if (typeof value === 'string' && value.length >= 2) {
+                if (typeof value === 'string' && value.length >= 5) {
                     const filterParam = {
                         nome: value,
                         filter: this.pagination.filter,
@@ -74,7 +74,11 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
     }
 
     displayEstruturaBarramentoFn(estruturaBarramento): string {
-        return estruturaBarramento ? estruturaBarramento.nome + ' - ID ' +
+        return estruturaBarramento ? estruturaBarramento.nome + ' - ' +
+            estruturaBarramento.sigla + ' / ' +
+            estruturaBarramento.hierarquia[0]['sigla']+ ' / ' +
+            estruturaBarramento.hierarquia[1]['sigla']+ ' / ' +
+            estruturaBarramento.hierarquia[2]['sigla'] + ' - ID ' +
             estruturaBarramento.numeroDeIdentificacaoDaEstrutura : null;
     }
 }

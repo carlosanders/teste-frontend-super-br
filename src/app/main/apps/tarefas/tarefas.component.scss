@@ -63,7 +63,7 @@ tarefas {
                     }
                 }
 
-                > &.current-tarefa-selected {
+                &.current-tarefa-selected {
                     .search-wrapper {
                         display: none !important;
                     }

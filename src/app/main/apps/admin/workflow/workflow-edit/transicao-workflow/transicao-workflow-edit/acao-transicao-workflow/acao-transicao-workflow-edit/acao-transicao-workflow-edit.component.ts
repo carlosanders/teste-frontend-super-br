@@ -104,16 +104,7 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
             'documento.componentesDigitais'
         ];
         this.modeloPagination.filter = {
-            orX: [
-                {
-                    'modalidadeModelo.valor': 'eq:EM BRANCO'
-                },
-                {
-                    // Modelos individuais
-                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
-                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
-                },
-            ]
+            'modalidadeModelo.valor': 'eq:EM BRANCO'
         };
 
         this.unidadePagination = new Pagination();

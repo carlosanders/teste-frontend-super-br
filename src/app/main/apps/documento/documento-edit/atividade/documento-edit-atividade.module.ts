@@ -9,15 +9,19 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {DocumentoEditAtividadeComponent} from './documento-edit-atividade.component';
 import {DocumentoEditAtividadeStoreModule} from './store/store.module';
+import * as fromGuards from './store/guards';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
+import {CdkMinutasAtividadeCardListModule} from '@cdk/components/documento/cdk-minutas-atividade-card-list/cdk-minutas-atividade-card-list.module';
+import {DocumentoService} from '@cdk/services/documento.service';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditAtividadeComponent
+        component: DocumentoEditAtividadeComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -40,9 +44,12 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         MatSlideToggleModule,
         CdkAtividadeFormModule,
+        CdkMinutasAtividadeCardListModule,
     ],
     providers: [
         AtividadeService,
+        DocumentoService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditAtividadeComponent

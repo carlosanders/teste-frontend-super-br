@@ -35,11 +35,6 @@
                 <ng-template #dynamicComponent></ng-template>
             </mat-menu>
 
-            <cdk-componente-digital-card-list #cdkUpload
-                                              [processoOrigem]="processo"
-                                              (completed)="onComplete()">
-            </cdk-componente-digital-card-list>
-
             <cdk-documento-card-list [documentos]="documentos"
                                      (clicked)="onClicked($event)"
                                      [assinandoId]="(assinandoDocumentosId$ | async)"
@@ -51,6 +46,12 @@
                                      [convertendoId]="(convertendoDocumentosId$ | async)"
                                      (downloadP7S)="doDownloadP7S($event)">
             </cdk-documento-card-list>
+
+            <cdk-componente-digital-card-list class="pt-8 pb-8 pl-0 pr-8" #cdkUpload
+                                              [processoOrigem]="processo"
+                                              [uploadMode]="'linear'"
+                                              (completed)="onComplete()">
+            </cdk-componente-digital-card-list>
         </div>
 
         <div class="actions">

@@ -10,12 +10,8 @@
         </mat-list-item>
     </mat-list>
 
-    <div class="loading" *ngIf="operacoes.length == 1">
-        <mat-spinner diameter="24"></mat-spinner>
-    </div>
-
     <cdk-tarefa-form
-        *ngIf="operacoes.length < 1"
+        *ngIf="operacoes.length <= 1"
         [tarefa]="tarefa"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"

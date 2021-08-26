@@ -20,7 +20,7 @@ import * as fromStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
@@ -38,7 +38,8 @@ import {CdkUtils} from '@cdk/utils';
 })
 export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
@@ -48,17 +49,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     selectedIds$: Observable<number[]>;
     selectedIds: number[];
 
-    private _profile: any;
-
     routeAtividadeBloco = 'atividade-bloco';
 
     routerState: any;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+    snackSubscriptionType: string;
+
+    private _profile: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -88,14 +88,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
+                this.sheetRef.dismiss();
             }
+
+            this.routerState = routerState.state;
         });
 
         this.tarefas$.pipe(
@@ -129,11 +131,12 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             }
         });
 
+        const path2 = 'app/main/apps/tarefas';
         modulesConfig.forEach((module) => {
-            if (module.routerLinks.hasOwnProperty(path) &&
-                module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
-                module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
+            if (module.routerLinks.hasOwnProperty(path2) &&
+                module.routerLinks[path2].hasOwnProperty('atividade-bloco') &&
+                module.routerLinks[path2]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividadeBloco = module.routerLinks[path2]['atividade-bloco'][this.routerState.params.generoHandle];
             }
         });
     }
@@ -176,10 +179,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'delete') {
+                // temos um snack aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -187,16 +196,20 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletado(s)'
             }
         });
 
+        this.snackSubscriptionType = 'delete';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStoreTarefas.DeleteTarefaCancel());
             } else {
                 this._store.dispatch(new fromStoreTarefas.DeleteTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 
@@ -222,10 +235,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'ciencia') {
+                // temos um snack de ciência aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -233,16 +252,20 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Dando ciência'
+                text: 'Ciência'
             }
         });
 
+        this.snackSubscriptionType = 'ciencia';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStoreTarefas.DarCienciaTarefaCancel());
             } else {
                 this._store.dispatch(new fromStoreTarefas.DarCienciaTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 

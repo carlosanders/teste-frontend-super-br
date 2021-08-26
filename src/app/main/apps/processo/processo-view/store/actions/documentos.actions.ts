@@ -1,5 +1,9 @@
 import {Action} from '@ngrx/store';
 
+export const RELOAD_DOCUMENTO = '[PROCESSO VIEW] RELOAD DOCUMENTO';
+export const RELOAD_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] RELOAD DOCUMENTO SUCCESS';
+export const RELOAD_DOCUMENTO_FAILED = '[PROCESSO VIEW] RELOAD DOCUMENTO FAILED';
+
 export const GET_DOCUMENTOS = '[PROCESSO VIEW] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_SUCCESS = '[PROCESSO VIEW] GET DOCUMENTOS SUCCESS';
 export const GET_DOCUMENTOS_FAILED = '[PROCESSO VIEW] GET DOCUMENTOS FAILED';
@@ -78,6 +82,42 @@ export class UnloadDocumentos implements Action
     readonly type = UNLOAD_DOCUMENTOS;
 
     constructor()
+    {
+    }
+}
+
+/**
+ * Reload Documento
+ */
+export class ReloadDocumento implements Action
+{
+    readonly type = RELOAD_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Reload Documento Success
+ */
+export class ReloadDocumentoSuccess implements Action
+{
+    readonly type = RELOAD_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Reload Documento Failed
+ */
+export class ReloadDocumentoFailed implements Action
+{
+    readonly type = RELOAD_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
     {
     }
 }
@@ -654,7 +694,10 @@ export class RemoveVinculacaoDocumentoFailed implements Action
 }
 
 export type ProcessoViewDocumentosActionsAll
-    = GetDocumentos
+    = ReloadDocumento
+    | ReloadDocumentoSuccess
+    | ReloadDocumentoFailed
+    | GetDocumentos
     | GetDocumentosSuccess
     | GetDocumentosFailed
     | GetDocumentosExcluidos

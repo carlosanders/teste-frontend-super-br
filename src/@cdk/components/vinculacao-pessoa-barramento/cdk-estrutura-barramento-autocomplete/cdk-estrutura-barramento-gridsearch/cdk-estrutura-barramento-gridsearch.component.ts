@@ -12,7 +12,7 @@ import {of} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
-import {catchError, finalize} from 'rxjs/operators';
+import {catchError, finalize, switchMap} from 'rxjs/operators';
 
 import {Pagination} from '@cdk/models';
 import {VinculacaoPessoaBarramentoService} from "../../../../services/vinculacao-pessoa-barramento.service";
@@ -65,7 +65,6 @@ export class CdkEstruturaBarramentoGridsearchComponent implements OnInit {
     load(params): void {
 
         this.loading = true;
-        this.pagination.offset = this.pagination.offset + 1;
 
         const filterParam = {
             filter: this.pagination.filter,
@@ -74,11 +73,15 @@ export class CdkEstruturaBarramentoGridsearchComponent implements OnInit {
         };
 
         this._estruturaBarramentoService.consultaEstrutura(filterParam)
-            .pipe(finalize(() => this.loading = false),
+            .pipe(
+                finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-            this.estruturaBarramentos = response['entities'];
+            this.estruturaBarramentos = response['entities'].sort(function(a,b) {
+                return a['nome'].trim()-b['nome'].trim()
+            });
             this.total = response['total'];
+            this.pagination.offset = this.pagination.offset + this.pagination.limit;
             this._changeDetectorRef.markForCheck();
         });
     }

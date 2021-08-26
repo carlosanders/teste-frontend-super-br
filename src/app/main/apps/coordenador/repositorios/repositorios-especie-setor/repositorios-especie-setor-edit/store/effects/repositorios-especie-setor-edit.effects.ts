@@ -90,7 +90,7 @@ export class RepositoriosEspecieSetorEditEffects {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._vinculacaoRepositorioService.save(action.payload.repositorioEspecieSetor).pipe(
+                    return this._vinculacaoRepositorioService.save(action.payload.vinculacaoRepositorio).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,

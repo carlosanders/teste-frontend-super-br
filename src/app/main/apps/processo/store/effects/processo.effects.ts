@@ -19,6 +19,9 @@ import * as OperacoesActions from '../../../../../store/actions/operacoes.action
 import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import * as fromStore from "../index";
+import {StatusBarramentoService} from "@cdk/services/status-barramento";
+import {now} from "moment";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class ProcessoEffect {
@@ -32,7 +35,9 @@ export class ProcessoEffect {
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
         private _router: Router,
-        private _acompanhamentoService: AcompanhamentoService
+        private _acompanhamentoService: AcompanhamentoService,
+        private _statusBarramentoService: StatusBarramentoService,
+        private _snackBar: MatSnackBar
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -398,4 +403,39 @@ export class ProcessoEffect {
                     );
                 }, 25)
             );
+
+    /**
+     * Sincroniza Barramento
+     *
+     * @type {Observable<any>}
+     */
+    @Effect()
+    sincronizaBarramento: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.SincronizaBarramento>(ProcessoActions.SINCRONIZA_BARRAMENTO),
+                switchMap(action => this._statusBarramentoService.sincronizaBarramento(action.payload).pipe(
+                    mergeMap((response: Processo) => [
+                        new ProcessoActions.SincronizaBarramentoSuccess(response),
+                        new OperacoesActions.Resultado({
+                            type: 'status-barramento',
+                            content: `Enviado o processo nup ${response['nup']} para sincronização com barramento!`,
+                            dateTime: now()
+                        })
+                    ]),
+                    tap((response) => {
+                        this._snackBar.open(
+                            'A sincronização do barramento será em segundo plano. Aguarde a notificação!',
+                            'Fechar',
+                            {
+                                duration: 3000,
+                                horizontalPosition: 'center',
+                                verticalPosition: 'top',
+                                panelClass: ['cdk-white-bg', 'sincroniza-barramento-snackbar']
+                            }
+                        )
+                    })
+                ))
+            );
+
 }

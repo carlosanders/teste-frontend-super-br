@@ -345,8 +345,8 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(classificacao.id) > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded && classificacao.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(classificacao.id) > -1 && !hasExcluded || classificacao.immutable === true"
                                 (click)="editClassificacao(classificacao.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
@@ -358,8 +358,8 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(classificacao.id) > -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded && classificacao.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(classificacao.id) > -1 || classificacao.immutable === true"
                                 (click)="deleteClassificacao(classificacao.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">

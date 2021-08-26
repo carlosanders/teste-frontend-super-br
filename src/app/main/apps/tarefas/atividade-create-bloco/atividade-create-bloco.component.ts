@@ -5,6 +5,7 @@ import {
     OnDestroy,
     OnInit,
     ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -23,8 +24,11 @@ import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store';
 import {getSelectedTarefas} from '../store';
-import {getProcessosIdsEncaminhar} from "../encaminhamento-bloco/store";
-import {CdkUtils} from '../../../../../@cdk/utils';
+import {getProcessosIdsEncaminhar} from '../encaminhamento-bloco/store';
+import {CdkUtils} from '@cdk/utils';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {DynamicService} from 'modules/dynamic.service';
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -36,7 +40,13 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
@@ -50,7 +60,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    private _profile: Colaborador;
+    form: FormGroup;
 
     routerState: any;
 
@@ -60,6 +70,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     selectedDocumentos$: Observable<Documento[]>;
     selectedMinutas: Documento[] = [];
     selectedOficios: Documento[] = [];
+    selectedIds$: Observable<number[]>;
+    disabledIds: number[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
@@ -69,9 +81,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     downloadP7SDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     especieAtividadePagination: Pagination;
 
     assinaturaInterval = null;
@@ -80,19 +89,42 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     lote: string;
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
+    private _profile: Colaborador;
+
     /**
      *
      * @param _store
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
+     * @param _dynamicService
+     * @param _formBuilder
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateBlocoAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _dynamicService: DynamicService,
+        private _formBuilder: FormBuilder
     ) {
+        this.form = this._formBuilder.group({
+            id: [null],
+            encerraTarefa: [null],
+            destinacaoMinutas: [null],
+            respostaDocumentoAvulso: [null],
+            especieAtividade: [null, [Validators.required]],
+            dataHoraConclusao: [null, [Validators.required]],
+            usuario: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]],
+            documento: [null],
+            tarefa: [null],
+            unidadeAprovacao: [null, [Validators.required]],
+            setorAprovacao: [null, [Validators.required]],
+            usuarioAprovacao: [null, [Validators.required]]
+        });
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
         this.processosIdsEncaminhar$ = this._store.pipe(select(getProcessosIdsEncaminhar));
 
@@ -116,6 +148,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoIds));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
@@ -141,11 +174,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
 
         this.processosIdsEncaminhar$.pipe(
@@ -173,9 +204,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 this.especieAtividadePagination['context'] = {};
                 if (tarefas[0].workflow) {
                     this.especieAtividadePagination.filter = {
-                        'transicoesWorkflow.workflow.id' : 'eq:' + tarefas[0].workflow.id
+                        'transicoesWorkflow.workflow.id': 'eq:' + tarefas[0].workflow.id
                     };
-                    this.especieAtividadePagination['context'] = { tarefaId: tarefas[0].id };
+                    this.especieAtividadePagination['context'] = {tarefaId: tarefas[0].id};
                 }
             } else if (this.processosIdsEncaminhar.length > 0) {
                 // tslint:disable-next-line:max-line-length
@@ -229,6 +260,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             (documentos) => {
                 this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
                 this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+
+                this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
+
+                if (this.atividade.encerraTarefa) {
+                    this.disabledIds = this.minutas.map(minuta => minuta.id);
+                }
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -289,7 +326,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             atividade.tarefa = tarefa;
             atividade.usuario = tarefa.usuarioResponsavel;
             atividade.setor = tarefa.setorResponsavel;
-            atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
+
+            if (atividade.encerraTarefa) {
+                atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
+            } else {
+                atividade.documentos = this.selectedMinutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
+            }
 
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveAtividade({
@@ -405,6 +447,17 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
             this._store.dispatch(new fromStore.DownloadP7S(componenteDigital.id));
         });
+    }
+
+    changeEncerramentoTarefa(value: boolean): void {
+        this.atividade.encerraTarefa = value;
+        if (value) {
+            const selectedIds = this.minutas.map(minuta => minuta.id);
+            this.changedSelectedIds(selectedIds);
+            this.disabledIds = selectedIds;
+        } else {
+            this.disabledIds = [];
+        }
     }
 
     doAbort(): void {
