@@ -187,7 +187,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             .subscribe(
                 (operacao) => {
                     this.operacoes.push(operacao);
-                    window.scroll(0,0);
                     this._changeDetectorRef.detectChanges();
                 }
             );
