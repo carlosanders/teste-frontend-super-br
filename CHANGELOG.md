@@ -540,4 +540,5 @@
 * Correção campo "Criado Por" em branco nas Juntadas do Processo #430
 * Correção colunas desordenadas na tela da listagem de pessoas cadastradas #540 
 * Correção criação de tarefa para Unidade fechada por protocolo.
+* Correção do encaminhamento em bloco de tarefas
 
