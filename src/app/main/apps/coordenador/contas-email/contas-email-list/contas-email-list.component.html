@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="mail"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="contas-email">
+    </path>
+</div>
+<cdk-conta-email-grid
+    [loading]="(loading$ | async)"
+    [contaEmailList]="(contaEmailList$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [actions]="['edit', 'create', 'showInatived']"
+    (inatived)="inatived($event)"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-conta-email-grid>

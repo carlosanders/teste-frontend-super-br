@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayServidorEmailFn">
+    <mat-option *ngFor="let servidorEmail of servidorEmailList"
+                [value]="servidorEmail">
+        <span [innerHTML]="displayServidorEmailFn(servidorEmail) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="servidorEmailListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

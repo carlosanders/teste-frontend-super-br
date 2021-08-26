@@ -1,0 +1,119 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <textarea formControlName="descricao"
+                  matInput #descricao
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="4"
+                  cdkAutosizeMaxRows="10"
+                  maxlength="255" upperCase></textarea>
+        <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Host</mat-label>
+        <input matInput #host
+               name="host"
+               formControlName="host"
+               maxlength="255">
+        <mat-hint align="end">{{host.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('host').hasError('formError')">
+            {{form.get('host').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Porta</mat-label>
+        <input matInput #porta
+               name="porta"
+               type="number"
+               formControlName="porta"
+               maxlength="255">
+        <mat-error *ngIf="form.get('porta').hasError('formError')">
+            {{form.get('porta').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <label class="radio-button-label" id="protocolo-rg">Protocolo</label>
+    <div class="responsive-group">
+        <mat-radio-group formControlName="protocolo" aria-labelledby="protocolo-rg">
+            <mat-radio-button value="IMAP">
+                IMAP
+            </mat-radio-button>
+            <mat-radio-button value="POP3">
+                POP3
+            </mat-radio-button>
+            <mat-radio-button value="LEGACY-IMAP">
+                LEGACY IMAP
+            </mat-radio-button>
+            <mat-radio-button value="NNTP">
+                NNTP
+            </mat-radio-button>
+        </mat-radio-group>
+        <mat-error *ngIf="form.get('protocolo').hasError('formError')">
+            {{form.get('protocolo').errors.formError}}
+        </mat-error>
+    </div>
+
+    <label class="radio-button-label" id="metodo-encriptacao-rg">Metodo Encriptação</label>
+    <div class="responsive-group">
+        <mat-radio-group formControlName="metodoEncriptacao" aria-labelledby="metodo-encriptacao-rg">
+            <mat-radio-button value="">
+                Desativado
+            </mat-radio-button>
+            <mat-radio-button value="SSL">
+                SSL
+            </mat-radio-button>
+            <mat-radio-button value="TLS">
+                TLS
+            </mat-radio-button>
+            <mat-radio-button value="STARTTLS">
+                STARTTLS
+            </mat-radio-button>
+            <mat-radio-button value="NOTLS">
+                NoTLS
+            </mat-radio-button>
+        </mat-radio-group>
+        <mat-error *ngIf="form.get('metodoEncriptacao').hasError('formError')">
+            {{form.get('metodoEncriptacao').errors.formError}}
+        </mat-error>
+    </div>
+
+    <mat-checkbox formControlName="validaCertificado">
+        Valida Certificado
+    </mat-checkbox>
+
+    <mat-checkbox formControlName="ativo">
+        Ativo
+    </mat-checkbox>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>

@@ -1,0 +1,15 @@
+<div class="header">
+    <path icone="supervisor_account"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="servidor-email">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-servidor-email-form
+        [servidorEmail]="servidorEmail"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitServidorEmail($event)"
+        (abort)="doAbort()">
+    </cdk-servidor-email-form>
+</div>

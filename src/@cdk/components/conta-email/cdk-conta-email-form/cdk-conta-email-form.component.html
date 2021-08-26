@@ -1,0 +1,112 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <textarea formControlName="descricao"
+                  matInput #descricao
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="4"
+                  cdkAutosizeMaxRows="10"
+                  maxlength="255" upperCase></textarea>
+        <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Login</mat-label>
+        <input matInput #login
+               name="host"
+               formControlName="login"
+               maxlength="255">
+        <mat-hint align="end">{{login.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('login').hasError('formError')">
+            {{form.get('login').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Senha</mat-label>
+        <input matInput #senha
+               name="senha"
+               type="password"
+               formControlName="senha"
+               maxlength="255">
+        <mat-hint align="end">{{senha.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('senha').hasError('formError')">
+            {{form.get('senha').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <label class="radio-button-label" id="metodoAutenticacao-rg">Método Autenticação</label>
+    <div class="responsive-group">
+        <mat-radio-group formControlName="metodoAutenticacao" aria-labelledby="metodoAutenticacao-rg">
+            <mat-radio-button value="">
+                Normal
+            </mat-radio-button>
+            <mat-radio-button value="OAUTH">
+                OAUTH
+            </mat-radio-button>
+        </mat-radio-group>
+        <mat-error *ngIf="form.get('metodoAutenticacao').hasError('formError')">
+            {{form.get('metodoAutenticacao').errors.formError}}
+        </mat-error>
+    </div>
+
+    <mat-form-field>
+        <input matInput placeholder="Servidor de Email"
+               formControlName="servidorEmail"
+               [matAutocomplete]="servidorEmail.autocomplete" required>
+        <cdk-servidor-email-autocomplete
+            #servidorEmail="servidorEmailAutocomplete"
+            [control]="form.get('servidorEmail')"
+            [pagination]="servidorEmailPagination">
+        </cdk-servidor-email-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showServidorEmailGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('servidorEmail').hasError('formError')">
+            {{form.get('servidorEmail').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+
+    <mat-checkbox formControlName="ativo">
+        Ativo
+    </mat-checkbox>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" *ngIf="!saving">
+            SALVAR
+        </button>
+
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
+
+<cdk-servidor-email-gridsearch
+    *ngIf="activeCard === 'servidor-email-gridsearch'"
+    [pagination]="servidorEmailPagination"
+    (selected)="selectServidorEmail($event)"
+    (cancel)="cancel()">
+</cdk-servidor-email-gridsearch>

@@ -15,7 +15,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 @Component({
     selector: 'documento-edit-modelos',
     templateUrl: './documento-edit-modelos.component.html',
-    styleUrls: ['./documento-edit-modelos.component.scss'],
+    styleUrls: ['./documento-edit-contas-email.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations

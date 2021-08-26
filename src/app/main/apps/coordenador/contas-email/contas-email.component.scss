@@ -1,0 +1,38 @@
+contas-email {
+    display: flex;
+    flex: 1 1 auto;
+
+    > .contas-email-content {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > .header {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+
+            > .title {
+                justify-content: center;
+                align-items: center;
+
+                margin: 8px;
+            }
+
+            > .actions {
+                justify-content: flex-start;
+                align-items: center;
+                display: flex;
+                flex-direction: row;
+                flex: 0 0 auto;
+            }
+        }
+
+        > .content {
+            display: flex;
+            flex: 1 1 auto;
+            overflow-y: auto;
+            height: 0;
+        }
+    }
+}
