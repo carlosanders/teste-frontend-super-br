@@ -45,15 +45,14 @@ export class TarefaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateBlocoActions.SaveTarefa>(TarefaCreateBlocoActions.SAVE_TAREFA),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+                tap(action => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tarefa',
                     content: 'Salvando a tarefa ...',
                     status: 0, // carregando
                 }))),
-                switchMap(action => {
-                    return this._tarefaService.save(action.payload.tarefa).pipe(
-                        tap((response) =>
+                mergeMap(action => this._tarefaService.save(action.payload.tarefa).pipe(
+                        tap(response =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'tarefa',
@@ -75,8 +74,7 @@ export class TarefaCreateBlocoEffect {
                             }));
                             return of(new TarefaCreateBlocoActions.SaveTarefaFailed(err));
                         })
-                    )
-                })
+                    ))
             );
 
 }
