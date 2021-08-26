@@ -90,6 +90,10 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        if (!sigilo.tipoSigilo.leiAcessoInformacao) {
+            sigilo.modalidadeCategoriaSigilo = null;
+        }
+
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveSigilo({
             sigilo: sigilo,
