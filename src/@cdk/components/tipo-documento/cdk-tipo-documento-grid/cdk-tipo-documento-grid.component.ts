@@ -143,7 +143,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'select', 'showInatived'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

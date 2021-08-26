@@ -924,7 +924,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     salvarTipoDocumento(documento: Documento): void {
         const tipoDocumento = this.form.get('tipoDocumentoMinutas').value;
-        this.menuTrigger.closeMenu();
+        this.menuTrigger?.closeMenu();
         this.doAlterarTipoDocumento({documento: documento, tipoDocumento: tipoDocumento});
         this.form.get('tipoDocumentoMinutas').setValue(null);
     }

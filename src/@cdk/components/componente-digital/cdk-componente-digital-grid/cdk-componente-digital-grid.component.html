@@ -64,7 +64,7 @@
                 </mat-form-field>
             </ng-container>
 
-            <button *ngIf="mode === 'list'" class="refresh" mat-icon-button
+            <button *ngIf="mode === 'documento'" class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
                     matTooltip="Recarregar">
@@ -72,7 +72,7 @@
             </button>
 
             <button class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}" mat-icon-button
-                    *ngIf="mode === 'list'"
+                    *ngIf="mode === 'documento'"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">

@@ -56,11 +56,6 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     allColumns: any[] = [
         {
-            id: 'select',
-            label: '',
-            fixed: false
-        },
-        {
             id: 'id',
             label: 'Id',
             fixed: true

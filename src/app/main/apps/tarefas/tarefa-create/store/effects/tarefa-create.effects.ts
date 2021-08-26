@@ -60,6 +60,7 @@ export class TarefaCreateEffect {
                             console.log (err);
                             this._store.dispatch(new OperacoesActions.Resultado({
                                 type: 'tarefa',
+                                // eslint-disable-next-line max-len
                                 content: `Houve erro na tarefa no processo ${action.payload.processo.NUP} para o setor ${action.payload.setorResponsavel.nome}! ${err.error.message}`,
                                 success: false,
                                 dateTime: moment()
