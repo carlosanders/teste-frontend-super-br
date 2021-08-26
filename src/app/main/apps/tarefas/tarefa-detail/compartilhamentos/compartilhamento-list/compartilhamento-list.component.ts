@@ -112,6 +112,21 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
         }));
     }
 
+    inatived(params): void {
+        this._store.dispatch(new fromStore.GetCompartilhamentos({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context,
+        }));
+    }
+
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }

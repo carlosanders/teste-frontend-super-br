@@ -3,11 +3,10 @@
         [loading]="(loading$ | async)"
         [compartilhamentos]="(compartilhamentos$ | async)"
         [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
         [deletingErrors]="(deletingErrors$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [actions]="['delete']"
+        [actions]="['delete', 'showDeleted']"
         (delete)="delete($event)"
-        (reload)="reload($event)">
+        (reload)="reload($event)"
+        (excluded)="inatived($event)">
     </cdk-compartilhamento-grid>
 </div>

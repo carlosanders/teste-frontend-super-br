@@ -543,3 +543,8 @@
 * Correção do encaminhamento em bloco de tarefas
 * Correção salvar sigilo legal com categoria #243
 * Correção ao criar nova tarefa vinculada ao workflow #602
+
+1.6.8
+* Compartilhar Tarefas, ajustes nos filtros de data e histórico de modificações #323
+
+
