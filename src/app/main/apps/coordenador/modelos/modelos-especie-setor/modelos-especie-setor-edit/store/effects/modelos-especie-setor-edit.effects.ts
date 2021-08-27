@@ -90,7 +90,7 @@ export class ModelosEspecieSetorEditEffects {
                     status: 0, // carregando
                 }))),
                 switchMap(action => {
-                    return this._vinculacaoModeloService.save(action.payload.modelos).pipe(
+                    return this._vinculacaoModeloService.save(action.payload.vinculacaoModelo).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,

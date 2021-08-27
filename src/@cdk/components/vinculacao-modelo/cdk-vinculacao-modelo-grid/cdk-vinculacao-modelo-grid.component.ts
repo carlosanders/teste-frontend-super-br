@@ -64,11 +64,6 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
 
     allColumns: any[] = [
         {
-            id: 'select',
-            label: '',
-            fixed: true
-        },
-        {
             id: 'id',
             label: 'Id',
             fixed: true
@@ -96,36 +91,6 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
         {
             id: 'modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
-            fixed: false
-        },
-        {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
-            id: 'criadoEm',
-            label: 'Criado Em',
-            fixed: false
-        },
-        {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
             fixed: false
         },
         {
