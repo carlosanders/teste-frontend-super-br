@@ -53,7 +53,7 @@ export class RealizarDesarquivamentoEffects {
                 ofType<RealizarDesarquivamentoActions.SaveRealizarDesarquivamento>(RealizarDesarquivamentoActions.SAVE_REALIZAR_DESARQUIVAMENTO),
                 tap((action) =>
                 {
-                    console.log(action);
+                    console.log(action.payload);
                     this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'transicao',
@@ -71,7 +71,7 @@ export class RealizarDesarquivamentoEffects {
                             }))
                         ),
                         mergeMap((response: Transicao) => [
-                            new RealizarDesarquivamentoActions.SaveRealizarDesarquivamento(response),
+                            new RealizarDesarquivamentoActions.SaveRealizarDesarquivamentoSuccess(response),
                             new AddData<Transicao>({data: [response], schema: transicaoSchema})
                         ]),
                         catchError((err) => {
