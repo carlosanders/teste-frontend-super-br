@@ -28,6 +28,7 @@
         <div fxLayout="column">
             <cdk-desentranhamento-form [desentranhamento]="desentranhamento"
                                        [selecionadas]="(juntadasSelecionadas$ | async)"
+                                       [processoDestinoPagination]="processoDestinoPagination"
                                        (save)="submit($event)">
             </cdk-desentranhamento-form>
             <div>
@@ -58,6 +59,7 @@
         <div fxLayout="column">
             <cdk-desentranhamento-form [desentranhamento]="desentranhamento"
                                        [selecionadas]="(juntadasSelecionadas$ | async)"
+                                       [processoDestinoPagination]="processoDestinoPagination"
                                        (save)="submit($event)">
             </cdk-desentranhamento-form>
             <div>
