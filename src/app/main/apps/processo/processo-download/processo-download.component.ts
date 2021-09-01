@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../store';
 import * as fromStoreDownload from './store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 
 @Component({
     selector: 'processo-download',
