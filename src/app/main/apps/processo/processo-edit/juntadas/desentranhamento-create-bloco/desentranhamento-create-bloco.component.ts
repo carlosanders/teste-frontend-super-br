@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-import {Desentranhamento, Juntada} from '@cdk/models';
+import {Desentranhamento, Juntada, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -39,6 +39,8 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     juntadasBloco: Juntada[] = [];
 
     desentranhamento: Desentranhamento;
+
+    processoDestinoPagination: Pagination;
 
     errors$: Observable<any>;
     loading$: Observable<boolean>;
@@ -77,6 +79,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.screen$ = this._store.pipe(select(getScreenState));
+        this.processoDestinoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,6 +90,9 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
+            this.processoDestinoPagination.filter = {
+                'id':'neq:' + this.juntadas[0].volume.processo?.id
+            };
         });
 
         this.juntadasSelecionadas$.pipe(

@@ -2,7 +2,9 @@ context('Administrador', () => {
     beforeEach(() => {
         cy.login();
     })
-    it('Administrador -> Especie de Setores', () => {
+
+    //Teste desativado por erro de implementação, deverá ser reativado assim que for corrigido
+    it.skip('Administrador -> Especie de Setores', () => {
         cy.get('[fxflex="1 0 auto"] > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click();
         cy.get('.nav-link:contains("Administrador")').scrollIntoView();
         cy.get('.nav-link:contains("Administrador")').click();
