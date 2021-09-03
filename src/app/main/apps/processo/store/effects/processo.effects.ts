@@ -345,7 +345,7 @@ export class ProcessoEffect {
                     const acompanhamento = new Compartilhamento();
                     acompanhamento.usuario = this._loginService.getUserProfile();
                     acompanhamento.processo = action.payload;
-                    return this._acompanhamentoService.save(action.payload.acompanhamento).pipe(
+                    return this._acompanhamentoService.save(acompanhamento).pipe(
                         tap((response) =>
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,

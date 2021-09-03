@@ -548,5 +548,10 @@
 * Correção Compartilhar Tarefas, ajustes nos filtros de data e histórico de modificações #323
 * Correção destinação de minutas desentranhadas
 * Correção Garantias, não esta deixando colocar centavos no campo valor #196
+* Correção redistribuição de tarefa em lote
+* Correção desarquivamento de processo
+* Correção de erro na exibição da tela de processo módulo arquivista
+* Correção exibição de modelos
+* Correção no acompanhamento de processos
 
 
