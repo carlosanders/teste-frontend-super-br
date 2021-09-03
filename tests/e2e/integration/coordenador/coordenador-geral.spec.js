@@ -6,7 +6,7 @@ context('Coordenador', () => {
     })
 
     // https://on.cypress.io/interacting-with-elements
-    it('Coordenador -> Unidades -> Refresh', () => {
+    it.skip('Coordenador -> Unidades -> Refresh', () => {
 
         cy.intercept('GET', '/profile', { fixture: 'coordenador/profile-coordenador.json' })
         cy.intercept({
