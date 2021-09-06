@@ -545,6 +545,7 @@
 * Correção ao criar nova tarefa vinculada ao workflow #602
 
 1.6.8
+
 * Correção Compartilhar Tarefas, ajustes nos filtros de data e histórico de modificações #323
 * Correção destinação de minutas desentranhadas
 * Correção Garantias, não esta deixando colocar centavos no campo valor #196
@@ -553,5 +554,6 @@
 * Correção de erro na exibição da tela de processo módulo arquivista
 * Correção exibição de modelos
 * Correção no acompanhamento de processos
-
+* Correção busca search-bar outroNumero
+* Correção 'Recarregar' sigilos no editor #617
 

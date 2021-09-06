@@ -71,12 +71,22 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value: string) => {
                     let termFilter = [];
-                    value = value.split('.').join('').split('/').join('').replace('-', '');
-                    value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        const filter = {};
-                        filter[this.searchField] = `like:%${bit}%`;
-                        termFilter.push(filter);
-                    });
+
+                    if (this.searchField === 'outroNumero') {
+                        value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                            const filter = {};
+                            filter[this.searchField] = `like:%${bit}%`;
+                            termFilter.push(filter);
+                        });
+                    } else {
+                        value = value.split('.').join('').split('/').join('').replace('-', '');
+                        value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                            const filter = {};
+                            filter[this.searchField] = `like:%${bit}%`;
+                            termFilter.push(filter);
+                        });
+                    }
+
                     if (typeof value === 'string' && (termFilter.length)) {
                         this.processoSearchListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
