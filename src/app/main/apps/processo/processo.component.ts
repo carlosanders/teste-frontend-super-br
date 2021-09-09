@@ -310,7 +310,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     acompanharProcesso(processo: Processo): void {
         if (!this.processo.compartilhamentoUsuario) {
-            this._store.dispatch(new fromStore.SaveAcompanhamento(processo));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcompanhamento({processo: processo, operacaoId: operacaoId}));
         } else {
             const payload = {
                 'acompanhamentoId': processo.compartilhamentoUsuario.id,
