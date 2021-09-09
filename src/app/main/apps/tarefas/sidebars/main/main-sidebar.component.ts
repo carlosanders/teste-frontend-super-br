@@ -213,15 +213,13 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this._store
-            .pipe(
-                select(fromStore.getFolders),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((folders) => {
-                this.folders = folders;
-                this.preencherContador();
-            }
-        );
+        this._store.pipe(
+            select(fromStore.getFolders),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((folders) => {
+            this.folders = folders;
+            this.preencherContador();
+        });
 
         this._store.pipe(
             select(fromStore.getSelectedTarefas),
@@ -282,12 +280,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this.unidades$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (unidades) => {
-                this.unidades = unidades;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((unidades) => {
+            this.unidades = unidades;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.errors$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -310,21 +306,17 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this.setores$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (setores) => {
-                this.setores = setores;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((setores) => {
+            this.setores = setores;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.lotacoes$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (lotacoes) => {
-                this.lotacoes = lotacoes;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((lotacoes) => {
+            this.lotacoes = lotacoes;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
             if (coordenador.setor) {

@@ -111,11 +111,12 @@
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
-                                  matBadge="{{tarefasPendentes[folder.nome]}}" matBadgeColor="warn"
+                                  matBadge="{{tarefasPendentes[folder.nome]}}"
+                                  matBadgeColor="warn"
                                   matBadgeSize="small">
                             folder
                         </mat-icon>
-                        <a fxFlex matRipple>
+                        <a fxFlex>
                             <span>{{folder.nome | titlecase}}</span>
                         </a>
                         <mat-icon class="place-holder">
