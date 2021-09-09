@@ -246,9 +246,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: [
-                ...this.pagination.populate
-            ]
+            populate: []
         }));
     }
 }
