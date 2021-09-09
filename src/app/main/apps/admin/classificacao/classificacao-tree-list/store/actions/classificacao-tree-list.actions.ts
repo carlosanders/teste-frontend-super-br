@@ -53,39 +53,32 @@ export class ReloadClassificacao implements Action {
 /**
  * Save Classificacao
  */
-export class SaveClassificacao implements Action
-{
+export class SaveClassificacao implements Action {
     readonly type = SAVE_CLASSIFICACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Classificacao Success
  */
-export class SaveClassificacaoSuccess implements Action
-{
+export class SaveClassificacaoSuccess implements Action {
     readonly type = SAVE_CLASSIFICACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Classificacao Failed
  */
-export class SaveClassificacaoFailed implements Action
-{
+export class SaveClassificacaoFailed implements Action {
     readonly type = SAVE_CLASSIFICACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
-
 
 
 export type ClassificacaoTreeListActionsAll

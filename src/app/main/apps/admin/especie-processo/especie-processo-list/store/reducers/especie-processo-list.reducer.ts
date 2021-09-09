@@ -91,7 +91,6 @@ export function EspecieProcessoListReducer(
         }
 
 
-
         case EspecieProcessoListActions.RELOAD_ESPECIE_PROCESSO: {
             return {
                 ...state,
@@ -103,7 +102,7 @@ export function EspecieProcessoListReducer(
         case EspecieProcessoListActions.DELETE_ESPECIE_PROCESSO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.especieProcessoId]
             };
         }
 

@@ -29,11 +29,11 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./coordenadores-list/admin-coordenadores-list.module').then(m => m.AdminCoordenadoresListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./coordenador-edit/coordenador-edit.module').then(m => m.CoordenadorEditModule),
             },
             {

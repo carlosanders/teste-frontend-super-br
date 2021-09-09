@@ -13,84 +13,70 @@ export const DELETE_VALIDACAO_FAILED = '[VALIDACAO TRANSICAO WORKFLOW LIST] DELE
 /**
  * Get Validacoes
  */
-export class GetValidacoes implements Action
-{
+export class GetValidacoes implements Action {
     readonly type = GET_VALIDACOES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Validacoes Success
  */
-export class GetValidacoesSuccess implements Action
-{
+export class GetValidacoesSuccess implements Action {
     readonly type = GET_VALIDACOES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Validacoes Failed
  */
-export class GetValidacoesFailed implements Action
-{
+export class GetValidacoesFailed implements Action {
     readonly type = GET_VALIDACOES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Validacoes
  */
-export class ReloadValidacoes implements Action
-{
+export class ReloadValidacoes implements Action {
     readonly type = RELOAD_VALIDACOES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Validacao
  */
-export class DeleteValidacao implements Action
-{
+export class DeleteValidacao implements Action {
     readonly type = DELETE_VALIDACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Validacao Success
  */
-export class DeleteValidacaoSuccess implements Action
-{
+export class DeleteValidacaoSuccess implements Action {
     readonly type = DELETE_VALIDACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Validacao Failed
  */
-export class DeleteValidacaoFailed implements Action
-{
+export class DeleteValidacaoFailed implements Action {
     readonly type = DELETE_VALIDACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

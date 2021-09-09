@@ -7,36 +7,30 @@ export const GET_USUARIO_FAILED = '[ADMIN AFASTAMENTOS] GET USUARIO FAILED';
 /**
  * Get Usuario
  */
-export class GetUsuario implements Action
-{
+export class GetUsuario implements Action {
     readonly type = GET_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Usuario Success
  */
-export class GetUsuarioSuccess implements Action
-{
+export class GetUsuarioSuccess implements Action {
     readonly type = GET_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Usuario Failed
  */
-export class GetUsuarioFailed implements Action
-{
+export class GetUsuarioFailed implements Action {
     readonly type = GET_USUARIO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 

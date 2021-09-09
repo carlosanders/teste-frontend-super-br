@@ -105,7 +105,7 @@ export function EtiquetaListReducer(
         case EtiquetaListActions.DELETE_ETIQUETA: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.etiquetaId]
             };
         }
 
@@ -121,7 +121,7 @@ export function EtiquetaListReducer(
         case EtiquetaListActions.DELETE_ETIQUETA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

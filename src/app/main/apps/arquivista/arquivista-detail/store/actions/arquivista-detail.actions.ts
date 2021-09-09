@@ -19,12 +19,10 @@ export const DESELECT_TAREFA_ACTION = '[ARQUIVISTA-DETAIL] DESELECT TAREFA ACTIO
 /**
  * Create Vinculacao Etiqueta
  */
-export class CreateVinculacaoEtiqueta implements Action
-{
+export class CreateVinculacaoEtiqueta implements Action {
     readonly type = CREATE_VINCULACAO_ETIQUETA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
@@ -32,80 +30,67 @@ export class CreateVinculacaoEtiqueta implements Action
 /**
  * Save Conteudo Vinculacao Etiqueta
  */
-export class SaveConteudoVinculacaoEtiqueta implements Action
-{
+export class SaveConteudoVinculacaoEtiqueta implements Action {
     readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Conteudo Vinculacao Etiqueta Success
  */
-export class SaveConteudoVinculacaoEtiquetaSuccess implements Action
-{
+export class SaveConteudoVinculacaoEtiquetaSuccess implements Action {
     readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Conteudo Vinculacao Etiqueta Failed
  */
-export class SaveConteudoVinculacaoEtiquetaFailed implements Action
-{
+export class SaveConteudoVinculacaoEtiquetaFailed implements Action {
     readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Vinculacao Etiqueta
  */
-export class DeleteVinculacaoEtiqueta implements Action
-{
+export class DeleteVinculacaoEtiqueta implements Action {
     readonly type = DELETE_VINCULACAO_ETIQUETA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Vinculacao Etiqueta Success
  */
-export class DeleteVinculacaoEtiquetaSuccess implements Action
-{
+export class DeleteVinculacaoEtiquetaSuccess implements Action {
     readonly type = DELETE_VINCULACAO_ETIQUETA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Vinculacao Etiqueta Failed
  */
-export class DeleteVinculacaoEtiquetaFailed implements Action
-{
+export class DeleteVinculacaoEtiquetaFailed implements Action {
     readonly type = DELETE_VINCULACAO_ETIQUETA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Maximizado
  */
-export class ToggleMaximizado implements Action
-{
+export class ToggleMaximizado implements Action {
     readonly type = TOGGLE_MAXIMIZADO;
 
     constructor(public payload: boolean = false) {
@@ -115,12 +100,10 @@ export class ToggleMaximizado implements Action
 /**
  * Deselect Tarefa Action
  */
-export class DeselectTarefaAction implements Action
-{
+export class DeselectTarefaAction implements Action {
     readonly type = DESELECT_TAREFA_ACTION;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 

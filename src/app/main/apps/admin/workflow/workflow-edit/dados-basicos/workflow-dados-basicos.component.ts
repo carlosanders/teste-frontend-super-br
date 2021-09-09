@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -10,6 +10,7 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../../store';
 import {getWorkflow} from '../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'workflow-dados-basicos',
@@ -28,9 +29,7 @@ export class WorkflowDadosBasicosComponent implements OnInit {
     workflow$: Observable<Workflow>;
     formWorkflow: FormGroup;
     pagination: any;
-
     especieTarefaPagination: Pagination;
-
 
     constructor(
         private _store: Store<fromStore.WorkflowDadosBasicosAppState>,
@@ -44,13 +43,12 @@ export class WorkflowDadosBasicosComponent implements OnInit {
 
         this.especieTarefaPagination = new Pagination();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.loadForm();
     }

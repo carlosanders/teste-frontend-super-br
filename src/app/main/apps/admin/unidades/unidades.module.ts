@@ -27,19 +27,19 @@ const routes: Routes = [
         component: UnidadesComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./unidades-list/unidades-list.module').then(m => m.UnidadesListModule)
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./unidade-edit/unidade-edit.module').then(m => m.UnidadeEditModule),
             },
             {
-                path       : ':unidadeHandle/competencias',
+                path: ':unidadeHandle/competencias',
                 loadChildren: () => import('./competencias/competencias.module').then(m => m.CompetenciasModule),
             },
             {
-                path       : ':unidadeHandle/setores',
+                path: ':unidadeHandle/setores',
                 loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule),
             },
             {

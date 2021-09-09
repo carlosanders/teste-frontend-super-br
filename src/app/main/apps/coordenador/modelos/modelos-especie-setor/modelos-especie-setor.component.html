@@ -1,21 +1,6 @@
 <div class="modelos-especie-setor-content">
-    <!-- CONTENT HEADER -->
-    <div class="header">
-        <div class="title">{{this.getTitulo()}} - Modelo: {{(this.modelo$ | async).nome}}</div>
-        <div class="actions m-8">
-            <button mat-icon-button
-                    (click)="goBack()"
-                    *ngIf="action !== 'listar'"
-                    aria-label="voltar"
-                    matTooltip="Voltar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-        </div>
-    </div>
-    <!-- / CONTENT HEADER -->
-
     <!-- CONTENT -->
-    <div class="content p-8" cdkPerfectScrollbar>
+    <div class="content" cdkPerfectScrollbar>
         <router-outlet></router-outlet>
     </div>
 </div>

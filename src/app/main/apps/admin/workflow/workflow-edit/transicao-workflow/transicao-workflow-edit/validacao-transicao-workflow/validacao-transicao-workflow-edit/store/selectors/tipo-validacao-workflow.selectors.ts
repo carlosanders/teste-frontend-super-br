@@ -33,6 +33,6 @@ export const getTipoValidacaoWorkflowListLoaded = createSelector(
 );
 
 export const getIsLoading = createSelector(
-  getTipoValidacaoWorkflowListState,
+    getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowState) => state.loading
 );

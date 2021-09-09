@@ -13,7 +13,7 @@ import {getRouterState} from 'app/store/reducers';
 import * as fromStore from 'app/store';
 import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Setor} from '@cdk/models';
 
 @Component({
@@ -26,11 +26,9 @@ import {Setor} from '@cdk/models';
 })
 export class LocalizadorComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     setor$: Observable<Setor>;
-
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -42,21 +40,20 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.State>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {}
+    ) {
+    }
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this._changeDetectorRef.markForCheck();
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this._changeDetectorRef.markForCheck();
         });
     }
 

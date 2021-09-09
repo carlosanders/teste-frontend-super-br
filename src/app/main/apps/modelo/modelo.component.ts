@@ -18,6 +18,7 @@ import {getRouterState} from 'app/store/reducers';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'modelo',
@@ -27,9 +28,7 @@ import {filter, takeUntil} from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
+export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
 
     modelos$: Observable<Modelo[]>;
     loading$: Observable<boolean>;
@@ -51,6 +50,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
 
     routeAtividadeTarefa = 'atividades/criar';
     routeAtividadeDocumento = 'atividade';
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -73,13 +73,12 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngAfterViewInit(): void {
@@ -102,10 +101,14 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
-        this.processo$.subscribe((processo) => {
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
             this.processo = processo;
         });
         this.tarefa$.pipe(
@@ -114,10 +117,11 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
         ).subscribe((tarefa) => {
             this.tarefa = tarefa;
         });
-        this.error$.subscribe((erro) => {
-            if (erro) {
-                this.erro = erro.error.message;
-            }
+        this.error$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(erro => !!erro)
+        ).subscribe((erro) => {
+            this.erro = erro.error.message;
         });
     }
 
@@ -148,8 +152,10 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
 
     doSelect(modelo): void {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.CreateComponenteDigital({
             modelo: modelo,
+            operacaoId: operacaoId,
             tarefaOrigem: this.tarefa,
             processoOrigem: this.processo,
             routeAtividadeTarefa: this.routeAtividadeTarefa,
@@ -160,5 +166,4 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
     doVisualizar(modeloId): void {
         this._store.dispatch(new fromStore.VisualizarModelo(modeloId));
     }
-
 }

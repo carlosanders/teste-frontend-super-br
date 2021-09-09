@@ -32,8 +32,6 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     relatorios$: Observable<Relatorio[]>;
     relatorios: Relatorio[];
 
@@ -45,11 +43,12 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
 
     operacoes: any[] = [];
 
-    private _profile: any;
-
     routerState: any;
 
     etiquetas: Etiqueta[] = [];
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: any;
 
     /**
      *
@@ -85,6 +84,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:RELATORIO'
                 }
@@ -101,28 +101,22 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             takeUntil(this._unsubscribeAll)
         ).subscribe(relatorios => this.relatorios = relatorios);
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'vinculacao_etiqueta')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        this._store.pipe(
+            select(getOperacoesState),
+            takeUntil(this._unsubscribeAll),
+            filter(op => !!op && !!op.content && op.type === 'vinculação etiqueta')
+        ).subscribe((operacao) => {
+            this.operacoes.push(operacao);
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
     }
 

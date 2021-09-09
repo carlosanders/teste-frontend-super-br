@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'assunto-administrativo-edit',
@@ -38,13 +39,12 @@ export class AssuntoAdministrativoEditComponent implements OnInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.assuntoAdministrativo$ = this._store.pipe(select(fromStore.getAssuntoAdministrativo));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
         this.assuntoAdministrativoPagination = new Pagination();
         this.loadForm();
     }

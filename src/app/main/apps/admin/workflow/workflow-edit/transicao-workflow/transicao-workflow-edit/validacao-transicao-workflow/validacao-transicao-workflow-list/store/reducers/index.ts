@@ -4,8 +4,7 @@ import {
     ValidacaoTransicaoWorkflowListState
 } from './validacao-transicao-workflow-list.reducer';
 
-export interface ValidacaoTransicaoWorkflowListAppState
-{
+export interface ValidacaoTransicaoWorkflowListAppState {
     validacaoTransicaoWorkflowList: ValidacaoTransicaoWorkflowListState;
 }
 

@@ -14,96 +14,80 @@ export const GET_AFASTAMENTO_FAILED = '[ADMIN AFASTAMENTO EDIT] GET AFASTAMENTO 
 /**
  * Get Afastamento
  */
-export class GetAfastamento implements Action
-{
+export class GetAfastamento implements Action {
     readonly type = GET_AFASTAMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Afastamento Success
  */
-export class GetAfastamentoSuccess implements Action
-{
+export class GetAfastamentoSuccess implements Action {
     readonly type = GET_AFASTAMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Afastamento Failed
  */
-export class GetAfastamentoFailed implements Action
-{
+export class GetAfastamentoFailed implements Action {
     readonly type = GET_AFASTAMENTO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Afastamento
  */
-export class SaveAfastamento implements Action
-{
+export class SaveAfastamento implements Action {
     readonly type = SAVE_AFASTAMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Afastamento Success
  */
-export class SaveAfastamentoSuccess implements Action
-{
+export class SaveAfastamentoSuccess implements Action {
     readonly type = SAVE_AFASTAMENTO_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Afastamento Failed
  */
-export class SaveAfastamentoFailed implements Action
-{
+export class SaveAfastamentoFailed implements Action {
     readonly type = SAVE_AFASTAMENTO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Afastamento
  */
-export class CreateAfastamento implements Action
-{
+export class CreateAfastamento implements Action {
     readonly type = CREATE_AFASTAMENTO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Afastamento Success
  */
-export class CreateAfastamentoSuccess implements Action
-{
+export class CreateAfastamentoSuccess implements Action {
     readonly type = CREATE_AFASTAMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

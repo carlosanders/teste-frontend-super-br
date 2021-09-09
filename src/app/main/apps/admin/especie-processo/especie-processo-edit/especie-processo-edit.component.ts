@@ -7,9 +7,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
-import {Back} from '../../../../../store/actions';
+import {getRouterState} from '../../../../../store';
+import {Back} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'especie-processo-edit',
@@ -41,13 +42,12 @@ export class EspecieProcessoEditComponent implements OnInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.especieProcesso$ = this._store.pipe(select(fromStore.getEspecieProcesso));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
         this.generoProcessoPagination = new Pagination();
         this.classificacaoProcessoPagination = new Pagination();
         this.modalidadeMeioPagination = new Pagination();

@@ -22,168 +22,140 @@ export const SAVE_COLABORADOR_FAILED = '[ADMIN TIPO_ACAO_WORKFLOW EDIT] SAVE COL
 /**
  * Get TipoAcaoWorkflow
  */
-export class GetTipoAcaoWorkflow implements Action
-{
+export class GetTipoAcaoWorkflow implements Action {
     readonly type = GET_TIPO_ACAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoAcaoWorkflow Success
  */
-export class GetTipoAcaoWorkflowSuccess implements Action
-{
+export class GetTipoAcaoWorkflowSuccess implements Action {
     readonly type = GET_TIPO_ACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoAcaoWorkflow Failed
  */
-export class GetTipoAcaoWorkflowFailed implements Action
-{
+export class GetTipoAcaoWorkflowFailed implements Action {
     readonly type = GET_TIPO_ACAO_WORKFLOW_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save TipoAcaoWorkflow
  */
-export class SaveTipoAcaoWorkflow implements Action
-{
+export class SaveTipoAcaoWorkflow implements Action {
     readonly type = SAVE_TIPO_ACAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoAcaoWorkflow
  */
-export class UpdateTipoAcaoWorkflow implements Action
-{
+export class UpdateTipoAcaoWorkflow implements Action {
     readonly type = UPDATE_TIPO_ACAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TipoAcaoWorkflow Success
  */
-export class SaveTipoAcaoWorkflowSuccess implements Action
-{
+export class SaveTipoAcaoWorkflowSuccess implements Action {
     readonly type = SAVE_TIPO_ACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TipoAcaoWorkflow Failed
  */
-export class SaveTipoAcaoWorkflowFailed implements Action
-{
+export class SaveTipoAcaoWorkflowFailed implements Action {
     readonly type = SAVE_TIPO_ACAO_WORKFLOW_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoAcaoWorkflow Success
  */
-export class UpdateTipoAcaoWorkflowSuccess implements Action
-{
+export class UpdateTipoAcaoWorkflowSuccess implements Action {
     readonly type = UPDATE_TIPO_ACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoAcaoWorkflow Failed
  */
-export class UpdateTipoAcaoWorkflowFailed implements Action
-{
+export class UpdateTipoAcaoWorkflowFailed implements Action {
     readonly type = UPDATE_TIPO_ACAO_WORKFLOW_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create TipoAcaoWorkflow
  */
-export class CreateTipoAcaoWorkflow implements Action
-{
+export class CreateTipoAcaoWorkflow implements Action {
     readonly type = CREATE_TIPO_ACAO_WORKFLOW;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create TipoAcaoWorkflow Success
  */
-export class CreateTipoAcaoWorkflowSuccess implements Action
-{
+export class CreateTipoAcaoWorkflowSuccess implements Action {
     readonly type = CREATE_TIPO_ACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Colaborador
  */
-export class SaveColaborador implements Action
-{
+export class SaveColaborador implements Action {
     readonly type = SAVE_COLABORADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Colaborador Success
  */
-export class SaveColaboradorSuccess implements Action
-{
+export class SaveColaboradorSuccess implements Action {
     readonly type = SAVE_COLABORADOR_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Colaborador Failed
  */
-export class SaveColaboradorFailed implements Action
-{
+export class SaveColaboradorFailed implements Action {
     readonly type = SAVE_COLABORADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

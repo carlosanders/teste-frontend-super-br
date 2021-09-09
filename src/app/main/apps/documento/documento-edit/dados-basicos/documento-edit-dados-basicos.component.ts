@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -9,13 +8,13 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {filter} from "rxjs/operators";
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
@@ -26,13 +25,14 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy {
 
     documento$: Observable<Documento>;
     documento: Documento;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -62,17 +62,17 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, Af
      */
     ngOnInit(): void {
         this.documento$.pipe(
-            filter(documento => !!documento)
+            filter(documento => !!documento),
+            takeUntil(this._unsubscribeAll)
         ).subscribe(documento => this.documento = documento);
-    }
-
-    ngAfterViewInit(): void {
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

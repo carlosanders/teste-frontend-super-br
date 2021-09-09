@@ -9,12 +9,13 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {CdkUtils} from '@cdk/utils';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-restaurar',
@@ -24,14 +25,14 @@ import {CdkUtils} from '@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class RestaurarComponent implements OnInit, OnDestroy, AfterViewInit {
+export class RestaurarComponent implements OnInit, OnDestroy {
 
     documento$: Observable<Documento>;
     documento: Documento;
 
     isUndeleting$: Observable<boolean>;
     errors$: Observable<any>;
-
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -58,16 +59,17 @@ export class RestaurarComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => this.documento = documento);
-    }
-
-    ngAfterViewInit(): void {
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

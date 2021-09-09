@@ -23,180 +23,150 @@ export const SAVE_COLABORADOR_FAILED = '[COORDENADOR USUARIO EDIT] SAVE COLABORA
 /**
  * Get Usuario
  */
-export class GetUsuario implements Action
-{
+export class GetUsuario implements Action {
     readonly type = GET_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Usuario Success
  */
-export class GetUsuarioSuccess implements Action
-{
+export class GetUsuarioSuccess implements Action {
     readonly type = GET_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Usuario Failed
  */
-export class GetUsuarioFailed implements Action
-{
+export class GetUsuarioFailed implements Action {
     readonly type = GET_USUARIO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Usuario
  */
-export class SaveUsuario implements Action
-{
+export class SaveUsuario implements Action {
     readonly type = SAVE_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Usuario
  */
-export class UpdateUsuario implements Action
-{
+export class UpdateUsuario implements Action {
     readonly type = UPDATE_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Usuario Success
  */
-export class SaveUsuarioSuccess implements Action
-{
+export class SaveUsuarioSuccess implements Action {
     readonly type = SAVE_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Usuario Failed
  */
-export class SaveUsuarioFailed implements Action
-{
+export class SaveUsuarioFailed implements Action {
     readonly type = SAVE_USUARIO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Usuario Success
  */
-export class UpdateUsuarioSuccess implements Action
-{
+export class UpdateUsuarioSuccess implements Action {
     readonly type = UPDATE_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Usuario Failed
  */
-export class UpdateUsuarioFailed implements Action
-{
+export class UpdateUsuarioFailed implements Action {
     readonly type = UPDATE_USUARIO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Usuario
  */
-export class CreateUsuario implements Action
-{
+export class CreateUsuario implements Action {
     readonly type = CREATE_USUARIO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Usuario Success
  */
-export class CreateUsuarioSuccess implements Action
-{
+export class CreateUsuarioSuccess implements Action {
     readonly type = CREATE_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Next Step Colaborador
  */
- export class NextStepColaboradorSuccess implements Action
- {
-     readonly type = NEXT_STEP_COLABORADOR_SUCCESS;
+export class NextStepColaboradorSuccess implements Action {
+    readonly type = NEXT_STEP_COLABORADOR_SUCCESS;
 
-     constructor(public payload: any)
-     {
-     }
- }
+    constructor(public payload: any) {
+    }
+}
 
 /**
  * Save Colaborador
  */
-export class SaveColaborador implements Action
-{
+export class SaveColaborador implements Action {
     readonly type = SAVE_COLABORADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Colaborador Success
  */
-export class SaveColaboradorSuccess implements Action
-{
+export class SaveColaboradorSuccess implements Action {
     readonly type = SAVE_COLABORADOR_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Colaborador Failed
  */
-export class SaveColaboradorFailed implements Action
-{
+export class SaveColaboradorFailed implements Action {
     readonly type = SAVE_COLABORADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

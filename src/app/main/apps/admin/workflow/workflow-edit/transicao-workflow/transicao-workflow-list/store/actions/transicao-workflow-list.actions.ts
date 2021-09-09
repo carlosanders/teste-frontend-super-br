@@ -53,36 +53,30 @@ export class UnloadTransicaoWorkflow implements Action {
 /**
  * Delete TransicaoWorkflow
  */
-export class DeleteTransicaoWorkflow implements Action
-{
+export class DeleteTransicaoWorkflow implements Action {
     readonly type = DELETE_TRANSICAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TransicaoWorkflow Success
  */
-export class DeleteTransicaoWorkflowSuccess implements Action
-{
+export class DeleteTransicaoWorkflowSuccess implements Action {
     readonly type = DELETE_TRANSICAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TransicaoWorkflow Failed
  */
-export class DeleteTransicaoWorkflowFailed implements Action
-{
+export class DeleteTransicaoWorkflowFailed implements Action {
     readonly type = DELETE_TRANSICAO_WORKFLOW_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

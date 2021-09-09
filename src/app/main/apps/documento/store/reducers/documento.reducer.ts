@@ -111,14 +111,35 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
         case DocumentoActions.ASSINA_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
-                assinandoDocumentoIds: []
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
         case DocumentoActions.ASSINA_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                assinandoDocumentoIds: []
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, state.documentoId]
+            };
+        }
+
+        case DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId)
             };
         }
 

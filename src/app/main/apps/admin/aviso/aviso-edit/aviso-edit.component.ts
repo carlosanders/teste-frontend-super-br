@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import {Aviso, Pagination} from '@cdk/models';
@@ -8,7 +8,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
@@ -19,9 +19,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AvisoEditComponent implements OnInit {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
+export class AvisoEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
     isSaving$: Observable<boolean>;
@@ -32,6 +30,7 @@ export class AvisoEditComponent implements OnInit {
     unidadePagination: Pagination;
     setorPagination: Pagination;
     formAviso: FormGroup;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.AvisoEditAppState>,
@@ -52,28 +51,12 @@ export class AvisoEditComponent implements OnInit {
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-
-        this.aviso$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (aviso) => {
-                if (aviso) {
-                    this.aviso = aviso;
-                }
-            }
-        );
-
-        if (!this.aviso) {
-            this.aviso = new Aviso();
-            this.aviso.ativo = true;
-        }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.loadForm();
     }
@@ -85,6 +68,18 @@ export class AvisoEditComponent implements OnInit {
 
     ngOnInit(): void {
 
+        this.aviso$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(aviso => !!aviso)
+        ).subscribe((aviso) => {
+            this.aviso = aviso;
+        });
+
+        if (!this.aviso) {
+            this.aviso = new Aviso();
+            this.aviso.ativo = true;
+        }
+
     }
 
     loadForm(): void {
@@ -93,7 +88,7 @@ export class AvisoEditComponent implements OnInit {
             ativo: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
-            modalidadeOrgaoCentral:[null],
+            modalidadeOrgaoCentral: [null],
             unidade: [null],
             setor: [null],
             tipo: [null],
@@ -112,8 +107,7 @@ export class AvisoEditComponent implements OnInit {
             }
         );
 
-        if(aviso.tipo == 'SIS')
-        {
+        if (aviso.tipo === 'SIS') {
             aviso.sistema = true;
         }
 
@@ -131,6 +125,4 @@ export class AvisoEditComponent implements OnInit {
     doAbort(): void {
         this._store.dispatch(new Back());
     }
-
-
 }

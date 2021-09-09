@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import {Aviso, ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
@@ -8,7 +8,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
@@ -19,9 +19,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AvisoEditComponent implements OnInit {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
+export class AvisoEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
     isSaving$: Observable<boolean>;
@@ -44,6 +42,7 @@ export class AvisoEditComponent implements OnInit {
     usuario: Usuario;
 
     formAviso: FormGroup;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.AvisoEditAppState>,
@@ -59,42 +58,33 @@ export class AvisoEditComponent implements OnInit {
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.modalidadeOrgaoCentral$ = this._store.pipe(select(fromStore.getModalidadeOrgaoCentral));
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if (this.routerState.params['unidadeHandle']) {
-                        this.unidadeHandle$ = this._store.pipe(select(fromStore.getUnidadeHandle));
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.params['unidadeHandle']) {
+                this.unidadeHandle$ = this._store.pipe(select(fromStore.getUnidadeHandle));
 
-                        this.unidadeHandle$.pipe(
-                            takeUntil(this._unsubscribeAll)
-                        ).subscribe(
-                            (setor) => {
-                                if (setor) {
-                                    this.unidade = setor;
-                                }
-                            }
-                        );
-                    }
-                    if (this.routerState.params['setorHandle']) {
-                        this.setorHandle$ = this._store.pipe(select(fromStore.getSetorHandle));
+                this.unidadeHandle$.pipe(
+                    takeUntil(this._unsubscribeAll),
+                    filter(setor => !!setor)
+                ).subscribe((setor) => {
+                    this.unidade = setor;
+                });
+            }
+            if (this.routerState.params['setorHandle']) {
+                this.setorHandle$ = this._store.pipe(select(fromStore.getSetorHandle));
 
-                        this.setorHandle$.pipe(
-                            takeUntil(this._unsubscribeAll)
-                        ).subscribe(
-                            (setor) => {
-                                if (setor) {
-                                    this.setor = setor;
-                                }
-                            }
-                        );
-                    }
-                }
-            });
+                this.setorHandle$.pipe(
+                    takeUntil(this._unsubscribeAll),
+                    filter(setor => !!setor)
+                ).subscribe((setor) => {
+                    this.setor = setor;
+                });
+            }
+        });
         this.loadForm();
     }
 
@@ -104,7 +94,7 @@ export class AvisoEditComponent implements OnInit {
             ativo: [null],
             nome: [null],
             descricao: [null],
-            orgaoCentral:[null],
+            orgaoCentral: [null],
             unidade: [null],
             setor: [null],
             tipo: [null],
@@ -112,63 +102,46 @@ export class AvisoEditComponent implements OnInit {
         });
     }
 
-    ngOnDestroy(): void {
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
-    }
-
     ngOnInit(): void {
         this.aviso$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (aviso) => {
-                if (aviso) {
-                    this.aviso = aviso;
-                    if (this.aviso.vinculacoesAvisos[0]?.setor) {
-                        this.aviso.setor = this.aviso.vinculacoesAvisos[0]?.setor;
-                    }
-                    if (this.aviso.vinculacoesAvisos[0]?.unidade) {
-                        this.aviso.unidade = this.aviso.vinculacoesAvisos[0]?.unidade;
-                    }
-                    if (this.aviso.vinculacoesAvisos[0]?.usuario) {
-                        this.aviso.usuario = this.aviso.vinculacoesAvisos[0]?.usuario;
-                    }
-                    if (this.aviso.vinculacoesAvisos[0]?.modalidadeOrgaoCentral) {
-                        this.aviso.modalidadeOrgaoCentral = this.aviso.vinculacoesAvisos[0]?.modalidadeOrgaoCentral;
-                    }
-                }
+            takeUntil(this._unsubscribeAll),
+            filter(aviso => !!aviso)
+        ).subscribe((aviso) => {
+            this.aviso = aviso;
+            if (this.aviso.vinculacoesAvisos[0]?.setor) {
+                this.aviso.setor = this.aviso.vinculacoesAvisos[0]?.setor;
             }
-        );
+            if (this.aviso.vinculacoesAvisos[0]?.unidade) {
+                this.aviso.unidade = this.aviso.vinculacoesAvisos[0]?.unidade;
+            }
+            if (this.aviso.vinculacoesAvisos[0]?.usuario) {
+                this.aviso.usuario = this.aviso.vinculacoesAvisos[0]?.usuario;
+            }
+            if (this.aviso.vinculacoesAvisos[0]?.modalidadeOrgaoCentral) {
+                this.aviso.modalidadeOrgaoCentral = this.aviso.vinculacoesAvisos[0]?.modalidadeOrgaoCentral;
+            }
+        });
 
         this.setor$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (setor) => {
-                if (setor) {
-                    this.setor = setor;
-                }
-            }
-        );
+            takeUntil(this._unsubscribeAll),
+            filter(setor => !!setor)
+        ).subscribe((setor) => {
+            this.setor = setor;
+        });
 
         this.unidade$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (setor) => {
-                if (setor) {
-                    this.unidade = setor;
-                }
-            }
-        );
+            takeUntil(this._unsubscribeAll),
+            filter(setor => !!setor)
+        ).subscribe((setor) => {
+            this.unidade = setor;
+        });
 
         this.modalidadeOrgaoCentral$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (modalidadeOrgaoCentral) => {
-                if (modalidadeOrgaoCentral) {
-                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
-                }
-            }
-        );
+            takeUntil(this._unsubscribeAll),
+            filter(modalidadeOrgaoCentral => !!modalidadeOrgaoCentral)
+        ).subscribe((modalidadeOrgaoCentral) => {
+            this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
+        });
 
         if (!this.aviso) {
             this.aviso = new Aviso();
@@ -183,6 +156,10 @@ export class AvisoEditComponent implements OnInit {
         }
     }
 
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -209,10 +186,7 @@ export class AvisoEditComponent implements OnInit {
         }));
     }
 
-
     doAbort(): void {
         this._store.dispatch(new Back());
     }
-
-
 }

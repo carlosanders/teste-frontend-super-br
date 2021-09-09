@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {AdminReducer, AdminState} from './admin.reducer';
 
-export interface AdminAppState
-{
+export interface AdminAppState {
     admin: AdminState;
 }
 

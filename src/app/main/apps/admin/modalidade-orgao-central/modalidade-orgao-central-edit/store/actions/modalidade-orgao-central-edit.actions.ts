@@ -22,135 +22,112 @@ export const SAVE_COLABORADOR_FAILED = '[ADMIN MODALIDADE_ORGAO_CENTRAL EDIT] SA
 /**
  * Get ModalidadeOrgaoCentral
  */
-export class GetModalidadeOrgaoCentral implements Action
-{
+export class GetModalidadeOrgaoCentral implements Action {
     readonly type = GET_MODALIDADE_ORGAO_CENTRAL;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get ModalidadeOrgaoCentral Success
  */
-export class GetModalidadeOrgaoCentralSuccess implements Action
-{
+export class GetModalidadeOrgaoCentralSuccess implements Action {
     readonly type = GET_MODALIDADE_ORGAO_CENTRAL_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get ModalidadeOrgaoCentral Failed
  */
-export class GetModalidadeOrgaoCentralFailed implements Action
-{
+export class GetModalidadeOrgaoCentralFailed implements Action {
     readonly type = GET_MODALIDADE_ORGAO_CENTRAL_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save ModalidadeOrgaoCentral
  */
-export class SaveModalidadeOrgaoCentral implements Action
-{
+export class SaveModalidadeOrgaoCentral implements Action {
     readonly type = SAVE_MODALIDADE_ORGAO_CENTRAL;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update ModalidadeOrgaoCentral
  */
-export class UpdateModalidadeOrgaoCentral implements Action
-{
+export class UpdateModalidadeOrgaoCentral implements Action {
     readonly type = UPDATE_MODALIDADE_ORGAO_CENTRAL;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save ModalidadeOrgaoCentral Success
  */
-export class SaveModalidadeOrgaoCentralSuccess implements Action
-{
+export class SaveModalidadeOrgaoCentralSuccess implements Action {
     readonly type = SAVE_MODALIDADE_ORGAO_CENTRAL_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save ModalidadeOrgaoCentral Failed
  */
-export class SaveModalidadeOrgaoCentralFailed implements Action
-{
+export class SaveModalidadeOrgaoCentralFailed implements Action {
     readonly type = SAVE_MODALIDADE_ORGAO_CENTRAL_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update ModalidadeOrgaoCentral Success
  */
-export class UpdateModalidadeOrgaoCentralSuccess implements Action
-{
+export class UpdateModalidadeOrgaoCentralSuccess implements Action {
     readonly type = UPDATE_MODALIDADE_ORGAO_CENTRAL_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update ModalidadeOrgaoCentral Failed
  */
-export class UpdateModalidadeOrgaoCentralFailed implements Action
-{
+export class UpdateModalidadeOrgaoCentralFailed implements Action {
     readonly type = UPDATE_MODALIDADE_ORGAO_CENTRAL_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create ModalidadeOrgaoCentral
  */
-export class CreateModalidadeOrgaoCentral implements Action
-{
+export class CreateModalidadeOrgaoCentral implements Action {
     readonly type = CREATE_MODALIDADE_ORGAO_CENTRAL;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create ModalidadeOrgaoCentral Success
  */
-export class CreateModalidadeOrgaoCentralSuccess implements Action
-{
+export class CreateModalidadeOrgaoCentralSuccess implements Action {
     readonly type = CREATE_MODALIDADE_ORGAO_CENTRAL_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
-
 
 
 export type ModalidadeOrgaoCentralEditActionsAll

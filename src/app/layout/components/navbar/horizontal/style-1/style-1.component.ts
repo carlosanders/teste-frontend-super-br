@@ -7,18 +7,17 @@ import {CdkNavigationService} from '@cdk/components/navigation/navigation.servic
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
-    selector     : 'navbar-horizontal-style-1',
-    templateUrl  : './style-1.component.html',
-    styleUrls    : ['./style-1.component.scss'],
+    selector: 'navbar-horizontal-style-1',
+    templateUrl: './style-1.component.html',
+    styleUrls: ['./style-1.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class NavbarHorizontalStyle1Component implements OnInit, OnDestroy
-{
+export class NavbarHorizontalStyle1Component implements OnInit, OnDestroy {
     cdkConfig: any;
     navigation: any;
 
     // Private
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
@@ -31,8 +30,7 @@ export class NavbarHorizontalStyle1Component implements OnInit, OnDestroy
         private _cdkConfigService: CdkConfigService,
         private _cdkNavigationService: CdkNavigationService,
         private _cdkSidebarService: CdkSidebarService
-    )
-    {
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -44,31 +42,27 @@ export class NavbarHorizontalStyle1Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Get current navigation
-        this._cdkNavigationService.onNavigationChanged
-            .pipe(
-                filter(value => value !== null),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe(() => {
-                this.navigation = this._cdkNavigationService.getCurrentNavigation();
-            });
+        this._cdkNavigationService.onNavigationChanged.pipe(
+            filter(value => value !== null),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(() => {
+            this.navigation = this._cdkNavigationService.getCurrentNavigation();
+        });
 
         // Subscribe to the config changes
-        this._cdkConfigService.config
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((config) => {
-                this.cdkConfig = config;
-            });
+        this._cdkConfigService.config.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((config) => {
+            this.cdkConfig = config;
+        });
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

@@ -7,36 +7,30 @@ export const GET_WORKFLOW_VIEW_TRANSICOES_FAILED = '[WORKFLOW] VIEW TRANSICOES F
 /**
  * Get WorkflowViewTransicoes
  */
-export class GetWorkflowViewTransicoes implements Action
-{
+export class GetWorkflowViewTransicoes implements Action {
     readonly type = GET_WORKFLOW_VIEW_TRANSICOES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get WorkflowViewTransicoes Success
  */
-export class GetWorkflowViewTransicoesSuccess implements Action
-{
+export class GetWorkflowViewTransicoesSuccess implements Action {
     readonly type = GET_WORKFLOW_VIEW_TRANSICOES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get WorkflowViewTransicoes Failed
  */
-export class GetWorkflowViewTransicoesFailed implements Action
-{
+export class GetWorkflowViewTransicoesFailed implements Action {
     readonly type = GET_WORKFLOW_VIEW_TRANSICOES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 

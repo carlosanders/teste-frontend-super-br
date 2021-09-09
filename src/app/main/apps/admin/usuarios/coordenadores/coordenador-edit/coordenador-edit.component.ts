@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'coordenador-edit',
@@ -34,6 +35,7 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
     orgaoCentralPagination: Pagination;
     unidadePagination: Pagination;
     setorPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -51,13 +53,12 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
         this.coordenador$ = this._store.pipe(select(fromStore.getCoordenador));
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.orgaoCentralPagination = new Pagination();
         this.unidadePagination = new Pagination();
@@ -83,13 +84,14 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.usuario$.subscribe(
-            usuario => this.usuario = usuario
-        );
+        this.usuario$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(usuario => this.usuario = usuario);
 
-        this.coordenador$.subscribe(
-            coordenador => this.coordenador = coordenador
-        );
+        this.coordenador$.pipe(
+            filter(coordenador => !!coordenador),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(coordenador => this.coordenador = coordenador);
 
         if (!this.coordenador) {
             this.coordenador = new Coordenador();
@@ -100,6 +102,9 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

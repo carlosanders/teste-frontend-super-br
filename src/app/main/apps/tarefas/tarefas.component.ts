@@ -48,7 +48,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 })
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
@@ -108,8 +108,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: Usuario;
-
     mobileMode = false;
 
     mostraCriar = false;
@@ -122,13 +120,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     cienciaIds$: Observable<number[]>;
 
-    PesquisaTarefa: string;
+    pesquisaTarefa: string;
 
     changingFolderIds$: Observable<number[]>;
 
     targetHandle: string;
-
-    @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
     routeAtividade = 'atividades/criar';
     routeAtividadeBloco = 'atividade-bloco';
@@ -142,6 +138,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     usuarioAtual: Usuario;
 
     javaWebStartOK = false;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+
+    private _profile: Usuario;
 
     /**
      *
@@ -215,6 +215,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:TAREFA'
                 },
@@ -254,6 +255,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
             this.routerState = routerState.state;
+            // eslint-disable-next-line radix
             this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
             this.targetHandle = routerState.state.params['targetHandle'];
 
@@ -375,7 +377,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        this.PesquisaTarefa = 'tarefa';
+        this.pesquisaTarefa = 'tarefa';
     }
 
     ngAfterViewInit(): void {
@@ -603,14 +605,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setFolderOnSelectedTarefas(folder): void {
+        const loteId = CdkUtils.makeId();
         this.selectedTarefas.forEach((tarefa) => {
-
+            const operacaoId = CdkUtils.makeId();
             if (this.targetHandle === 'lixeira') {
                 this.doRestauraTarefa(tarefa, folder);
                 return;
             }
 
-            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));
+            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
+                tarefa: tarefa,
+                folder: folder,
+                operacaoId: operacaoId,
+                loteId: loteId
+            }));
         });
     }
 
@@ -639,26 +647,32 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateDocumentoAvulso(tarefaId): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/oficio']).then();
     }
 
     doCreateTarefa(params): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
     }
 
     doMovimentar(tarefaId): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/' + this.routeAtividade]).then();
     }
 
     doEditTarefa(tarefaId): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
     }
 
     doEditProcesso(params): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/editar/dados-basicos']).then();
     }
 
     doRedistribuirTarefa(tarefaId): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
     }
 
@@ -723,43 +737,53 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCompartilhar(tarefaId): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
     }
 
     doCompartilharBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
     }
 
     doEtiquetarBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
     doMovimentarBloco(): void {
         // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco]).then();
     }
 
     doEditTarefaBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-edit-bloco']).then();
     }
 
     doRedistribuiTarefaBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
     }
 
     doCreateTarefaBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
     }
 
     doUploadBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
     }
 
     doEditorBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
     }
 
@@ -827,12 +851,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
-    criarRelatorio() {
+    criarRelatorio(): void {
         this._store.dispatch(new fromStore.CreateTarefa());
         this.mostraCriar = true;
     }
 
-    retornar() {
+    retornar(): void {
         this.mostraCriar = false;
         this.currentTarefaId = null;
     }
@@ -841,7 +865,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.SaveObservacao(params));
     }
 
-    doGerarRelatorioTarefaExcel() {
+    doGerarRelatorioTarefaExcel(): void {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',

@@ -10,84 +10,66 @@ export const RELOAD_ESPECIE_PROCESSO = '[ADMIN WORKFLOW ESPECIE PROCESSO EDIT] R
 export const RELOAD_ESPECIE_PROCESSO_SUCCESS = '[ADMIN WORKFLOW ESPECIE PROCESSO EDIT] RELOAD ESPECIE PROCESSO SUCCESS';
 export const RELOAD_ESPECIE_PROCESSO_FAILED = '[ADMIN WORKFLOW ESPECIE PROCESSO EDIT] RELOAD ESPECIE PROCESSO FAILED';
 
-export class GetEspecieProcesso implements Action
-{
+export class GetEspecieProcesso implements Action {
     readonly type = GET_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class GetEspecieProcessoSuccess implements Action
-{
+export class GetEspecieProcessoSuccess implements Action {
     readonly type = GET_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class GetEspecieProcessoFailed implements Action
-{
+export class GetEspecieProcessoFailed implements Action {
     readonly type = GET_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class UpdateEspecieProcesso implements Action
-{
+export class UpdateEspecieProcesso implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class UpdateEspecieProcessoSuccess implements Action
-{
+export class UpdateEspecieProcessoSuccess implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class UpdateEspecieProcessoFailed implements Action
-{
+export class UpdateEspecieProcessoFailed implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class ReloadEspecieProcesso implements Action
-{
+export class ReloadEspecieProcesso implements Action {
     readonly type = RELOAD_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class ReloadEspecieProcessoSuccess implements Action
-{
+export class ReloadEspecieProcessoSuccess implements Action {
     readonly type = RELOAD_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class ReloadEspecieProcessoFailed implements Action
-{
+export class ReloadEspecieProcessoFailed implements Action {
     readonly type = RELOAD_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

@@ -9,6 +9,7 @@ export interface DocumentoAvulsoResponderState {
     assinandoDocumentoIds: number[];
     convertendoDocumentoIds: number[];
     convertendoDocumentoHtmlIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
     loading: boolean;
     loaded: any;
     saving: boolean;
@@ -24,6 +25,7 @@ export const DocumentoAvulsoResponderInitialState: DocumentoAvulsoResponderState
     assinandoDocumentoIds: [],
     convertendoDocumentoIds: [],
     convertendoDocumentoHtmlIds: [],
+    removendoAssinaturaDocumentoIds: [],
     loading: false,
     loaded: false,
     saving: false,
@@ -125,13 +127,14 @@ export function DocumentoAvulsoResponderReducer(
         case DocumentoAvulsoResponderActions.DELETE_DOCUMENTO: {
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoAvulsoId]
             };
         }
 
         case DocumentoAvulsoResponderActions.DELETE_DOCUMENTO_FAILED: {
             return {
                 ...state,
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
                 errors: action.payload
             };
         }
@@ -163,6 +166,51 @@ export function DocumentoAvulsoResponderReducer(
             return {
                 ...state,
                 errors: action.payload
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                errors: false
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
+                errors: false
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
+                errors: action.payload.error
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.REMOVE_ASSINATURA_DOCUMENTO: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 

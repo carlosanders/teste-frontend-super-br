@@ -19,132 +19,110 @@ export const GET_CLASSIFICACAO_FAILED = '[ADMIN CLASSIFICACAO EDIT] GET CLASSIFI
 /**
  * Get Classificacao
  */
-export class GetClassificacao implements Action
-{
+export class GetClassificacao implements Action {
     readonly type = GET_CLASSIFICACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Classificacao Success
  */
-export class GetClassificacaoSuccess implements Action
-{
+export class GetClassificacaoSuccess implements Action {
     readonly type = GET_CLASSIFICACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Classificacao Failed
  */
-export class GetClassificacaoFailed implements Action
-{
+export class GetClassificacaoFailed implements Action {
     readonly type = GET_CLASSIFICACAO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Classificacao
  */
-export class SaveClassificacao implements Action
-{
+export class SaveClassificacao implements Action {
     readonly type = SAVE_CLASSIFICACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Classificacao
  */
-export class UpdateClassificacao implements Action
-{
+export class UpdateClassificacao implements Action {
     readonly type = UPDATE_CLASSIFICACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Classificacao Success
  */
-export class SaveClassificacaoSuccess implements Action
-{
+export class SaveClassificacaoSuccess implements Action {
     readonly type = SAVE_CLASSIFICACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Classificacao Failed
  */
-export class SaveClassificacaoFailed implements Action
-{
+export class SaveClassificacaoFailed implements Action {
     readonly type = SAVE_CLASSIFICACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Classificacao Success
  */
-export class UpdateClassificacaoSuccess implements Action
-{
+export class UpdateClassificacaoSuccess implements Action {
     readonly type = UPDATE_CLASSIFICACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Classificacao Failed
  */
-export class UpdateClassificacaoFailed implements Action
-{
+export class UpdateClassificacaoFailed implements Action {
     readonly type = UPDATE_CLASSIFICACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Classificacao
  */
-export class CreateClassificacao implements Action
-{
+export class CreateClassificacao implements Action {
     readonly type = CREATE_CLASSIFICACAO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Classificacao Success
  */
-export class CreateClassificacaoSuccess implements Action
-{
+export class CreateClassificacaoSuccess implements Action {
     readonly type = CREATE_CLASSIFICACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

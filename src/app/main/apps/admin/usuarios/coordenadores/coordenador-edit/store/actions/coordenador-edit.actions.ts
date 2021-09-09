@@ -14,96 +14,80 @@ export const GET_COORDENADOR_FAILED = '[ADMIN COORDENADOR EDIT] GET COORDENADOR 
 /**
  * Get Coordenador
  */
-export class GetCoordenador implements Action
-{
+export class GetCoordenador implements Action {
     readonly type = GET_COORDENADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Coordenador Success
  */
-export class GetCoordenadorSuccess implements Action
-{
+export class GetCoordenadorSuccess implements Action {
     readonly type = GET_COORDENADOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Coordenador Failed
  */
-export class GetCoordenadorFailed implements Action
-{
+export class GetCoordenadorFailed implements Action {
     readonly type = GET_COORDENADOR_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Coordenador
  */
-export class SaveCoordenador implements Action
-{
+export class SaveCoordenador implements Action {
     readonly type = SAVE_COORDENADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Coordenador Success
  */
-export class SaveCoordenadorSuccess implements Action
-{
+export class SaveCoordenadorSuccess implements Action {
     readonly type = SAVE_COORDENADOR_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Coordenador Failed
  */
-export class SaveCoordenadorFailed implements Action
-{
+export class SaveCoordenadorFailed implements Action {
     readonly type = SAVE_COORDENADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Coordenador
  */
-export class CreateCoordenador implements Action
-{
+export class CreateCoordenador implements Action {
     readonly type = CREATE_COORDENADOR;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Coordenador Success
  */
-export class CreateCoordenadorSuccess implements Action
-{
+export class CreateCoordenadorSuccess implements Action {
     readonly type = CREATE_COORDENADOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

@@ -109,5 +109,4 @@ export type ProfileActionsAll
     | UploadImagemPerfilFailed
     | UploadImagemChancela
     | UploadImagemChancelaSuccess
-    | UploadImagemChancelaFailed
-    ;
+    | UploadImagemChancelaFailed;

@@ -101,7 +101,7 @@ export function TipoRelatorioListReducer(
         case TipoRelatorioListActions.DELETE_TIPO_RELATORIO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.tipoRelatorioId]
             };
         }
 

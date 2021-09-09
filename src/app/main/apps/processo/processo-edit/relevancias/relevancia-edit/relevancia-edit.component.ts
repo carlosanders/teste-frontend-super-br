@@ -1,15 +1,16 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Processo, Relevancia} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getProcesso} from '../../../store';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'relevancia-edit',
@@ -30,6 +31,7 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     especieRelevanciaPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * @param _store
@@ -54,13 +56,14 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            processo => this.processo = processo
-        );
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processo => this.processo = processo);
 
-        this.relevancia$.subscribe(
-            relevancia => this.relevancia = relevancia
-        );
+        this.relevancia$.pipe(
+            filter(relevancia => !!relevancia),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(relevancia => this.relevancia = relevancia);
 
         if (!this.relevancia) {
             this.relevancia = new Relevancia();
@@ -72,6 +75,8 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }
 

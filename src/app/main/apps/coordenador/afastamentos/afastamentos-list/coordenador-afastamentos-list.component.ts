@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Afastamento, Pagination} from '@cdk/models';
@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'coordenador-afastamentos-list',
@@ -38,6 +38,7 @@ export class CoordenadorAfastamentosListComponent implements OnInit, OnDestroy {
     colaboradorPagination: Pagination = new Pagination();
     modulo: string;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -56,22 +57,19 @@ export class CoordenadorAfastamentosListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if(this.routerState.url.includes('unidades')) {
-                        this.modulo = 'unidades';
-                    }
-                    else if(this.routerState.url.includes('usuarios')) {
-                        this.modulo = 'usuarios';
-                    }
-                    else {
-                        this.modulo = 'lotacoes';
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.includes('unidades')) {
+                this.modulo = 'unidades';
+            } else if (this.routerState.url.includes('usuarios')) {
+                this.modulo = 'usuarios';
+            } else {
+                this.modulo = 'lotacoes';
+            }
+        });
 
         this.colaboradorPagination.filter = {};
         this.colaboradorPagination.populate = ['populateAll'];
@@ -84,13 +82,17 @@ export class CoordenadorAfastamentosListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadAfastamentos());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -111,11 +113,11 @@ export class CoordenadorAfastamentosListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(afastamentoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + afastamentoId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + afastamentoId]).then();
     }
 
     delete(afastamentoId: number, loteId: string = null): void {
@@ -127,7 +129,7 @@ export class CoordenadorAfastamentosListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

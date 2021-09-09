@@ -1,15 +1,17 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Processo, Tramitacao, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getProcesso} from '../../../store';
+import {Back} from '../../../../../../store';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'tramitacao-edit',
@@ -35,6 +37,7 @@ export class TramitacaoEditComponent implements OnInit, OnDestroy {
     setorOrigemPaginationTree: Pagination;
 
     setorDestinoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -70,11 +73,15 @@ export class TramitacaoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             processo => this.processo = processo
         );
 
-        this.tramitacao$.subscribe(
+        this.tramitacao$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             tramitacao => this.tramitacao = tramitacao
         );
 
@@ -89,6 +96,8 @@ export class TramitacaoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -105,7 +114,8 @@ export class TramitacaoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveTramitacao(tramitacao));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTramitacao({tramitacao: tramitacao, operacaoId: operacaoId}));
 
     }
 

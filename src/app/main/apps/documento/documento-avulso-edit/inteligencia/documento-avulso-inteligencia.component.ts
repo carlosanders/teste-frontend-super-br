@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {ComponenteDigital, Repositorio} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -22,6 +22,7 @@ import {Router} from '@angular/router';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import * as fromStoreComponente from '../../componente-digital/store';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-avulso-inteligencia',
@@ -33,6 +34,9 @@ import * as fromStoreComponente from '../../componente-digital/store';
 })
 export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     loading$: Observable<boolean>;
     repositorios$: Observable<Repositorio[]>;
     pagination$: Observable<any>;
@@ -41,11 +45,8 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
     repositorioIdLoaded$: Observable<number>;
 
     componenteDigital$: Observable<ComponenteDigital>;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -55,6 +56,7 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
      * @param _repositorioService
      * @param _componenteDigitalService
      * @param _dynamicService
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoEditInteligenciaAppState>,
@@ -62,7 +64,8 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
         private _router: Router,
         private _repositorioService: RepositorioService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.repositorios$ = this._store.pipe(select(fromStore.getRepositorios));
@@ -76,6 +79,7 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
     static b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
         // tslint:disable-next-line:only-arrow-functions
+        // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
         return decodeURIComponent(atob(str).split('').map(function(c): any {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -89,16 +93,16 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reload(this.pagination);
@@ -107,7 +111,9 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
             }
         });
 
-        this.componenteDigital$.subscribe((componenteDigital) => {
+        this.componenteDigital$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((componenteDigital) => {
             if (componenteDigital && componenteDigital.conteudo) {
                 const html = DocumentoAvulsoInteligenciaComponent.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
@@ -121,7 +127,10 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -131,6 +140,9 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this.pagination = null;
         this._store.dispatch(new fromStore.UnloadRepositorios());
         this._store.dispatch(new fromStore.UnloadComponenteDigital());

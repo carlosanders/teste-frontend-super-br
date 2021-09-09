@@ -44,52 +44,36 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 })
 export class TarefaDetailComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
+    @ViewChild('dynamicComponent', {read: ViewContainerRef}) container: ViewContainerRef;
     savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
     errorsAddEtiqueta$: Observable<any>;
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
     vinculacaoEtiquetaPagination: Pagination;
-
     etiqueta$: Observable<Etiqueta>;
     etiqueta: Etiqueta;
     showEtiqueta = false;
     habilitarOpcaoBtnAddEtiqueta = true;
-
     placeholderEtiq = 'Adicionar etiquetas na tarefa';
-
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
-
     expandir$: Observable<boolean>;
-
     screen$: Observable<any>;
-
     documentos$: Observable<Documento[]>;
     documentos: Documento[];
-
     pluginLoading$: Observable<string[]>;
     pluginLoading: string[];
-
     routerState: any;
-
     accept = 'application/pdf';
-
     maximizado$: Observable<boolean>;
     maximizado = false;
-
-    private _profile: Usuario;
-
     mobileMode = false;
-
     routeAtividade = 'atividades/criar';
-
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     lote: string;
-
-    @ViewChild('dynamicComponent', {read: ViewContainerRef}) container: ViewContainerRef;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     /**
      * @param _changeDetectorRef
@@ -131,6 +115,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:TAREFA'
                 }
@@ -152,7 +137,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
 
@@ -233,7 +221,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(): void {
-
     }
 
     /**
@@ -241,7 +228,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
      */
     deselectCurrentTarefa(): void {
         this._store.dispatch(new fromStore.DeselectTarefaAction());
-        // this.doToggleMaximizado();
     }
 
     onVinculacaoEtiquetaCreate(etiqueta: Etiqueta): void {
@@ -340,7 +326,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     }
 
     doCreateTarefa(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id]).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id
+        ]).then();
     }
 
     doToggleMaximizado(valor: boolean): void {

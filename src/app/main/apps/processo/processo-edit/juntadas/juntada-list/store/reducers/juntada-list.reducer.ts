@@ -164,8 +164,8 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
         }
 
         case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
-            let newState = [...state.assinandoDocumentoIds];
-            let index = newState.indexOf(action.payload);
+            const newState = [...state.assinandoDocumentoIds];
+            const index = newState.indexOf(action.payload);
             if (index > -1) {
                 newState.splice(index, 1);
             }
@@ -176,8 +176,8 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
         }
 
         case JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
-            let newState = [...state.assinandoDocumentoIds];
-            let index = newState.indexOf(action.payload.documentoId);
+            const newState = [...state.assinandoDocumentoIds];
+            const index = newState.indexOf(action.payload.documentoId);
             if (index > -1) {
                 newState.splice(index, 1);
             }

@@ -69,6 +69,11 @@ export const getSelectedDocumentoIds = createSelector(
     (state: DocumentoAvulsoResponderState) => state.selectedDocumentosId
 );
 
+export const getRemovendoAssinaturaDocumentosId = createSelector(
+    getDocumentosState,
+    (state: DocumentoAvulsoResponderState) => state.removendoAssinaturaDocumentoIds
+);
+
 export const getSelectedDocumentos = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoIds,

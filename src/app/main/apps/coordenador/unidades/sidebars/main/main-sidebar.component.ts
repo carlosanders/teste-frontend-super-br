@@ -77,13 +77,11 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
             }
         ];
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
         const path = 'app/main/apps/coordenador/unidades/sidebars/main';

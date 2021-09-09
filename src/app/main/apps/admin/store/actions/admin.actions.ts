@@ -5,12 +5,10 @@ export const GET_ROLE = '[ADMIN] GET ROLE';
 /**
  * Get Role
  */
-export class GetRole implements Action
-{
+export class GetRole implements Action {
     readonly type = GET_ROLE;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

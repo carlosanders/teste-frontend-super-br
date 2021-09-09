@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
@@ -8,6 +15,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Location} from '@angular/common';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'tramitacao-view',
@@ -17,13 +25,14 @@ import {Location} from '@angular/common';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TramitacaoViewComponent implements OnInit {
+export class TramitacaoViewComponent implements OnInit, OnDestroy {
 
     routerState: any;
     binary$: Observable<any>;
 
     src: any;
     loading = false;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -42,36 +51,43 @@ export class TramitacaoViewComponent implements OnInit {
     ) {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
 
-        this.binary$.subscribe(
-            (binary) => {
-                if (binary.src.conteudo) {
-                    const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
-                    const byteNumbers = new Array(byteCharacters.length);
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
-                    const byteArray = new Uint8Array(byteNumbers);
-                    const blob = new Blob([byteArray], {type: 'text/html'});
-                    const URL = window.URL;
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                } else {
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+        this.binary$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((binary) => {
+            if (binary.src.conteudo) {
+                const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
                 }
-                this.loading = binary.loading;
-                this._changeDetectorRef.markForCheck();
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], {type: 'text/html'});
+                const URL = window.URL;
+                this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+            } else {
+                this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
             }
-        );
+            this.loading = binary.loading;
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     back(): void {

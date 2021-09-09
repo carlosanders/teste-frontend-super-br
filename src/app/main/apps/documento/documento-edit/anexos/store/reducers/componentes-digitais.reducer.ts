@@ -56,22 +56,22 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload.assinaturaId]
+                deletingIds: [...state.deletingIds, action.payload.componenteDigitalId]
             };
         }
 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL_SUCCESS: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.assinaturaId),
-                deletedIds: [...state.deletedIds, action.payload.assinaturaId]
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
             };
         }
 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.assinaturaId)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

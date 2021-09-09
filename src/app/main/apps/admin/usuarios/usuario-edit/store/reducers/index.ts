@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {UsuarioEditReducer, UsuarioEditState} from './usuario-edit.reducer';
 
-export interface UsuarioEditAppState
-{
+export interface UsuarioEditAppState {
     usuario: UsuarioEditState;
 }
 

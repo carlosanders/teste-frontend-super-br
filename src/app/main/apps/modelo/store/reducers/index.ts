@@ -2,8 +2,7 @@ import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/sto
 import {ModelosReducer, ModelosState} from './modelos.reducer';
 import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
 
-export interface ModelosAppState
-{
+export interface ModelosAppState {
     modelos: ModelosState;
     componenteDigital: ComponenteDigitalState;
 }

@@ -1,11 +1,20 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {EspecieProcesso} from '@cdk/models';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../../../store/reducers';
+import {getRouterState} from '../../../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Component({
     selector: 'workflow-especies-processo-list',
@@ -15,7 +24,7 @@ import {cdkAnimations} from '@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EspeciesProcessoListComponent implements OnInit {
+export class EspeciesProcessoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     especieProcessos$: Observable<EspecieProcesso[]>;
@@ -25,6 +34,7 @@ export class EspeciesProcessoListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -38,19 +48,25 @@ export class EspeciesProcessoListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -71,16 +87,18 @@ export class EspeciesProcessoListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     delete(especieProcessoId): void {
+        const operacaoId = CdkUtils.makeId();
         const especieProcesso = new EspecieProcesso();
         especieProcesso.id = especieProcessoId;
         this._store.dispatch(new fromStore.UpdateEspecieProcesso(
             {
                 ...this.pagination,
                 especieProcesso: especieProcesso,
+                operacaoId: operacaoId
             }
         ));
     }

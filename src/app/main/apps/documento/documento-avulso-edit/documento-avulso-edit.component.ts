@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -18,6 +18,7 @@ import {Documento} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
 import {DynamicService} from '../../../../../modules/dynamic.service';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -29,10 +30,6 @@ import {DynamicService} from '../../../../../modules/dynamic.service';
 })
 export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
-    documento$: Observable<Documento>;
-
-    documento: Documento;
-
     /**
      * Criando ponto de entrada para o componente de anexos
      */
@@ -43,7 +40,12 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      */
     @ViewChild('dynamicInteligencia', {static: false, read: ViewContainerRef}) containerInteligencia: ViewContainerRef;
 
+    documento$: Observable<Documento>;
+
+    documento: Documento;
+
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -73,15 +75,16 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.documento$.pipe(
+            filter(documento => !!documento),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
 
@@ -89,6 +92,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

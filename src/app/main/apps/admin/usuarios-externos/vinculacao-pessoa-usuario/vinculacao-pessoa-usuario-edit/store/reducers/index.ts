@@ -4,8 +4,7 @@ import {
     VinculacaoPessoaUsuarioEditState
 } from './vinculacao-pessoa-usuario-edit.reducer';
 
-export interface VinculacaoPessoaUsuarioEditAppState
-{
+export interface VinculacaoPessoaUsuarioEditAppState {
     vinculacaoPessoaUsuario: VinculacaoPessoaUsuarioEditState;
 }
 

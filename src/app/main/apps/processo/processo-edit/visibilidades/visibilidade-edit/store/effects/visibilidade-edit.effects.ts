@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as VisibilidadeEditActions from '../actions/visibilidade-edit.actions';
 import * as VisibilidadeListActions from '../../../visibilidade-list/store/actions/visibilidade-list.actions';
@@ -15,11 +15,56 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
 
 @Injectable()
 export class VisibilidadeEditEffect {
     routerState: any;
+    /**
+     * Save Visibilidade
+     *
+     * @type {Observable<any>}
+     */
+    saveVisibilidade: any = createEffect(() => this._actions.pipe(
+        ofType<VisibilidadeEditActions.SaveVisibilidade>(VisibilidadeEditActions.SAVE_VISIBILIDADE),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'visibilidade',
+            content: 'Criando visibilidade ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._processoService.createVisibilidade(action.payload.processoId, action.payload.visibilidade).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'visibilidade',
+                content: `Visibilidade id ${response.id} criada com sucesso.`,
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Visibilidade) => [
+                new VisibilidadeEditActions.SaveVisibilidadeSuccess(),
+                new VisibilidadeListActions.ReloadVisibilidades(),
+                new AddData<Visibilidade>({data: [response], schema: visibilidadeSchema})
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'visibilidade',
+                    content: 'Ocorreu um erro na criação da visibilidade.',
+                    status: 2, // sucesso
+                }));
+                return of(new VisibilidadeEditActions.SaveVisibilidadeFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Save Visibilidade Success
+     */
+    saveVisibilidadeSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<VisibilidadeEditActions.SaveVisibilidadeSuccess>(VisibilidadeEditActions.SAVE_VISIBILIDADE_SUCCESS),
+        tap(() => {
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.visibilidadeHandle), 'listar')]).then();
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -27,52 +72,11 @@ export class VisibilidadeEditEffect {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Save Visibilidade
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveVisibilidade: any =
-        this._actions
-            .pipe(
-                ofType<VisibilidadeEditActions.SaveVisibilidade>(VisibilidadeEditActions.SAVE_VISIBILIDADE),
-                switchMap(action => this._processoService.createVisibilidade(action.payload.processoId, action.payload.visibilidade).pipe(
-                        mergeMap((response: Visibilidade) => [
-                            new VisibilidadeEditActions.SaveVisibilidadeSuccess(),
-                            new VisibilidadeListActions.ReloadVisibilidades(),
-                            new AddData<Visibilidade>({data: [response], schema: visibilidadeSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'visibilidade',
-                                content: `Visibilidade id ${response.id} criada com sucesso!`,
-                                dateTime: moment()
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log (err);
-                            return of(new VisibilidadeEditActions.SaveVisibilidadeFailed(err));
-                        })
-                    ))
-            );
-    /**
-     * Save Visibilidade Success
-     */
-    @Effect({dispatch: false})
-    saveVisibilidadeSuccess: any =
-        this._actions
-            .pipe(
-                ofType<VisibilidadeEditActions.SaveVisibilidadeSuccess>(VisibilidadeEditActions.SAVE_VISIBILIDADE_SUCCESS),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.visibilidadeHandle), 'listar')]).then();
-                })
-            );
 }

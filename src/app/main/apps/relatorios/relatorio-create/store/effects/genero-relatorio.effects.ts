@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, mergeMap, switchMap} from 'rxjs/operators';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
@@ -17,6 +17,32 @@ import {Router} from '@angular/router';
 export class GeneroRelatoriosEffects {
     routerState: any;
     generoRelatorios: GeneroRelatorio[];
+    /**
+     * Get GeneroRelatorios with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getGeneroRelatorios: any = createEffect(() => this._actions.pipe(
+        ofType<GeneroRelatoriosActions.GetGeneroRelatorios>(GeneroRelatoriosActions.GET_GENERO_RELATORIOS),
+        switchMap(() => this._generoRelatorioService.query(
+            JSON.stringify({}),
+            100,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ]))),
+        mergeMap(response => [
+            new AddData<GeneroRelatorio>({data: response['entities'], schema: generoRelatorioSchema}),
+            new GeneroRelatoriosActions.GetGeneroRelatoriosSuccess({
+                entitiesId: response['entities'].map(generoRelatorio => generoRelatorio.id),
+            }),
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new GeneroRelatoriosActions.GetGeneroRelatoriosFailed(err));
+        })
+    ));
 
     constructor(
         private _actions: Actions,
@@ -24,43 +50,11 @@ export class GeneroRelatoriosEffects {
         private _router: Router,
         private _store: Store<State>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get GeneroRelatorios with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getGeneroRelatorios: any =
-        this._actions
-            .pipe(
-                ofType<GeneroRelatoriosActions.GetGeneroRelatorios>(GeneroRelatoriosActions.GET_GENERO_RELATORIOS),
-                switchMap(() => this._generoRelatorioService.query(
-                        JSON.stringify({}),
-                        100,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
-                mergeMap(response => [
-                    new AddData<GeneroRelatorio>({data: response['entities'], schema: generoRelatorioSchema}),
-                    new GeneroRelatoriosActions.GetGeneroRelatoriosSuccess({
-                        entitiesId: response['entities'].map(generoRelatorio => generoRelatorio.id),
-                    }),
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new GeneroRelatoriosActions.GetGeneroRelatoriosFailed(err));
-                    return caught;
-                })
-            );
 }

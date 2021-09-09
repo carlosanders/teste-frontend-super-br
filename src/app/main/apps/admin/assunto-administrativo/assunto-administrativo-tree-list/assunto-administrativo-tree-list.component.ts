@@ -6,9 +6,10 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {FormBuilder} from '@angular/forms';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'assunto-administrativo-tree-list',
@@ -26,20 +27,18 @@ export class AssuntoAdministrativoTreeListComponent implements OnInit {
     assuntoAdministrativo$: Observable<AssuntoAdministrativo[]>;
     assuntoAdministrativoPagination: Pagination;
 
-
     constructor(
         private _store: Store<fromStore.AssuntoAdministrativoTreeListAppState>,
         private _router: Router,
         private _loginService: LoginService,
         private _formBuilder: FormBuilder
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
         this.assuntoAdministrativo$ = this._store.pipe(select(fromStore.getAssuntoAdministrativoTreeList));
         this.assuntoAdministrativoPagination = new Pagination();
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));

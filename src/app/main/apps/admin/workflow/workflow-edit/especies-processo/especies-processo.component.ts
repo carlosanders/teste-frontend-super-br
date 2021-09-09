@@ -11,7 +11,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../../../../store';
 import {getRouterState} from '../../../../../../store';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
 @Component({
@@ -36,15 +36,13 @@ export class EspeciesProcessoComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this._changeDetectorRef.markForCheck();
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this._changeDetectorRef.markForCheck();
         });
     }
 

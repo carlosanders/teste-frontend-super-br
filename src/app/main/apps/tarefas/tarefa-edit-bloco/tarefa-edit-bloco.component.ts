@@ -15,12 +15,13 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getSelectedTarefas} from '../store/selectors';
+import {getSelectedTarefas} from '../store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Back} from 'app/store/actions';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefa-edit-bloco',
@@ -32,8 +33,6 @@ import {Back} from 'app/store/actions';
 })
 export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
 
@@ -43,8 +42,6 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
 
-    private _profile: any;
-
     routerState: any;
 
     blocoEditEspecie = true;
@@ -53,6 +50,8 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     blocoEditUrgente = false;
     blocoEditDistribuicao = false;
     blocoEditObservacao = false;
+    private _profile: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -78,41 +77,34 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-
         this.operacoes = [];
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefas => this.tarefas = tarefas);
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'tarefa')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        this._store.pipe(
+            select(getOperacoesState),
+            takeUntil(this._unsubscribeAll),
+            filter(op => !!op && !!op.content && op.type === 'tarefa')
+        ).subscribe((operacao) => {
+            this.operacoes.push(operacao);
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
 
         this.tarefa = new Tarefa();
         this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
         this.tarefa.dataHoraInicioPrazo = moment();
-        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
+        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
     }
 
     ngOnDestroy(): void {
@@ -126,9 +118,9 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         this.operacoes = [];
 
+        const loteId = CdkUtils.makeId();
         this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
@@ -147,7 +139,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             }
 
             if (this.blocoEditDistribuicao) {
-                if (!values.distribuicaoAutomatica){
+                if (!values.distribuicaoAutomatica) {
                     changes['setorResponsavel'] = tarefa.setorResponsavel.id;
                     changes['usuarioResponsavel'] = tarefa.usuarioResponsavel.id;
 
@@ -173,7 +165,8 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
                 changes['observacao'] = tarefa.observacao;
             }
 
-            this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes}));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes, operacaoId: operacaoId, loteId: loteId}));
         });
     }
 
