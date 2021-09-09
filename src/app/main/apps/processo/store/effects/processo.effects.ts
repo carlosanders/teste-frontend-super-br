@@ -306,23 +306,23 @@ export class ProcessoEffect {
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'acompanhamento',
-            content: 'Salvando a acompanhamento ...',
+            content: 'Salvando o acompanhamento ...',
             status: 0, // carregando
         }))),
         switchMap((action) => {
             const acompanhamento = new Compartilhamento();
             acompanhamento.usuario = this._loginService.getUserProfile();
-            acompanhamento.processo = action.payload;
-            return this._acompanhamentoService.save(action.payload.acompanhamento).pipe(
+            acompanhamento.processo = action.payload.processo;
+            return this._acompanhamentoService.save(acompanhamento).pipe(
                 tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'acompanhamento',
-                    content: 'Acompanhamento id ' + response.id + ' salva com sucesso.',
+                    content: 'Acompanhamento id ' + response.id + ' salvo com sucesso.',
                     status: 1, // sucesso
                 }))),
                 mergeMap((response: Compartilhamento) => [
                     new ProcessoActions.SaveAcompanhamentoSuccess(response),
-                    new ProcessoActions.GetProcesso(action.payload),
+                    new ProcessoActions.GetProcesso(action.payload.processo),
                     new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema})
                 ]),
                 catchError((err) => {
@@ -330,7 +330,7 @@ export class ProcessoEffect {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
                         type: 'acompanhamento',
-                        content: 'Erro ao salvar a acompanhamento!',
+                        content: 'Erro ao salvar o acompanhamento!',
                         status: 2, // erro
                     }));
                     return of(new ProcessoActions.SaveAcompanhamentoFailed(err));
