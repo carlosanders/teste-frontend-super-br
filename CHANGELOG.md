@@ -569,3 +569,6 @@
 * Correção nas mensagens de conteúdo de diversas operações em segundo plano - Operacao()
 * Melhoria alteradas, em todos os locais do sistema, as chamadas ao método depreciado Resultado(), substituindo pelas chamadas corretas ao método Operacao()
 * Correção de diversos problemas de eslint detectados em inspeção
+* Melhoria implementar delete do Coordenador para o Admin
+* Melhoria filtros para Juntada
+* Melhoria tooltip de componente digital mostrando o seu nome

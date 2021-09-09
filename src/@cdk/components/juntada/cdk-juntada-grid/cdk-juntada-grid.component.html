@@ -202,7 +202,7 @@
                         data-label='Componentes Digitais: '>
                         <button *ngFor="let componenteDigital of juntada.documento?.componentesDigitais" mat-icon-button
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1" (click)="download(componenteDigital)"
-                                aria-label="download" matTooltip="download">
+                                aria-label="download" matTooltip="{{componenteDigital.fileName}}">
                             <mat-icon>picture_as_pdf</mat-icon>
                         </button>
                     </td>

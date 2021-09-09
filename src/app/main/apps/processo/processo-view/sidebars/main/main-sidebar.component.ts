@@ -234,7 +234,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.form = this._formBuilder.group({
             volume: [null],
             tipoDocumento: [null],
-            tipoDocumentoMinutas: [null]
+            tipoDocumentoMinutas: [null],
+            numeracaoSequencial: [null],
+            descricao: [null],
+            criadoPor: [null],
+            atualizadoPor: [null],
         });
 
         this.formEditor = this._formBuilder.group({
@@ -517,6 +521,58 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 if (this.listFilter.hasOwnProperty('documento.tipoDocumento.id')) {
                     delete this.listFilter['documento.tipoDocumento.id'];
+                }
+            }
+        });
+
+        this.form.get('numeracaoSequencial').valueChanges.subscribe((value) => {
+            if (typeof value === 'string' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.juntadas.numeracaoSequencial': `like:%${value}%`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.juntadas.numeracaoSequencial')) {
+                    delete this.listFilter['documento.juntadas.numeracaoSequencial'];
+                }
+            }
+        });
+
+        this.form.get('descricao').valueChanges.subscribe((value) => {
+            if (typeof value === 'string' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.juntadaAtual.descricao': `like:%${value}%`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.juntadaAtual.descricao')) {
+                    delete this.listFilter['documento.juntadaAtual.descricao'];
+                }
+            }
+        });
+
+        this.form.get('criadoPor').valueChanges.subscribe((value) => {
+            if (typeof value === 'object' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.criadoPor.id': `eq:${value.id}`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.criadoPor.id')) {
+                    delete this.listFilter['documento.criadoPor.id'];
+                }
+            }
+        });
+
+        this.form.get('atualizadoPor').valueChanges.subscribe((value) => {
+            if (typeof value === 'object' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.atualizadoPor.id': `eq:${value.id}`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.atualizadoPor.id')) {
+                    delete this.listFilter['documento.atualizadoPor.id'];
                 }
             }
         });
