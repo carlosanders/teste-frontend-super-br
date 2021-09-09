@@ -30,11 +30,11 @@ const routes: Routes = [
                 loadChildren: () => import('./usuarios-externos-list/usuarios-externos-list.module').then(m => m.UsuariosExternosListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./usuarios-externos-edit/usuarios-externos-edit.module').then(m => m.UsuariosExternosEditModule),
             },
             {
-                path       : ':usuariosExternosHandler/vinculacao-pessoa-usuario',
+                path: ':usuariosExternosHandler/vinculacao-pessoa-usuario',
                 loadChildren: () => import('./vinculacao-pessoa-usuario/vincular-pessoa.module').then(m => m.VincularPessoaModule),
             },
             {

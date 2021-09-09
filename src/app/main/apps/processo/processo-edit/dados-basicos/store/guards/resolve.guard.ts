@@ -21,13 +21,13 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<DadosBasicosAppState>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -40,7 +40,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getProcesso().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -54,7 +57,7 @@ export class ResolveGuard implements CanActivate {
             select(getProcessoLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    if (this.routerState.params['processoHandle'] === 'criar' ) {
+                    if (this.routerState.params['processoHandle'] === 'criar') {
                         this._store.dispatch(new fromStore.CreateProcesso());
                     } else {
                         this._store.dispatch(new fromStore.GetProcesso({

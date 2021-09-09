@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as TarefaEditActions from '../actions/tarefa-edit.actions';
 import * as TarefaListActions from '../../../tarefa-list/store/actions/tarefa-list.actions';
@@ -20,6 +20,96 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 export class TarefaEditEffect {
     routerState: any;
     steps: any;
+    /**
+     * Get Tarefa with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<TarefaEditActions.GetTarefa>(TarefaEditActions.GET_TAREFA),
+        switchMap(action => this._tarefaService.query(
+            JSON.stringify(action.payload),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'processo',
+                'processo.especieProcesso',
+                'processo.especieProcesso.generoProcesso',
+                'processo.modalidadeMeio',
+                'processo.documentoAvulsoOrigem',
+                'especieTarefa',
+                'usuarioResponsavel',
+                'setorResponsavel',
+                'setorResponsavel.unidade',
+                'setorOrigem',
+                'setorOrigem.unidade',
+                'especieTarefa.generoTarefa',
+                'processo.especieProcesso.workflow',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta'
+            ]))),
+        switchMap(response => [
+            new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
+            new TarefaEditActions.GetTarefaSuccess({
+                loaded: {
+                    id: 'tarefaHandle',
+                    value: this.routerState.params.tarefaHandle
+                },
+                tarefaId: response['entities'][0].id
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new TarefaEditActions.GetTarefaFailed(err));
+        })
+    ));
+    /**
+     * Save Tarefa
+     *
+     * @type {Observable<any>}
+     */
+    saveTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<TarefaEditActions.SaveTarefa>(TarefaEditActions.SAVE_TAREFA),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tarefa',
+            content: 'Salvando a tarefa ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._tarefaService.save(action.payload).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'tarefa',
+                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Tarefa) => [
+                new TarefaEditActions.SaveTarefaSuccess(),
+                new TarefaListActions.ReloadTarefas(),
+                new AddData<Tarefa>({data: [response], schema: tarefaSchema})
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Erro ao salvar a tarefa!',
+                    status: 2, // erro
+                }));
+                return of(new TarefaEditActions.SaveTarefaFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Save Tarefa Success
+     */
+    saveTarefaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<TarefaEditActions.SaveTarefaSuccess>(TarefaEditActions.SAVE_TAREFA_SUCCESS),
+        tap(() => {
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.tarefaHandle), 'listar')]).then();
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -27,119 +117,11 @@ export class TarefaEditEffect {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Tarefa with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getTarefa: any =
-        this._actions
-            .pipe(
-                ofType<TarefaEditActions.GetTarefa>(TarefaEditActions.GET_TAREFA),
-                switchMap(action => this._tarefaService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'processo',
-                            'processo.especieProcesso',
-                            'processo.especieProcesso.generoProcesso',
-                            'processo.modalidadeMeio',
-                            'processo.documentoAvulsoOrigem',
-                            'especieTarefa',
-                            'usuarioResponsavel',
-                            'setorResponsavel',
-                            'setorResponsavel.unidade',
-                            'setorOrigem',
-                            'setorOrigem.unidade',
-                            'especieTarefa.generoTarefa',
-                            'processo.especieProcesso.workflow',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
-                        ]))),
-                switchMap(response => [
-                    new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
-                    new TarefaEditActions.GetTarefaSuccess({
-                        loaded: {
-                            id: 'tarefaHandle',
-                            value: this.routerState.params.tarefaHandle
-                        },
-                        tarefaId: response['entities'][0].id
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TarefaEditActions.GetTarefaFailed(err));
-                    return caught;
-                })
-            );
-
-    /**
-     * Save Tarefa
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveTarefa: any =
-        this._actions
-            .pipe(
-                ofType<TarefaEditActions.SaveTarefa>(TarefaEditActions.SAVE_TAREFA),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'tarefa',
-                    content: 'Salvando o tarefa ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._tarefaService.save(action.payload).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Tarefa id ' + response.id + ' salvo com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
-                        mergeMap((response: Tarefa) => [
-                            new TarefaEditActions.SaveTarefaSuccess(),
-                            new TarefaListActions.ReloadTarefas(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema})
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Erro ao salvar o tarefa!',
-                                status: 2, // erro
-                            }));
-                            return of(new TarefaEditActions.SaveTarefaFailed(err));
-                        })
-                    )
-                })
-            );
-
-    /**
-     * Save Tarefa Success
-     */
-    @Effect({dispatch: false})
-    saveTarefaSuccess: any =
-        this._actions
-            .pipe(
-                ofType<TarefaEditActions.SaveTarefaSuccess>(TarefaEditActions.SAVE_TAREFA_SUCCESS),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.tarefaHandle), 'listar')]).then();
-                })
-            );
 }

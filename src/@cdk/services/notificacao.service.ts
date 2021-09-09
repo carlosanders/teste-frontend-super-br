@@ -34,7 +34,7 @@ export class NotificacaoService extends ParentGenericService<Notificacao> {
         );
     }
 
-    marcarTodas(context: any = '{}'): any {
+    marcarTodas(context: any = '{}'): Observable<any> {
         const params = {};
         params['context'] = context;
 
@@ -44,7 +44,7 @@ export class NotificacaoService extends ParentGenericService<Notificacao> {
         );
     }
 
-    excluirTodas(context: any = '{}'): any {
+    excluirTodas(context: any = '{}'): Observable<any> {
         const params = {};
         params['context'] = context;
 

@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {Back, getRouterState} from '../../../../store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {modulesConfig} from '../../../../../modules/modules-config';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'documento-avulso-create',
@@ -24,8 +25,6 @@ import {modulesConfig} from '../../../../../modules/modules-config';
     animations: cdkAnimations
 })
 export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     documentoAvulso: DocumentoAvulso;
     isSaving$: Observable<boolean>;
@@ -49,6 +48,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     pessoaDestino: Pessoa;
 
     routeOficioDocumento = 'oficio';
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -159,13 +159,12 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
             this.documentoAvulso.processo = this.tarefa.processo;
         }
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         const pathDocumento = 'app/main/apps/documento/documento-edit';
         modulesConfig.forEach((module) => {
@@ -190,7 +189,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    onActivate(componentReference): void  {
+    onActivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
                 this.pessoaDestino = pessoa;
@@ -199,7 +198,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }
@@ -223,7 +222,9 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
             }
         );
 
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveDocumentoAvulso({
+            operacaoId: operacaoId,
             documentoAvulso: documentoAvulso,
             routeOficio: this.routeOficioDocumento
         }));

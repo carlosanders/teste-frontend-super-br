@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('admin-vinculacao-pessoa-usuario', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class VinculacaoPessoaStoreModule
-{
+export class VinculacaoPessoaStoreModule {
 }

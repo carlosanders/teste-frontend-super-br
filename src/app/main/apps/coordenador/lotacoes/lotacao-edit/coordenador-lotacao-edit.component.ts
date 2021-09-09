@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'coordenador-lotacao-edit',
@@ -36,6 +37,7 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     colaboradorPagination: Pagination;
     modulo: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -55,22 +57,19 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
         this.usuario = this._loginService.getUserProfile();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if(this.routerState.url.includes('unidades')) {
-                        this.modulo = 'unidades';
-                    }
-                    else if(this.routerState.url.includes('usuarios')) {
-                        this.modulo = 'usuarios';
-                    }
-                    else {
-                        this.modulo = 'lotacoes';
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.includes('unidades')) {
+                this.modulo = 'unidades';
+            } else if (this.routerState.url.includes('usuarios')) {
+                this.modulo = 'usuarios';
+            } else {
+                this.modulo = 'lotacoes';
+            }
+        });
 
         this.setorPagination = new Pagination();
         this.colaboradorPagination = new Pagination();
@@ -105,11 +104,14 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.lotacao$.subscribe(
-            lotacao => this.lotacao = lotacao
-        );
+        this.lotacao$.pipe(
+            filter(lotacao => !!lotacao),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(lotacao => this.lotacao = lotacao);
 
-        this.setor$.subscribe(
+        this.setor$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             setor => this.setor = setor
         );
 
@@ -124,6 +126,8 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

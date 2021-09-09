@@ -69,8 +69,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
     ],
-    providers: [
-    ]
+    providers: []
 })
 export class VincularPessoaModule {
 }

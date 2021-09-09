@@ -8,7 +8,7 @@ import {Observable, of} from 'rxjs';
 import {getRouterState} from '../../../../../store';
 import * as fromStore from '../../../../auth/activate/store';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ResolveGuard implements CanActivate {
     routerState: any;
 
@@ -16,19 +16,21 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<ActivateAppState>,
         private _router: Router,
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.activate().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -74,7 +76,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.routerState.params['cpfHandle'] && this.routerState.params['tokenHandle'] &&
-                    (this.routerState.params['cpfHandle'] + '_' + this.routerState.params['tokenHandle']) === loaded.value),
+                (this.routerState.params['cpfHandle'] + '_' + this.routerState.params['tokenHandle']) === loaded.value),
             take(1)
         );
     }

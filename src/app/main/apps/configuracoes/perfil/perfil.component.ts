@@ -9,20 +9,20 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getImgChancela, getImgPerfil, UploadImagemChancela, UploadImagemPerfil} from './store';
+import {getImgChancela, getImgPerfil, UploadImagemPerfil} from './store';
 import {LoginService} from '../../../auth/login/login.service';
 import {ComponenteDigital, Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
-import {Back} from "../../../../store";
-import {filter} from "rxjs/operators";
-import {ComponenteDigitalService} from "../../../../../@cdk/services/componente-digital.service";
-import {ImageCropperComponent} from "ngx-image-cropper";
+import {getRouterState} from '../../../../store';
+import {Back} from '../../../../store';
+import {filter, takeUntil} from 'rxjs/operators';
+import {ComponenteDigitalService} from '../../../../../@cdk/services/componente-digital.service';
+import {ImageCropperComponent} from 'ngx-image-cropper';
 import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
@@ -34,6 +34,16 @@ import {CdkUtils} from '../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class PerfilComponent implements OnInit, OnDestroy {
+
+    @ViewChild('imgPerfilUpload')
+    imgPerfilUpload: ElementRef;
+    @ViewChild('imgChancelaUpload')
+    imgChancelaUpload: ElementRef;
+    @ViewChild('imgPerfilCropComponent', {static: false})
+    imgPerfilCropComponent: ImageCropperComponent;
+    @ViewChild('imgChancelaCropComponent', {static: false})
+    imgChancelaCropComponent: ImageCropperComponent;
+
     routerState: any;
     isSaving$: Observable<boolean>;
     errors: any;
@@ -43,17 +53,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
     imagemChancelaEvent: any = '';
     uploadImagesMimeTypes: string = 'image/pjpeg,image/jpeg';
 
-    @ViewChild('imgPerfilUpload')
-    imgPerfilUpload: ElementRef;
-
-    @ViewChild('imgChancelaUpload')
-    imgChancelaUpload: ElementRef;
-
-    @ViewChild('imgPerfilCropComponent', {static: false})
-    imgPerfilCropComponent: ImageCropperComponent;
-
-    @ViewChild('imgChancelaCropComponent', {static: false})
-    imgChancelaCropComponent: ImageCropperComponent;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -70,28 +70,25 @@ export class PerfilComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this._store.pipe(select(fromStore.getErrors)).subscribe(errors => this.errors = errors);
         this.usuario = this._loginService.getUserProfile();
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-        this._store
-            .pipe(
-                select(getImgPerfil),
-                filter(val => !!val)
-            )
-            .subscribe(imgPerfil => this.usuario.imgPerfil = imgPerfil);
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+        this._store.pipe(
+            select(getImgPerfil),
+            filter(val => !!val),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(imgPerfil => this.usuario.imgPerfil = imgPerfil);
 
-        this._store
-            .pipe(
-                select(getImgChancela),
-                filter(val => !!val)
-            )
-            .subscribe(imgChancela => {
-                this.usuario.imgChancela = imgChancela;
-            });
+        this._store.pipe(
+            select(getImgChancela),
+            filter(val => !!val),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((imgChancela) => {
+            this.usuario.imgChancela = imgChancela;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -102,13 +99,14 @@ export class PerfilComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -132,18 +130,15 @@ export class PerfilComponent implements OnInit, OnDestroy {
         this._store.dispatch(new Back());
     }
 
-    doUploadImagemPerfil(): void
-    {
+    doUploadImagemPerfil(): void {
         this.imgPerfilUpload.nativeElement.click();
     }
 
-    doUploadImagemChancela(): void
-    {
+    doUploadImagemChancela(): void {
         this.imgChancelaUpload.nativeElement.click();
     }
 
-    doChangeImgPerfilUpload(event): void
-    {
+    doChangeImgPerfilUpload(event): void {
         this.errors = null;
         const uploadFileInput = this.imgPerfilUpload.nativeElement;
         if (uploadFileInput.files.length) {
@@ -162,8 +157,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
         }
     }
 
-    doChangeImgChancelaUpload(event): void
-    {
+    doChangeImgChancelaUpload(event): void {
         this.errors = null;
         const uploadFileInput = this.imgChancelaUpload.nativeElement;
         if (uploadFileInput.files.length) {
@@ -182,8 +176,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
         }
     }
 
-    imagemPerfilCropped(event: any): void
-    {
+    imagemPerfilCropped(event: any): void {
         const componenteDigital = new ComponenteDigital();
         componenteDigital.conteudo = event.base64;
         componenteDigital.mimetype = event.base64.split(',')[0].split(':')[1].split(';')[0];
@@ -193,8 +186,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
         this._store.dispatch(new UploadImagemPerfil(componenteDigital));
     }
 
-    imagemChancelaCropped(event: any): void
-    {
+    imagemChancelaCropped(event: any): void {
         const componenteDigital = new ComponenteDigital();
         componenteDigital.conteudo = event.base64;
         componenteDigital.mimetype = event.base64.split(',')[0].split(':')[1].split(';')[0];
@@ -208,25 +200,20 @@ export class PerfilComponent implements OnInit, OnDestroy {
         }));
     }
 
-    cropImgPerfil(): void
-    {
+    cropImgPerfil(): void {
         this.imgPerfilCropComponent.crop();
         this.cancelCrop();
     }
 
-    cropImgChancela(): void
-    {
+    cropImgChancela(): void {
         this.imgChancelaCropComponent.crop();
         this.cancelCrop();
     }
 
-    cancelCrop(): void
-    {
+    cancelCrop(): void {
         this.errors = null;
         this.imagemPerfilEvent = '';
         this.imagemChancelaEvent = '';
         this.activeCard = 'form';
     }
-
-
 }

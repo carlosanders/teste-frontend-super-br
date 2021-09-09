@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {TipoValidacaoWorkflow, ValidacaoTransicaoWorkflow} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -15,6 +15,7 @@ import {getRouterState} from '../../../../../../../../../store';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {LoginService} from '../../../../../../../../auth/login/login.service';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'validacao-transicao-workflow-edit',
@@ -35,8 +36,8 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
     tipoValidacaoWorkflowList$: Observable<TipoValidacaoWorkflow[]>;
     action: string;
     componentUrl: string;
-
     tipoValidacaoControl: FormControl = new FormControl();
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -56,38 +57,40 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
         this.validacao$ = this._store.pipe(select(fromStore.getValidacao));
         this.tipoValidacaoWorkflowList$ = this._store.pipe(select(fromStore.getTipoValidacaoWorkflowList));
 
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                this.action = '';
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    this.componentUrl = 'validacoes/editar/' + this.routerState.params.validacaoTransicaoWorkflowHandle;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.action = '';
+            this.routerState = routerState.state;
+            this.componentUrl = 'validacoes/editar/' + this.routerState.params.validacaoTransicaoWorkflowHandle;
+        });
     }
 
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
-
     // -----------------------------------------------------------------------------------------------------
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this.validacao$.subscribe(
-            validacao => this.validacao = validacao
-        );
-        this.tipoValidacaoWorkflowList$.subscribe(
-            tipoValidacaoWorkflowList => this.tipoValidacaoWorkflowList = tipoValidacaoWorkflowList
-        );
+        this.validacao$.pipe(
+            filter(validacao => !!validacao),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(validacao => this.validacao = validacao);
+
+        this.tipoValidacaoWorkflowList$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tipoValidacaoWorkflowList => this.tipoValidacaoWorkflowList = tipoValidacaoWorkflowList);
+
         if (!this.validacao) {
             this.validacao = new ValidacaoTransicaoWorkflow();
         }
-        this.tipoValidacaoControl.valueChanges.subscribe((valor) => {
+        this.tipoValidacaoControl.valueChanges.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((valor) => {
             this.selectValidacaoWorkflow(valor);
         });
     }
@@ -96,6 +99,9 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -103,7 +109,7 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
     // -----------------------------------------------------------------------------------------------------
 
     goBack(): void {
-        this._router.navigate([this.routerState.url.replace(this.componentUrl, 'validacoes/listar')]);
+        this._router.navigate([this.routerState.url.replace(this.componentUrl, 'validacoes/listar')]).then();
     }
 
     displayFn(): string {
@@ -119,7 +125,7 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
     selectValidacaoWorkflow(tipoValidacaoWorkflow: string): void {
         this._router.navigate([
             this.getCaminhoTipoValidacao(tipoValidacaoWorkflow)
-        ]);
+        ]).then();
     }
 
     onActivate(componentReference): void {

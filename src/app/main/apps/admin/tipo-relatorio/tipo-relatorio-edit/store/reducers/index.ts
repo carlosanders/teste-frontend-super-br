@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {TipoRelatorioEditReducer, TipoRelatorioEditState} from './tipo-relatorio-edit.reducer';
 
-export interface TipoRelatorioEditAppState
-{
+export interface TipoRelatorioEditAppState {
     tipoRelatorio: TipoRelatorioEditState;
 }
 

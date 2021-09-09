@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -23,6 +23,7 @@ import {Router} from '@angular/router';
 import {Assinatura, Documento} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-assinaturas',
@@ -34,10 +35,12 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 })
 export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
-    documento: Documento;
-    pagination: any;
+    @Input() documento: Documento;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    pagination: any;
     formAssinaturas = false;
     assinatura: Assinatura;
     assinaturas$: Observable<Assinatura[]>;
@@ -49,9 +52,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
     lote: string;
 
     routerState: any;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -76,6 +77,12 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
         this.deletedAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletedAssinaturaIds));
         this.deletingAssinaturaErrors$ = this._store.pipe(select(fromStore.getDeletingAssinaturaErrors));
         this.assinaturaLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -86,16 +93,9 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
-
-        this.paginationAssinatura$.subscribe((pagination) => {
+        this.paginationAssinatura$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reloadAssinaturas(this.pagination);
@@ -111,7 +111,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
             if (module.components.hasOwnProperty(path1)) {
                 module.components[path1].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( (componentFactory)  => {
+                        .then((componentFactory) => {
                             this.container.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });
@@ -124,6 +124,8 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadAssinaturas());
     }
 
@@ -156,7 +158,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

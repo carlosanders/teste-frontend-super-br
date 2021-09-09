@@ -25,15 +25,14 @@ export class ResolveGuard implements CanActivate {
      * @param _loginService
      */
     constructor(private _store: Store<BoardTarefasAppState>,
-                private _loginService: LoginService)
-    {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+                private _loginService: LoginService) {
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._profile = _loginService.getUserProfile();
     }
@@ -62,7 +61,10 @@ export class ResolveGuard implements CanActivate {
     checkStore(): Observable<any> {
         return this.getFolders().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 

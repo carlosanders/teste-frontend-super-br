@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -11,6 +11,8 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Back} from 'app/store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
+import {filter} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'seguranca',
@@ -25,6 +27,7 @@ export class SegurancaComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -39,13 +42,12 @@ export class SegurancaComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario = this._loginService.getUserProfile();
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -56,13 +58,14 @@ export class SegurancaComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -80,8 +83,7 @@ export class SegurancaComponent implements OnInit, OnDestroy {
             plainPassword: values.plainPassword,
             currentPlainPassword: values.senhaAtual
         };
-        this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: changes}));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: changes, operacaoId: operacaoId}));
     }
-
 }

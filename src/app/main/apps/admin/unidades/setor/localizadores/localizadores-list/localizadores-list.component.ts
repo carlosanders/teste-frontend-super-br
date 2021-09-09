@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Localizador} from '@cdk/models/localizador.model';
@@ -9,6 +16,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'admin-localizadores-list',
@@ -18,7 +26,7 @@ import {CdkUtils} from '../../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class LocalizadoresListComponent implements OnInit {
+export class LocalizadoresListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     localizadors$: Observable<Localizador[]>;
@@ -30,6 +38,7 @@ export class LocalizadoresListComponent implements OnInit {
     deletedIds$: Observable<any>;
     setorPagination: Pagination = new Pagination();
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -48,13 +57,12 @@ export class LocalizadoresListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.setorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
@@ -64,9 +72,16 @@ export class LocalizadoresListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -87,11 +102,11 @@ export class LocalizadoresListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(localizadorId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + localizadorId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + localizadorId]).then();
     }
 
     delete(localizadorId: number, loteId: string = null): void {
@@ -103,7 +118,7 @@ export class LocalizadoresListComponent implements OnInit {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

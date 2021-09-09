@@ -4,8 +4,7 @@ import {
     ModalidadeOrgaoCentralListState
 } from './modalidade-orgao-central-list.reducer';
 
-export interface ModalidadeOrgaoCentralListAppState
-{
+export interface ModalidadeOrgaoCentralListAppState {
     modalidadeOrgaoCentralList: ModalidadeOrgaoCentralListState;
 }
 

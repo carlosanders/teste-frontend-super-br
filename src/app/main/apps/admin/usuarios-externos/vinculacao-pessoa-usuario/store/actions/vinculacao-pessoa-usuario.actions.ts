@@ -7,36 +7,30 @@ export const GET_VINCULACAO_PESSOA_USUARIO_FAILED = '[VINCULACAO PESSOA USUARIO]
 /**
  * Get VinculacaoPessoaUsuario
  */
-export class GetVinculacaoPessoaUsuario implements Action
-{
+export class GetVinculacaoPessoaUsuario implements Action {
     readonly type = GET_VINCULACAO_PESSOA_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoPessoaUsuario Success
  */
-export class GetVinculacaoPessoaUsuarioSuccess implements Action
-{
+export class GetVinculacaoPessoaUsuarioSuccess implements Action {
     readonly type = GET_VINCULACAO_PESSOA_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoPessoaUsuario Failed
  */
-export class GetVinculacaoPessoaUsuarioFailed implements Action
-{
+export class GetVinculacaoPessoaUsuarioFailed implements Action {
     readonly type = GET_VINCULACAO_PESSOA_USUARIO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 

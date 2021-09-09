@@ -90,10 +90,6 @@ const routes: Routes = [
                 loadChildren: () => import('./modalidade-orgao-central/modalidade-orgao-central.module').then(m => m.ModalidadeOrgaoCentralModule)
             },
             {
-                path: 'modalidade-acao-etiqueta',
-                loadChildren: () => import('./modalidade-acao-etiqueta/modalidade-acao-etiqueta.module').then(m => m.ModalidadeAcaoEtiquetaModule)
-            },
-            {
                 path: 'tipo-acao-workflow',
                 loadChildren: () => import('./tipo-acao-workflow/tipo-acao-workflow.module').then(m => m.TipoAcaoWorkflowModule)
             },
@@ -127,17 +123,17 @@ modulesConfig.forEach((module) => {
         AdminComponent,
         MainSidebarComponent
     ],
-	imports: [
-		CommonModule,
-		CdkSidebarModule,
-		RouterModule.forChild(routes),
-		MatIconModule,
-		RouterModule,
-		CdkSharedModule,
-		MatButtonModule,
-		MatRippleModule,
-		MatExpansionModule
-	],
+    imports: [
+        CommonModule,
+        CdkSidebarModule,
+        RouterModule.forChild(routes),
+        MatIconModule,
+        RouterModule,
+        CdkSharedModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatExpansionModule
+    ],
     providers: [
         fromGuards.ResolveGuard
     ]

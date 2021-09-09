@@ -16,10 +16,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store';
-import {distinctUntilKeyChanged, filter} from "rxjs/operators";
+import {distinctUntilKeyChanged, filter} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-import {CdkConfirmDialogComponent} from "../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CdkConfirmDialogComponent} from '../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'desentranhamento',
@@ -76,31 +76,28 @@ export class DesentranhamentoComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.juntada$.pipe(
             filter(juntada => !!juntada),
             distinctUntilKeyChanged('id')
-        ).subscribe(
-            (juntada) => {
-                this.juntada = juntada;
-                this.selecionadas = [juntada];
-                this.juntadasBloco = this.selecionadas;
-                this.desentranhamento = new Desentranhamento();
-                this.desentranhamento.juntada = this.juntada;
+        ).subscribe((juntada) => {
+            this.juntada = juntada;
+            this.selecionadas = [juntada];
+            this.juntadasBloco = this.selecionadas;
+            this.desentranhamento = new Desentranhamento();
+            this.desentranhamento.juntada = this.juntada;
 
-                this.processoDestinoPagination.filter = {
-                    'id':'neq:' + this.juntada.volume.processo.id
-                };
-                this._changeDetectorRef.detectChanges();
-            }
-        );
+            this.processoDestinoPagination.filter = {
+                'id': 'neq:' + this.juntada.volume.processo.id
+            };
+            this._changeDetectorRef.detectChanges();
+        });
     }
 
     doAbort(): void {

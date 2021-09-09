@@ -7,9 +7,9 @@ import {Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {takeUntil} from 'rxjs/operators';
 import {Back, getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'dados-pessoa-edit',
@@ -20,8 +20,6 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class DadosPessoaEditComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     pessoa$: Observable<Pessoa>;
     pessoa: Pessoa;
@@ -34,6 +32,8 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
 
     mode = 'select';
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     /**
      * @param _store
      */
@@ -43,6 +43,17 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.pessoa$ = this._store.pipe(select(fromStore.getPessoa));
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+
+            if (this.routerState.url.indexOf('/admin/') !== -1) {
+                this.mode = 'save';
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -56,9 +67,7 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
 
         this.pessoa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            pessoa => this.pessoa = pessoa
-        );
+        ).subscribe(pessoa => this.pessoa = pessoa);
 
         if (!this.pessoa) {
             this.pessoa = new Pessoa();
@@ -67,21 +76,6 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
         if (this.pessoa.modalidadeQualificacaoPessoa && this.pessoa.modalidadeQualificacaoPessoa.valor !== 'PESSOA FÍSICA') {
             this.hidden = true;
         }
-
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-
-                if (this.routerState.url.indexOf('/admin/') !== -1) {
-                    this.mode = 'save';
-                }
-            }
-        });
     }
 
     /**

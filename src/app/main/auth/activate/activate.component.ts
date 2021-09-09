@@ -4,11 +4,11 @@ import {Observable, Subject} from 'rxjs';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {cdkAnimations} from '@cdk/animations';
-import {getRouterState} from '../../../store';
 import {Router} from '@angular/router';
 
 import * as fromStore from './store';
 import {getActivateAppState} from './store';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'activate',
@@ -18,15 +18,12 @@ import {getActivateAppState} from './store';
     animations: cdkAnimations
 })
 export class ActivateComponent implements OnInit, OnDestroy {
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     getActivateState: Observable<any>;
     errorMessage: string | null;
     loading: boolean;
     isActivated$: Observable<boolean>;
     isActivated: boolean;
-    routerState: any;
-    routerState$: Observable<any>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -57,7 +54,6 @@ export class ActivateComponent implements OnInit, OnDestroy {
             }
         };
 
-        this.routerState$ = this._store.pipe(select(getRouterState));
         this.getActivateState = this._store.pipe(select(getActivateAppState));
         this.isActivated$ = this._store.pipe(select(fromStore.getIsActivated));
     }
@@ -72,12 +68,16 @@ export class ActivateComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.loading = false;
 
-        this.isActivated$.subscribe((isActivated) => {
+        this.isActivated$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isActivated) => {
             this.isActivated = isActivated;
             this.loading = true;
         });
 
-        this.getActivateState.subscribe((state) => {
+        this.getActivateState.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(() => {
             this.loading = false;
         });
     }

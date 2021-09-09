@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Acao, Etiqueta} from '@cdk/models';
@@ -7,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Component({
@@ -18,7 +25,7 @@ import {CdkUtils} from '../../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AcaoListComponent implements OnInit {
+export class AcaoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     acoes$: Observable<Acao[]>;
@@ -30,6 +37,7 @@ export class AcaoListComponent implements OnInit {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -48,31 +56,41 @@ export class AcaoListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
         this.etiqueta$.pipe(
+            takeUntil(this._unsubscribeAll),
             filter(acoes => !!acoes)
-        ).subscribe(
-            (etiqueta) => {
-                this.etiqueta = etiqueta;
-            }
-        );
+        ).subscribe((etiqueta) => {
+            this.etiqueta = etiqueta;
+        });
         this.acoes$.pipe(
+            takeUntil(this._unsubscribeAll),
             filter(acoes => !!acoes)
-        ).subscribe(
-            (acoes) => {
-                this.acoes = acoes;
-            }
-        );
+        ).subscribe((acoes) => {
+            this.acoes = acoes;
+        });
     }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetAcoes(params));
@@ -99,12 +117,12 @@ export class AcaoListComponent implements OnInit {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 }

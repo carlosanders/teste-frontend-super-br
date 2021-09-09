@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Pessoa, RelacionamentoPessoal} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {getPessoa} from '../../dados-pessoa-edit/store';
 import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'relacionamento-edit',
@@ -30,6 +31,7 @@ export class RelacionamentoEditComponent implements OnInit, OnDestroy {
     pessoa: Pessoa;
 
     relacionamentoPessoalPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -43,7 +45,6 @@ export class RelacionamentoEditComponent implements OnInit, OnDestroy {
         this.pessoa$ = this._store.pipe(select(getPessoa));
 
         this.relacionamentoPessoalPagination = new Pagination();
-        // this.relacionamentoPessoalPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,13 +55,14 @@ export class RelacionamentoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.pessoa$.subscribe(
-            pessoa => this.pessoa = pessoa
-        );
+        this.pessoa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pessoa => this.pessoa = pessoa);
 
-        this.relacionamento$.subscribe(
-            relacionamento => this.relacionamento = relacionamento
-        );
+        this.relacionamento$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(relacionamento => !!relacionamento)
+        ).subscribe(relacionamento => this.relacionamento = relacionamento);
 
         if (!this.relacionamento) {
             this.relacionamento = new RelacionamentoPessoal();
@@ -72,6 +74,8 @@ export class RelacionamentoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

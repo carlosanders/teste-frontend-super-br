@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as TarefaActions from '../actions/tarefa.actions';
 
@@ -20,6 +20,52 @@ import {SetSteps} from '../../../../store';
 export class TarefaEffect {
     routerState: any;
     steps: any;
+    /**
+     * Save Tarefa
+     *
+     * @type {Observable<any>}
+     */
+    saveTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<TarefaActions.SaveTarefa>(TarefaActions.SAVE_TAREFA),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tarefa',
+            content: 'Salvando a tarefa ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._tarefaService.save(action.payload.tarefa).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'tarefa',
+                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Tarefa) => [
+                new TarefaActions.SaveTarefaSuccess(),
+                new SetSteps({steps: false}),
+                new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Erro ao salvar a tarefa!',
+                    status: 2, // erro
+                }));
+                return of(new TarefaActions.SaveTarefaFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Save Tarefa Success
+     */
+    saveTarefaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<TarefaActions.SaveTarefaSuccess>(TarefaActions.SAVE_TAREFA_SUCCESS),
+        tap(() => {
+            this._router.navigate(['/apps/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -27,70 +73,11 @@ export class TarefaEffect {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Save Tarefa
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveTarefa: any =
-        this._actions
-            .pipe(
-                ofType<TarefaActions.SaveTarefa>(TarefaActions.SAVE_TAREFA),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'tarefa',
-                    content: 'Salvando a tarefa ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._tarefaService.save(action.payload.tarefa).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
-                        mergeMap((response: Tarefa) => [
-                            new TarefaActions.SaveTarefaSuccess(),
-                            new SetSteps({steps: false}),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Erro ao salvar a tarefa!',
-                                status: 2, // erro
-                            }));
-                            return of(new TarefaActions.SaveTarefaFailed(err));
-                        })
-                    )
-                })
-            );
-
-    /**
-     * Save Tarefa Success
-     */
-    @Effect({dispatch: false})
-    saveTarefaSuccess: any =
-        this._actions
-            .pipe(
-                ofType<TarefaActions.SaveTarefaSuccess>(TarefaActions.SAVE_TAREFA_SUCCESS),
-                tap(() => {
-                    this._router.navigate(['/apps/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
-                })
-            );
 }

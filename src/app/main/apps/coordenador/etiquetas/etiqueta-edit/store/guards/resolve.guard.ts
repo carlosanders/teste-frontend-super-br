@@ -16,6 +16,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+
     // valorParametro: any;
 
     /**
@@ -27,13 +28,13 @@ export class ResolveGuard implements CanActivate {
         private _router: Router,
         public _loginService: LoginService
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**

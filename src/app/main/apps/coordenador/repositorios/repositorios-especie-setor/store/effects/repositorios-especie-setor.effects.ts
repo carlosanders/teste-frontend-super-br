@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap} from 'rxjs/operators';
 
 import * as RepositoriosEspecieSetorActions from '../actions/repositorios-especie-setor.actions';
 
@@ -17,6 +17,39 @@ import {Repositorio} from '@cdk/models';
 @Injectable()
 export class RepositoriosEspecieSetorEffects {
     routerState: any;
+    /**
+     * Get Repositorio with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getRepositorio: any = createEffect(() => this._actions.pipe(
+        ofType<RepositoriosEspecieSetorActions.GetRepositorio>(RepositoriosEspecieSetorActions.GET_REPOSITORIO),
+        switchMap(action => this._repositorioService.get(
+            action.payload.id,
+            JSON.stringify([
+                'populateAll',
+                'vinculacoesRepositorios',
+                'vinculacoesRepositorios.setor',
+                'vinculacoesRepositorios.usuario',
+                'vinculacoesRepositorios.modalidadeOrgaoCentral',
+            ]),
+            JSON.stringify({isAdmin: true}),
+        )),
+        switchMap(response => [
+            new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
+            new RepositoriosEspecieSetorActions.GetRepositorioSuccess({
+                loaded: {
+                    id: 'repositorioHandle',
+                    value: this.routerState.params.repositorioHandle
+                },
+                repositorioId: this.routerState.params.repositorioHandle
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new RepositoriosEspecieSetorActions.GetRepositorioFailed(err));
+        })
+    ));
 
     /**
      *
@@ -31,50 +64,11 @@ export class RepositoriosEspecieSetorEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Repositorio with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getRepositorio: any =
-        this._actions
-            .pipe(
-                ofType<RepositoriosEspecieSetorActions.GetRepositorio>(RepositoriosEspecieSetorActions.GET_REPOSITORIO),
-                switchMap(action => this._repositorioService.get(
-                        action.payload.id,
-                        JSON.stringify([
-                            'populateAll',
-                            'vinculacoesRepositorios',
-                            'vinculacoesRepositorios.setor',
-                            'vinculacoesRepositorios.usuario',
-                            'vinculacoesRepositorios.modalidadeOrgaoCentral',
-                        ]),
-                        JSON.stringify({isAdmin: true}),
-                    )),
-                switchMap(response => [
-                    new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
-                    new RepositoriosEspecieSetorActions.GetRepositorioSuccess({
-                        loaded: {
-                            id: 'repositorioHandle',
-                            value: this.routerState.params.repositorioHandle
-                        },
-                        repositorioId: this.routerState.params.repositorioHandle
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new RepositoriosEspecieSetorActions.GetRepositorioFailed(err));
-                    return caught;
-                })
-            );
 }

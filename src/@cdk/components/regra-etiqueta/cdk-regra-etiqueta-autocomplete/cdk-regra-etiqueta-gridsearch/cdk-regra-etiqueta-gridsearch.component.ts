@@ -19,7 +19,7 @@ import {Pagination, RegraEtiqueta} from '@cdk/models';
 import {RegraEtiquetaService} from '@cdk/services/regra-etiqueta.service';
 
 @Component({
-    selector: 'cdk-regra-gridsearch',
+    selector: 'cdk-regra-etiqueta-gridsearch',
     templateUrl: './cdk-regra-etiqueta-gridsearch.component.html',
     styleUrls: ['./cdk-regra-etiqueta-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

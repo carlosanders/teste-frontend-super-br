@@ -15,12 +15,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 
     ],
-    providers: [
-    ],
+    providers: [],
 
     exports: [
         AjudaPainelComponent
-   ]
+    ]
 })
 export class AjudaPainelModule {
     constructor(private resolver: ComponentFactoryResolver) {

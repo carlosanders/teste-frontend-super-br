@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'numero-unico-documento-edit',
@@ -32,6 +33,7 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
     setor$: Observable<Setor>;
     setor: Setor;
     tipoDocumentoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      *
@@ -50,13 +52,12 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.tipoDocumentoPagination = new Pagination();
         this.tipoDocumentoPagination.populate = ['populateAll'];
@@ -70,13 +71,14 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.numeroUnicoDocumento$.subscribe(
-            numeroUnicoDocumento => this.numeroUnicoDocumento = numeroUnicoDocumento
-        );
+        this.numeroUnicoDocumento$.pipe(
+            filter(numeroUnicoDocumento => !!numeroUnicoDocumento),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(numeroUnicoDocumento => this.numeroUnicoDocumento = numeroUnicoDocumento);
 
-        this.setor$.subscribe(
-            setor => this.setor = setor
-        );
+        this.setor$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(setor => this.setor = setor);
 
         if (!this.numeroUnicoDocumento) {
             this.numeroUnicoDocumento = new NumeroUnicoDocumento();
@@ -87,6 +89,8 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -22,8 +22,8 @@ import {getRouterState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
 import {MatStepper} from '@angular/material/stepper';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'usuario-edit',
@@ -39,7 +39,6 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
     isSaving$: Observable<boolean>;
-    nextColaborador$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
     usuario$: Observable<Usuario>;
@@ -49,6 +48,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
     formUsuario: FormGroup;
     formColaborador: FormGroup;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -67,22 +67,20 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
-        this._store
-            .pipe(select(fromStore.getNextColaborador))
-            .subscribe((nextColaborador) => {
-                if (nextColaborador) {
-                    this.stepper.next();
-                    this._store.dispatch(new fromStore.NextStepColaboradorSuccess({}));
-                }
-            });
+        this._store.pipe(
+            select(fromStore.getNextColaborador),
+            filter(nextColaborador => !!nextColaborador)
+        ).subscribe(() => {
+            this.stepper.next();
+            this._store.dispatch(new fromStore.NextStepColaboradorSuccess({}));
+        });
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.cargoPagination = new Pagination();
         this.cargoPagination.populate = ['populateAll'];
@@ -116,14 +114,14 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.usuario$.subscribe(
-            (usuario) => {
-                this.usuario = usuario;
-                if (usuario && usuario.colaborador) {
-                    this.colaborador = usuario.colaborador;
-                }
+        this.usuario$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((usuario) => {
+            this.usuario = usuario;
+            if (usuario && usuario.colaborador) {
+                this.colaborador = usuario.colaborador;
             }
-        );
+        });
         if (!this.usuario) {
             this.usuario = new Usuario();
             this.usuario.enabled = true;
@@ -133,13 +131,18 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             this.colaborador = new Colaborador();
             this.colaborador.ativo = true;
         }
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Colaborador', id: + this.colaborador.id};
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\Colaborador',
+            id: +this.colaborador.id
+        };
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -159,7 +162,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             usuario: usuario,
             operacaoId: operacaoId
         }));
-     }
+    }
 
     doAbortUsuario(): void {
         this._store.dispatch(new Back());
@@ -184,7 +187,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new Back());
     }
 
-    usuarioCarregado(usuario: Usuario) {
+    usuarioCarregado(usuario: Usuario): void {
         this.usuario = usuario;
         if (usuario && usuario.colaborador) {
             this.colaborador = usuario.colaborador;

@@ -26,11 +26,11 @@ const routes: Routes = [
         component: EnderecosComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./endereco-list/endereco-list.module').then(m => m.EnderecoListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./endereco-edit/endereco-edit.module').then(m => m.EnderecoEditModule),
             },
             {

@@ -8,7 +8,7 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getRouterState, State} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Component({
@@ -21,19 +21,14 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 })
 export class DocumentoAvulsoEditVersoesComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     loading$: Observable<boolean>;
     logEntryPagination: Pagination;
     componenteDigital$: Observable<ComponenteDigital>;
     componenteDigital: ComponenteDigital;
-
     editor: any;
-
-    error$: Observable<any>;
     erro: any;
-
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -50,13 +45,12 @@ export class DocumentoAvulsoEditVersoesComponent implements OnInit, OnDestroy {
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStoreComponente.getComponenteDigital));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
@@ -70,7 +64,8 @@ export class DocumentoAvulsoEditVersoesComponent implements OnInit, OnDestroy {
                 this.logEntryPagination.filter = {
                     entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
                     target: 'hash',
-                    id: + this.componenteDigital.id};
+                    id: +this.componenteDigital.id
+                };
                 this.logEntryPagination.sort = {
                     logId: 'DESC'
                 };
@@ -88,7 +83,10 @@ export class DocumentoAvulsoEditVersoesComponent implements OnInit, OnDestroy {
      * @param data
      */
     doReverter(data: any): void {
-        this._store.dispatch(new fromStoreComponente.RevertComponenteDigital({componenteDigital: this.componenteDigital, hash: data.toString() }));
+        this._store.dispatch(new fromStoreComponente.RevertComponenteDigital({
+            componenteDigital: this.componenteDigital,
+            hash: data.toString()
+        }));
     }
 
     /**

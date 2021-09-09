@@ -4,14 +4,13 @@ import {LoginService} from '../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 
 @Component({
-    selector     : 'painel',
-    templateUrl  : './painel.component.html',
-    styleUrls    : ['./painel.component.scss'],
+    selector: 'painel',
+    templateUrl: './painel.component.html',
+    styleUrls: ['./painel.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : cdkAnimations
+    animations: cdkAnimations
 })
-export class PainelComponent
-{
+export class PainelComponent {
     _profile: Usuario;
 
     /**
@@ -19,8 +18,7 @@ export class PainelComponent
      */
     constructor(
         public _loginService: LoginService
-    )
-    {
+    ) {
         this._profile = _loginService.getUserProfile();
     }
 }

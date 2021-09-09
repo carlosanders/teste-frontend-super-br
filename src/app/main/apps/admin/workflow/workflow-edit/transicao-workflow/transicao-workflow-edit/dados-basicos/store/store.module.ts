@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('transicao-workflow-dados-basicos-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class TransicaoWorkflowDadosBasicosStoreModule
-{
+export class TransicaoWorkflowDadosBasicosStoreModule {
 }

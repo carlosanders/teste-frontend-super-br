@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/processos/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {LoginService} from '../../../auth/login/login.service';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'processos',
@@ -34,12 +34,13 @@ export class ProcessosComponent implements OnInit, OnDestroy {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     NUPHandle: any;
     colunas: any[] = ['id', 'NUP', 'actions'];
 
+    mobileMode: boolean;
     private _profile: any;
     private screen$: Observable<any>;
-    mobileMode: boolean;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -66,24 +67,26 @@ export class ProcessosComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    this.NUPHandle = this.routerState.params.NUPHandle;
-                    if (this.routerState.params.NUPHandle) {
-                        this.reload({
-                            ...this.pagination,
-                            gridFilter: {NUP: 'like:' + this.routerState.params.NUPHandle + '%'}
-                        });
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.NUPHandle = this.routerState.params.NUPHandle;
+            if (this.routerState.params.NUPHandle) {
+                this.reload({
+                    ...this.pagination,
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    gridFilter: {NUP: 'like:' + this.routerState.params.NUPHandle + '%'}
+                });
+            }
+        });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -94,6 +97,16 @@ export class ProcessosComponent implements OnInit, OnDestroy {
                 this.mobileMode = false;
             }
         });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // this._changeDetectorRef.detach();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -115,22 +128,12 @@ export class ProcessosComponent implements OnInit, OnDestroy {
         }));
     }
 
-    view(emissao: {id: number; chaveAcesso?: string}): void {
+    view(emissao: { id: number; chaveAcesso?: string }): void {
         const chaveAcesso = emissao.chaveAcesso ? '/chave/' + emissao.chaveAcesso : '';
-        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']);
+        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']).then();
     }
 
     edit(processoId: number): void {
-        this._router.navigate(['apps/processo/' + processoId + '/editar']);
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
-        // this._changeDetectorRef.detach();
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
+        this._router.navigate(['apps/processo/' + processoId + '/editar']).then();
     }
 }

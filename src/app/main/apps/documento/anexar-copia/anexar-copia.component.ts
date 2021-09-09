@@ -13,9 +13,11 @@ import * as fromStore from '../store';
 import {getCurrentComponenteDigitalId} from '../store';
 import {getRouterState} from 'app/store';
 import {ComponenteDigital, Documento} from '@cdk/models';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UnloadJuntadas} from '../../processo/processo-view/store';
+import {CdkUtils} from '../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'anexar-copia',
@@ -37,6 +39,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     currentComponenteDigitalId: number;
 
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -51,13 +54,15 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute
     ) {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+        this.currentComponenteDigitalId$ = this._store.pipe(select(getCurrentComponenteDigitalId));
+        this.isSaving$ = this._store.pipe(select(fromStore.getComponenteDigitalIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getComponenteDigitalErrors));
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
 
@@ -69,16 +74,15 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
-        this.currentComponenteDigitalId$ = this._store.pipe(select(getCurrentComponenteDigitalId));
-        this.isSaving$ = this._store.pipe(select(fromStore.getComponenteDigitalIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getComponenteDigitalErrors));
-
-        this.documento$.subscribe((documento) => {
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((documento) => {
             this.documento = documento;
         });
 
-        this.currentComponenteDigitalId$.subscribe((currentComponenteDigitalId) => {
+        this.currentComponenteDigitalId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((currentComponenteDigitalId) => {
             this.currentComponenteDigitalId = currentComponenteDigitalId;
         });
     }
@@ -87,6 +91,8 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     back(): void {
@@ -109,14 +115,18 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         componenteDigital.mimetype = this.componenteDigital.mimetype;
         componenteDigital.extensao = this.componenteDigital.extensao;
 
-        this._store.dispatch(new fromStore.SaveComponenteDigital(componenteDigital));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveComponenteDigital({
+            componenteDigital: componenteDigital,
+            operacaoId: operacaoId
+        }));
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    onActivate(componentReference): void  {
+    onActivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.subscribe((componenteDigital: ComponenteDigital) => {
                 this.componenteDigital = componenteDigital;
@@ -124,7 +134,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }

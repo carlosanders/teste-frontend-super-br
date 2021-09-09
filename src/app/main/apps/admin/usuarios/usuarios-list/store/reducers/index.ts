@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {UsuariosListReducer, UsuariosListState} from './usuarios-list.reducer';
 
-export interface UsuariosListAppState
-{
+export interface UsuariosListAppState {
     usuariosList: UsuariosListState;
 }
 

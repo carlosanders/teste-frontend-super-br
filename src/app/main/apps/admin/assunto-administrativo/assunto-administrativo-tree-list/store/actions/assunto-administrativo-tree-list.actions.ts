@@ -53,39 +53,32 @@ export class ReloadAssuntoAdministrativo implements Action {
 /**
  * Save AssuntoAdministrativo
  */
-export class SaveAssuntoAdministrativo implements Action
-{
+export class SaveAssuntoAdministrativo implements Action {
     readonly type = SAVE_ASSUNTO_ADMINISTRATIVO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save AssuntoAdministrativo Success
  */
-export class SaveAssuntoAdministrativoSuccess implements Action
-{
+export class SaveAssuntoAdministrativoSuccess implements Action {
     readonly type = SAVE_ASSUNTO_ADMINISTRATIVO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save AssuntoAdministrativo Failed
  */
-export class SaveAssuntoAdministrativoFailed implements Action
-{
+export class SaveAssuntoAdministrativoFailed implements Action {
     readonly type = SAVE_ASSUNTO_ADMINISTRATIVO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
-
 
 
 export type AssuntoAdministrativoTreeListActionsAll

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap} from 'rxjs/operators';
 
 import * as WorkflowEditActions from '../actions/workflow-edit.actions';
 
@@ -18,6 +18,37 @@ import {Workflow} from '@cdk/models';
 @Injectable()
 export class WorkflowEditEffects {
     routerState: any;
+    /**
+     * Get Workflow with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getWorkflow: any = createEffect(() => this._actions.pipe(
+        ofType<WorkflowEditActions.GetWorkflow>(WorkflowEditActions.GET_WORKFLOW),
+        switchMap(action => this._workflowService.query(
+            JSON.stringify(action.payload),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll',
+            ]),
+            JSON.stringify({isAdmin: true}))),
+        switchMap(response => [
+            new AddData<Workflow>({data: response['entities'], schema: workflowSchema}),
+            new WorkflowEditActions.GetWorkflowSuccess({
+                loaded: {
+                    id: 'workflowHandle',
+                    value: this.routerState.params.workflowHandle
+                },
+                entityId: this.routerState.params.workflowHandle
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new WorkflowEditActions.GetWorkflowFailed(err));
+        })
+    ));
 
     constructor(
         private _actions: Actions,
@@ -26,48 +57,11 @@ export class WorkflowEditEffects {
         private _loginService: LoginService,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Workflow with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getWorkflow: any =
-        this._actions
-            .pipe(
-                ofType<WorkflowEditActions.GetWorkflow>(WorkflowEditActions.GET_WORKFLOW),
-                switchMap(action => this._workflowService.query(
-                    JSON.stringify(action.payload),
-                    1,
-                    0,
-                    JSON.stringify({}),
-                    JSON.stringify([
-                        'populateAll',
-                    ]),
-                    JSON.stringify({isAdmin: true}))),
-                switchMap(response => [
-                    new AddData<Workflow>({data: response['entities'], schema: workflowSchema}),
-                    new WorkflowEditActions.GetWorkflowSuccess({
-                        loaded: {
-                            id: 'workflowHandle',
-                            value: this.routerState.params.workflowHandle
-                        },
-                        entityId: this.routerState.params.workflowHandle
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new WorkflowEditActions.GetWorkflowFailed(err));
-                    return caught;
-                })
-            );
 }

@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Modelo} from '@cdk/models/modelo.model';
@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modelos-list',
@@ -40,6 +40,7 @@ export class ModelosListComponent implements OnInit, OnDestroy {
 
     actions: string[];
     colunas: string[];
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -61,36 +62,38 @@ export class ModelosListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'delete', 'showInatived'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
-                    }
-                    if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
-                        (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.unidade.nome', 'template.nome', 'ativo', 'actions'];
-                    }
-                    if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.nome', 'template.nome', 'ativo', 'actions'];
-                    }
-                }
-            });
-
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
+                this.actions = ['edit', 'create', 'editConteudo', 'delete', 'showInatived'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
+            }
+            if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
+                (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
+                this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.unidade.nome', 'template.nome', 'ativo', 'actions'];
+            }
+            if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
+                this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete', 'showInatived'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.nome', 'template.nome', 'ativo', 'actions'];
+            }
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadModelos());
     }
 
@@ -127,11 +130,11 @@ export class ModelosListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]).then();
     }
 
     editConteudo(documento: Documento): void {
@@ -159,7 +162,7 @@ export class ModelosListComponent implements OnInit, OnDestroy {
     }
 
     especieSetores(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${modeloId}/especie-setor`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `${modeloId}/especie-setor`)]).then();
     }
 
     delete(modeloId: number, loteId: string = null): void {
@@ -171,9 +174,8 @@ export class ModelosListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
-
 }

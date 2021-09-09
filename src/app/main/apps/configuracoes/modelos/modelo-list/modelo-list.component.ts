@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Documento, Modelo} from '@cdk/models';
@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modelo-list',
@@ -35,6 +36,7 @@ export class ModeloListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -56,23 +58,26 @@ export class ModeloListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadModelos());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -125,11 +130,11 @@ export class ModeloListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]).then();
     }
 
     editConteudo(documento: Documento): void {
@@ -165,7 +170,7 @@ export class ModeloListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

@@ -2,7 +2,6 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -19,7 +18,7 @@ import {cdkAnimations} from '@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CoordenadorComponent implements OnInit, OnDestroy {
+export class CoordenadorComponent implements OnInit {
 
     /**
      * Constructor
@@ -42,12 +41,6 @@ export class CoordenadorComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
     }
 
     // -----------------------------------------------------------------------------------------------------

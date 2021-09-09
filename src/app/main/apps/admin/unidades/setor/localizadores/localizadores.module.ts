@@ -30,11 +30,11 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./localizadores-list/localizadores-list.module').then(m => m.LocalizadoresListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./localizador-edit/localizador-edit.module').then(m => m.RootLocalizadorEditModule),
             },
             {

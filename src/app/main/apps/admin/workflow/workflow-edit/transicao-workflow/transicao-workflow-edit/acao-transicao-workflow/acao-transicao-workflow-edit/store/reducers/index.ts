@@ -2,8 +2,7 @@ import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/sto
 import {AcaoTransicaoWorkflowEditReducer, AcaoTransicaoWorkflowEditState} from './acao-transicao-workflow-edit.reducer';
 import {TipoAcaoWorkflowReducer, TipoAcaoWorkflowState} from './tipo-acao-transicao-workflow.reducer';
 
-export interface AcaoTransicaoWorkflowEditAppState
-{
+export interface AcaoTransicaoWorkflowEditAppState {
     acaoTransicaoWorkflow: AcaoTransicaoWorkflowEditState;
     tipoAcaoWorkflowList: TipoAcaoWorkflowState;
 }

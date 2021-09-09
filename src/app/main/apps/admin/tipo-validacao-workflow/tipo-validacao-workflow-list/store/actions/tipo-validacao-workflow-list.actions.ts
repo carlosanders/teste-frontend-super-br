@@ -13,84 +13,70 @@ export const DELETE_TIPO_VALIDACAO_WORKFLOW_FAILED = '[SUPERADMIN ESPECIE PROCES
 /**
  * Get TipoValidacaoWorkflow
  */
-export class GetTipoValidacaoWorkflow implements Action
-{
+export class GetTipoValidacaoWorkflow implements Action {
     readonly type = GET_TIPO_VALIDACAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoValidacaoWorkflow Success
  */
-export class GetTipoValidacaoWorkflowSuccess implements Action
-{
+export class GetTipoValidacaoWorkflowSuccess implements Action {
     readonly type = GET_TIPO_VALIDACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoValidacaoWorkflow Failed
  */
-export class GetTipoValidacaoWorkflowFailed implements Action
-{
+export class GetTipoValidacaoWorkflowFailed implements Action {
     readonly type = GET_TIPO_VALIDACAO_WORKFLOW_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload TipoValidacaoWorkflow
  */
-export class ReloadTipoValidacaoWorkflow implements Action
-{
+export class ReloadTipoValidacaoWorkflow implements Action {
     readonly type = RELOAD_TIPO_VALIDACAO_WORKFLOW;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete TipoValidacaoWorkflow
  */
-export class DeleteTipoValidacaoWorkflow implements Action
-{
+export class DeleteTipoValidacaoWorkflow implements Action {
     readonly type = DELETE_TIPO_VALIDACAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoValidacaoWorkflow Success
  */
-export class DeleteTipoValidacaoWorkflowSuccess implements Action
-{
+export class DeleteTipoValidacaoWorkflowSuccess implements Action {
     readonly type = DELETE_TIPO_VALIDACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoValidacaoWorkflow Failed
  */
-export class DeleteTipoValidacaoWorkflowFailed implements Action
-{
+export class DeleteTipoValidacaoWorkflowFailed implements Action {
     readonly type = DELETE_TIPO_VALIDACAO_WORKFLOW_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

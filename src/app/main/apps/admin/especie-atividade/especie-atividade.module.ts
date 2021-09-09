@@ -26,11 +26,11 @@ const routes: Routes = [
         component: EspecieAtividadeComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./especie-atividade-list/especie-atividade-list.module').then(m => m.EspecieAtividadeListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./especie-atividade-edit/especie-atividade-edit.module').then(m => m.EspecieAtividadeEditModule),
             },
             {

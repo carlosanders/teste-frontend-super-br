@@ -6,12 +6,11 @@ import {reducers} from 'app/main/apps/pessoa/pessoa-edit/enderecos/endereco-list
 import {effects} from 'app/main/apps/pessoa/pessoa-edit/enderecos/endereco-list/store/effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('endereco-list-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class EnderecoListStoreModule
-{
+export class EnderecoListStoreModule {
 }

@@ -126,7 +126,10 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -291,28 +294,38 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     }
 
     doCompartilharBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/'
+            + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco'
+        ]).then();
     }
 
     doEtiquetarBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco'
+        ]).then();
     }
 
     doMovimentarBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco]).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco
+        ]).then();
     }
 
     doEditTarefaBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-edit-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa-edit-bloco'
+        ]).then();
     }
 
     doRedistribuiTarefaBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco'
+        ]).then();
     }
 
     doCienciaBloco(): void {
@@ -321,28 +334,43 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     }
 
     doCreateTarefaBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa-bloco'
+        ]).then();
     }
 
     doUploadBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/upload-bloco'
+        ]).then();
     }
 
     doEditorBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/modelo-bloco'
+        ]).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/documento-avulso-bloco'
+        ]).then();
     }
 
     setFolder(folder): void {
+        const loteId = CdkUtils.makeId();
         this.tarefas.forEach((tarefa) => {
-            this._store.dispatch(new fromStoreTarefas.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStoreTarefas.SetFolderOnSelectedTarefas({
+                tarefa: tarefa,
+                folder: folder,
+                operacaoId: operacaoId,
+                loteId: loteId
+            }));
         });
     }
 

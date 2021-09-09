@@ -10,10 +10,10 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'assuntos',
@@ -25,10 +25,9 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class AssuntosComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -47,24 +46,22 @@ export class AssuntosComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('assuntos/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('assuntos/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('assuntos/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('assuntos/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('assuntos/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('assuntos/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
     }
 

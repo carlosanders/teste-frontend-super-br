@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Setor} from '@cdk/models/setor.model';
 import {select, Store} from '@ngrx/store';
@@ -19,6 +19,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'unidade-edit',
@@ -39,7 +40,7 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     generoSetorPagination: Pagination;
     setorPagination: Pagination;
-
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -57,13 +58,12 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.usuario = this._loginService.getUserProfile();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
@@ -82,28 +82,31 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.unidade$.subscribe(
-            setor => this.unidade = setor
-        );
+        this.unidade$.pipe(
+            filter(unidade => !!unidade),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(setor => this.unidade = setor);
 
         if (!this.unidade) {
             this.unidade = new Setor();
             this.unidade.ativo = true;
         }
 
-        this.isSaving$.subscribe(
-            (save) => {
-                this.saving = save;
-                this._changeDetectorRef.markForCheck();
-                }
-        );
+        this.isSaving$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((save) => {
+            this.saving = save;
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

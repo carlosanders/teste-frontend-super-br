@@ -9,7 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {Back, getRouterState} from '../../../../store';
@@ -26,17 +26,13 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class RelatorioCreateComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     relatorio: Relatorio;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     _profile: Colaborador;
-
     generoRelatorio$: Observable<GeneroRelatorio[]>;
-
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -65,16 +61,13 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.relatorio = new Relatorio();
     }
@@ -85,7 +78,6 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -93,16 +85,13 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const relatorio = new Relatorio();
-        let arrayParams: any = {};
+        const arrayParams: any = {};
         let parametros: any;
 
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                relatorio[key] = value;
-            }
-        );
+        Object.entries(values).forEach(([key, value]) => {
+            relatorio[key] = value;
+        });
 
         if (relatorio.tipoRelatorio.parametros) {
             parametros = relatorio.tipoRelatorio.parametros.split(',');
@@ -111,21 +100,19 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
         if (parametros && parametros.length > 0) {
             parametros.forEach((campo) => {
                 if (values[campo]) {
-
                     if (campo === 'dataHoraInicio' || campo === 'dataHoraFim') {
                         arrayParams[campo] = {
                             name: campo,
                             value: relatorio[campo].format('YYYY-MM-DDTHH:mm:ss'),
                             type: 'dateTime'
                         };
-                    } else if(campo === 'prazoGuardaFaseCorrenteAno'){
+                    } else if (campo === 'prazoGuardaFaseCorrenteAno') {
                         arrayParams[campo] = {
                             name: campo,
                             value: relatorio[campo],
                             type: 'int'
                         };
                     } else {
-
                         const className = campo.replace(/^./, str => str.toUpperCase());
                         let nClass = 'SuppCore\\AdministrativoBackend\\Entity\\' +
                             className;
@@ -155,11 +142,9 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
             relatorio: relatorio,
             operacaoId: operacaoId
         }));
-
     }
 
     doAbort(): void {
         this._store.dispatch(new Back());
     }
-
 }

@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -18,7 +18,7 @@ import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modelo-edit-dados-basicos',
@@ -30,30 +30,33 @@ import {takeUntil} from "rxjs/operators";
 })
 export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     documento$: Observable<Documento>;
     documento: Documento;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     values: any;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
+     *
      * @param _store
      * @param _location
      * @param _dynamicService
      * @param _componenteDigitalService
+     * @param _ref
      */
     constructor(
         private _store: Store<fromStore.ModeloEditDadosBasicosAppState>,
         private _location: Location,
         private _dynamicService: DynamicService,
         private _componenteDigitalService: ComponenteDigitalService,
+        private _ref: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -68,9 +71,13 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((value) => {
             if (value === this.documento.id) {
                 this.submit();
             }
@@ -83,7 +90,10 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
                 }));
             }
         });
@@ -111,7 +121,7 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
         );
 
         this.values = modelo;
-        if (!this.documento.assinado){
+        if (!this.documento.assinado) {
             this._componenteDigitalService.doEditorSave.next(this.documento.id);
         } else {
             this.submit();

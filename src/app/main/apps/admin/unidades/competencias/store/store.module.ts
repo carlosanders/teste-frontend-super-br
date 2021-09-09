@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('competencias-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class CompetenciasStoreModule
-{
+export class CompetenciasStoreModule {
 }

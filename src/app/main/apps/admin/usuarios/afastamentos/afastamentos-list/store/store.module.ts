@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('admin-afastamentos-list-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class AdminAfastamentosListStoreModule
-{
+export class AdminAfastamentosListStoreModule {
 }

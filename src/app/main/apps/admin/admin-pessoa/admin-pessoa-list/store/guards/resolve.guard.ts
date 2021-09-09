@@ -23,13 +23,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<PessoaListAppState>,
         private _loginService: LoginService
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -42,7 +42,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getPessoa().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -56,18 +59,18 @@ export class ResolveGuard implements CanActivate {
             select(getPessoaListLoaded),
             tap((loaded: any) => {
                 //if (!loaded) {
-                    const params = {
-                        filter: {},
-                        gridFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {},
-                        populate: [
-                            'populateAll'
-                        ],
-                        context: {isAdmin: true}
-                    };
-                    this._store.dispatch(new fromStore.GetPessoa(params));
+                const params = {
+                    filter: {},
+                    gridFilter: {},
+                    limit: 10,
+                    offset: 0,
+                    sort: {},
+                    populate: [
+                        'populateAll'
+                    ],
+                    context: {isAdmin: true}
+                };
+                this._store.dispatch(new fromStore.GetPessoa(params));
                 //}
             }),
             filter((loaded: any) => !!loaded),

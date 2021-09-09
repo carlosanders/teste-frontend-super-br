@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap} from 'rxjs/operators';
 
 import * as SetorActions from '../actions/setor.actions';
 
@@ -17,6 +17,33 @@ import {getRouterState, State} from 'app/store/reducers';
 @Injectable()
 export class SetorEffects {
     routerState: any;
+    /**
+     * Get Setor with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getUnidade: any = createEffect(() => this._actions.pipe(
+        ofType<SetorActions.GetUnidade>(SetorActions.GET_UNIDADE),
+        switchMap(action => this._setorService.get(
+            action.payload.id,
+            JSON.stringify(['populateAll']),
+            JSON.stringify({isAdmin: true}),
+        )),
+        switchMap(response => [
+            new AddData<Setor>({data: [response], schema: setorSchema}),
+            new SetorActions.GetUnidadeSuccess({
+                loaded: {
+                    id: 'unidadeHandle',
+                    value: this.routerState.params.unidadeHandle
+                },
+                setorId: this.routerState.params.unidadeHandle
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new SetorActions.GetUnidadeFailed(err));
+        })
+    ));
 
     /**
      *
@@ -31,44 +58,11 @@ export class SetorEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Setor with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getUnidade: any =
-        this._actions
-            .pipe(
-                ofType<SetorActions.GetUnidade>(SetorActions.GET_UNIDADE),
-                switchMap(action => this._setorService.get(
-                        action.payload.id,
-                        JSON.stringify(['populateAll']),
-                        JSON.stringify({isAdmin: true}),
-                    )),
-                switchMap(response => [
-                    new AddData<Setor>({data: [response], schema: setorSchema}),
-                    new SetorActions.GetUnidadeSuccess({
-                        loaded: {
-                            id: 'unidadeHandle',
-                            value: this.routerState.params.unidadeHandle
-                        },
-                        setorId: this.routerState.params.unidadeHandle
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new SetorActions.GetUnidadeFailed(err));
-                    return caught;
-                })
-            );
 }

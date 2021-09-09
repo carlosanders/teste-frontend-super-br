@@ -9,6 +9,7 @@ import {AdminAppState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Usuario} from '@cdk/models';
+import {filter} from 'rxjs/operators';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -28,13 +29,13 @@ export class ResolveGuard implements CanActivate {
         private _loginService: LoginService,
         private _store: Store<AdminAppState>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._profile = _loginService.getUserProfile();
     }
@@ -61,7 +62,7 @@ export class ResolveGuard implements CanActivate {
 
     isAdmin(role: string): boolean {
         return (['ROLE_ADMIN', 'ROLE_*_ADMIN']
-                .map((papel) => role.match(RegExp(papel.replace('*', '.*'), 'i')))
+                .map(papel => role.match(RegExp(papel.replace('*', '.*'), 'i')))
         ).filter(item => item).length > 0;
     }
 

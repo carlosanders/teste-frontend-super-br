@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {RootLocalizadorEditReducer, RootLocalizadorEditState} from './localizador-edit.reducer';
 
-export interface RootLocalizadorEditAppState
-{
+export interface RootLocalizadorEditAppState {
     localizador: RootLocalizadorEditState;
 }
 
