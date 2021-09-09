@@ -10,6 +10,7 @@
     </div>
 
     <cdk-sigilo-form cdkPerfectScrollbar class="mr-8"
+                     *ngIf="(sigiloLoading$ | async) === false"
                      [sigilo]="sigilo"
                      [loading]="(sigiloLoading$ | async)"
                      [saving]="(sigiloIsSaving$ | async)"
@@ -17,6 +18,10 @@
                      (save)="submitSigilo($event)"
                      (abort)="showFormSigilos()">
     </cdk-sigilo-form>
+
+    <div class="loading" *ngIf="(sigiloLoading$ | async)">
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
 </div>
 
 <cdk-sigilo-grid
