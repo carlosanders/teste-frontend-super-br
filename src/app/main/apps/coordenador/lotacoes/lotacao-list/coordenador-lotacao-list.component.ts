@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Lotacao} from '@cdk/models/lotacao.model';
@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models/pagination';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'lotacao-list',
@@ -40,6 +40,7 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
     colaboradorPagination: Pagination = new Pagination();
     modulo: string;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -58,22 +59,19 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if(this.routerState.url.includes('unidades')) {
-                        this.modulo = 'unidades';
-                    }
-                    else if(this.routerState.url.includes('usuarios')) {
-                        this.modulo = 'usuarios';
-                    }
-                    else {
-                        this.modulo = 'lotacoes';
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.includes('unidades')) {
+                this.modulo = 'unidades';
+            } else if (this.routerState.url.includes('usuarios')) {
+                this.modulo = 'usuarios';
+            } else {
+                this.modulo = 'lotacoes';
+            }
+        });
 
         this.setorPagination.populate = ['populateAll'];
         this.colaboradorPagination.filter = {};
@@ -97,17 +95,21 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadLotacoes());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     reload(params): void {
@@ -128,7 +130,7 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
     }
 
     edit(lotacaoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + lotacaoId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + lotacaoId]).then();
     }
 
     delete(lotacaoId: number, loteId: string = null): void {
@@ -140,7 +142,7 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

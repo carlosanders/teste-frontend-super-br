@@ -33,15 +33,17 @@
                                      [deletingId]="(deletingDocumentosId$ | async)"
                                      [assinandoId]="(assinandoDocumentosId$ | async)"
                                      [convertendoId]="(convertendoDocumentosId$ | async)"
+                                     [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                      (delete)="doDelete($event)"
                                      (verResposta)="doVerResposta($event)"
                                      (assinatura)="doAssinatura($event)"
+                                     (assinaturaBloco)="doAssinaturaBloco($event)"
                                      (converte)="doConverte($event)"
                                      (converteHtml)="doConverteHtml($event)"
                                      (clicked)="onClicked($event)"
-                                     (changedSelectedIds)="changedSelectedIds($event)">
+                                     (changedSelectedIds)="changedSelectedIds($event)"
+                                     (removeAssinatura)="doRemoveAssinatura($event)">
             </cdk-documento-card-list>
-
         </div>
 
     </mat-tab>

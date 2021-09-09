@@ -4,9 +4,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TipoAcaoWorkflowService} from '@cdk/services/tipo-acao-workflow.service';
 import {CdkTipoAcaoWorkflowGridModule} from '@cdk/components/tipo-acao-workflow/cdk-tipo-acao-workflow-grid/cdk-tipo-acao-workflow-grid.module';
+import {CdkTipoAcaoWorkflowGridsearchComponent} from './cdk-tipo-acao-workflow-gridsearch.component';
 
 @NgModule({
     declarations: [
+        CdkTipoAcaoWorkflowGridsearchComponent
     ],
     imports: [
 
@@ -18,6 +20,7 @@ import {CdkTipoAcaoWorkflowGridModule} from '@cdk/components/tipo-acao-workflow/
         TipoAcaoWorkflowService
     ],
     exports: [
+        CdkTipoAcaoWorkflowGridsearchComponent
     ]
 })
 export class CdkTipoAcaoWorkflowGridsearchModule {

@@ -1,18 +1,19 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Etiqueta, Pagination, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getEtiqueta} from '../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getEtiqueta} from '../store';
+import {Back} from '../../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store/reducers';
+import {getRouterState} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'dados-basicos',
@@ -28,14 +29,14 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     etiqueta: Etiqueta;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     usuario: Usuario;
-
     modalidadeEtiquetaPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -48,13 +49,12 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
         this.usuario = this._loginService.getUserProfile();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.modalidadeEtiquetaPagination = new Pagination();
     }
@@ -68,9 +68,10 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.etiqueta$.subscribe(
-            etiqueta => this.etiqueta = etiqueta
-        );
+        this.etiqueta$.pipe(
+            filter(etiqueta => !!etiqueta),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(etiqueta => this.etiqueta = etiqueta);
 
         if (!this.etiqueta) {
             this.etiqueta = new Etiqueta();
@@ -83,6 +84,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

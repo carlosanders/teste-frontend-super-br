@@ -1,5 +1,5 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {DocumentoDetailReducer, ProcessoDetailState} from './Documento-detail.reducer';
+import {ProtocoloExternoDetailReducer, ProcessoDetailState} from './protocolo-externo-detail.reducer';
 import {ProcessoReducer, ProcessoState} from './processo.reducer';
 
 export interface ProcessoDetailAppState
@@ -18,9 +18,9 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ProcessoDetailAppState> = {
-    processoDetail: DocumentoDetailReducer,
+    processoDetail: ProtocoloExternoDetailReducer,
     processo: ProcessoReducer
 };
 
-export * from './Documento-detail.reducer';
+export * from './protocolo-externo-detail.reducer';
 export * from './processo.reducer';

@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {ClassificacaoEditReducer, ClassificacaoEditState} from './classificacao-edit.reducer';
 
-export interface ClassificacaoEditAppState
-{
+export interface ClassificacaoEditAppState {
     classificacao: ClassificacaoEditState;
 }
 

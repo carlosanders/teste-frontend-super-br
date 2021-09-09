@@ -19,7 +19,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
         super(modelService, 'administrativo/documento', Documento);
     }
 
-    preparaAssinatura(documentosId: any = '[]', context: any = '{}'): any {
+    preparaAssinatura(documentosId: any = '[]', context: any = '{}'): Observable<any> {
         const p = {};
         p['documentosId'] = documentosId;
         const params = new HttpParams({fromObject: p});
@@ -27,7 +27,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
         return this.http.get(`${environment.api_url}administrativo/${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
     }
 
-    removeAssinatura(documentosId: number, context: any = '{}'): any {
+    removeAssinatura(documentosId: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.delete(`${environment.api_url}administrativo/${'documento'}/${documentosId}/delete_assinatura` + environment.xdebug, {params});

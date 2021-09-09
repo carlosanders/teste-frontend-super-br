@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Setor} from '@cdk/models/setor.model';
@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'setor-list',
@@ -36,6 +36,7 @@ export class SetorListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -54,27 +55,30 @@ export class SetorListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadSetores());
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', 'criar/editar')]);
+        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', 'criar/editar')]).then();
     }
 
     reload(params): void {
@@ -111,23 +115,23 @@ export class SetorListComponent implements OnInit, OnDestroy {
     }
 
     edit(setorId: number): void {
-        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/editar`)]);
+        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/editar`)]).then();
     }
 
     select(setor: Setor): void {
-        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setor.id}/modelos`)]);
+        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setor.id}/modelos`)]).then();
     }
 
     lotacoes(setorId: number): void {
-        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/lotacoes`)]);
+        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/lotacoes`)]).then();
     }
 
     localizadores(setorId: number): void {
-        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/localizadores`)]);
+        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/localizadores`)]).then();
     }
 
     numerosUnicosDocumentos(setorId: number): void {
-        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/numeros-unicos-documentos`)]);
+        this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', `${setorId}/numeros-unicos-documentos`)]).then();
     }
 
     delete(setorId: number, loteId: string = null): void {
@@ -139,7 +143,7 @@ export class SetorListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

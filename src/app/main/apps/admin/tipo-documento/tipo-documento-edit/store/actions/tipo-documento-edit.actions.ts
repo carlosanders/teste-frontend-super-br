@@ -22,132 +22,110 @@ export const SAVE_COLABORADOR_FAILED = '[ADMIN TIPO_DOCUMENTO EDIT] SAVE COLABOR
 /**
  * Get TipoDocumento
  */
-export class GetTipoDocumento implements Action
-{
+export class GetTipoDocumento implements Action {
     readonly type = GET_TIPO_DOCUMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoDocumento Success
  */
-export class GetTipoDocumentoSuccess implements Action
-{
+export class GetTipoDocumentoSuccess implements Action {
     readonly type = GET_TIPO_DOCUMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoDocumento Failed
  */
-export class GetTipoDocumentoFailed implements Action
-{
+export class GetTipoDocumentoFailed implements Action {
     readonly type = GET_TIPO_DOCUMENTO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save TipoDocumento
  */
-export class SaveTipoDocumento implements Action
-{
+export class SaveTipoDocumento implements Action {
     readonly type = SAVE_TIPO_DOCUMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoDocumento
  */
-export class UpdateTipoDocumento implements Action
-{
+export class UpdateTipoDocumento implements Action {
     readonly type = UPDATE_TIPO_DOCUMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TipoDocumento Success
  */
-export class SaveTipoDocumentoSuccess implements Action
-{
+export class SaveTipoDocumentoSuccess implements Action {
     readonly type = SAVE_TIPO_DOCUMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TipoDocumento Failed
  */
-export class SaveTipoDocumentoFailed implements Action
-{
+export class SaveTipoDocumentoFailed implements Action {
     readonly type = SAVE_TIPO_DOCUMENTO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoDocumento Success
  */
-export class UpdateTipoDocumentoSuccess implements Action
-{
+export class UpdateTipoDocumentoSuccess implements Action {
     readonly type = UPDATE_TIPO_DOCUMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoDocumento Failed
  */
-export class UpdateTipoDocumentoFailed implements Action
-{
+export class UpdateTipoDocumentoFailed implements Action {
     readonly type = UPDATE_TIPO_DOCUMENTO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create TipoDocumento
  */
-export class CreateTipoDocumento implements Action
-{
+export class CreateTipoDocumento implements Action {
     readonly type = CREATE_TIPO_DOCUMENTO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create TipoDocumento Success
  */
-export class CreateTipoDocumentoSuccess implements Action
-{
+export class CreateTipoDocumentoSuccess implements Action {
     readonly type = CREATE_TIPO_DOCUMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

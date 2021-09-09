@@ -1,7 +1,7 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import * as fromStoreComponente from '../../componente-digital/store';
 import {ComponenteDigital, Repositorio} from '@cdk/models';
@@ -11,6 +11,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-inteligencia',
@@ -20,18 +21,16 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy {
 
     loading$: Observable<boolean>;
     repositorios$: Observable<Repositorio[]>;
     pagination$: Observable<any>;
     pagination: any;
-
     repositorioIdLoaded$: Observable<number>;
-
     componenteDigital$: Observable<ComponenteDigital>;
-
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -60,6 +59,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
     static b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
         // tslint:disable-next-line:only-arrow-functions
+        // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
         return decodeURIComponent(atob(str).split('').map(function(c): any {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -73,16 +73,16 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reload(this.pagination);
@@ -91,7 +91,9 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
             }
         });
 
-        this.componenteDigital$.subscribe((componenteDigital) => {
+        this.componenteDigital$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((componenteDigital) => {
             if (componenteDigital && componenteDigital.conteudo) {
                 const html = DocumentoEditInteligenciaComponent.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
@@ -99,13 +101,13 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
         });
     }
 
-    ngAfterViewInit(): void {
-    }
-
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this.pagination = null;
         this._store.dispatch(new fromStore.UnloadRepositorios());
         this._store.dispatch(new fromStore.UnloadComponenteDigital());

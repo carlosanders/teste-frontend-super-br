@@ -7,36 +7,30 @@ export const SAVE_TRANSICAO_WORKFLOW_FAILED = '[ADMIN TRANSICAO_WORKFLOW EDIT] S
 /**
  * Save TransicaoWorkflow
  */
-export class SaveTransicaoWorkflow implements Action
-{
+export class SaveTransicaoWorkflow implements Action {
     readonly type = SAVE_TRANSICAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TransicaoWorkflow Success
  */
-export class SaveTransicaoWorkflowSuccess implements Action
-{
+export class SaveTransicaoWorkflowSuccess implements Action {
     readonly type = SAVE_TRANSICAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TransicaoWorkflow Failed
  */
-export class SaveTransicaoWorkflowFailed implements Action
-{
+export class SaveTransicaoWorkflowFailed implements Action {
     readonly type = SAVE_TRANSICAO_WORKFLOW_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

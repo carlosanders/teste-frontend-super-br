@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
@@ -10,6 +10,7 @@ import {getRouterState} from '../../../../../store';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'usuarios-externos-edit',
@@ -27,6 +28,7 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     usuario$: Observable<Usuario>;
     formUsuario: FormGroup;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -45,13 +47,12 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario$ = this._store.pipe(select(fromStore.getUsuariosExternos));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.formUsuario = this._formBuilder.group({
             id: [null],
@@ -63,7 +64,6 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
             validado: [null],
             reset: [false]
         });
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -74,6 +74,11 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.usuario$.pipe(
+            filter(usuario => !!usuario),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(usuario => this.usuario = usuario);
+
         if (!this.usuario) {
             this.usuario = new Usuario();
         }
@@ -83,6 +88,9 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

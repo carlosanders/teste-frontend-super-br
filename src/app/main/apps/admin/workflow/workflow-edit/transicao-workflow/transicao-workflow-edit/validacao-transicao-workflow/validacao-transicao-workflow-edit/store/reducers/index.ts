@@ -5,8 +5,7 @@ import {
 } from './validacao-transicao-workflow-edit.reducer';
 import {TipoValidacaoWorkflowReducer, TipoValidacaoWorkflowState} from './tipo-validacao-transicao-workflow.reducer';
 
-export interface ValidacaoTransicaoWorkflowEditAppState
-{
+export interface ValidacaoTransicaoWorkflowEditAppState {
     validacaoTransicaoWorkflow: ValidacaoTransicaoWorkflowEditState;
     tipoValidacaoWorkflowList: TipoValidacaoWorkflowState;
 

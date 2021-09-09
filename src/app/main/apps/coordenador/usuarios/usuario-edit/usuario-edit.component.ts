@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -16,6 +16,7 @@ import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 import {MatStepper} from '@angular/material/stepper';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'usuario-edit',
@@ -40,6 +41,8 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
     formUsuario: FormGroup;
     formColaborador: FormGroup;
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     /**
      *
      * @param _store
@@ -56,22 +59,21 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
-        this._store
-        .pipe(select(fromStore.getNextColaborador))
-        .subscribe((nextColaborador) => {
-            if (nextColaborador) {
-                this.stepper.next();
-                this._store.dispatch(new fromStore.NextStepColaboradorSuccess({}));
-            }
+        this._store.pipe(
+            select(fromStore.getNextColaborador),
+            filter(nextColaborador => !!nextColaborador),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(() => {
+            this.stepper.next();
+            this._store.dispatch(new fromStore.NextStepColaboradorSuccess({}));
         });
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.cargoPagination = new Pagination();
         this.cargoPagination.populate = ['populateAll'];
@@ -104,14 +106,14 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.usuario$.subscribe(
-            (usuario) => {
-                this.usuario = usuario;
-                if (usuario && usuario.colaborador) {
-                    this.colaborador = usuario.colaborador;
-                }
+        this.usuario$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((usuario) => {
+            this.usuario = usuario;
+            if (usuario && usuario.colaborador) {
+                this.colaborador = usuario.colaborador;
             }
-        );
+        });
 
         if (!this.usuario) {
             this.usuario = new Usuario();
@@ -128,6 +130,8 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

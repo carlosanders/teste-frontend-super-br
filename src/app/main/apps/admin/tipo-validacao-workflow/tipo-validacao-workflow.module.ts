@@ -27,11 +27,11 @@ const routes: Routes = [
         component: TipoValidacaoWorkflowComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./tipo-validacao-workflow-list/tipo-validacao-workflow-list.module').then(m => m.TipoValidacaoWorkflowListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./tipo-validacao-workflow-edit/tipo-validacao-workflow-edit.module').then(m => m.TipoValidacaoWorkflowEditModule),
             },
             {

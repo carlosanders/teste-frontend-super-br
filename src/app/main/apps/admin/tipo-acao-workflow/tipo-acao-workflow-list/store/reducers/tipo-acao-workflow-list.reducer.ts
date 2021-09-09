@@ -98,7 +98,7 @@ export function TipoAcaoWorkflowListReducer(
         case TipoAcaoWorkflowListActions.DELETE_TIPO_ACAO_WORKFLOW: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.tipoAcaoWorkflowId]
             };
         }
 
@@ -114,7 +114,7 @@ export function TipoAcaoWorkflowListReducer(
         case TipoAcaoWorkflowListActions.DELETE_TIPO_ACAO_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

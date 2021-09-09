@@ -24,6 +24,16 @@ export const getDocumentos = createSelector(
     schemaDocumentoSelectors.entitiesProjector
 );
 
+export const getIsLoadingDocumentos = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.loading
+);
+
+export const getIsSavingDocumentos = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.saving
+);
+
 export const getDocumentosHasLoaded = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.documentosLoaded
@@ -58,7 +68,6 @@ export const getConvertendoDocumentosHtmlId = createSelector(
     (state: DocumentosState) => state.convertendoDocumentoHtmlIds
 );
 
-
 export const getDeletingDocumentosId = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.deletingDocumentoIds
@@ -68,4 +77,20 @@ export const getAssinandoDocumentosId = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.assinandoDocumentoIds
 );
+
+export const getRemovendoAssinaturaDocumentosId = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.removendoAssinaturaDocumentoIds
+);
+
+export const getAlterandoDocumentosId = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.alterandoDocumentoIds
+);
+
+export const getDownloadDocumentosP7SId = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.downloadDocumentosP7SIds
+);
+
 

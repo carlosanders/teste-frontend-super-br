@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {VinculacaoUsuario} from '@cdk/models';
@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'vinculacao-usuario-list',
@@ -25,7 +25,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-    export class VinculacaoUsuarioListComponent implements OnInit, OnDestroy  {
+export class VinculacaoUsuarioListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     vinculacoesUsuarios$: Observable<VinculacaoUsuario[]>;
@@ -36,6 +36,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -54,22 +55,25 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadVinculacoesUsuarios());
     }
 
@@ -105,10 +109,11 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
+
     edit(vinculacaoUsuarioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoUsuarioId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoUsuarioId]).then();
     }
 
     delete(vinculacaoUsuarioId: number, loteId: string = null): void {
@@ -120,7 +125,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

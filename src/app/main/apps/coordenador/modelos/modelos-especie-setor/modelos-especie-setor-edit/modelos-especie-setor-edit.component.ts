@@ -10,7 +10,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {ModalidadeOrgaoCentral, Modelo, Setor, VinculacaoModelo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
@@ -24,8 +24,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 })
 export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     routerState: any;
     vinculacaoModelo$: Observable<VinculacaoModelo>;
     vinculacaoModelo: VinculacaoModelo;
@@ -38,6 +36,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
     especieSetorPagination: Pagination;
     unidade$: Observable<Setor>;
     unidade: Setor;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -55,16 +54,12 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.modelo$ = this._store.pipe(select(fromStore.getModelo));
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.especieSetorPagination = new Pagination();
         this.especieSetorPagination.populate = ['populateAll'];
@@ -78,46 +73,33 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this.vinculacaoModelo$.pipe(
+            filter(vinculacaoModelo => !!vinculacaoModelo),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (vinculacaoModelo) => {
-                if (vinculacaoModelo) {
-                    this.vinculacaoModelo = vinculacaoModelo;
-                }
-            }
-        );
+        ).subscribe((vinculacaoModelo) => {
+            this.vinculacaoModelo = vinculacaoModelo;
+        });
 
         this.modalidadeOrgaoCentral$.pipe(
+            filter(modalidadeOrgaoCentral => !!modalidadeOrgaoCentral),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (modalidadeOrgaoCentral) => {
-                if (modalidadeOrgaoCentral) {
-                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
-                }
-            }
-        );
+        ).subscribe((modalidadeOrgaoCentral) => {
+            this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
+        });
 
         this.unidade$.pipe(
+            filter(unidade => !!unidade),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (unidade) => {
-                if (unidade) {
-                    this.unidade = unidade;
-                }
-            }
-        );
+        ).subscribe((unidade) => {
+            this.unidade = unidade;
+        });
 
         this.modelo$.pipe(
+            filter(modelo => !!modelo),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (modelo) => {
-                if (modelo) {
-                    this.modelo = modelo;
-                }
-            }
-        );
+        ).subscribe((modelo) => {
+            this.modelo = modelo;
+        });
 
         if (!this.vinculacaoModelo) {
             this.vinculacaoModelo = new VinculacaoModelo();
@@ -145,7 +127,6 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
     }
 
     submit(values): void {
-
         const vinculacaoModelo = new VinculacaoModelo();
         Object.entries(values).forEach(
             ([key, value]) => {

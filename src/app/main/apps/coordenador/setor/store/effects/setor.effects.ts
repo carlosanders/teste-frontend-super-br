@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap} from 'rxjs/operators';
 
 import * as CoordenadorSetorActions from '../actions/setor.actions';
 
@@ -17,6 +17,67 @@ import {getRouterState, State} from 'app/store/reducers';
 @Injectable()
 export class CoordenadorSetorEffects {
     routerState: any;
+    /**
+     * Get Unidade with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getUnidade: any = createEffect(() => this._actions.pipe(
+        ofType<CoordenadorSetorActions.GetUnidade>(CoordenadorSetorActions.GET_UNIDADE),
+        switchMap(action => this._setorService.query(
+            JSON.stringify(action.payload),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ]))),
+        switchMap(response => [
+            new AddData<Setor>({data: response['entities'], schema: setorSchema}),
+            new CoordenadorSetorActions.GetUnidadeSuccess({
+                loaded: {
+                    id: 'unidadeHandle',
+                    value: this.routerState.params['unidadeHandle'] ?
+                        this.routerState.params['unidadeHandle'] : this.routerState.params['entidadeHandle']
+                },
+                unidadeId: response['entities'][0].id
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new CoordenadorSetorActions.GetUnidadeFailed(err));
+        })
+    ));
+    /**
+     * Get Setor with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getSetor: any = createEffect(() => this._actions.pipe(
+        ofType<CoordenadorSetorActions.GetSetor>(CoordenadorSetorActions.GET_SETOR),
+        switchMap(action => this._setorService.query(
+            JSON.stringify(action.payload),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ]))),
+        switchMap(response => [
+            new AddData<Setor>({data: response['entities'], schema: setorSchema}),
+            new CoordenadorSetorActions.GetSetorSuccess({
+                loaded: {
+                    id: 'setorHandle',
+                    value: this.routerState.params['setorHandle']
+                },
+                setorId: response['entities'][0].id
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new CoordenadorSetorActions.GetSetorFailed(err));
+        })
+    ));
 
     /**
      *
@@ -31,83 +92,11 @@ export class CoordenadorSetorEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Unidade with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getUnidade: any =
-        this._actions
-            .pipe(
-                ofType<CoordenadorSetorActions.GetUnidade>(CoordenadorSetorActions.GET_UNIDADE),
-                switchMap(action => this._setorService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
-                switchMap(response => [
-                    new AddData<Setor>({data: response['entities'], schema: setorSchema}),
-                    new CoordenadorSetorActions.GetUnidadeSuccess({
-                        loaded: {
-                            id: 'unidadeHandle',
-                            value: this.routerState.params['unidadeHandle'] ?
-                                this.routerState.params['unidadeHandle'] : this.routerState.params['entidadeHandle']
-                        },
-                        unidadeId: response['entities'][0].id
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new CoordenadorSetorActions.GetUnidadeFailed(err));
-                    return caught;
-                })
-            );
-
-    /**
-     * Get Setor with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getSetor: any =
-        this._actions
-            .pipe(
-                ofType<CoordenadorSetorActions.GetSetor>(CoordenadorSetorActions.GET_SETOR),
-                switchMap(action => this._setorService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
-                switchMap(response => [
-                    new AddData<Setor>({data: response['entities'], schema: setorSchema}),
-                    new CoordenadorSetorActions.GetSetorSuccess({
-                        loaded: {
-                            id: 'setorHandle',
-                            value: this.routerState.params['setorHandle']
-                        },
-                        setorId: response['entities'][0].id
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new CoordenadorSetorActions.GetSetorFailed(err));
-                    return caught;
-                })
-            );
 }

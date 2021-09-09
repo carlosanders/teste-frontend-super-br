@@ -37,18 +37,3 @@ export const getIsLoading = createSelector(
     getUsuariosExternosListState,
     (state: UsuariosExternosListState) => state.loading
 );
-
-export const getDeletingIds = createSelector(
-    getUsuariosExternosListState,
-    (state: UsuariosExternosListState) => state.deletingIds
-);
-
-export const getDeletedIds = createSelector(
-    getUsuariosExternosListState,
-    (state: UsuariosExternosListState) => state.deletedIds
-);
-
-export const getDeletingErrors = createSelector(
-    getUsuariosExternosListState,
-    (state: UsuariosExternosListState) => state.deletingErrors
-);

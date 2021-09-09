@@ -14,9 +14,10 @@ import {getRouterState} from 'app/store/reducers';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Pagination, Tramitacao, Usuario} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {Back} from '../../../../../../store/actions';
+import {Back} from '../../../../../../store';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'recebimento',
@@ -27,8 +28,6 @@ import {Back} from '../../../../../../store/actions';
     animations: cdkAnimations
 })
 export class RecebimentoComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     routerState: any;
 
@@ -42,6 +41,7 @@ export class RecebimentoComponent implements OnInit, OnDestroy {
     tramitacao: Tramitacao;
 
     _profile: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -68,7 +68,6 @@ export class RecebimentoComponent implements OnInit, OnDestroy {
 
         this.setorAtualPaginationTree = new Pagination();
         this.setorAtualPaginationTree.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -78,17 +77,17 @@ export class RecebimentoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
 
-        this.tramitacao$.subscribe(
-            tramitacao => this.tramitacao = tramitacao
-        );
+        this.tramitacao$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tramitacao => this.tramitacao = tramitacao);
     }
+
     /**
      * On destroy
      */
@@ -107,13 +106,17 @@ export class RecebimentoComponent implements OnInit, OnDestroy {
         tramitacao.setorAtual = values.setorAtual;
         tramitacao.usuarioRecebimento = this._profile;
 
-        let changes = {};
-        changes = {
+        const changes = {
             setorAtual: tramitacao.setorAtual.id,
             usuarioRecebimento: tramitacao.usuarioRecebimento.id
         };
 
-        this._store.dispatch(new fromStore.ReceberTramitacaoProcesso({tramitacao: tramitacao, changes: changes}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.ReceberTramitacaoProcesso({
+            tramitacao: tramitacao,
+            changes: changes,
+            operacaoId: operacaoId
+        }));
     }
 
     cancel(): void {

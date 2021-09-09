@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('modalidade-orgao-central-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class ModalidadeOrgaoCentralEditStoreModule
-{
+export class ModalidadeOrgaoCentralEditStoreModule {
 }

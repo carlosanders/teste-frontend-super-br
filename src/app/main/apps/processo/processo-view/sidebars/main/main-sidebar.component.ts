@@ -584,8 +584,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             const arrPrimary = [];
             arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                 'visualizar-processo' : 'anexar-copia');
-            this.routerState.params['processoCopiaHandle'] ?
-                arrPrimary.push(this.routerState.params.processoCopiaHandle) : arrPrimary.push(this.routerState.params.processoHandle);
+            arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
+                this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
             if (this.routerState.params.chaveAcessoHandle) {
                 arrPrimary.push('chave');
                 arrPrimary.push(this.routerState.params.chaveAcessoHandle);
@@ -692,7 +692,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      */
     dropzoneEnabledJuntada(event: DragEvent, juntada: Juntada): boolean {
         const tmpJuntadaArrastada = JSON.parse(event.dataTransfer.types[0]);
-        const juntadaArrastada = this.juntadas.find((juntada) => juntada.id == tmpJuntadaArrastada.id);
+        const juntadaArrastada = this.juntadas.find(juntada => juntada.id == tmpJuntadaArrastada.id);
+        // eslint-disable-next-line max-len
         return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
 
@@ -705,6 +706,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     dropEnabledJuntada(event: DndDropEvent, juntada: Juntada): boolean {
         const juntadaArrastadaId = event.data;
         const juntadaArrastada = this.juntadas.find((juntada) => juntada.id == juntadaArrastadaId);
+        // eslint-disable-next-line max-len
         return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
 
@@ -777,11 +779,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const modelo = this.formEditor.get('modelo').value;
 
         //this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.CreateComponenteDigital({
             modelo: modelo,
             tarefaOrigem: this.tarefaOrigem,
             processoOrigem: this.processo,
-            routeAtividadeDocumento: this.routeAtividadeDocumento
+            routeAtividadeDocumento: this.routeAtividadeDocumento,
+            operacaoId: operacaoId
         }));
         this.formEditor.get('modelo').setValue(null);
         this.menuTriggerList.closeMenu();
@@ -853,9 +857,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    documento: result.documento
+                    documento: result.documento,
+                    operacaoId: operacaoId
                 }));
             });
         }
@@ -881,9 +887,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.assinatura = 'A1';
                     assinatura.plainPassword = result.plainPassword;
 
+                    const operacaoId = CdkUtils.makeId();
                     this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
                         assinatura: assinatura,
-                        documento: result.documento
+                        documento: result.documento,
+                        operacaoId: operacaoId
                     }));
                 });
             }
@@ -1096,7 +1104,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const aprovaSub = dialogRef.componentInstance.aprovarDocumento.subscribe((documento: Documento) => {
             this._store.dispatch(new fromStore.AprovarComponenteDigital({
                 documentoOrigem: documento
-            }))
+            }));
         });
         const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((documento: Documento) => {
             this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));

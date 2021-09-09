@@ -19,132 +19,110 @@ export const GET_ASSUNTO_ADMINISTRATIVO_FAILED = '[ADMIN ASSUNTO_ADMINISTRATIVO 
 /**
  * Get AssuntoAdministrativo
  */
-export class GetAssuntoAdministrativo implements Action
-{
+export class GetAssuntoAdministrativo implements Action {
     readonly type = GET_ASSUNTO_ADMINISTRATIVO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get AssuntoAdministrativo Success
  */
-export class GetAssuntoAdministrativoSuccess implements Action
-{
+export class GetAssuntoAdministrativoSuccess implements Action {
     readonly type = GET_ASSUNTO_ADMINISTRATIVO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get AssuntoAdministrativo Failed
  */
-export class GetAssuntoAdministrativoFailed implements Action
-{
+export class GetAssuntoAdministrativoFailed implements Action {
     readonly type = GET_ASSUNTO_ADMINISTRATIVO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save AssuntoAdministrativo
  */
-export class SaveAssuntoAdministrativo implements Action
-{
+export class SaveAssuntoAdministrativo implements Action {
     readonly type = SAVE_ASSUNTO_ADMINISTRATIVO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update AssuntoAdministrativo
  */
-export class UpdateAssuntoAdministrativo implements Action
-{
+export class UpdateAssuntoAdministrativo implements Action {
     readonly type = UPDATE_ASSUNTO_ADMINISTRATIVO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save AssuntoAdministrativo Success
  */
-export class SaveAssuntoAdministrativoSuccess implements Action
-{
+export class SaveAssuntoAdministrativoSuccess implements Action {
     readonly type = SAVE_ASSUNTO_ADMINISTRATIVO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save AssuntoAdministrativo Failed
  */
-export class SaveAssuntoAdministrativoFailed implements Action
-{
+export class SaveAssuntoAdministrativoFailed implements Action {
     readonly type = SAVE_ASSUNTO_ADMINISTRATIVO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update AssuntoAdministrativo Success
  */
-export class UpdateAssuntoAdministrativoSuccess implements Action
-{
+export class UpdateAssuntoAdministrativoSuccess implements Action {
     readonly type = UPDATE_ASSUNTO_ADMINISTRATIVO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update AssuntoAdministrativo Failed
  */
-export class UpdateAssuntoAdministrativoFailed implements Action
-{
+export class UpdateAssuntoAdministrativoFailed implements Action {
     readonly type = UPDATE_ASSUNTO_ADMINISTRATIVO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create AssuntoAdministrativo
  */
-export class CreateAssuntoAdministrativo implements Action
-{
+export class CreateAssuntoAdministrativo implements Action {
     readonly type = CREATE_ASSUNTO_ADMINISTRATIVO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create AssuntoAdministrativo Success
  */
-export class CreateAssuntoAdministrativoSuccess implements Action
-{
+export class CreateAssuntoAdministrativoSuccess implements Action {
     readonly type = CREATE_ASSUNTO_ADMINISTRATIVO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

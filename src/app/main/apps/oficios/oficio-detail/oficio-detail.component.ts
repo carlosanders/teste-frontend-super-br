@@ -14,10 +14,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {DeleteVinculacaoEtiqueta} from './store';
 import {Documento, DocumentoAvulso, Etiqueta, Usuario, VinculacaoEtiqueta} from '@cdk/models';
-import {getMaximizado} from '../store/selectors';
-import {ToggleMaximizado} from '../store/actions';
+import {getMaximizado} from '../store';
+import {ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../../auth/login/login.service';
@@ -34,8 +34,6 @@ import {CdkUtils} from '../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
@@ -58,11 +56,11 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     vinculacaoEtiquetaPagination: Pagination;
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
 
-    private _profile: Usuario;
-
     mobileMode = false;
     mode = 'entrada';
     chaveAcesso: any;
+    private _profile: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -99,29 +97,28 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                     'modalidadeEtiqueta.valor': 'eq:OFICIO'
                 },
                 {
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:OFICIO'
                 }
             ]
         } : {};
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.mode = routerState.state.params['oficioTargetHandle'];
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
+        });
     }
 
     ngAfterViewInit(): void {
     }
 
     ngOnInit(): void {
-
-        this._store.pipe(
-            select(getRouterState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.mode = routerState.state.params['oficioTargetHandle'];
-                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-            }
-        });
-
         this.documentoAvulso$.pipe(
             filter(documentoAvulso => !!documentoAvulso),
             takeUntil(this._unsubscribeAll)
@@ -164,7 +161,6 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     // -----------------------------------------------------------------------------------------------------
 
     submit(): void {
-
     }
 
     /**
@@ -195,9 +191,11 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new DeleteVinculacaoEtiqueta({
             documentoAvulsoId: this.documentoAvulso.id,
-            vinculacaoEtiquetaId: vinculacaoEtiqueta.id
+            vinculacaoEtiquetaId: vinculacaoEtiqueta.id,
+            operacaoId: operacaoId
         }));
     }
 

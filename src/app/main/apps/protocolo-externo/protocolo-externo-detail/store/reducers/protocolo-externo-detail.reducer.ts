@@ -24,7 +24,7 @@ export const ProcessoDetailInitialState: ProcessoDetailState = {
     savingVinculacaoEtiquetaId: null
 };
 
-export function DocumentoDetailReducer(state = ProcessoDetailInitialState, action: ProcessoDetailActions.ProcessoDetailActionsAll): ProcessoDetailState {
+export function ProtocoloExternoDetailReducer(state = ProcessoDetailInitialState, action: ProcessoDetailActions.ProcessoDetailActionsAll): ProcessoDetailState {
     switch (action.type) {
 
         case ProcessoDetailActions.GET_PROCESSO: {

@@ -101,7 +101,7 @@ export function AssinaturasReducer(
         case AssinaturasActions.DELETE_ASSINATURA_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -41,7 +41,7 @@ export class GetEspecieRelevanciaFailed implements Action {
 /**
  * Reload EspecieRelevancia
  */
- export class UnloadEspecieRelevancia implements Action {
+export class UnloadEspecieRelevancia implements Action {
     readonly type = UNLOAD_ESPECIE_RELEVANCIA;
 
     constructor() {

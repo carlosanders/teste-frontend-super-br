@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -18,8 +19,8 @@ import * as fromStore from './store';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {Router} from '@angular/router';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
-import {getMercureState, getRouterState} from '../../../../../../store/reducers';
-import {getDocumentoAvulso, getDocumentosComplementares} from './store/selectors';
+import {getMercureState, getRouterState} from '../../../../../../store';
+import {getDocumentoAvulso, getDocumentosComplementares} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -34,10 +35,13 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ResponderComponent implements OnInit, OnDestroy {
+export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-    private _profile: Usuario;
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     documentoAvulso$: Observable<DocumentoAvulso>;
     documentoAvulso: DocumentoAvulso;
@@ -56,15 +60,10 @@ export class ResponderComponent implements OnInit, OnDestroy {
     routerState: any;
     routerState$: Observable<any>;
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     javaWebStartOK = false;
 
@@ -72,15 +71,17 @@ export class ResponderComponent implements OnInit, OnDestroy {
 
     assinaturaInterval = null;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
-        /**
-         *
-         * @param _store
-         * @param _loginService
-         * @param _router
-         * @param _changeDetectorRef
-         * @param _dynamicService
-         */
+    /**
+     *
+     * @param _store
+     * @param _loginService
+     * @param _router
+     * @param _changeDetectorRef
+     * @param _dynamicService
+     */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoResponderAppState>,
         public _loginService: LoginService,
@@ -98,6 +99,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -108,14 +110,13 @@ export class ResponderComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
+            this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
         });
 
         this.documentoAvulso$.pipe(
@@ -130,20 +131,12 @@ export class ResponderComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((routerState) => {
-            this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
-        });
-
         this.documentosComplementares$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (documentosComplementares) => {
-                this.oficios = this.oficios.concat(documentosComplementares);
-                this._changeDetectorRef.detectChanges();
-            }
-        );
+        ).subscribe((documentosComplementares) => {
+            this.oficios = this.oficios.concat(documentosComplementares);
+            this._changeDetectorRef.detectChanges();
+        });
 
         this._store.pipe(
             select(getMercureState),
@@ -165,7 +158,11 @@ export class ResponderComponent implements OnInit, OnDestroy {
                     case 'assinatura_finalizada':
                         this.javaWebStartOK = false;
                         this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
                         break;
                 }
             }
@@ -198,17 +195,18 @@ export class ResponderComponent implements OnInit, OnDestroy {
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
-
     }
 
-    // tslint:disable-next-line:use-lifecycle-interface
     ngAfterViewInit(): void {
         const path = 'app/main/apps/processo/processo-edit/documentos-avulsos/responder';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -241,17 +239,46 @@ export class ResponderComponent implements OnInit, OnDestroy {
             operacaoId: operacaoId,
             loteId: loteId,
         }));
-
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
     }
 
     doVerResposta(documento): void {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+        } else {
+            const lote = CdkUtils.makeId();
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId,
+                        loteId: lote
+                    }));
+                });
+            });
+        }
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -262,9 +289,18 @@ export class ResponderComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura}));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    documento: result.documento,
+                    operacaoId: operacaoId
+                }));
             });
         }
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     onClicked(documento): void {

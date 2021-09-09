@@ -6,14 +6,14 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ModalidadeOrgaoCentral} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modalidade-orgao-central-list',
@@ -33,6 +33,7 @@ export class ModalidadeOrgaoCentralListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -43,26 +44,28 @@ export class ModalidadeOrgaoCentralListComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadModalidadeOrgaoCentral());
     }
-
-
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetModalidadeOrgaoCentral({
@@ -97,10 +100,10 @@ export class ModalidadeOrgaoCentralListComponent implements OnInit, OnDestroy {
     }
 
     edit(modalidadeOrgaoCentralId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modalidadeOrgaoCentralId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modalidadeOrgaoCentralId]).then();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 }

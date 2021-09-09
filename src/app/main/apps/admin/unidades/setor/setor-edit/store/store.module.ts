@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('admin-setor-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class RootSetorEditStoreModule
-{
+export class RootSetorEditStoreModule {
 }

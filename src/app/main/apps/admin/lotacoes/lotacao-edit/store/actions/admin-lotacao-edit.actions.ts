@@ -14,96 +14,80 @@ export const GET_LOTACAO_FAILED = '[ADMIN LOTACAO EDIT] GET LOTACAO FAILED';
 /**
  * Get Lotacao
  */
-export class GetLotacao implements Action
-{
+export class GetLotacao implements Action {
     readonly type = GET_LOTACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Lotacao Success
  */
-export class GetLotacaoSuccess implements Action
-{
+export class GetLotacaoSuccess implements Action {
     readonly type = GET_LOTACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Lotacao Failed
  */
-export class GetLotacaoFailed implements Action
-{
+export class GetLotacaoFailed implements Action {
     readonly type = GET_LOTACAO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Lotacao
  */
-export class SaveLotacao implements Action
-{
+export class SaveLotacao implements Action {
     readonly type = SAVE_LOTACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Lotacao Success
  */
-export class SaveLotacaoSuccess implements Action
-{
+export class SaveLotacaoSuccess implements Action {
     readonly type = SAVE_LOTACAO_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Lotacao Failed
  */
-export class SaveLotacaoFailed implements Action
-{
+export class SaveLotacaoFailed implements Action {
     readonly type = SAVE_LOTACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Lotacao
  */
-export class CreateLotacao implements Action
-{
+export class CreateLotacao implements Action {
     readonly type = CREATE_LOTACAO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Lotacao Success
  */
-export class CreateLotacaoSuccess implements Action
-{
+export class CreateLotacaoSuccess implements Action {
     readonly type = CREATE_LOTACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

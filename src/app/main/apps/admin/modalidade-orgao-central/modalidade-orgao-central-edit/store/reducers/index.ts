@@ -4,8 +4,7 @@ import {
     ModalidadeOrgaoCentralEditState
 } from './modalidade-orgao-central-edit.reducer';
 
-export interface ModalidadeOrgaoCentralEditAppState
-{
+export interface ModalidadeOrgaoCentralEditAppState {
     modalidadeOrgaoCentral: ModalidadeOrgaoCentralEditState;
 }
 

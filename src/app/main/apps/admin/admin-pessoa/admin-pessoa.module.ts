@@ -26,11 +26,11 @@ const routes: Routes = [
         component: AdminPessoaComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./admin-pessoa-list/admin-pessoa-list.module').then(m => m.AdminPessoaListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./admin-pessoa-edit/admin-pessoa-edit.module').then(m => m.AdminPessoaEditModule),
             },
             {

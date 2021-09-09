@@ -27,14 +27,14 @@ const routes: Routes = [
         component: AcaoTransicaoWorkflowComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./acao-transicao-workflow-list/acao-transicao-workflow-list.module')
                     .then(m => m.AcaoTransicaoWorkflowListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./acao-transicao-workflow-edit/acao-transicao-workflow-edit.module')
-                .then(m => m.AcaoTransicaoWorkflowEditModule),
+                    .then(m => m.AcaoTransicaoWorkflowEditModule),
             },
             {
                 path: '**',
@@ -77,8 +77,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         PathModule
     ],
-    providers: [
-    ],
+    providers: [],
     exports: [
         AcaoTransicaoWorkflowComponent
     ]

@@ -15,9 +15,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {getProcesso} from '../../../store';
-import {takeUntil} from "rxjs/operators";
-import {UpdateData} from "../../../../../../../@cdk/ngrx-normalizr";
-import {documento as documentoSchema} from "../../../../../../../@cdk/normalizr";
+import {filter, takeUntil} from 'rxjs/operators';
+import {UpdateData} from '../../../../../../../@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '../../../../../../../@cdk/normalizr';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'juntada-list',
@@ -28,6 +29,9 @@ import {documento as documentoSchema} from "../../../../../../../@cdk/normalizr"
     animations: cdkAnimations
 })
 export class JuntadaListComponent implements OnInit, OnDestroy {
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
     routerState: any;
     juntadas$: Observable<Juntada[]>;
@@ -45,9 +49,6 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
     javaWebStartOK = false;
 
     assinaturaInterval = null;
-
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -73,25 +74,30 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
-        this.processo$.subscribe((processo) => {
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
             this.processo = processo;
         });
 
-        this.juntadas$.subscribe((juntadas) => {
+        this.juntadas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((juntadas) => {
             this.juntadasIds = [];
             if (juntadas) {
                 const tmp = juntadas?.filter(juntada => juntada.ativo);
@@ -102,11 +108,10 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -223,9 +228,11 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    documento: result.documento
+                    documento: result.documento,
+                    operacaoId: operacaoId
                 }));
             });
         }

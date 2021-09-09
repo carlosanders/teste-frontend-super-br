@@ -7,12 +7,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'usuarios-externos-list',
@@ -29,10 +30,8 @@ export class UsuariosExternosListComponent implements OnInit, OnDestroy {
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
-    deletingIds$: Observable<any>;
-    deletingErrors$: Observable<any>;
-    deletedIds$: Observable<any>;
     public externo = true;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -42,27 +41,26 @@ export class UsuariosExternosListComponent implements OnInit, OnDestroy {
         this.usuarios$ = this._store.pipe(select(fromStore.getUsuariosExternosList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
-        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
-        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
-
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadUsuariosExternos());
     }
 
@@ -84,11 +82,11 @@ export class UsuariosExternosListComponent implements OnInit, OnDestroy {
     }
 
     edit(usuarioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + usuarioId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + usuarioId]).then();
     }
 
     vincularPessoa(usuarioId: number): void {
         this._router.navigate([this.routerState.url.replace('listar',
-            + usuarioId + '/vinculacao-pessoa-usuario/listar')]);
+            +usuarioId + '/vinculacao-pessoa-usuario/listar')]).then();
     }
 }

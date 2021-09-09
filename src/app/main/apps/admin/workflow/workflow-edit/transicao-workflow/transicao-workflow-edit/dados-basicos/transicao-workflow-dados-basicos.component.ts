@@ -10,6 +10,7 @@ import {LoginService} from '../../../../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../../../../store';
 import {getTransicaoWorkflow} from '../store';
 import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'transicao-workflow-dados-basicos',
@@ -24,15 +25,14 @@ export class TransicaoWorkflowDadosBasicosComponent implements OnInit {
     routerState: any;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-    transicaoWorkflow: Workflow;
-    transicaoWorkflow$: Observable<Workflow>;
+    transicaoWorkflow: TransicaoWorkflow;
+    transicaoWorkflow$: Observable<TransicaoWorkflow>;
     formWorkflow: FormGroup;
     pagination: any;
 
     especieTarefaPagination: Pagination;
     especieAtividadePagination: Pagination;
     workflowPagination: Pagination;
-
 
     constructor(
         private _store: Store<fromStore.TransicaoWorkflowDadosBasicosAppState>,
@@ -50,13 +50,12 @@ export class TransicaoWorkflowDadosBasicosComponent implements OnInit {
         this.workflowPagination = new Pagination();
         this.workflowPagination.populate = ['populateAll', 'especieProcesso'];
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.loadForm();
     }
@@ -88,7 +87,7 @@ export class TransicaoWorkflowDadosBasicosComponent implements OnInit {
         );
 
         const workflow = new Workflow();
-        workflow.id = parseInt(this.routerState.params.workflowHandle);
+        workflow.id = parseInt(this.routerState.params.workflowHandle, 10);
         transicaoWorkflow.workflow = workflow;
 
         const operacaoId = CdkUtils.makeId();
@@ -101,6 +100,4 @@ export class TransicaoWorkflowDadosBasicosComponent implements OnInit {
     doAbort(): void {
         this._store.dispatch(new Back());
     }
-
-
 }

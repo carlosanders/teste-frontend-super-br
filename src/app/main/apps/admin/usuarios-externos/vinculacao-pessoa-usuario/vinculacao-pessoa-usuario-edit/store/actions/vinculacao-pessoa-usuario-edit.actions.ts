@@ -10,60 +10,50 @@ export const SAVE_VINCULACAO_PESSOA_USUARIO_FAILED = '[ADMIN VINCULACAO_PESSOA_U
 /**
  * Save VinculacaoPessoaUsuario
  */
-export class SaveVinculacaoPessoaUsuario implements Action
-{
+export class SaveVinculacaoPessoaUsuario implements Action {
     readonly type = SAVE_VINCULACAO_PESSOA_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save VinculacaoPessoaUsuario Success
  */
-export class SaveVinculacaoPessoaUsuarioSuccess implements Action
-{
+export class SaveVinculacaoPessoaUsuarioSuccess implements Action {
     readonly type = SAVE_VINCULACAO_PESSOA_USUARIO_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save VinculacaoPessoaUsuario Failed
  */
-export class SaveVinculacaoPessoaUsuarioFailed implements Action
-{
+export class SaveVinculacaoPessoaUsuarioFailed implements Action {
     readonly type = SAVE_VINCULACAO_PESSOA_USUARIO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create VinculacaoPessoaUsuario
  */
-export class CreateVinculacaoPessoaUsuario implements Action
-{
+export class CreateVinculacaoPessoaUsuario implements Action {
     readonly type = CREATE_VINCULACAO_PESSOA_USUARIO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create VinculacaoPessoaUsuario Success
  */
-export class CreateVinculacaoPessoaUsuarioSuccess implements Action
-{
+export class CreateVinculacaoPessoaUsuarioSuccess implements Action {
     readonly type = CREATE_VINCULACAO_PESSOA_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

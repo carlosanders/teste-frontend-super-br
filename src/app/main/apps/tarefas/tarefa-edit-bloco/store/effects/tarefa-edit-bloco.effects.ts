@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
 
 import * as TarefaEditBlocoActions from '../actions/tarefa-edit-bloco.actions';
 
@@ -13,59 +13,69 @@ import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from 'moment';
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class TarefaEditBlocoEffect {
     routerState: any;
+    /**
+     * Save Tarefa
+     *
+     * @type {Observable<any>}
+     */
+    saveTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<TarefaEditBlocoActions.SaveTarefa>(TarefaEditBlocoActions.SAVE_TAREFA),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tarefa',
+            content: 'Editando a tarefa id ' + action.payload.tarefa.id + ' ...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
+        mergeMap(action => this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'tarefa',
+                content: `Tarefa id ${response.id} editada com sucesso!`,
+                success: true,
+                status: 1, // sucesso
+                lote: action.payload.loteId
+            }))),
+            mergeMap((response: Tarefa) => [
+                new TarefaEditBlocoActions.SaveTarefaSuccess(action.payload),
+                new UpdateData<Tarefa>({
+                    id: response.id,
+                    schema: tarefaSchema,
+                    changes: {...action.payload.changes}
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                const erroString = CdkUtils.errorsToString(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    // eslint-disable-next-line max-len
+                    content: `Houve erro na alteração da tarefa id ${action.payload.tarefa.id}! ${erroString}`,
+                    success: false,
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                return of(new TarefaEditBlocoActions.SaveTarefaFailed(action.payload));
+            })
+        ))
+    ));
 
     constructor(
         private _actions: Actions,
         private _tarefaService: TarefaService,
         private _store: Store<State>
     ) {
-        this._store
-            .pipe(
-                select(getRouterState),
-            ).subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Save Tarefa
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveTarefa: any =
-        this._actions
-            .pipe(
-                ofType<TarefaEditBlocoActions.SaveTarefa>(TarefaEditBlocoActions.SAVE_TAREFA),
-                mergeMap(action => this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaEditBlocoActions.SaveTarefaSuccess(action.payload),
-                            new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {observacao: response.observacao}}),
-                            new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${action.payload.tarefa.id} editada com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log (err);
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Houve erro na edição da tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
-                            }));
-                            return of(new TarefaEditBlocoActions.SaveTarefaFailed(action.payload));
-                        })
-                    ))
-            );
-
 }

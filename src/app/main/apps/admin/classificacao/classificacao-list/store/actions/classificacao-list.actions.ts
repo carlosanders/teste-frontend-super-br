@@ -45,7 +45,7 @@ export class GetClassificacaoFailed implements Action {
 /**
  * Unload Classificacao
  */
- export class UnloadClassificacao implements Action {
+export class UnloadClassificacao implements Action {
     readonly type = UNLOAD_CLASSIFICACAO;
 
     constructor() {
@@ -65,36 +65,30 @@ export class ReloadClassificacao implements Action {
 /**
  * Delete Classificacao
  */
-export class DeleteClassificacao implements Action
-{
+export class DeleteClassificacao implements Action {
     readonly type = DELETE_CLASSIFICACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Classificacao Success
  */
-export class DeleteClassificacaoSuccess implements Action
-{
+export class DeleteClassificacaoSuccess implements Action {
     readonly type = DELETE_CLASSIFICACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Classificacao Failed
  */
-export class DeleteClassificacaoFailed implements Action
-{
+export class DeleteClassificacaoFailed implements Action {
     readonly type = DELETE_CLASSIFICACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

@@ -7,9 +7,9 @@ import {Nome, Pagination, Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
-import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../../../../store/actions';
+import {getPessoa} from '../../dados-pessoa-edit/store';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
@@ -22,8 +22,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 })
 export class NomeEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     nome$: Observable<Nome>;
     nome: Nome;
     isSaving$: Observable<boolean>;
@@ -33,6 +31,7 @@ export class NomeEditComponent implements OnInit, OnDestroy {
     pessoa: Pessoa;
 
     pessoaPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -46,7 +45,6 @@ export class NomeEditComponent implements OnInit, OnDestroy {
         this.pessoa$ = this._store.pipe(select(getPessoa));
 
         this.pessoaPagination = new Pagination();
-        // this.nomeAdministrativoPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -60,13 +58,12 @@ export class NomeEditComponent implements OnInit, OnDestroy {
 
         this.pessoa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            pessoa => this.pessoa = pessoa
-        );
+        ).subscribe(pessoa => this.pessoa = pessoa);
 
-        this.nome$.subscribe(
-            nome => this.nome = nome
-        );
+        this.nome$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(nome => !!nome)
+        ).subscribe(nome => this.nome = nome);
 
         if (!this.nome) {
             this.nome = new Nome();
@@ -78,6 +75,8 @@ export class NomeEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

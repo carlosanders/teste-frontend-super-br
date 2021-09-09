@@ -28,13 +28,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<CalendarioAppState>,
         public _loginService: LoginService,
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._profile = _loginService.getUserProfile();
     }
@@ -49,7 +49,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getTarefas().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -138,10 +141,10 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.routerState.params['typeHandle'] &&
-                    this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['typeHandle'] + '_' +
-                        this.routerState.params['targetHandle']) ===
-                    loaded.value),
+                this.routerState.params['targetHandle'] &&
+                (this.routerState.params['typeHandle'] + '_' +
+                    this.routerState.params['targetHandle']) ===
+                loaded.value),
             take(1)
         );
     }

@@ -91,7 +91,7 @@ export function VinculacaoPessoaBarramentoListReducer(
         case VinculacaoPessoaBarramentoListActions.DELETE_VINCULACAO_PESSOA_BARRAMENTO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.vinculacaoPessoaBarramentoId]
             };
         }
 
@@ -106,7 +106,7 @@ export function VinculacaoPessoaBarramentoListReducer(
         case VinculacaoPessoaBarramentoListActions.DELETE_VINCULACAO_PESSOA_BARRAMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

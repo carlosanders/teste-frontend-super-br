@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap} from 'rxjs/operators';
 
 import * as ModelosEspecieSetorActions from '../actions/modelos-especie-setor.actions';
 
@@ -17,6 +17,41 @@ import {Modelo} from '@cdk/models';
 @Injectable()
 export class ModelosEspecieSetorEffects {
     routerState: any;
+    /**
+     * Get Modelo with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getModelo: any = createEffect(() => this._actions.pipe(
+            ofType<ModelosEspecieSetorActions.GetModelo>(ModelosEspecieSetorActions.GET_MODELO),
+            switchMap(action => this._modeloService.get(
+                action.payload.id,
+                JSON.stringify([
+                    'populateAll',
+                    'documento.componentesDigitais',
+                    'modalidadeModelo',
+                    'vinculacoesModelos',
+                    'vinculacoesModelos.setor',
+                    'vinculacoesModelos.modalidadeOrgaoCentral',
+                ]),
+                JSON.stringify({isAdmin: true})
+            )),
+            switchMap(response => [
+                new AddData<Modelo>({data: [response], schema: modeloSchema}),
+                new ModelosEspecieSetorActions.GetModeloSuccess({
+                    loaded: {
+                        id: 'modeloHandle',
+                        value: this.routerState.params.modeloHandle
+                    },
+                    modeloId: this.routerState.params.modeloHandle
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new ModelosEspecieSetorActions.GetModeloFailed(err));
+            })
+        )
+    );
 
     /**
      *
@@ -31,51 +66,11 @@ export class ModelosEspecieSetorEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Modelo with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getModelo: any =
-        this._actions
-            .pipe(
-                ofType<ModelosEspecieSetorActions.GetModelo>(ModelosEspecieSetorActions.GET_MODELO),
-                switchMap(action => this._modeloService.get(
-                        action.payload.id,
-                        JSON.stringify([
-                            'populateAll',
-                            'documento.componentesDigitais',
-                            'modalidadeModelo',
-                            'vinculacoesModelos',
-                            'vinculacoesModelos.setor',
-                            'vinculacoesModelos.modalidadeOrgaoCentral',
-                        ]),
-                        JSON.stringify({isAdmin: true})
-                    )),
-                switchMap(response => [
-                    new AddData<Modelo>({data: [response], schema: modeloSchema}),
-                    new ModelosEspecieSetorActions.GetModeloSuccess({
-                        loaded: {
-                            id: 'modeloHandle',
-                            value: this.routerState.params.modeloHandle
-                        },
-                        modeloId: this.routerState.params.modeloHandle
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ModelosEspecieSetorActions.GetModeloFailed(err));
-                    return caught;
-                })
-            );
 }

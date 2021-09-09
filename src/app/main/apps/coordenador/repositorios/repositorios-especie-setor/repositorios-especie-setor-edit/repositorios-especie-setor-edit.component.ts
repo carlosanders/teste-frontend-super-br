@@ -10,7 +10,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {ModalidadeOrgaoCentral, Repositorio, VinculacaoRepositorio} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
@@ -24,8 +24,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 })
 export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     routerState: any;
     vinculacaoRepositorio$: Observable<VinculacaoRepositorio>;
     vinculacaoRepositorio: VinculacaoRepositorio;
@@ -36,6 +34,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
     modalidadeOrgaoCentral$: Observable<ModalidadeOrgaoCentral>;
     modalidadeOrgaoCentral: ModalidadeOrgaoCentral;
     especieSetorPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -52,16 +51,13 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         this.modalidadeOrgaoCentral$ = this._store.pipe(select(fromStore.getModalidadeOrgaoCentral));
         this.repositorio$ = this._store.pipe(select(fromStore.getRepositorio));
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.especieSetorPagination = new Pagination();
         this.especieSetorPagination.populate = ['populateAll'];
@@ -77,34 +73,25 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
     ngOnInit(): void {
 
         this.vinculacaoRepositorio$.pipe(
+            filter(vinculacaoRepositorio => !!vinculacaoRepositorio),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (vinculacaoRepositorio) => {
-                if (vinculacaoRepositorio) {
-                    this.vinculacaoRepositorio = vinculacaoRepositorio;
-                }
-            }
-        );
+        ).subscribe((vinculacaoRepositorio) => {
+            this.vinculacaoRepositorio = vinculacaoRepositorio;
+        });
 
         this.modalidadeOrgaoCentral$.pipe(
+            filter(modalidadeOrgaoCentral => !!modalidadeOrgaoCentral),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (modalidadeOrgaoCentral) => {
-                if (modalidadeOrgaoCentral) {
-                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
-                }
-            }
-        );
+        ).subscribe((modalidadeOrgaoCentral) => {
+            this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
+        });
 
         this.repositorio$.pipe(
+            filter(repositorio => !!repositorio),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (repositorio) => {
-                if (repositorio) {
-                    this.repositorio = repositorio;
-                }
-            }
-        );
+        ).subscribe((repositorio) => {
+            this.repositorio = repositorio;
+        });
 
         if (!this.vinculacaoRepositorio) {
             this.vinculacaoRepositorio = new VinculacaoRepositorio();

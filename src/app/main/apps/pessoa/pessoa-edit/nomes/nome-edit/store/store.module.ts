@@ -6,12 +6,11 @@ import {reducers} from 'app/main/apps/pessoa/pessoa-edit/nomes/nome-edit/store/r
 import {effects} from 'app/main/apps/pessoa/pessoa-edit/nomes/nome-edit/store/effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('nome-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class NomeEditStoreModule
-{
+export class NomeEditStoreModule {
 }

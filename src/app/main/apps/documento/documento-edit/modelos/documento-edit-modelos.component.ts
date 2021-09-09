@@ -9,7 +9,7 @@ import {Location} from '@angular/common';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {ModeloService} from '@cdk/services/modelo.service';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
@@ -21,8 +21,6 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     loading$: Observable<boolean>;
     modelos$: Observable<Modelo[]>;
@@ -39,6 +37,7 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
     erro: any;
 
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -60,20 +59,23 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getModelosPagination));
         this.loading$ = this._store.pipe(select(fromStore.getModelosIsLoading));
         this.error$ = this._store.pipe(select(fromStore.getErrors));
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
-        this.documento$.subscribe((documento) => {
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((documento) => {
             this.documento = documento;
         });
         this.currentComponenteDigital$.pipe(
@@ -82,10 +84,11 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
             componenteDigital => this.currentComponenteDigital = componenteDigital
         );
 
-        this.error$.subscribe((erro) => {
-            if (erro) {
-                this.erro = erro.error.message;
-            }
+        this.error$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(erro => !!erro)
+        ).subscribe((erro) => {
+            this.erro = erro.error.message;
         });
     }
 

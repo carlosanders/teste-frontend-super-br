@@ -6,13 +6,14 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Documento, Template} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'templates-list',
@@ -29,6 +30,7 @@ export class TemplatesListComponent implements OnInit, OnDestroy {
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -40,25 +42,28 @@ export class TemplatesListComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadTemplates());
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
-
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetTemplates({
@@ -93,7 +98,7 @@ export class TemplatesListComponent implements OnInit, OnDestroy {
     }
 
     edit(templateId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + templateId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + templateId]).then();
     }
 
     editConteudo(documento: Documento): void {
@@ -121,6 +126,6 @@ export class TemplatesListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 }

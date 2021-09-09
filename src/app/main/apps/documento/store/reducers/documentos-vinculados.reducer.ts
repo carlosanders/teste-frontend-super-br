@@ -40,7 +40,7 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoVinculadoId]
             };
         }
 
@@ -50,6 +50,13 @@ export function DocumentosVinculadosReducer(
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
                 documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO_FAILED: {
+            return {
+                ...state,
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
             };
         }
 
