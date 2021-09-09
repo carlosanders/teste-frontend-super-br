@@ -4,8 +4,7 @@ import {
     VinculacaoPessoaUsuarioListState
 } from './vinculacao-pessoa-usuario-list.reducer';
 
-export interface VinculacaoPessoaUsuarioListAppState
-{
+export interface VinculacaoPessoaUsuarioListAppState {
     vinculacaoPessoaUsuarioList: VinculacaoPessoaUsuarioListState;
 }
 

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -23,6 +23,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {ComponenteDigital, Documento, Usuario} from '@cdk/models';
 import {GetDocumento, SetCurrentStep} from '../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-componentes-digitais',
@@ -33,6 +34,12 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @ViewChild('ckdUploadComponenteDigital', {static: false})
+    cdkUploadComponenteDigital;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     documento$: Observable<Documento>;
 
@@ -53,12 +60,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
     paginationComponenteDigital$: Observable<any>;
     componenteDigitalIsSaving$: Observable<boolean>;
     componenteDigitalErrors$: Observable<any>;
-
-    @ViewChild('ckdUploadComponenteDigital', {static: false})
-    cdkUploadComponenteDigital;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -88,6 +90,13 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         this.componenteDigitalErrors$ = this._store.pipe(select(fromStore.getErrorsComponenteDigital));
 
         this._profile = _loginService.getUserProfile();
+
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -99,24 +108,22 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
      */
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
-
-        this.componenteDigital$.subscribe(
+        this.componenteDigital$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             (componenteDigital) => {
                 this.componenteDigital = componenteDigital;
             }
         );
 
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(documento => !!documento)
+        ).subscribe(documento => this.documento = documento);
 
-        this.paginationComponenteDigital$.subscribe((pagination) => {
+        this.paginationComponenteDigital$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reloadComponentesDigitais(this.pagination);
@@ -145,6 +152,8 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -174,7 +183,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteComponenteDigital(id, this.lote));
     }
@@ -204,8 +213,9 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
     }
 
     submitComponenteDigital(values): void {
-
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.PatchComponenteDigital({
+            operacaoId: operacaoId,
             componenteDigital: this.componenteDigital,
             changes: {
                 numeracaoSequencial: values.numeracaoSequencial, fileName: values.fileName,

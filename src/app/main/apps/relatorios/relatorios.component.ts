@@ -48,62 +48,40 @@ import {AddData} from '@cdk/ngrx-normalizr';
 })
 export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
+    @ViewChild('relatorioListElement', {read: ElementRef, static: true}) relatorioListElement: ElementRef;
     routerState: any;
-
     searchInput: FormControl;
-
     folders$: Observable<Folder[]>;
     currentRelatorioId: number;
-
     relatorios: Relatorio[] = [];
     relatorioListSize = 30;
     relatorioListOriginalSize: number;
-
     relatorios$: Observable<Relatorio[]>;
     loading$: Observable<boolean>;
     loading: boolean;
-
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
-
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
-
     selectedRelatorios$: Observable<Relatorio[]>;
     selectedRelatorios: Relatorio[] = [];
-
     loadedIdRelatorios$: Observable<number>;
     loadedIdRelatorios: number;
-
     screen$: Observable<any>;
-
     filter = {};
-
     etiquetas: Etiqueta[] = [];
-
     pagination$: Observable<any>;
     pagination: any;
-
     routerState$: Observable<any>;
-
     maximizado$: Observable<boolean>;
     maximizado = false;
-
     vinculacaoEtiquetaPagination: Pagination;
-
-    private _profile: Usuario;
-
     mobileMode = false;
-
     mostraCriar = false;
-
-    PesquisaRelatorio: string;
-
+    pesquisaRelatorio: string;
     lote: string;
-
-    @ViewChild('relatorioListElement', {read: ElementRef, static: true}) relatorioListElement: ElementRef;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     /**
      *
@@ -159,6 +137,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:RELATORIO'
                 }
@@ -177,15 +156,14 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.currentRelatorioId = parseInt(routerState.state.params['relatorioHandle'], 0);
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            // eslint-disable-next-line radix
+            this.currentRelatorioId = parseInt(routerState.state.params['relatorioHandle'], 0);
         });
 
         this._store.pipe(
@@ -222,10 +200,10 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.relatorios$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(relatorios => !!relatorios)
-        ).subscribe((relatorio) => {
+        ).subscribe((relatorios) => {
             // coloca todos que devem estar
             const mercureSubscribed = [];
-            relatorio.forEach((relatorio) => {
+            relatorios.forEach((relatorio) => {
                 if (mercureSubscribed.indexOf(relatorio['@id']) === -1) {
                     mercureSubscribed.push(relatorio['@id']);
                 }
@@ -239,7 +217,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             });
             this._mercureService.unsubscribe(mercureUnsubscribed);
             this._mercureService.subscribe(mercureSubscribed);
-            this.relatorios = relatorio;
+            this.relatorios = relatorios;
         });
 
         this.maximizado$.pipe(
@@ -280,7 +258,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.PesquisaRelatorio = 'relatorio';
+        this.pesquisaRelatorio = 'relatorio';
     }
 
     ngAfterViewInit(): void {
@@ -372,7 +350,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
     }
 
-    deleteBlocoRelatorio(ids: number[]) {
+    deleteBlocoRelatorio(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteRelatorio(id, this.lote));
     }
@@ -428,23 +406,26 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateRelatorio(params): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/']).then();
     }
 
     doEditRelatorio(relatorioId): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/relatorio/' + relatorioId + '/editar']).then();
     }
 
     doEtiquetarBloco(): void {
+        // eslint-disable-next-line max-len
         this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
-    criarRelatorio() {
+    criarRelatorio(): void {
         this._store.dispatch(new fromStore.CreateRelatorio());
         this.mostraCriar = true;
     }
 
-    retornar() {
+    retornar(): void {
         this.mostraCriar = false;
         this.currentRelatorioId = null;
     }

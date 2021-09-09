@@ -11,11 +11,12 @@ import {cdkAnimations} from '@cdk/animations';
 import {TipoValidacaoWorkflow, TransicaoWorkflow, ValidacaoTransicaoWorkflow} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../../store';
 import {getTipoValidacaoWorkflow} from '../store/selectors';
 import {getRouterState} from '../../../../../../../../../../../store';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tipo-validacao-workflow-form-atr-para',
@@ -36,6 +37,7 @@ export class TipoValidacaoWorkflowFormAtrParaComponent implements OnInit, OnDest
     routerState: any;
     tipoValidacaoWorkflow: TipoValidacaoWorkflow;
     tipoValidacaoWorkflow$: Observable<TipoValidacaoWorkflow>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _router
@@ -48,13 +50,12 @@ export class TipoValidacaoWorkflowFormAtrParaComponent implements OnInit, OnDest
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.tipoValidacaoWorkflow$ = this._store.pipe(select(getTipoValidacaoWorkflow));
     }
@@ -69,19 +70,21 @@ export class TipoValidacaoWorkflowFormAtrParaComponent implements OnInit, OnDest
      */
     ngOnInit(): void {
         this.tipoValidacaoWorkflow$.pipe(
+            takeUntil(this._unsubscribeAll),
             filter(tipo => !!tipo)
-        ).subscribe(
-            (tipoValidacaoWorkflow) => {
-                this.tipoValidacaoWorkflow = tipoValidacaoWorkflow;
-                this.startup.emit(this.tipoValidacaoWorkflow.valor);
-            }
-        );
+        ).subscribe((tipoValidacaoWorkflow) => {
+            this.tipoValidacaoWorkflow = tipoValidacaoWorkflow;
+            this.startup.emit(this.tipoValidacaoWorkflow.valor);
+        });
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -102,10 +105,14 @@ export class TipoValidacaoWorkflowFormAtrParaComponent implements OnInit, OnDest
         validacaoTransicaoWorkflow.transicaoWorkflow.id = this.routerState.params.transicaoWorkflowHandle;
         validacaoTransicaoWorkflow.tipoValidacaoWorkflow = this.tipoValidacaoWorkflow;
 
-        this._store.dispatch(new fromStore.SaveValidacao(validacaoTransicaoWorkflow));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveValidacao({
+            validacao: validacaoTransicaoWorkflow,
+            operacaoId: operacaoId
+        }));
     }
 
     doAbort(): void {
-        this._router.navigate([this.routerState.url.split('validacoes/editar')[0] + 'validacoes/listar']);
+        this._router.navigate([this.routerState.url.split('validacoes/editar')[0] + 'validacoes/listar']).then();
     }
 }

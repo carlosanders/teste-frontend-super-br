@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -10,9 +10,10 @@ import {Pagination} from '@cdk/models/pagination';
 import {Lotacao, Setor, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {Back} from '../../../../../store/actions';
-import {getRouterState} from '../../../../../store/reducers';
+import {Back} from '../../../../../store';
+import {getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'admin-lotacao-edit',
@@ -37,6 +38,7 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
     colaboradorPagination: Pagination;
     modulo: string;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -56,22 +58,19 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
         this.usuario = this._loginService.getUserProfile();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if(this.routerState.url.includes('unidades')) {
-                        this.modulo = 'unidades';
-                    }
-                    else if(this.routerState.url.includes('usuarios')) {
-                        this.modulo = 'usuarios';
-                    }
-                    else {
-                        this.modulo = 'lotacoes';
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.includes('unidades')) {
+                this.modulo = 'unidades';
+            } else if (this.routerState.url.includes('usuarios')) {
+                this.modulo = 'usuarios';
+            } else {
+                this.modulo = 'lotacoes';
+            }
+        });
 
         this.setorPagination = new Pagination();
         this.colaboradorPagination = new Pagination();
@@ -93,11 +92,15 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.lotacao$.subscribe(
+        this.lotacao$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             lotacao => this.lotacao = lotacao
         );
 
-        this.setor$.subscribe(
+        this.setor$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             setor => this.setor = setor
         );
 
@@ -107,13 +110,18 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
             this.lotacao.peso = 100;
         }
 
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Lotacao', id: + this.lotacao.id};
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\Lotacao',
+            id: +this.lotacao.id
+        };
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {RootLotacoesReducer, RootLotacoesState} from './lotacoes.reducer';
 
-export interface RootLotacoesAppState
-{
+export interface RootLotacoesAppState {
     lotacoes: RootLotacoesState;
 }
 

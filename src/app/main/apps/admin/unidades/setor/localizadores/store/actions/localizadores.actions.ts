@@ -7,36 +7,30 @@ export const GET_SETOR_FAILED = '[ADMIN LOCALIZADORES] GET SETOR FAILED';
 /**
  * Get Setor
  */
-export class GetSetor implements Action
-{
+export class GetSetor implements Action {
     readonly type = GET_SETOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Success
  */
-export class GetSetorSuccess implements Action
-{
+export class GetSetorSuccess implements Action {
     readonly type = GET_SETOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Failed
  */
-export class GetSetorFailed implements Action
-{
+export class GetSetorFailed implements Action {
     readonly type = GET_SETOR_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 

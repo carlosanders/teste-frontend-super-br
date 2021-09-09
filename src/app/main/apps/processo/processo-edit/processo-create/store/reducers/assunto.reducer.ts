@@ -114,7 +114,7 @@ export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActio
         case AssuntoActions.DELETE_ASSUNTO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.assuntoId]
             };
         }
 
@@ -129,7 +129,7 @@ export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActio
         case AssuntoActions.DELETE_ASSUNTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -1,17 +1,18 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Repositorio, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'repositorio-edit',
@@ -32,10 +33,12 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
 
     modalidadeRepositorioPagination: Pagination;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -51,13 +54,12 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
         this.modalidadeRepositorioPagination = new Pagination();
         this.logEntryPagination = new Pagination();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -68,22 +70,27 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.repositorio$.subscribe(
-            repositorio => this.repositorio = repositorio
-        );
+        this.repositorio$.pipe(
+            filter(repositorio => !!repositorio),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(repositorio => this.repositorio = repositorio);
 
         if (!this.repositorio) {
             this.repositorio = new Repositorio();
             this.repositorio.ativo = true;
         }
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Repositorio', id: + this.repositorio.id};
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\Repositorio',
+            id: +this.repositorio.id
+        };
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

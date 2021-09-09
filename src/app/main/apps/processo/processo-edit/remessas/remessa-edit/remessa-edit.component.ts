@@ -1,18 +1,19 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Pessoa, Processo, Tramitacao, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
+import {getProcesso} from '../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store/reducers';
-import {Back} from '../../../../../../store/actions';
+import {getRouterState} from '../../../../../../store';
+import {Back} from '../../../../../../store';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'remessa-edit',
@@ -39,6 +40,7 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
 
     setorOrigemPagination: Pagination;
     setorOrigemPaginationTree: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -62,6 +64,13 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
+
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -73,33 +82,28 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.processo$.subscribe(
-            processo => this.processo = processo
-        );
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processo => this.processo = processo);
 
-        this.tramitacao$.subscribe(
-            tramitacao => this.tramitacao = tramitacao
-        );
+        this.tramitacao$.pipe(
+            filter(tramitacao => !!tramitacao),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tramitacao => this.tramitacao = tramitacao);
 
         if (!this.tramitacao) {
             this.tramitacao = new Tramitacao();
             this.tramitacao.processo = this.processo;
             this.tramitacao.setorOrigem = this.processo.setorAtual;
         }
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }
 
@@ -107,7 +111,7 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    onActivate(componentReference): void  {
+    onActivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
                 this.pessoaDestino = pessoa;
@@ -116,7 +120,7 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }

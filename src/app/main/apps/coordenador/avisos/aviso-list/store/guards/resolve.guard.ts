@@ -23,13 +23,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<AvisoListAppState>,
         private _loginService: LoginService
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -42,7 +42,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getAviso().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -112,19 +115,19 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetAviso(params));
                 }
             }),
-           filter((loaded: any) => (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+            filter((loaded: any) => (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                    + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] ===
+                    loaded.value)
+                || (this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
-                        + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] ===
-                        loaded.value)
-                    || (this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
-                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
-                            + this.routerState.params['setorHandle'] === loaded.value))
-                    || (!this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
-                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
-                            + this.routerState.params['unidadeHandle'] === loaded.value))
-                    || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
-                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
-                            loaded.value)))),
+                        + this.routerState.params['setorHandle'] === loaded.value))
+                || (!this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                        + this.routerState.params['unidadeHandle'] === loaded.value))
+                || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                        loaded.value)))),
             take(1)
         );
     }

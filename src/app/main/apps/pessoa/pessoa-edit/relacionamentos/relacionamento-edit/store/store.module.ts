@@ -6,12 +6,11 @@ import {reducers} from 'app/main/apps/pessoa/pessoa-edit/relacionamentos/relacio
 import {effects} from 'app/main/apps/pessoa/pessoa-edit/relacionamentos/relacionamento-edit/store/effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('relacionamento-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class RelacionamentoEditStoreModule
-{
+export class RelacionamentoEditStoreModule {
 }

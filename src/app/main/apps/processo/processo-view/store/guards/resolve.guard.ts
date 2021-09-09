@@ -41,13 +41,13 @@ export class ResolveGuard implements CanActivate {
         private _router: Router,
         private _activatedRoute: ActivatedRoute
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._store
             .pipe(select(getIsLoading))
@@ -79,7 +79,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 

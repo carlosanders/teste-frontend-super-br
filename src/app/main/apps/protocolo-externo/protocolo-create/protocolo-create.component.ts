@@ -21,9 +21,9 @@ import {Assinatura, ComponenteDigital, Documento, Estado, Pagination, Pessoa, Pr
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
-import {getMercureState, getRouterState} from '../../../../store/reducers';
+import {getMercureState, getRouterState} from '../../../../store';
 import {FormBuilder} from '@angular/forms';
-import {getPessoa} from '../store/selectors';
+import {getPessoa} from '../store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../auth/login/login.service';
@@ -41,8 +41,11 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-    private _profile: Usuario;
+    @ViewChild('cdkUpload', {static: false})
+    cdkUpload;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -71,27 +74,23 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     selectedIndex: number;
 
-    @ViewChild('cdkUpload', {static: false})
-    cdkUpload;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     titulo: string;
     paramHandle: string;
 
     assinaturaInterval = null;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
-        /**
-         * @param _store
-         * @param _storeProtocolo
-         * @param dialog
-         * @param _router
-         * @param _formBuilder
-         * @param _changeDetectorRef
-         * @param _loginService
-         * @param _dynamicService
-         */
+    /**
+     * @param _store
+     * @param _storeProtocolo
+     * @param dialog
+     * @param _router
+     * @param _formBuilder
+     * @param _changeDetectorRef
+     * @param _loginService
+     * @param _dynamicService
+     */
     constructor(
         private _store: Store<fromStore.ProtocoloCreateAppState>,
         private _storeProtocolo: Store<fromStoreProtocolo.ProcessosState>,
@@ -129,22 +128,18 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
      * On init
      */
     ngOnInit(): void {
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -161,7 +156,11 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
                     case 'assinatura_finalizada':
                         this.javaWebStartOK = false;
                         this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
                         break;
                 }
             }
@@ -170,12 +169,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
-        ).subscribe(
-            (processo) => {
-                this.processo = processo;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((processo) => {
+            this.processo = processo;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.pessoaProcedencia$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -187,12 +184,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(documentos => !!documentos)
-        ).subscribe(
-            (documentos) => {
-                this.documentos = documentos;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((documentos) => {
+            this.documentos = documentos;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.assinandoDocumentosId$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -215,7 +210,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
-        if  (!this.processo) {
+        if (!this.processo) {
             this.processo = new Processo();
             this.processo.unidadeArquivistica = 2;
             this.processo.tipoProtocolo = 1;
@@ -236,7 +231,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -259,7 +257,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const processo = new Processo();
 
         delete values.estado;
@@ -303,7 +300,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         const chaveAcesso = this.routerState.params.chaveAcessoHandle ? '/' + this.routerState.params.chaveAcessoHandle : '';
         this._router.navigate([
             this.routerState.url.split('/criar/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
-        ]);
+        ]).then();
     }
 
     getEstados(): void {

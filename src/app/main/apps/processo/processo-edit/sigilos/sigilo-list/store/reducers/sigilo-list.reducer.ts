@@ -93,7 +93,7 @@ export function SigiloListReducer(
         case SigiloListActions.DELETE_SIGILO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.sigiloId]
             };
         }
 

@@ -1,15 +1,16 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {DocumentoIdentificador, Pagination, Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getPessoa} from '../../dados-pessoa-edit/store';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-identificador-edit',
@@ -30,6 +31,7 @@ export class DocumentoIdentificadorEditComponent implements OnInit, OnDestroy {
     pessoa: Pessoa;
 
     documentoIdentificadorPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -43,7 +45,6 @@ export class DocumentoIdentificadorEditComponent implements OnInit, OnDestroy {
         this.pessoa$ = this._store.pipe(select(getPessoa));
 
         this.documentoIdentificadorPagination = new Pagination();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,13 +55,15 @@ export class DocumentoIdentificadorEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.pessoa$.subscribe(
-            pessoa => this.pessoa = pessoa
-        );
+        this.pessoa$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(pessoa => !!pessoa)
+        ).subscribe(pessoa => this.pessoa = pessoa);
 
-        this.documentoIdentificador$.subscribe(
-            documentoIdentificador => this.documentoIdentificador = documentoIdentificador
-        );
+        this.documentoIdentificador$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(documentoIdentificador => !!documentoIdentificador)
+        ).subscribe(documentoIdentificador => this.documentoIdentificador = documentoIdentificador);
 
         if (!this.documentoIdentificador) {
             this.documentoIdentificador = new DocumentoIdentificador();
@@ -72,6 +75,9 @@ export class DocumentoIdentificadorEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

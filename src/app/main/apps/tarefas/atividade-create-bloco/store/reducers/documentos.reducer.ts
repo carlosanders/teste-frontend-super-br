@@ -125,6 +125,27 @@ export function AtividadeBlocoCreateDocumentosReducer(
             };
         }
 
+        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId)
+            };
+        }
+
         case AtividadeBlocoCreateDocumentosActionsAll.CHANGE_SELECTED_DOCUMENTOS_BLOCO: {
             return {
                 ...state,

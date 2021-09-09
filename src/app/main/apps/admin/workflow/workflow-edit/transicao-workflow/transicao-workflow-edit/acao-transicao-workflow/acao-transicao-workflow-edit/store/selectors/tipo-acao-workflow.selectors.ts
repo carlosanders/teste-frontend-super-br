@@ -29,6 +29,6 @@ export const getTipoAcaoWorkflowListLoaded = createSelector(
 );
 
 export const getIsLoading = createSelector(
-  getTipoAcaoWorkflowListState,
+    getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowState) => state.loading
 );

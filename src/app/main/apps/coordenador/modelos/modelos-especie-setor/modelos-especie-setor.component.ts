@@ -13,7 +13,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Modelo} from '@cdk/models';
 
 @Component({
@@ -26,12 +26,10 @@ import {Modelo} from '@cdk/models';
 })
 export class ModelosEspecieSetorComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     modelo$: Observable<Modelo>;
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -43,31 +41,30 @@ export class ModelosEspecieSetorComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.ModelosEspecieSetorState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {}
+    ) {
+    }
 
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('especie-setor/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('especie-setor/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('especie-setor/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('especie-setor/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('especie-setor/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('especie-setor/editar/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
 
         this.modelo$ = this._store.pipe(select(fromStore.getModelo));

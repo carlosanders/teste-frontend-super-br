@@ -7,36 +7,30 @@ export const GET_UNIDADE_FAILED = '[ADMIN SETOR] GET UNIDADE FAILED';
 /**
  * Get Setor
  */
-export class GetUnidade implements Action
-{
+export class GetUnidade implements Action {
     readonly type = GET_UNIDADE;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Success
  */
-export class GetUnidadeSuccess implements Action
-{
+export class GetUnidadeSuccess implements Action {
     readonly type = GET_UNIDADE_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Failed
  */
-export class GetUnidadeFailed implements Action
-{
+export class GetUnidadeFailed implements Action {
     readonly type = GET_UNIDADE_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 

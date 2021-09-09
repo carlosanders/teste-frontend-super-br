@@ -14,7 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/oficios/store';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
@@ -28,16 +28,12 @@ import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sideb
 })
 export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     links: any;
-
     mode = 'entrada';
-
     routerState: any;
-
     @Input()
     pessoasConveniadas: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -63,18 +59,16 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (routerState.state.params['targetHandle'] === 'entrada') {
-                    this.mode = 'entrada';
-                } else {
-                    this.mode = 'saida';
-                }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (routerState.state.params['targetHandle'] === 'entrada') {
+                this.mode = 'entrada';
+            } else {
+                this.mode = 'saida';
             }
         });
     }
@@ -97,7 +91,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     fecharSidebar() {
-        if(!this._cdkSidebarService.getSidebar('documento-avulso-main-sidebar').isLockedOpen) {
+        if (!this._cdkSidebarService.getSidebar('documento-avulso-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('documento-avulso-main-sidebar').close();
         }
     }

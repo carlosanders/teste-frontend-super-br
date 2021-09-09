@@ -40,7 +40,7 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoVinculadoId]
             };
         }
 
@@ -56,7 +56,7 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.id]
             };
         }
 

@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {AdminPessoaListReducer, PessoaListState} from './admin-pessoa-list.reducer';
 
-export interface PessoaListAppState
-{
+export interface PessoaListAppState {
     pessoaList: PessoaListState;
 }
 

@@ -21,7 +21,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
 import {getRouterState} from '../../../../../store';
 
@@ -34,8 +34,8 @@ import {getRouterState} from '../../../../../store';
 })
 export class RelatorioViewComponent implements OnInit, OnDestroy {
 
-    @Output()
-    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
@@ -85,61 +85,57 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
             this.relatorio = relatorio;
         });
 
-        this.binary$.subscribe(
-            (binary) => {
-                if (binary.src && binary.src.conteudo) {
-                    const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
-                    const byteNumbers = new Array(byteCharacters.length);
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
-                    const byteArray = new Uint8Array(byteNumbers);
-                    const blob = new Blob([byteArray], {type: binary.src.mimetype});
-                    const URL = window.URL;
-                    if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
-                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                    } else {
-                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                        const downloadLink = document.createElement('a');
-                        const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
-                        downloadLink.target = '_blank';
-                        downloadLink.href = sanitizedUrl;
-                        downloadLink.download = binary.src.fileName;
-                        document.body.appendChild(downloadLink);
-                        downloadLink.click();
-                        document.body.removeChild(downloadLink);
-                        setTimeout(() => {
-                            // For Firefox it is necessary to delay revoking the ObjectURL
-                            window.URL.revokeObjectURL(sanitizedUrl);
-                        }, 100);
-                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
-                    }
-
-                    this.fileName = binary.src.fileName;
-                    this.select.emit(binary.src);
-                } else {
-                    this.fileName = '';
-                    this.src = false;
+        this.binary$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((binary) => {
+            if (binary.src && binary.src.conteudo) {
+                const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
                 }
-                this.loading = binary.loading;
-                this._changeDetectorRef.markForCheck();
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], {type: binary.src.mimetype});
+                const URL = window.URL;
+                if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
+                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                } else {
+                    const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    const downloadLink = document.createElement('a');
+                    const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
+                    downloadLink.target = '_blank';
+                    downloadLink.href = sanitizedUrl;
+                    downloadLink.download = binary.src.fileName;
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                    setTimeout(() => {
+                        // For Firefox it is necessary to delay revoking the ObjectURL
+                        window.URL.revokeObjectURL(sanitizedUrl);
+                    }, 100);
+                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                }
+
+                this.fileName = binary.src.fileName;
+                this.select.emit(binary.src);
+            } else {
+                this.fileName = '';
+                this.src = false;
             }
-        );
+            this.loading = binary.loading;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
-
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
-
     }
 
     ngOnDestroy(): void {

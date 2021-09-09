@@ -18,132 +18,110 @@ export const GET_AVISO_FAILED = '[ADMIN AVISO EDIT] GET AVISO FAILED';
 /**
  * Get Aviso
  */
-export class GetAviso implements Action
-{
+export class GetAviso implements Action {
     readonly type = GET_AVISO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Aviso Success
  */
-export class GetAvisoSuccess implements Action
-{
+export class GetAvisoSuccess implements Action {
     readonly type = GET_AVISO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Aviso Failed
  */
-export class GetAvisoFailed implements Action
-{
+export class GetAvisoFailed implements Action {
     readonly type = GET_AVISO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Aviso
  */
-export class SaveAviso implements Action
-{
+export class SaveAviso implements Action {
     readonly type = SAVE_AVISO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Aviso
  */
-export class UpdateAviso implements Action
-{
+export class UpdateAviso implements Action {
     readonly type = UPDATE_AVISO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Aviso Success
  */
-export class SaveAvisoSuccess implements Action
-{
+export class SaveAvisoSuccess implements Action {
     readonly type = SAVE_AVISO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Aviso Failed
  */
-export class SaveAvisoFailed implements Action
-{
+export class SaveAvisoFailed implements Action {
     readonly type = SAVE_AVISO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Aviso Success
  */
-export class UpdateAvisoSuccess implements Action
-{
+export class UpdateAvisoSuccess implements Action {
     readonly type = UPDATE_AVISO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Aviso Failed
  */
-export class UpdateAvisoFailed implements Action
-{
+export class UpdateAvisoFailed implements Action {
     readonly type = UPDATE_AVISO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Aviso
  */
-export class CreateAviso implements Action
-{
+export class CreateAviso implements Action {
     readonly type = CREATE_AVISO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Aviso Success
  */
-export class CreateAvisoSuccess implements Action
-{
+export class CreateAvisoSuccess implements Action {
     readonly type = CREATE_AVISO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

@@ -34,8 +34,6 @@ import {expandirTela} from './store/selectors/processo.selectors';
 })
 export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
 
@@ -58,9 +56,10 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: Usuario;
-
     mobileMode = false;
+
+    private _profile: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -93,11 +92,10 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
 
         this.processo$.pipe(
@@ -109,15 +107,11 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            documentos => this.documentos = documentos
-        );
+        ).subscribe(documentos => this.documentos = documentos);
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            maximizado => this.maximizado = maximizado
-        );
+        ).subscribe(maximizado => this.maximizado = maximizado);
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -127,17 +121,14 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
         this.expandir$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (expandir) => {
-                this.doToggleMaximizado(expandir);
-            }
-        );
+        ).subscribe((expandir) => {
+            this.doToggleMaximizado(expandir);
+        });
 
         this.doToggleMaximizado(false);
     }
 
     ngOnDestroy(): void {
-
         // Unsubscribe from all subscriptions
         this.doToggleMaximizado(false);
         this._unsubscribeAll.next();

@@ -114,7 +114,7 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
         case InteressadoActions.DELETE_INTERESSADO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.interessadoId]
             };
         }
 
@@ -129,7 +129,7 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
         case InteressadoActions.DELETE_INTERESSADO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

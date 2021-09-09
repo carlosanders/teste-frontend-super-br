@@ -16,7 +16,7 @@ import * as fromStore from 'app/store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'coordenador-unidades-orgao-central',
@@ -28,10 +28,9 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class UnidadesComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -52,30 +51,28 @@ export class UnidadesComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('unidades/default/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('modelos') > -1) {
-                    this.action = 'modelos';
-                }
-                if (this.routerState.url.indexOf('repositorios') > -1) {
-                    this.action = 'repositorios';
-                }
-                if (this.routerState.url.indexOf('unidades/' + this.routerState.params.unidadeHandle + '/usuarios') > -1) {
-                    this.action = 'usuarios';
-                }
-                if (this.routerState.url.indexOf('unidades/' + this.routerState.params.unidadeHandle + '/setores') > -1) {
-                    this.action = 'setores';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('unidades/default/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('modelos') > -1) {
+                this.action = 'modelos';
+            }
+            if (this.routerState.url.indexOf('repositorios') > -1) {
+                this.action = 'repositorios';
+            }
+            if (this.routerState.url.indexOf('unidades/' + this.routerState.params.unidadeHandle + '/usuarios') > -1) {
+                this.action = 'usuarios';
+            }
+            if (this.routerState.url.indexOf('unidades/' + this.routerState.params.unidadeHandle + '/setores') > -1) {
+                this.action = 'setores';
+            }
+            this._changeDetectorRef.markForCheck();
         });
     }
 
@@ -87,12 +84,12 @@ export class UnidadesComponent implements OnInit, OnDestroy {
 
     showSidebar(): boolean {
         return (!this.routerState.params.setorHandle || this.routerState.params.setorHandle === 'default' ||
-            (this.routerState.params.setorHandle &&
-                (this.routerState.url.indexOf('modelos') === -1 && this.routerState.url.indexOf('repositorios') === -1 &&
-                    this.routerState.url.indexOf('etiquetas') === -1 && this.routerState.url.indexOf('usuarios') === -1 &&
-                    this.routerState.url.indexOf('numeros-unicos-documentos') === -1) &&
-                (this.routerState.url.indexOf('editar') > -1 || this.routerState.url.indexOf('lotacoes') > -1 ||
-                    this.routerState.url.indexOf('localizadores') > -1)))
+                (this.routerState.params.setorHandle &&
+                    (this.routerState.url.indexOf('modelos') === -1 && this.routerState.url.indexOf('repositorios') === -1 &&
+                        this.routerState.url.indexOf('etiquetas') === -1 && this.routerState.url.indexOf('usuarios') === -1 &&
+                        this.routerState.url.indexOf('numeros-unicos-documentos') === -1) &&
+                    (this.routerState.url.indexOf('editar') > -1 || this.routerState.url.indexOf('lotacoes') > -1 ||
+                        this.routerState.url.indexOf('localizadores') > -1)))
             && (this.routerState.params.unidadeHandle && this.routerState.params.unidadeHandle !== 'default' && this.routerState.params.unidadeHandle !== 'criar');
     }
 

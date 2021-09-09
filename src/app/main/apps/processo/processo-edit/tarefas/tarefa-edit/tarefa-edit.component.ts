@@ -1,17 +1,18 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Processo, Tarefa, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
+import {getProcesso} from '../../../store';
 import * as moment from 'moment';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {Back} from '../../../../../../store/actions';
-import {filter} from 'rxjs/operators';
+import {Back} from '../../../../../../store';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'tarefa-edit',
@@ -37,6 +38,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     setorOrigemPagination: Pagination;
 
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * @param _store
@@ -68,26 +70,28 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            processo => this.processo = processo
-        );
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processo => this.processo = processo);
 
         this.tarefa$.pipe(
-            filter(tarefa => !!tarefa)
-        ).subscribe(
-            (tarefa) => {
-                this.tarefa = tarefa;
-                this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
-                this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
-            }
-        );
+            filter(tarefa => !!tarefa),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((tarefa) => {
+            this.tarefa = tarefa;
+            this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
+            this.logEntryPagination.filter = {
+                entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa',
+                id: +this.tarefa.id
+            };
+        });
 
         if (!this.tarefa) {
             this.tarefa = new Tarefa();
             this.tarefa.processo = this.processo;
             this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
             this.tarefa.dataHoraInicioPrazo = moment();
-            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
+            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
             this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
         }
     }
@@ -96,6 +100,8 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }
 
@@ -113,8 +119,8 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveTarefa(tarefa));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: operacaoId}));
     }
 
     doAbort(): void {

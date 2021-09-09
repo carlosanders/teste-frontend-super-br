@@ -22,168 +22,140 @@ export const SAVE_COLABORADOR_FAILED = '[ADMIN ESPECIE_PROCESSO EDIT] SAVE COLAB
 /**
  * Get EspecieProcesso
  */
-export class GetEspecieProcesso implements Action
-{
+export class GetEspecieProcesso implements Action {
     readonly type = GET_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieProcesso Success
  */
-export class GetEspecieProcessoSuccess implements Action
-{
+export class GetEspecieProcessoSuccess implements Action {
     readonly type = GET_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieProcesso Failed
  */
-export class GetEspecieProcessoFailed implements Action
-{
+export class GetEspecieProcessoFailed implements Action {
     readonly type = GET_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save EspecieProcesso
  */
-export class SaveEspecieProcesso implements Action
-{
+export class SaveEspecieProcesso implements Action {
     readonly type = SAVE_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieProcesso
  */
-export class UpdateEspecieProcesso implements Action
-{
+export class UpdateEspecieProcesso implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save EspecieProcesso Success
  */
-export class SaveEspecieProcessoSuccess implements Action
-{
+export class SaveEspecieProcessoSuccess implements Action {
     readonly type = SAVE_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save EspecieProcesso Failed
  */
-export class SaveEspecieProcessoFailed implements Action
-{
+export class SaveEspecieProcessoFailed implements Action {
     readonly type = SAVE_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieProcesso Success
  */
-export class UpdateEspecieProcessoSuccess implements Action
-{
+export class UpdateEspecieProcessoSuccess implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieProcesso Failed
  */
-export class UpdateEspecieProcessoFailed implements Action
-{
+export class UpdateEspecieProcessoFailed implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create EspecieProcesso
  */
-export class CreateEspecieProcesso implements Action
-{
+export class CreateEspecieProcesso implements Action {
     readonly type = CREATE_ESPECIE_PROCESSO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create EspecieProcesso Success
  */
-export class CreateEspecieProcessoSuccess implements Action
-{
+export class CreateEspecieProcessoSuccess implements Action {
     readonly type = CREATE_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Colaborador
  */
-export class SaveColaborador implements Action
-{
+export class SaveColaborador implements Action {
     readonly type = SAVE_COLABORADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Colaborador Success
  */
-export class SaveColaboradorSuccess implements Action
-{
+export class SaveColaboradorSuccess implements Action {
     readonly type = SAVE_COLABORADOR_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Colaborador Failed
  */
-export class SaveColaboradorFailed implements Action
-{
+export class SaveColaboradorFailed implements Action {
     readonly type = SAVE_COLABORADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

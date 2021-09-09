@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Visibilidade} from '@cdk/models';
@@ -8,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'visibilidade-list',
@@ -43,13 +51,12 @@ export class VisibilidadeListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
@@ -63,7 +70,6 @@ export class VisibilidadeListComponent implements OnInit {
     excluded(params): void {
         this._store.dispatch(new fromStore.GetVisibilidades({
             filter: {
-
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -83,7 +89,7 @@ export class VisibilidadeListComponent implements OnInit {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

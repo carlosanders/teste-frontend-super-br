@@ -121,9 +121,9 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
         this.initConfigTable();
         this.dataSource = new LembreteDataSource(of(this.lembretes));
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));

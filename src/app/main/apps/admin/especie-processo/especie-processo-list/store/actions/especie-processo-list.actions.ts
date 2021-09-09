@@ -15,96 +15,80 @@ export const DELETE_ESPECIE_PROCESSO_FAILED = '[SUPERADMIN ESPECIE PROCESSO LIST
 /**
  * Get EspecieProcesso
  */
-export class GetEspecieProcesso implements Action
-{
+export class GetEspecieProcesso implements Action {
     readonly type = GET_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieProcesso Success
  */
-export class GetEspecieProcessoSuccess implements Action
-{
+export class GetEspecieProcessoSuccess implements Action {
     readonly type = GET_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieProcesso Failed
  */
-export class GetEspecieProcessoFailed implements Action
-{
+export class GetEspecieProcessoFailed implements Action {
     readonly type = GET_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Unload EspecieProcesso
  */
- export class UnloadEspecieProcesso implements Action
- {
-     readonly type = UNLOAD_ESPECIE_PROCESSO;
+export class UnloadEspecieProcesso implements Action {
+    readonly type = UNLOAD_ESPECIE_PROCESSO;
 
-     constructor()
-     {
-     }
- }
+    constructor() {
+    }
+}
 
 /**
  * Reload EspecieProcesso
  */
-export class ReloadEspecieProcesso implements Action
-{
+export class ReloadEspecieProcesso implements Action {
     readonly type = RELOAD_ESPECIE_PROCESSO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete EspecieProcesso
  */
-export class DeleteEspecieProcesso implements Action
-{
+export class DeleteEspecieProcesso implements Action {
     readonly type = DELETE_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete EspecieProcesso Success
  */
-export class DeleteEspecieProcessoSuccess implements Action
-{
+export class DeleteEspecieProcessoSuccess implements Action {
     readonly type = DELETE_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete EspecieProcesso Failed
  */
-export class DeleteEspecieProcessoFailed implements Action
-{
+export class DeleteEspecieProcessoFailed implements Action {
     readonly type = DELETE_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

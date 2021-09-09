@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'unidades-list',
@@ -51,13 +52,12 @@ export class UnidadesListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
@@ -90,18 +90,18 @@ export class UnidadesListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(unidadeId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + unidadeId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + unidadeId]).then();
     }
 
     setores(unidadeId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${unidadeId}/setores`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `${unidadeId}/setores`)]).then();
     }
 
     competencias(unidadeId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${unidadeId}/competencias`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `${unidadeId}/competencias`)]).then();
     }
 }

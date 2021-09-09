@@ -601,16 +601,22 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             if (this.mode === 'Tarefas') {
                 if (this.routerState.params['targetHandle'] !== 'lixeira') {
                     if (this.selectedTarefas.length > 1) {
+                        const loteId = CdkUtils.makeId();
                         this.selectedTarefas.forEach((tarefa) => {
+                            const operacaoId = CdkUtils.makeId();
                             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
                                 tarefa: tarefa,
-                                folder: $event[1]
+                                folder: $event[1],
+                                operacaoId: operacaoId,
+                                loteId: loteId
                             }));
                         });
                     } else {
+                        const operacaoId = CdkUtils.makeId();
                         this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
                             tarefa: $event[0].data,
-                            folder: $event[1]
+                            folder: $event[1],
+                            operacaoId: operacaoId
                         }));
                     }
                 } else {
@@ -719,8 +725,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }));
     }
 
-
-    preencherContador() {
+    preencherContador(): void {
         this.tarefasPendentes = [];
         if (this.generoHandle && this.counterState) {
             if (this.folders) {
@@ -851,6 +856,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             return true;
         }
         const tarefa = event.data;
+        // eslint-disable-next-line eqeqeq
         return !(tarefa.setorResponsavel.id == setor.id && tarefa.distribuicaoAutomatica);
     }
 
@@ -868,6 +874,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             return usuario.isDisponivel;
         }
         const dataTarefa = JSON.parse(event.dataTransfer.types[0]);
+        // eslint-disable-next-line eqeqeq
         return usuario.isDisponivel && dataTarefa.usuario != usuario.id;
     }
 
@@ -888,7 +895,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         return usuario.isDisponivel && tarefa.usuarioResponsavel.id !== usuario.id;
     }
 
-    fecharSidebar() {
+    fecharSidebar(): void {
         if (!this._cdkSidebarService.getSidebar('tarefas-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('tarefas-main-sidebar').close();
         }

@@ -18,7 +18,6 @@ import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {Router} from '@angular/router';
-import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'processo-capa',
@@ -29,8 +28,6 @@ import {CdkUtils} from '../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class ProcessoCapaComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
@@ -69,6 +66,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
     chaveAcesso: string;
     estaNumProcessoWorkflow: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     /**
      *
      * @param _changeDetectorRef
@@ -100,14 +99,12 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.processo$.pipe(
@@ -118,7 +115,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
             if (this.processo && this.processo.especieProcesso?.workflow) {
                 this.estaNumProcessoWorkflow = 'SIM';
-            }else{
+            } else {
                 this.estaNumProcessoWorkflow = 'NÃO';
             }
 
@@ -129,33 +126,39 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(assuntos => !!assuntos)
-        ).subscribe( (assuntos) => {
+        ).subscribe((assuntos) => {
             this.assuntos = assuntos;
         });
 
         this.interessados$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(interessados => !!interessados)
-        ).subscribe( (interessados) => {
+        ).subscribe((interessados) => {
             this.interessados = interessados;
         });
 
         this.vinculacoesProcessos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(vinculacoesProcessos => !!vinculacoesProcessos)
-        ).subscribe( (vinculacoesProcessos) => {
+        ).subscribe((vinculacoesProcessos) => {
             this.vinculacoesProcessos = vinculacoesProcessos;
         });
 
-        this.paginationAssuntos$.subscribe((pagination) => {
+        this.paginationAssuntos$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
             this.paginationAssuntos = pagination;
         });
 
-        this.paginationInteressados$.subscribe((pagination) => {
+        this.paginationInteressados$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
             this.paginationInteressados = pagination;
         });
 
-        this.paginationVinculacoesProcessos$.subscribe((pagination) => {
+        this.paginationVinculacoesProcessos$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
             this.paginationVinculacoesProcessos = pagination;
         });
     }
@@ -170,7 +173,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
 
     reloadAssuntos(params): void {
         this._store.dispatch(new fromStore.UnloadAssuntos({reset: false}));
@@ -224,25 +226,9 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         }));
     }
 
-    view(emissao: {id: number; chaveAcesso?: string}): void {
+    view(emissao: { id: number; chaveAcesso?: string }): void {
         const chaveAcesso = emissao.chaveAcesso ? '/chave/' + emissao.chaveAcesso : '';
-        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']);
-    }
-
-    acompanharProcesso(checked, processo): void {
-        if (checked) {
-            const operacaoId = CdkUtils.makeId();
-            this._store.dispatch(new fromStore.SaveAcompanhamento({
-                processo: processo,
-                operacaoId: operacaoId
-            }));
-        } else {
-            const payload = {
-                'acompanhamentoId': processo.compartilhamentoUsuario.id,
-                'processoId': processo.id
-            };
-            this._store.dispatch(new fromStore.DeleteAcompanhamento(payload));
-        }
+        this._router.navigate(['apps/processo/' + emissao.id + chaveAcesso + '/visualizar']).then();
     }
 }
 

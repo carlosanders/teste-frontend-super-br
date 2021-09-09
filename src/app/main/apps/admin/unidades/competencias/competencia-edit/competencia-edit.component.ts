@@ -10,10 +10,10 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getRouterState} from '../../../../../../store/reducers';
-import {Back} from '../../../../../../store/actions';
+import {getRouterState} from '../../../../../../store';
+import {Back} from '../../../../../../store';
 import {Setor} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
@@ -26,8 +26,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 })
 export class CompetenciaEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     routerState: any;
     vinculacaoSetorMunicipio$: Observable<VinculacaoSetorMunicipio>;
     vinculacaoSetorMunicipio: VinculacaoSetorMunicipio;
@@ -37,7 +35,7 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     usuario: Usuario;
     municipioPagination: Pagination;
-
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -54,13 +52,12 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.municipioPagination = new Pagination();
         this.municipioPagination.populate = ['populateAll'];
@@ -77,19 +74,14 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
 
         this.vinculacaoSetorMunicipio$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            vinculacaoSetorMunicipio => this.vinculacaoSetorMunicipio = vinculacaoSetorMunicipio
-        );
+        ).subscribe(vinculacaoSetorMunicipio => this.vinculacaoSetorMunicipio = vinculacaoSetorMunicipio);
 
         this.unidade$.pipe(
+            filter(setor => !!setor),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (setor) => {
-                if (setor) {
-                    this.unidade = setor;
-                }
-            }
-        );
+        ).subscribe((setor) => {
+            this.unidade = setor;
+        });
 
         if (!this.vinculacaoSetorMunicipio) {
             this.vinculacaoSetorMunicipio = new VinculacaoSetorMunicipio();

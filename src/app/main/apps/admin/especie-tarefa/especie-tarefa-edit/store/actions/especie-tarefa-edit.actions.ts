@@ -22,168 +22,140 @@ export const SAVE_COLABORADOR_FAILED = '[ADMIN ESPECIE_TAREFA EDIT] SAVE COLABOR
 /**
  * Get EspecieTarefa
  */
-export class GetEspecieTarefa implements Action
-{
+export class GetEspecieTarefa implements Action {
     readonly type = GET_ESPECIE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieTarefa Success
  */
-export class GetEspecieTarefaSuccess implements Action
-{
+export class GetEspecieTarefaSuccess implements Action {
     readonly type = GET_ESPECIE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieTarefa Failed
  */
-export class GetEspecieTarefaFailed implements Action
-{
+export class GetEspecieTarefaFailed implements Action {
     readonly type = GET_ESPECIE_TAREFA_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save EspecieTarefa
  */
-export class SaveEspecieTarefa implements Action
-{
+export class SaveEspecieTarefa implements Action {
     readonly type = SAVE_ESPECIE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieTarefa
  */
-export class UpdateEspecieTarefa implements Action
-{
+export class UpdateEspecieTarefa implements Action {
     readonly type = UPDATE_ESPECIE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save EspecieTarefa Success
  */
-export class SaveEspecieTarefaSuccess implements Action
-{
+export class SaveEspecieTarefaSuccess implements Action {
     readonly type = SAVE_ESPECIE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save EspecieTarefa Failed
  */
-export class SaveEspecieTarefaFailed implements Action
-{
+export class SaveEspecieTarefaFailed implements Action {
     readonly type = SAVE_ESPECIE_TAREFA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieTarefa Success
  */
-export class UpdateEspecieTarefaSuccess implements Action
-{
+export class UpdateEspecieTarefaSuccess implements Action {
     readonly type = UPDATE_ESPECIE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieTarefa Failed
  */
-export class UpdateEspecieTarefaFailed implements Action
-{
+export class UpdateEspecieTarefaFailed implements Action {
     readonly type = UPDATE_ESPECIE_TAREFA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create EspecieTarefa
  */
-export class CreateEspecieTarefa implements Action
-{
+export class CreateEspecieTarefa implements Action {
     readonly type = CREATE_ESPECIE_TAREFA;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create EspecieTarefa Success
  */
-export class CreateEspecieTarefaSuccess implements Action
-{
+export class CreateEspecieTarefaSuccess implements Action {
     readonly type = CREATE_ESPECIE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Colaborador
  */
-export class SaveColaborador implements Action
-{
+export class SaveColaborador implements Action {
     readonly type = SAVE_COLABORADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Colaborador Success
  */
-export class SaveColaboradorSuccess implements Action
-{
+export class SaveColaboradorSuccess implements Action {
     readonly type = SAVE_COLABORADOR_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Colaborador Failed
  */
-export class SaveColaboradorFailed implements Action
-{
+export class SaveColaboradorFailed implements Action {
     readonly type = SAVE_COLABORADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

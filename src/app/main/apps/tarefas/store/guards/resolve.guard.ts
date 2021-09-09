@@ -33,13 +33,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<TarefasAppState>,
         public _loginService: LoginService,
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._store
             .pipe(select(getIsLoading))
@@ -247,10 +247,10 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
-                    this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
-                        this.routerState.params['targetHandle']) ===
-                    loaded.value)),
+                this.routerState.params['targetHandle'] &&
+                (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
+                    this.routerState.params['targetHandle']) ===
+                loaded.value)),
             take(1)
         );
     }

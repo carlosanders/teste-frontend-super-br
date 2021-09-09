@@ -16,10 +16,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ComponenteDigital, DocumentoAvulso} from '@cdk/models';
-import {getSelectedDocumentosAvulso} from '../store/selectors';
+import {getSelectedDocumentosAvulso} from '../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'responder-complementar-create-bloco',
@@ -31,21 +31,15 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
-    documentosAvulso$: Observable<DocumentoAvulso[]>;
-
-    documentosAvulsoBloco: any[] = [];
-    documentoAvulsoPrincipal: number;
-
-    operacoes: any[] = [];
-
-    private _profile: any;
-
-    routerState: any;
-
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
+    documentosAvulso$: Observable<DocumentoAvulso[]>;
+    documentosAvulsoBloco: any[] = [];
+    documentoAvulsoPrincipal: number;
+    operacoes: any[] = [];
+    routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: any;
 
     /**
      *
@@ -71,22 +65,19 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
     ngOnInit(): void {
         this.documentosAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (documentosAvulso) => {
-                this.documentoAvulsoPrincipal = documentosAvulso[0] ? documentosAvulso[0].id : null;
-                this.documentosAvulsoBloco  = documentosAvulso.filter(documentoAvulso => documentosAvulso[0].id !== documentoAvulso.id);
-                this._changeDetectorRef.markForCheck();
-            });
+        ).subscribe((documentosAvulso) => {
+            this.documentoAvulsoPrincipal = documentosAvulso[0] ? documentosAvulso[0].id : null;
+            this.documentosAvulsoBloco = documentosAvulso.filter(documentoAvulso => documentosAvulso[0].id !== documentoAvulso.id);
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
     }
 

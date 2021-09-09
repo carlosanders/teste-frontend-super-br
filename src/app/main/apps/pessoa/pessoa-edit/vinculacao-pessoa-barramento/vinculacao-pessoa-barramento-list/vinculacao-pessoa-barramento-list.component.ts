@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {VinculacaoPessoaBarramento} from "@cdk/models/vinculacao-pessoa-barramento";
+import {VinculacaoPessoaBarramento} from '@cdk/models/vinculacao-pessoa-barramento';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'vinculacao-pessoa-barramento-list',
@@ -23,7 +24,7 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class VinculacaoPessoaBarramentoListComponent implements OnInit {
+export class VinculacaoPessoaBarramentoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     vinculacaoPessoaBarramentos$: Observable<VinculacaoPessoaBarramento[]>;
@@ -33,6 +34,7 @@ export class VinculacaoPessoaBarramentoListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -50,20 +52,33 @@ export class VinculacaoPessoaBarramentoListComponent implements OnInit {
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetVinculacaoPessoaBarramentos({
@@ -82,11 +97,11 @@ export class VinculacaoPessoaBarramentoListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('vinculacao-pessoa-barramento/listar', 'vinculacao-pessoa-barramento/editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('vinculacao-pessoa-barramento/listar', 'vinculacao-pessoa-barramento/editar/criar')]).then();
     }
 
     edit(vinculacaoPessoaBarramentoId: number): void {
-        this._router.navigate([this.routerState.url.replace('vinculacao-pessoa-barramento/listar', 'vinculacao-pessoa-barramento/editar/') + vinculacaoPessoaBarramentoId]);
+        this._router.navigate([this.routerState.url.replace('vinculacao-pessoa-barramento/listar', 'vinculacao-pessoa-barramento/editar/') + vinculacaoPessoaBarramentoId]).then();
     }
 
     delete(vinculacaoPessoaBarramentoId: number, loteId: string = null): void {
@@ -98,7 +113,7 @@ export class VinculacaoPessoaBarramentoListComponent implements OnInit {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

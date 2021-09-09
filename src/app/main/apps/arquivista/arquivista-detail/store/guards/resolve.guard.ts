@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {forkJoin, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStoreProcesso from 'app/main/apps/processo/store';
 import {getRouterState} from 'app/store/reducers';
@@ -23,13 +23,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<ArquivistaDetailAppState>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -40,22 +40,12 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkStore().pipe(
+        return this.getProcesso().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
-        );
-    }
-
-    /**
-     * Check store
-     *
-     * @returns
-     */
-    checkStore(): Observable<any> {
-        return forkJoin([
-            this.getProcesso()
-        ]).pipe(
-            take(1),
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 

@@ -1,10 +1,17 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../../store';
 import {getRouterState} from '../../../../store';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({
@@ -15,12 +22,11 @@ import {cdkAnimations} from '@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class UsuariosExternosComponent implements OnInit {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
+export class UsuariosExternosComponent implements OnInit, OnDestroy {
 
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.State>,
@@ -30,21 +36,19 @@ export class UsuariosExternosComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('editar') > -1) {
-                    this.action = 'editar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('editar') > -1) {
+                this.action = 'editar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
     }
 

@@ -6,14 +6,15 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Workflow} from '@cdk/models';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'workflow-list',
@@ -34,6 +35,7 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -48,26 +50,27 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
-
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadWorkflow());
     }
-
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetWorkflow({
@@ -85,15 +88,15 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     }
 
     editTransicoesWorkflow(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/transicoes`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/transicoes`)]).then();
     }
 
     edit(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + workflowId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + workflowId]).then();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     delete(workflowId: number, loteId: string = null): void {
@@ -105,16 +108,16 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     view(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + workflowId + '/visualizar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + workflowId + '/visualizar')]).then();
     }
 
     especies(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/especies-processo/listar`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/especies-processo/listar`)]).then();
     }
 }
