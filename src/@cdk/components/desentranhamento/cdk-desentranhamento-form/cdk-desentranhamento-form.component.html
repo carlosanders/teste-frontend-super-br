@@ -15,7 +15,7 @@
     </mat-radio-group>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'processo_existente'">
-        <input matInput placeholder="Processo (digite o número pelo início)"
+        <input matInput placeholder="Processo"
                formControlName="processoDestino"
                [matAutocomplete]="processoDestino.autocomplete" required
                (blur)="checkProcessoDestino()">

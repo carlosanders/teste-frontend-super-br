@@ -5,7 +5,7 @@
     </mat-slide-toggle>
 
     <mat-form-field *ngIf="mode === 'regular'">
-        <input matInput placeholder="Processo (digite o número pelo início)"
+        <input matInput placeholder="Processo"
                formControlName="processo"
                [matAutocomplete]="processo.autocomplete" required
                (blur)="checkProcesso()">
