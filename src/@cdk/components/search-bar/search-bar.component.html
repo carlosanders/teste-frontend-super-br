@@ -12,12 +12,12 @@
                 <button mat-icon-button
                         class="custom-search-button"
                         aria-label="Pesquisar por"
-                        [matTooltip]="'Pesquisando processos por ' + this.searchFieldName"
+                        [matTooltip]="'Pesquisando processos por ' + this.searchFieldName + ' (digite o número pelo início)'"
                         [matMenuTriggerFor]="menuBusca">
                     <mat-icon class="secondary-text">search</mat-icon>
                 </button>
                 <input matInput class="input-field"
-                       placeholder="Pesquisa rápida de processos por {{searchFieldName}}"
+                       placeholder="Pesquisa rápida de processos por {{searchFieldName}} (Digite o número pelo início)"
                        formControlName="processo"
                        [matAutocomplete]="processoSearch.autocomplete"
                        (blur)="checkProcesso()">

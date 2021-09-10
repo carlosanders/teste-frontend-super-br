@@ -37,21 +37,11 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     @Input()
     searchField = 'NUP';
 
-    processoSearchList: Processo[];
-    processoSearchListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
     mobileMode: boolean;
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        const innerWidth = window.innerWidth;
-        if (innerWidth <= 600) {
-            this.mobileMode = true;
-        } else {
-            this.mobileMode = false;
-        }
-    }
+    processoSearchList: Processo[];
+    processoSearchListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -63,6 +53,16 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event): void {
+        const innerWidth = window.innerWidth;
+        if (innerWidth <= 600) {
+            this.mobileMode = true;
+        } else {
+            this.mobileMode = false;
+        }
+    }
+
     ngOnInit(): void {
         this.control.valueChanges.pipe(
             tap(() => this.processoSearchList = []),
@@ -70,21 +70,27 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value: string) => {
-                    let termFilter = [];
+                    const termFilter = [];
+                    const filters = {};
 
                     if (this.searchField === 'outroNumero') {
-                        value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                            const filter = {};
-                            filter[this.searchField] = `like:%${bit}%`;
-                            termFilter.push(filter);
-                        });
+                        filters[this.searchField] = `like:${value}%`;
+                        termFilter.push(filters);
+                        // value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                        //     const filters = {};
+                        //     filters[this.searchField] = `like:${bit}%`;
+                        //     termFilter.push(filters);
+                        // });
                     } else {
                         value = value.split('.').join('').split('/').join('').replace('-', '');
-                        value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                            const filter = {};
-                            filter[this.searchField] = `like:%${bit}%`;
-                            termFilter.push(filter);
-                        });
+                        filters[this.searchField] = `like:${value}%`;
+                        termFilter.push(filters);
+                        // value = value.split('.').join('').split('/').join('').replace('-', '');
+                        // value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                        //     const filters = {};
+                        //     filters[this.searchField] = `like:${bit}%`;
+                        //     termFilter.push(filters);
+                        // });
                     }
 
                     if (typeof value === 'string' && (termFilter.length)) {
@@ -94,7 +100,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                             ...this.pagination.filter,
                             andX: termFilter
                         };
-                        return this._processoService.search(
+                        return this._processoService.query(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,

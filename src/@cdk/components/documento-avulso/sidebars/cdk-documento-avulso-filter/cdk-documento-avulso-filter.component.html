@@ -18,7 +18,7 @@
             </cdk-setor-autocomplete>
         </mat-form-field>
 
-        
+
         <mat-form-field>
             <input matInput placeholder="Espécie de Documento Avulso"
                    formControlName="especieDocumentoAvulso"
@@ -38,8 +38,8 @@
 
         <mat-checkbox formControlName="urgente">
             Urgente
-        </mat-checkbox>    
-        
+        </mat-checkbox>
+
         <mat-form-field>
             <input matInput placeholder="Modelo"
                    formControlName="modelo"
@@ -122,8 +122,8 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>        
-            <input matInput placeholder="Processo"
+        <mat-form-field>
+            <input matInput placeholder="Processo (digite o número pelo início)"
                    formControlName="processo"
                    [matAutocomplete]="processo.autocomplete"
                    (change)="verificarValor($event)">
@@ -131,8 +131,8 @@
             </cdk-processo-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>        
-            <input matInput placeholder="Processo de Destino"
+        <mat-form-field>
+            <input matInput placeholder="Processo de Destino (digite o número pelo início)"
                    formControlName="processoDestino"
                    [matAutocomplete]="processo.autocomplete"
                    (change)="verificarValor($event)">
@@ -192,7 +192,7 @@
             <input matInput #tipoDistribuicao
                    name="tipoDistribuicao"
                    formControlName="tipoDistribuicao">
-        </mat-form-field>       
+        </mat-form-field>
 
         <mat-form-field>
             <input matInput placeholder="Criado Por"
@@ -212,7 +212,7 @@
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
-        
+
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterDataHoraEncerramento?.length}">Data de Encerramento</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraEncerramento"
@@ -296,7 +296,7 @@
                              (filtra)="this.filtraDataHoraResposta($event)">
             </cdk-date-filter>
         </mat-menu>
-        
+
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterDataHoraReiteracao?.length}">Data da Reiteração</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraReiteracao"

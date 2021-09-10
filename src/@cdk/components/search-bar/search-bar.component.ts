@@ -8,7 +8,7 @@ import {
     OnInit,
     Output,
     ViewChild,
-    ViewContainerRef, ViewEncapsulation
+    ViewContainerRef
 } from '@angular/core';
 import {of, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, switchMap, takeUntil} from 'rxjs/operators';
