@@ -190,6 +190,32 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
+                this.sheetRef.dismiss();
+            }
+
+            this.routerState = routerState.state;
+            if (routerState.state.params['targetHandle'] === 'compartilhadas') {
+                this.mode = 'Compartilhadas';
+            } else {
+                this.mode = 'Tarefas';
+            }
+            this.generoHandle = routerState.state.params['generoHandle'];
+            this.generoHandleAcentuado = this.generoHandle;
+            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                this.generoHandleAcentuado = navigationConverter[this.routerState.params['generoHandle']];
+            }
+
+            this.typeHandle = routerState.state.params['typeHandle'];
+            this.preencherContador();
+        });
     }
 
     /**
@@ -198,7 +224,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store.pipe(
             select(getCounterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            distinctUntilChanged(counterState => counterState !== this.counterState)
         ).subscribe((value) => {
             this.counterState = value;
             this.preencherContador();
@@ -251,32 +278,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((pagination) => {
             this.paginationLotacoes = pagination;
-        });
-
-        this._store.pipe(
-            select(getRouterState),
-            takeUntil(this._unsubscribeAll),
-            filter(routerState => !!routerState)
-        ).subscribe((routerState) => {
-            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
-            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
-                this.sheetRef.dismiss();
-            }
-
-            this.routerState = routerState.state;
-            if (routerState.state.params['targetHandle'] === 'compartilhadas') {
-                this.mode = 'Compartilhadas';
-            } else {
-                this.mode = 'Tarefas';
-            }
-            this.generoHandle = routerState.state.params['generoHandle'];
-            this.generoHandleAcentuado = this.generoHandle;
-            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
-                this.generoHandleAcentuado = navigationConverter[this.routerState.params['generoHandle']];
-            }
-
-            this.typeHandle = routerState.state.params['typeHandle'];
-            this.preencherContador();
         });
 
         this.unidades$.pipe(
@@ -719,11 +720,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     preencherContador(): void {
-        this.tarefasPendentes = [];
         if (this.generoHandle && this.counterState) {
             if (this.folders) {
                 for (const folder of this.folders) {
-                    const nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();
+                    const nomePasta = 'folder_' + this.generoHandleAcentuado + '_' + folder.nome.toLowerCase();
                     if (this.counterState && this.counterState[nomePasta] !== undefined) {
                         this.tarefasPendentes[folder.nome] = this.counterState[nomePasta];
                     } else {

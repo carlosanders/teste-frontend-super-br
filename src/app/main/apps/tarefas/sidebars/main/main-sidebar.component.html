@@ -106,6 +106,7 @@
                      #elementFolder
                      (dndDragover)="dragOver($event, elementFolder, dropzoneEnabledFolders(folder.nome.toLowerCase()))"
                      (dndDrop)="onDrop([$event, folder], dropzoneEnabledFolders(folder.nome.toLowerCase()))">
+
                 <div class="menu_content nav-link"
                      [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
@@ -116,9 +117,7 @@
                                   matBadgeSize="small">
                             folder
                         </mat-icon>
-                        <a fxFlex>
-                            <span>{{folder.nome | titlecase}}</span>
-                        </a>
+                        <span style="flex: 1 1 auto;">{{folder.nome | titlecase}}</span>
                         <mat-icon class="place-holder">
                             assignment_return
                         </mat-icon>
