@@ -15,7 +15,7 @@
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-form-field>
-                <input matInput placeholder="Processo"
+                <input matInput placeholder="Processo (digite o número pelo início)"
                        formControlName="processo"
                        [matAutocomplete]="processo.autocomplete"
                        (change)="verificarValor($event)">
@@ -207,7 +207,7 @@
                        (change)="verificarValor($event)">
                 <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
                 </cdk-usuario-autocomplete>
-            </mat-form-field>        
+            </mat-form-field>
 
             <mat-form-field>
                 <input matInput placeholder="Atualizado Por"
