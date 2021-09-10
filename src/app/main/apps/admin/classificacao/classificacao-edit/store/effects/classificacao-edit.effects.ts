@@ -9,6 +9,7 @@ import * as ClassificacaoListActions from '../../../classificacao-list/store/act
 
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
+import {UpdateData} from '@cdk/ngrx-normalizr';
 import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 import {Classificacao} from '@cdk/models';
 import {Router} from '@angular/router';
@@ -76,7 +77,12 @@ export class ClassificacaoEditEffects {
                 mergeMap((response: Classificacao) => [
                     new ClassificacaoEditActions.SaveClassificacaoSuccess(response),
                     new ClassificacaoListActions.ReloadClassificacao(),
-                    new AddData<Classificacao>({data: [response], schema: classificacaoSchema})
+                    new AddData<Classificacao>({data: [response], schema: classificacaoSchema}),
+                    new UpdateData<Classificacao>({
+                        id: response.id,
+                        schema: classificacaoSchema,
+                        changes: response
+                    })
                 ]),
                 catchError((err) => {
                     console.log(err);
