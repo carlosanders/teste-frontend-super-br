@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
 
 import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
@@ -31,7 +31,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
             content: 'Salvando a vinculação da etiqueta ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
+        mergeMap(action => this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'vinculação etiqueta',
@@ -49,6 +49,10 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                 new AddData<VinculacaoEtiqueta>({data: [response], schema: vinculacaoEtiquetaSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    documentoAvulsoId: action.payload.vinculacaoEtiqueta.documentoAvulso.id,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -56,7 +60,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                     content: 'Erro ao salvar a vinculação da etiqueta!',
                     status: 2, // erro
                 }));
-                return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(err));
+                return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(payload));
             })
         ))
     ));

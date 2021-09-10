@@ -41,10 +41,14 @@ export class AtividadeCreateBlocoEffect {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Atividade) => [
-                new AtividadeCreateBlocoActions.SaveAtividadeSuccess(response),
+                new AtividadeCreateBlocoActions.SaveAtividadeSuccess(action.payload.atividade),
                 new AddData<Atividade>({data: [response], schema: atividadeSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    tarefaId: action.payload.atividade.tarefa?.id,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -52,7 +56,7 @@ export class AtividadeCreateBlocoEffect {
                     content: 'Erro ao salvar a atividade!',
                     status: 2, // erro
                 }));
-                return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(err));
+                return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(payload));
             })
         ))
     ));

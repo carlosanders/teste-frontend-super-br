@@ -42,6 +42,10 @@ export class TarefaEditBlocoEffect {
                 new AddData<Tarefa>({data: [response], schema: tarefaSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    id: action.payload.tarefa.id,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -49,7 +53,7 @@ export class TarefaEditBlocoEffect {
                     content: 'Erro ao salvar a tarefa!',
                     status: 2, // erro
                 }));
-                return of(new RedistribuicaoEditBlocoActions.SaveTarefaFailed(err));
+                return of(new RedistribuicaoEditBlocoActions.SaveTarefaFailed(payload));
             })
         ))
     ));

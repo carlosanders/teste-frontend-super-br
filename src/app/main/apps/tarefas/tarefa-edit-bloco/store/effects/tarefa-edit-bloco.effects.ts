@@ -37,7 +37,6 @@ export class TarefaEditBlocoEffect {
                 id: action.payload.operacaoId,
                 type: 'tarefa',
                 content: `Tarefa id ${response.id} editada com sucesso!`,
-                success: true,
                 status: 1, // sucesso
                 lote: action.payload.loteId
             }))),
@@ -50,6 +49,10 @@ export class TarefaEditBlocoEffect {
                 })
             ]),
             catchError((err) => {
+                const payload = {
+                    id: action.payload.tarefa.id,
+                    errors: err
+                };
                 console.log(err);
                 const erroString = CdkUtils.errorsToString(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
@@ -57,11 +60,10 @@ export class TarefaEditBlocoEffect {
                     type: 'tarefa',
                     // eslint-disable-next-line max-len
                     content: `Houve erro na alteração da tarefa id ${action.payload.tarefa.id}! ${erroString}`,
-                    success: false,
                     status: 2, // erro
                     lote: action.payload.loteId
                 }));
-                return of(new TarefaEditBlocoActions.SaveTarefaFailed(action.payload));
+                return of(new TarefaEditBlocoActions.SaveTarefaFailed(payload));
             })
         ))
     ));

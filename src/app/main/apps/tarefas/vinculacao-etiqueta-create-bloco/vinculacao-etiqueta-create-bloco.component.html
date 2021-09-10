@@ -31,7 +31,7 @@
 
         <mat-list-item *ngFor="let operacao of operacoes">
             <p matLine class="mb-4 p-8 secondary-text"
-               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+               [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
 

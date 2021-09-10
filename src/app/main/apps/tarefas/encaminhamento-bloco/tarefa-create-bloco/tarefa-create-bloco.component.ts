@@ -19,7 +19,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
-import {getOperacoesState, getRouterState} from '../../../../../store';
+import {getOperacoes, getRouterState} from '../../../../../store';
 import {getProcessosEncaminhamento} from '../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
@@ -121,11 +121,15 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
         this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
 
         this._store.pipe(
-            select(getOperacoesState),
-            takeUntil(this._unsubscribeAll),
-            filter(op => this.operacaoId && !!op && !!op.content && op.type === 'tarefa')
-        ).subscribe((operacao) => {
-            this.operacoes.push(operacao);
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'tarefa') {
+                    this.operacoes.push(operacoes[operacaoId]);
+                }
+            });
             this._changeDetectorRef.detectChanges();
         });
     }

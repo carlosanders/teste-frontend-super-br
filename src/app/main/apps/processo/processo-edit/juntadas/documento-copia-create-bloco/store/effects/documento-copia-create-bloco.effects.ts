@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
 
 import * as DocumentoCopiaCreateBlocoActions from '../actions/documento-copia-create-bloco.actions';
 
@@ -30,7 +30,7 @@ export class DocumentoCopiaCreateBlocoEffect {
             content: 'Salvando a cópia da juntada ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._documentoService.save(action.payload.documento).pipe(
+        mergeMap(action => this._documentoService.save(action.payload.documento).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'cópia da juntada',
@@ -45,6 +45,10 @@ export class DocumentoCopiaCreateBlocoEffect {
                 new AddData<Documento>({data: [response], schema: documentoSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    juntadaId: action.payload.juntadaId,
+                    errors: err
+                }
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -52,7 +56,7 @@ export class DocumentoCopiaCreateBlocoEffect {
                     content: 'Erro ao salvar a cópia da juntada!',
                     status: 2, // erro
                 }));
-                return of(new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaFailed(err));
+                return of(new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaFailed(payload));
             })
         ))
     ));
