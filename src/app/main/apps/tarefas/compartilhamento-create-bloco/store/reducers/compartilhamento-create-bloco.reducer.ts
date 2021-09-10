@@ -25,22 +25,22 @@ export function CompartilhamentoCreateBlocoReducer(
         case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO: {
             return {
                 ...state,
-                savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
+                savingTarefasId: [...state.savingTarefasId, action.payload.compartilhamento.tarefa.id]
             };
         }
 
         case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO_SUCCESS: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.compartilhamento.tarefa.id)
             };
         }
 
         case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO_FAILED: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),
-                errors: action.payload
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefaId),
+                errors: action.payload.errors
             };
         }
 

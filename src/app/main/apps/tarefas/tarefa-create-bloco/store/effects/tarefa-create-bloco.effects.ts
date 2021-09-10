@@ -39,10 +39,14 @@ export class TarefaCreateBlocoEffect {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Tarefa) => [
-                new TarefaCreateBlocoActions.SaveTarefaSuccess(response),
+                new TarefaCreateBlocoActions.SaveTarefaSuccess(action.payload),
                 new AddData<Tarefa>({data: [response], schema: tarefaSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    id: action.payload.tarefa.processo.id,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -50,7 +54,7 @@ export class TarefaCreateBlocoEffect {
                     content: 'Erro ao salvar a tarefa!',
                     status: 2, // erro
                 }));
-                return of(new TarefaCreateBlocoActions.SaveTarefaFailed(err));
+                return of(new TarefaCreateBlocoActions.SaveTarefaFailed(payload));
             })
         ))
     ));

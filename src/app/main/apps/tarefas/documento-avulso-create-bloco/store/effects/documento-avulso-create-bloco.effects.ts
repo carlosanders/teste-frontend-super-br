@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
 
 import * as DocumentoAvulsoCreateBlocoActions from '../actions/documento-avulso-create-bloco.actions';
 
@@ -30,7 +30,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
             content: 'Salvando o documento avulso ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
+        mergeMap(action => this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'documento avulso',
@@ -38,10 +38,14 @@ export class DocumentoAvulsoCreateBlocoEffect {
                 status: 1, // sucesso
             }))),
             mergeMap((response: DocumentoAvulso) => [
-                new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(response),
+                new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload.documentoAvulso),
                 new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    processoId: action.payload.documentoAvulso.processo.id,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -49,7 +53,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
                     content: 'Erro ao salvar o documento avulso!',
                     status: 2, // erro
                 }));
-                return of(new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoFailed(err));
+                return of(new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoFailed(payload));
             })
         ))
     ));

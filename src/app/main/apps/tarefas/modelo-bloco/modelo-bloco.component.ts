@@ -13,7 +13,7 @@ import {Modelo, Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getOperacoes, getRouterState} from 'app/store';
 import {getSelectedTarefas} from '../store';
 import {getIsSaving} from './store/selectors/componentes-digitais.selectors';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -78,10 +78,15 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy {
         });
 
         this._store.pipe(
-            select(getOperacoesState),
-            filter(op => !!op && !!op.content && op.type === 'componente digital')
-        ).subscribe((operacao) => {
-            this.operacoes.push(operacao);
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'componente digital') {
+                    this.operacoes.push(operacoes[operacaoId]);
+                }
+            });
             this._changeDetectorRef.markForCheck();
         });
 

@@ -25,22 +25,22 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
-                savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
+                savingTarefasId: [...state.savingTarefasId, action.payload.vinculacaoEtiqueta.tarefa.id]
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.vinculacaoEtiqueta.tarefa.id)
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),
-                errors: action.payload
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.id),
+                errors: action.payload.errors
             };
         }
 

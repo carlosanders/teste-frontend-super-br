@@ -59,7 +59,6 @@ export class ComponenteDigitalEffect {
                 id: action.payload.operacaoId,
                 type: 'componente digital',
                 content: `Componente Digital id ${response.id} criado com sucesso!`,
-                success: true,
                 status: 1, // sucesso
             }))),
             mergeMap((response: ComponenteDigital) => [
@@ -76,7 +75,6 @@ export class ComponenteDigitalEffect {
                     id: action.payload.operacaoId,
                     type: 'componente digital',
                     content: `Houve erro na criação de componente digital: ${erroString}`,
-                    success: false,
                     status: 2 // erro
                 }));
                 return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(action.payload));

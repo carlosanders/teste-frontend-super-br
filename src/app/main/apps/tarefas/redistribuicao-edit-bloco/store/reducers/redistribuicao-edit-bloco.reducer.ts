@@ -43,7 +43,7 @@ export function RedistribuicaoEditBlocoReducer(
             return {
                 ...state,
                 savingId: state.savingId.filter(id => id !== action.payload.id),
-                errors: action.payload
+                errors: action.payload.errors
             };
         }
 

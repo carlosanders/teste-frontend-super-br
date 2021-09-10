@@ -39,8 +39,8 @@ export function AtividadeCreateBlocoReducer(
         case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_FAILED: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.atividade?.tarefa?.id),
-                errors: action.payload
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefaId),
+                errors: action.payload.errors
             };
         }
 

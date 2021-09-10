@@ -17,7 +17,7 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {getOperacoesState, getRouterState} from '../../../../../store';
+import {getOperacoes, getRouterState} from '../../../../../store';
 import {getProcessosEncaminhamento} from '../store';
 import {CdkUtils} from '@cdk/utils';
 
@@ -103,11 +103,15 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
         });
 
         this._store.pipe(
-            select(getOperacoesState),
-            takeUntil(this._unsubscribeAll),
-            filter(op => this.operacaoId && !!op && !!op.content && op.type === 'tramitação')
-        ).subscribe((operacao) => {
-            this.operacoes.push(operacao);
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'tramitação') {
+                    this.operacoes.push(operacoes[operacaoId]);
+                }
+            });
             this._changeDetectorRef.detectChanges();
         });
     }
