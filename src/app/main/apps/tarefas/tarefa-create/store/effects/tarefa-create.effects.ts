@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class TarefaCreateEffect {
@@ -37,7 +37,6 @@ export class TarefaCreateEffect {
                 id: action.payload.operacaoId,
                 type: 'tarefa',
                 content: `Tarefa id ${response.id} criada com sucesso!`,
-                success: true,
                 status: 1, // sucesso
             }))),
             mergeMap((response: Tarefa) => [
@@ -52,7 +51,6 @@ export class TarefaCreateEffect {
                     type: 'tarefa',
                     // eslint-disable-next-line max-len
                     content: `Houve erro na criação de tarefa no processo ${action.payload.tarefa.processo.NUP} para o setor ${action.payload.tarefa.setorResponsavel.nome}! ${erroString}`,
-                    success: false,
                     status: 2 // erro
                 }));
                 return of(new TarefaCreateActions.SaveTarefaFailed(err));

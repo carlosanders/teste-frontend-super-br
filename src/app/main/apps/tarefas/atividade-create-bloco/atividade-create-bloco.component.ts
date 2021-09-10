@@ -18,7 +18,7 @@ import * as moment from 'moment';
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getMercureState, getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -128,11 +128,15 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.processosIdsEncaminhar$ = this._store.pipe(select(getProcessosIdsEncaminhar));
 
         this._store.pipe(
-            select(getOperacoesState),
-            takeUntil(this._unsubscribeAll),
-            filter(op => !!op && !!op.content && op.type === 'atividade')
-        ).subscribe((operacao) => {
-            this.operacoes.push(operacao);
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'atividade') {
+                    this.operacoes.push(operacoes[operacaoId]);
+                }
+            });
             this._changeDetectorRef.markForCheck();
         });
 

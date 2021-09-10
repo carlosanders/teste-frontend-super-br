@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
 
 import * as RemessaBlocoActions from '../actions/remessa-bloco.actions';
 
@@ -31,7 +31,7 @@ export class RemessaBlocoEffects {
             content: 'Salvando a tramitação ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._tramitacaoService.save(action.payload.tramitacao).pipe(
+        mergeMap(action => this._tramitacaoService.save(action.payload.tramitacao).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'tramitação',
@@ -39,10 +39,14 @@ export class RemessaBlocoEffects {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Tramitacao) => [
-                new RemessaBlocoActions.SaveTramitacaoSuccess(response),
+                new RemessaBlocoActions.SaveTramitacaoSuccess(action.payload),
                 new AddData<Tramitacao>({data: [response], schema: tramitacaoSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    id: action.payload.tramitacao.processo.id,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -50,7 +54,7 @@ export class RemessaBlocoEffects {
                     content: 'Erro ao salvar a tramitação!',
                     status: 2, // erro
                 }));
-                return of(new RemessaBlocoActions.SaveTramitacaoFailed(err));
+                return of(new RemessaBlocoActions.SaveTramitacaoFailed(payload));
             })
         ))
     ));

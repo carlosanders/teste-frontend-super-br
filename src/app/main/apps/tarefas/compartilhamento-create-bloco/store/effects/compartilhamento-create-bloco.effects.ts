@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
 
 import * as CompartilhamentoCreateBlocoActions from '../actions/compartilhamento-create-bloco.actions';
 
@@ -31,7 +31,7 @@ export class CompartilhamentoCreateBlocoEffect {
             content: 'Salvando o compartilhamento ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._compartilhamentoService.save(action.payload.compartilhamento).pipe(
+        mergeMap(action => this._compartilhamentoService.save(action.payload.compartilhamento).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'compartilhamento',
@@ -39,10 +39,14 @@ export class CompartilhamentoCreateBlocoEffect {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Compartilhamento) => [
-                new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(response),
+                new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(action.payload.compartilhamento),
                 new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema})
             ]),
             catchError((err) => {
+                const payload = {
+                    tarefaId: action.payload.compartilhamento.tarefa.id,
+                    errors: err
+                };
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
@@ -50,7 +54,7 @@ export class CompartilhamentoCreateBlocoEffect {
                     content: 'Erro ao salvar o compartilhamento!',
                     status: 2, // erro
                 }));
-                return of(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoFailed(err));
+                return of(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoFailed(payload));
             })
         ))
     ));

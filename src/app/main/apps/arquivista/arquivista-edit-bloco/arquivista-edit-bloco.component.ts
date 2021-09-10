@@ -9,7 +9,7 @@ import {
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {Processo} from '@cdk/models';
-import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
+import {getOperacoes, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {getSelectedProcessos} from '../arquivista-list/store';
@@ -59,11 +59,15 @@ export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterVie
         });
 
         this._store.pipe(
-            select(getOperacoesState),
-            takeUntil(this._unsubscribeAll),
-            filter(op => !!op && !!op.content && op.type === 'arquivista')
-        ).subscribe((operacao) => {
-            this.operacoes.push(operacao);
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'arquivista') {
+                    this.operacoes.push(operacoes[operacaoId]);
+                }
+            });
             this._changeDetectorRef.markForCheck();
         });
 
