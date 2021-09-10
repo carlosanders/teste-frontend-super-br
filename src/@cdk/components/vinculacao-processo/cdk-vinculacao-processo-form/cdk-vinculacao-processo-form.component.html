@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <input matInput placeholder="Processo Vinculado (digite o número pelo início)" [readonly]="!!vinculacaoProcesso.id"
+        <input matInput placeholder="Processo Vinculado" [readonly]="!!vinculacaoProcesso.id"
                formControlName="processoVinculado"
                [matAutocomplete]="processoVinculado.autocomplete" required
                (blur)="checkProcessoVinculado()">

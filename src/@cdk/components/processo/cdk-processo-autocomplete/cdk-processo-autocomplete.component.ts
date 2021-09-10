@@ -58,22 +58,14 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     const termFilterNUP = [];
                     const termFilterOutroNumero = [];
-                    // value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                    //     termFilterNUP.push({
-                    //         // eslint-disable-next-line @typescript-eslint/naming-convention
-                    //         NUP: `like:%${bit.replace(/\D/g, '')}%`
-                    //     });
-                    //     termFilterOutroNumero.push({
-                    //         outroNumero: `like:%${bit}%`
-                    //     });
-                    // });
-                    termFilterNUP.push({
-                        // eslint-disable-next-line @typescript-eslint/naming-convention
-                        NUP: `like:${value.replace(/\D/g, '')}%`
-                    });
-                    termFilterOutroNumero.push({
-                        // eslint-disable-next-line @typescript-eslint/naming-convention
-                        outroNumero: `like:${value}%`
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                        termFilterNUP.push({
+                            // eslint-disable-next-line @typescript-eslint/naming-convention
+                            NUP: `like:%${bit.replace(/\D/g, '')}%`
+                        });
+                        termFilterOutroNumero.push({
+                            outroNumero: `like:%${bit}%`
+                        });
                     });
                     const termFilter = {
                         orX: [
@@ -88,7 +80,7 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                             ...this.pagination.filter,
                             ...termFilter
                         };
-                        return this._processoService.query(
+                        return this._processoService.search(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,
