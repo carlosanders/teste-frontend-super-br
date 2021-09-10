@@ -36,6 +36,7 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
     deletedIds$: Observable<any>;
     lote: string;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    idDeletados: Set<number> = new Set([]);
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -55,6 +56,8 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+        this.deletingIds$.subscribe((e) => e.forEach((itemdic) => this.idDeletados.add(itemdic['classificacaoId'])));
+
     }
 
     ngOnInit(): void {
@@ -122,6 +125,7 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
 
     deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
+        ids = ids.filter((id:number) => !this.idDeletados.has(id));
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
 }

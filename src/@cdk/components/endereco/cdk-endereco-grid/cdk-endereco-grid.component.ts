@@ -186,6 +186,11 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
+            id: 'principal',
+            label: 'Principal',
+            fixed: false
+        },
+        {
             id: 'actions',
             label: '',
             fixed: true
