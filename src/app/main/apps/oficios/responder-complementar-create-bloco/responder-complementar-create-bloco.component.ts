@@ -100,7 +100,7 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
         this.operacoes.push({
             type: 'upload',
             content: 'Upload realizado com sucesso!',
-            success: true
+            status: 1
         });
         this._changeDetectorRef.markForCheck();
     }

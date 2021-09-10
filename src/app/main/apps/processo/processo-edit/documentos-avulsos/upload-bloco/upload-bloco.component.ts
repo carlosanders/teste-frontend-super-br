@@ -16,7 +16,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../documento-avulso-list/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {ComponenteDigital, DocumentoAvulso} from '@cdk/models';
-import {getRespodendoDocumentosAvulsos} from '../documento-avulso-list/store/selectors';
+import {getRespodendoDocumentosAvulsos} from '../documento-avulso-list/store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -31,7 +31,8 @@ import {filter, takeUntil} from 'rxjs/operators';
 })
 export class UploadBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('cdkUpload', {static: false})
+    cdkUpload;
 
     documentosAvulsos$: Observable<DocumentoAvulso[]>;
     documentosAvulsosBloco: DocumentoAvulso[] = [];
@@ -39,12 +40,9 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
 
-    private _profile: any;
-
     routerState: any;
-
-    @ViewChild('cdkUpload', {static: false})
-    cdkUpload;
+    private _profile: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *

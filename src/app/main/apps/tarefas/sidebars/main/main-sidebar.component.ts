@@ -215,7 +215,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this._store.pipe(
             select(fromStore.getFolders),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(folders => folders.length !== this.folders?.length)
         ).subscribe((folders) => {
             this.folders = folders;
             this.preencherContador();

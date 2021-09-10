@@ -32,8 +32,6 @@ import {FormControl} from '@angular/forms';
     encapsulation: ViewEncapsulation.None
 })
 export class QuickPanelComponent implements OnInit, OnDestroy {
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     date: Date;
     resultados: any[] = [];
     settings: any;
@@ -58,6 +56,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
     isIndeterminate = false;
 
     filtros = new FormControl();
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
