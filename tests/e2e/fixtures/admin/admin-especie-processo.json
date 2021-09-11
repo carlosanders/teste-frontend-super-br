@@ -1,0 +1,22 @@
+{
+    "admin":{
+        "nome": "PROVIDÊNCIAS ADMINISTRATIVAS, ADOTADAS",
+        "descricao": "PROVIDÊNCIAS ADMINISTRATIVAS, ADOTADAS",
+        "generoProcesso": "ADMINISTRATIVO",
+
+        "classificacao":[
+            {
+                "nome1": "ADMINISTRAÇÃO GERAL",
+                "nome2": "MODERNIZAÇÃO E REFORMA ADMINISTRATIVA PROJETOS, ESTUDOS E NORMAS"
+            }
+        ],
+
+        "modalidadeMeio":[
+            {
+                "valor1": "FÍSICO",
+                "valor2": "ELETRÔNICO"
+            }
+        ],
+        "titulo": "TESTE TESTE"
+    }
+}

@@ -1,24 +1,74 @@
-context('Administrador', () => {
-    beforeEach(() => {
-        cy.login();
+/// <reference types="cypress" />
+
+import Administracao from '../pageObjects/administracao'
+
+describe('Teste para cadastrar, editar e exluir modalidade órgão central', function () {
+
+  let paramNome
+  
+  beforeEach(function () {
+    cy.fixture('admin/admin-modalidade-orgao-central.json').then((fixture) => {
+        this.admin = fixture.admin;
     })
+  })
 
-    //Teste desativado por erro de implementação, deverá ser reativado assim que for corrigido
-    it.skip('Administrador ->Orgãos Centrais', () => {
-        cy.get('[fxflex="1 0 auto"] > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click();
-        cy.get('.nav-link:contains("Administrador")').scrollIntoView();
-        cy.get('.nav-link:contains("Administrador")').click();
-        cy.get('.mat-ripple:contains("Classificacoes")').click();
-        cy.get('.back > .mat-focus-indicator > .mat-button-wrapper > .mat-icon:contains("add")', {timeout: 40000}).click();
-        cy.wait(3000);
-        cy.get('.mat-input-element[name="valor"]').type("teste");
-        cy.get('.mat-input-element[FormControlName="descricao"]').type("TESTES Funcionais");
-        cy.get('.mat-input-element[formControlName="estado"]').type("PARÁ");
-        cy.get('.mat-checkbox[formControlName="ATIVO"]').click();
-        cy.get('.mat-button-wrapper:contains("SALVAR")').click();
-        cy.get('.mat-row > .cdk-column-valor:contains("TESTE")').first().parent().find('.mat-icon-no-color:contains("delete")').click();
-        cy.get('.mat-row > .cdk-column-nome:contains("TESTE")').first().should('have.class','deleted');
+  it('Deve permitir cadastrar, editar e exluir modalidade órgão central', function () {
 
+    //locar no sistema
+    cy.login('00000000004') 
+    cy.visit("./apps/admin/modalidade-orgao-central/listar")
+    const administracao = new Administracao()
 
-    })
-});
+    paramNome = this.admin.nome + Math.random()
+
+    administracao.getAdicionar().click()
+    cy.wait(1000)
+    administracao.getSituacao().click()
+    administracao.getValor().clear().type(paramNome)
+    administracao.getDescricaoTextArea().clear().type(this.admin.descricao)
+    administracao.salvar().click()
+
+    // Pesquisar item cadastrado
+    administracao.getFiltrar().click()
+    administracao.getValor().clear().type(paramNome)
+    administracao.buscar().click()
+    administracao.getTabelaAviso().should('be.visible')
+    administracao.getTabelaAviso().should("contain.text", paramNome)
+
+    // Editar registro
+    administracao.getItemEditarValor(paramNome, "edit").should('be.visible')
+    administracao.getItemEditarValor(paramNome, "edit").click()
+    paramNome = this.admin.nome + Math.random()
+    cy.wait(1000)
+    administracao.getValor().clear().type(paramNome)
+    administracao.getDescricaoTextArea().clear().type(this.admin.descricao)
+    administracao.salvar().click()
+
+    // Pesquisar item cadastrado
+    administracao.getFiltrar().click()
+    administracao.getValor().clear().type(paramNome)
+    administracao.buscar().click()
+    administracao.getTabelaAviso().should('be.visible')
+    administracao.getTabelaAviso().should("contain.text", paramNome)
+
+    // Inativar registro
+    administracao.getItemEditarValor(paramNome, "edit").should('be.visible')
+    administracao.getItemEditarValor(paramNome, "edit").click()
+    cy.wait(1000)
+    administracao.getSituacao().click()
+    administracao.salvar().click()
+
+    // Pesquisar registro inativo
+    administracao.getFiltrar().click()
+    administracao.getValor().clear().type(paramNome)
+    administracao.buscar().click()
+    cy.wait(1000)
+    administracao.btnInativos().should('be.visible')
+    administracao.btnInativos().should('be.enabled')
+    administracao.btnInativos().click()
+    administracao.getTabelaAviso().should('be.visible')
+    administracao.getTabelaAviso().should("contain.text", paramNome)
+
+  })
+
+})
