@@ -14,96 +14,80 @@ export const DELETE_ESPECIE_TAREFA_FAILED = '[SUPERADMIN ESPECIE TAREFA LIST] DE
 /**
  * Get EspecieTarefa
  */
-export class GetEspecieTarefa implements Action
-{
+export class GetEspecieTarefa implements Action {
     readonly type = GET_ESPECIE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieTarefa Success
  */
-export class GetEspecieTarefaSuccess implements Action
-{
+export class GetEspecieTarefaSuccess implements Action {
     readonly type = GET_ESPECIE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieTarefa Failed
  */
-export class GetEspecieTarefaFailed implements Action
-{
+export class GetEspecieTarefaFailed implements Action {
     readonly type = GET_ESPECIE_TAREFA_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Unload EspecieTarefa
  */
- export class UnloadEspecieTarefa implements Action
- {
-     readonly type = UNLOAD_ESPECIE_TAREFA;
+export class UnloadEspecieTarefa implements Action {
+    readonly type = UNLOAD_ESPECIE_TAREFA;
 
-     constructor()
-     {
-     }
- }
+    constructor() {
+    }
+}
 
 /**
  * Reload EspecieTarefa
  */
-export class ReloadEspecieTarefa implements Action
-{
+export class ReloadEspecieTarefa implements Action {
     readonly type = RELOAD_ESPECIE_TAREFA;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete EspecieTarefa
  */
-export class DeleteEspecieTarefa implements Action
-{
+export class DeleteEspecieTarefa implements Action {
     readonly type = DELETE_ESPECIE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete EspecieTarefa Success
  */
-export class DeleteEspecieTarefaSuccess implements Action
-{
+export class DeleteEspecieTarefaSuccess implements Action {
     readonly type = DELETE_ESPECIE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete EspecieTarefa Failed
  */
-export class DeleteEspecieTarefaFailed implements Action
-{
+export class DeleteEspecieTarefaFailed implements Action {
     readonly type = DELETE_ESPECIE_TAREFA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

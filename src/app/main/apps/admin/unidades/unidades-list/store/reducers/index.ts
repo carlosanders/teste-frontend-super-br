@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {UnidadesListReducer, UnidadesListState} from './unidades-list.reducer';
 
-export interface UnidadesListAppState
-{
+export interface UnidadesListAppState {
     unidadesList: UnidadesListState;
 }
 

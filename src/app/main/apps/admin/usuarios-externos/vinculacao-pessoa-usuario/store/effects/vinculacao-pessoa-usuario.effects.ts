@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as VinculacaoPessoaUsuarioActions from '../actions/vinculacao-pessoa-usuario.actions';
 
@@ -18,12 +18,47 @@ import * as VinculacaoPessoaUsuarioListActions from '../../vinculacao-pessoa-usu
 @Injectable()
 export class VinculacaoPessoaUsuarioEffects {
     routerState: any;
+    /**
+     * Get VinculacaoPessoaUsuario with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getVinculacaoPessoaUsuario: any = createEffect(() => this._actions.pipe(
+        ofType<VinculacaoPessoaUsuarioActions.GetVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioActions.GET_VINCULACAO_PESSOA_USUARIO),
+        switchMap(action => this._vinculacaoPessoaUsuarioService.query(
+            JSON.stringify({
+                ...action.payload.filter,
+                ...action.payload.gridFilter,
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context)).pipe(
+            mergeMap(response => [
+                new AddData<VinculacaoPessoaUsuario>({
+                    data: response['entities'],
+                    schema: vinculacaoPessoaUsuarioSchema
+                }),
+                new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioSuccess({
+                    entitiesId: response['entities'].map(vinculacaoPessoaUsuario => vinculacaoPessoaUsuario.id),
+                    loaded: {
+                        id: 'vinculacaoPessoaUsuarioHandle',
+                        value: this.routerState.params.vinculacaoPessoaUsuarioHandle
+                    },
+                    total: response['total']
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioFailed(err));
+            }))),
+    ));
 
     /**
      *
      * @param _actions
      * @param _vinculacaoPessoaUsuarioService
-     * @param _usuarioService
      * @param _store
      * @param _router
      */
@@ -33,50 +68,12 @@ export class VinculacaoPessoaUsuarioEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get VinculacaoPessoaUsuario with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getVinculacaoPessoaUsuario: any =
-        this._actions
-            .pipe(
-                ofType<VinculacaoPessoaUsuarioActions.GetVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioActions.GET_VINCULACAO_PESSOA_USUARIO),
-                switchMap(action => this._vinculacaoPessoaUsuarioService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.gridFilter,
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context)).pipe(
-                        mergeMap(response => [
-                            new AddData<VinculacaoPessoaUsuario>({data: response['entities'], schema: vinculacaoPessoaUsuarioSchema}),
-                            new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioSuccess({
-                                entitiesId: response['entities'].map(vinculacaoPessoaUsuario => vinculacaoPessoaUsuario.id),
-                                loaded: {
-                                    id: 'vinculacaoPessoaUsuarioHandle',
-                                    value: this.routerState.params.vinculacaoPessoaUsuarioHandle
-                                },
-                                total: response['total']
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioFailed(err));
-                        }))),
-            );
 
 }

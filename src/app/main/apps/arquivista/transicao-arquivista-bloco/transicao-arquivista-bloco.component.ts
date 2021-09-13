@@ -2,7 +2,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -29,7 +29,7 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit {
+export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     loading: boolean;
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
@@ -83,17 +83,13 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
             }
         });
 
-        this._store
-            .pipe(
-                select(getOperacoes),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe(
-                (operacoes) => {
-                    this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação');
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação');
+            this._changeDetectorRef.markForCheck();
+        });
 
         this._store.pipe(
             select(getRouterState),
@@ -128,6 +124,11 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
                 this.routerState.params.typeHandle
             ]).then();
         }
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     submit(values): void {

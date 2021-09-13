@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,15 +10,16 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Assinatura, Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {getMercureState} from 'app/store/reducers';
+import {getMercureState, getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modelo-edit-anexos',
@@ -30,33 +31,36 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 })
 export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    documento$: Observable<Documento>;
-
-    documentosVinculados$: Observable<Documento[]>;
-
-    selectedDocumentosVinculados$: Observable<Documento[]>;
-    deletingDocumentosVinculadosId$: Observable<number[]>;
-    assinandoDocumentosVinculadosId$: Observable<number[]>;
-    assinandoDocumentosVinculadosId: number[] = [];
-    javaWebStartOK = false;
-
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
-    assinaturaInterval = null;
+    routerState: any;
+    documento$: Observable<Documento>;
+    documentosVinculados$: Observable<Documento[]>;
+    selectedDocumentosVinculados$: Observable<Documento[]>;
+    deletingDocumentosVinculadosId$: Observable<number[]>;
+    assinandoDocumentosVinculadosId$: Observable<number[]>;
+    assinandoDocumentosVinculadosId: number[] = [];
+    javaWebStartOK = false;
 
-        /**
-         * @param _store
-         * @param _location
-         * @param _dynamicService
-         */
+    assinaturaInterval = null;
+    private _unsubscribeAll: Subject<any> = new Subject();
+
+    /**
+     *
+     * @param _store
+     * @param _location
+     * @param _dynamicService
+     * @param _ref
+     */
     constructor(
         private _store: Store<fromStore.ModeloEditAnexosAppState>,
         private _location: Location,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _ref: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
@@ -64,10 +68,10 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
         this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
 
-        this._store
-            .pipe(
-                select(getMercureState),
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -88,6 +92,13 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                 }
             }
         });
+
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -98,7 +109,9 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
      * On init
      */
     ngOnInit(): void {
-        this.assinandoDocumentosVinculadosId$.subscribe((assinandoDocumentosVinculadosId) => {
+        this.assinandoDocumentosVinculadosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosVinculadosId) => {
             if (assinandoDocumentosVinculadosId.length > 0) {
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
@@ -121,7 +134,10 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
                 }));
             }
         });
@@ -131,6 +147,8 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

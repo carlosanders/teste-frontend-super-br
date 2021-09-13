@@ -19,7 +19,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getDocumentosHasLoaded} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getTarefa} from '../store/selectors';
+import {getTarefa} from '../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
@@ -115,9 +115,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
 
-        this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
-            loaded => this.loadedOficios = loaded
-        );
+        this._store.pipe(
+            select(getDocumentosHasLoaded),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loaded => this.loadedOficios = loaded);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -148,11 +149,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -189,12 +189,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.documentos$.pipe(
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (documentos) => {
-                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((documentos) => {
+            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.assinandoDocumentosId$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -233,7 +231,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -341,9 +342,40 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.UpdateDocumento(values));
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+        } else {
+            const lote = CdkUtils.makeId();
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId,
+                        loteId: lote
+                    }));
+                });
+            });
+        }
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -357,6 +389,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                 const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
+                    documento: result.documento,
                     operacaoId: operacaoId
                 }));
             });

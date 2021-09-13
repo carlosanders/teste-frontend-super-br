@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Juntada, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -22,6 +22,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-juntada',
@@ -33,16 +34,17 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 })
 export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     juntada$: Observable<Juntada>;
     juntada: Juntada;
     juntadaIsSaving$: Observable<boolean>;
     juntadaErrors$: Observable<any>;
     formJuntada: FormGroup;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -92,7 +94,9 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
      */
     ngOnInit(): void {
 
-        this.juntada$.subscribe((juntada) => {
+        this.juntada$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((juntada) => {
             this.juntada = juntada;
 
             if (this.juntada) {
@@ -111,7 +115,10 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
                 }));
             }
         });
@@ -121,6 +128,8 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadJuntada());
     }
 

@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -22,6 +23,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CdkUtils} from '@cdk/utils';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -61,8 +63,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     lote: string;
 
     routerState: any;
-
     assinaturaInterval = null;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -71,13 +73,15 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      * @param _router
      * @param _dynamicService
      * @param _activatedRoute
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditAnexosAppState>,
         private _location: Location,
         private _router: Router,
         private _dynamicService: DynamicService,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -91,10 +95,10 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
 
-        this._store
-            .pipe(
-                select(getMercureState),
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -120,6 +124,13 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                 }
             }
         });
+
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -130,9 +141,13 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
-        this.assinandoDocumentosVinculadosId$.subscribe((assinandoDocumentosVinculadosId) => {
+        this.assinandoDocumentosVinculadosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosVinculadosId) => {
             if (assinandoDocumentosVinculadosId.length > 0) {
                 if (this.assinaturaInterval) {
                     clearInterval(this.assinaturaInterval);
@@ -150,15 +165,6 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             }
             this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
         });
-
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
     }
 
     ngAfterViewInit(): void {
@@ -167,7 +173,10 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -177,6 +186,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

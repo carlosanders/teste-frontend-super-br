@@ -209,6 +209,27 @@ export function AtividadeCreateDocumentosReducer(
             };
         }
 
+        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId)
+            };
+        }
+
         case AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
             return {
                 ...state,

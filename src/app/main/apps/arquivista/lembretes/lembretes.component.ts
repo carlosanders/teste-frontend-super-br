@@ -26,7 +26,6 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class LembretesComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
     loading: boolean;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -43,6 +42,7 @@ export class LembretesComponent implements OnInit, OnDestroy {
     logEntryPagination: Pagination;
 
     private routerState: RouterStateUrl;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -50,16 +50,16 @@ export class LembretesComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.LembreteAppState>
     ) {
         this.loading = false;
-        this.initObservales();
+        this.initObservables();
         this.initRouteState();
         this.setProcessoId();
         this.lembretesPagination = new Pagination();
         this.lembretesPagination.filter = {};
         this.lembretesPagination.filter = {
-            'processo.id':'eq:' + this.processoId
+            'processo.id': 'eq:' + this.processoId
         };
         this.lembretesPagination.sort = {
-            'criadoEm':'DESC'
+            'criadoEm': 'DESC'
         };
     }
 
@@ -78,7 +78,7 @@ export class LembretesComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    initObservales(): void {
+    initObservables(): void {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processos$ = this._store.pipe(select(fromStore.getProcessos));
@@ -86,13 +86,12 @@ export class LembretesComponent implements OnInit, OnDestroy {
     }
 
     initRouteState(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     doReload(params): void {
@@ -132,5 +131,4 @@ export class LembretesComponent implements OnInit, OnDestroy {
             operacaoId: operacaoId
         }));
     }
-
 }

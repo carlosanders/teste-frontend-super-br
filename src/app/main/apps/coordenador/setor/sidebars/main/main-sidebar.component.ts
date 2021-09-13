@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'setor-main-sidebar',
@@ -69,19 +70,17 @@ export class SetorMainSidebarComponent implements OnInit {
             }
         ];
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.baseLink = '/apps/coordenador/' + this.routerState.params['generoHandle'] + '/' +
-                    this.routerState.params['entidadeHandle'];
-                if (this.routerState.params['unidadeHandle']) {
-                    this.baseLink += '/unidades/' + this.routerState.params['unidadeHandle'];
-                }
-                this.baseLink += '/setor/' + this.routerState.params['setorHandle'];
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.baseLink = '/apps/coordenador/' + this.routerState.params['generoHandle'] + '/' +
+                this.routerState.params['entidadeHandle'];
+            if (this.routerState.params['unidadeHandle']) {
+                this.baseLink += '/unidades/' + this.routerState.params['unidadeHandle'];
             }
+            this.baseLink += '/setor/' + this.routerState.params['setorHandle'];
         });
 
         const path = 'app/main/apps/coordenador/setor/sidebars/main';

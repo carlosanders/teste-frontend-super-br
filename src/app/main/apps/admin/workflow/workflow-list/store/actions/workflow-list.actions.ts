@@ -44,14 +44,12 @@ export class GetWorkflowFailed implements Action {
 /**
  * Unload Workflow
  */
- export class UnloadWorkflow implements Action
- {
-     readonly type = UNLOAD_WORKFLOW;
+export class UnloadWorkflow implements Action {
+    readonly type = UNLOAD_WORKFLOW;
 
-     constructor()
-     {
-     }
- }
+    constructor() {
+    }
+}
 
 
 /**
@@ -67,41 +65,32 @@ export class ReloadWorkflow implements Action {
 /**
  * Delete Workflow
  */
-export class DeleteWorkflow implements Action
-{
+export class DeleteWorkflow implements Action {
     readonly type = DELETE_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Workflow Success
  */
-export class DeleteWorkflowSuccess implements Action
-{
+export class DeleteWorkflowSuccess implements Action {
     readonly type = DELETE_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Workflow Failed
  */
-export class DeleteWorkflowFailed implements Action
-{
+export class DeleteWorkflowFailed implements Action {
     readonly type = DELETE_WORKFLOW_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
-
-
-
 
 
 export type WorkflowListActionsAll

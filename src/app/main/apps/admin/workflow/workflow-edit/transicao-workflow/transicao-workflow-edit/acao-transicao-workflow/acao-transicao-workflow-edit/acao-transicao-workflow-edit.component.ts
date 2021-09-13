@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {
     AcaoTransicaoWorkflow,
     Criteria,
@@ -25,6 +25,7 @@ import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {LoginService} from '../../../../../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'acao-transicao-workflow-edit',
@@ -79,6 +80,7 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
     logEntryPagination: Pagination;
 
     tipoAcaoControl: FormControl = new FormControl();
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -123,15 +125,14 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
             'colaborador.id': 'isNotNull'
         };
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                this.action = '';
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    this.componentUrl = 'acoes/editar/' + this.routerState.params.acaoTransicaoWorkflowHandle;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.action = '';
+            this.routerState = routerState.state;
+            this.componentUrl = 'acoes/editar/' + this.routerState.params.acaoTransicaoWorkflowHandle;
+        });
 
         this.criteriasTemplate.forEach((criteria) => {
             const newCriteria = new Criteria();
@@ -150,10 +151,14 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.acao$.subscribe(
+        this.acao$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             acao => this.acao = acao
         );
-        this.tipoAcaoWorkflowList$.subscribe(
+        this.tipoAcaoWorkflowList$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             tipoAcaoWorkflowList => this.tipoAcaoWorkflowList = tipoAcaoWorkflowList
         );
 
@@ -169,6 +174,8 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -176,7 +183,7 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     goBack(): void {
-        this._router.navigate([this.routerState.url.replace(this.componentUrl, 'acoes/listar')]);
+        this._router.navigate([this.routerState.url.replace(this.componentUrl, 'acoes/listar')]).then();
     }
 
     displayFn(): string {

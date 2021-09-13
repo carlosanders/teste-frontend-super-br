@@ -13,84 +13,70 @@ export const DELETE_TIPO_ACAO_WORKFLOW_FAILED = '[SUPERADMIN ESPECIE PROCESSO LI
 /**
  * Get TipoAcaoWorkflow
  */
-export class GetTipoAcaoWorkflow implements Action
-{
+export class GetTipoAcaoWorkflow implements Action {
     readonly type = GET_TIPO_ACAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoAcaoWorkflow Success
  */
-export class GetTipoAcaoWorkflowSuccess implements Action
-{
+export class GetTipoAcaoWorkflowSuccess implements Action {
     readonly type = GET_TIPO_ACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoAcaoWorkflow Failed
  */
-export class GetTipoAcaoWorkflowFailed implements Action
-{
+export class GetTipoAcaoWorkflowFailed implements Action {
     readonly type = GET_TIPO_ACAO_WORKFLOW_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload TipoAcaoWorkflow
  */
-export class ReloadTipoAcaoWorkflow implements Action
-{
+export class ReloadTipoAcaoWorkflow implements Action {
     readonly type = RELOAD_TIPO_ACAO_WORKFLOW;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete TipoAcaoWorkflow
  */
-export class DeleteTipoAcaoWorkflow implements Action
-{
+export class DeleteTipoAcaoWorkflow implements Action {
     readonly type = DELETE_TIPO_ACAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoAcaoWorkflow Success
  */
-export class DeleteTipoAcaoWorkflowSuccess implements Action
-{
+export class DeleteTipoAcaoWorkflowSuccess implements Action {
     readonly type = DELETE_TIPO_ACAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoAcaoWorkflow Failed
  */
-export class DeleteTipoAcaoWorkflowFailed implements Action
-{
+export class DeleteTipoAcaoWorkflowFailed implements Action {
     readonly type = DELETE_TIPO_ACAO_WORKFLOW_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

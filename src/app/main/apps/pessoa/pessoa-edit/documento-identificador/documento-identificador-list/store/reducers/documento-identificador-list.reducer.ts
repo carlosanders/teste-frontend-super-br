@@ -96,7 +96,7 @@ export function DocumentoIdentificadorListReducer(
         case DocumentoIdentificadorListActions.DELETE_DOCUMENTO_IDENTIFICADOR: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.documentoIdentificadorId]
             };
         }
 
@@ -112,7 +112,7 @@ export function DocumentoIdentificadorListReducer(
         case DocumentoIdentificadorListActions.DELETE_DOCUMENTO_IDENTIFICADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

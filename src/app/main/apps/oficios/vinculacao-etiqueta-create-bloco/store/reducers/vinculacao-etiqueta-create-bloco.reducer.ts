@@ -25,22 +25,22 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
-                savingDocumentosAvulsoId: [...state.savingDocumentosAvulsoId, action.payload.documentoAvulso.id]
+                savingDocumentosAvulsoId: [...state.savingDocumentosAvulsoId, action.payload.vinculacaoEtiqueta.documentoAvulso.id]
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
-                savingDocumentosAvulsoId: state.savingDocumentosAvulsoId.filter(id => id !== action.payload.documentoAvulso.id)
+                savingDocumentosAvulsoId: state.savingDocumentosAvulsoId.filter(id => id !== action.payload.vinculacaoEtiqueta.documentoAvulso.id)
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                savingDocumentosAvulsoId: state.savingDocumentosAvulsoId.filter(id => id !== action.payload.documentoAvulso.id),
-                errors: action.payload
+                savingDocumentosAvulsoId: state.savingDocumentosAvulsoId.filter(id => id !== action.payload.documentoAvulsoId),
+                errors: action.payload.errors
             };
         }
 

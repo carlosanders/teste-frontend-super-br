@@ -14,12 +14,12 @@ import {DocumentoAvulso, Pagination, Tarefa, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getSelectedTarefas} from '../store/selectors';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getSelectedTarefas} from '../store';
+import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
-import {Back} from '../../../../store/actions';
+import {Back} from '../../../../store';
 import {LoginService} from '../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../@cdk/utils';
 
@@ -32,8 +32,6 @@ import {CdkUtils} from '../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
@@ -52,6 +50,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
     operacoes: any[] = [];
 
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -131,28 +130,26 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefas => this.tarefas = tarefas);
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'documento_avulso')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'documento avulso') {
+                    this.operacoes.push(operacoes[operacaoId]);
                 }
-            );
+            });
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
 
         this.documentoAvulso = new DocumentoAvulso();

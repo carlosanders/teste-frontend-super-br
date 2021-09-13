@@ -11,7 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../store';
 import {Back, getRouterState} from '../../../../../../store';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
@@ -63,42 +63,33 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.modalidadeOrgaoCentral$ = this._store.pipe(select(fromStore.getModalidadeOrgaoCentral));
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if (this.routerState.params['unidadeHandle']) {
-                        this.unidadeHandle$ = this._store.pipe(select(fromStore.getUnidadeHandle));
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.params['unidadeHandle']) {
+                this.unidadeHandle$ = this._store.pipe(select(fromStore.getUnidadeHandle));
 
-                        this.unidadeHandle$.pipe(
-                            takeUntil(this._unsubscribeAll)
-                        ).subscribe(
-                            (setor) => {
-                                if (setor) {
-                                    this.unidade = setor;
-                                }
-                            }
-                        );
-                    }
-                    if (this.routerState.params['setorHandle']) {
-                        this.setorHandle$ = this._store.pipe(select(fromStore.getSetorHandle));
+                this.unidadeHandle$.pipe(
+                    takeUntil(this._unsubscribeAll),
+                    filter(setor => !!setor)
+                ).subscribe((setor) => {
+                    this.unidade = setor;
+                });
+            }
+            if (this.routerState.params['setorHandle']) {
+                this.setorHandle$ = this._store.pipe(select(fromStore.getSetorHandle));
 
-                        this.setorHandle$.pipe(
-                            takeUntil(this._unsubscribeAll)
-                        ).subscribe(
-                            (setor) => {
-                                if (setor) {
-                                    this.setor = setor;
-                                }
-                            }
-                        );
-                    }
-                }
-            });
+                this.setorHandle$.pipe(
+                    filter(setor => !!setor),
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe((setor) => {
+                    this.setor = setor;
+                });
+            }
+        });
 
         this.modalidadeEtiquetaPagination = new Pagination();
         this.modalidadeEtiquetaPagination.populate = ['populateAll'];
@@ -117,34 +108,25 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         ).subscribe(etiqueta => this.etiqueta = etiqueta);
 
         this.setor$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (setor) => {
-                if (setor) {
-                    this.setor = setor;
-                }
-            }
-        );
+            takeUntil(this._unsubscribeAll),
+            filter(setor => !!setor)
+        ).subscribe((setor) => {
+            this.setor = setor;
+        });
 
         this.unidade$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (setor) => {
-                if (setor) {
-                    this.unidade = setor;
-                }
-            }
-        );
+            takeUntil(this._unsubscribeAll),
+            filter(setor => !!setor)
+        ).subscribe((setor) => {
+            this.unidade = setor;
+        });
 
         this.modalidadeOrgaoCentral$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (modalidadeOrgaoCentral) => {
-                if (modalidadeOrgaoCentral) {
-                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
-                }
-            }
-        );
+            takeUntil(this._unsubscribeAll),
+            filter(modalidadeOrgaoCentral => !!modalidadeOrgaoCentral)
+        ).subscribe((modalidadeOrgaoCentral) => {
+            this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
+        });
 
         if (!this.etiqueta) {
             this.etiqueta = new Etiqueta();
@@ -165,6 +147,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -172,7 +156,6 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const etiqueta = new Etiqueta();
 
         Object.entries(values).forEach(

@@ -11,7 +11,8 @@ import {Location} from '@angular/common';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../../store/reducers';
+import {getRouterState} from '../../../../../../store';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'componente-digital',
@@ -35,13 +36,11 @@ export class ComponenteDigitalComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.ComponenteDigitalAppState>,
         private _location: Location
     ) {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
 
@@ -66,8 +65,7 @@ export class ComponenteDigitalComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    back() {
+    back(): void {
         this._location.back();
     }
-
 }

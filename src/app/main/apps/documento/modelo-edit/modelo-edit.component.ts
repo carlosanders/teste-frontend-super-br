@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -30,12 +30,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     documento$: Observable<Documento>;
 
     documentoPrincipal: Documento;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
 
     /**
      *
@@ -44,13 +44,15 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _dynamicService
      * @param _router
      * @param _activatedRoute
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
         private _location: Location,
         private _dynamicService: DynamicService,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
     }
@@ -76,7 +78,10 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });

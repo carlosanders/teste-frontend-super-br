@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as RelatorioCreateActions from '../actions/relatorio-create.actions';
 
@@ -21,8 +21,69 @@ import {LoginService} from '../../../../../auth/login/login.service';
 @Injectable()
 export class RelatorioCreateEffect {
     routerState: any;
-    private _profile: Usuario;
+    /**
+     * Save Relatorio Success
+     */
+    saveRelatorioSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<RelatorioCreateActions.SaveRelatorioSuccess>(RelatorioCreateActions.SAVE_RELATORIO_SUCCESS),
+        tap(() => {
+            this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
+        })
+    ), {dispatch: false});
+    /**
+     * Save Relatorio
+     *
+     * @type {Observable<any>}
+     */
+    saveRelatorio: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<RelatorioCreateActions.SaveRelatorio>(RelatorioCreateActions.SAVE_RELATORIO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'relatório',
+            content: 'Salvando o relatório ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._relatorioService.save(action.payload.relatorio).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'relatorio',
+                content: 'Relatório id ' + response.id + ' salvo com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Relatorio) => [
+                new RelatorioCreateActions.SaveRelatorioSuccess(),
+                new fromStoreRelatorio.UnloadRelatorios({reset: true}),
+                new fromStoreRelatorio.GetRelatorios({
+                    filter: {
+                        'criadoPor.id': 'eq:' + this._profile.id
+                    },
+                    etiquetaFilter: {},
+                    limit: 10,
+                    offset: 0,
+                    sort: {id: 'DESC'},
+                    populate: [
+                        'documento',
+                        'tipoRelatorio',
+                        'vinculacoesEtiquetas',
+                        'vinculacoesEtiquetas.etiqueta'
+                    ]
+                }),
+                new AddData<Relatorio>({data: [response], schema: relatorioSchema}),
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'relatório',
+                    content: 'Erro ao salvar o relatório!',
+                    status: 2, // erro
+                }));
+                return of(new RelatorioCreateActions.SaveRelatorioFailed(err));
+            })
+        ))
+    ));
 
+    private _profile: Usuario;
     constructor(
         private _actions: Actions,
         private _relatorioService: RelatorioService,
@@ -30,87 +91,13 @@ export class RelatorioCreateEffect {
         private _router: Router,
         public _loginService: LoginService,
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this._profile = _loginService.getUserProfile();
     }
-
-    /**
-     * Save Relatorio
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveRelatorio: any =
-        this._actions
-            .pipe(
-                ofType<RelatorioCreateActions.SaveRelatorio>(RelatorioCreateActions.SAVE_RELATORIO),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'relatório',
-                    content: 'Salvando a relatório ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._relatorioService.save(action.payload.relatorio).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'relatorio',
-                                content: 'Relatório id ' + response.id + ' salva com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
-                        mergeMap((response: Relatorio) => [
-                            new RelatorioCreateActions.SaveRelatorioSuccess(),
-                            new fromStoreRelatorio.UnloadRelatorios({reset: true}),
-                            new fromStoreRelatorio.GetRelatorios({
-                                filter: {
-                                    'criadoPor.id': 'eq:' + this._profile.id
-                                },
-                                etiquetaFilter: {},
-                                limit: 10,
-                                offset: 0,
-                                sort: {id: 'DESC'},
-                                populate: [
-                                    'documento',
-                                    'tipoRelatorio',
-                                    'vinculacoesEtiquetas',
-                                    'vinculacoesEtiquetas.etiqueta'
-                                ]
-                            }),
-                            new AddData<Relatorio>({data: [response], schema: relatorioSchema}),
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'relatório',
-                                content: 'Erro ao salvar a relatório!',
-                                status: 2, // erro
-                            }));
-                            return of(new RelatorioCreateActions.SaveRelatorioFailed(err));
-                        })
-                    )
-                })
-            );
-
-    /**
-     * Save Relatorio Success
-     */
-    @Effect({ dispatch: false })
-    saveRelatorioSuccess: any =
-        this._actions
-            .pipe(
-                ofType<RelatorioCreateActions.SaveRelatorioSuccess>(RelatorioCreateActions.SAVE_RELATORIO_SUCCESS),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
-                })
-            );
 }

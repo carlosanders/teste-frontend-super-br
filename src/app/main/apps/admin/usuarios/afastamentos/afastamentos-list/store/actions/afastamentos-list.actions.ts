@@ -13,84 +13,70 @@ export const DELETE_AFASTAMENTO_FAILED = '[ADMIN AFASTAMENTOS LIST] DELETE AFAST
 /**
  * Get Afastamento
  */
-export class GetAfastamentos implements Action
-{
+export class GetAfastamentos implements Action {
     readonly type = GET_AFASTAMENTOS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Afastamento Success
  */
-export class GetAfastamentosSuccess implements Action
-{
+export class GetAfastamentosSuccess implements Action {
     readonly type = GET_AFASTAMENTOS_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Afastamentos Failed
  */
-export class GetAfastamentosFailed implements Action
-{
+export class GetAfastamentosFailed implements Action {
     readonly type = GET_AFASTAMENTOS_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Afastamentos
  */
-export class ReloadAfastamentos implements Action
-{
+export class ReloadAfastamentos implements Action {
     readonly type = RELOAD_AFASTAMENTOS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Afastamento
  */
-export class DeleteAfastamento implements Action
-{
+export class DeleteAfastamento implements Action {
     readonly type = DELETE_AFASTAMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Afastamento Success
  */
-export class DeleteAfastamentoSuccess implements Action
-{
+export class DeleteAfastamentoSuccess implements Action {
     readonly type = DELETE_AFASTAMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Afastamento Failed
  */
-export class DeleteAfastamentoFailed implements Action
-{
+export class DeleteAfastamentoFailed implements Action {
     readonly type = DELETE_AFASTAMENTO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

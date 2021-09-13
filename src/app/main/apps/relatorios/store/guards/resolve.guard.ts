@@ -30,13 +30,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<RelatoriosAppState>,
         public _loginService: LoginService,
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._store
             .pipe(select(getIsLoading))
@@ -55,9 +55,12 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-            return this.checkStore().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);}));
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            }));
     }
 
     /**
@@ -107,7 +110,7 @@ export class ResolveGuard implements CanActivate {
                 if (!this.loading && (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
-                     '_' + this.routerState.params['targetHandle']) !== loaded.value)) {
+                        '_' + this.routerState.params['targetHandle']) !== loaded.value)) {
 
                     this._store.dispatch(new fromStore.UnloadRelatorios({reset: true}));
 
@@ -136,9 +139,9 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.loading || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
-                    this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
-                        this.routerState.params['targetHandle']) === loaded.value)),
+                this.routerState.params['targetHandle'] &&
+                (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
+                    this.routerState.params['targetHandle']) === loaded.value)),
             take(1)
         );
     }

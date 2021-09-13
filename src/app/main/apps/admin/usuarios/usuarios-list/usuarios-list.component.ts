@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
@@ -15,9 +15,9 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Usuario} from '@cdk/models';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {take, tap} from 'rxjs/operators';
+import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'usuarios-list',
@@ -39,6 +39,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -59,22 +60,25 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadUsuarios());
     }
 
@@ -96,19 +100,19 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(usuarioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + usuarioId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + usuarioId]).then();
     }
 
     lotacoes(usuarioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/lotacoes`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/lotacoes`)]).then();
     }
 
     afastamentos(usuarioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/afastamentos`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/afastamentos`)]).then();
     }
 
     resetaSenha(usuarioId: number): void {
@@ -140,7 +144,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     }
 
     coordenadores(usuarioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/coordenadores`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/coordenadores`)]).then();
     }
 
     delete(usuarioId: number, loteId: string = null): void {
@@ -152,12 +156,13 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
     doDistribuirTarefas(usuario: Usuario): void {
-        this._store.dispatch(new fromStore.DistribuirTarefasUsuario(usuario));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DistribuirTarefasUsuario({usuario: usuario, operacaoId: operacaoId}));
     }
 }

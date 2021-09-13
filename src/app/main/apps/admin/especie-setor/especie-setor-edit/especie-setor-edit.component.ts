@@ -7,9 +7,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
-import {Back} from '../../../../../store/actions';
+import {getRouterState} from '../../../../../store';
+import {Back} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'especie-setor-edit',
@@ -29,8 +30,6 @@ export class EspecieSetorEditComponent implements OnInit {
     formEspecieSetor: FormGroup;
     generoSetorPagination: Pagination;
 
-
-
     constructor(
         private _store: Store<fromStore.EspecieSetorEditAppState>,
         private _router: Router,
@@ -41,13 +40,12 @@ export class EspecieSetorEditComponent implements OnInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.especieSetor$ = this._store.pipe(select(fromStore.getEspecieSetor));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
         this.generoSetorPagination = new Pagination();
         this.loadForm();
     }

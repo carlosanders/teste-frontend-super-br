@@ -10,60 +10,50 @@ export const GET_WORKFLOW_FAILED = '[ADMIN WORKFLOW EDIT] GET WORKFLOW FAILED';
 /**
  * Get Workflow
  */
-export class GetWorkflow implements Action
-{
+export class GetWorkflow implements Action {
     readonly type = GET_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Workflow Success
  */
-export class GetWorkflowSuccess implements Action
-{
+export class GetWorkflowSuccess implements Action {
     readonly type = GET_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Workflow Failed
  */
-export class GetWorkflowFailed implements Action
-{
+export class GetWorkflowFailed implements Action {
     readonly type = GET_WORKFLOW_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Create Workflow
  */
-export class CreateWorkflow implements Action
-{
+export class CreateWorkflow implements Action {
     readonly type = CREATE_WORKFLOW;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Workflow Success
  */
-export class CreateWorkflowSuccess implements Action
-{
+export class CreateWorkflowSuccess implements Action {
     readonly type = CREATE_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

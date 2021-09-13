@@ -98,7 +98,7 @@ export function AvisoListReducer(
         case AvisoListActions.DELETE_AVISO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.avisoId]
             };
         }
 
@@ -113,7 +113,7 @@ export function AvisoListReducer(
         case AvisoListActions.DELETE_AVISO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -14,96 +14,80 @@ export const GET_NOME_FAILED = '[NOME] GET NOME FAILED';
 /**
  * Get Nome
  */
-export class GetNome implements Action
-{
+export class GetNome implements Action {
     readonly type = GET_NOME;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Nome Success
  */
-export class GetNomeSuccess implements Action
-{
+export class GetNomeSuccess implements Action {
     readonly type = GET_NOME_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Nome Failed
  */
-export class GetNomeFailed implements Action
-{
+export class GetNomeFailed implements Action {
     readonly type = GET_NOME_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Nome
  */
-export class SaveNome implements Action
-{
+export class SaveNome implements Action {
     readonly type = SAVE_NOME;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Nome Success
  */
-export class SaveNomeSuccess implements Action
-{
+export class SaveNomeSuccess implements Action {
     readonly type = SAVE_NOME_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Nome Failed
  */
-export class SaveNomeFailed implements Action
-{
+export class SaveNomeFailed implements Action {
     readonly type = SAVE_NOME_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Nome
  */
-export class CreateNome implements Action
-{
+export class CreateNome implements Action {
     readonly type = CREATE_NOME;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Nome Success
  */
-export class CreateNomeSuccess implements Action
-{
+export class CreateNomeSuccess implements Action {
     readonly type = CREATE_NOME_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Localizador} from '@cdk/models/localizador.model';
 import {select, Store} from '@ngrx/store';
@@ -9,9 +9,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination, Setor, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../../../store/actions';
-import {getRouterState} from '../../../../../../../store/reducers';
+import {Back} from '../../../../../../../store';
+import {getRouterState} from '../../../../../../../store';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'admin-localizador-edit',
@@ -31,6 +32,7 @@ export class RootLocalizadorEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     usuario: Usuario;
     setorPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -47,20 +49,18 @@ export class RootLocalizadorEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll', 'unidade'];
         this.setorPagination.filter = {
             id: 'eq:' + this.routerState.params.setorHandle
         };
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -72,9 +72,10 @@ export class RootLocalizadorEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.localizador$.subscribe(
-            localizador => this.localizador = localizador
-        );
+        this.localizador$.pipe(
+            filter(localizador => !!localizador),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(localizador => this.localizador = localizador);
 
         if (!this.localizador) {
             this.localizador = new Localizador();
@@ -86,6 +87,9 @@ export class RootLocalizadorEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

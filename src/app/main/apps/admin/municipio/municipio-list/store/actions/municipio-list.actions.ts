@@ -41,7 +41,7 @@ export class GetMunicipioFailed implements Action {
 /**
  * Unload Municipio
  */
- export class UnloadMunicipio implements Action {
+export class UnloadMunicipio implements Action {
     readonly type = UNLOAD_MUNICIPIO;
 
     constructor() {

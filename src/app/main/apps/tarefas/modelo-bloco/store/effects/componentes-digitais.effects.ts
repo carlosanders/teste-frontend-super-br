@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, tap} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
 
@@ -13,73 +13,85 @@ import {ComponenteDigital} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class ComponenteDigitalEffect {
     routerState: any;
     componenteDigitalId: number;
 
-    constructor(
-        private _actions: Actions,
-        private _componenteDigitalService: ComponenteDigitalService,
-        private _store: Store<State>
-    ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-    }
-
     /**
      * Get ComponentesDigitais with router parameters
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    createComponenteDigital: any =
-        this._actions
-            .pipe(
-                ofType<ComponenteDigitalActions.CreateComponenteDigital>(ComponenteDigitalActions.CREATE_COMPONENTE_DIGITAL),
-                map((action) => {
+    createComponenteDigital: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.CreateComponenteDigital>(ComponenteDigitalActions.CREATE_COMPONENTE_DIGITAL),
+        map((action) => {
+            const componenteDigital = new ComponenteDigital();
+            componenteDigital.modelo = action.payload.modelo;
+            componenteDigital.tarefaOrigem = action.payload.tarefaOrigem;
+            componenteDigital.fileName = action.payload.modelo.nome + '.html';
 
-                    const componenteDigital = new ComponenteDigital();
-                    componenteDigital.modelo = action.payload.modelo;
-                    componenteDigital.tarefaOrigem = action.payload.tarefaOrigem;
-                    componenteDigital.fileName = action.payload.modelo.nome + '.html';
-
-                    return new ComponenteDigitalActions.SaveComponenteDigital(componenteDigital);
-                }),
-            );
+            return new ComponenteDigitalActions.SaveComponenteDigital({
+                componenteDigital: componenteDigital,
+                operacaoId: action.payload.operacaoId,
+                loteId: action.payload.loteId
+            });
+        }),
+    ));
 
     /**
      * Save ComponenteDigital
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    saveComponenteDigital: any =
-        this._actions
-            .pipe(
-                ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-                mergeMap(action => this._componenteDigitalService.save(action.payload).pipe(
-                        mergeMap((response: ComponenteDigital) => [
-                            new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
-                            new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'componenteDigital',
-                                content: `Componente Digital id ${response.id} criado com sucesso!`,
-                                success: true,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log (err);
-                            return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(action.payload));
-                        })
-                    ), 25)
-            );
+    saveComponenteDigital: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'componente digital',
+            content: 'Criando componente digital ...',
+            status: 0, // carregando
+        }))),
+        mergeMap(action => this._componenteDigitalService.save(action.payload).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'componente digital',
+                content: `Componente Digital id ${response.id} criado com sucesso!`,
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: ComponenteDigital) => [
+                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
+                new AddData<ComponenteDigital>({
+                    data: [{...action.payload, ...response}],
+                    schema: componenteDigitalSchema
+                })
+            ]),
+            catchError((err) => {
+                const erroString = CdkUtils.errorsToString(err);
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: `Houve erro na criação de componente digital: ${erroString}`,
+                    status: 2 // erro
+                }));
+                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(action.payload));
+            })
+        ), 25)
+    ));
 
+    constructor(
+        private _actions: Actions,
+        private _componenteDigitalService: ComponenteDigitalService,
+        private _store: Store<State>
+    ) {
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+    }
 }

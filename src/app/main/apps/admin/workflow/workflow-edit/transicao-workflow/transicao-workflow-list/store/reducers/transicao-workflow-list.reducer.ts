@@ -63,7 +63,6 @@ export function TransicaoWorkflowListReducer(
         }
 
 
-
         case TransicaoWorkflowListActions.GET_TRANSICAO_WORKFLOW_SUCCESS: {
             const loaded = action.payload.loaded;
 
@@ -109,7 +108,7 @@ export function TransicaoWorkflowListReducer(
         case TransicaoWorkflowListActions.DELETE_TRANSICAO_WORKFLOW: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.transicaoWorkflowId]
             };
         }
 
@@ -125,7 +124,7 @@ export function TransicaoWorkflowListReducer(
         case TransicaoWorkflowListActions.DELETE_TRANSICAO_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

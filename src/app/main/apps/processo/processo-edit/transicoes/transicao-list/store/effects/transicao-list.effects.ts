@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TransicaoListActions from '../actions';
@@ -16,113 +16,100 @@ import * as OperacoesActions from '../../../../../../../../store/actions/operaco
 
 @Injectable()
 export class TransicaoListEffect {
-
     routerState: any;
-
-    constructor(
-        private _actions: Actions,
-        private _transicaoService: TransicaoService,
-        private _store: Store<State>
-    ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-    }
 
     /**
      * Get Transicoes with router parameters
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    getTransicoes: any =
-        this._actions
-            .pipe(
-                ofType<TransicaoListActions.GetTransicoes>(TransicaoListActions.GET_TRANSICOES),
-                switchMap(action => this._transicaoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.gridFilter,
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context))),
-                mergeMap(response => [
-                    new AddData<Transicao>({data: response['entities'], schema: transicaoSchema}),
-                    new TransicaoListActions.GetTransicoesSuccess({
-                        entitiesId: response['entities'].map(transicao => transicao.id),
-                        loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle
-                        },
-                        total: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TransicaoListActions.GetTransicoesFailed(err));
-                    return caught;
-                })
-            );
+    getTransicoes: any = createEffect(() => this._actions.pipe(
+        ofType<TransicaoListActions.GetTransicoes>(TransicaoListActions.GET_TRANSICOES),
+        switchMap(action => this._transicaoService.query(
+            JSON.stringify({
+                ...action.payload.filter,
+                ...action.payload.gridFilter,
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify(action.payload.context))),
+        mergeMap(response => [
+            new AddData<Transicao>({data: response['entities'], schema: transicaoSchema}),
+            new TransicaoListActions.GetTransicoesSuccess({
+                entitiesId: response['entities'].map(transicao => transicao.id),
+                loaded: {
+                    id: 'processoHandle',
+                    value: this.routerState.params.processoHandle
+                },
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new TransicaoListActions.GetTransicoesFailed(err));
+        })
+    ));
 
     /**
      * Delete Transicao
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    deleteTransicao: Observable<TransicaoListActions.TransicaoListActionsAll> =
-        this._actions
-            .pipe(
-                ofType<TransicaoListActions.DeleteTransicao>(TransicaoListActions.DELETE_TRANSICAO),
-                tap((action) => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
-                        type: 'transicao',
-                        content: 'Apagando a transicao id ' + action.payload.transicaoId + '...',
-                        status: 0, // carregando
-                        lote: action.payload.loteId
-                    }));
-                }),
-                mergeMap((action) => {
-                    return this._transicaoService.destroy(action.payload.transicaoId).pipe(
-                        map((response) => {
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'transicao',
-                                content: 'Transicao id ' + action.payload.transicaoId + ' deletada com sucesso.',
-                                status: 1, // sucesso
-                                lote: action.payload.loteId
-                            }));
-                            new UpdateData<Transicao>({
-                                id: response.id,
-                                schema: transicaoSchema,
-                                changes: {apagadoEm: response.apagadoEm}
-                            });
-                            return new TransicaoListActions.DeleteTransicaoSuccess(response.id);
-                        }),
-                        catchError((err) => {
-                            const payload = {
-                                id: action.payload.transicaoId,
-                                error: err
-                            };
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'transicao',
-                                content: 'Erro ao apagar a transicao id ' + action.payload.transicaoId + '!',
-                                status: 2, // erro
-                                lote: action.payload.loteId
-                            }));
-                            console.log(err);
-                            return of(new TransicaoListActions.DeleteTransicaoFailed(payload));
-                        })
-                    );
-                }, 25)
-            );
+    deleteTransicao: Observable<TransicaoListActions.TransicaoListActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<TransicaoListActions.DeleteTransicao>(TransicaoListActions.DELETE_TRANSICAO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'transição',
+            content: 'Apagando a transição id ' + action.payload.transicaoId + '...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
+        mergeMap(action => this._transicaoService.destroy(action.payload.transicaoId).pipe(
+            map((response) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'transição',
+                    content: 'Transição id ' + action.payload.transicaoId + ' deletada com sucesso.',
+                    status: 1, // sucesso
+                    lote: action.payload.loteId
+                }));
+                this._store.dispatch(new UpdateData<Transicao>({
+                    id: response.id,
+                    schema: transicaoSchema,
+                    changes: {apagadoEm: response.apagadoEm}
+                }));
+                return new TransicaoListActions.DeleteTransicaoSuccess(response.id);
+            }),
+            catchError((err) => {
+                const payload = {
+                    id: action.payload.transicaoId,
+                    error: err
+                };
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'transição',
+                    content: 'Erro ao apagar a transição id ' + action.payload.transicaoId + '!',
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                console.log(err);
+                return of(new TransicaoListActions.DeleteTransicaoFailed(payload));
+            })
+        ), 25)
+    ));
+
+    constructor(
+        private _actions: Actions,
+        private _transicaoService: TransicaoService,
+        private _store: Store<State>
+    ) {
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+    }
 }

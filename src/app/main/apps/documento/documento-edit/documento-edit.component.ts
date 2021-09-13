@@ -25,6 +25,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'documento-edit',
@@ -36,7 +37,10 @@ import {DocumentoEditService} from './shared/documento-edit.service';
 })
 export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('dynamicForm', {read: ViewContainerRef}) containerForm: ViewContainerRef;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     documento$: Observable<Documento>;
 
@@ -49,11 +53,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     currentComponenteDigital: ComponenteDigital;
 
     documento: Documento;
-
-    @ViewChild('dynamicForm', {read: ViewContainerRef}) containerForm: ViewContainerRef;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
 
     routerState: any;
 
@@ -70,6 +69,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     vinculacaoEtiquetaErrors$: Observable<any>;
 
     routeAtividade = 'atividade';
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -130,6 +130,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
                 }
@@ -149,7 +150,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      */
     ngOnInit(): void {
         if (this._router.url.indexOf('/juntadas') === -1) {
-            this.tarefa$.subscribe((tarefa) => {
+            this.tarefa$.pipe(
+                takeUntil(this._unsubscribeAll)
+            ).subscribe((tarefa) => {
                 this.tarefa = tarefa;
             });
         }
@@ -159,33 +162,35 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             componenteDigital => this.currentComponenteDigital = componenteDigital
         );
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
 
-                const path = 'app/main/apps/documento/documento-edit';
-                modulesConfig.forEach((module) => {
-                    if (module.components.hasOwnProperty(path)) {
-                        module.components[path].forEach(((c) => {
-                            this._dynamicService.loadComponent(c)
-                                .then(componentFactory => this.container.createComponent(componentFactory));
-                        }));
-                    }
+            const path = 'app/main/apps/documento/documento-edit';
+            modulesConfig.forEach((module) => {
+                if (module.components.hasOwnProperty(path)) {
+                    module.components[path].forEach(((c) => {
+                        this._dynamicService.loadComponent(c)
+                            .then((componentFactory) => {
+                                this.container.createComponent(componentFactory);
+                                this._ref.markForCheck();
+                            });
+                    }));
+                }
 
-                    if (module.routerLinks.hasOwnProperty(path) &&
-                        module.routerLinks[path].hasOwnProperty('atividade') &&
-                        module.routerLinks[path]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                        this.routeAtividade = module.routerLinks[path]['atividade'][this.routerState.params.generoHandle];
-                    }
-                });
-            }
+                if (module.routerLinks.hasOwnProperty(path) &&
+                    module.routerLinks[path].hasOwnProperty('atividade') &&
+                    module.routerLinks[path]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeAtividade = module.routerLinks[path]['atividade'][this.routerState.params.generoHandle];
+                }
+            });
         });
 
         this.documento$.pipe(
-            filter(documento => !this.documento || (documento && (documento.id !== this.documento.id)))
+            filter(documento => !this.documento || (documento && (documento.id !== this.documento.id))),
+            takeUntil(this._unsubscribeAll)
         ).subscribe((documento) => {
             this.documento = documento;
             if (documento && documento.vinculacaoDocumentoPrincipal) {
@@ -200,7 +205,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
                 }));
             }
 
@@ -216,7 +224,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             if (module.components.hasOwnProperty(path1)) {
                 module.components[path1].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( (componentFactory)  => {
+                        .then((componentFactory) => {
                             this.containerForm.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });
@@ -249,7 +257,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         if (documento.vinculacaoDocumentoPrincipal) {
             sidebar = 'editar/dados-basicos';
         }
-        this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id, {outlets: {primary: primary, sidebar: sidebar}}],
+        this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id, {
+                outlets: {
+                    primary: primary,
+                    sidebar: sidebar
+                }
+            }],
             {
                 relativeTo: this._activatedRoute.parent // <--- PARENT activated route.
             }).then();
@@ -260,7 +273,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({documento: this.documento, etiqueta: etiqueta}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({documento: this.documento, etiqueta: etiqueta, operacaoId: operacaoId}));
     }
 
     onEtiquetaEdit(values): void {

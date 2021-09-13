@@ -318,7 +318,7 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

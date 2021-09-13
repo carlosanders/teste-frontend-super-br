@@ -18,10 +18,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
 import {Documento, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '@cdk/models';
-import {getMaximizado} from '../store/selectors';
-import {ToggleMaximizado} from '../store/actions';
+import {getMaximizado} from '../store';
+import {ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
@@ -39,7 +39,10 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
     savingVincEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
@@ -56,19 +59,15 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
 
     accept = 'application/pdf';
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     maximizado$: Observable<boolean>;
     maximizado = false;
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: Usuario;
-
     mobileMode = false;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
+    private _profile: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -106,6 +105,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:RELATORIO'
                 }
@@ -122,7 +122,10 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -131,11 +134,10 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
         this.relatorio$.pipe(
             filter(relatorio => !!relatorio),
@@ -145,15 +147,11 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
         });
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            documentos => this.documentos = documentos
-        );
+        ).subscribe(documentos => this.documentos = documentos);
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            maximizado => this.maximizado = maximizado
-        );
+        ).subscribe(maximizado => this.maximizado = maximizado);
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -163,7 +161,6 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     ngOnDestroy(): void {
-
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -174,7 +171,6 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
     // -----------------------------------------------------------------------------------------------------
 
     submit(): void {
-
     }
 
     /**
@@ -182,7 +178,6 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
      */
     deselectCurrentRelatorio(): void {
         this._store.dispatch(new fromStore.DeselectRelatorioAction());
-        // this.doToggleMaximizado();
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {

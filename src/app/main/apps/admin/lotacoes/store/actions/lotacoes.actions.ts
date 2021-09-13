@@ -14,96 +14,80 @@ export const UNLOAD_SETOR = '[ADMIN LOTACOES] UNLOAD SETOR';
 /**
  * Get Setor
  */
-export class GetSetor implements Action
-{
+export class GetSetor implements Action {
     readonly type = GET_SETOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Success
  */
-export class GetSetorSuccess implements Action
-{
+export class GetSetorSuccess implements Action {
     readonly type = GET_SETOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Failed
  */
-export class GetSetorFailed implements Action
-{
+export class GetSetorFailed implements Action {
     readonly type = GET_SETOR_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Get Usuario
  */
-export class GetUsuario implements Action
-{
+export class GetUsuario implements Action {
     readonly type = GET_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Usuario Success
  */
-export class GetUsuarioSuccess implements Action
-{
+export class GetUsuarioSuccess implements Action {
     readonly type = GET_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Usuario Failed
  */
-export class GetUsuarioFailed implements Action
-{
+export class GetUsuarioFailed implements Action {
     readonly type = GET_USUARIO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Unload Usuario
  */
-export class UnloadUsuario implements Action
-{
+export class UnloadUsuario implements Action {
     readonly type = UNLOAD_USUARIO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Unload Setor
  */
-export class UnloadSetor implements Action
-{
+export class UnloadSetor implements Action {
     readonly type = UNLOAD_SETOR;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 

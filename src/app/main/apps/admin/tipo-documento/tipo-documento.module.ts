@@ -26,11 +26,11 @@ const routes: Routes = [
         component: TipoDocumentoComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./tipo-documento-list/tipo-documento-list.module').then(m => m.TipoDocumentoListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./tipo-documento-edit/tipo-documento-edit.module').then(m => m.TipoDocumentoEditModule),
             },
             {

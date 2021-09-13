@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {WorkflowDadosBasicosReducer, WorkflowDadosBasicosState} from './workflow-dados-basicos.reducer';
 
-export interface WorkflowDadosBasicosAppState
-{
+export interface WorkflowDadosBasicosAppState {
     workflow: WorkflowDadosBasicosState;
 }
 

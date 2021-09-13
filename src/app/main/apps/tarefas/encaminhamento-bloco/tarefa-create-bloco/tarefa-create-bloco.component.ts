@@ -19,9 +19,9 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
-import {getOperacoesState, getRouterState} from '../../../../../store';
-import {getProcessosEncaminhamento, UnloadEncaminhamentoBloco} from "../store";
-import {CdkUtils} from "../../../../../../@cdk/utils";
+import {getOperacoes, getRouterState} from '../../../../../store';
+import {getProcessosEncaminhamento} from '../store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'encaminhar-tarefa-create-bloco',
@@ -32,8 +32,6 @@ import {CdkUtils} from "../../../../../../@cdk/utils";
     animations: cdkAnimations
 })
 export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefa: Tarefa;
     isSaving$: Observable<boolean>;
@@ -49,7 +47,7 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
     processos$: Observable<Processo[]>;
     processos: Processo[];
 
-    // visibilidades$: Observable<boolean>;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     NUP: any;
     processo: Processo;
 
@@ -57,6 +55,7 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
     operacaoId?: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
 
     /**
@@ -77,7 +76,6 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processos$ = this._store.pipe(select(getProcessosEncaminhamento));
         this._profile = _loginService.getUserProfile().colaborador;
-        // this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
 
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -101,14 +99,12 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
         this.operacaoId = null;
         this.operacoes = [];
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
         this.processos$.pipe(
@@ -124,56 +120,18 @@ export class EncaminharTarefaCreateBlocoComponent implements OnInit, OnDestroy {
         this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
         this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
 
-        // this.visibilidades$.pipe(
-        //     takeUntil(this._unsubscribeAll),
-        // ).subscribe(
-        //     (restricao) => {
-        //         if (restricao) {
-        //             const dialogRef = this._dialog.open(CdkVisibilidadePluginComponent, {
-        //                 data: {
-        //                     NUP: this.NUP
-        //                 },
-        //                 hasBackdrop: false,
-        //                 closeOnNavigation: true
-        //             });
-        //
-        //             dialogRef.afterClosed()
-        //                 .pipe(
-        //                     tap(
-        //                         (value) => {
-        //                             const processoId = this.routerState.params.processoHandle ?
-        //                                 this.routerState.params.processoHandle : this.processo.id;
-        //                             if (value === 1 && processoId) {
-        //                                 this._router.navigate(['apps/tarefas/' +
-        //                                 this.routerState.params.generoHandle + '/' +
-        //                                 this.routerState.params.typeHandle + '/' +
-        //                                 this.routerState.params.targetHandle + '/visibilidade/' + processoId]);
-        //                             }
-        //                         }
-        //                     ),
-        //                     tap(() => dialogRef.close()),
-        //                     take(1)
-        //                 ).subscribe();
-        //
-        //             this._store.dispatch(new fromStore.GetVisibilidadesSuccess({
-        //                 restricaoProcesso: false
-        //             }));
-        //         }
-        //     }
-        // );
-
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => this.operacaoId && !!op && !!op.content && op.type === 'tarefa')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.detectChanges();
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'tarefa') {
+                    this.operacoes.push(operacoes[operacaoId]);
                 }
-            );
+            });
+            this._changeDetectorRef.detectChanges();
+        });
     }
 
     /**

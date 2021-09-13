@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Compartilhamento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -21,6 +21,7 @@ import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'compartilhamento-create',
@@ -44,6 +45,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     usuarioPagination: Pagination;
 
     private _profile: Colaborador;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -69,13 +71,12 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             'colaborador.id': 'isNotNull'
         };
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,7 +88,10 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.compartilhamento = new Compartilhamento();
-        this.tarefa$.subscribe((tarefa) => {
+        this.tarefa$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(tarefa => !!tarefa)
+        ).subscribe((tarefa) => {
             this.compartilhamento.tarefa = tarefa;
         });
     }
@@ -100,6 +104,9 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -107,7 +114,6 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const compartilhamento = new Compartilhamento();
 
         Object.entries(values).forEach(

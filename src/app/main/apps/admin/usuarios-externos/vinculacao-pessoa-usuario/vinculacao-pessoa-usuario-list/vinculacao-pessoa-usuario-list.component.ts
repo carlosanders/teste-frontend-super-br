@@ -2,18 +2,18 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    EventEmitter,
+    EventEmitter, OnDestroy,
     OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Pessoa} from '@cdk/models';
+import {Pessoa, VinculacaoPessoaUsuario} from '@cdk/models';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {getRouterState} from '../../../../../../store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {getRouterState} from '../../../../../../store';
+import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
@@ -25,22 +25,22 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class VinculacaoPessoaUsuarioListComponent implements OnInit {
+export class VinculacaoPessoaUsuarioListComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() select: EventEmitter<VinculacaoPessoaUsuario> = new EventEmitter();
 
     routerState: any;
-    pessoas$: Observable<Pessoa[]>;
+    pessoas$: Observable<VinculacaoPessoaUsuario[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
-    lote: string
+    lote: string;
 
-    @Output()
-    select: EventEmitter<Pessoa> = new EventEmitter();
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -53,19 +53,15 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
-
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((pagination) => {
@@ -97,23 +93,23 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
     delete(pessoaId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteVinculacaoPessoaUsuario({
-            pessoaId: pessoaId,
+            vinculacaoPessoaUsuarioId: pessoaId,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
 
-    doSelect(pessoa: Pessoa): void {
+    doSelect(pessoa: VinculacaoPessoaUsuario): void {
         this.select.emit(pessoa);
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'criar')]).then();
     }
 
 }

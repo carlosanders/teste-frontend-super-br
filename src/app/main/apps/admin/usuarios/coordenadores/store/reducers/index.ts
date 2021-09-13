@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {CoordenadoresReducer, CoordenadoresState} from './coordenadores.reducer';
 
-export interface CoordenadoresAppState
-{
+export interface CoordenadoresAppState {
     coordenadores: CoordenadoresState;
 }
 

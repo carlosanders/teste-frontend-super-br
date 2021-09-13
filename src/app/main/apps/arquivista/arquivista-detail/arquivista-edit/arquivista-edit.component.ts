@@ -20,16 +20,13 @@ import {getProcesso} from '../../../processo/store';
 })
 export class ArquivistaEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     processo$: Observable<Processo>;
     processo: Processo;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     _profile: Colaborador;
-
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -63,7 +60,7 @@ export class ArquivistaEditComponent implements OnInit, OnDestroy {
             this.processo = processo;
             this.logEntryPagination.filter = {
                 entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo',
-                id: + this.processo.id
+                id: +this.processo.id
             };
         });
     }

@@ -1,16 +1,17 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {GrupoContato, Pagination, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'grupo-contato-edit',
@@ -26,14 +27,14 @@ export class GrupoContatoEditComponent implements OnInit, OnDestroy {
     grupoContato: GrupoContato;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     usuario: Usuario;
-
     templatePagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -46,13 +47,12 @@ export class GrupoContatoEditComponent implements OnInit, OnDestroy {
         this.grupoContato$ = this._store.pipe(select(fromStore.getGrupoContato));
         this.usuario = this._loginService.getUserProfile();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['populateAll'];
@@ -66,8 +66,9 @@ export class GrupoContatoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.grupoContato$.subscribe(
+        this.grupoContato$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             grupoContato => this.grupoContato = grupoContato
         );
 
@@ -80,6 +81,8 @@ export class GrupoContatoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,7 +90,6 @@ export class GrupoContatoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const grupoContato = new GrupoContato();
 
         Object.entries(values).forEach(

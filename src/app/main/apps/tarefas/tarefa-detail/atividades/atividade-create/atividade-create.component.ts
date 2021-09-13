@@ -113,7 +113,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     assinaturaInterval = null;
 
     private _unsubscribeAll: Subject<any> = new Subject();
-
     private _profile: Colaborador;
 
     /**
@@ -259,11 +258,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -300,28 +298,26 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.documentos$.pipe(
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (documentos) => {
-                this.minutas = documentos.filter(documento =>
-                    (!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
+        ).subscribe((documentos) => {
+            this.minutas = documentos.filter(documento =>
+                (!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
 
-                this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
+            this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
 
-                if (this.atividade.encerraTarefa) {
-                    this.disabledIds = this.minutas.map(minuta => minuta.id);
-                }
-                this._changeDetectorRef.markForCheck();
-
-                this.lixeiraMinutas$.subscribe((lixeira) => {
-                    if (lixeira) {
-                        this.minutas = documentos.filter(documento => (documento.apagadoEm));
-                        this.changedSelectedIds([]);
-                        this.disabledIds = [];
-                        this._changeDetectorRef.markForCheck();
-                    }
-                });
+            if (this.atividade.encerraTarefa) {
+                this.disabledIds = this.minutas.map(minuta => minuta.id);
             }
-        );
+            this._changeDetectorRef.markForCheck();
+
+            this.lixeiraMinutas$.subscribe((lixeira) => {
+                if (lixeira) {
+                    this.minutas = documentos.filter(documento => (documento.apagadoEm));
+                    this.changedSelectedIds([]);
+                    this.disabledIds = [];
+                    this._changeDetectorRef.markForCheck();
+                }
+            });
+        });
 
         this.assinandoDocumentosId$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -358,7 +354,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -387,7 +386,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         delete values.unidadeAprovacao;
 
         const atividade = new Atividade();
@@ -418,7 +416,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
-    erroUpload(mensagemErro) {
+    erroUpload(mensagemErro): void {
         this.mensagemErro = mensagemErro;
     }
 
@@ -430,10 +428,12 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         const modelo = this.formEditor.get('modelo').value;
 
         //this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.CreateComponenteDigital({
             modelo: modelo,
             tarefaOrigem: this.tarefa,
-            routeAtividadeDocumento: this.routeAtividadeDocumento
+            routeAtividadeDocumento: this.routeAtividadeDocumento,
+            operacaoId: operacaoId
         }));
         this.formEditor.get('modelo').setValue(null);
         this.menuTriggerList.closeMenu();
@@ -529,6 +529,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             });
             this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
         } else {
+            const lote = CdkUtils.makeId();
             result.documentos.forEach((documento) => {
                 documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -539,8 +540,12 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                     assinatura.assinatura = 'A1';
                     assinatura.plainPassword = result.plainPassword;
 
+                    const operacaoId = CdkUtils.makeId();
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                        assinatura: assinatura
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId,
+                        loteId: lote
                     }));
                 });
             });
@@ -560,8 +565,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura
+                    assinatura: assinatura,
+                    documento: result.documento,
+                    operacaoId: operacaoId
                 }));
             });
         }

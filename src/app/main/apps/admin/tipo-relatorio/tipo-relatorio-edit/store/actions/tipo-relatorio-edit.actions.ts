@@ -22,132 +22,110 @@ export const SAVE_COLABORADOR_FAILED = '[ADMIN TIPO_RELATORIO EDIT] SAVE COLABOR
 /**
  * Get TipoRelatorio
  */
-export class GetTipoRelatorio implements Action
-{
+export class GetTipoRelatorio implements Action {
     readonly type = GET_TIPO_RELATORIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoRelatorio Success
  */
-export class GetTipoRelatorioSuccess implements Action
-{
+export class GetTipoRelatorioSuccess implements Action {
     readonly type = GET_TIPO_RELATORIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoRelatorio Failed
  */
-export class GetTipoRelatorioFailed implements Action
-{
+export class GetTipoRelatorioFailed implements Action {
     readonly type = GET_TIPO_RELATORIO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save TipoRelatorio
  */
-export class SaveTipoRelatorio implements Action
-{
+export class SaveTipoRelatorio implements Action {
     readonly type = SAVE_TIPO_RELATORIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoRelatorio
  */
-export class UpdateTipoRelatorio implements Action
-{
+export class UpdateTipoRelatorio implements Action {
     readonly type = UPDATE_TIPO_RELATORIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TipoRelatorio Success
  */
-export class SaveTipoRelatorioSuccess implements Action
-{
+export class SaveTipoRelatorioSuccess implements Action {
     readonly type = SAVE_TIPO_RELATORIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save TipoRelatorio Failed
  */
-export class SaveTipoRelatorioFailed implements Action
-{
+export class SaveTipoRelatorioFailed implements Action {
     readonly type = SAVE_TIPO_RELATORIO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoRelatorio Success
  */
-export class UpdateTipoRelatorioSuccess implements Action
-{
+export class UpdateTipoRelatorioSuccess implements Action {
     readonly type = UPDATE_TIPO_RELATORIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update TipoRelatorio Failed
  */
-export class UpdateTipoRelatorioFailed implements Action
-{
+export class UpdateTipoRelatorioFailed implements Action {
     readonly type = UPDATE_TIPO_RELATORIO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create TipoRelatorio
  */
-export class CreateTipoRelatorio implements Action
-{
+export class CreateTipoRelatorio implements Action {
     readonly type = CREATE_TIPO_RELATORIO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create TipoRelatorio Success
  */
-export class CreateTipoRelatorioSuccess implements Action
-{
+export class CreateTipoRelatorioSuccess implements Action {
     readonly type = CREATE_TIPO_RELATORIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

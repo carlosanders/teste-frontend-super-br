@@ -21,8 +21,6 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 })
 export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     links: any;
     routerState: any;
 
@@ -32,6 +30,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     label = 'Protocolo';
     nup = '';
     generoProcesso = '';
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _router
@@ -126,14 +125,12 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     /**

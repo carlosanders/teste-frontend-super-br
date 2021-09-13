@@ -162,6 +162,20 @@
                     </div>
                 </div>
 
+                <mat-form-field>
+                    <mat-label>Numeração Sequencial</mat-label>
+                    <input matInput #numeracaoSequencial
+                           name="numeracaoSequencial"
+                           formControlName="numeracaoSequencial">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Descrição</mat-label>
+                    <input matInput #descricao
+                           name="descricao"
+                           formControlName="descricao">
+                </mat-form-field>
+
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
                         <input matInput placeholder="Documento"
@@ -172,6 +186,26 @@
                         #tipoDocumento="tipoDocumentoAutocomplete"
                         [control]="form.get('tipoDocumento')">
                     </cdk-tipo-documento-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Criado Por"
+                           formControlName="criadoPor"
+                           [matAutocomplete]="usuarioCriadoPor.autocomplete">
+                    <cdk-usuario-autocomplete
+                        #usuarioCriadoPor="usuarioAutocomplete"
+                        [control]="form.get('criadoPor')">
+                    </cdk-usuario-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Atualizado Por"
+                           formControlName="atualizadoPor"
+                           [matAutocomplete]="usuario.autocomplete">
+                    <cdk-usuario-autocomplete
+                        #usuario="usuarioAutocomplete"
+                        [control]="form.get('atualizadoPor')">
+                    </cdk-usuario-autocomplete>
                 </mat-form-field>
 
             </div>
@@ -578,7 +612,7 @@
          (scrolled)="onScroll()">
 
         <div class="nova-juntada accent" matRipple (click)="reloadJuntadas()" *ngIf="novaJuntada">
-            <span class="mat-body">Nova juntada recebida... regarregue a lista!</span>
+            <span class="mat-body">Nova juntada recebida... recarregue a lista!</span>
         </div>
 
         <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"

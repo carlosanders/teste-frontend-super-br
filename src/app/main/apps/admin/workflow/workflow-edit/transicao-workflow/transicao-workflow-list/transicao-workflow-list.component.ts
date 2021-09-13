@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -7,6 +14,7 @@ import {TransicaoWorkflow} from '@cdk/models/transicao-workflow.model';
 import {Back, getRouterState} from '../../../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'transicao-workflow-list',
@@ -16,7 +24,7 @@ import {CdkUtils} from '../../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TransicaoWorkflowListComponent implements OnInit {
+export class TransicaoWorkflowListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     transicoesWorkflows$: Observable<TransicaoWorkflow[]>;
@@ -27,6 +35,7 @@ export class TransicaoWorkflowListComponent implements OnInit {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -41,19 +50,28 @@ export class TransicaoWorkflowListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -76,23 +94,19 @@ export class TransicaoWorkflowListComponent implements OnInit {
     }
 
     edit(transicaoWorkflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId]).then();
     }
 
     regras(transicaoWorkflowId: number): void {
-        this._router.navigate(
-            [this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId + '/validacoes'])
-        ;
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId + '/validacoes']).then();
     }
 
     acoes(transicaoWorkflowId: number): void {
-        this._router.navigate(
-            [this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId + '/acoes'])
-        ;
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId + '/acoes']).then();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     delete(transicaoWorkflowId: number, loteId: string = null): void {
@@ -104,7 +118,7 @@ export class TransicaoWorkflowListComponent implements OnInit {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

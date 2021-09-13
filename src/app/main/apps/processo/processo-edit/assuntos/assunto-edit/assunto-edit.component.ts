@@ -1,14 +1,16 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Assunto, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getProcesso} from '../../../store';
+import {Back} from '../../../../../../store';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'assunto-edit',
@@ -29,6 +31,7 @@ export class AssuntoEditComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     assuntoAdministrativoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -53,13 +56,14 @@ export class AssuntoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            processo => this.processo = processo
-        );
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processo => this.processo = processo);
 
-        this.assunto$.subscribe(
-            assunto => this.assunto = assunto
-        );
+        this.assunto$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(assunto => !!assunto)
+        ).subscribe(assunto => this.assunto = assunto);
 
         if (!this.assunto) {
             this.assunto = new Assunto();
@@ -75,6 +79,8 @@ export class AssuntoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }
 
@@ -83,7 +89,6 @@ export class AssuntoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const assunto = new Assunto();
 
         Object.entries(values).forEach(
@@ -92,8 +97,8 @@ export class AssuntoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveAssunto(assunto));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveAssunto({assunto: assunto, operacaoId: operacaoId}));
     }
 
 }

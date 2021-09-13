@@ -39,8 +39,8 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.id),
-                errors: action.payload.error
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processoId),
+                errors: action.payload.errors
             };
         }
 

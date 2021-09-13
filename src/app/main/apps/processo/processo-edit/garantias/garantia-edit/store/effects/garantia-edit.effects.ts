@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as GarantiaEditActions from '../actions/garantia-edit.actions';
 import * as GarantiaListActions from '../../../garantia-list/store/actions/garantia-list.actions';
@@ -20,111 +20,96 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 export class GarantiaEditEffect {
     routerState: any;
 
-    constructor(
-        private _actions: Actions,
-        private _garantiaService: GarantiaService,
-        private _store: Store<State>,
-        private _router: Router
-    ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-    }
-
     /**
      * Get Garantia with router parameters
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    getGarantia: any =
-        this._actions
-            .pipe(
-                ofType<GarantiaEditActions.GetGarantia>(GarantiaEditActions.GET_GARANTIA),
-                switchMap(action => this._garantiaService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
-                switchMap(response => [
-                    new AddData<Garantia>({data: response['entities'], schema: garantiaSchema}),
-                    new GarantiaEditActions.GetGarantiaSuccess({
-                        loaded: {
-                            id: 'garantiaHandle',
-                            value: this.routerState.params.garantiaHandle
-                        },
-                        garantiaId: response['entities'][0].id
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new GarantiaEditActions.GetGarantiaFailed(err));
-                    return caught;
-                })
-            );
+    getGarantia: any = createEffect(() => this._actions.pipe(
+        ofType<GarantiaEditActions.GetGarantia>(GarantiaEditActions.GET_GARANTIA),
+        switchMap(action => this._garantiaService.query(
+            JSON.stringify(action.payload),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ]))),
+        switchMap(response => [
+            new AddData<Garantia>({data: response['entities'], schema: garantiaSchema}),
+            new GarantiaEditActions.GetGarantiaSuccess({
+                loaded: {
+                    id: 'garantiaHandle',
+                    value: this.routerState.params.garantiaHandle
+                },
+                garantiaId: response['entities'][0].id
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new GarantiaEditActions.GetGarantiaFailed(err));
+        })
+    ));
 
     /**
      * Save Garantia
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    saveGarantia: any =
-        this._actions
-            .pipe(
-                ofType<GarantiaEditActions.SaveGarantia>(GarantiaEditActions.SAVE_GARANTIA),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
+    saveGarantia: any = createEffect(() => this._actions.pipe(
+        ofType<GarantiaEditActions.SaveGarantia>(GarantiaEditActions.SAVE_GARANTIA),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'garantia',
+            content: 'Salvando a garantia ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._garantiaService.save(action.payload.garantia).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'garantia',
+                content: 'Garantia id ' + response.id + ' salva com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Garantia) => [
+                new GarantiaEditActions.SaveGarantiaSuccess(),
+                new GarantiaListActions.ReloadGarantias(),
+                new AddData<Garantia>({data: [response], schema: garantiaSchema})
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'garantia',
-                    content: 'Salvando a garantia ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._garantiaService.save(action.payload.garantia).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'garantia',
-                                content: 'Garantia id ' + response.id + ' salva com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
-                        mergeMap((response: Garantia) => [
-                            new GarantiaEditActions.SaveGarantiaSuccess(),
-                            new GarantiaListActions.ReloadGarantias(),
-                            new AddData<Garantia>({data: [response], schema: garantiaSchema})
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'garantia',
-                                content: 'Erro ao salvar a garantia!',
-                                status: 2, // erro
-                            }));
-                            return of(new GarantiaEditActions.SaveGarantiaFailed(err));
-                        })
-                    )
-                })
-            );
+                    content: 'Erro ao salvar a garantia!',
+                    status: 2, // erro
+                }));
+                return of(new GarantiaEditActions.SaveGarantiaFailed(err));
+            })
+        ))
+    ));
 
     /**
      * Save Garantia Success
      */
-    @Effect({dispatch: false})
-    saveGarantiaSuccess: any =
-        this._actions
-            .pipe(
-                ofType<GarantiaEditActions.SaveGarantiaSuccess>(GarantiaEditActions.SAVE_GARANTIA_SUCCESS),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.garantiaHandle), 'listar')]).then();
-                })
-            );
+    saveGarantiaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<GarantiaEditActions.SaveGarantiaSuccess>(GarantiaEditActions.SAVE_GARANTIA_SUCCESS),
+        tap(() => {
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.garantiaHandle), 'listar')]).then();
+        })
+    ), {dispatch: false});
+
+    constructor(
+        private _actions: Actions,
+        private _garantiaService: GarantiaService,
+        private _store: Store<State>,
+        private _router: Router
+    ) {
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+    }
 }

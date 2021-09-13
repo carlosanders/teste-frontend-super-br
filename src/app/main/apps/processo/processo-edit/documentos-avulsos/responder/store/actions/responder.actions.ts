@@ -1,5 +1,4 @@
 import {Action} from '@ngrx/store';
-import {GetDocumentosComplementaresFailed} from '../../../../../../oficios/oficio-detail/complementar/store/actions';
 
 export const GET_DOCUMENTOS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_SUCCESS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] GET DOCUMENTOS SUCCESS';
@@ -29,6 +28,10 @@ export const ASSINA_DOCUMENTO_FAILED = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] 
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO FAILED';
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
 
@@ -314,6 +317,42 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
 }
 
 /**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Change Selected Documentos
  */
 export class ChangeSelectedDocumentos implements Action {
@@ -432,6 +471,9 @@ export type ResponderActionsAll
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
     | AssinaDocumentoEletronicamenteFailed
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoSuccess
+    | RemoveAssinaturaDocumentoFailed
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
@@ -448,4 +490,4 @@ export type ResponderActionsAll
     | SaveComplementarSuccess
     | GetDocumentosComplementares
     | GetDocumentosCompelemtaresSuccess
-    | GetDocumentosComplementaresFailed;
+    | GetDocumentosCompelemtaresFailed;

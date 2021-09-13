@@ -6,40 +6,36 @@ import {CdkConfigService} from '@cdk/services/config.service';
 import {navigation} from 'app/navigation/navigation';
 
 @Component({
-    selector     : 'vertical-layout-3',
-    templateUrl  : './layout-3.component.html',
-    styleUrls    : ['./layout-3.component.scss'],
+    selector: 'vertical-layout-3',
+    templateUrl: './layout-3.component.html',
+    styleUrls: ['./layout-3.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class VerticalLayout3Component implements OnInit, OnDestroy
-{
+export class VerticalLayout3Component implements OnInit, OnDestroy {
     cdkConfig: any;
     navigation: any;
     chatOpen: boolean = false;
-
+    mobileMode: boolean;
     // Private
     private _unsubscribeAll: Subject<any>;
-
     private innerWidth: any;
-    mobileMode: boolean;
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.innerWidth = window.innerWidth;
-        this.mobileMode = innerWidth <= 600;
-    }
 
     /**
      * @param _cdkConfigService
      */
     constructor(
         private _cdkConfigService: CdkConfigService
-    )
-    {
+    ) {
         // Set the defaults
         this.navigation = navigation;
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event): void {
+        this.innerWidth = window.innerWidth;
+        this.mobileMode = innerWidth <= 600;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -49,8 +45,7 @@ export class VerticalLayout3Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Subscribe to config changes
         this._cdkConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
@@ -65,15 +60,13 @@ export class VerticalLayout3Component implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
 
-    toogleChat(isOpen:boolean) : void
-    {
+    toogleChat(isOpen: boolean): void {
         this.chatOpen = isOpen;
     }
 }

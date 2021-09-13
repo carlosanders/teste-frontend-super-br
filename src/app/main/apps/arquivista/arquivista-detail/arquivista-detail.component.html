@@ -1,56 +1,57 @@
-<div class="header" *ngIf="!(expandir$ | async)">
+<div *ngIf="!(expandir$ | async)" class="header">
     <div class="actions">
-        <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentProcesso()">
+        <button (click)="deselectCurrentProcesso()" *ngIf="mobileMode" mat-icon-button>
             <mat-icon class="secondary-text">arrow_back</mat-icon>
         </button>
 
-        <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado(true)">
+        <button (click)="doToggleMaximizado(true)" *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button>
             <mat-icon class="secondary-text">fullscreen</mat-icon>
         </button>
 
-        <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado(false)">
+        <button (click)="doToggleMaximizado(false)" *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button>
             <mat-icon class="secondary-text">fullscreen_exit</mat-icon>
         </button>
     </div>
 
     <div class="navigation">
-        <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                [routerLink]="['processo', (processo$ | async)?.id, 'visualizar']"
-                [routerLinkActive]="['active', 'accent']">
+        <button [routerLinkActive]="['active', 'accent']" [routerLink]="['processo', (processo$ | async)?.id, 'visualizar']" aria-label="Processo"
+                mat-icon-button
+                matTooltip="Processo">
             <mat-icon class="black-fg">book</mat-icon>
         </button>
 
-        <button mat-icon-button aria-label="Lembretes" matTooltip="Editar"
-                [routerLink]="[(processo$ | async)?.id, 'editar']"
-                [routerLinkActive]="['active', 'accent']">
+        <button [routerLinkActive]="['active', 'accent']" [routerLink]="[(processo$ | async)?.id, 'editar']" aria-label="Lembretes"
+                mat-icon-button
+                matTooltip="Editar">
             <mat-icon class="black-fg">edit</mat-icon>
         </button>
 
-        <button mat-icon-button *ngIf="!!(modalidadeTransicao$ | async)"
-                aria-label="Realizar Temporalidade e Destinação" [matTooltip]="'Realizar ' + (modalidadeTransicao$ | async).valor | titlecase"
+        <button *ngIf="!!(modalidadeTransicao$ | async)" [matTooltip]="'Realizar ' + (modalidadeTransicao$ | async).valor | titlecase"
+                [routerLinkActive]="['active', 'accent']"
                 [routerLink]="[(processo$ | async)?.id, 'temporalidade-destinacao']"
-                [routerLinkActive]="['active', 'accent']">
+                aria-label="Realizar Temporalidade e Destinação"
+                mat-icon-button>
             <mat-icon class="black-fg">swap_horiz</mat-icon>
         </button>
 
-        <button mat-icon-button *ngIf="(processo$ | async).modalidadeFase?.valor === 'INTERMEDIÁRIA'"
-                aria-label="Desarquivar" matTooltip="Desarquivar"
-                [routerLink]="[(processo$ | async)?.id, 'desarquivar']"
-                [routerLinkActive]="['active', 'accent']">
+        <button *ngIf="(processo$ | async).modalidadeFase?.valor === 'INTERMEDIÁRIA'" [routerLinkActive]="['active', 'accent']"
+                [routerLink]="[(processo$ | async)?.id, 'desarquivar']" aria-label="Desarquivar"
+                mat-icon-button
+                matTooltip="Desarquivar">
             <mat-icon class="black-fg">unarchive</mat-icon>
         </button>
 
-        <button mat-icon-button
-                aria-label="Registrar Extravio" matTooltip="Registrar Extravio"
-                [routerLink]="[(processo$ | async)?.id, 'registrar-extravio']"
-                [routerLinkActive]="['active', 'accent']">
+        <button [routerLinkActive]="['active', 'accent']"
+                [routerLink]="[(processo$ | async)?.id, 'registrar-extravio']" aria-label="Registrar Extravio"
+                mat-icon-button
+                matTooltip="Registrar Extravio">
             <mat-icon class="black-fg">error_outline</mat-icon>
         </button>
 
     </div>
 </div>
 
-<div class="content" cdkPerfectScrollbar>
+<div cdkPerfectScrollbar class="content">
     <router-outlet></router-outlet>
 </div>
 

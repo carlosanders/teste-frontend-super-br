@@ -22,7 +22,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {CdkUtils} from '@cdk/utils';
-import {take, takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -33,6 +33,12 @@ import {take, takeUntil} from "rxjs/operators";
     animations: cdkAnimations
 })
 export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    /**
+     * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
+     * informar status da remessa oriundos de módulos diferentes da remessa manual
+     */
+    @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
@@ -49,12 +55,6 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     remeterDocAvulso = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
-
-    /**
-     * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
-     * informar status da remessa oriundos de módulos diferentes da remessa manual
-     */
-    @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
 
     /**
      *
@@ -88,18 +88,25 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((value) => {
             if (value === this.documento.id && this.remeterDocAvulso) {
                 this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
             }
         });
 
-        this.errorsRemetendo$.subscribe(err => this.errorsRemetendo = CdkUtils.errorsToString(err));
+        this.errorsRemetendo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(err => this.errorsRemetendo = CdkUtils.errorsToString(err));
     }
 
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void {
+    }
 
     iniciaModulos(): void {
         const path2 = 'app/main/apps/documento/documento-avulso-edit#status';
@@ -107,7 +114,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             if (module.components.hasOwnProperty(path2)) {
                 module.components[path2].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( (componentFactory)  => {
+                        .then((componentFactory) => {
                             this.containerStatus.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });
@@ -143,7 +150,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                if (!this.documento.assinado){
+                if (!this.documento.assinado) {
                     this.remeterDocAvulso = true;
                     this._componenteDigitalService.doEditorSave.next(this.documento.id);
                 }

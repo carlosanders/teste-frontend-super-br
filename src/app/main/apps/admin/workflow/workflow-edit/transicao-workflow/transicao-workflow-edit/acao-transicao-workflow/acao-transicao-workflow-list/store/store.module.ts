@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('admin-acao-transicao-workflow-list-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class AcaoTransicaoWorkflowListStoreModule
-{
+export class AcaoTransicaoWorkflowListStoreModule {
 }
