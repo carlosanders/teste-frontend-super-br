@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {CompetenciasReducer, CompetenciasState} from './competencias.reducer';
 
-export interface CompetenciasAppState
-{
+export interface CompetenciasAppState {
     competencias: CompetenciasState;
 }
 

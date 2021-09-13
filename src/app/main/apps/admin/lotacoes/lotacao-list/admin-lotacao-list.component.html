@@ -5,18 +5,18 @@
     </path>
 </div>
 <cdk-lotacao-grid
-        [loading]="(loading$ | async)"
-        [lotacoes]="(lotacoes$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
+    [loading]="(loading$ | async)"
+    [lotacoes]="(lotacoes$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
     [deletingErrors]="(deletingErrors$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [displayedColumns]="['select', 'id', 'colaborador.usuario.nome', 'setor.unidade.nome', 'setor.nome', 'peso', 'distribuidor', 'principal', 'actions']"
-        [actions]="['edit', 'create', 'delete']"
-        [setorPagination]="this.setorPagination"
-        (create)="create()"
-        (reload)="reload($event)"
-        (edit)="edit($event)"
-        (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['select', 'id', 'colaborador.usuario.nome', 'setor.unidade.nome', 'setor.nome', 'peso', 'distribuidor', 'principal', 'actions']"
+    [actions]="['edit', 'create', 'delete']"
+    [setorPagination]="this.setorPagination"
+    (create)="create()"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (delete)="delete($event)"
+    (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-lotacao-grid>

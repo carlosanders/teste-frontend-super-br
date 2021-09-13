@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {TipoValidacaoWorkflowListReducer, TipoValidacaoWorkflowListState} from './tipo-validacao-workflow-list.reducer';
 
-export interface TipoValidacaoWorkflowListAppState
-{
+export interface TipoValidacaoWorkflowListAppState {
     tipoValidacaoWorkflowList: TipoValidacaoWorkflowListState;
 }
 

@@ -1,15 +1,15 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Classificacao, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
-import {Back} from '../../../../../store/actions';
-import {filter} from 'rxjs/operators';
+import {getRouterState} from '../../../../../store';
+import {Back} from '../../../../../store';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
@@ -20,7 +20,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ClassificacaoEditComponent implements OnInit {
+export class ClassificacaoEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
     isSaving$: Observable<boolean>;
@@ -30,6 +30,7 @@ export class ClassificacaoEditComponent implements OnInit {
     formClassificacao: FormGroup;
     classificacaoPagination: Pagination;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.ClassificacaoEditAppState>,
@@ -41,13 +42,12 @@ export class ClassificacaoEditComponent implements OnInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.classificacao$ = this._store.pipe(select(fromStore.getClassificacao));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
         this.classificacaoPagination = new Pagination();
         this.logEntryPagination = new Pagination();
         this.loadForm();
@@ -55,13 +55,23 @@ export class ClassificacaoEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.classificacao$.pipe(
-            filter(classificacao => !!classificacao)
-        ).subscribe(
-            (classificacao) => {
-                this.classificacao = classificacao;
-                this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Classificacao', id: + this.classificacao.id};
-            }
-        );
+            filter(classificacao => !!classificacao),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((classificacao) => {
+            this.classificacao = classificacao;
+            this.logEntryPagination.filter = {
+                entity: 'SuppCore\\AdministrativoBackend\\Entity\\Classificacao',
+                id: +this.classificacao.id
+            };
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     loadForm(): void {

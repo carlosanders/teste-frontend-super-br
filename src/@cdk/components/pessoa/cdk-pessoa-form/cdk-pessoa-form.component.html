@@ -81,6 +81,17 @@
         </mat-form-field>
     </div>
 
+    <div class="responsive-group" *ngIf="form.get('dataNascimento').hasError('formError') || form.get('dataObito').hasError('formError')">
+
+        <mat-error *ngIf="form.get('dataNascimento').hasError('formError')">
+            {{form.get('dataNascimento').errors.formError}}
+        </mat-error>
+
+        <mat-error *ngIf="form.get('dataObito').hasError('formError')">
+            {{form.get('dataObito').errors.formError}}
+        </mat-error>
+    </div>
+
     <div class="responsive-group" [fxHide]="hidden">
         <mat-form-field>
             <input matInput placeholder="Nacionalidade"

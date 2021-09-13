@@ -41,14 +41,12 @@ export class GetPessoaFailed implements Action {
 /**
  * Unload Pessoa
  */
- export class UnloadPessoa implements Action
- {
-     readonly type = UNLOAD_PESSOA;
+export class UnloadPessoa implements Action {
+    readonly type = UNLOAD_PESSOA;
 
-     constructor()
-     {
-     }
- }
+    constructor() {
+    }
+}
 
 /**
  * Reload Pessoa

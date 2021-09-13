@@ -27,11 +27,11 @@ const routes: Routes = [
         component: EspecieProcessoComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./especie-processo-list/especie-processo-list.module').then(m => m.EspecieProcessoListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./especie-processo-edit/especie-processo-edit.module').then(m => m.EspecieProcessoEditModule),
             },
             {

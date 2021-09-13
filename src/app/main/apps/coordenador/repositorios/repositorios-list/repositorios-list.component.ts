@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Repositorio} from '@cdk/models/repositorio.model';
@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'coordenador-repositorios-list',
@@ -40,6 +40,7 @@ export class RepositoriosListComponent implements OnInit, OnDestroy {
 
     actions: string[];
     colunas: string[];
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -61,38 +62,45 @@ export class RepositoriosListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
 
-                    if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.setor.nome', 'ativo', 'actions'];
-                    }
-                    if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
-                        (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.unidade.nome', 'ativo', 'actions'];
-                    }
-                    if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.modalidadeOrgaoCentral.valor', 'ativo', 'actions'];
-                    }
-                }
-            });
+            if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
+                this.actions = ['edit', 'create', 'editConteudo', 'delete'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.setor.nome', 'ativo', 'actions'];
+            }
+            if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
+                (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
+                this.actions = ['edit', 'create', 'editConteudo', 'delete'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.unidade.nome', 'ativo', 'actions'];
+            }
+            if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
+                this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.modalidadeOrgaoCentral.valor', 'ativo', 'actions'];
+            }
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadRepositorios());
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetRepositorios({
@@ -127,11 +135,11 @@ export class RepositoriosListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(repositorioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + repositorioId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + repositorioId]).then();
     }
 
     editConteudo(documento: Documento): void {
@@ -159,7 +167,7 @@ export class RepositoriosListComponent implements OnInit, OnDestroy {
     }
 
     especieSetores(repositorioId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${repositorioId}/especie-setor`)]);
+        this._router.navigate([this.routerState.url.replace('listar', `${repositorioId}/especie-setor`)]).then();
     }
 
     delete(repositorioId: number, loteId: string = null): void {
@@ -171,9 +179,8 @@ export class RepositoriosListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
-
 }

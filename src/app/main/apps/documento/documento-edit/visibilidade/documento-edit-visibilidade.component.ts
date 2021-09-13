@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -23,6 +23,7 @@ import {Documento, Pagination, Usuario, Visibilidade} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-visibilidade',
@@ -34,6 +35,8 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 })
 export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
     documento$: Observable<Documento>;
     documento: Documento;
 
@@ -56,10 +59,8 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
 
     _profile: Usuario;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -80,13 +81,11 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
         private _dynamicService: DynamicService,
         private _ref: ChangeDetectorRef
     ) {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
 
@@ -118,10 +117,13 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
      * On init
      */
     ngOnInit(): void {
-        this.visibilidade$.subscribe(
-            visibilidade => this.visibilidade = visibilidade
-        );
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.visibilidade$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(visibilidade => this.visibilidade = visibilidade);
+        this.documento$.pipe(
+            filter(documento => !!documento),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
         if (!this.visibilidade) {
             this.visibilidade = new Visibilidade();
@@ -148,6 +150,8 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -182,7 +186,7 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteVisibilidade(id, this.lote));
     }

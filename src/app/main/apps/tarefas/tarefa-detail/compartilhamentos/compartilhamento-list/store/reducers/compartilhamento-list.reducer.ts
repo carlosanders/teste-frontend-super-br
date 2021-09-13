@@ -119,10 +119,10 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
             return {
                 ...state,
                 errorDelete: [...state.errorDelete, action.payload.id],
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
-                    ...action.payload
+                    ...action.payload.error
                 },
                 entitiesId: [...state.entitiesId, action.payload.id],
                 error: action.payload.error

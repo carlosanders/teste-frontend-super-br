@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, tap} from 'rxjs/operators';
 
 import * as WorkflowViewActions from '../actions/workflow-view.actions';
 
@@ -14,6 +14,26 @@ import {getRouterState, State} from 'app/store/reducers';
 @Injectable()
 export class WorkflowViewEffect {
     routerState: any;
+    /**
+     * Set visualizarTransicoesWorkflow
+     *
+     * @type {Observable<any>}
+     */
+    visualizarTransicoesWorkflow: any = createEffect(() => this._actions.pipe(
+        ofType<WorkflowViewActions.GetWorkflowViewTransicoes>(WorkflowViewActions.GET_WORKFLOW_VIEW_TRANSICOES),
+        switchMap(action => this._workflowService.workflowViewTransicoesAction(action.payload)),
+        tap(response => this._store.dispatch(new WorkflowViewActions.GetWorkflowViewTransicoesSuccess({
+            loaded: {
+                id: 'workflowHandle',
+                value: this.routerState.params.workflowHandle,
+                componenteDigital: response
+            }
+        }))),
+        catchError((err) => {
+            console.log(err);
+            return of(new WorkflowViewActions.GetWorkflowViewTransicoesFailed(err));
+        })
+    ));
 
     constructor(
         private _actions: Actions,
@@ -21,39 +41,11 @@ export class WorkflowViewEffect {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Set visualizarTransicoesWorkflow
-     *
-     * @type {Observable<any>}
-     */
-    @Effect({ dispatch: false })
-    visualizarTransicoesWorkflow: any =
-        this._actions
-            .pipe(
-                ofType<WorkflowViewActions.GetWorkflowViewTransicoes>(WorkflowViewActions.GET_WORKFLOW_VIEW_TRANSICOES),
-                switchMap(action => this._workflowService.workflowViewTransicoesAction(action.payload)),
-                tap((response) => {
-                    this._store.dispatch(new WorkflowViewActions.GetWorkflowViewTransicoesSuccess({
-                        loaded: {
-                            id: 'workflowHandle',
-                            value: this.routerState.params.workflowHandle,
-                            componenteDigital: response
-                        }
-                    }));
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new WorkflowViewActions.GetWorkflowViewTransicoesFailed(err));
-                    return caught;
-                })
-            );
 }

@@ -15,108 +15,90 @@ export const RELOAD_ACAO = '[ACAO TRANSICAO WORKFLOW] RELOAD ACAO';
 /**
  * Get Acao
  */
-export class GetAcao implements Action
-{
+export class GetAcao implements Action {
     readonly type = GET_ACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Acao Success
  */
-export class GetAcaoSuccess implements Action
-{
+export class GetAcaoSuccess implements Action {
     readonly type = GET_ACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Acao Failed
  */
-export class GetAcaoFailed implements Action
-{
+export class GetAcaoFailed implements Action {
     readonly type = GET_ACAO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Acao
  */
-export class SaveAcao implements Action
-{
+export class SaveAcao implements Action {
     readonly type = SAVE_ACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Acao Success
  */
-export class SaveAcaoSuccess implements Action
-{
+export class SaveAcaoSuccess implements Action {
     readonly type = SAVE_ACAO_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Acao Failed
  */
-export class SaveAcaoFailed implements Action
-{
+export class SaveAcaoFailed implements Action {
     readonly type = SAVE_ACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Acao
  */
-export class CreateAcao implements Action
-{
+export class CreateAcao implements Action {
     readonly type = CREATE_ACAO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Acao Success
  */
-export class CreateAcaoSuccess implements Action
-{
+export class CreateAcaoSuccess implements Action {
     readonly type = CREATE_ACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Reload
  */
-export class ReloadAcao implements Action
-{
+export class ReloadAcao implements Action {
     readonly type = RELOAD_ACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

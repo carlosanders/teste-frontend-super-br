@@ -1,16 +1,17 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Contato, GrupoContato, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../../store/actions';
+import {Back} from '../../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store/reducers';
+import {getRouterState} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'contato-edit',
@@ -28,10 +29,12 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     templatePagination: Pagination;
     unidadePagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -46,13 +49,12 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
         this.unidadePagination = new Pagination();
         this.unidadePagination.filter = {parent: 'isNull'};
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,10 +65,10 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.contato$.subscribe(
-            contato => this.contato = contato
-        );
+        this.contato$.pipe(
+            filter(contato => !!contato),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(contato => this.contato = contato);
 
         if (!this.contato) {
             this.contato = new Contato();
@@ -77,6 +79,8 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,7 +88,6 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const contato = new Contato();
 
         Object.entries(values).forEach(

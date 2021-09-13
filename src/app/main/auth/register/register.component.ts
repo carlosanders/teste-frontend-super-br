@@ -1,7 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {CdkConfigService} from '@cdk/services/config.service';
 import {cdkAnimations} from '@cdk/animations';
 
@@ -9,6 +16,7 @@ import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {MustMatch} from './must-match.validator';
 import {CdkUtils} from '../../../../@cdk/utils';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'register',
@@ -18,7 +26,7 @@ import {CdkUtils} from '../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
     isSaving: boolean;
@@ -26,21 +34,21 @@ export class RegisterComponent implements OnInit {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     isRegistred$: Observable<boolean>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param cdkConfigService
-     * @param formBuilder
+     * @param _formBuilder
      * @param _store
      * @param _changeDetectorRef
      */
     constructor(
         public cdkConfigService: CdkConfigService,
-        private formBuilder: FormBuilder,
+        private _formBuilder: FormBuilder,
         private _store: Store<fromStore.RegisterAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
     ) {
-
-        this.form = this.formBuilder.group({
+        this.form = this._formBuilder.group({
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required]],
             username: [null, [Validators.required]],
@@ -81,12 +89,15 @@ export class RegisterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-
-        this.isSaving$.subscribe((isSaving) => {
+        this.isSaving$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isSaving) => {
             this.isSaving = isSaving;
         });
 
-        this.errors$.subscribe((errors) => {
+        this.errors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
             this.errors = errors;
 
             if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -98,7 +109,7 @@ export class RegisterComponent implements OnInit {
                         control.setErrors({formError: data[field].join(' - ')});
                     });
                 } catch (e) {
-                    console.log (e);
+                    console.log(e);
                     this.form.setErrors({rulesError: this.errors.error.message});
                 }
             }
@@ -107,12 +118,20 @@ export class RegisterComponent implements OnInit {
         });
     }
 
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
     onSubmit(): void {
         const usuario = new Usuario();
 
         usuario.nome = this.form.controls.nome.value;
         usuario.email = this.form.controls.email.value;
-        usuario.username = this.form.controls.username.value.replace(/\D/g,'');
+        usuario.username = this.form.controls.username.value.replace(/\D/g, '');
         usuario.plainPassword = this.form.controls.plainPassword.value;
 
         const operacaoId = CdkUtils.makeId();
@@ -120,6 +139,5 @@ export class RegisterComponent implements OnInit {
             usuario: usuario,
             operacaoId: operacaoId
         }));
-
     }
 }

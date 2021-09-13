@@ -40,63 +40,40 @@ import {CdkUtils} from '../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
 
     routerState: any;
-
     searchInput: FormControl;
-
     currentProcessoId: number;
     processos: Processo[] = [];
-
     processoListSize = 35;
     processoListOriginalSize: number;
-
     processos$: Observable<Processo[]>;
-
     loading$: Observable<boolean>;
     loading: boolean;
-
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
-
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
-
     selectedProcessos$: Observable<Processo[]>;
-
     selectedProcessos: Processo[] = [];
-
     screen$: Observable<any>;
-
     filter = {};
-
     etiquetas: Etiqueta[] = [];
-
     pagination$: Observable<any>;
     pagination: any;
-
     routerState$: Observable<any>;
-
     maximizado$: Observable<boolean>;
     maximizado = false;
-
     vinculacaoEtiquetaPagination: Pagination;
-
-    private _profile: Usuario;
-
     mobileMode = false;
-
     loadingAssuntosProcessosId$: Observable<number[]>;
-
     loadingInteressadosProcessosId$: Observable<number[]>;
-
     pessoasConveniadas: any;
     currentPessoaConveniadaId: any;
     lote: string;
-
-    @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     /**
      *
@@ -130,7 +107,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
-        this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
             orX: [
@@ -153,17 +130,16 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
      * On init
      */
     ngOnInit(): void {
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
-                this.currentPessoaConveniadaId = parseInt(routerState.state.params['targetHandle'], 0);
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            // eslint-disable-next-line radix
+            this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
+            // eslint-disable-next-line radix
+            this.currentPessoaConveniadaId = parseInt(routerState.state.params['targetHandle'], 0);
         });
 
         this.loading$.pipe(
@@ -308,7 +284,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         }));
     }
 
-    deleteBlocoProcesso(ids: number[]) {
+    deleteBlocoProcesso(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteProcesso(id, this.lote));
     }

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'afastamento-edit',
@@ -33,6 +34,7 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
     usuario$: Observable<Usuario>;
     modalidadeAfastamentoPagination: Pagination;
     modulo: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -51,22 +53,19 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
         this.usuario = this._loginService.getUserProfile();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if(this.routerState.url.includes('unidades')) {
-                        this.modulo = 'unidades';
-                    }
-                    else if(this.routerState.url.includes('usuarios')) {
-                        this.modulo = 'usuarios';
-                    }
-                    else {
-                        this.modulo = 'lotacoes';
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.includes('unidades')) {
+                this.modulo = 'unidades';
+            } else if (this.routerState.url.includes('usuarios')) {
+                this.modulo = 'usuarios';
+            } else {
+                this.modulo = 'lotacoes';
+            }
+        });
 
         this.modalidadeAfastamentoPagination = new Pagination();
 
@@ -81,10 +80,10 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.afastamento$.subscribe(
-            afastamento => this.afastamento = afastamento
-        );
+        this.afastamento$.pipe(
+            filter(repositorio => !!repositorio),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(afastamento => this.afastamento = afastamento);
 
         if (!this.afastamento) {
             this.afastamento = new Afastamento();
@@ -95,6 +94,8 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -106,7 +107,6 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
     }
 
     submit(values): void {
-
         const afastamento = new Afastamento();
         Object.entries(values).forEach(
             ([key, value]) => {

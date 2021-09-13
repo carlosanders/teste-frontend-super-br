@@ -27,11 +27,11 @@ const routes: Routes = [
         component: TipoAcaoWorkflowComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./tipo-acao-workflow-list/tipo-acao-workflow-list.module').then(m => m.TipoAcaoWorkflowListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./tipo-acao-workflow-edit/tipo-acao-workflow-edit.module').then(m => m.TipoAcaoWorkflowEditModule),
             },
             {

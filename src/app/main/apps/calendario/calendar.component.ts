@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Observable, Subject} from 'rxjs';
@@ -20,6 +20,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as moment from 'moment';
 import {CdkUtils} from '../../../../@cdk/utils';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'calendar',
@@ -28,7 +29,7 @@ import {CdkUtils} from '../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
     actions: CalendarEventAction[];
     activeDayIsOpen: boolean;
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
@@ -41,6 +42,7 @@ export class CalendarComponent implements OnInit {
     locale = 'br';
 
     events$: Observable<CalendarEvent[]>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _matDialog: MatDialog,
@@ -79,9 +81,17 @@ export class CalendarComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.events$.subscribe((events) => {
+        this.events$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((events) => {
             this.events = events;
         });
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -188,7 +198,7 @@ export class CalendarComponent implements OnInit {
      */
     editEvent(action: string, event: CalendarEvent): void {
         const eventIndex = this.events.indexOf(event);
-        let operacaoId = CdkUtils.makeId();
+        const operacaoId = CdkUtils.makeId();
 
         this.dialogRef = this._matDialog.open(CalendarEventFormDialogComponent, {
             panelClass: 'event-form-dialog',

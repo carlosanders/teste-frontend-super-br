@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {EspecieRelevanciaEditReducer, EspecieRelevanciaEditState} from './especie-relevancia-edit.reducer';
 
-export interface EspecieRelevanciaEditAppState
-{
+export interface EspecieRelevanciaEditAppState {
     especieRelevancia: EspecieRelevanciaEditState;
 }
 

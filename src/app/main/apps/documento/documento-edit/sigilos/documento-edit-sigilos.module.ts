@@ -16,6 +16,7 @@ import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-si
 import * as fromGuards from './store/guards';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {CdkConfirmDialogModule} from '@cdk/components';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const routes: Routes = [
     {
@@ -52,6 +53,7 @@ modulesConfig.forEach((module) => {
         CdkSigiloFormModule,
         CdkSigiloGridModule,
         CdkConfirmDialogModule,
+        MatProgressSpinnerModule,
     ],
     providers: [
         DocumentoService,

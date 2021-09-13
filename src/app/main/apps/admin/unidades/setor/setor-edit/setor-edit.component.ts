@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Setor} from '@cdk/models/setor.model';
 import {select, Store} from '@ngrx/store';
@@ -10,10 +10,10 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getRouterState} from '../../../../../../store/reducers';
-import {Back} from '../../../../../../store/actions';
+import {getRouterState} from '../../../../../../store';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'admin-setor-edit',
@@ -35,6 +35,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     especieSetorPagination: Pagination;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -51,13 +52,12 @@ export class SetorEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
@@ -78,11 +78,11 @@ export class SetorEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.setor$.subscribe(
-            setor => this.setor = setor
-        );
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Setor', id: + this.setor.id};
-
+        this.setor$.pipe(
+            filter(setor => !!setor),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(setor => this.setor = setor);
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Setor', id: +this.setor.id};
 
         if (!this.setor) {
             this.setor = new Setor();
@@ -94,6 +94,9 @@ export class SetorEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -119,7 +122,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
 
         if (!setor.parent) {
             const parent = new Setor();
-            parent.id = parseInt(this.routerState.params.unidadeHandle);
+            parent.id = parseInt(this.routerState.params.unidadeHandle, 10);
             setor.parent = parent;
         }
 

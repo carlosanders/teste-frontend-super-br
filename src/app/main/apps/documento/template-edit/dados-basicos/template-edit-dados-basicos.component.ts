@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -19,7 +19,7 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'template-edit-dados-basicos',
@@ -31,6 +31,9 @@ import {takeUntil} from "rxjs/operators";
 })
 export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     documento$: Observable<Documento>;
     documento: Documento;
 
@@ -39,24 +42,24 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
     isLoading$: Observable<boolean>;
     errors$: Observable<any>;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     values: any;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
+     *
      * @param _store
      * @param _location
      * @param _dynamicService
      * @param _componenteDigitalService
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.TemplateEditDadosBasicosAppState>,
         private _location: Location,
         private _dynamicService: DynamicService,
         private _componenteDigitalService: ComponenteDigitalService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.template$ = this._store.pipe(select(fromStore.getTemplate));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -73,9 +76,13 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
-        this._componenteDigitalService.completedEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
+        this._componenteDigitalService.completedEditorSave.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((value) => {
             if (value === this.documento.id) {
                 this.submit();
             }
@@ -88,7 +95,10 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -117,7 +127,7 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
         );
 
         this.values = template;
-        if (!this.documento.assinado){
+        if (!this.documento.assinado) {
             this._componenteDigitalService.doEditorSave.next(this.documento.id);
         } else {
             this.submit();

@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Aviso} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -14,7 +14,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkUtils} from '../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'aviso-list',
@@ -37,6 +37,7 @@ export class AvisoListComponent implements OnInit, OnDestroy {
 
     actions: string[];
     colunas: string[];
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -50,36 +51,38 @@ export class AvisoListComponent implements OnInit, OnDestroy {
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesAvisos.setor.nome', 'ativo', 'actions'];
-                    }
-                    if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
-                        (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesAvisos.unidade.nome', 'ativo', 'actions'];
-                    }
-                    if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesAvisos.modalidadeOrgaoCentral.valor', 'ativo', 'actions'];
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
+                this.actions = ['edit', 'create', 'editConteudo', 'delete'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesAvisos.setor.nome', 'ativo', 'actions'];
+            }
+            if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
+                (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
+                this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesAvisos.unidade.nome', 'ativo', 'actions'];
+            }
+            if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
+                this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
+                this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesAvisos.modalidadeOrgaoCentral.valor', 'ativo', 'actions'];
+            }
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
-
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadAviso());
     }
 
@@ -116,11 +119,11 @@ export class AvisoListComponent implements OnInit, OnDestroy {
     }
 
     edit(avisoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + avisoId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + avisoId]).then();
     }
 
     create(): void {
-         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     delete(avisoId: number, loteId: string = null): void {
@@ -132,7 +135,7 @@ export class AvisoListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

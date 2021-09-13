@@ -124,7 +124,7 @@
         </mat-slide-toggle>
 
         <mat-form-field *ngIf="form.value.temProcessoOrigem === true">
-            <input matInput placeholder="Processo Origem" formControlName="processoOrigem"
+            <input matInput placeholder="Processo de Origem" formControlName="processoOrigem"
                 [matAutocomplete]="processoOrigem.autocomplete" required (blur)="checkProcesso()">
             <cdk-processo-autocomplete #processoOrigem="processoAutocomplete" [control]="form.get('processoOrigem')"
                 [pagination]="processoPagination">

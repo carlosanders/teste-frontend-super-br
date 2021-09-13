@@ -42,12 +42,10 @@ import {CdkChaveAcessoPluginComponent} from '@cdk/components/chave-acesso/cdk-ch
 })
 export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('documentoAvulsoListElement', {read: ElementRef, static: true}) documentoAvulsoListElement: ElementRef;
 
     routerState: any;
-
     searchInput: FormControl;
-
     currentDocumentoAvulsoId: number;
     documentosAvulso: DocumentoAvulso[] = [];
     documentoAvulsoListSize = 35;
@@ -83,14 +81,12 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: Usuario;
-
     mobileMode = false;
 
     pessoasConveniadas: any;
     currentPessoaConveniadaId: any;
-
-    @ViewChild('documentoAvulsoListElement', {read: ElementRef, static: true}) documentoAvulsoListElement: ElementRef;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     /**
      *
@@ -140,6 +136,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                         'modalidadeEtiqueta.valor': 'eq:OFICIO'
                     },
                     {
+                        // eslint-disable-next-line max-len
                         'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                         'modalidadeEtiqueta.valor': 'eq:OFICIO'
                     }
@@ -158,17 +155,14 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
-                this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 10);
+            this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 10);
         });
 
         this.documentosAvulso$.pipe(

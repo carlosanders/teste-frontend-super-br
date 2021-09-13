@@ -8,9 +8,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
-import {Back} from '../../../../../store/actions';
+import {getRouterState} from '../../../../../store';
+import {Back} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'tipo-relatorio-edit',
@@ -40,13 +41,12 @@ export class TipoRelatorioEditComponent implements OnInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.tipoRelatorio$ = this._store.pipe(select(fromStore.getTipoRelatorio));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
         this.especieRelatorioPagination = new Pagination();
         this.especieRelatorioPagination.populate = ['populateAll'];
         this.loadForm();
@@ -63,6 +63,7 @@ export class TipoRelatorioEditComponent implements OnInit {
             especieRelatorio: [null, [Validators.required]],
             templateHTML: [null, [Validators.required]],
             parametros: [null],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             DQL: [null],
             ativo: [null],
             limite: [1]

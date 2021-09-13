@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'classificacao-tree-list',
@@ -34,13 +35,12 @@ export class ClassificacaoTreeListComponent implements OnInit {
         private _formBuilder: FormBuilder
     ) {
         this.loadForm();
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
         this.classificacao$ = this._store.pipe(select(fromStore.getClassificacaoTreeList));
         this.classificacaoPagination = new Pagination();
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -50,7 +50,7 @@ export class ClassificacaoTreeListComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    submitClassificacao(values: any) {
+    submitClassificacao(values: any): void {
         const classificacao = new Classificacao();
         Object.entries(values).forEach(
             ([key, value]) => {
@@ -65,7 +65,7 @@ export class ClassificacaoTreeListComponent implements OnInit {
         }));
     }
 
-    doAbort() {
+    doAbort(): void {
         this._router.navigate(['/apps/admin/assuntos/arvore']).then();
     }
 

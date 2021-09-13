@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {AvisoEditReducer, AvisoEditState} from './aviso-edit.reducer';
 
-export interface AvisoEditAppState
-{
+export interface AvisoEditAppState {
     aviso: AvisoEditState;
 }
 

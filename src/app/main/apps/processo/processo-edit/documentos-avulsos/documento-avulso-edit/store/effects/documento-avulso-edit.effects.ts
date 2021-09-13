@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentoAvulsoEditActions from '../actions/documento-avulso-edit.actions';
 import * as DocumentoAvulsoListActions
@@ -20,6 +20,84 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 @Injectable()
 export class DocumentoAvulsoEditEffect {
     routerState: any;
+    /**
+     * Get DocumentoAvulso with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getDocumentoAvulso: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentoAvulsoEditActions.GetDocumentoAvulso>(DocumentoAvulsoEditActions.GET_DOCUMENTO_AVULSO),
+        switchMap(action => this._documentoAvulsoService.query(
+            JSON.stringify(action.payload),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify([
+                'populateAll'
+            ]))),
+        switchMap(response => [
+            new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
+            new DocumentoAvulsoEditActions.GetDocumentoAvulsoSuccess({
+                loaded: {
+                    id: 'documentoAvulsoHandle',
+                    value: this.routerState.params.documentoAvulsoHandle
+                },
+                documentoAvulsoId: response['entities'][0].id
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new DocumentoAvulsoEditActions.GetDocumentoAvulsoFailed(err));
+        })
+    ));
+    /**
+     * Save DocumentoAvulso
+     *
+     * @type {Observable<any>}
+     */
+    saveDocumentoAvulso: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulso>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'documento avulso',
+            content: 'Salvando o documento avulso ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'documento avulso',
+                content: 'Documento avulso id ' + response.id + ' salvo com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: DocumentoAvulso) => [
+                new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
+                new DocumentoAvulsoListActions.ReloadDocumentosAvulsos(),
+                new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento avulso',
+                    content: 'Erro ao salvar o documento avulso!',
+                    status: 2, // erro
+                }));
+                return of(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Save DocumentoAvulso Success
+     */
+    saveDocumentoAvulsoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO_SUCCESS),
+        tap(() => {
+            this._router.navigate([
+                this.routerState.url.replace(('editar/' + this.routerState.params.documentoAvulsoHandle), 'listar')
+            ]).then();
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -27,105 +105,11 @@ export class DocumentoAvulsoEditEffect {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get DocumentoAvulso with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getDocumentoAvulso: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoAvulsoEditActions.GetDocumentoAvulso>(DocumentoAvulsoEditActions.GET_DOCUMENTO_AVULSO),
-                switchMap(action => this._documentoAvulsoService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]))),
-                switchMap(response => [
-                    new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
-                    new DocumentoAvulsoEditActions.GetDocumentoAvulsoSuccess({
-                        loaded: {
-                            id: 'documentoAvulsoHandle',
-                            value: this.routerState.params.documentoAvulsoHandle
-                        },
-                        documentoAvulsoId: response['entities'][0].id
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoAvulsoEditActions.GetDocumentoAvulsoFailed(err));
-                    return caught;
-                })
-            );
-
-    /**
-     * Save DocumentoAvulso
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveDocumentoAvulso: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulso>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'documento avulso',
-                    content: 'Salvando o documento avulso ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'documento avulso',
-                                content: 'Documento avulso id ' + response.id + ' salvo com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
-                        mergeMap((response: DocumentoAvulso) => [
-                            new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
-                            new DocumentoAvulsoListActions.ReloadDocumentosAvulsos(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'documento avulso',
-                                content: 'Erro ao salvar o documento avulso!',
-                                status: 2, // erro
-                            }));
-                            return of(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
-                        })
-                    )
-                })
-            );
-
-    /**
-     * Save DocumentoAvulso Success
-     */
-    @Effect({dispatch: false})
-    saveDocumentoAvulsoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess>(DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO_SUCCESS),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.documentoAvulsoHandle), 'listar')]).then();
-                })
-            );
 }

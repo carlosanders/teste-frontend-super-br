@@ -22,4 +22,12 @@ documento-edit-sigilos {
         display: flex;
         flex-direction: row;
     }
+
+    .loading {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
 }

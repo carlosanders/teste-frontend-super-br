@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'juntadas',
@@ -30,17 +31,16 @@ export class JuntadasComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if (this.routerState.url.indexOf('juntadas/listar') > -1) {
-                        this.action = 'listar';
-                    }
-                    this._changeDetectorRef.markForCheck();
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('juntadas/listar') > -1) {
+                this.action = 'listar';
+            }
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**

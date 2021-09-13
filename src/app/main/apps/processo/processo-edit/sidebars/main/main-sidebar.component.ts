@@ -13,7 +13,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Observable, of, Subject} from 'rxjs';
 import {Processo} from '@cdk/models';
 import {modulesConfig} from 'modules/modules-config';
-import {filter, switchMap} from 'rxjs/operators';
+import {filter, switchMap, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '../../../../../../../@cdk/components/sidebar/sidebar.service';
@@ -33,8 +33,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     processo: Processo;
-
-    canShowTramitacao$: Subject<boolean>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -54,23 +53,21 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
+
         this.processo$.pipe(
-            filter(processo => !!processo)
-        ).subscribe(
-            (processo) => {
-                this.processo = processo;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+            filter(processo => !!processo),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
+            this.processo = processo;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.links = [];
 
@@ -170,14 +167,14 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'tramitacoes',
                 role: 'ROLE_COLABORADOR',
                 canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
-                        filter(processo => !!processo),
-                        switchMap((processo) => {
-                            if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
-                                return of(false);
-                            }
-                            return of(true);
-                        })
-                    )
+                    filter(processo => !!processo),
+                    switchMap((processo) => {
+                        if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+                            return of(false);
+                        }
+                        return of(true);
+                    })
+                )
             },
             {
                 index: 160,
@@ -194,10 +191,12 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
-    fecharSidebar() {
-        if(!this._cdkSidebarService.getSidebar('processo-edit-main-sidebar').isLockedOpen) {
+    fecharSidebar(): void {
+        if (!this._cdkSidebarService.getSidebar('processo-edit-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('processo-edit-main-sidebar').close();
         }
     }

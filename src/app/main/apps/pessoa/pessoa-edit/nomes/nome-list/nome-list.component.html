@@ -1,14 +1,14 @@
 <cdk-nome-grid
-        [loading]="(loading$ | async)"
-        [nomes]="(nomes$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletingErrors]="(deletingErrors$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create', 'edit', 'delete']"
-        (reload)="reload($event)"
-        (create)="create()"
-        (edit)="edit($event)"
-        (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
+    [loading]="(loading$ | async)"
+    [nomes]="(nomes$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [actions]="['create', 'edit', 'delete']"
+    (reload)="reload($event)"
+    (create)="create()"
+    (edit)="edit($event)"
+    (delete)="delete($event)"
+    (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-nome-grid>

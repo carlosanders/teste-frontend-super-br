@@ -13,84 +13,70 @@ export const DELETE_ACAO_FAILED = '[ACAO TRANSICAO WORKFLOW LIST] DELETE ACAO FA
 /**
  * Get Acoes
  */
-export class GetAcoes implements Action
-{
+export class GetAcoes implements Action {
     readonly type = GET_ACOES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Acoes Success
  */
-export class GetAcoesSuccess implements Action
-{
+export class GetAcoesSuccess implements Action {
     readonly type = GET_ACOES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Acoes Failed
  */
-export class GetAcoesFailed implements Action
-{
+export class GetAcoesFailed implements Action {
     readonly type = GET_ACOES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Acoes
  */
-export class ReloadAcoes implements Action
-{
+export class ReloadAcoes implements Action {
     readonly type = RELOAD_ACOES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Acao
  */
-export class DeleteAcao implements Action
-{
+export class DeleteAcao implements Action {
     readonly type = DELETE_ACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Acao Success
  */
-export class DeleteAcaoSuccess implements Action
-{
+export class DeleteAcaoSuccess implements Action {
     readonly type = DELETE_ACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Acao Failed
  */
-export class DeleteAcaoFailed implements Action
-{
+export class DeleteAcaoFailed implements Action {
     readonly type = DELETE_ACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

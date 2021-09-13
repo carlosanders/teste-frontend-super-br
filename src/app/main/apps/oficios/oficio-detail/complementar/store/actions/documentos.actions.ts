@@ -22,6 +22,8 @@ export const CONVERTE_DOCUMENTO_HTML_FAILED = '[COMPLEMENTAR DOCUMENTOS] CONVERT
 export const ASSINA_DOCUMENTO = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO FAILED';
+export const PREPARA_ASSINATURA_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] PREPARA ASSINATURA SUCCESS';
+export const PREPARA_ASSINATURA_FAILED = '[COMPLEMENTAR DOCUMENTOS] PREPARA ASSINATURA FAILED';
 
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
@@ -32,6 +34,16 @@ export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] RE
 export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO FAILED';
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[COMPLEMENTAR DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
+
+export const UPDATE_DOCUMENTO = '[COMPLEMENTAR DOCUMENTOS] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] UPDATE DOCUMENTO FAILED';
+
+export const DOWNLOAD_DOCUMENTO_P7S = '[COMPLEMENTAR DOCUMENTOS] DOWNLOAD DOCUMENTOP7S DOCUMENTO';
+export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] DOWNLOAD DOCUMENTOP7S DOCUMENTO SUCCESS';
+export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[COMPLEMENTAR DOCUMENTOS] DOWNLOAD DOCUMENTOP7S FAILED';
+
+export const SET_SAVING = '[COMPLEMENTAR DOCUMENTOS] SET SAVING COMPONENTES DIGITAIS';
 
 /**
  * Get Documentos
@@ -226,6 +238,30 @@ export class AssinaDocumentoFailed implements Action
 }
 
 /**
+ * Prepara Assinatura Success
+ */
+export class PreparaAssinaturaSuccess implements Action
+{
+    readonly type = PREPARA_ASSINATURA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Prepara Assinatura Failed
+ */
+export class PreparaAssinaturaFailed implements Action
+{
+    readonly type = PREPARA_ASSINATURA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Assina Documento Eletronicamente
  */
 export class AssinaDocumentoEletronicamente implements Action
@@ -307,6 +343,80 @@ export class RemoveAssinaturaDocumentoFailed implements Action
     }
 }
 
+/**
+ * Download Documento P7S
+ */
+export class DownloadP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento
+ */
+export class UpdateDocumento implements Action
+{
+    readonly type = UPDATE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Success
+ */
+export class UpdateDocumentoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Failed
+ */
+export class UpdateDocumentoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
 
 export type DocumentosActionsAll
     = GetDocumentos
@@ -323,6 +433,8 @@ export type DocumentosActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | PreparaAssinaturaSuccess
+    | PreparaAssinaturaFailed
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
     | AssinaDocumentoEletronicamenteFailed
@@ -332,4 +444,11 @@ export type DocumentosActionsAll
     | ChangeSelectedDocumentos
     | RemoveAssinaturaDocumento
     | RemoveAssinaturaDocumentoSuccess
-    | RemoveAssinaturaDocumentoFailed;
+    | RemoveAssinaturaDocumentoFailed
+    | DownloadP7S
+    | DownloadP7SSuccess
+    | DownloadP7SFailed
+    | UpdateDocumento
+    | UpdateDocumentoSuccess
+    | UpdateDocumentoFailed
+    | SetSavingComponentesDigitais;

@@ -19,7 +19,7 @@ import {ComponenteDigital, Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'upload-bloco',
@@ -31,7 +31,8 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class UploadBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
     tarefas$: Observable<Tarefa[]>;
     tarefasBloco: Tarefa[] = [];
@@ -39,12 +40,10 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
 
-    private _profile: any;
-
     routerState: any;
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
+    private _profile: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -71,21 +70,18 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (tarefas) => {
-                this.tarefaPrincipal = tarefas[0] ? tarefas[0] : null;
-                this.tarefasBloco = tarefas[1] ? tarefas.filter(t => t.id !== tarefas[0].id) : [];
-                this._changeDetectorRef.markForCheck();
-            });
+        ).subscribe((tarefas) => {
+            this.tarefaPrincipal = tarefas[0] ? tarefas[0] : null;
+            this.tarefasBloco = tarefas[1] ? tarefas.filter(t => t.id !== tarefas[0].id) : [];
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
 

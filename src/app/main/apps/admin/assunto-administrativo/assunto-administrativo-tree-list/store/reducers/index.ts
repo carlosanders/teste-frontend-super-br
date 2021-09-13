@@ -4,8 +4,7 @@ import {
     AssuntoAdministrativoTreeListState
 } from './assunto-administrativo-tree-list.reducer';
 
-export interface AssuntoAdministrativoTreeListAppState
-{
+export interface AssuntoAdministrativoTreeListAppState {
     assuntoAdministrativoTreeList: AssuntoAdministrativoTreeListState;
 }
 

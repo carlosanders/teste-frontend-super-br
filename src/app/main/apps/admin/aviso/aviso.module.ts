@@ -26,11 +26,11 @@ const routes: Routes = [
         component: AvisoComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./aviso-list/aviso-list.module').then(m => m.AvisoListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./aviso-edit/aviso-edit.module').then(m => m.AvisoEditModule),
             },
             {

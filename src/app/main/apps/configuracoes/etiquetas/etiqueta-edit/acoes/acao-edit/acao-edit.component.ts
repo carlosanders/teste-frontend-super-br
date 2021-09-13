@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {
     Acao,
     Criteria,
@@ -26,6 +26,7 @@ import {getRouterState} from '../../../../../../../store';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {FormControl} from '@angular/forms';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'acao-edit',
@@ -84,6 +85,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
 
     modalidadeControl: FormControl = new FormControl();
     selected: ModalidadeAcaoEtiqueta = null;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -127,16 +129,14 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
             'id': `neq:${this._loginService.getUserProfile().id}`,
             'colaborador.id': 'isNotNull'
         };
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                this.action = '';
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    this.componentUrl = 'acoes/editar/' + this.routerState.params.acaoHandle;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.action = '';
+            this.routerState = routerState.state;
+            this.componentUrl = 'acoes/editar/' + this.routerState.params.acaoHandle;
+        });
 
         this.criteriasTemplate.forEach((criteria) => {
             const newCriteria = new Criteria();
@@ -155,19 +155,22 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.etiqueta$.subscribe(
-            (etiqueta) => {
-                this.etiqueta = etiqueta;
-            }
-        );
+        this.etiqueta$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(etiqueta => !!etiqueta)
+        ).subscribe((etiqueta) => {
+            this.etiqueta = etiqueta;
+        });
 
-        this.acao$.subscribe(
-            acao => this.acao = acao
-        );
+        this.acao$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(acao => !!acao)
+        ).subscribe(acao => this.acao = acao);
 
-        this.modalidadeAcaoEtiquetaList$.subscribe(
-            modalidadeAcaoEtiquetaList => this.modalidadeAcaoEtiquetaList = modalidadeAcaoEtiquetaList
-        );
+        this.modalidadeAcaoEtiquetaList$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(modalidadeAcaoEtiquetaList => !!modalidadeAcaoEtiquetaList)
+        ).subscribe(modalidadeAcaoEtiquetaList => this.modalidadeAcaoEtiquetaList = modalidadeAcaoEtiquetaList);
 
         this.documentoAvulso = new DocumentoAvulso();
         this.documentoAvulso.mecanismoRemessa = 'interna';
@@ -182,6 +185,9 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -189,7 +195,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     goBack(): void {
-        this._router.navigate([this.routerState.url.replace(this.componentUrl, 'acoes/listar')]);
+        this._router.navigate([this.routerState.url.replace(this.componentUrl, 'acoes/listar')]).then();
     }
 
     submitTrigger1(values): void {
@@ -366,7 +372,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }

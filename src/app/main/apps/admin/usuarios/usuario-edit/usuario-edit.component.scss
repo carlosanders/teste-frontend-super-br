@@ -2,6 +2,7 @@ usuario-edit {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
     > .header {
         flex: 0 1 auto;
         display: flex;
@@ -11,6 +12,7 @@ usuario-edit {
         padding: 24px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
+
     > .content {
         flex: 1 1 auto;
         display: flex;
@@ -23,15 +25,18 @@ usuario-edit {
         flex: 1 1 auto;
         display: flex !important;
         flex-direction: column;
+
         > .mat-horizontal-content-container {
             overflow-y: auto !important;
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
             > .mat-horizontal-stepper-content[aria-expanded=true] {
                 flex: 1 1 auto;
                 display: flex;
             }
+
             > .mat-horizontal-stepper-content[aria-expanded=false] {
                 display: none !important;
             }

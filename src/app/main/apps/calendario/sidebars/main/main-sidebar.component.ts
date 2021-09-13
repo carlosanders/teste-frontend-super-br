@@ -14,7 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/apps/calendario/store';
 import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
@@ -28,24 +28,20 @@ import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sideb
 })
 export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     folders$: Observable<Folder[]>;
-
     routerState: any;
-
     generoHandle = '';
     typeHandle = '';
-
     setoresCoordenacao: Setor[] = [];
-
     usuariosAssessor: Usuario[] = [];
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
      * @param _changeDetectorRef
      * @param _loginService
+     * @param _cdkSidebarService
      */
     constructor(
         private _store: Store<fromStore.CalendarioAppState>,
@@ -60,15 +56,13 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.typeHandle = routerState.state.params['typeHandle'];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.typeHandle = routerState.state.params['typeHandle'];
         });
 
         this.setoresCoordenacao = [];
@@ -106,8 +100,8 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.CreateTarefa());
     }
 
-    fecharSidebar() {
-        if(!this._cdkSidebarService.getSidebar('calendario-main-sidebar').isLockedOpen) {
+    fecharSidebar(): void {
+        if (!this._cdkSidebarService.getSidebar('calendario-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('calendario-main-sidebar').close();
         }
     }

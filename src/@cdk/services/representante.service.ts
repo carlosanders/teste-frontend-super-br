@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Representante} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {ParentGenericService} from './parent-generic.service';
-import {Representante} from '../models';
 
 @Injectable()
 export class RepresentanteService extends ParentGenericService<Representante> {

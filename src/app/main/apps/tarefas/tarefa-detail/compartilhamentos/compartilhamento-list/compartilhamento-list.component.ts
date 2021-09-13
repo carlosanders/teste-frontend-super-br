@@ -18,7 +18,7 @@ import {getRouterState} from '../../../../../../store';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from '@cdk/utils';
-import {filter, takeUntil} from "rxjs/operators";
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'compartilhamento-list',
@@ -66,9 +66,10 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store.pipe(select(getCompartilhamentoListLoaded)).subscribe(
-            loaded => this.loaded = loaded
-        );
+        this._store.pipe(
+            select(getCompartilhamentoListLoaded),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loaded => this.loaded = loaded);
 
         this._store.pipe(
             select(getRouterState),
@@ -85,7 +86,9 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
@@ -109,6 +112,21 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
             limit: params.limit,
             offset: params.offset,
             populate: this.pagination.populate
+        }));
+    }
+
+    inatived(params): void {
+        this._store.dispatch(new fromStore.GetCompartilhamentos({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context,
         }));
     }
 

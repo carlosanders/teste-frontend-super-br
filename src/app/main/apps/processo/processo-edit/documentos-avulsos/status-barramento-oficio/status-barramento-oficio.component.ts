@@ -5,15 +5,16 @@ import {
     OnDestroy,
     ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';
-import { cdkAnimations } from '@cdk/animations';
-import { select, Store } from '@ngrx/store';
+import {cdkAnimations} from '@cdk/animations';
+import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Observable, of, Subject} from 'rxjs';
 
-import { LoginService } from 'app/main/auth/login/login.service';
-import { Router } from '@angular/router';
-import {StatusBarramento} from "@cdk/models/status-barramento";
-import {getRouterState} from "../../../../../../store";
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Router} from '@angular/router';
+import {StatusBarramento} from '@cdk/models/status-barramento';
+import {getRouterState} from '../../../../../../store';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'status-barramento-oficio',
@@ -24,9 +25,7 @@ import {getRouterState} from "../../../../../../store";
     animations: cdkAnimations
 })
 
-export class StatusBarramentoOficioComponent implements OnInit, OnDestroy{
-    private _unsubscribeAll: Subject<any> = new Subject();
-
+export class StatusBarramentoOficioComponent implements OnInit, OnDestroy {
     statusBarramento$: Observable<StatusBarramento>;
 
     statusBarramento: StatusBarramento;
@@ -36,6 +35,7 @@ export class StatusBarramentoOficioComponent implements OnInit, OnDestroy{
     routerState: any;
 
     loading$: Observable<boolean> = of(false);
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -54,22 +54,21 @@ export class StatusBarramentoOficioComponent implements OnInit, OnDestroy{
         this.statusBarramento$ = this._store.pipe(select(fromStore.getStatusBarramento));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     /**
      * On init
      */
     ngOnInit(): void {
-
-        this.statusBarramento$
-            .subscribe((statusBarramento) => {
+        this.statusBarramento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((statusBarramento) => {
             this.statusBarramento = statusBarramento;
             this._ref.detectChanges();
         });

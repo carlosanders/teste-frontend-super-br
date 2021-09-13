@@ -1,15 +1,16 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Criteria, Etiqueta, Pagination, RegraEtiqueta, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getEtiqueta} from '../../store/selectors';
+import {getEtiqueta} from '../../store';
 import {Back} from 'app/store/actions';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../../store/reducers';
+import {getRouterState} from '../../../../../../../store';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'regra-etiqueta-edit',
@@ -59,6 +60,7 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
             mapeamento: '{\'usuarioResponsavel.id\':\'eq:{placeholder}\'}'
         },
     ];
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -96,13 +98,13 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
             this.especieCriteriaList.push(newCriteria);
         });
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -114,11 +116,15 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.etiqueta$.subscribe(
+        this.etiqueta$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             etiqueta => this.etiqueta = etiqueta
         );
 
-        this.regraEtiqueta$.subscribe(
+        this.regraEtiqueta$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             regraEtiqueta => this.regraEtiqueta = regraEtiqueta
         );
 
@@ -132,6 +138,8 @@ export class RegraEtiquetaEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

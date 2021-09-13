@@ -30,19 +30,19 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./setor-list/setor-list.module').then(m => m.SetorListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./setor-edit/setor-edit.module').then(m => m.SetorEditModule),
             },
             {
-                path       : ':setorHandle/lotacoes',
+                path: ':setorHandle/lotacoes',
                 loadChildren: () => import('../../lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
             },
             {
-                path       : ':setorHandle/localizadores',
+                path: ':setorHandle/localizadores',
                 loadChildren: () => import('./localizadores/localizadores.module').then(m => m.LocalizadoresModule),
             },
             {

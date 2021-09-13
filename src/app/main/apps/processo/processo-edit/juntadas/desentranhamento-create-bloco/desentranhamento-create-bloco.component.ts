@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-import {Desentranhamento, Juntada} from '@cdk/models';
+import {Desentranhamento, Juntada, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -29,8 +29,6 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 })
 export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     juntadas$: Observable<Juntada[]>;
     juntadasSelecionadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
@@ -39,6 +37,8 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     juntadasBloco: Juntada[] = [];
 
     desentranhamento: Desentranhamento;
+
+    processoDestinoPagination: Pagination;
 
     errors$: Observable<any>;
     loading$: Observable<boolean>;
@@ -50,10 +50,10 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
     mobileMode = false;
 
-    private _profile: any;
-
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+    private _profile: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -77,6 +77,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.screen$ = this._store.pipe(select(getScreenState));
+        this.processoDestinoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,6 +88,9 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((juntadas) => {
             this.juntadas = juntadas;
+            this.processoDestinoPagination.filter = {
+                'id':'neq:' + this.juntadas[0].volume.processo?.id
+            };
         });
 
         this.juntadasSelecionadas$.pipe(
@@ -96,7 +100,9 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
@@ -212,7 +218,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         const juntadasIds = [];
         juntadas.forEach((juntada) => {
             juntadasIds.push(juntada.id);
-            if (!this.juntadasBloco.find((j) => j.id === juntada.id)){
+            if (!this.juntadasBloco.find(j => j.id === juntada.id)){
                 this.juntadasBloco.push(juntada);
             }
         });

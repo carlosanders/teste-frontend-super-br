@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewDesentranhamentoActions from '../actions';
@@ -30,13 +30,12 @@ export class JuntadaEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     /**
@@ -44,9 +43,8 @@ export class JuntadaEffects {
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    getJuntada: any =
-        this._actions
+    getJuntada: any = createEffect(() => {
+        return this._actions
             .pipe(
                 ofType<ProcessoViewDesentranhamentoActions.GetJuntada>(ProcessoViewDesentranhamentoActions.GET_JUNTADA),
                 mergeMap(action => this._juntadaService.get(
@@ -78,15 +76,15 @@ export class JuntadaEffects {
                     })
                 ))
             );
+    });
 
     /**
      * Save Desentranhamento
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    saveDesentranhamento: any =
-        this._actions
+    saveDesentranhamento: any = createEffect(() => {
+        return this._actions
             .pipe(
                 ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamento>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO),
                 switchMap(action => {
@@ -96,7 +94,7 @@ export class JuntadaEffects {
                             new AddData<Desentranhamento>({data: [response], schema: desentranhamentoSchema}),
                             new UpdateData<Juntada>({
                                 id: action.payload.desentranhamento.juntada.id,
-                                schema:juntadaSchema,
+                                schema: juntadaSchema,
                                 changes: {ativo: false}
                             })
                         ]),
@@ -107,18 +105,18 @@ export class JuntadaEffects {
                     )
                 })
             );
+    });
 
     /**
-     * Save Assunto Success
+     * Save Desentranhamento Success
      */
-    @Effect({dispatch: false})
-    saveDesentranhamentoSuccess: any =
-        this._actions
+    saveDesentranhamentoSuccess: any = createEffect(() => this._actions
             .pipe(
                 ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO_SUCCESS),
                 tap(() => {
                     this._router.navigate([this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '')]).then();
                 })
-            );
-
+            ),
+        {dispatch: false}
+    );
 }

@@ -26,11 +26,11 @@ const routes: Routes = [
         component: EspecieRelevanciaComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./especie-relevancia-list/especie-relevancia-list.module').then(m => m.EspecieRelevanciaListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./especie-relevancia-edit/especie-relevancia-edit.module').then(m => m.EspecieRelevanciaEditModule),
             },
             {

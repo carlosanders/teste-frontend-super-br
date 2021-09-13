@@ -16,7 +16,7 @@ import * as fromStore from 'app/store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'coordenador-setor',
@@ -28,10 +28,9 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class SetorComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -45,21 +44,20 @@ export class SetorComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _router: Router
-    ) {}
+    ) {
+    }
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this._changeDetectorRef.markForCheck();
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this._changeDetectorRef.markForCheck();
         });
     }
 
@@ -71,7 +69,7 @@ export class SetorComponent implements OnInit, OnDestroy {
 
     showSidebar(): boolean {
         return (this.routerState.params.setorHandle && this.routerState.params.setorHandle !== 'default' &&
-            this.routerState.params.setorHandle !== 'criar')
+                this.routerState.params.setorHandle !== 'criar')
             && (this.routerState.url.indexOf('modelos') > -1 || this.routerState.url.indexOf('repositorios') > -1 ||
                 this.routerState.url.indexOf('etiquetas') > -1 || this.routerState.url.indexOf('usuarios') > -1 ||
                 this.routerState.url.indexOf('numeros-unicos-documentos') > -1);

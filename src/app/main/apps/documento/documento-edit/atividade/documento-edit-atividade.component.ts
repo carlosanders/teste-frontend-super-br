@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -30,7 +29,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
@@ -81,13 +80,12 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
         private _formBuilder: FormBuilder,
         private _activatedRoute: ActivatedRoute
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.form = this._formBuilder.group({
             id: [null],
@@ -167,7 +165,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
         this.documento$.pipe(
             filter(documento => !!documento),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documento => {
+        ).subscribe((documento) => {
             this.documento = documento;
             // Encerra Tarefa não está marcada, selecionar a minuta atual e desabilitar a sua desseleção/clique
             if (!this.atividade.encerraTarefa) {
@@ -204,9 +202,6 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
                 this.submitAtividade();
             }
         });
-    }
-
-    ngAfterViewInit(): void {
     }
 
     /**

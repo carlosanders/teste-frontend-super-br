@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as RepositorioEditActions from '../actions/repositorio-edit.actions';
 import * as RepositorioListActions from '../../../repositorio-list/store/actions/repositorio-list.actions';
@@ -20,6 +20,80 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 @Injectable()
 export class RepositorioEditEffect {
     routerState: any;
+    /**
+     * Get Repositorio with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getRepositorio: any = createEffect(() => this._actions.pipe(
+        ofType<RepositorioEditActions.GetRepositorio>(RepositorioEditActions.GET_REPOSITORIO),
+        switchMap(action => this._repositorioService.get(
+            action.payload.id,
+            JSON.stringify([
+                'populateAll'
+            ]),
+            JSON.stringify({isAdmin: true}))),
+        switchMap(response => [
+            new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
+            new RepositorioEditActions.GetRepositorioSuccess({
+                loaded: {
+                    id: 'repositorioHandle',
+                    value: this.routerState.params.repositorioHandle
+                },
+                repositorioId: this.routerState.params.repositorioHandle
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new RepositorioEditActions.GetRepositorioFailed(err));
+        })
+    ));
+    /**
+     * Save Repositorio
+     *
+     * @type {Observable<any>}
+     */
+    saveRepositorio: any = createEffect(() => this._actions.pipe(
+        ofType<RepositorioEditActions.SaveRepositorio>(RepositorioEditActions.SAVE_REPOSITORIO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tese',
+            content: 'Salvando a tese ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._repositorioService.save(action.payload.repositorio).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'tese',
+                content: 'Tese id ' + response.id + ' salva com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Repositorio) => [
+                new RepositorioEditActions.SaveRepositorioSuccess(),
+                new RepositorioListActions.ReloadRepositorios(),
+                new AddData<Repositorio>({data: [response], schema: repositorioSchema})
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tese',
+                    content: 'Erro ao salvar a tese!',
+                    status: 2, // erro
+                }));
+                return of(new RepositorioEditActions.SaveRepositorioFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Save Repositorio Success
+     */
+    saveRepositorioSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<RepositorioEditActions.SaveRepositorioSuccess>(RepositorioEditActions.SAVE_REPOSITORIO_SUCCESS),
+        tap(() => {
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.repositorioHandle), 'listar')]).then();
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -28,101 +102,11 @@ export class RepositorioEditEffect {
         public _loginService: LoginService,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Repositorio with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getRepositorio: any =
-        this._actions
-            .pipe(
-                ofType<RepositorioEditActions.GetRepositorio>(RepositorioEditActions.GET_REPOSITORIO),
-                switchMap(action => this._repositorioService.get(
-                        action.payload.id,
-                        JSON.stringify([
-                            'populateAll'
-                        ]),
-                        JSON.stringify({isAdmin: true}))),
-                switchMap(response => [
-                    new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
-                    new RepositorioEditActions.GetRepositorioSuccess({
-                        loaded: {
-                            id: 'repositorioHandle',
-                            value: this.routerState.params.repositorioHandle
-                        },
-                        repositorioId: this.routerState.params.repositorioHandle
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new RepositorioEditActions.GetRepositorioFailed(err));
-                    return caught;
-                })
-            );
-
-    /**
-     * Save Repositorio
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveRepositorio: any =
-        this._actions
-            .pipe(
-                ofType<RepositorioEditActions.SaveRepositorio>(RepositorioEditActions.SAVE_REPOSITORIO),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'repositório',
-                    content: 'Salvando o repositório ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => this._repositorioService.save(action.payload.repositorio).pipe(
-                    tap((response) =>
-                        this._store.dispatch(new OperacoesActions.Operacao({
-                            id: action.payload.operacaoId,
-                            type: 'repositório',
-                            content: 'Repositório id ' + response.id + ' salvo com sucesso.',
-                            status: 1, // sucesso
-                        }))
-                    ),
-                    mergeMap((response: Repositorio) => [
-                        new RepositorioEditActions.SaveRepositorioSuccess(),
-                        new RepositorioListActions.ReloadRepositorios(),
-                        new AddData<Repositorio>({data: [response], schema: repositorioSchema})
-                    ]),
-                    catchError((err) => {
-                        console.log(err);
-                        this._store.dispatch(new OperacoesActions.Operacao({
-                            id: action.payload.operacaoId,
-                            type: 'repositório',
-                            content: 'Erro ao salvar o repositório!',
-                            status: 2, // erro
-                        }));
-                        return of(new RepositorioEditActions.SaveRepositorioFailed(err));
-                    })
-                ))
-            );
-
-    /**
-     * Save Repositorio Success
-     */
-    @Effect({dispatch: false})
-    saveRepositorioSuccess: any =
-        this._actions
-            .pipe(
-                ofType<RepositorioEditActions.SaveRepositorioSuccess>(RepositorioEditActions.SAVE_REPOSITORIO_SUCCESS),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.repositorioHandle), 'listar')]).then();
-                })
-            );
 }

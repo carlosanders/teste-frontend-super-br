@@ -19,7 +19,7 @@ export function RemessaBlocoReducer(
         case RemessaBlocoActions.SAVE_TRAMITACAO: {
             return {
                 ...state,
-                savingProcessosId: [...state.savingProcessosId, action.payload.processo.id],
+                savingProcessosId: [...state.savingProcessosId, action.payload.tramitacao.processo.id],
                 errors: false
             };
         }
@@ -27,7 +27,7 @@ export function RemessaBlocoReducer(
         case RemessaBlocoActions.SAVE_TRAMITACAO_SUCCESS: {
             return {
                 ...state,
-                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id)
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.tramitacao.processo.id)
             };
         }
 

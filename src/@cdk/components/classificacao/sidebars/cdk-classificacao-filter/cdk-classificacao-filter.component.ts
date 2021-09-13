@@ -211,6 +211,7 @@ export class CdkClassificacaoFilterComponent {
 
     resetarFormulario(): void {
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this.form.controls.ativo.setValue("todos");
     }
 }

@@ -15,8 +15,8 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getSelectedTarefas} from '../store/selectors';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getSelectedTarefas} from '../store';
+import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Usuario} from '@cdk/models/usuario.model';
@@ -33,20 +33,15 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
-
     compartilhamento: Compartilhamento;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     operacoes: any[] = [];
-
-    private _profile: Usuario;
-
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     /**
      *
@@ -65,7 +60,6 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -77,28 +71,26 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefas => this.tarefas = tarefas);
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'compartilhamento')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'compartilhamento') {
+                    this.operacoes.push(operacoes[operacaoId]);
                 }
-            );
+            });
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
     }
 

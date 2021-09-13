@@ -59,7 +59,7 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.links.push (
+        this.links.push(
             {
                 nome: 'Dados Básicos',
                 link: 'dados-pessoa'
