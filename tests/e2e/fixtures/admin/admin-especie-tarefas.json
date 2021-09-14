@@ -1,0 +1,12 @@
+{
+    "admin":{
+        "nome": "PROVIDÊNCIAS ADMINISTRATIVAS, ADOTADAS",
+        "descricao": "PROVIDÊNCIAS ADMINISTRATIVAS, ADOTADAS",
+        "generoAtividade":[
+            {
+                "genero1": "ADMINISTRATIVO",
+                "genero2": "ARQUIVÍSTICO"
+            }
+        ]        
+    }
+}

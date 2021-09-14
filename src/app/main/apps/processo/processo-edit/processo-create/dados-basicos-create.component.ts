@@ -921,6 +921,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             case 'assunto':
                 this.assunto = new Assunto();
                 this.assuntoActivated = 'form';
+                this.assunto.processo = this.processo;
                 break;
             case 'interessado':
                 this.interessado = new Interessado();

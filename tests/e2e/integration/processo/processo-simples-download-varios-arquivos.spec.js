@@ -2,127 +2,104 @@
 
 import Protocolo from '../pageObjects/protocolo'
 
-describe('Criar processo simples contendo vários documento juntados', { taskTimeout: 300000 }, function () {
-  const protocolo = new Protocolo()
-  const paramNomeArquivo = new Array()
-  let paramPessoa,
-      paramOrgao,
-      paramProcessoDeTrabalho,
-      paramMeio,
-      paramClassificacao,
-      paramTitulo,
-      paramEspecieTarefa,
-      paramAssuntos,
-      paramModalidadeInteressado,
-      paramUsuarioResponsavel
+describe('Teste de bloqueo de criação de processo simples contendo varios documento juntados', function () {
+  
+    const protocolo = new Protocolo()
 
-      paramPessoa = "ADVOCACIA-GERAL DA UNIÃO"
-      paramOrgao = "SECRETARIA (SEI)"
-      paramProcessoDeTrabalho = "COMUM"
-      paramMeio = "ELETRÔNICO"
-      paramClassificacao = "MODERNIZAÇÃO E REFORMA ADMINISTRATIVA PROJETOS, ESTUDOS E NORMAS"
-      paramTitulo = "PROCESSO DE TESTE"
-      paramAssuntos = "RECURSOS HUMANOS"
-      paramModalidadeInteressado = "REQUERENTE (PÓLO ATIVO)"
-      paramEspecieTarefa = "ADOTAR PROVIDÊNCIAS ADMINISTRATIVAS"
-      paramUsuarioResponsavel = "JOÃO ADMIN"
-      paramNomeArquivo[0] = "arquivo_pequeno_A.pdf"
-      paramNomeArquivo[1] = "arquivo_pequeno_B.pdf"
-      paramNomeArquivo[2] = "arquivo_pequeno_C.pdf"
-      paramNomeArquivo[3] = "arquivo_001.pdf"
-      paramNomeArquivo[4] = "arquivo_003.pdf"
-      paramNomeArquivo[5] = "arquivo_020.pdf"
+    before(function () {
+      cy.fixture('processos/processo-simples-download-grande.json').then((fixture) => {
+          this.processo = fixture.processo;
+          this.distribuicao = fixture.distribuicao;
+      })
+    })
 
-      beforeEach(() => {
-        paramNomeArquivo.forEach(($arquivo) => {
-          protocolo.downloadFile($arquivo)
+    beforeEach(function () {
+      this.processo.documentos.map(function(data){
+        data.nome.forEach(($nome) => {
+          protocolo.downloadFile($nome)
         })
       })
+    })
 
-  it.skip('Protocolo -> Administrativo -> Processo -> Simples', function () {
+  it.skip('Deve bloquear a juntanda de documentos que na sua somatória ultapassa o limite permitido de juntada', function () {   
 
     //locar no sistema
     cy.login('00000000004')
 
     /**Aba Dados básicos */
-    cy.navegarProtocolo()
+    cy.visit("./apps/processo/criar/editar/dados-basicos-steps/administrativo")
     protocolo.getUnidadeArquivisticaProcesso().click()
     protocolo.getAtribuirNovoProtocolo().click()
-    protocolo.completeProcedencia(paramPessoa)
-    protocolo.completeProcessoDeTrabalho(paramProcessoDeTrabalho)
-    protocolo.completeMeio(paramMeio)
-    protocolo.completeClassificacao(paramClassificacao)
-    protocolo.getTitulo().clear().type(paramTitulo)
-    protocolo.completeSetorResponsavelDadosBasicos(paramOrgao)
+    protocolo.completeProcedencia(this.processo.procedencia)
+    protocolo.completeProcessoDeTrabalho(this.processo.processoDeTrabalho)
+    protocolo.completeMeio(this.processo.meio)
+    protocolo.completeClassificacao(this.processo.classificacao)
+    protocolo.getTitulo().clear().type(this.processo.titulo)
+    protocolo.completeSetorResponsavelDadosBasicos(this.processo.setorOrigem)      
 
     protocolo.salvarDadosBasicos().click()
 
     cy.location('pathname', {timeout: 20000}).should('include', '/editar/dados-basicos-steps/administrativo')
-
+  
     protocolo.abaDadosBasicos().click()
-
     protocolo.getNup().should('be.visible')
     protocolo.getNup().invoke('val').should('not.be.empty')
-
     protocolo.getChaveDeAcesso().should('be.visible')
     protocolo.getChaveDeAcesso().invoke('val').should("not.be.empty")
-
     protocolo.getDataHoraDeAbertura().should('be.visible')
     protocolo.getDataHoraDeAbertura().invoke('val').should("not.be.empty")
 
-    /**Aba assustos */
+    //Aba assustos
     protocolo.abaAssuntos().click()
-    protocolo.getPrincipal().click()
-    protocolo.completeAssuntos(paramAssuntos)
-    protocolo.salvarAssuntos().click()
-    cy.wait(5000)
-    protocolo.getTabelaAssuntos().should("be.visible")
-    protocolo.getTabelaAssuntos().should("contain.text", paramAssuntos)
+    this.processo.assuntos.map(function(data){
+        protocolo.getPrincipal().click()
+        protocolo.completeAssuntos(data.nome)
+        protocolo.salvarAssuntos().click()
+        cy.wait(5000)
+        protocolo.getTabelaAssuntos().should("be.visible")
+        protocolo.getTabelaAssuntos().should("contain.text", data.nome)
+    })
 
-    /**Aba Interessados */
+    //Aba Interessados
     protocolo.abaInteressados().click()
-    protocolo.completePessoa(paramPessoa)
-    protocolo.completeModalidadeInteressado(paramModalidadeInteressado)
-    protocolo.salvarInteressados().click()
-    cy.wait(5000)
-    protocolo.getTabelaInteressados().should("be.visible")
-    protocolo.getTabelaInteressados().should("contain.text", paramPessoa)
+    this.processo.interessados.map(function(data){
+        protocolo.completePessoa(data.pessoa)
+        protocolo.completeModalidadeInteressado(data.modalidade)
+        protocolo.salvarInteressados().click()
+        cy.wait(5000)
+        protocolo.getTabelaInteressados().should("be.visible")
+        protocolo.getTabelaInteressados().should("contain.text", data.pessoa)
+    })
 
     /**Aba Documentos */
     protocolo.abaDocumentos().click()
     protocolo.getBtnAnexar().click()
-    protocolo.getBtnUpload().attachFile(["download/"+paramNomeArquivo[0],
-                                          "download/"+paramNomeArquivo[1],
-                                          "download/"+paramNomeArquivo[2],
-                                          "download/"+paramNomeArquivo[3],
-                                          "download/"+paramNomeArquivo[4],
-                                          "download/"+paramNomeArquivo[5]])
+    this.processo.documentos.map(function(data){
+      data.nome.forEach(($nome) => {
+        protocolo.getBtnUpload().attachFile("download/"+$nome)
+      })
+    })
     protocolo.getBtnIniciarUpload().click()
     cy.wait(3000);
     protocolo.getTabelaDocumentos().should("be.visible")
     protocolo.getItemTabelaDocumentos(1).should('be.visible')
-    protocolo.getItemTabelaDocumentos(2).should('be.visible')
-    protocolo.getItemTabelaDocumentos(3).should('be.visible')
-    protocolo.getItemTabelaDocumentos(4).should('be.visible')
-    protocolo.getItemTabelaDocumentos(5).should('be.visible')
-    protocolo.getItemTabelaDocumentos(6).should('be.visible')
-    protocolo.getItemTabelaDocumentos(7).should('be.visible')
 
-    /**Aba Distribuição */
+    //Aba Distribuição
     protocolo.abaDistribuicao().click()
     protocolo.getProcessoDistribuicao().invoke('val').should("not.be.empty")
-    protocolo.completeEspecieTarefa(paramEspecieTarefa)
+    cy.wait(5000)
+    protocolo.completeEspecieTarefa(this.distribuicao.especieTarefa)
     protocolo.getDistribuicaoAutomatica().click()
     protocolo.getBlocoResponsaveis().click()
     protocolo.getUnidadeResponsavel().invoke('val').should("not.be.empty")
-    protocolo.completeSetorResponsavelDistribuicao(paramOrgao)
+    protocolo.completeSetorResponsavelDistribuicao(this.processo.setorOrigem)
     protocolo.getDistribuicaoAutomatica().click()
     protocolo.getBlocoResponsaveis().click()
-    protocolo.completeUsuarioResponsavel(paramUsuarioResponsavel)
+    protocolo.completeUsuarioResponsavel(this.distribuicao.responsavel)
     protocolo.getPrazoDias().invoke('val').should("not.be.empty")
     protocolo.getDataHoraInicioPrazo().invoke('val').should("not.be.empty")
     protocolo.getDataHoraFinalPrazo().invoke('val').should("not.be.empty")
-    protocolo.completeSetorOrigem(paramOrgao)
+    protocolo.completeSetorOrigem(this.distribuicao.setorOrigem)
     protocolo.salvarDistribuicao().click()
 
     protocolo.getMenuJuntada().click()
@@ -130,11 +107,13 @@ describe('Criar processo simples contendo vários documento juntados', { taskTim
     protocolo.getCapaProcesso().should("contain.text", "CAPA")
     cy.location('pathname').should('include', 'capa/mostrar')
 
-    paramNomeArquivo.forEach(($arquivo, $i) => {
-      protocolo.getItemJuntada($i+1).click()
-      protocolo.getNavegacaoJuntada().should("contain.text", Cypress._.toUpper($arquivo))
-      cy.location('pathname').should('include', 'visualizar/0-'+$i)
+    this.processo.documentos.map(function(data){
+      data.nome.forEach(($nome, $i) => {
+        protocolo.getItemJuntada($i+1).click()
+        protocolo.getNavegacaoJuntada().should("contain.text", Cypress._.toUpper($nome))
+      })
     })
+
   })
 
 })

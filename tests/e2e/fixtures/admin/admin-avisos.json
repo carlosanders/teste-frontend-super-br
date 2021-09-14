@@ -1,0 +1,16 @@
+{
+    "admin":{
+        "nome": "IMPLANTAÇÃO DO SUPER.BR",
+        "descricao": "Desenvolvimento do sistema SAPIENS 2.0 - Implantação Módulo Administrativo (SUPER.BR)",
+
+        "tipoDocumentacao":[
+            {
+                "tipo1": "Unidade",
+                "tipo2": "Órgão central"
+            }
+        ],        
+
+        "unidade": "ADVOCACIA-GERAL DA UNIÃO",
+        "modalidadeOrgaoCentral": "AGU"
+    }
+}

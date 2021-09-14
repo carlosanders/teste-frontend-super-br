@@ -4,7 +4,7 @@ import Protocolo from '../pageObjects/protocolo';
 
 describe('Teste de criação de um processo simples', function () {
 
-    before(function () {
+    beforeEach(function () {
         cy.fixture('processos/processo-simples.json').then((fixture) => {
             this.processo = fixture.processo;
             this.distribuicao = fixture.distribuicao;
@@ -44,6 +44,7 @@ describe('Teste de criação de um processo simples', function () {
         protocolo.getPrincipal().click()
         protocolo.completeAssuntos(data.nome)
         protocolo.salvarAssuntos().click()
+        cy.wait(5000)
         protocolo.getTabelaAssuntos().should("be.visible")
         protocolo.getTabelaAssuntos().should("contain.text", data.nome)
     })
@@ -54,6 +55,7 @@ describe('Teste de criação de um processo simples', function () {
         protocolo.completePessoa(data.pessoa)
         protocolo.completeModalidadeInteressado(data.modalidade)
         protocolo.salvarInteressados().click()
+        cy.wait(5000)
         protocolo.getTabelaInteressados().should("be.visible")
         protocolo.getTabelaInteressados().should("contain.text", data.pessoa)
     })
