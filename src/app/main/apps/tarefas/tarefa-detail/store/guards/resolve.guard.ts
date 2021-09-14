@@ -160,7 +160,10 @@ export class ResolveGuard implements CanActivate {
                             'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                             'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                             'documento.vinculacoesEtiquetas',
-                            'documento.vinculacoesEtiquetas.etiqueta'
+                            'documento.vinculacoesEtiquetas.etiqueta',
+                            'documento.criadoPor',
+                            "documento.setorOrigem",
+                            "documento.setorOrigem.unidade"
                         ]
                     };
 
