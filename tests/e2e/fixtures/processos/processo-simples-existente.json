@@ -2,6 +2,7 @@
     "processo":{
         "procedencia": "ADVOCACIA-GERAL DA UNIÃO",
         "processoDeTrabalho": "COMUM",
+        "dataHoraDeAbertura": "01/01/2021",
         "meio": "ELETRÔNICO",
         "classificacao": "MODERNIZAÇÃO E REFORMA ADMINISTRATIVA PROJETOS, ESTUDOS E NORMAS",
         "titulo": "PROCESSO DE TESTE",

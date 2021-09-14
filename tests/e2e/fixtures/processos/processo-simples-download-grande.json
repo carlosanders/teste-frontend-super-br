@@ -18,7 +18,13 @@
                 "pessoa": "ADVOCACIA-GERAL DA UNIÃO",
                 "modalidade": "REQUERENTE (PÓLO ATIVO)"
             }
-        ]
+        ],
+
+        "documentos":[
+            {
+                "nome": ["arquivo_060.pdf"]
+            }            
+        ]        
     },
 
     "distribuicao": {

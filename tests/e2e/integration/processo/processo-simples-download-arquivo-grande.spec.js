@@ -2,126 +2,118 @@
 
 import Protocolo from '../pageObjects/protocolo'
 
-describe('Criar processo simples contendo documento grande juntado', { taskTimeout: 5000000 }, function () {
+describe('Teste de bloqueo de criação de processo simples contendo um documento grande juntado', function () {
+  
     const protocolo = new Protocolo()
-    const paramNomeArquivo = new Array()
-    let paramPessoa,
-    paramOrgao,
-    paramProcessoDeTrabalho,
-    paramMeio,
-    paramClassificacao,
-    paramTitulo,
-    paramEspecieTarefa,
-    paramAssuntos,
-    paramModalidadeInteressado,
-    paramUsuarioResponsavel
 
-    paramPessoa = "ADVOCACIA-GERAL DA UNIÃO"
-    paramOrgao = "SECRETARIA (SEI)"
-    paramProcessoDeTrabalho = "COMUM"
-    paramMeio = "ELETRÔNICO"
-    paramClassificacao = "MODERNIZAÇÃO E REFORMA ADMINISTRATIVA PROJETOS, ESTUDOS E NORMAS"
-    paramTitulo = "PROCESSO DE TESTE"
-    paramAssuntos = "RECURSOS HUMANOS"
-    paramModalidadeInteressado = "REQUERENTE (PÓLO ATIVO)"
-    paramEspecieTarefa = "ADOTAR PROVIDÊNCIAS ADMINISTRATIVAS"
-    paramUsuarioResponsavel = "JOÃO ADMIN"
-    paramNomeArquivo[0] = "arquivo_060.pdf"
-
-    beforeEach(() => {
-        paramNomeArquivo.forEach(($arquivo) => {
-            protocolo.downloadFile($arquivo)
-        })
+    before(function () {
+      cy.fixture('processos/processo-simples-download-varios-arquivos.json').then((fixture) => {
+          this.processo = fixture.processo;
+          this.distribuicao = fixture.distribuicao;
+      })
     })
 
+    beforeEach(function () {
+      this.processo.documentos.map(function(data){
+        data.nome.forEach(($nome) => {
+          protocolo.downloadFile($nome)
+        })
+      })
+    })
 
-    // Teste desconsiderado por ser muito lento e não agregar para os testes de implementação de regras do sistema, mas
-    // somente para as configurações dos servidores de aplicação em relação aos parâmetros de upload
-    it.skip('Protocolo -> Administrativo -> Processo -> Simples', function () {
+    it.skip('Deve bloquear a juntanda de um documento grande', function () {   
 
-        //logar no sistema
-        cy.login('00000000004')
+    //locar no sistema
+    cy.login('00000000004')
 
-        /**Aba Dados básicos */
-        cy.navegarProtocolo()
-        protocolo.getUnidadeArquivisticaProcesso().click()
-        protocolo.getAtribuirNovoProtocolo().click()
-        protocolo.completeProcedencia(paramPessoa)
-        protocolo.completeProcessoDeTrabalho(paramProcessoDeTrabalho)
-        protocolo.completeMeio(paramMeio)
-        protocolo.completeClassificacao(paramClassificacao)
-        protocolo.getTitulo().clear().type(paramTitulo)
-        protocolo.completeSetorResponsavelDadosBasicos(paramOrgao)
+    /**Aba Dados básicos */
+    cy.visit("./apps/processo/criar/editar/dados-basicos-steps/administrativo")
+    protocolo.getUnidadeArquivisticaProcesso().click()
+    protocolo.getAtribuirNovoProtocolo().click()
+    protocolo.completeProcedencia(this.processo.procedencia)
+    protocolo.completeProcessoDeTrabalho(this.processo.processoDeTrabalho)
+    protocolo.completeMeio(this.processo.meio)
+    protocolo.completeClassificacao(this.processo.classificacao)
+    protocolo.getTitulo().clear().type(this.processo.titulo)
+    protocolo.completeSetorResponsavelDadosBasicos(this.processo.setorOrigem)      
 
-        protocolo.salvarDadosBasicos().click()
+    protocolo.salvarDadosBasicos().click()
 
-        cy.location('pathname', {timeout: 20000}).should('include', '/editar/dados-basicos-steps/administrativo')
+    cy.location('pathname', {timeout: 20000}).should('include', '/editar/dados-basicos-steps/administrativo')
+  
+    protocolo.abaDadosBasicos().click()
+    protocolo.getNup().should('be.visible')
+    protocolo.getNup().invoke('val').should('not.be.empty')
+    protocolo.getChaveDeAcesso().should('be.visible')
+    protocolo.getChaveDeAcesso().invoke('val').should("not.be.empty")
+    protocolo.getDataHoraDeAbertura().should('be.visible')
+    protocolo.getDataHoraDeAbertura().invoke('val').should("not.be.empty")
 
-        protocolo.abaDadosBasicos().click()
-
-        protocolo.getNup().should('be.visible')
-        protocolo.getNup().invoke('val').should('not.be.empty')
-
-        protocolo.getChaveDeAcesso().should('be.visible')
-        protocolo.getChaveDeAcesso().invoke('val').should("not.be.empty")
-
-        protocolo.getDataHoraDeAbertura().should('be.visible')
-        protocolo.getDataHoraDeAbertura().invoke('val').should("not.be.empty")
-
-        /**Aba assustos */
-        protocolo.abaAssuntos().click()
+    //Aba assustos
+    protocolo.abaAssuntos().click()
+    this.processo.assuntos.map(function(data){
         protocolo.getPrincipal().click()
-        protocolo.completeAssuntos(paramAssuntos)
+        protocolo.completeAssuntos(data.nome)
         protocolo.salvarAssuntos().click()
         cy.wait(5000)
         protocolo.getTabelaAssuntos().should("be.visible")
-        protocolo.getTabelaAssuntos().should("contain.text", paramAssuntos)
+        protocolo.getTabelaAssuntos().should("contain.text", data.nome)
+    })
 
-        /**Aba Interessados */
-        protocolo.abaInteressados().click()
-        protocolo.completePessoa(paramPessoa)
-        protocolo.completeModalidadeInteressado(paramModalidadeInteressado)
+    //Aba Interessados
+    protocolo.abaInteressados().click()
+    this.processo.interessados.map(function(data){
+        protocolo.completePessoa(data.pessoa)
+        protocolo.completeModalidadeInteressado(data.modalidade)
         protocolo.salvarInteressados().click()
         cy.wait(5000)
         protocolo.getTabelaInteressados().should("be.visible")
-        protocolo.getTabelaInteressados().should("contain.text", paramPessoa)
-
-        /**Aba Documentos */
-        protocolo.abaDocumentos().click()
-        protocolo.getBtnAnexar().click()
-        protocolo.getBtnUpload().attachFile(["download/"+paramNomeArquivo[0]]);
-        protocolo.getBtnIniciarUpload().click()
-        cy.wait(3000);
-        protocolo.getTabelaDocumentos().should("be.visible")
-        protocolo.getItemTabelaDocumentos(1).should('be.visible')
-
-        /**Aba Distribuição */
-        protocolo.abaDistribuicao().click()
-        protocolo.getProcessoDistribuicao().invoke('val').should("not.be.empty")
-        protocolo.completeEspecieTarefa(paramEspecieTarefa)
-        protocolo.getDistribuicaoAutomatica().click()
-        protocolo.getBlocoResponsaveis().click()
-        protocolo.getUnidadeResponsavel().invoke('val').should("not.be.empty")
-        protocolo.completeSetorResponsavelDistribuicao(paramOrgao)
-        protocolo.getDistribuicaoAutomatica().click()
-        protocolo.getBlocoResponsaveis().click()
-        protocolo.completeUsuarioResponsavel(paramUsuarioResponsavel)
-        protocolo.getPrazoDias().invoke('val').should("not.be.empty")
-        protocolo.getDataHoraInicioPrazo().invoke('val').should("not.be.empty")
-        protocolo.getDataHoraFinalPrazo().invoke('val').should("not.be.empty")
-        protocolo.completeSetorOrigem(paramOrgao)
-        protocolo.salvarDistribuicao().click()
-
-        protocolo.getMenuJuntada().click()
-        protocolo.getCapaProcesso().click()
-        protocolo.getCapaProcesso().should("contain.text", "CAPA")
-        cy.location('pathname').should('include', 'capa/mostrar')
-
-        paramNomeArquivo.forEach(($arquivo, $i) => {
-            protocolo.getItemJuntada($i+1).click()
-            protocolo.getNavegacaoJuntada().should("contain.text", Cypress._.toUpper($arquivo))
-            cy.location('pathname').should('include', 'visualizar/0-'+$i)
-        })
+        protocolo.getTabelaInteressados().should("contain.text", data.pessoa)
     })
+
+    /**Aba Documentos */
+    protocolo.abaDocumentos().click()
+    protocolo.getBtnAnexar().click()
+    this.processo.documentos.map(function(data){
+      data.nome.forEach(($nome) => {
+        protocolo.getBtnUpload().attachFile("download/"+$nome)
+      })
+    })
+    protocolo.getBtnIniciarUpload().click()
+    cy.wait(3000);
+    protocolo.getTabelaDocumentos().should("be.visible")
+    protocolo.getItemTabelaDocumentos(1).should('be.visible')
+
+    //Aba Distribuição
+    protocolo.abaDistribuicao().click()
+    protocolo.getProcessoDistribuicao().invoke('val').should("not.be.empty")
+    cy.wait(5000)
+    protocolo.completeEspecieTarefa(this.distribuicao.especieTarefa)
+    protocolo.getDistribuicaoAutomatica().click()
+    protocolo.getBlocoResponsaveis().click()
+    protocolo.getUnidadeResponsavel().invoke('val').should("not.be.empty")
+    protocolo.completeSetorResponsavelDistribuicao(this.processo.setorOrigem)
+    protocolo.getDistribuicaoAutomatica().click()
+    protocolo.getBlocoResponsaveis().click()
+    protocolo.completeUsuarioResponsavel(this.distribuicao.responsavel)
+    protocolo.getPrazoDias().invoke('val').should("not.be.empty")
+    protocolo.getDataHoraInicioPrazo().invoke('val').should("not.be.empty")
+    protocolo.getDataHoraFinalPrazo().invoke('val').should("not.be.empty")
+    protocolo.completeSetorOrigem(this.distribuicao.setorOrigem)
+    protocolo.salvarDistribuicao().click()
+
+    protocolo.getMenuJuntada().click()
+    protocolo.getCapaProcesso().click()
+    protocolo.getCapaProcesso().should("contain.text", "CAPA")
+    cy.location('pathname').should('include', 'capa/mostrar')
+
+    this.processo.documentos.map(function(data){
+      data.nome.forEach(($nome, $i) => {
+        protocolo.getItemJuntada($i+1).click()
+        protocolo.getNavegacaoJuntada().should("contain.text", Cypress._.toUpper($nome))
+      })
+    })
+
+  })
 
 })

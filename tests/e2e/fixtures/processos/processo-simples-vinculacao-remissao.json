@@ -18,7 +18,14 @@
                 "pessoa": "ADVOCACIA-GERAL DA UNIÃO",
                 "modalidade": "REQUERENTE (PÓLO ATIVO)"
             }
-        ]
+        ],
+
+        "vinculacoes":[
+            {
+                "modalidade": "REMISSÃO",
+                "observacao": "TESTE"
+            }
+        ]        
     },
 
     "distribuicao": {
