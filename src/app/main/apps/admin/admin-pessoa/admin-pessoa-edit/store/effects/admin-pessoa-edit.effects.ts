@@ -67,14 +67,12 @@ export class AdminPessoaEditEffects {
         switchMap((action) => {
             const context = JSON.stringify({isAdmin: true});
             return this._pessoaService.save(action.payload.pessoa, context).pipe(
-                tap(response =>
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
-                        type: 'pessoa',
-                        content: 'Pessoa id ' + response.id + ' salva com sucesso.',
-                        status: 1, // sucesso
-                    }))
-                ),
+                tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'pessoa',
+                    content: 'Pessoa id ' + response.id + ' salva com sucesso.',
+                    status: 1, // sucesso
+                }))),
                 mergeMap((response: Pessoa) => [
                     new PessoaEditActions.SavePessoaSuccess(response),
                     new PessoaListActions.ReloadPessoa(),

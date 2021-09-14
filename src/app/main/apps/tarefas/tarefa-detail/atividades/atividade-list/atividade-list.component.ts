@@ -25,12 +25,11 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class AtividadeListComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     atividades$: Observable<Atividade[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
