@@ -572,3 +572,8 @@
 * Melhoria implementar delete do Coordenador para o Admin
 * Melhoria filtros para Juntada
 * Melhoria tooltip de componente digital mostrando o seu nome
+
+1.6.9
+
+* Melhoria usuário, setor e unidade responsável na juntada
+* Melhoria número do documento principal do interessado aparecendo na capa do processo

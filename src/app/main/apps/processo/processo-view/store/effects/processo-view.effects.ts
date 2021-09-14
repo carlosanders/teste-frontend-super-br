@@ -122,7 +122,10 @@ export class ProcessoViewEffect {
                     'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                     'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                     'documento.vinculacoesEtiquetas',
-                    'documento.vinculacoesEtiquetas.etiqueta'
+                    'documento.vinculacoesEtiquetas.etiqueta',
+                    'documento.criadoPor',
+                    "documento.setorOrigem",
+                    "documento.setorOrigem.unidade"
                 ]
             };
             this._store.dispatch(new fromStore.GetJuntadas(params));
