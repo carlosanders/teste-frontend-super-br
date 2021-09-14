@@ -33,8 +33,6 @@ import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-v
 })
 export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
     isSaving$: Observable<boolean>;
@@ -54,6 +52,8 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
     tarefaProcessoRestritoValidada$: Observable<number>;
     tarefaProcessoRestritoValidada: number;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -122,6 +122,7 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
             if (this.tarefa.processo.acessoRestrito === true && this.tarefa.id != this.tarefaProcessoRestritoValidada) {
                 const dialogRef = this.dialog.open(CdkVisibilidadePluginComponent, {
                     data: {
+                        // eslint-disable-next-line @typescript-eslint/naming-convention
                         NUP: this.tarefa.processo.NUP
                     },
                     hasBackdrop: false,

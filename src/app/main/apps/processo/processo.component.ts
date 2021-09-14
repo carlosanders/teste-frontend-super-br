@@ -300,7 +300,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                     'setorAtual.unidade',
                     'modalidadeFase'
                 ]);
-                this._store.dispatch(new fromStore.ArquivarProcesso({processo: this.processo, populate: populate}));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.ArquivarProcesso({
+                    processo: this.processo,
+                    populate: populate,
+                    operacaoId: operacaoId
+                }));
             } else {
                 this._store.dispatch(new fromStore.RemovePluginLoading('arquivar_processo'));
             }

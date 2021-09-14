@@ -46,6 +46,54 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     displayedColumns: string[] = ['select', 'id', 'assuntoAdministrativo.nome', 'principal', 'actions'];
 
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input()
+    actions: string[] = ['edit', 'delete', 'select'];
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
+    selected = new EventEmitter<Assunto>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Output()
+    selectedIds: number[] = [];
+
     allColumns: any[] = [
         {
             id: 'select',
@@ -115,54 +163,6 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     ];
 
     columns = new FormControl();
-
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<number>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
-
-    @Output()
-    selected = new EventEmitter<Assunto>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    create = new EventEmitter<any>();
-
-    @Output()
-    selectedIds: number[] = [];
 
     dataSource: AssuntoDataSource;
 

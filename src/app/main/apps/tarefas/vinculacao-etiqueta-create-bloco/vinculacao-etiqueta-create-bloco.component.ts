@@ -143,7 +143,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             const vinculacaoEtiqueta = new VinculacaoEtiqueta();
 
             Object.entries(this.etiquetas).forEach(
-                ([key, etiqueta]) => {
+                ([, etiqueta]) => {
                     vinculacaoEtiqueta.etiqueta = etiqueta;
                 }
             );
