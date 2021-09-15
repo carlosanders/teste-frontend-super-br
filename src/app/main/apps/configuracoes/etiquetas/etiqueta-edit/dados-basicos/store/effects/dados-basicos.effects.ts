@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as EtiquetaEditActions from '../actions/dados-basicos.actions';
 import * as EtiquetaListActions from '../../../../etiqueta-list/store/actions/etiqueta-list.actions';
@@ -20,6 +20,52 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 @Injectable()
 export class EtiquetaDadosBasicosEffects {
     routerState: any;
+    /**
+     * Save Etiqueta
+     *
+     * @type {Observable<any>}
+     */
+    saveEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<EtiquetaEditActions.SaveEtiqueta>(EtiquetaEditActions.SAVE_ETIQUETA),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'etiqueta',
+            content: 'Salvando a etiqueta ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._etiquetaService.save(action.payload.etiqueta).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'etiqueta',
+                content: 'Etiqueta id ' + response.id + ' salvo com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Etiqueta) => [
+                new EtiquetaEditActions.SaveEtiquetaSuccess(),
+                new EtiquetaListActions.ReloadEtiquetas(),
+                new AddData<Etiqueta>({data: [response], schema: etiquetaSchema})
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'etiqueta',
+                    content: 'Erro ao salvar a etiqueta!',
+                    status: 2, // erro
+                }));
+                return of(new EtiquetaEditActions.SaveEtiquetaFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Save Etiqueta Success
+     */
+    saveEtiquetaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<EtiquetaEditActions.SaveEtiquetaSuccess>(EtiquetaEditActions.SAVE_ETIQUETA_SUCCESS),
+        tap(() => {
+            this._router.navigate(['apps/configuracoes/etiquetas/listar/']).then();
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
@@ -28,68 +74,11 @@ export class EtiquetaDadosBasicosEffects {
         public _loginService: LoginService,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Save Etiqueta
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveEtiqueta: any =
-        this._actions
-            .pipe(
-                ofType<EtiquetaEditActions.SaveEtiqueta>(EtiquetaEditActions.SAVE_ETIQUETA),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'etiqueta',
-                    content: 'Salvando a etiqueta ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => this._etiquetaService.save(action.payload.etiqueta).pipe(
-                    tap((response) =>
-                        this._store.dispatch(new OperacoesActions.Operacao({
-                            id: action.payload.operacaoId,
-                            type: 'etiqueta',
-                            content: 'Etiqueta id ' + response.id + ' salvo com sucesso.',
-                            status: 1, // sucesso
-                        }))
-                    ),
-                    mergeMap((response: Etiqueta) => [
-                        new EtiquetaEditActions.SaveEtiquetaSuccess(),
-                        new EtiquetaListActions.ReloadEtiquetas(),
-                        new AddData<Etiqueta>({data: [response], schema: etiquetaSchema})
-                    ]),
-                    catchError((err) => {
-                        console.log(err);
-                        this._store.dispatch(new OperacoesActions.Operacao({
-                            id: action.payload.operacaoId,
-                            type: 'etiqueta',
-                            content: 'Erro ao salvar a etiqueta!',
-                            status: 2, // erro
-                        }));
-                        return of(new EtiquetaEditActions.SaveEtiquetaFailed(err));
-                    })
-                ))
-            );
-
-    /**
-     * Save Etiqueta Success
-     */
-    @Effect({dispatch: false})
-    saveEtiquetaSuccess: any =
-        this._actions
-            .pipe(
-                ofType<EtiquetaEditActions.SaveEtiquetaSuccess>(EtiquetaEditActions.SAVE_ETIQUETA_SUCCESS),
-                tap(() => {
-                    this._router.navigate(['apps/configuracoes/etiquetas/listar/']).then();
-                })
-            );
 }

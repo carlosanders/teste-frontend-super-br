@@ -7,9 +7,9 @@ import {Endereco, Pagination, Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
-import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../../../../store/actions';
+import {getPessoa} from '../../dados-pessoa-edit/store';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
@@ -22,8 +22,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 })
 export class EnderecoEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     endereco$: Observable<Endereco>;
     endereco: Endereco;
     isSaving$: Observable<boolean>;
@@ -33,6 +31,7 @@ export class EnderecoEditComponent implements OnInit, OnDestroy {
     pessoa: Pessoa;
 
     enderecoAdministrativoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -60,13 +59,12 @@ export class EnderecoEditComponent implements OnInit, OnDestroy {
 
         this.pessoa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            pessoa => this.pessoa = pessoa
-        );
+        ).subscribe(pessoa => this.pessoa = pessoa);
 
-        this.endereco$.subscribe(
-            endereco => this.endereco = endereco
-        );
+        this.endereco$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(endereco => !!endereco)
+        ).subscribe(endereco => this.endereco = endereco);
 
         if (!this.endereco) {
             this.endereco = new Endereco();
@@ -78,6 +76,8 @@ export class EnderecoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

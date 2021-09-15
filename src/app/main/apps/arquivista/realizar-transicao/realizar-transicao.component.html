@@ -8,7 +8,6 @@
         [processo]="(processo$ | async)"
         [modalidadeTransicao]="modalidadeTransicao$ | async"
         (save)="submit($event)"
-        (abort)="cancel()"
-    >
+        (abort)="cancel()">
     </cdk-realizar-transicao-form>
 </div>

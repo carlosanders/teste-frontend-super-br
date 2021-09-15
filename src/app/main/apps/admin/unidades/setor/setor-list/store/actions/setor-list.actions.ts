@@ -17,111 +17,91 @@ export const TRANSFERIR_PROCESSOS_PROTOCOLO_FAILED = '[ADMIN SETOR LIST] TRANSFE
 /**
  * Get Setores
  */
-export class GetSetores implements Action
-{
+export class GetSetores implements Action {
     readonly type = GET_SETORES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setores Success
  */
-export class GetSetoresSuccess implements Action
-{
+export class GetSetoresSuccess implements Action {
     readonly type = GET_SETORES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setores Failed
  */
-export class GetSetoresFailed implements Action
-{
+export class GetSetoresFailed implements Action {
     readonly type = GET_SETORES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Setores
  */
-export class ReloadSetores implements Action
-{
+export class ReloadSetores implements Action {
     readonly type = RELOAD_SETORES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Setor
  */
-export class DeleteSetor implements Action
-{
+export class DeleteSetor implements Action {
     readonly type = DELETE_SETOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Setor Success
  */
-export class DeleteSetorSuccess implements Action
-{
+export class DeleteSetorSuccess implements Action {
     readonly type = DELETE_SETOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Setor Failed
  */
-export class DeleteSetorFailed implements Action
-{
+export class DeleteSetorFailed implements Action {
     readonly type = DELETE_SETOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class TransferirProcessosProtocolo implements Action
-{
+export class TransferirProcessosProtocolo implements Action {
     readonly type = TRANSFERIR_PROCESSOS_PROTOCOLO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class TransferirProcessosProtocoloSuccess implements Action
-{
+export class TransferirProcessosProtocoloSuccess implements Action {
     readonly type = TRANSFERIR_PROCESSOS_PROTOCOLO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
-export class TransferirProcessosProtocoloFailed implements Action
-{
+export class TransferirProcessosProtocoloFailed implements Action {
     readonly type = TRANSFERIR_PROCESSOS_PROTOCOLO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

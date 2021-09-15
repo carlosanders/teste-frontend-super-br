@@ -30,11 +30,11 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./competencias-list/competencias-list.module').then(m => m.CompetenciasListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./competencia-edit/competencia-edit.module').then(m => m.CompetenciaEditModule),
             },
             {

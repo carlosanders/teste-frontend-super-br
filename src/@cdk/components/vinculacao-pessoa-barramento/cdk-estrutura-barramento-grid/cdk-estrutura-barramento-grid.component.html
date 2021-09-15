@@ -101,6 +101,20 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(estruturaBarramento.id) > -1}"> {{estruturaBarramento.sigla}} </td>
                 </ng-container>
 
+                <!-- Hierarquia Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('hierarquia') > -1" matColumnDef="hierarquia">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Hierarquia
+                    </th>
+                    <td mat-cell *matCellDef="let estruturaBarramento" class='has_label_on_mobile' data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(estruturaBarramento.id) > -1}">
+                        <span *ngFor="let item of estruturaBarramento.hierarquia; let last = last;">
+                            <span *ngIf="!last">{{item.sigla}} / </span>
+                            <span *ngIf="last">{{item.sigla}}</span>
+                        </span>
+                    </td>
+                </ng-container>
+
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>

@@ -1,16 +1,17 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Compartilhamento, Pagination, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'acompanhamento-edit',
@@ -26,14 +27,14 @@ export class AcompanhamentoEditComponent implements OnInit, OnDestroy {
     acompanhamento: Compartilhamento;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     usuario: Usuario;
-
     modalidadeAcompanhamentoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -48,14 +49,12 @@ export class AcompanhamentoEditComponent implements OnInit, OnDestroy {
 
         this.modalidadeAcompanhamentoPagination = new Pagination();
 
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -67,9 +66,10 @@ export class AcompanhamentoEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.acompanhamento$.subscribe(
-            acompanhamento => this.acompanhamento = acompanhamento
-        );
+        this.acompanhamento$.pipe(
+            filter(acompanhamento => !!acompanhamento),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(acompanhamento => this.acompanhamento = acompanhamento);
 
         if (!this.acompanhamento) {
             this.acompanhamento = new Compartilhamento();
@@ -81,6 +81,9 @@ export class AcompanhamentoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

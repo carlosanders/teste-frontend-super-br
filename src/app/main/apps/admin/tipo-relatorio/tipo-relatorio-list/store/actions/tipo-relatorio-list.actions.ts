@@ -14,96 +14,80 @@ export const DELETE_TIPO_RELATORIO_FAILED = '[SUPERADMIN TIPO RELATORIO LIST] DE
 /**
  * Get TipoRelatorio
  */
-export class GetTipoRelatorio implements Action
-{
+export class GetTipoRelatorio implements Action {
     readonly type = GET_TIPO_RELATORIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoRelatorio Success
  */
-export class GetTipoRelatorioSuccess implements Action
-{
+export class GetTipoRelatorioSuccess implements Action {
     readonly type = GET_TIPO_RELATORIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoRelatorio Failed
  */
-export class GetTipoRelatorioFailed implements Action
-{
+export class GetTipoRelatorioFailed implements Action {
     readonly type = GET_TIPO_RELATORIO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Unload TipoRelatorio
  */
- export class UnloadTipoRelatorio implements Action
- {
-     readonly type = UNLOAD_TIPO_RELATORIO;
+export class UnloadTipoRelatorio implements Action {
+    readonly type = UNLOAD_TIPO_RELATORIO;
 
-     constructor()
-     {
-     }
- }
+    constructor() {
+    }
+}
 
 /**
  * Reload TipoRelatorio
  */
-export class ReloadTipoRelatorio implements Action
-{
+export class ReloadTipoRelatorio implements Action {
     readonly type = RELOAD_TIPO_RELATORIO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete TipoRelatorio
  */
-export class DeleteTipoRelatorio implements Action
-{
+export class DeleteTipoRelatorio implements Action {
     readonly type = DELETE_TIPO_RELATORIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoRelatorio Success
  */
-export class DeleteTipoRelatorioSuccess implements Action
-{
+export class DeleteTipoRelatorioSuccess implements Action {
     readonly type = DELETE_TIPO_RELATORIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoRelatorio Failed
  */
-export class DeleteTipoRelatorioFailed implements Action
-{
+export class DeleteTipoRelatorioFailed implements Action {
     readonly type = DELETE_TIPO_RELATORIO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

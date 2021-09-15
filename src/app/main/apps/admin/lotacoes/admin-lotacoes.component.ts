@@ -13,7 +13,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Setor} from '@cdk/models';
 import {Back} from 'app/store/actions';
 
@@ -27,13 +27,12 @@ import {Back} from 'app/store/actions';
 })
 export class AdminLotacoesComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     setor$: Observable<Setor>;
     setor: Setor;
 
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -53,27 +52,27 @@ export class AdminLotacoesComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('lotacoes/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('lotacoes/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('lotacoes/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('lotacoes/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('lotacoes/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('lotacoes/editar/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
 
-        this.setor$.pipe(takeUntil(this._unsubscribeAll)).subscribe(setor => this.setor = setor);
+        this.setor$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(setor => this.setor = setor);
     }
 
     ngOnDestroy(): void {

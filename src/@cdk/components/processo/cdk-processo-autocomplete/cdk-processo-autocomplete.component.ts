@@ -33,13 +33,13 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    processoList: Processo[];
-    processoListIsLoading: boolean;
-
     @Input()
     field = 'NUP';
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+
+    processoList: Processo[];
+    processoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -60,6 +60,7 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                     const termFilterOutroNumero = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         termFilterNUP.push({
+                            // eslint-disable-next-line @typescript-eslint/naming-convention
                             NUP: `like:%${bit.replace(/\D/g, '')}%`
                         });
                         termFilterOutroNumero.push({
@@ -68,8 +69,8 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            {orX: termFilterNUP},
-                            {orX: termFilterOutroNumero}
+                            {andX: termFilterNUP},
+                            {andX: termFilterOutroNumero}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNUP.length > 0 || termFilterOutroNumero.length > 0)) {

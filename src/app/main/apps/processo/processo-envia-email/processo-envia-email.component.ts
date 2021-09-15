@@ -14,8 +14,9 @@ import {getRouterState} from 'app/store/reducers';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Juntada} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../store';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'processo-envia-email',
@@ -27,8 +28,6 @@ import {Back} from '../../../../store';
 })
 export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     routerState: any;
 
     isSaving$: Observable<boolean>;
@@ -36,6 +35,7 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
 
     juntada$: Observable<Juntada>;
     juntada: Juntada;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -48,7 +48,6 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.EnviaEmailAppState>,
         private _router: Router
     ) {
-
         this.juntada$ = this._store.pipe(select(fromStore.getJuntada));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -61,11 +60,10 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
         this.juntada$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -74,6 +72,7 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
         });
 
     }
+
     /**
      * On destroy
      */
@@ -87,11 +86,14 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
-       const payload = {
-           usuarioId: values.usuario.id,
-           juntadaId: this.juntada.id
-       };
-       this._store.dispatch(new fromStore.EnviaEmail(payload));
+        if (this.juntada.id) {
+            const payload = {
+                usuarioId: values.usuario.id,
+                juntadaId: this.juntada.id,
+                operacaoId: CdkUtils.makeId()
+            };
+            this._store.dispatch(new fromStore.EnviaEmail(payload));
+        }
     }
 
     cancel(): void {

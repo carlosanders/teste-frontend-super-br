@@ -1,15 +1,16 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getProcesso} from '../../../store';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'transicao-edit',
@@ -30,6 +31,7 @@ export class TransicaoEditComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     modalidadeTransicaoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -53,13 +55,14 @@ export class TransicaoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            processo => this.processo = processo
-        );
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processo => this.processo = processo);
 
-        this.transicao$.subscribe(
-            transicao => this.transicao = transicao
-        );
+        this.transicao$.pipe(
+            filter(transicao => !!transicao),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(transicao => this.transicao = transicao);
 
         if (!this.transicao) {
             this.transicao = new Transicao();
@@ -71,6 +74,8 @@ export class TransicaoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }
 

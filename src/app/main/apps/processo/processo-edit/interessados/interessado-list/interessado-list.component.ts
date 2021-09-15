@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Interessado} from '@cdk/models';
@@ -8,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store';
 import {getRouterState} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'interessado-list',
@@ -17,7 +25,7 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class InteressadoListComponent implements OnInit {
+export class InteressadoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     interessados$: Observable<Interessado[]>;
@@ -28,6 +36,7 @@ export class InteressadoListComponent implements OnInit {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -46,20 +55,33 @@ export class InteressadoListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetInteressados({
@@ -95,15 +117,15 @@ export class InteressadoListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(interessadoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + interessadoId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + interessadoId]).then();
     }
 
-    delete(interessadoId: any, loteId: string = null): void {
-        if(interessadoId.length > 0){
+    delete(interessadoId: any): void {
+        if (interessadoId.length > 0) {
             this.lote = CdkUtils.makeId();
             interessadoId.forEach((i) => {
                 const operacaoId = CdkUtils.makeId();
@@ -113,7 +135,7 @@ export class InteressadoListComponent implements OnInit {
                     loteId: this.lote,
                 }));
             });
-        } else{
+        } else {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.DeleteInteressado({
                 interessadoId: interessadoId,

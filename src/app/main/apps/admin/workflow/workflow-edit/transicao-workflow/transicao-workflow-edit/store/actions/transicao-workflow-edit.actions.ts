@@ -10,60 +10,50 @@ export const GET_TRANSICAO_WORKFLOW_FAILED = '[ADMIN TRANSICAO_WORKFLOW EDIT] GE
 /**
  * Get TransicaoWorkflow
  */
-export class GetTransicaoWorkflow implements Action
-{
+export class GetTransicaoWorkflow implements Action {
     readonly type = GET_TRANSICAO_WORKFLOW;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TransicaoWorkflow Success
  */
-export class GetTransicaoWorkflowSuccess implements Action
-{
+export class GetTransicaoWorkflowSuccess implements Action {
     readonly type = GET_TRANSICAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TransicaoWorkflow Failed
  */
-export class GetTransicaoWorkflowFailed implements Action
-{
+export class GetTransicaoWorkflowFailed implements Action {
     readonly type = GET_TRANSICAO_WORKFLOW_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Create TransicaoWorkflow
  */
-export class CreateTransicaoWorkflow implements Action
-{
+export class CreateTransicaoWorkflow implements Action {
     readonly type = CREATE_TRANSICAO_WORKFLOW;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create TransicaoWorkflow Success
  */
-export class CreateTransicaoWorkflowSuccess implements Action
-{
+export class CreateTransicaoWorkflowSuccess implements Action {
     readonly type = CREATE_TRANSICAO_WORKFLOW_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

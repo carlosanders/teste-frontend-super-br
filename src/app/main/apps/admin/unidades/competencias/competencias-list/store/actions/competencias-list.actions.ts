@@ -13,84 +13,70 @@ export const RELOAD_COMPETENCIAS = '[ADMIN COMPETENCIAS LIST] RELOAD COMPETENCIA
 /**
  * Get VinculacaoSetorMunicipio[]
  */
-export class GetCompetencias implements Action
-{
+export class GetCompetencias implements Action {
     readonly type = GET_COMPETENCIAS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoSetorMunicipio[] Success
  */
-export class GetCompetenciasSuccess implements Action
-{
+export class GetCompetenciasSuccess implements Action {
     readonly type = GET_COMPETENCIAS_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoSetorMunicipio[] Failed
  */
-export class GetCompetenciasFailed implements Action
-{
+export class GetCompetenciasFailed implements Action {
     readonly type = GET_COMPETENCIAS_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload VinculacaoSetorMunicipio[]
  */
-export class ReloadCompetencias implements Action
-{
+export class ReloadCompetencias implements Action {
     readonly type = RELOAD_COMPETENCIAS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Competencia
  */
-export class DeleteCompetencia implements Action
-{
+export class DeleteCompetencia implements Action {
     readonly type = DELETE_COMPETENCIA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Competencia Success
  */
-export class DeleteCompetenciaSuccess implements Action
-{
+export class DeleteCompetenciaSuccess implements Action {
     readonly type = DELETE_COMPETENCIA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Competencia Failed
  */
-export class DeleteCompetenciaFailed implements Action
-{
+export class DeleteCompetenciaFailed implements Action {
     readonly type = DELETE_COMPETENCIA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

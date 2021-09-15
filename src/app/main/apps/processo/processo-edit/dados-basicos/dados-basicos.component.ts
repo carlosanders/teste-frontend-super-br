@@ -22,6 +22,7 @@ import {Back} from '../../../../../store';
 import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'dados-basicos',
@@ -52,7 +53,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     genero = 'ADMINISTRATIVO';
 
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -81,7 +82,13 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.setorAtualPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
         this.configuracaoNupPagination = new Pagination();
-        this._unsubscribeAll = new Subject();
+
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -92,19 +99,19 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            (processo) => {
-                if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
-                    this._mercureService.unsubscribe(this.processo.origemDados['@id']);
-                }
-                if (processo?.origemDados) {
-                    this._mercureService.subscribe(processo.origemDados['@id']);
-                }
-                this.processo = processo;
-                this.genero = this.processo?.especieProcesso?.generoProcesso?.nome;
-                this._changeDetectorRef.markForCheck();
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
+            if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
+                this._mercureService.unsubscribe(this.processo.origemDados['@id']);
             }
-        );
+            if (processo?.origemDados) {
+                this._mercureService.subscribe(processo.origemDados['@id']);
+            }
+            this.processo = processo;
+            this.genero = this.processo?.especieProcesso?.generoProcesso?.nome;
+            this._changeDetectorRef.markForCheck();
+        });
 
         if (!this.processo) {
             this.processo = new Processo();
@@ -112,15 +119,10 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             this.processo.tipoProtocolo = 1;
         }
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo',
+            id: +this.processo.id
+        };
         this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio', 'workflow'];
         this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero};
         this.setorAtualPagination.populate = ['unidade', 'parent'];
@@ -171,7 +173,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this._store.dispatch(new Back());
     }
 
-    onActivate(componentReference): void  {
+    onActivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
                 this.procedencia = pessoa;
@@ -180,13 +182,13 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }
     }
 
-    doSelectClassificacao(classificacao: Classificacao|null): void {
+    doSelectClassificacao(classificacao: Classificacao | null): void {
         if (classificacao && classificacao.visibilidadeRestrita === true && this.processo.acessoRestrito !== true) {
             this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
                 data: [this.processo],

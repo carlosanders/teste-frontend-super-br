@@ -20,13 +20,11 @@ import * as fromStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreProcessos from '../arquivista-list/store';
 import {getModalidadeTransicao} from '../arquivista-list/store';
-import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'arquivista-operacoes-bloco',
@@ -38,7 +36,8 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 })
 export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     processos$: Observable<Processo[]>;
     processos: Processo[];
@@ -46,26 +45,21 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
     selectedIds$: Observable<number[]>;
     selectedIds: number[];
 
-    private _profile: any;
-
     routerState: any;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
-    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
-    snackSubscription: any;
 
     modalidadeTransicao$: Observable<ModalidadeTransicao>;
 
     displayProcessos = false;
+
+    private _profile: any;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _dynamicService
      * @param _store
      * @param _loginService
-     * @param _snackBar
      * @param _router
      * @param _changeDetectorRef
      */
@@ -73,7 +67,6 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
         private _dynamicService: DynamicService,
         private _store: Store<fromStore.State>,
         public _loginService: LoginService,
-        private _snackBar: MatSnackBar,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
@@ -82,14 +75,12 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
         this.modalidadeTransicao$ = this._store.pipe(select(getModalidadeTransicao));
         this._profile = _loginService.getUserProfile().colaborador;
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
 
@@ -123,7 +114,10 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });

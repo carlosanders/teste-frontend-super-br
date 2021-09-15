@@ -13,9 +13,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {getProcesso, getSteps} from '../store';
 import {getRouterState} from '../../../../store';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Processo} from '../../../../../@cdk/models';
 import {MercureService} from '../../../../../@cdk/services/mercure.service';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'processo-edit',
@@ -32,6 +33,7 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
     steps: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -56,37 +58,33 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.refresh();
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.refresh();
         });
 
-        this._store
-            .pipe(
-                select(getSteps)
-            ).subscribe((steps) => {
-                if (steps) {
-                    this.steps = steps;
-                }
-            });
+        this._store.pipe(
+            select(getSteps),
+            filter(steps => !!steps)
+        ).subscribe((steps) => {
+            this.steps = steps;
+        });
 
-        this.processo$.subscribe(
-            (processo) => {
-                if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
-                    this._mercureService.unsubscribe(this.processo.origemDados['@id']);
-                }
-                if (processo?.origemDados) {
-                    this._mercureService.subscribe(processo.origemDados['@id']);
-                }
-                this.processo = processo;
-                this._changeDetectorRef.markForCheck();
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
+            if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
+                this._mercureService.unsubscribe(this.processo.origemDados['@id']);
             }
-        );
+            if (processo?.origemDados) {
+                this._mercureService.subscribe(processo.origemDados['@id']);
+            }
+            this.processo = processo;
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**
@@ -96,6 +94,9 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
         if (this.processo?.origemDados) {
             this._mercureService.unsubscribe(this.processo.origemDados['@id']);
         }
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

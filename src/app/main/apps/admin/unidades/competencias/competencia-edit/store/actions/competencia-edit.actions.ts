@@ -14,96 +14,80 @@ export const GET_COMPETENCIA_FAILED = '[ADMIN COMPETENCIA EDIT] GET COMPETENCIA 
 /**
  * Get VinculacaoSetorMunicipio
  */
-export class GetCompetencia implements Action
-{
+export class GetCompetencia implements Action {
     readonly type = GET_COMPETENCIA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoSetorMunicipio Success
  */
-export class GetCompetenciaSuccess implements Action
-{
+export class GetCompetenciaSuccess implements Action {
     readonly type = GET_COMPETENCIA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoSetorMunicipio Failed
  */
-export class GetCompetenciaFailed implements Action
-{
+export class GetCompetenciaFailed implements Action {
     readonly type = GET_COMPETENCIA_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save VinculacaoSetorMunicipio
  */
-export class SaveCompetencia implements Action
-{
+export class SaveCompetencia implements Action {
     readonly type = SAVE_COMPETENCIA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save VinculacaoSetorMunicipio Success
  */
-export class SaveCompetenciaSuccess implements Action
-{
+export class SaveCompetenciaSuccess implements Action {
     readonly type = SAVE_COMPETENCIA_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save VinculacaoSetorMunicipio Failed
  */
-export class SaveCompetenciaFailed implements Action
-{
+export class SaveCompetenciaFailed implements Action {
     readonly type = SAVE_COMPETENCIA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create VinculacaoSetorMunicipio
  */
-export class CreateCompetencia implements Action
-{
+export class CreateCompetencia implements Action {
     readonly type = CREATE_COMPETENCIA;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create VinculacaoSetorMunicipio Success
  */
-export class CreateCompetenciaSuccess implements Action
-{
+export class CreateCompetenciaSuccess implements Action {
     readonly type = CREATE_COMPETENCIA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

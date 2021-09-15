@@ -99,6 +99,16 @@
                             <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo' : 'Acompanhar Processo'}}</span>
                         </ng-container>
                     </button>
+                    <ng-template #dynamicComponent></ng-template>
+                    <button mat-menu-item aria-label="sincronizar barramento"
+                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo
+                                    && processo?.origemDados?.fonteDados === 'BARRAMENTO_PEN'"
+                            (click)="sincronizarBarramento(processo)">
+                        <ng-container>
+                            <mat-icon>backup</mat-icon>
+                            <span>Sincronizar Barramento</span>
+                        </ng-container>
+                    </button>
                     <button mat-menu-item *ngIf="containerConverter?.length"
                             [matMenuTriggerFor]="moreMenuConverter" aria-label="converter"
                             (click)="$event.stopPropagation()">
@@ -110,8 +120,6 @@
                     <mat-menu #moreMenuConverter="matMenu">
                         <ng-template #dynamicComponentConverter></ng-template>
                     </mat-menu>
-
-                    <ng-template #dynamicComponent></ng-template>
                 </mat-menu>
             </div>
         </div>

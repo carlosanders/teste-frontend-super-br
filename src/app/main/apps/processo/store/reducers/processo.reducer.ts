@@ -229,7 +229,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 loadingAcompanhamento: true,
-                deletingIds: [...state.deletingIds, action.payload]
             };
         }
 
@@ -237,8 +236,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 loadingAcompanhamento: false,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
             };
         }
 
@@ -246,7 +243,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 loadingAcompanhamento: false,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 
@@ -261,6 +257,27 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 pluginLoading: state.pluginLoading.filter(value => value !== action.payload)
+            };
+        }
+
+        case ProcessoActions.SINCRONIZA_BARRAMENTO: {
+            return {
+                ...state,
+                loading: true,
+                saving: true,
+                errors: false,
+                pluginLoading: [...state.pluginLoading, 'sincroniza_barramento']
+            };
+        }
+
+        case ProcessoActions.SINCRONIZA_BARRAMENTO_SUCCESS: {
+            return {
+                ...state,
+                entityId: action.payload.id,
+                saving: false,
+                loading: false,
+                errors: false,
+                pluginLoading: state.pluginLoading.filter(value => value !== 'sincroniza_barramento')
             };
         }
 

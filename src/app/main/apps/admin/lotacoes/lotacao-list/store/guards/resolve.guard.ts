@@ -26,13 +26,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<RootLotacaoListAppState>,
         public _loginService: LoginService
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -45,7 +45,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getLotacoes().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -63,8 +66,7 @@ export class ResolveGuard implements CanActivate {
                     || (('setorHandle' === loaded.id) && this.routerState.params['setorHandle'] !== loaded.value)) {
 
                     let filter: any;
-                    filter = {
-                    };
+                    filter = {};
                     if (this.routerState.params['setorHandle']) {
                         filter = {
                             ...filter,
@@ -100,7 +102,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => loaded.id === 'usuarioHandle' && this.routerState.params['usuarioHandle'] && this.routerState.params['usuarioHandle'] === loaded.value ||
-                    loaded.id === 'setorHandle' && this.routerState.params['setorHandle'] && this.routerState.params['setorHandle'] === loaded.value),
+                loaded.id === 'setorHandle' && this.routerState.params['setorHandle'] && this.routerState.params['setorHandle'] === loaded.value),
             take(1)
         );
     }

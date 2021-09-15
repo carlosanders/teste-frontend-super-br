@@ -15,96 +15,80 @@ export const DELETE_TIPO_DOCUMENTO_FAILED = '[SUPERADMIN TIPO DOCUMENTO LIST] DE
 /**
  * Get TipoDocumento
  */
-export class GetTipoDocumento implements Action
-{
+export class GetTipoDocumento implements Action {
     readonly type = GET_TIPO_DOCUMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoDocumento Success
  */
-export class GetTipoDocumentoSuccess implements Action
-{
+export class GetTipoDocumentoSuccess implements Action {
     readonly type = GET_TIPO_DOCUMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get TipoDocumento Failed
  */
-export class GetTipoDocumentoFailed implements Action
-{
+export class GetTipoDocumentoFailed implements Action {
     readonly type = GET_TIPO_DOCUMENTO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Unload TipoDocumento
  */
- export class UnloadTipoDocumento implements Action
- {
-     readonly type = UNLOAD_TIPO_DOCUMENTO;
+export class UnloadTipoDocumento implements Action {
+    readonly type = UNLOAD_TIPO_DOCUMENTO;
 
-     constructor()
-     {
-     }
- }
+    constructor() {
+    }
+}
 
 /**
  * Reload TipoDocumento
  */
-export class ReloadTipoDocumento implements Action
-{
+export class ReloadTipoDocumento implements Action {
     readonly type = RELOAD_TIPO_DOCUMENTO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete TipoDocumento
  */
-export class DeleteTipoDocumento implements Action
-{
+export class DeleteTipoDocumento implements Action {
     readonly type = DELETE_TIPO_DOCUMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoDocumento Success
  */
-export class DeleteTipoDocumentoSuccess implements Action
-{
+export class DeleteTipoDocumentoSuccess implements Action {
     readonly type = DELETE_TIPO_DOCUMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete TipoDocumento Failed
  */
-export class DeleteTipoDocumentoFailed implements Action
-{
+export class DeleteTipoDocumentoFailed implements Action {
     readonly type = DELETE_TIPO_DOCUMENTO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

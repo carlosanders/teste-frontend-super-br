@@ -10,60 +10,50 @@ export const UNLOAD_TEMPLATES = '[TEMPLATES LIST] UNLOAD TEMPLATES';
 /**
  * Get Templates
  */
-export class GetTemplates implements Action
-{
+export class GetTemplates implements Action {
     readonly type = GET_TEMPLATES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Templates Success
  */
-export class GetTemplatesSuccess implements Action
-{
+export class GetTemplatesSuccess implements Action {
     readonly type = GET_TEMPLATES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Templates Failed
  */
-export class GetTemplatesFailed implements Action
-{
+export class GetTemplatesFailed implements Action {
     readonly type = GET_TEMPLATES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Unload UsuariosExternos
  */
- export class UnloadTemplates implements Action
- {
-     readonly type = UNLOAD_TEMPLATES;
+export class UnloadTemplates implements Action {
+    readonly type = UNLOAD_TEMPLATES;
 
-     constructor()
-     {
-     }
- }
+    constructor() {
+    }
+}
 
 /**
  * Reload Templates
  */
-export class ReloadTemplates implements Action
-{
+export class ReloadTemplates implements Action {
     readonly type = RELOAD_TEMPLATES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 

@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/componentes-digitais/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {LoginService} from '../../../auth/login/login.service';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'componentes-digitais',
@@ -34,8 +34,8 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
-    private screen$: Observable<any>;
     mobileMode: boolean;
+    private screen$: Observable<any>;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     private _profile: any;
@@ -60,13 +60,12 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this._profile = _loginService.getUserProfile();
         this.screen$ = this._store.pipe(select(getScreenState));
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
@@ -108,8 +107,7 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
     edit($event: { componenteDigital: ComponenteDigital; chaveAcesso: string }): void {
         const chaveAcessoHandle = $event.chaveAcesso ? '/' + $event.chaveAcesso : '';
 
-        let primary: string;
-        primary = 'componente-digital/' + $event.componenteDigital.id + '/visualizar' + chaveAcessoHandle;
+        const primary = 'componente-digital/' + $event.componenteDigital.id + '/visualizar' + chaveAcessoHandle;
 
         const sidebar = 'empty';
 

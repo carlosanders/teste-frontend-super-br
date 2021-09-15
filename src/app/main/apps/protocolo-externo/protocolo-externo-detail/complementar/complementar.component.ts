@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -34,39 +35,30 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 
-export class ComplementarComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
-    private _profile: Usuario;
-
-    processo$: Observable<Processo>;
-    processo: Processo;
-
-    documentos$: Observable<Documento[]>;
-
-    selectedDocumentos$: Observable<Documento[]>;
-    oficios: Documento[] = [];
-    selectedDocumentos: Documento[] = [];
-
-    processoOrigem: number;
-
-    mode: string;
-    tipo = 'complementar';
-    chaveAcesso: any;
-
-    routerState: any;
-    routerState$: Observable<any>;
+export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
-
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
-
+    processo$: Observable<Processo>;
+    processo: Processo;
+    documentos$: Observable<Documento[]>;
+    selectedDocumentos$: Observable<Documento[]>;
+    oficios: Documento[] = [];
+    selectedDocumentos: Documento[] = [];
+    processoOrigem: number;
+    mode: string;
+    tipo = 'complementar';
+    chaveAcesso: any;
+    routerState: any;
+    routerState$: Observable<any>;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     /**
      *
@@ -104,11 +96,10 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
 
         this.routerState$.pipe(
@@ -125,18 +116,16 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (documentos) => {
-                this.oficios = documentos;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((documentos) => {
+            this.oficios = documentos;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe((selectedDocumentos) => {
-            this.selectedDocumentos =  selectedDocumentos;
+            this.selectedDocumentos = selectedDocumentos;
         });
     }
 
@@ -146,7 +135,10 @@ export class ComplementarComponent implements OnInit, OnDestroy {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -181,7 +173,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.doDelete(id, this.lote));
     }
@@ -191,7 +183,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
         this._router.navigate([
             this.routerState.url.split('/detalhe/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
-        ]);
+        ]).then();
     }
 
     doAssinatura(result): void {
@@ -227,7 +219,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
         this._router.navigate([
             this.routerState.url.split('/detalhe/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
-        ]);
+        ]).then();
     }
 
     onComplete(): void {

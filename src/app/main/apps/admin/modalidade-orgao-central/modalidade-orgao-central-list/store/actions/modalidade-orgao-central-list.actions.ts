@@ -41,7 +41,7 @@ export class GetModalidadeOrgaoCentralFailed implements Action {
 /**
  * Unload ModalidadeOrgaoCentral
  */
- export class UnloadModalidadeOrgaoCentral implements Action {
+export class UnloadModalidadeOrgaoCentral implements Action {
     readonly type = UNLOAD_MODALIDADE_ORGAO_CENTRAL;
 
     constructor() {

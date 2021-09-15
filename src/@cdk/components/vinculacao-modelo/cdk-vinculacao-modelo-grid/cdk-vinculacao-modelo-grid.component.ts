@@ -64,11 +64,6 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
 
     allColumns: any[] = [
         {
-            id: 'select',
-            label: '',
-            fixed: true
-        },
-        {
             id: 'id',
             label: 'Id',
             fixed: true
@@ -96,36 +91,6 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
         {
             id: 'modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
-            fixed: false
-        },
-        {
-            id: 'criadoPor.nome',
-            label: 'Criado Por',
-            fixed: false
-        },
-        {
-            id: 'criadoEm',
-            label: 'Criado Em',
-            fixed: false
-        },
-        {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
             fixed: false
         },
         {
@@ -215,9 +180,9 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
@@ -370,7 +335,7 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

@@ -10,8 +10,8 @@ import * as fromStore from './vinculacao-pessoa-barramento-list/store';
 
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {getRouterState} from "../../../../../store";
+import {filter, takeUntil} from 'rxjs/operators';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'vinculacao-pessoa-barramento',
@@ -23,10 +23,9 @@ import {getRouterState} from "../../../../../store";
 })
 export class VinculacaoPessoaBarramentoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -39,30 +38,28 @@ export class VinculacaoPessoaBarramentoComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
-            }
+    }
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('vinculacao-pessoa-barramento/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('vinculacao-pessoa-barramento/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('vinculacao-pessoa-barramento/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('vinculacao-pessoa-barramento/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('vinculacao-pessoa-barramento/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('vinculacao-pessoa-barramento/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
     }
 
@@ -74,7 +71,9 @@ export class VinculacaoPessoaBarramentoComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('vinculacao-pessoa-barramento/editar/' + this.routerState.params.vincPessoaBarramentoHandle), 'vinculacao-pessoa-barramento/listar')]).then();
+            this._router.navigate([
+                this.routerState.url.replace(('vinculacao-pessoa-barramento/editar/' + this.routerState.params.vincPessoaBarramentoHandle), 'vinculacao-pessoa-barramento/listar')
+            ]).then();
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('vinculacao-pessoa-barramento/criar', 'vinculacao-pessoa-barramento/listar')]).then();

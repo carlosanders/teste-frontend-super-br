@@ -34,13 +34,13 @@ export class ResolveGuard implements CanActivate {
         private _loginService: LoginService,
         private _store: Store<CoordenadorAppState>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this.usuario = this._loginService.getUserProfile();
 
@@ -69,7 +69,7 @@ export class ResolveGuard implements CanActivate {
             return this.checkRole(this.getEntidade()).pipe(
                 switchMap(() => of(true)),
                 catchError((err) => {
-                    console.log (err);
+                    console.log(err);
                     return of(false);
                 })
             );
@@ -113,7 +113,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.GetOrgaoCentral({
                             id: 'eq:' + this.routerState.params['entidadeHandle']
                         }));
-                    } else if  (this.routerState.params['generoHandle'] === 'unidade') {
+                    } else if (this.routerState.params['generoHandle'] === 'unidade') {
                         this._store.dispatch(new fromStore.GetUnidade({
                             id: 'eq:' + this.routerState.params['entidadeHandle']
                         }));
@@ -125,8 +125,8 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
-                        loaded.value)),
+                (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                    loaded.value)),
             take(1)
         );
     }

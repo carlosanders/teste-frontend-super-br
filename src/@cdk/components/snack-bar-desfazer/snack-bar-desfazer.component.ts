@@ -23,6 +23,10 @@ export class SnackBarDesfazerComponent implements OnInit {
     ) {
     }
 
+    confirmar(): void {
+        this.snackBarDesfazer.dismiss();
+    }
+
     desfazer(): void {
         this.snackBarDesfazer.dismissWithAction();
     }

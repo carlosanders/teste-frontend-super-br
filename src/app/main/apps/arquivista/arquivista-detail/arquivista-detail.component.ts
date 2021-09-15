@@ -27,6 +27,7 @@ import {getRouterState, getScreenState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {getModalidadeTransicao} from '../arquivista-list/store';
+import moment from 'moment';
 
 @Component({
     selector: 'arquivista-detail',
@@ -37,32 +38,21 @@ import {getModalidadeTransicao} from '../arquivista-list/store';
     animations: cdkAnimations
 })
 export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
-
     processo$: Observable<Processo>;
     processo: Processo;
-
     screen$: Observable<any>;
-
     routerState: any;
-
     accept = 'application/pdf';
-
     maximizado$: Observable<boolean>;
     maximizado = false;
-
     expandir$: Observable<boolean>;
-
     vinculacaoEtiquetaPagination: Pagination;
-
-    private _profile: Usuario;
-
     mobileMode = false;
-
     modalidadeTransicao$: Observable<ModalidadeTransicao>;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     /**
      * @param _changeDetectorRef
@@ -103,6 +93,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
                 }
@@ -116,11 +107,10 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
+            filter(routerState => !!routerState.state),
             takeUntil(this._unsubscribeAll)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
         this.processo$.pipe(
             filter(processo => !!processo),
@@ -192,7 +182,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this._store.dispatch(new ToggleMaximizado(valor));
     }
 
-    isDataProntaParaTransicao() {
+    isDataProntaParaTransicao(): moment.Moment {
         return this.processo.dataHoraProximaTransicao;
     }
 

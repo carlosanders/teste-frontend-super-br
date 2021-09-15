@@ -13,84 +13,70 @@ export const UPDATE_ESPECIE_PROCESSO_FAILED = '[ADMIN ESPECIES PROCESSO LIST] UP
 /**
  * Get EspecieProcesso
  */
-export class GetEspecieProcesso implements Action
-{
+export class GetEspecieProcesso implements Action {
     readonly type = GET_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieProcesso Success
  */
-export class GetEspecieProcessoSuccess implements Action
-{
+export class GetEspecieProcessoSuccess implements Action {
     readonly type = GET_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieProcesso Failed
  */
-export class GetEspecieProcessoFailed implements Action
-{
+export class GetEspecieProcessoFailed implements Action {
     readonly type = GET_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Unload EspecieProcesso
  */
-export class UnloadEspecieProcesso implements Action
-{
+export class UnloadEspecieProcesso implements Action {
     readonly type = UNLOAD_ESPECIE_PROCESSO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Update EspecieProcesso
  */
-export class UpdateEspecieProcesso implements Action
-{
+export class UpdateEspecieProcesso implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieProcesso Success
  */
-export class UpdateEspecieProcessoSuccess implements Action
-{
+export class UpdateEspecieProcessoSuccess implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieProcesso Failed
  */
-export class UpdateEspecieProcessoFailed implements Action
-{
+export class UpdateEspecieProcessoFailed implements Action {
     readonly type = UPDATE_ESPECIE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

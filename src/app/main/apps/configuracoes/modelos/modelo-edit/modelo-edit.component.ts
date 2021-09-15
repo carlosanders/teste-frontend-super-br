@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Modelo, Pagination, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -9,6 +9,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modelo-edit',
@@ -26,6 +27,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     usuario: Usuario;
     templatePagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -45,13 +47,12 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['documento', 'documento.tipoDocumento'];
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,9 +64,10 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.modelo$.subscribe(
-            modelo => this.modelo = modelo
-        );
+        this.modelo$.pipe(
+            filter(modelo => !!modelo),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(modelo => this.modelo = modelo);
 
         if (!this.modelo) {
             this.modelo = new Modelo();
@@ -77,6 +79,8 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

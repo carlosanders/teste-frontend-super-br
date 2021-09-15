@@ -17,7 +17,7 @@ import * as fromStore from 'app/main/apps/documento/store';
 import {cdkAnimations} from '@cdk/animations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
     GetDocumentos as GetDocumentosProcesso,
@@ -42,8 +42,6 @@ import {CdkUtils} from '../../../../@cdk/utils';
 })
 export class DocumentoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     documento$: Observable<Documento>;
     loading$: Observable<boolean>;
     currentComponenteDigital$: Observable<ComponenteDigital>;
@@ -65,6 +63,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     getDocumentosAvulsos: boolean = false;
     getDocumentosProcesso: boolean = false;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -87,14 +86,12 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
         this.screen$ = this._store.pipe(select(getScreenState));
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
 
@@ -188,7 +185,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
-        this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
+        // eslint-disable-next-line max-len
+        this.deveRecarregarJuntadas = !!this.documento.juntadaAtual || this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
         this.destroying = true;
         let url = this.routerState.url.split('/documento/')[0];
         this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
@@ -205,10 +203,10 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         }
 
         if (this.routerState.queryParams.pesquisa) {
-            this._router.navigate(['apps/pesquisa/documentos/']);
+            this._router.navigate(['apps/pesquisa/documentos/']).then();
             return;
         }
-        this._router.navigate([url]);
+        this._router.navigate([url]).then();
     }
 
     public destroyEditor(): void {
@@ -320,9 +318,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     visualizarProcesso(indice): void {
         if (indice === 1) {
             this.modoProcesso = 2;
-            let primary: string;
             const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
-            primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
+            const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
             const steps = stepHandle ? stepHandle.split('-') : false;
             this._router.navigate([{outlets: {primary: primary}}],
                 {
@@ -357,7 +354,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

@@ -26,11 +26,11 @@ const routes: Routes = [
         component: TipoRelatorioComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./tipo-relatorio-list/tipo-relatorio-list.module').then(m => m.TipoRelatorioListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./tipo-relatorio-edit/tipo-relatorio-edit.module').then(m => m.TipoRelatorioEditModule),
             },
             {

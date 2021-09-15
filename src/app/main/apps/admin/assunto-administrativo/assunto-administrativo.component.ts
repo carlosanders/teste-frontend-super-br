@@ -11,7 +11,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {getRouterState} from 'app/store';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
 
@@ -25,13 +25,11 @@ import {cdkAnimations} from '@cdk/animations';
 })
 export class AssuntoAdministrativoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     action = '';
     routerState: any;
     navLinks: any[];
     activeLinkIndex = -1;
-
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.State>,
@@ -54,32 +52,29 @@ export class AssuntoAdministrativoComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('editar/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('editar/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
 
 
-        this._router.events.subscribe((res) => {
+        this._router.events.subscribe(() => {
             this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this._router.url));
         });
     }
-
 
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
@@ -103,7 +98,6 @@ export class AssuntoAdministrativoComponent implements OnInit, OnDestroy {
     toggleSidebar(name): void {
         this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
-
 
     routeLista(): void {
         this._router.navigate(['/apps/admin/assuntos/listar']).then();

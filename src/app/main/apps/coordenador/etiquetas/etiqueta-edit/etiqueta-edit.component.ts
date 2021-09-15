@@ -2,7 +2,6 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -11,6 +10,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {getRouterState} from 'app/store/reducers';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'etiqueta-edit',
@@ -20,8 +20,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EtiquetaEditComponent implements OnInit, OnDestroy {
-
+export class EtiquetaEditComponent implements OnInit {
     routerState: any;
 
     /**
@@ -33,7 +32,6 @@ export class EtiquetaEditComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.State>
     ) {
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -44,20 +42,12 @@ export class EtiquetaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
     }
 
     // -----------------------------------------------------------------------------------------------------

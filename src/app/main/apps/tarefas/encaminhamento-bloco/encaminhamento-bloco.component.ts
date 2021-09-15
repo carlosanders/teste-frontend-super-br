@@ -14,9 +14,10 @@ import {getRouterState} from 'app/store/reducers';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Processo} from '@cdk/models';
-import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'encaminhamento-bloco',
@@ -28,20 +29,15 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 })
 export class EncaminhamentoBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
-
     routerState: any;
-
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     processos$: Observable<Processo[]>;
     processos: Processo[];
-
     action = 'buttons';
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -68,17 +64,16 @@ export class EncaminhamentoBlocoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('criar-tarefas-bloco') !== -1 || this.routerState.url.indexOf('remeter-processos-bloco') !== -1) {
-                    this.action = 'form';
-                } else {
-                    this.action = 'buttons';
-                }
-                this._changeDetectorRef.detectChanges();
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('criar-tarefas-bloco') !== -1 || this.routerState.url.indexOf('remeter-processos-bloco') !== -1) {
+                this.action = 'form';
+            } else {
+                this.action = 'buttons';
             }
+            this._changeDetectorRef.detectChanges();
         });
 
         this.processos$.pipe(
@@ -105,6 +100,7 @@ export class EncaminhamentoBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
         if (values.options === 'criar_tarefa') {
+            // eslint-disable-next-line max-len
             this._router.navigate(['apps/tarefas/' + this.routerState.params['generoHandle'] + '/' + this.routerState.params['typeHandle'] + '/entrada/encaminhamento-bloco/criar-tarefas-bloco']).then();
         }
         if (values.options === 'arquivar') {
@@ -122,8 +118,10 @@ export class EncaminhamentoBlocoComponent implements OnInit, OnDestroy {
 
             this.confirmDialogRef.afterClosed().subscribe((result) => {
                 if (result) {
-                    this.processos.forEach(processo => {
-                        this._store.dispatch(new fromStore.SaveProcesso(processo));
+                    const loteId = CdkUtils.makeId();
+                    this.processos.forEach((processo) => {
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new fromStore.SaveProcesso({processo: processo, operacaoId: operacaoId, loteId: loteId}));
                     });
                 }
                 this.confirmDialogRef = null;

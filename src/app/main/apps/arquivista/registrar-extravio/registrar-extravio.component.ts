@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {ModalidadeTransicao, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -19,10 +26,7 @@ import {CdkUtils} from '../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class RegistrarExtravioComponent implements OnInit {
-    private _unsubscribeAll: Subject<any> = new Subject();
-    private routerState: RouterStateUrl;
-
+export class RegistrarExtravioComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
@@ -35,6 +39,8 @@ export class RegistrarExtravioComponent implements OnInit {
     transicao: Transicao;
 
     modalidadeTransicao$: Observable<ModalidadeTransicao>;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private routerState: RouterStateUrl;
 
     constructor(
         private _store: Store<fromStore.RegistrarExtravioAppState>,
@@ -45,17 +51,15 @@ export class RegistrarExtravioComponent implements OnInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
         this.modalidadeTransicao$ = this._store.pipe(select(fromStore.getModalidadeTransicao));
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-
         this.processo$.pipe(
             filter(processo => !!processo && (!this.processo || processo.id !== this.processo.id)),
             takeUntil(this._unsubscribeAll)
@@ -63,6 +67,18 @@ export class RegistrarExtravioComponent implements OnInit {
             this.processo = processo;
         });
     }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {

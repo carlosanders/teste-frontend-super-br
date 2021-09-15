@@ -41,7 +41,7 @@ export class GetCargoFailed implements Action {
 /**
  * Unload Cargo
  */
- export class UnloadCargo implements Action {
+export class UnloadCargo implements Action {
     readonly type = UNLOAD_CARGO;
 
     constructor() {

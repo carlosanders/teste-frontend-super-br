@@ -14,7 +14,7 @@ import * as fromStore from './dados-pessoa-edit/store';
 import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
 import {getRouterState} from '../../../../store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {PessoaEditService} from './pessoa-edit.service';
 
@@ -28,15 +28,13 @@ import {PessoaEditService} from './pessoa-edit.service';
 })
 export class PessoaEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     pessoa$: Observable<Pessoa>;
     pessoa: Pessoa;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -68,30 +66,25 @@ export class PessoaEditComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.pessoa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            pessoa => this.pessoa = pessoa
-        );
+        ).subscribe(pessoa => this.pessoa = pessoa);
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('pessoa/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('pessoa/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('pessoa/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('pessoa/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('pessoa/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('pessoa/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
-
     }
 
     /**
@@ -101,6 +94,10 @@ export class PessoaEditComponent implements OnInit, OnDestroy {
         if (this.pessoa?.id) {
             this._pessoaEditService.setPessoaSelecionada(this.pessoa);
         }
+
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

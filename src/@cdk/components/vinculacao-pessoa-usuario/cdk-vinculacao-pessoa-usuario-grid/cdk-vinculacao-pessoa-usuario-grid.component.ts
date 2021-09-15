@@ -12,7 +12,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '../../../animations';
-import {VinculacaoPessoaUsuario, VinculacaoUsuario} from '../../../models';
+import {VinculacaoPessoaUsuario} from '../../../models';
 import {FormControl} from '@angular/forms';
 import {MatPaginator, MatSort} from '../../../angular/material';
 import {VinculacaoPessoaUsuarioDataSource} from '../../../data-sources/vinculacao-pessoa-usuario-data-source';
@@ -140,7 +140,7 @@ export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, O
     delete = new EventEmitter<number>();
 
     @Output()
-    selected = new EventEmitter<VinculacaoUsuario>();
+    selected = new EventEmitter<VinculacaoPessoaUsuario>();
 
     @Output()
     selectedIds: number[] = [];
@@ -168,9 +168,9 @@ export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, O
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
@@ -232,7 +232,6 @@ export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, O
 
     deleteVinculacaoPessoaUsuario(vinculacaoPessoaUsuarioId): void {
         this.delete.emit(vinculacaoPessoaUsuarioId);
-        debugger;
     }
 
     deleteBloco(ids): void {
@@ -301,7 +300,7 @@ export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, O
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

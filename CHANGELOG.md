@@ -514,3 +514,66 @@
 * Correção na largura máxima de imagens e tabelas no editor de textos
 * Melhoria minutas da tarefa iniciam todas selecionadas ao criar atividade
 * Melhoria Ocultando o checkbox de selecionar todas as minutas caso Encerrar Tarefa estiver marcado
+* Melhoria no componente de desfazer operação em segundo plano (ação de fechar)
+* Correção bugs no comportamento do componente de desfazer operações em segundo plano
+* Correção CSS dos botões de voltar/avançar no componente de processo-view
+
+1.6.6
+
+* Melhoria para resincronizar os componentes digitais de processo do barramento
+* Correção para inclusão de nova pessoa com vinculação da pessoa com barramento
+* Correção na pesquisa de estrutura e repositorio através do barramento
+* Correção abrir juntada em outra aba
+* Correção movimentar tarefas em bloco
+* Correção criar tarefas em bloco
+* Correção no desarquivamento de processos em fase intermediária
+* Correção carregamento de anexos ao editar
+
+1.6.7
+
+* Correção ao tentar remover uma transição no workflow #585
+* Correção ao desativar um localizador de um setor da unidade #158
+* Correção checkbox de espécie de setor do Modelo Nacional e da Tese Nacional some #120
+* Correção ao desativar um Modelo Nacional e uma Tese Nacional #118
+* Correção ao alterar o tipo de documento do ofício nada muda aparentemente #348
+* Correção Coluna F da tabela de relatórios de tarefas não tem cabeçalho #328
+* Correção campo "Criado Por" em branco nas Juntadas do Processo #430
+* Correção colunas desordenadas na tela da listagem de pessoas cadastradas #540 
+* Correção criação de tarefa para Unidade fechada por protocolo.
+* Correção do encaminhamento em bloco de tarefas
+* Correção salvar sigilo legal com categoria #243
+* Correção ao criar nova tarefa vinculada ao workflow #602
+
+1.6.8
+
+* Correção Compartilhar Tarefas, ajustes nos filtros de data e histórico de modificações #323
+* Correção destinação de minutas desentranhadas
+* Correção Garantias, não esta deixando colocar centavos no campo valor #196
+* Correção redistribuição de tarefa em lote
+* Correção desarquivamento de processo
+* Correção de erro na exibição da tela de processo módulo arquivista
+* Correção exibição de modelos
+* Correção no acompanhamento de processos
+* Correção busca search-bar outroNumero
+* Correção 'Recarregar' sigilos no editor #617
+* Correção nos services do sistema, tipando os retornos de métodos de any para Observable<any> para evitar problemas na troca da annotation @Effect para o método createEffect
+* Removidos arquivos fantasmas de service de role e data-source de role
+* Correção em instâncias de ElementQueries para elementQueries em todos os grids do sistema, para eliminar erros de eslint
+* Correção em erros de eslint de ordenação de atributos em diversos locais do sistema
+* Melhoria alteração em todos os effects do sistema para substituir a anotação @Effect(), depreciada, pelo método createEffect()
+* Melhoria alteração em todos os locais do sistema onde havia o seletor getRouterState, removendo uma condicional desnecessária e trocando pelo operador filter
+* Melhoria adicionado o operador takeUntil e limpeza dos subscribers em diversos componentes do sistema
+* Correção em diversos componentes onde o método ngOnDestroy existia, mas o componente não implementava o OnDestroy
+* Correção nos reducers em diversos componentes de list do sistema, nos quais as ações de DELETE, DELETE_SUCCESS e DELETE_FAILED não utilizavam o payload corretamente para atualizar o estado da aplicação
+* Correção em diversos componentes do sistema onde a chamada à action Operacao() ocorria incorretamente, resultando em erros no estado da aplicação ou na aplicação por completo
+* Correção nas mensagens de conteúdo de diversas operações em segundo plano - Operacao()
+* Melhoria alteradas, em todos os locais do sistema, as chamadas ao método depreciado Resultado(), substituindo pelas chamadas corretas ao método Operacao()
+* Correção de diversos problemas de eslint detectados em inspeção
+* Melhoria implementar delete do Coordenador para o Admin
+* Melhoria filtros para Juntada
+* Melhoria tooltip de componente digital mostrando o seu nome
+
+1.6.9
+
+* Melhoria usuário, setor e unidade responsável na juntada
+* Melhoria número do documento principal do interessado aparecendo na capa do processo

@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {cdkAnimations} from '@cdk/animations';
@@ -9,6 +9,7 @@ import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/auth/esqueci-senha/store';
 import {getEsqueciSenhaAppState} from 'app/main/auth/esqueci-senha/store';
 import {Back} from 'app/store/actions';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector     : 'esqueci-senha',
@@ -17,12 +18,13 @@ import {Back} from 'app/store/actions';
     encapsulation: ViewEncapsulation.None,
     animations   : cdkAnimations
 })
-export class EsqueciSenhaComponent implements OnInit
-{
+export class EsqueciSenhaComponent implements OnInit, OnDestroy {
+
     esqueciSenhaForm: FormGroup;
     getEsqueciSenhaState: Observable<any>;
     errorMessage: string | null;
     loading: boolean;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * Constructor
@@ -74,10 +76,21 @@ export class EsqueciSenhaComponent implements OnInit
             email: ['', [Validators.required, Validators.email]]
         });
 
-        this.getEsqueciSenhaState.subscribe((state) => {
+        this.getEsqueciSenhaState.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((state) => {
             this.loading = false;
             this.errorMessage = state.esqueciSenha.errorMessage;
         });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     onSubmit(): void {

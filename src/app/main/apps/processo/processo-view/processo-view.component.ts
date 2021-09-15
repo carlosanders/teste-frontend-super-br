@@ -28,7 +28,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getProcesso} from '../store';
-import {MercureService} from "../../../../../@cdk/services/mercure.service";
+import {MercureService} from '../../../../../@cdk/services/mercure.service';
 
 @Component({
     selector: 'processo-view',
@@ -39,9 +39,8 @@ import {MercureService} from "../../../../../@cdk/services/mercure.service";
     animations: cdkAnimations
 })
 export class ProcessoViewComponent implements OnInit, OnDestroy {
-
-    @Output()
-    select: EventEmitter<ComponenteDigital> = new EventEmitter();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
@@ -139,95 +138,84 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
-        this.juntadas$
-            .pipe(
-                takeUntil(this._unsubscribeAll),
-                filter(juntadas => !!juntadas)
-            ).subscribe(
-            (juntadas) => {
-                this.juntadas = juntadas;
-                this.totalSteps = juntadas.length;
-            }
-        );
+        this.juntadas$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(juntadas => !!juntadas)
+        ).subscribe((juntadas) => {
+            this.juntadas = juntadas;
+            this.totalSteps = juntadas.length;
+        });
 
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this.currentStep$
-            .pipe(
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(currentStep => this.currentStep = currentStep);
+        this.currentStep$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(currentStep => this.currentStep = currentStep);
 
-        this.index$
-            .pipe(
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(index => this.index = index);
+        this.index$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(index => this.index = index);
 
-        this.binary$
-            .pipe(
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(
-            (binary) => {
-                if (binary.src && binary.src.conteudo) {
-                    const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
-                    const byteNumbers = new Array(byteCharacters.length);
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
-                    const byteArray = new Uint8Array(byteNumbers);
-                    const blob = new Blob([byteArray], {type: binary.src.mimetype});
-                    const URL = window.URL;
-                    if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
-                        this.downloadUrl = null;
-                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                    } else {
-                        this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                    }
-
-                    if (binary.src.unsafe) {
-                        this.unsafe = true;
-                        this.fileName = binary.src.fileName + ' - Exibido em PDF por Segurança!'
-                    } else {
-                        this.fileName = binary.src.fileName;
-                        this.unsafe = false;
-                    }
-                    this.select.emit(binary.src);
-                } else {
-                    this.fileName = '';
-                    this.src = false;
+        this.binary$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((binary) => {
+            if (binary.src && binary.src.conteudo) {
+                const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
                 }
-                this.loading = binary.loading;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], {type: binary.src.mimetype});
+                const URL = window.URL;
+                if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
+                    this.downloadUrl = null;
+                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                } else {
+                    this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                }
 
-        this.pagination$
-            .pipe(
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(pagination => this.pagination = pagination);
+                if (binary.src.unsafe) {
+                    this.unsafe = true;
+                    this.fileName = binary.src.fileName + ' - Exibido em PDF por Segurança!';
+                } else {
+                    this.fileName = binary.src.fileName;
+                    this.unsafe = false;
+                }
+                this.select.emit(binary.src);
+            } else {
+                this.fileName = '';
+                this.src = false;
+            }
+            this.loading = binary.loading;
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(select(expandirTela))
-            .subscribe(res => this.expandirTela = res);
+        this._store.pipe(
+            select(expandirTela)
+        ).subscribe(res => this.expandirTela = res);
 
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
-                    routerState.state.params.stepHandle === 'default';
-                this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
-                this.desentranhamento = routerState.state.url.indexOf('/desentranhar') !== -1;
-                this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
-                this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
-                this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
-                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
+                routerState.state.params.stepHandle === 'default';
+            this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
+            this.desentranhamento = routerState.state.url.indexOf('/desentranhar') !== -1;
+            this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
+            this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
+            this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.loadingJuntadas$.pipe(
@@ -236,18 +224,18 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.loadingJuntadas = loading;
         });
 
-        this.processo$.subscribe(
-            (processo) => {
-                if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
-                    this._mercureService.unsubscribe(this.processo.origemDados['@id']);
-                }
-                if (processo?.origemDados) {
-                    this._mercureService.subscribe(processo.origemDados['@id']);
-                }
-                this.processo = processo;
-                this._changeDetectorRef.markForCheck();
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
+            if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
+                this._mercureService.unsubscribe(this.processo.origemDados['@id']);
             }
-        );
+            if (processo?.origemDados) {
+                this._mercureService.subscribe(processo.origemDados['@id']);
+            }
+            this.processo = processo;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
@@ -379,8 +367,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 const arrPrimary = [];
                 arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                     'visualizar-processo' : 'anexar-copia');
-                this.routerState.params['processoCopiaHandle'] ?
-                    arrPrimary.push(this.routerState.params.processoCopiaHandle) : arrPrimary.push(this.routerState.params.processoHandle);
+                arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
+                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
                 if (this.routerState.params.chaveAcessoHandle) {
                     arrPrimary.push('chave');
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);
@@ -444,23 +432,23 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
     }
 
-    zoomIn() {
+    zoomIn(): void {
         if (this.zoom < 10) {
             this.zoom++;
         }
     }
 
-    zoomOut() {
+    zoomOut(): void {
         if (this.zoom > 0) {
             this.zoom--;
         }
     }
 
-    getZoomClass(filename) {
+    getZoomClass(filename): string {
         return this.isHtml(filename) ? `zoom-${this.zoom}x` : '';
     }
 
-    getLayoutClass(filename) {
+    getLayoutClass(filename): string {
         if (!this.isHtml(filename)) {
             return;
         }
@@ -468,12 +456,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         return this.expandirTela ? 'expanded-panel' : 'compact-panel';
     }
 
-    isHtml(filename) {
+    isHtml(filename): boolean {
         const name = filename.split('.');
         return ('HTML' === [...name].pop()) || ('html' === [...name].pop());
     }
 
-    doDownload() {
+    doDownload(): void {
         const downloadLink = document.createElement('a');
         const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.downloadUrl);
         downloadLink.target = '_blank';
@@ -492,6 +480,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             const iframe = element?.contentWindow?.document;
             if (iframe !== null) {
                 iframe.open();
+                // eslint-disable-next-line max-len
                 iframe.write('<html><head><title></title><style>html, body, .center-container { height: 100%; overflow: hidden } .center-container { display: flex; align-items: center; justify-content: center; }</style></head><body><div class="center-container">Download Realizado!</div></body></html>');
                 iframe.close();
             }

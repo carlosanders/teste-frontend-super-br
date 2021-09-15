@@ -16,7 +16,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getTarefasProcessoRestritoValidadas} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getSelectedTarefas} from '../store/selectors';
+import {getSelectedTarefas} from '../store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, skip, take, takeUntil, tap} from 'rxjs/operators';
@@ -36,30 +36,21 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
-
     processosRestritos: Processo[] = [];
-
     tarefasProcessoRestritoValidadas$: Observable<number[]>;
     tarefasProcessoRestritoValidadas: number[];
-
     tarefa: Tarefa;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     operacoes: any[] = [];
-
-    private _profile: any;
-
     routerState: any;
-
     pagination$: Observable<any>;
     pagination: any;
-
     blocoEditDistribuicao = true;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: any;
 
     /**
      * @param _store
@@ -93,10 +84,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
         this.tarefasProcessoRestritoValidadas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            tarefasProcessoRestritoValidadas =>
-                this.tarefasProcessoRestritoValidadas = tarefasProcessoRestritoValidadas
-        );
+        ).subscribe(tarefasProcessoRestritoValidadas => this.tarefasProcessoRestritoValidadas = tarefasProcessoRestritoValidadas);
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -107,7 +95,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
                 if (tarefa.processo.acessoRestrito === true && !this.processosRestritos.includes(tarefa.processo)) {
                     this.processosRestritos.push(tarefa.processo);
 
-                    if(!this.tarefasProcessoRestritoValidadas.includes(tarefa.id)) {
+                    if (!this.tarefasProcessoRestritoValidadas.includes(tarefa.id)) {
                         tarefasValidadas = false;
                     }
                 }
@@ -115,38 +103,22 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         });
 
         if (!tarefasValidadas) {
-
             const dialogRef = this.dialog.open(ModalAvisoRestricaoNupComponent, {
                 data: {},
                 hasBackdrop: false,
                 closeOnNavigation: true
             });
 
-            dialogRef.afterClosed()
-                .pipe(
-                    tap(
-                        (value) => {
-                            const tarefasValidadas = [];
-                            this.tarefas.forEach(tarefa => tarefasValidadas.push(tarefa.id));
-                            this._store.dispatch(
-                                new fromStore.TarefasProcessoRestritoValidadasSuccess(
-                                    tarefasValidadas
-                                )
-                            );
-                        }
-                    ),
-                    tap(() => dialogRef.close()),
-                    take(1)
-                ).subscribe();
+            dialogRef.afterClosed().pipe(
+                tap(() => {
+                    const tarefasVerificadas = [];
+                    this.tarefas.forEach(tarefa => tarefasVerificadas.push(tarefa.id));
+                    this._store.dispatch(new fromStore.TarefasProcessoRestritoValidadasSuccess(tarefasVerificadas));
+                }),
+                tap(() => dialogRef.close()),
+                take(1)
+            ).subscribe();
         }
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -154,32 +126,26 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
             this.pagination = pagination;
         });
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                skip(1),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'tarefa')
-            )
-            .subscribe(
-                (operacao) => {
+        this._store.pipe(
+            select(getOperacoesState),
+            skip(1),
+            takeUntil(this._unsubscribeAll),
+            filter(op => !!op && !!op.content && op.type === 'tarefa')
+        ).subscribe(() => {
+            this.reloadTarefas();
 
-                    this.reloadTarefas();
+            this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+            this.routerState.params.typeHandle + '/' +
+            '/' + this.routerState.params.targetHandle]).then();
+        });
 
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                    this.routerState.params.typeHandle + '/' +
-                    '/' + this.routerState.params.targetHandle]).then();
-                }
-            );
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
 
         this.tarefa = new Tarefa();
@@ -197,7 +163,6 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     reloadTarefas(): void {
-
         this._store.dispatch(new fromStoreTarefas.UnloadTarefas({reset: false}));
 
         const nparams = {
@@ -250,7 +215,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         this._router.navigate(['apps/tarefas/' +
         this.routerState.params.generoHandle + '/' +
         this.routerState.params.typeHandle + '/' +
-        this.routerState.params.targetHandle + '/visibilidade/' + processo.id]);
+        this.routerState.params.targetHandle + '/visibilidade/' + processo.id]).then();
     }
 
     doAbort(): void {

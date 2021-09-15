@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'afastamento-edit',
@@ -32,14 +33,13 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     usuario$: Observable<Usuario>;
     modalidadeAfastamentoPagination: Pagination;
-    linkCaminhos: [object] = [{}];
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
      * @param _router
      * @param _loginService
-     * @param sanitized
      */
     constructor(
         private _store: Store<fromStore.AfastamentoEditAppState>,
@@ -52,13 +52,12 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
         this.usuario = this._loginService.getUserProfile();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.modalidadeAfastamentoPagination = new Pagination();
 
@@ -74,9 +73,10 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.afastamento$.subscribe(
-            afastamento => this.afastamento = afastamento
-        );
+        this.afastamento$.pipe(
+            filter(afastamento => !!afastamento),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(afastamento => this.afastamento = afastamento);
 
         if (!this.afastamento) {
             this.afastamento = new Afastamento();
@@ -87,49 +87,20 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    // carregarCaminho(caminho: string, inicioPath: string) {
-    //     let caminhoAux = '';
-    //     let caminhoAnterior = '';
-    //     let chave = '';
-    //     let valor = '';
-    //     const posicao = caminho.search(inicioPath);
-    //     const raiz = caminho.slice(0, posicao-1);
-    //     caminho = caminho.slice(posicao, caminho.length);
-    //     const arrayCaminho = caminho.split("/");
-    //     console.log("arrayCaminho", arrayCaminho);
-    //     arrayCaminho.forEach((c:string) => {
-    //         if(c) {
-    //             // caminhoAux += '/' + c;
-    //             if (!Number(c) && c!=='editar') {
-    //                 caminhoAux += '/' + c;
-    //                 chave = `${raiz}${caminhoAux}/listar`;
-    //                 valor = c;
-    //                 caminhoAnterior = c;
-    //                 this.linkCaminhos.push({link: chave, label: valor});
-    //             } else if(c!=='editar') {
-    //                 chave = `${raiz}${caminhoAux}/editar/${c}`;
-    //                 caminhoAux += '/' + c;
-    //                 valor = `${caminhoAnterior} ${c}`;
-    //                 this.linkCaminhos.push({link: chave, label: valor});
-    //             }
-    //         }
-    //     });
-    //     this.linkCaminhos.shift();
-    //     console.log("this.linkCaminhos", this.linkCaminhos);
-    // }
-
     doAbort(): void {
         this._store.dispatch(new Back());
     }
 
     submit(values): void {
-
         const afastamento = new Afastamento();
         Object.entries(values).forEach(
             ([key, value]) => {

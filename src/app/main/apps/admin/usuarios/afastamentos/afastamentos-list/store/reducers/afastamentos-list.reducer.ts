@@ -96,7 +96,7 @@ export function AfastamentosListReducer(
         case AfastamentosListActions.DELETE_AFASTAMENTO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.afastamentoId]
             };
         }
 

@@ -19,135 +19,112 @@ export const GET_ESPECIE_RELEVANCIA_FAILED = '[ADMIN ESPECIE_RELEVANCIA EDIT] GE
 /**
  * Get EspecieRelevancia
  */
-export class GetEspecieRelevancia implements Action
-{
+export class GetEspecieRelevancia implements Action {
     readonly type = GET_ESPECIE_RELEVANCIA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieRelevancia Success
  */
-export class GetEspecieRelevanciaSuccess implements Action
-{
+export class GetEspecieRelevanciaSuccess implements Action {
     readonly type = GET_ESPECIE_RELEVANCIA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get EspecieRelevancia Failed
  */
-export class GetEspecieRelevanciaFailed implements Action
-{
+export class GetEspecieRelevanciaFailed implements Action {
     readonly type = GET_ESPECIE_RELEVANCIA_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save EspecieRelevancia
  */
-export class SaveEspecieRelevancia implements Action
-{
+export class SaveEspecieRelevancia implements Action {
     readonly type = SAVE_ESPECIE_RELEVANCIA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieRelevancia
  */
-export class UpdateEspecieRelevancia implements Action
-{
+export class UpdateEspecieRelevancia implements Action {
     readonly type = UPDATE_ESPECIE_RELEVANCIA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save EspecieRelevancia Success
  */
-export class SaveEspecieRelevanciaSuccess implements Action
-{
+export class SaveEspecieRelevanciaSuccess implements Action {
     readonly type = SAVE_ESPECIE_RELEVANCIA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save EspecieRelevancia Failed
  */
-export class SaveEspecieRelevanciaFailed implements Action
-{
+export class SaveEspecieRelevanciaFailed implements Action {
     readonly type = SAVE_ESPECIE_RELEVANCIA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieRelevancia Success
  */
-export class UpdateEspecieRelevanciaSuccess implements Action
-{
+export class UpdateEspecieRelevanciaSuccess implements Action {
     readonly type = UPDATE_ESPECIE_RELEVANCIA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update EspecieRelevancia Failed
  */
-export class UpdateEspecieRelevanciaFailed implements Action
-{
+export class UpdateEspecieRelevanciaFailed implements Action {
     readonly type = UPDATE_ESPECIE_RELEVANCIA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create EspecieRelevancia
  */
-export class CreateEspecieRelevancia implements Action
-{
+export class CreateEspecieRelevancia implements Action {
     readonly type = CREATE_ESPECIE_RELEVANCIA;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create EspecieRelevancia Success
  */
-export class CreateEspecieRelevanciaSuccess implements Action
-{
+export class CreateEspecieRelevanciaSuccess implements Action {
     readonly type = CREATE_ESPECIE_RELEVANCIA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
-
 
 
 export type EspecieRelevanciaEditActionsAll

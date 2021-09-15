@@ -63,7 +63,6 @@ export function WorkflowListReducer(
         }
 
 
-
         case WorkflowListActions.GET_WORKFLOW_SUCCESS: {
             const loaded = action.payload.loaded;
 
@@ -106,7 +105,7 @@ export function WorkflowListReducer(
         case WorkflowListActions.DELETE_WORKFLOW: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.workflowId]
             };
         }
 
@@ -122,7 +121,7 @@ export function WorkflowListReducer(
         case WorkflowListActions.DELETE_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

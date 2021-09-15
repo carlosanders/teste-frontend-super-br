@@ -91,7 +91,7 @@ export function DocumentosReducer(
         case DocumentosActions.DELETE_DOCUMENTO: {
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoId]
             };
         }
 
@@ -101,6 +101,13 @@ export function DocumentosReducer(
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
                 documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosActions.DELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id)
             };
         }
 
@@ -142,7 +149,7 @@ export function DocumentosReducer(
         case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
             return {
                 ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id)
             };
         }
 

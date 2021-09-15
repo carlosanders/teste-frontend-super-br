@@ -27,11 +27,11 @@ const routes: Routes = [
         component: EspecieSetorComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./especie-setor-list/especie-setor-list.module').then(m => m.EspecieSetorListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./especie-setor-edit/especie-setor-edit.module').then(m => m.EspecieSetorEditModule),
             },
             {

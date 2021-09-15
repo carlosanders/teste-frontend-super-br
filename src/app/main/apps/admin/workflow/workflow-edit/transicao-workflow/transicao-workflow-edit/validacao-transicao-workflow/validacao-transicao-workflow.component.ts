@@ -13,7 +13,7 @@ import * as fromStore from '../../transicao-workflow-list/store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'validacao-transicao-workflow',
@@ -25,10 +25,9 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class ValidacaoTransicaoWorkflowComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -47,21 +46,19 @@ export class ValidacaoTransicaoWorkflowComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('validacoes/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('validacoes/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('validacoes/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('validacoes/editar/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
     }
 

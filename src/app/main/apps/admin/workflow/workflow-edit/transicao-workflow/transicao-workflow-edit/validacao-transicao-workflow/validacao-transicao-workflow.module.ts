@@ -27,15 +27,15 @@ const routes: Routes = [
         component: ValidacaoTransicaoWorkflowComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./validacao-transicao-workflow-list/validacao-transicao-workflow-list.module')
                     .then(m => m.ValidacaoTransicaoWorkflowListModule),
             },
             {
-                path       : 'editar',
-               loadChildren: () => import('./validacao-transicao-workflow-edit/validacao-transicao-workflow-edit.module')
-                .then(m => m.ValidacaoTransicaoWorkflowEditModule),
-           },
+                path: 'editar',
+                loadChildren: () => import('./validacao-transicao-workflow-edit/validacao-transicao-workflow-edit.module')
+                    .then(m => m.ValidacaoTransicaoWorkflowEditModule),
+            },
             {
                 path: '**',
                 redirectTo: 'listar'
@@ -77,8 +77,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         PathModule
     ],
-    providers: [
-    ],
+    providers: [],
     exports: [
         ValidacaoTransicaoWorkflowComponent
     ]

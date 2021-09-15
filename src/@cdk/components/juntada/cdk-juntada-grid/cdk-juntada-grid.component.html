@@ -134,6 +134,30 @@
                     </td>
                 </ng-container>
 
+                <!-- Setor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('documento.setorOrigem.nome') > -1"
+                              matColumnDef="documento.setorOrigem.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Setor
+                    </th>
+                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Setor: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
+                        {{juntada.documento?.setorOrigem?.nome}}
+                    </td>
+                </ng-container>
+
+                <!-- Unidade Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('documento.setorOrigem.unidade.nome') > -1"
+                              matColumnDef="documento.setorOrigem.unidade.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Unidade
+                    </th>
+                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Unidade: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
+                        {{juntada.documento?.setorOrigem?.unidade?.nome}}
+                    </td>
+                </ng-container>
+
                 <!-- Ativo Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -168,42 +192,6 @@
                     </td>
                 </ng-container>
 
-                <!-- DocumentoAvulso Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoAvulso.especieDocumentoAvulso.nome') > -1"
-                              matColumnDef="documentoAvulso.especieDocumentoAvulso.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Documento Avulso
-                    </th>
-                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Documento Avulso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.documentoAvulso?.especieDocumentoAvulso?.nome}}
-                    </td>
-                </ng-container>
-
-                <!-- Atividade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atividade.especieAtividade.nome') > -1"
-                              matColumnDef="atividade.especieAtividade.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atividade
-                    </th>
-                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Atividade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.atividade?.especieAtividade?.nome}}
-                    </td>
-                </ng-container>
-
-                <!-- Tarefa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1"
-                              matColumnDef="tarefa.especieTarefa.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Tarefa
-                    </th>
-                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1 || !juntada.ativo || desentranhadoId?.indexOf(juntada.id) > -1, 'error': getProp(deletingErrors, juntada.id)}">
-                        {{juntada.tarefa?.especieTarefa?.nome}}
-                    </td>
-                </ng-container>
-
                 <!-- ComponentesDigitais Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('documento.componentesDigitais.extensao') > -1"
                               matColumnDef="documento.componentesDigitais.extensao">
@@ -214,7 +202,7 @@
                         data-label='Componentes Digitais: '>
                         <button *ngFor="let componenteDigital of juntada.documento?.componentesDigitais" mat-icon-button
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1" (click)="download(componenteDigital)"
-                                aria-label="download" matTooltip="download">
+                                aria-label="download" matTooltip="{{componenteDigital.fileName}}">
                             <mat-icon>picture_as_pdf</mat-icon>
                         </button>
                     </td>

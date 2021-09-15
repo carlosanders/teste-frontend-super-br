@@ -458,7 +458,6 @@ export class RemoveAssinaturaDocumentoFailed implements Action
     }
 }
 
-
 /**
  * Assina Juntada
  */

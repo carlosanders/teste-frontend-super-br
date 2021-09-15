@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {TipoDocumentoListReducer, TipoDocumentoListState} from './tipo-documento-list.reducer';
 
-export interface TipoDocumentoListAppState
-{
+export interface TipoDocumentoListAppState {
     tipoDocumentoList: TipoDocumentoListState;
 }
 

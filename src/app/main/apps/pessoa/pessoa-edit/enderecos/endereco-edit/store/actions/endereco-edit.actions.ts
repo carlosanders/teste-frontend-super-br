@@ -14,96 +14,80 @@ export const GET_ENDERECO_FAILED = '[ENDERECO] GET ENDERECO FAILED';
 /**
  * Get Endereco
  */
-export class GetEndereco implements Action
-{
+export class GetEndereco implements Action {
     readonly type = GET_ENDERECO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Endereco Success
  */
-export class GetEnderecoSuccess implements Action
-{
+export class GetEnderecoSuccess implements Action {
     readonly type = GET_ENDERECO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Endereco Failed
  */
-export class GetEnderecoFailed implements Action
-{
+export class GetEnderecoFailed implements Action {
     readonly type = GET_ENDERECO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Endereco
  */
-export class SaveEndereco implements Action
-{
+export class SaveEndereco implements Action {
     readonly type = SAVE_ENDERECO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Endereco Success
  */
-export class SaveEnderecoSuccess implements Action
-{
+export class SaveEnderecoSuccess implements Action {
     readonly type = SAVE_ENDERECO_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Endereco Failed
  */
-export class SaveEnderecoFailed implements Action
-{
+export class SaveEnderecoFailed implements Action {
     readonly type = SAVE_ENDERECO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Endereco
  */
-export class CreateEndereco implements Action
-{
+export class CreateEndereco implements Action {
     readonly type = CREATE_ENDERECO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Endereco Success
  */
-export class CreateEnderecoSuccess implements Action
-{
+export class CreateEnderecoSuccess implements Action {
     readonly type = CREATE_ENDERECO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

@@ -6,17 +6,18 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Modelo, Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
-import {getSelectedTarefas} from '../store/selectors';
+import {getOperacoes, getRouterState} from 'app/store';
+import {getSelectedTarefas} from '../store';
 import {getIsSaving} from './store/selectors/componentes-digitais.selectors';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'modelo-bloco',
@@ -26,7 +27,7 @@ import {filter} from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModeloBlocoComponent implements OnInit, OnDestroy  {
+export class ModeloBlocoComponent implements OnInit, OnDestroy {
 
     modelos$: Observable<Modelo[]>;
     loading$: Observable<boolean>;
@@ -42,6 +43,7 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
     routerState: any;
 
     filter = {};
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -60,33 +62,37 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.isSaving$ = this._store.pipe(select(getIsSaving));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                filter(op => !!op && !!op.content && op.type === 'componenteDigital')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'componente digital') {
+                    this.operacoes.push(operacoes[operacaoId]);
                 }
-            );
+            });
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this.tarefas$.subscribe((tarefas) => {
+        this.tarefas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((tarefas) => {
             this.tarefas = tarefas;
         });
     }
@@ -95,7 +101,8 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
      * On destroy
      */
     ngOnDestroy(): void {
-
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -115,10 +122,14 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
     }
 
     doSelect(modelo): void {
-        this.tarefas.forEach ((tarefa) => {
+        const loteId = CdkUtils.makeId();
+        this.tarefas.forEach((tarefa) => {
+            const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.CreateComponenteDigital({
                 modelo: modelo,
-                tarefaOrigem: tarefa
+                tarefaOrigem: tarefa,
+                operacaoId: operacaoId,
+                loteId: loteId
             }));
         });
     }

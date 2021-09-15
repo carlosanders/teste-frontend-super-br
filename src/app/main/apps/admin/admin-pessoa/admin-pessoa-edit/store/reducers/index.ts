@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {AdminPessoaEditReducer, PessoaEditState} from './admin-pessoa-edit.reducer';
 
-export interface PessoaEditAppState
-{
+export interface PessoaEditAppState {
     pessoa: PessoaEditState;
 }
 

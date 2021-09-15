@@ -26,11 +26,11 @@ const routes: Routes = [
         component: CargoComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./cargo-list/cargo-list.module').then(m => m.CargoListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./cargo-edit/cargo-edit.module').then(m => m.CargoEditModule),
             },
             {

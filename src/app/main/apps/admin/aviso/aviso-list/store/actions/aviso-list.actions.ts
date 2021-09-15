@@ -45,7 +45,7 @@ export class GetAvisoFailed implements Action {
 /**
  * Unload Aviso
  */
- export class UnloadAviso implements Action {
+export class UnloadAviso implements Action {
     readonly type = UNLOAD_AVISO;
 
     constructor() {
@@ -66,36 +66,30 @@ export class ReloadAviso implements Action {
 /**
  * Delete Aviso
  */
-export class DeleteAviso implements Action
-{
+export class DeleteAviso implements Action {
     readonly type = DELETE_AVISO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Aviso Success
  */
-export class DeleteAvisoSuccess implements Action
-{
+export class DeleteAvisoSuccess implements Action {
     readonly type = DELETE_AVISO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Aviso Failed
  */
-export class DeleteAvisoFailed implements Action
-{
+export class DeleteAvisoFailed implements Action {
     readonly type = DELETE_AVISO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

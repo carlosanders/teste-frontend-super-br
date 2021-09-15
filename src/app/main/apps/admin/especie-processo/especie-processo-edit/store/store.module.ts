@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('especie-processo-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class EspecieProcessoEditStoreModule
-{
+export class EspecieProcessoEditStoreModule {
 }

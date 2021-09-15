@@ -47,8 +47,8 @@ import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
-import {DndDragImageOffsetFunction, DndDropEvent} from "ngx-drag-drop";
-import {CdkUploadDialogComponent} from "../../../../../../../@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component";
+import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
+import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -234,7 +234,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.form = this._formBuilder.group({
             volume: [null],
             tipoDocumento: [null],
-            tipoDocumentoMinutas: [null]
+            tipoDocumentoMinutas: [null],
+            numeracaoSequencial: [null],
+            descricao: [null],
+            criadoPor: [null],
+            atualizadoPor: [null],
+            unidade: [null],
         });
 
         this.formEditor = this._formBuilder.group({
@@ -360,20 +365,24 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+            this.routerState = routerState.state;
 
-                if (routerState.state.params['processoHandle'] && this.processoId !== routerState.state.params['processoHandle']) {
-                    if (this.processoId) {
-                        this._mercureService.unsubscribe('juntadas_' + this.processoId);
-                    }
-                    this.processoId = routerState.state.params['processoHandle'];
-                    this._mercureService.subscribe('juntadas_' + this.processoId);
+            if (routerState.state.params['processoHandle'] && this.processoId !== routerState.state.params['processoHandle']) {
+                if (this.processoId) {
+                    this._mercureService.unsubscribe('juntadas_' + this.processoId);
                 }
+                this.processoId = routerState.state.params['processoHandle'];
+                this._mercureService.subscribe('juntadas_' + this.processoId);
+            }
 
-                this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
+            this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this.sheetRef.dismiss();
             }
         });
 
@@ -517,6 +526,58 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.form.get('numeracaoSequencial').valueChanges.subscribe((value) => {
+            if (typeof value === 'string' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.juntadas.numeracaoSequencial': `like:%${value}%`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.juntadas.numeracaoSequencial')) {
+                    delete this.listFilter['documento.juntadas.numeracaoSequencial'];
+                }
+            }
+        });
+
+        this.form.get('descricao').valueChanges.subscribe((value) => {
+            if (typeof value === 'string' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.juntadaAtual.descricao': `like:%${value}%`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.juntadaAtual.descricao')) {
+                    delete this.listFilter['documento.juntadaAtual.descricao'];
+                }
+            }
+        });
+
+        this.form.get('criadoPor').valueChanges.subscribe((value) => {
+            if (typeof value === 'object' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.criadoPor.id': `eq:${value.id}`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.criadoPor.id')) {
+                    delete this.listFilter['documento.criadoPor.id'];
+                }
+            }
+        });
+
+        this.form.get('unidade').valueChanges.subscribe((value) => {
+            if (typeof value === 'object' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'documento.setorOrigem.unidade.id': `eq:${value.id}`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('documento.setorOrigem.unidade.id')) {
+                    delete this.listFilter['documento.setorOrigem.unidade.id'];
+                }
+            }
+        });
+
         const pathDocumento = 'app/main/apps/documento/documento-edit';
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(pathDocumento) &&
@@ -580,8 +641,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             const arrPrimary = [];
             arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                 'visualizar-processo' : 'anexar-copia');
-            this.routerState.params['processoCopiaHandle'] ?
-                arrPrimary.push(this.routerState.params.processoCopiaHandle) : arrPrimary.push(this.routerState.params.processoHandle);
+            arrPrimary.push(this.routerState.params['processoCopiaHandle'] ?
+                this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle);
             if (this.routerState.params.chaveAcessoHandle) {
                 arrPrimary.push('chave');
                 arrPrimary.push(this.routerState.params.chaveAcessoHandle);
@@ -688,7 +749,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      */
     dropzoneEnabledJuntada(event: DragEvent, juntada: Juntada): boolean {
         const tmpJuntadaArrastada = JSON.parse(event.dataTransfer.types[0]);
-        const juntadaArrastada = this.juntadas.find((juntada) => juntada.id == tmpJuntadaArrastada.id);
+        const juntadaArrastada = this.juntadas.find(juntada => juntada.id == tmpJuntadaArrastada.id);
+        // eslint-disable-next-line max-len
         return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
 
@@ -701,6 +763,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     dropEnabledJuntada(event: DndDropEvent, juntada: Juntada): boolean {
         const juntadaArrastadaId = event.data;
         const juntadaArrastada = this.juntadas.find((juntada) => juntada.id == juntadaArrastadaId);
+        // eslint-disable-next-line max-len
         return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
 
@@ -773,11 +836,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const modelo = this.formEditor.get('modelo').value;
 
         //this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.CreateComponenteDigital({
             modelo: modelo,
             tarefaOrigem: this.tarefaOrigem,
             processoOrigem: this.processo,
-            routeAtividadeDocumento: this.routeAtividadeDocumento
+            routeAtividadeDocumento: this.routeAtividadeDocumento,
+            operacaoId: operacaoId
         }));
         this.formEditor.get('modelo').setValue(null);
         this.menuTriggerList.closeMenu();
@@ -849,9 +914,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    documento: result.documento
+                    documento: result.documento,
+                    operacaoId: operacaoId
                 }));
             });
         }
@@ -877,9 +944,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.assinatura = 'A1';
                     assinatura.plainPassword = result.plainPassword;
 
+                    const operacaoId = CdkUtils.makeId();
                     this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
                         assinatura: assinatura,
-                        documento: result.documento
+                        documento: result.documento,
+                        operacaoId: operacaoId
                     }));
                 });
             }
@@ -920,7 +989,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     salvarTipoDocumento(documento: Documento): void {
         const tipoDocumento = this.form.get('tipoDocumentoMinutas').value;
-        this.menuTrigger.closeMenu();
+        this.menuTrigger?.closeMenu();
         this.doAlterarTipoDocumento({documento: documento, tipoDocumento: tipoDocumento});
         this.form.get('tipoDocumentoMinutas').setValue(null);
     }
@@ -967,7 +1036,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletado(s)'
             }
         });
 
@@ -977,6 +1046,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this._store.dispatch(new fromStore.DeleteDocumentoFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
         });
     }
 
@@ -1018,8 +1089,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     enviarDocumentoEmail(juntadaId): void {
         this._router.navigateByUrl(this.routerState.url.split('/processo/' +
-            this.routerState.params.processoHandle +
-            '/visualizar')[0] + '/processo/' +
+                this.routerState.params.processoHandle +
+                '/visualizar')[0] + '/processo/' +
             this.routerState.params.processoHandle + '/envia-email/' + juntadaId).then();
     }
 
@@ -1063,7 +1134,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doJuntadaOutraAba(documento: Documento): void {
-        this._store.dispatch(new fromStore.VisualizarJuntada(documento.id));
+        this._store.dispatch(new fromStore.VisualizarJuntada(documento.componentesDigitais[0].id));
     }
 
     uploadAnexo(documento: Documento): void {
@@ -1090,7 +1161,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const aprovaSub = dialogRef.componentInstance.aprovarDocumento.subscribe((documento: Documento) => {
             this._store.dispatch(new fromStore.AprovarComponenteDigital({
                 documentoOrigem: documento
-            }))
+            }));
         });
         const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((documento: Documento) => {
             this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));

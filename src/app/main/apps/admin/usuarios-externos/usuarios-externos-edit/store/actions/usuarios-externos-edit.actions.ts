@@ -15,108 +15,90 @@ export const GET_USUARIOS_EXTERNOS_FAILED = '[ADMIN USUARIOS_EXTERNOS EDIT] GET 
 /**
  * Get UsuarioExternos
  */
-export class GetUsuarioExternos implements Action
-{
+export class GetUsuarioExternos implements Action {
     readonly type = GET_USUARIOS_EXTERNOS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get UsuarioExternos Success
  */
-export class GetUsuarioExternosSuccess implements Action
-{
+export class GetUsuarioExternosSuccess implements Action {
     readonly type = GET_USUARIOS_EXTERNOS_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get UsuarioExternos Failed
  */
-export class GetUsuarioExternosFailed implements Action
-{
+export class GetUsuarioExternosFailed implements Action {
     readonly type = GET_USUARIOS_EXTERNOS_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save UsuarioExternos
  */
-export class SaveUsuarioExternos implements Action
-{
+export class SaveUsuarioExternos implements Action {
     readonly type = SAVE_USUARIOS_EXTERNOS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update UsuarioExternos
  */
-export class UpdateUsuarioExternos implements Action
-{
+export class UpdateUsuarioExternos implements Action {
     readonly type = UPDATE_USUARIOS_EXTERNOS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save UsuarioExternos Success
  */
-export class SaveUsuarioExternosSuccess implements Action
-{
+export class SaveUsuarioExternosSuccess implements Action {
     readonly type = SAVE_USUARIOS_EXTERNOS_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save UsuarioExternos Failed
  */
-export class SaveUsuarioExternosFailed implements Action
-{
+export class SaveUsuarioExternosFailed implements Action {
     readonly type = SAVE_USUARIOS_EXTERNOS_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update UsuarioExternos Success
  */
-export class UpdateUsuarioExternosSuccess implements Action
-{
+export class UpdateUsuarioExternosSuccess implements Action {
     readonly type = UPDATE_USUARIOS_EXTERNOS_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update UsuarioExternos Failed
  */
-export class UpdateUsuarioExternosFailed implements Action
-{
+export class UpdateUsuarioExternosFailed implements Action {
     readonly type = UPDATE_USUARIOS_EXTERNOS_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

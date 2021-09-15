@@ -33,8 +33,6 @@ import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-v
 })
 export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
     isSaving$: Observable<boolean>;
@@ -54,6 +52,8 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
     tarefaProcessoRestritoValidada$: Observable<number>;
     tarefaProcessoRestritoValidada: number;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -85,13 +85,17 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
+                this.sheetRef.dismiss();
+            }
+
+            this.routerState = routerState.state;
+        });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -118,6 +122,7 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
             if (this.tarefa.processo.acessoRestrito === true && this.tarefa.id != this.tarefaProcessoRestritoValidada) {
                 const dialogRef = this.dialog.open(CdkVisibilidadePluginComponent, {
                     data: {
+                        // eslint-disable-next-line @typescript-eslint/naming-convention
                         NUP: this.tarefa.processo.NUP
                     },
                     hasBackdrop: false,
@@ -141,7 +146,7 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
                                     this._router.navigate(['apps/tarefas/' +
                                     this.routerState.params.generoHandle + '/' +
                                     this.routerState.params.typeHandle + '/' +
-                                    this.routerState.params.targetHandle + '/visibilidade/' + processoId]);
+                                    this.routerState.params.targetHandle + '/visibilidade/' + processoId]).then();
                                 }
                             }
                         ),
@@ -164,25 +169,6 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    reloadTarefas(): void {
-
-        this._store.dispatch(new fromStoreTarefas.UnloadTarefas({reset: false}));
-
-        const nparams = {
-            ...this.pagination,
-            filter: {
-                ...this.pagination.filter
-            },
-            sort: this.pagination.sort,
-            limit: this.pagination.limit,
-            offset: this.pagination.offset,
-            populate: this.pagination.populate
-        };
-
-        this._store.dispatch(new fromStoreTarefas.GetTarefas(nparams));
-
-    }
 
     submit(values): void {
 
@@ -238,6 +224,8 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
             } else {
                 this._store.dispatch(new RedistribuirTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
         });
     }
 

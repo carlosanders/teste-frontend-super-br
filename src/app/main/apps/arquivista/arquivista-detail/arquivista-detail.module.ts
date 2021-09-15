@@ -17,7 +17,6 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {ArquivistaDetailStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {LoginService} from '../../../auth/login/login.service';
 import * as fromGuards from './store/guards';
 import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
 import {modulesConfig} from 'modules/modules-config';

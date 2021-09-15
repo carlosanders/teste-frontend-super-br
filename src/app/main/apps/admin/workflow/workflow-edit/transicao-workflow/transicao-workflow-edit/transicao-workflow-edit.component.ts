@@ -3,6 +3,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../../../../../store';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'transicao-workflow-edit',
@@ -25,17 +26,14 @@ export class TransicaoWorkflowEditComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.TransicaoWorkflowEditAppState>,
     ) {
-
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
 

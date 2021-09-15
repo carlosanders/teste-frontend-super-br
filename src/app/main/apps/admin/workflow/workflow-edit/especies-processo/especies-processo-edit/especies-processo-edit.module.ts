@@ -68,8 +68,7 @@ modulesConfig.forEach((module) => {
         CdkEspecieProcessoAutocompleteModule,
         CdkEspecieProcessoGridsearchModule
     ],
-    providers: [
-    ]
+    providers: []
 })
 
 export class EspeciesProcessoEditModule {

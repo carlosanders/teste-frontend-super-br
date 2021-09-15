@@ -20,7 +20,7 @@ import * as fromStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
@@ -38,7 +38,8 @@ import {CdkUtils} from '@cdk/utils';
 })
 export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
@@ -48,17 +49,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     selectedIds$: Observable<number[]>;
     selectedIds: number[];
 
-    private _profile: any;
-
     routeAtividadeBloco = 'atividade-bloco';
 
     routerState: any;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+    snackSubscriptionType: string;
+
+    private _profile: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -88,14 +88,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
+                this.sheetRef.dismiss();
             }
+
+            this.routerState = routerState.state;
         });
 
         this.tarefas$.pipe(
@@ -124,7 +126,10 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -177,10 +182,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'delete') {
+                // temos um snack aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -188,16 +199,20 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletado(s)'
             }
         });
 
+        this.snackSubscriptionType = 'delete';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStoreTarefas.DeleteTarefaCancel());
             } else {
                 this._store.dispatch(new fromStoreTarefas.DeleteTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 
@@ -223,10 +238,16 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'ciencia') {
+                // temos um snack de ciência aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -234,16 +255,20 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Dando ciência'
+                text: 'Ciência'
             }
         });
 
+        this.snackSubscriptionType = 'ciencia';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStoreTarefas.DarCienciaTarefaCancel());
             } else {
                 this._store.dispatch(new fromStoreTarefas.DarCienciaTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 
@@ -269,28 +294,38 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     }
 
     doCompartilharBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/'
+            + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco'
+        ]).then();
     }
 
     doEtiquetarBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco'
+        ]).then();
     }
 
     doMovimentarBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco]).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco
+        ]).then();
     }
 
     doEditTarefaBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-edit-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa-edit-bloco'
+        ]).then();
     }
 
     doRedistribuiTarefaBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco'
+        ]).then();
     }
 
     doCienciaBloco(): void {
@@ -299,28 +334,43 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     }
 
     doCreateTarefaBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa-bloco'
+        ]).then();
     }
 
     doUploadBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/upload-bloco'
+        ]).then();
     }
 
     doEditorBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/modelo-bloco'
+        ]).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/documento-avulso-bloco'
+        ]).then();
     }
 
     setFolder(folder): void {
+        const loteId = CdkUtils.makeId();
         this.tarefas.forEach((tarefa) => {
-            this._store.dispatch(new fromStoreTarefas.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStoreTarefas.SetFolderOnSelectedTarefas({
+                tarefa: tarefa,
+                folder: folder,
+                operacaoId: operacaoId,
+                loteId: loteId
+            }));
         });
     }
 

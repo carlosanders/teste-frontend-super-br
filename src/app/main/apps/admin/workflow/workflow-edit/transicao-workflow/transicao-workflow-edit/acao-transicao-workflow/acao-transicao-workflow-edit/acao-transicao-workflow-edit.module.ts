@@ -37,7 +37,7 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
-                path       : 'pessoa',
+                path: 'pessoa',
                 loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
             }
         ]

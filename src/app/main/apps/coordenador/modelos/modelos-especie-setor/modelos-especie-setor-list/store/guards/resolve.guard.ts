@@ -26,13 +26,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<ModelosEspecieSetorListAppState>,
         private _loginService: LoginService
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -45,7 +45,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getVinculacoesModelo().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -63,14 +66,14 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params['generoHandle'] === 'unidade') {
                         filtro = {
                             'modelo.id': 'eq:' + this.routerState.params['modeloHandle'],
-                            'unidade.id' : 'eq:' + this.routerState.params['entidadeHandle'],
+                            'unidade.id': 'eq:' + this.routerState.params['entidadeHandle'],
                             'especieSetor.id': 'isNotNull'
                         };
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional') {
                         filtro = {
                             'modelo.id': 'eq:' + this.routerState.params['modeloHandle'],
-                            'modalidadeOrgaoCentral.id' : 'eq:' + this.routerState.params['entidadeHandle'],
+                            'modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle'],
                             'especieSetor.id': 'isNotNull'
                         };
                     }

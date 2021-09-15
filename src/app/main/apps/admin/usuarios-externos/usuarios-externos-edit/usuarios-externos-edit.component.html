@@ -6,7 +6,7 @@
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-usuario-form
-        [usuario]="(usuario$ | async)"
+        [usuario]="usuario"
         [form]="formUsuario"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"

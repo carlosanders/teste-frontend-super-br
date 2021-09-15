@@ -6,11 +6,15 @@ export interface DocumentosState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    alterandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
+    downloadDocumentosP7SIds: number[];
     convertendoDocumentoIds: number[];
     convertendoDocumentoHtmlIds: number[];
+    saving: boolean;
     loading: boolean;
     loaded: boolean;
-
+    error: any;
 }
 
 export const DocumentosInitialState: DocumentosState = {
@@ -19,10 +23,15 @@ export const DocumentosInitialState: DocumentosState = {
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
+    alterandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
+    downloadDocumentosP7SIds: [],
     convertendoDocumentoIds: [],
     convertendoDocumentoHtmlIds: [],
+    saving: false,
     loading: false,
     loaded: false,
+    error: null,
 };
 
 export function DocumentosReducer(
@@ -30,11 +39,28 @@ export function DocumentosReducer(
     action: DocumentosActions.DocumentosActionsAll
 ): DocumentosState {
     switch (action.type) {
+        case DocumentosActions.GET_DOCUMENTOS: {
+            return {
+                ...state,
+                saving: false,
+                loading: true,
+                documentosLoaded: false,
+            };
+        }
+
         case DocumentosActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
+                loading: false,
                 documentosId: action.payload.entitiesId,
                 documentosLoaded: action.payload.loaded,
+            };
+        }
+
+        case DocumentosActions.GET_DOCUMENTOS_FAILED: {
+            return {
+                ...state,
+                loading: false
             };
         }
 
@@ -69,28 +95,28 @@ export function DocumentosReducer(
         case DocumentosActions.CONVERTE_DOCUMENTO_HTML: {
             return {
                 ...state,
-                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoIds, action.payload],
+                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoHtmlIds, action.payload],
             };
         }
 
         case DocumentosActions.CONVERTE_DOCUMENTO_HTML_SUCESS: {
             return {
                 ...state,
-                convertendoDocumentoHtmlIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
 
         case DocumentosActions.CONVERTE_DOCUMENTO_HTML_FAILED: {
             return {
                 ...state,
-                convertendoDocumentoHtmlIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
 
         case DocumentosActions.DELETE_DOCUMENTO: {
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoId]
             };
         }
 
@@ -100,6 +126,13 @@ export function DocumentosReducer(
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
                 documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosActions.DELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
             };
         }
 
@@ -121,6 +154,114 @@ export function DocumentosReducer(
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosActions.PREPARA_ASSINATURA_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id),
+                error: action.payload.error
+            };
+        }
+
+        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                error: false
+            };
+        }
+
+        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
+                error: false
+            };
+        }
+
+        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
+                error: action.payload.error
+            };
+        }
+
+        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+            };
+        }
+
+        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosActions.UPDATE_DOCUMENTO: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
+                loaded: false,
+                loading: true,
+            };
+        }
+
+        case DocumentosActions.UPDATE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+                documentosId: state.documentosId.filter(id => id !== action.payload),
+                loaded: true,
+                loading: false,
+            };
+        }
+
+        case DocumentosActions.UPDATE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+            };
+        }
+
+        case DocumentosActions.DOWNLOAD_DOCUMENTO_P7S: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: [...state.downloadDocumentosP7SIds, action.payload],
+            };
+        }
+        case DocumentosActions.DOWNLOAD_DOCUMENTO_P7S_SUCCESS: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
+            };
+        }
+        case DocumentosActions.DOWNLOAD_DOCUMENTO_P7S_FAILED: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case DocumentosActions.SET_SAVING: {
+            return {
+                ...state,
+                saving: !state.loading
             };
         }
 
