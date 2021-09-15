@@ -577,3 +577,5 @@
 
 * Melhoria usuário, setor e unidade responsável na juntada
 * Melhoria número do documento principal do interessado aparecendo na capa do processo
+* Correção bug ao tentar remeter ofício assinado
+* Correção para selecionar o barramento na criação de ofício
