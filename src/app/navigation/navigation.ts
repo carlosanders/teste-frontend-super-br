@@ -68,6 +68,15 @@ export const navigation: CdkNavigation[] = [
                 role: 'ROLE_COLABORADOR'
             },
             {
+                id: 'caixa-email',
+                title: 'Caixas de E-mail',
+                translate: 'NAV.CAIXA_EMAIL.TITLE',
+                type: 'item',
+                icon: 'mail',
+                role: 'ROLE_COLABORADOR',
+                url: '/apps/caixa-email/default/default'
+            },
+            {
                 id: 'oficios',
                 title: 'Ofícios',
                 translate: 'NAV.OFICIO.TITLE',

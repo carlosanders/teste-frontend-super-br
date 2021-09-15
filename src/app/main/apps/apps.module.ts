@@ -101,6 +101,12 @@ const routes = [
         loadChildren: () => import('./board-tarefas/board-tarefas.module').then(m => m.BoardTarefasModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_COLABORADOR']}
+    },
+    {
+        path        : 'caixa-email',
+        loadChildren: () => import('./caixa-email/caixa-email.module').then(m => m.CaixaEmailModule),
+        canActivate: [RoleGuard],
+        data: {roles: ['ROLE_COLABORADOR']}
     }
 ];
 

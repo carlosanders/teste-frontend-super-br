@@ -1,0 +1,168 @@
+@import "src/@cdk/scss/cdk";
+
+
+mail-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .loading-mail-details {
+        display: flex;
+        flex-direction: row;
+        place-content: center center;
+        margin: 20px;
+        height: 100%;
+        align-items: center;
+
+        mat-spinner {
+            margin-right: 10px;
+        }
+    }
+
+    .info-text {
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    .select-message-text {
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    .mail-header {
+        padding-bottom: 16px;
+        border-bottom: 1px solid;
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center space-between;
+        align-items: center;
+
+        .actions {
+            min-width: 88px;
+        }
+
+        .subject {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .label {
+            font-size: 11px;
+            border-radius: 2px;
+            margin: 4px 4px 4px 0;
+            padding: 3px 8px;
+
+            .label-color {
+                width: 8px;
+                height: 8px;
+                margin-right: 8px;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .mail-content {
+        padding: 24px 0;
+
+        .to {
+
+            .to-text {
+                margin-right: 4px;
+            }
+        }
+
+        .mail-body-render {
+            word-wrap: anywhere;
+        }
+
+        .info {
+            padding-bottom: 16px;
+            flex-direction: row;
+            box-sizing: border-box;
+            display: flex;
+            place-content: flex-start space-between;
+            align-items: flex-start;
+
+            .info-content {
+                flex: 1 1 auto;
+                box-sizing: border-box;
+                flex-direction: column;
+                display: flex;
+                place-content: flex-start;
+                align-items: flex-start;
+            }
+
+            .avatar {
+                margin-right: 16px;
+            }
+
+            .name {
+                margin-right: 8px;
+                font-weight: 600;
+            }
+
+            .toggle-details {
+                user-select: none;
+                text-decoration: underline;
+                padding-top: 16px;
+                cursor: pointer;
+                font-weight: 600;
+            }
+
+            .details {
+                padding-top: 8px;
+
+                .address {
+                    flex-direction: column;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: flex-start;
+
+                    .detail {
+                        align-self: baseline;
+                    }
+
+                    .title {
+                        font-weight: 600;
+                        margin-right: 6px;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .mail-attachments {
+        padding: 24px 0;
+        border-top: 1px solid;
+
+        .title {
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .attachment {
+
+            margin-right: 25px;
+
+            .preview {
+                width: 100px;
+                margin: 0 16px 8px 0;
+                border-radius: 4px;
+            }
+
+            .link {
+                margin-bottom: 2px;
+            }
+
+            .size {
+                font-size: 11px;
+            }
+        }
+    }
+}
+

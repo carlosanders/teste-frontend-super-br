@@ -1,0 +1,92 @@
+<div id="mail" class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg light-blue"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar class="sidebar" name="caixa-email-folder-sidebar" position="left" lockedOpen="gt-md">
+        <caixa-email-folder-sidebar
+            (reloadHandler)="reload()"
+            (changeContaEmailHandler)="changeContaEmail($event)"
+            (clickFolderHandler)="clickFolder($event)"
+            [selectedContaEmail]="selectedContaEmail"
+            [folderList]="folderList"
+            [foldersIsLoading]="folderIsLoading"
+            [contaEmailList]="contaEmailList">
+        </caixa-email-folder-sidebar>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header">
+
+            <div class="search-wrapper">
+
+                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                        (click)="toggleSidebar('caixa-email-folder-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="search">
+                    <mat-icon class="secondary-text">search</mat-icon>
+                    <input [formControl]="searchInput" [placeholder]="'PESQUISAR...'" fxFlex>
+                </div>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT TOOLBAR -->
+            <div class="toolbar px-24 py-8">
+                <button class="refresh" mat-icon-button
+                        *ngIf="!selectedMessage"
+                        (click)="reloadEmailLIst()"
+                        [disabled]="messageListIsLoading"
+                        aria-label="recarregar"
+                        matTooltip="Recarregar">
+                    <mat-icon>refresh</mat-icon>
+                </button>
+                <button class="refresh" mat-icon-button
+                        *ngIf="!!selectedMessage"
+                        (click)="unselectMessage()"
+                        aria-label="voltar"
+                        matTooltip="Voltar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+            </div>
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            <div class="content" fxLayout="row">
+                <mail-list
+                    *ngIf="!selectedMessage"
+                    [messageList]="messageList"
+                    [messageListIsLoading]="messageListIsLoading"
+                    (scrollHandler)="loadEmails()"
+                    (selectMessageHandler)="selectMessage($event)"
+                    class="mail-list">
+                </mail-list>
+                <mail-details
+                    *ngIf="!!selectedMessage"
+                    [message]="selectedMessage"
+                    [messageIsLoading]="messageIsLoading"
+                    (downloadAttachmentHandler)="downloadAttachment($event)"
+                    class="mail-defails">
+                </mail-details>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
