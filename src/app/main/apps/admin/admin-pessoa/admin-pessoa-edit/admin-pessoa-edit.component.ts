@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'admin-pessoa-edit',
@@ -37,13 +38,12 @@ export class AdminPessoaEditComponent {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.pessoa$ = this._store.pipe(select(fromStore.getPessoa));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.loadForm();
     }
@@ -80,6 +80,4 @@ export class AdminPessoaEditComponent {
     doAbort(): void {
         this._store.dispatch(new Back());
     }
-
-
 }

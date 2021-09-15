@@ -6,16 +6,16 @@
 </div>
 <div class="content">
     <cdk-acao-transicao-workflow-list
-            [loading]="(loading$ | async)"
-            [acoes]="acoes"
-            [deletingIds]="(deletingIds$ | async)"
-            [deletingErrors]="(deletingErrors$ | async)"
-            [deletedIds]="(deletedIds$ | async)"
-            [actions]="['create', 'delete']"
-            (reload)="reload($event)"
-            (excluded)="excluded($event)"
-            (create)="create()"
-            (delete)="delete($event)"
-            (deleteBlocoEmmitter)="deleteBloco($event)">
+        [loading]="(loading$ | async)"
+        [acoes]="acoes"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'delete']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (create)="create()"
+        (delete)="delete($event)"
+        (deleteBlocoEmmitter)="deleteBloco($event)">
     </cdk-acao-transicao-workflow-list>
 </div>

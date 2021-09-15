@@ -27,7 +27,7 @@ const routes: Routes = [
 
         children: [
             {
-                path       : 'documento',
+                path: 'documento',
                 loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
             }
         ],

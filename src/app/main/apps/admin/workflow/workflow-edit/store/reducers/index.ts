@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {WorkflowEditReducer, WorkflowEditState} from './workflow-edit.reducer';
 
-export interface WorkflowEditAppState
-{
+export interface WorkflowEditAppState {
     workflow: WorkflowEditState;
 }
 

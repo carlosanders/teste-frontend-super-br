@@ -19,13 +19,13 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getDocumentosHasLoaded} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getTarefa} from '../store/selectors';
+import {getTarefa} from '../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {FormBuilder} from '@angular/forms';
@@ -44,7 +44,10 @@ import {CdkUtils} from '@cdk/utils';
 })
 export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
@@ -53,8 +56,6 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     errorEditor$: Observable<any>;
     loading$: Observable<boolean>;
-
-    private _profile: Colaborador;
 
     routerState: any;
 
@@ -70,11 +71,6 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     convertendoDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
-    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
-
     routeOficioDocumento = 'oficio';
 
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
@@ -83,16 +79,19 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     assinaturaInterval = null;
 
-        /**
-         *
-         * @param _store
-         * @param _loginService
-         * @param _router
-         * @param _changeDetectorRef
-         * @param _dynamicService
-         * @param _formBuilder
-         * @param _snackBar
-         */
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Colaborador;
+
+    /**
+     *
+     * @param _store
+     * @param _loginService
+     * @param _router
+     * @param _changeDetectorRef
+     * @param _dynamicService
+     * @param _formBuilder
+     * @param _snackBar
+     */
     constructor(
         private _store: Store<fromStore.TarefaOficiosAppState>,
         public _loginService: LoginService,
@@ -116,9 +115,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
 
-        this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
-            loaded => this.loadedOficios = loaded
-        );
+        this._store.pipe(
+            select(getDocumentosHasLoaded),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loaded => this.loadedOficios = loaded);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -138,18 +138,21 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+            this.routerState = routerState.state;
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this.sheetRef.dismiss();
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -186,12 +189,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.documentos$.pipe(
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (documentos) => {
-                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        ).subscribe((documentos) => {
+            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.assinandoDocumentosId$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -230,7 +231,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -303,7 +307,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletado(s)'
             }
         });
 
@@ -313,6 +317,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             } else {
                 this._store.dispatch(new fromStore.DeleteDocumentoFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
         });
     }
 
@@ -336,9 +342,40 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.UpdateDocumento(values));
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+        } else {
+            const lote = CdkUtils.makeId();
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId,
+                        loteId: lote
+                    }));
+                });
+            });
+        }
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -352,6 +389,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                 const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
+                    documento: result.documento,
                     operacaoId: operacaoId
                 }));
             });

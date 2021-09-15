@@ -10,14 +10,19 @@
                                  [deletingId]="(deletingDocumentosId$ | async)"
                                  [assinandoId]="(assinandoDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
+                                 [alterandoId]="(alterandoDocumentosId$ | async)"
+                                 [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                  (delete)="doDelete($event)"
                                  (deleteBloco)="doDeleteBloco($event)"
                                  (verResposta)="doVerResposta($event)"
+                                 (assinaturaBloco)="doAssinaturaBloco($event)"
                                  (assinatura)="doAssinatura($event)"
                                  (converte)="doConverte($event)"
                                  (converteHtml)="doConverteHtml($event)"
                                  (clicked)="onClicked($event)"
-                                 (changedSelectedIds)="changedSelectedIds($event)">
+                                 (changedSelectedIds)="changedSelectedIds($event)"
+                                 (removeAssinatura)="doRemoveAssinatura($event)"
+                                 (alterarTipoDocumento)="doAlterarTipoDocumento($event)">
         </cdk-documento-card-list>
     </div>
 </div>

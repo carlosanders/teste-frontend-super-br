@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap} from 'rxjs/operators';
 
 import * as AfastamentosActions from '../actions/afastamentos.actions';
 
@@ -17,6 +17,38 @@ import {Usuario} from '@cdk/models';
 @Injectable()
 export class AfastamentosEffects {
     routerState: any;
+    /**
+     * Get Usuario with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getUsuario: any = createEffect(() => this._actions.pipe(
+        ofType<AfastamentosActions.GetUsuario>(AfastamentosActions.GET_USUARIO),
+        switchMap(action => this._usuarioService.get(
+            action.payload.id,
+            JSON.stringify([
+                'populateAll',
+                'colaborador.cargo',
+                'colaborador.modalidadeColaborador',
+                'colaborador.usuario'
+            ]),
+            JSON.stringify({isAdmin: true})
+        )),
+        switchMap(response => [
+            new AddData<Usuario>({data: [response], schema: usuarioSchema}),
+            new AfastamentosActions.GetUsuarioSuccess({
+                loaded: {
+                    id: 'usuarioHandle',
+                    value: this.routerState.params.usuarioHandle
+                },
+                usuarioId: this.routerState.params.usuarioHandle
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new AfastamentosActions.GetUsuarioFailed(err));
+        })
+    ));
 
     /**
      *
@@ -31,49 +63,11 @@ export class AfastamentosEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Get Usuario with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getUsuario: any =
-        this._actions
-            .pipe(
-                ofType<AfastamentosActions.GetUsuario>(AfastamentosActions.GET_USUARIO),
-                switchMap(action => this._usuarioService.get(
-                        action.payload.id,
-                        JSON.stringify([
-                            'populateAll',
-                            'colaborador.cargo',
-                            'colaborador.modalidadeColaborador',
-                            'colaborador.usuario'
-                        ]),
-                        JSON.stringify({isAdmin: true})
-                    )),
-                switchMap(response => [
-                    new AddData<Usuario>({data: [response], schema: usuarioSchema}),
-                    new AfastamentosActions.GetUsuarioSuccess({
-                        loaded: {
-                            id: 'usuarioHandle',
-                            value: this.routerState.params.usuarioHandle
-                        },
-                        usuarioId: this.routerState.params.usuarioHandle
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new AfastamentosActions.GetUsuarioFailed(err));
-                    return caught;
-                })
-            );
 }

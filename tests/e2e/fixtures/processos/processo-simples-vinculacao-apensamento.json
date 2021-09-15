@@ -1,0 +1,36 @@
+{
+    "processo":{
+        "procedencia": "ADVOCACIA-GERAL DA UNIÃO",
+        "processoDeTrabalho": "COMUM",
+        "meio": "ELETRÔNICO",
+        "classificacao": "MODERNIZAÇÃO E REFORMA ADMINISTRATIVA PROJETOS, ESTUDOS E NORMAS",
+        "titulo": "PROCESSO DE TESTE",
+        "setorOrigem": "SECRETARIA (SECR)",
+
+        "assuntos":[
+            {
+                "nome": "RECURSOS HUMANOS"
+            }
+        ],
+
+        "interessados":[
+            {
+                "pessoa": "ADVOCACIA-GERAL DA UNIÃO",
+                "modalidade": "REQUERENTE (PÓLO ATIVO)"
+            }
+        ],
+
+        "vinculacoes":[
+            {
+                "modalidade": "APENSAMENTO",
+                "observacao": "TESTE"
+            }
+        ]
+    },
+
+    "distribuicao": {
+        "especieTarefa": "ADOTAR PROVIDÊNCIAS ADMINISTRATIVAS",
+        "responsavel": "JOÃO ADMIN",
+        "setorOrigem": "SECRETARIA (SECR)"
+    }
+}

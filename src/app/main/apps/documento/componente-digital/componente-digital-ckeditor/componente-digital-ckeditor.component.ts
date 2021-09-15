@@ -13,7 +13,7 @@ import * as fromStore from '../store';
 import * as fromDocumentoStore from '../../store';
 import {select, Store} from '@ngrx/store';
 import {Assinatura, ComponenteDigital} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store';
 import {getRepositorioComponenteDigital} from '../../documento-edit/inteligencia/store';
 import {getRepositorioComponenteDigital as getRepositorioComponenteDigitalAvulso} from '../../documento-avulso-edit/inteligencia/store/selectors';
@@ -26,6 +26,7 @@ import {
     SetRepositorioComponenteDigital as SetRepositorioComponenteDigitalAvulso
 } from 'app/main/apps/documento/documento-avulso-edit/inteligencia/store/actions';
 import {Pagination} from '@cdk/models/pagination';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -37,31 +38,22 @@ import {Pagination} from '@cdk/models/pagination';
 })
 export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     componenteDigital$: Observable<ComponenteDigital>;
     componenteDigital: ComponenteDigital;
-
     repositorio$: Observable<string>;
     repositorio: string;
-
     saving$: Observable<boolean>;
     saving = false;
-
     errors$: Observable<any>;
-
     routerState: any;
-
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     javaWebStartOK = false;
-
     btVersoes = true;
     logEntryPagination: Pagination;
-
     mode = 'documento';
-
     assinaturaInterval = null;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -74,29 +66,27 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
 
-                if (this.routerState.url.indexOf('/documento/') > -1) {
-                    this.mode = 'documento';
-                }
+            if (this.routerState.url.indexOf('/documento/') > -1) {
+                this.mode = 'documento';
+            }
 
-                if (this.routerState.url.indexOf('sidebar:modelo/') > -1) {
-                    this.mode = 'modelo';
-                }
+            if (this.routerState.url.indexOf('sidebar:modelo/') > -1) {
+                this.mode = 'modelo';
+            }
 
-                if (this.routerState.url.indexOf('sidebar:repositorio/') > -1) {
-                    this.mode = 'repositorio';
-                }
+            if (this.routerState.url.indexOf('sidebar:repositorio/') > -1) {
+                this.mode = 'repositorio';
+            }
 
-                if (this.routerState.url.indexOf('sidebar:template/') > -1) {
-                    this.mode = 'template';
-                }
+            if (this.routerState.url.indexOf('sidebar:template/') > -1) {
+                this.mode = 'template';
             }
         });
         this.assinandoDocumentosId$ = this._store.pipe(select(fromDocumentoStore.getAssinandoDocumentosId));
@@ -125,7 +115,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                 this.logEntryPagination.filter = {
                     entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
                     target: 'hash',
-                    id: + this.componenteDigital.id};
+                    id: +this.componenteDigital.id
+                };
             }
         });
 
@@ -136,11 +127,10 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.detectChanges();
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -162,7 +152,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
+        this.assinandoDocumentosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId && assinandoDocumentosId.length > 0) {
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
@@ -208,14 +200,25 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      * @param data
      */
     doSave(data: any): void {
-        this._store.dispatch(new fromStore.SaveComponenteDigital({componenteDigital: this.componenteDigital, data: data.conteudo, hashAntigo: data.hashAntigo}));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveComponenteDigital({
+            operacaoId: operacaoId,
+            componenteDigital: this.componenteDigital,
+            data: data.conteudo,
+            hashAntigo: data.hashAntigo
+        }));
     }
 
     /**
      * @param data
      */
     doReverter(data: any): void {
-        this._store.dispatch(new fromStore.RevertComponenteDigital({componenteDigital: this.componenteDigital, hash: data.toString() }));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.RevertComponenteDigital({
+            operacaoId: operacaoId,
+            componenteDigital: this.componenteDigital,
+            hash: data.toString()
+        }));
     }
 
     /**
@@ -245,8 +248,11 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         assinatura.assinatura = 'A1';
         assinatura.plainPassword = plainPassword;
 
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromDocumentoStore.AssinaDocumentoEletronicamente({
-            assinatura: assinatura
+            assinatura: assinatura,
+            operacaoId: operacaoId,
+            documentoId: parseInt(this.routerState.params['documentoHandle'], 10)
         }));
     }
 

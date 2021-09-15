@@ -10,14 +10,14 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Colaborador, Pagination, Processo, Tramitacao, Pessoa, Usuario} from '@cdk/models';
+import {Colaborador, Pagination, Processo, Tramitacao, Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {getOperacoesState, getRouterState} from '../../../../../store';
+import {getOperacoes, getRouterState} from '../../../../../store';
 import {getProcessosEncaminhamento} from '../store';
 import {CdkUtils} from '@cdk/utils';
 
@@ -30,8 +30,6 @@ import {CdkUtils} from '@cdk/utils';
     animations: cdkAnimations
 })
 export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     tramitacao: Tramitacao;
     isSaving$: Observable<boolean>;
@@ -50,6 +48,7 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
     operacaoId?: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -88,14 +87,12 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
         this.operacaoId = null;
         this.operacoes = [];
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
         this.processos$.pipe(
@@ -105,18 +102,18 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
             this.processos = p;
         });
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => this.operacaoId && !!op && !!op.content && op.type === 'remessa')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.detectChanges();
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'tramitação') {
+                    this.operacoes.push(operacoes[operacaoId]);
                 }
-            );
+            });
+            this._changeDetectorRef.detectChanges();
+        });
     }
 
     /**

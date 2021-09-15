@@ -41,7 +41,7 @@ export class GetEspecieAtividadeFailed implements Action {
 /**
  * Unload EspecieAtividade
  */
- export class UnloadEspecieAtividade implements Action {
+export class UnloadEspecieAtividade implements Action {
     readonly type = UNLOAD_ESPECIE_ATIVIDADE;
 
     constructor() {

@@ -92,7 +92,6 @@ export function EspecieRelevanciaListReducer(
         }
 
 
-
         case EspecieRelevanciaListActions.RELOAD_ESPECIE_RELEVANCIA: {
             return {
                 ...state,

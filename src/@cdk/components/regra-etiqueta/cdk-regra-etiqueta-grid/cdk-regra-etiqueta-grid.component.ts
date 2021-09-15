@@ -48,6 +48,51 @@ export class CdkRegraEtiquetaGridComponent implements AfterViewInit, OnInit, OnC
     @Output()
     create = new EventEmitter<any>();
 
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input()
+    actions: string[] = ['delete', 'select'];
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    selected = new EventEmitter<RegraEtiqueta>();
+
+    @Output()
+    selectedIds: number[] = [];
+
     allColumns: any[] = [
         {
             id: 'select',
@@ -113,51 +158,6 @@ export class CdkRegraEtiquetaGridComponent implements AfterViewInit, OnInit, OnC
 
     columns = new FormControl();
 
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input()
-    actions: string[] = ['delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
-
-    @Output()
-    edit = new EventEmitter<number>();
-
-    @Output()
-    selected = new EventEmitter<RegraEtiqueta>();
-
-    @Output()
-    selectedIds: number[] = [];
-
     dataSource: RegraEtiquetaDataSource;
 
     showFilter = false;
@@ -186,9 +186,9 @@ export class CdkRegraEtiquetaGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
@@ -345,7 +345,7 @@ export class CdkRegraEtiquetaGridComponent implements AfterViewInit, OnInit, OnC
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

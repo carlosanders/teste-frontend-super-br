@@ -12,12 +12,10 @@
                 <button mat-icon-button
                         class="custom-search-button"
                         aria-label="Pesquisar por"
-                        *ngIf="buscaPersonalizadaContainer?.length"
                         [matTooltip]="'Pesquisando processos por ' + this.searchFieldName"
                         [matMenuTriggerFor]="menuBusca">
                     <mat-icon class="secondary-text">search</mat-icon>
                 </button>
-                <mat-icon class="secondary-text" *ngIf="!buscaPersonalizadaContainer || !buscaPersonalizadaContainer.length">search</mat-icon>
                 <input matInput class="input-field"
                        placeholder="Pesquisa rápida de processos por {{searchFieldName}}"
                        formControlName="processo"
@@ -45,6 +43,10 @@
         <div class="campo" (click)="selecionaCampo('NUP', 'NUP')" [ngClass]="{'selected': searchField === 'NUP'}">
             <span>NUP</span>
             <mat-icon class="green-fg" *ngIf="searchField === 'NUP'">check</mat-icon>
+        </div>
+        <div class="campo" (click)="selecionaCampo('outroNumero', 'Outro Número')" [ngClass]="{'selected': searchField === 'outroNumero'}">
+            <span>Outro Número</span>
+            <mat-icon class="green-fg" *ngIf="searchField === 'outroNumero'">check</mat-icon>
         </div>
 
         <ng-template #dynamicComponent></ng-template>

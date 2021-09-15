@@ -41,7 +41,7 @@ export class GetAssuntoAdministrativoFailed implements Action {
 /**
  * Unload AssuntoAdministrativo
  */
- export class UnloadAssuntoAdministrativo implements Action {
+export class UnloadAssuntoAdministrativo implements Action {
     readonly type = UNLOAD_ASSUNTO_ADMINISTRATIVO;
 
     constructor() {

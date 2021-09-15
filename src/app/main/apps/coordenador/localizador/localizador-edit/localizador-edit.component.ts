@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Localizador} from '@cdk/models/localizador.model';
 import {select, Store} from '@ngrx/store';
@@ -12,6 +12,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'localizador-edit',
@@ -31,6 +32,7 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     usuario: Usuario;
     setorPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -47,13 +49,12 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll', 'unidade'];
@@ -73,7 +74,10 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.localizador$.subscribe(
+        this.localizador$.pipe(
+            filter(localizador => !!localizador),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             localizador => this.localizador = localizador
         );
 
@@ -87,6 +91,8 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

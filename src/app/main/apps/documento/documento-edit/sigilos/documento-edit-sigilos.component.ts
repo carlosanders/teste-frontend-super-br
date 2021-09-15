@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -25,6 +25,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit-sigilos',
@@ -35,6 +36,9 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
     animations: cdkAnimations
 })
 export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
@@ -57,13 +61,10 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
     setorPagination: Pagination;
     usuarioPagination: Pagination;
 
-    _profile: Usuario;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     routerState: any;
     lote: string;
+    _profile: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -87,13 +88,11 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         private _matDialog: MatDialog
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
         this._profile = _loginService.getUserProfile();
@@ -123,14 +122,18 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
      * On init
      */
     ngOnInit(): void {
-        this.sigilo$.subscribe(
-            (sigilo) => {
-                this.sigilo = sigilo;
-            }
-        );
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.sigilo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((sigilo) => {
+            this.sigilo = sigilo;
+        });
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
-        this.paginationSigilo$.subscribe((pagination) => {
+        this.paginationSigilo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reloadSigilos(this.pagination);
@@ -138,12 +141,16 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
                 this.pagination = pagination;
             }
         });
-        this.sigiloIsSaving$.subscribe((next) => {
+        this.sigiloIsSaving$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((next) => {
             if (!next) {
                 this.formSigilos = false;
             }
         });
-        this.sigiloErrors$.subscribe((next) => {
+        this.sigiloErrors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((next) => {
             if (next) {
                 this.formSigilos = true;
             }
@@ -156,7 +163,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( (componentFactory)  => {
+                        .then((componentFactory) => {
                             this.container.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });
@@ -170,6 +177,8 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadSigilos());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -187,12 +196,11 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
                     title: 'Confirmação',
                     confirmLabel: 'Sim',
                     cancelLabel: 'Não',
+                    // eslint-disable-next-line max-len
+                    message: 'Atenção, a desclassificação, redução do grau de sigilo ou alteração de restrição de acesso de um documento precisam ser confimadas. Deseja prosseguir?'
                 },
                 disableClose: true
             });
-
-            this.confirmDialogRef.componentInstance
-                .confirmMessage = 'Atenção, a desclassificação, redução do grau de sigilo ou alteração de restrição de acesso de um documento precisam ser confimadas. Deseja prosseguir?';
 
             this.confirmDialogRef.afterClosed().subscribe((result) => {
                 if (result) {
@@ -238,9 +246,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: [
-                ...this.pagination.populate
-            ]
+            populate: []
         }));
     }
 }

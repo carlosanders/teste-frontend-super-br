@@ -16,7 +16,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getSelectedTarefas} from '../store';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getRouterState, getOperacoes} from 'app/store';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
@@ -32,24 +32,17 @@ import {CdkUtils} from '../../../../../@cdk/utils';
 })
 export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
-
     vinculacaoEtiqueta: VinculacaoEtiqueta;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     vinculacaoEtiquetaPagination: Pagination;
-
-    operacoes: any[] = [];
-
-    private _profile: any;
-
+    operacoes = [];
     routerState: any;
-
     etiquetas: Etiqueta[] = [];
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: any;
 
     /**
      *
@@ -85,6 +78,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:TAREFA'
                 }
@@ -101,28 +95,26 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefas => this.tarefas = tarefas);
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'vinculacao_etiqueta')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((operacoes) => {
+            this.operacoes = [];
+            Object.keys(operacoes).forEach((operacaoId) => {
+                if (operacoes[operacaoId].type === 'vinculação etiqueta') {
+                    this.operacoes.push(operacoes[operacaoId]);
                 }
-            );
+            });
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
     }
 
@@ -145,14 +137,13 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
     }
 
     submit(): void {
-
         this.operacoes = [];
 
         this.tarefas.forEach((tarefa) => {
             const vinculacaoEtiqueta = new VinculacaoEtiqueta();
 
             Object.entries(this.etiquetas).forEach(
-                ([key, etiqueta]) => {
+                ([, etiqueta]) => {
                     vinculacaoEtiqueta.etiqueta = etiqueta;
                 }
             );

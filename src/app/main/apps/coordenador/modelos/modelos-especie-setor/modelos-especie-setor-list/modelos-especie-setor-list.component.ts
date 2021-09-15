@@ -12,10 +12,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Pagination, VinculacaoModelo} from '@cdk/models';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modelos-especie-setor-list',
@@ -38,6 +38,7 @@ export class ModelosEspecieSetorListComponent implements OnInit, OnDestroy {
     modalidadeOrgaoCentralPagination: Pagination = new Pagination();
     modeloPagination: Pagination = new Pagination();
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -56,13 +57,12 @@ export class ModelosEspecieSetorListComponent implements OnInit, OnDestroy {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.modalidadeOrgaoCentralPagination.filter = {
             id: 'eq:' + this.routerState.params['entidadeHandle']
@@ -75,13 +75,17 @@ export class ModelosEspecieSetorListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadModelosEspecieSetor());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -102,11 +106,11 @@ export class ModelosEspecieSetorListComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(vinculacaoModeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoModeloId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoModeloId]).then();
     }
 
     delete(vinculacaoModeloId: number, loteId: string = null): void {
@@ -118,7 +122,7 @@ export class ModelosEspecieSetorListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

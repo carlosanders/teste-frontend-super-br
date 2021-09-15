@@ -39,7 +39,7 @@ import {CdkUtils} from '@cdk/utils';
 import {DndDropEvent} from 'ngx-drag-drop';
 import {navigationConverter} from '../../../../../navigation/navigation';
 import {FormControl} from '@angular/forms';
-import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -51,10 +51,13 @@ import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sideb
 })
 export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     @Output()
     reload = new EventEmitter<any>();
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @ViewChild('inputFolder') inputFolder: ElementRef;
 
     folders$: Observable<Folder[]>;
     folders: Folder[];
@@ -80,9 +83,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     orgaoCentralLoading$: Observable<boolean>;
     unidadeLoading$: Observable<boolean>;
     lotacaoLoading$: Observable<boolean>;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
 
     pagination$: Observable<any>;
     pagination: any;
@@ -113,8 +113,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     usuariosAssessor: Usuario[] = [];
 
-    @ViewChild('inputFolder') inputFolder: ElementRef;
-
     showAddFolder = false;
     newFolderCtrl: FormControl = new FormControl();
     isSavingFolder$: Observable<boolean>;
@@ -122,19 +120,22 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     modulo: string;
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+    snackSubscriptionType: string;
 
     usuariosOpen = false;
     orgaoCentralOpen = false;
     unidadeOpen = false;
 
     tarefasPendentes = [];
-    private counterState: CounterState;
 
     placeholderId = null;
 
     selectedTarefas: Tarefa[] = [];
 
     loaded: any;
+
+    private counterState: CounterState;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -189,37 +190,64 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription && this.routerState?.url.indexOf('operacoes-bloco') === -1) {
+                this.sheetRef.dismiss();
+            }
+
+            this.routerState = routerState.state;
+            if (routerState.state.params['targetHandle'] === 'compartilhadas') {
+                this.mode = 'Compartilhadas';
+            } else {
+                this.mode = 'Tarefas';
+            }
+            this.generoHandle = routerState.state.params['generoHandle'];
+            this.generoHandleAcentuado = this.generoHandle;
+            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                this.generoHandleAcentuado = navigationConverter[this.routerState.params['generoHandle']];
+            }
+
+            this.typeHandle = routerState.state.params['typeHandle'];
+            this.preencherContador();
+        });
     }
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getCounterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((value) => {
+        this._store.pipe(
+            select(getCounterState),
+            takeUntil(this._unsubscribeAll),
+            distinctUntilChanged(counterState => counterState !== this.counterState)
+        ).subscribe((value) => {
             this.counterState = value;
             this.preencherContador();
         });
 
-        this.isSavingFolder$.subscribe((saving) => {
+        this.isSavingFolder$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((saving) => {
             this.showAddFolder = saving;
             if (!saving) {
                 this.newFolderCtrl.setValue('');
             }
         });
 
-        this._store
-            .pipe(
-                select(fromStore.getFolders),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((folders) => {
-                this.folders = folders;
-                this.preencherContador();
-            }
-        );
+        this._store.pipe(
+            select(fromStore.getFolders),
+            takeUntil(this._unsubscribeAll),
+            filter(folders => folders?.length !== this.folders?.length)
+        ).subscribe((folders) => {
+            this.folders = folders;
+            this.preencherContador();
+        });
 
         this._store.pipe(
             select(fromStore.getSelectedTarefas),
@@ -228,53 +256,40 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.selectedTarefas = tarefas;
         });
 
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
-        this.paginationUnidades$.subscribe((pagination) => {
+        this.paginationUnidades$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.paginationUnidades = pagination;
         });
 
-        this.paginationSetores$.subscribe((pagination) => {
+        this.paginationSetores$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.paginationSetores = pagination;
         });
 
-        this.paginationLotacoes$.subscribe((pagination) => {
+        this.paginationLotacoes$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.paginationLotacoes = pagination;
         });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (routerState.state.params['targetHandle'] === 'compartilhadas') {
-                    this.mode = 'Compartilhadas';
-                } else {
-                    this.mode = 'Tarefas';
-                }
-                this.generoHandle = routerState.state.params['generoHandle'];
-                this.generoHandleAcentuado = this.generoHandle;
-                if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
-                    this.generoHandleAcentuado = navigationConverter[this.routerState.params['generoHandle']];
-                }
-
-                this.typeHandle = routerState.state.params['typeHandle'];
-                this.preencherContador();
-            }
+        this.unidades$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((unidades) => {
+            this.unidades = unidades;
+            this._changeDetectorRef.markForCheck();
         });
 
-        this.unidades$.subscribe(
-            (unidades) => {
-                this.unidades = unidades;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
-
-        this.errors$.subscribe((errors) => {
+        this.errors$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
             this.error = '';
             if (errors && errors.status && (errors.status === 400 || errors.status === 422)) {
                 try {
@@ -291,19 +306,19 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.setores$.subscribe(
-            (setores) => {
-                this.setores = setores;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        this.setores$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((setores) => {
+            this.setores = setores;
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this.lotacoes$.subscribe(
-            (lotacoes) => {
-                this.lotacoes = lotacoes;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        this.lotacoes$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((lotacoes) => {
+            this.lotacoes = lotacoes;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
             if (coordenador.setor) {
@@ -339,13 +354,13 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
         }
 
-        this.newFolderCtrl.valueChanges
-            .pipe(
-                distinctUntilChanged(),
-                filter(term => !!term && term.length >= 2),
-            ).subscribe((valor) => {
-                this.error = '';
-            });
+        this.newFolderCtrl.valueChanges.pipe(
+            takeUntil(this._unsubscribeAll),
+            distinctUntilChanged(),
+            filter(term => !!term && term.length >= 2),
+        ).subscribe(() => {
+            this.error = '';
+        });
     }
 
     /**
@@ -541,10 +556,16 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'distribuir') {
+                // temos um snack de distribuição aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -556,12 +577,16 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.snackSubscriptionType = 'distribuir';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStore.DistribuirTarefasCancel());
             } else {
                 this._store.dispatch(new fromStore.DistribuirTarefasFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 
@@ -570,16 +595,22 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             if (this.mode === 'Tarefas') {
                 if (this.routerState.params['targetHandle'] !== 'lixeira') {
                     if (this.selectedTarefas.length > 1) {
+                        const loteId = CdkUtils.makeId();
                         this.selectedTarefas.forEach((tarefa) => {
+                            const operacaoId = CdkUtils.makeId();
                             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
                                 tarefa: tarefa,
-                                folder: $event[1]
+                                folder: $event[1],
+                                operacaoId: operacaoId,
+                                loteId: loteId
                             }));
                         });
                     } else {
+                        const operacaoId = CdkUtils.makeId();
                         this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({
                             tarefa: $event[0].data,
-                            folder: $event[1]
+                            folder: $event[1],
+                            operacaoId: operacaoId
                         }));
                     }
                 } else {
@@ -642,10 +673,16 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }));
 
         if (this.snackSubscription) {
-            // temos um snack aberto, temos que ignorar
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
+            if (this.snackSubscriptionType === 'delete') {
+                // temos um snack de exclusão aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscriptionType = null;
+                this.snackSubscription = null;
+            } else {
+                // Temos um snack de outro tipo aberto, temos que confirmá-lo
+                this.sheetRef.dismiss();
+            }
         }
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
@@ -653,16 +690,20 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletando'
+                text: 'Deletado(s)'
             }
         });
 
+        this.snackSubscriptionType = 'delete';
         this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this._store.dispatch(new fromStore.DeleteTarefaCancel());
             } else {
                 this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscriptionType = null;
+            this.snackSubscription = null;
         });
     }
 
@@ -678,13 +719,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }));
     }
 
-
-    preencherContador() {
-        this.tarefasPendentes = [];
+    preencherContador(): void {
         if (this.generoHandle && this.counterState) {
             if (this.folders) {
                 for (const folder of this.folders) {
-                    const nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();
+                    const nomePasta = 'folder_' + this.generoHandleAcentuado + '_' + folder.nome.toLowerCase();
                     if (this.counterState && this.counterState[nomePasta] !== undefined) {
                         this.tarefasPendentes[folder.nome] = this.counterState[nomePasta];
                     } else {
@@ -810,6 +849,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             return true;
         }
         const tarefa = event.data;
+        // eslint-disable-next-line eqeqeq
         return !(tarefa.setorResponsavel.id == setor.id && tarefa.distribuicaoAutomatica);
     }
 
@@ -827,6 +867,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             return usuario.isDisponivel;
         }
         const dataTarefa = JSON.parse(event.dataTransfer.types[0]);
+        // eslint-disable-next-line eqeqeq
         return usuario.isDisponivel && dataTarefa.usuario != usuario.id;
     }
 
@@ -847,8 +888,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         return usuario.isDisponivel && tarefa.usuarioResponsavel.id !== usuario.id;
     }
 
-    fecharSidebar() {
-        if(!this._cdkSidebarService.getSidebar('tarefas-main-sidebar').isLockedOpen) {
+    fecharSidebar(): void {
+        if (!this._cdkSidebarService.getSidebar('tarefas-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('tarefas-main-sidebar').close();
         }
     }

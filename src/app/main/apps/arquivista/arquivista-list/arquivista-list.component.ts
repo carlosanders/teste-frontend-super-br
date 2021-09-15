@@ -27,6 +27,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {getTransicaoProcessoIds} from '../transicao-arquivista-bloco/store';
+import {CdkUtils} from "../../../../../@cdk/utils";
 
 @Component({
     selector: 'arquivista-list',
@@ -38,8 +39,7 @@ import {getTransicaoProcessoIds} from '../transicao-arquivista-bloco/store';
 })
 export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
+    @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
     routerState: any;
 
     processoId: any;
@@ -78,11 +78,9 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     maximizado$: Observable<boolean>;
     maximizado = false;
 
-    private _profile: Usuario;
-
     mobileMode = false;
-
-    @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
+    private _profile: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -127,20 +125,18 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
      */
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((routerState) => {
-            this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
+            this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 10);
         });
 
         this.loading$.pipe(
@@ -228,8 +224,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
-
-
     onScroll(): void {
         if (this.processos.length >= this.pagination.total) {
             return;
@@ -314,6 +308,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     salvarLembrete(params): void {
+        params.operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveLembrete(params));
     }
 
@@ -337,7 +332,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/registrar-extravio']).then();
     }
 
-    retornar() {
+    retornar(): void {
         this.currentProcessoId = null;
     }
 }

@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -26,7 +27,10 @@ import {modulesConfig} from '../../../../modules/modules-config';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
+export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy, AfterViewInit {
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     @Input()
     saving: boolean;
@@ -47,9 +51,6 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
     abort = new EventEmitter<any>();
 
     form: FormGroup;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
 
     /**
      * Constructor
@@ -96,8 +97,10 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
-                    this._changeDetectorRef.markForCheck();
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });

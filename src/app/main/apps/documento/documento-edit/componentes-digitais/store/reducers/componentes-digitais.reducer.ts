@@ -56,7 +56,7 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.componenteDigitalId]
             };
         }
 
@@ -71,7 +71,7 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

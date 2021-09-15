@@ -5,7 +5,7 @@
         <input matInput #nome
                name="nome"
                formControlName="nome"
-               maxlength="255" upperCase required>
+               minLength="3" maxlength="255" upperCase required>
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
         <mat-error *ngIf="form.get('nome').hasError('formError')">
             {{form.get('nome').errors.formError}}
@@ -29,8 +29,8 @@
         <input matInput #codigoCNJ
                name="codigoCNJ"
                formControlName="codigoCNJ"
-               maxlength="255" upperCase>
-        <mat-hint align="end">{{codigoCNJ.value.length}} / 255</mat-hint>
+               minLength="3" maxlength="25" upperCase>
+        <mat-hint align="end">{{codigoCNJ.value.length}} / 25</mat-hint>
         <mat-error *ngIf="form.get('codigoCNJ').hasError('formError')">
             {{form.get('codigoCNJ').errors.formError}}
         </mat-error>
@@ -42,7 +42,7 @@
                   matInput #glossario
                   cdkTextareaAutosize
                   #autosize="cdkTextareaAutosize"
-                  maxlength="255" 
+                  maxlength="255"
                   cdkAutosizeMinRows="4"
                   cdkAutosizeMaxRows="10" upperCase></textarea>
         <mat-hint align="end">{{glossario.value.length}} / 255</mat-hint>

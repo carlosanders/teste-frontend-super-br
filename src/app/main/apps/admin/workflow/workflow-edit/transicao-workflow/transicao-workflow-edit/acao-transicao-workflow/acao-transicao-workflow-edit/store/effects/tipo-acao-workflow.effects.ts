@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
-
+import {catchError, filter, mergeMap, switchMap} from 'rxjs/operators';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tipoAcaoWorkflow as tipoAcaoWorkflowSchema} from '@cdk/normalizr';
@@ -17,6 +16,38 @@ import * as TipoAcaoWorkflowActions from '../actions/tipo-acao-workflow.actions'
 @Injectable()
 export class TipoAcaoWorkflowEffects {
     routerState: any;
+    /**
+     * @type {Observable<any>}
+     */
+    getTipoAcaoWorkflow: any = createEffect(() => this._actions.pipe(
+        ofType<TipoAcaoWorkflowActions.GetTipoAcaoWorkflow>(TipoAcaoWorkflowActions.GET_TIPO_ACAO_WORKFLOW),
+        switchMap(action => this._tipoAcaoWorkflowService.query(
+            JSON.stringify({
+                ...action.payload.filter,
+                ...action.payload.gridFilter,
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify({isAdmin: true})
+        ).pipe(
+            mergeMap(response => [
+                new AddData<TipoAcaoWorkflow>(
+                    {data: response['entities'], schema: tipoAcaoWorkflowSchema}
+                ),
+                new TipoAcaoWorkflowActions.GetTipoAcaoWorkflowSuccess({
+                    entitiesId: response['entities'].map(acao => acao.id),
+                    loaded: {
+                        id: 'acaoTransicaoWorkflowHandle',
+                        value: this.routerState.params.acaoTransicaoWorkflowHandle
+                    },
+                    total: response['total']
+                })
+            ]),
+            catchError(err => of(new TipoAcaoWorkflowActions.GetTipoAcaoWorkflowFailed(err)))
+        ))
+    ));
 
     constructor(
         private _actions: Actions,
@@ -24,48 +55,11 @@ export class TipoAcaoWorkflowEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getTipoAcaoWorkflow: any =
-        this._actions
-            .pipe(
-                ofType<TipoAcaoWorkflowActions.GetTipoAcaoWorkflow>(TipoAcaoWorkflowActions.GET_TIPO_ACAO_WORKFLOW),
-                switchMap(action => this._tipoAcaoWorkflowService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.gridFilter,
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate),
-                        JSON.stringify({isAdmin: true})
-                    ).pipe(
-                        mergeMap(response => [
-                            new AddData<TipoAcaoWorkflow>(
-                                {data: response['entities'], schema: tipoAcaoWorkflowSchema}
-                                ),
-                            new TipoAcaoWorkflowActions.GetTipoAcaoWorkflowSuccess({
-                                entitiesId: response['entities'].map(acao => acao.id),
-                                loaded: {
-                                    id: 'acaoTransicaoWorkflowHandle',
-                                    value: this.routerState.params.acaoTransicaoWorkflowHandle
-                                },
-                                total: response['total']
-                            })
-                        ]),
-                        catchError(err => of(new TipoAcaoWorkflowActions.GetTipoAcaoWorkflowFailed(err)))
-                    ))
-            );
 }

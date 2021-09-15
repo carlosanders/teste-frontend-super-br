@@ -8,7 +8,7 @@ import {
     OnInit,
     Output,
     ViewChild,
-    ViewContainerRef, ViewEncapsulation
+    ViewContainerRef
 } from '@angular/core';
 import {of, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, switchMap, takeUntil} from 'rxjs/operators';
@@ -18,8 +18,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkChaveAcessoPluginComponent} from '../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 import {LoginService} from '../../../app/main/auth/login/login.service';
 import {MatDialog} from '../../angular/material';
-import {DynamicService} from "../../../modules/dynamic.service";
-import {modulesConfig} from "../../../modules/modules-config";
+import {DynamicService} from 'modules/dynamic.service';
+import {modulesConfig} from 'modules/modules-config';
 import {SearchBarService} from './search-bar.service';
 
 @Component({

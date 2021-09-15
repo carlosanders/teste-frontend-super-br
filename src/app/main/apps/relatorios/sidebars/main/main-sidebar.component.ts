@@ -14,7 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/apps/relatorios/store';
 import {Folder} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
@@ -29,24 +29,20 @@ import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sideb
 })
 export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     folders$: Observable<Folder[]>;
-
     mode = 'Relatorios';
-
     links: any;
-
     routerState: any;
-
     generoHandle = '';
     typeHandle = '';
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
      * @param _changeDetectorRef
      * @param _loginService
+     * @param _cdkSidebarService
      */
     constructor(
         private _store: Store<fromStore.RelatoriosAppState>,
@@ -69,16 +65,14 @@ export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.generoHandle = routerState.state.params['generoHandle'];
-                this.typeHandle = routerState.state.params['typeHandle'];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.generoHandle = routerState.state.params['generoHandle'];
+            this.typeHandle = routerState.state.params['typeHandle'];
         });
 
     }
@@ -100,17 +94,20 @@ export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
      * Compose dialog
      */
     create(): void {
-       this._store.dispatch(new fromStore.CreateRelatorio());
+        this._store.dispatch(new fromStore.CreateRelatorio());
     }
 
     onDrop($event): void {
         if (this.mode === 'Relatorios') {
-            this._store.dispatch(new fromStore.SetFolderOnSelectedRelatorios({relatorio: $event[0].data, folder: $event[1]}));
+            this._store.dispatch(new fromStore.SetFolderOnSelectedRelatorios({
+                relatorio: $event[0].data,
+                folder: $event[1]
+            }));
         }
     }
 
-    fecharSidebar() {
-        if(!this._cdkSidebarService.getSidebar('relatorios-main-sidebar').isLockedOpen) {
+    fecharSidebar(): void {
+        if (!this._cdkSidebarService.getSidebar('relatorios-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('relatorios-main-sidebar').close();
         }
     }

@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'municipio-edit',
@@ -28,7 +29,6 @@ export class MunicipioEditComponent implements OnInit {
     formMunicipio: FormGroup;
     estadoPagination: Pagination;
 
-
     constructor(
         private _store: Store<fromStore.MunicipioEditAppState>,
         private _router: Router,
@@ -39,13 +39,12 @@ export class MunicipioEditComponent implements OnInit {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.municipio$ = this._store.pipe(select(fromStore.getMunicipio));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.estadoPagination = new Pagination();
         this.loadForm();
@@ -87,6 +86,4 @@ export class MunicipioEditComponent implements OnInit {
     doAbort(): void {
         this._store.dispatch(new Back());
     }
-
-
 }

@@ -35,13 +35,13 @@ export class ResolveGuard implements CanActivate {
         public _loginService: LoginService,
         private _router: Router,
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
 
@@ -60,7 +60,10 @@ export class ResolveGuard implements CanActivate {
         if (this.getRouterDefault()) {
             return this.getDocumentosAvulso().pipe(
                 switchMap(() => of(true)),
-                catchError((err) => {console.log (err); return of(false);})
+                catchError((err) => {
+                    console.log(err);
+                    return of(false);
+                })
             );
         }
     }
@@ -146,7 +149,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.loading || (this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value
-                    && this.routerState.params['oficioTargetHandle'])),
+                && this.routerState.params['oficioTargetHandle'])),
             take(1)
         );
     }

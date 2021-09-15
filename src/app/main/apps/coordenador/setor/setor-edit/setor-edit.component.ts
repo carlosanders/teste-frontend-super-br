@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Setor} from '@cdk/models/setor.model';
 import {select, Store} from '@ngrx/store';
@@ -13,6 +13,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {Back} from 'app/store/actions';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'setor-edit',
@@ -34,6 +35,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     especieSetorPagination: Pagination;
     unidade: Setor;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -50,12 +52,11 @@ export class SetorEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
                     this.routerState = routerState.state;
-                }
             });
 
         this.setorPagination = new Pagination();
@@ -79,13 +80,12 @@ export class SetorEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.setor$.subscribe(
-            setor => this.setor = setor
-        );
+        this.setor$.pipe(
+            filter(setor => !!setor),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(setor => this.setor = setor);
 
-        this.unidade$.subscribe(
-            unidade => this.unidade = unidade
-        );
+        this.unidade$.subscribe(unidade => this.unidade = unidade);
 
         if (!this.setor) {
             this.setor = new Setor();
@@ -98,6 +98,8 @@ export class SetorEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

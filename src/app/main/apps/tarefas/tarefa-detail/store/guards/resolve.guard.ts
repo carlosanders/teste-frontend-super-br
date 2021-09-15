@@ -27,13 +27,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<TarefaDetailAppState>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -46,7 +46,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -57,8 +60,7 @@ export class ResolveGuard implements CanActivate {
      */
     checkStore(): Observable<any> {
         if (this.routerState.params['processoHandle'] &&
-            this.routerState.url.indexOf('acesso-negado') === -1 &&
-            this.routerState.url.indexOf('editar/dados-basicos') === -1) {
+            this.routerState.url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') > -1) {
             return forkJoin([
                 this.getTarefa(),
                 this.getProcesso(),
@@ -158,7 +160,10 @@ export class ResolveGuard implements CanActivate {
                             'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                             'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                             'documento.vinculacoesEtiquetas',
-                            'documento.vinculacoesEtiquetas.etiqueta'
+                            'documento.vinculacoesEtiquetas.etiqueta',
+                            'documento.criadoPor',
+                            "documento.setorOrigem",
+                            "documento.setorOrigem.unidade"
                         ]
                     };
 

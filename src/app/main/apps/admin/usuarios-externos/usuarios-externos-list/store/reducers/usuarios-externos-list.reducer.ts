@@ -15,9 +15,6 @@ export interface UsuariosExternosListState {
     };
     loading: boolean;
     loaded: any;
-    deletingIds: number[];
-    deletedIds: number[];
-    deletingErrors: any;
 }
 
 export const UsuariosExternosListInitialState: UsuariosExternosListState = {
@@ -34,10 +31,6 @@ export const UsuariosExternosListInitialState: UsuariosExternosListState = {
     },
     loading: false,
     loaded: false,
-    deletedIds: [],
-    deletingIds: [],
-    deletingErrors: {}
-
 };
 
 export function UsuariosExternosListReducer(
@@ -73,7 +66,6 @@ export function UsuariosExternosListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
-                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -96,36 +88,8 @@ export function UsuariosExternosListReducer(
         case UsuariosExternosListActions.RELOAD_USUARIOS_EXTERNOS_LIST: {
             return {
                 ...state,
-                deletingErrors: {},
                 loading: false,
                 loaded: false
-            };
-        }
-
-        case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST: {
-            return {
-                ...state,
-                deletingIds: [...state.deletingIds, action.payload]
-            };
-        }
-
-        case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST_SUCCESS: {
-            return {
-                ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload],
-                deletingErrors: _.omit(state.deletingErrors, [action.payload])
-            };
-        }
-
-        case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST_FAILED: {
-            return {
-                ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
-                deletingErrors: {
-                    ...state.deletingErrors,
-                    ...action.payload
-                }
             };
         }
 

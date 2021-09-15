@@ -26,11 +26,11 @@ const routes: Routes = [
         component: MunicipioComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./municipio-list/municipio-list.module').then(m => m.MunicipioListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./municipio-edit/municipio-edit.module').then(m => m.MunicipioEditModule),
             },
             {

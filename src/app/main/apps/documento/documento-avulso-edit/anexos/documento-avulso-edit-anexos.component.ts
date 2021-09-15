@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -23,6 +23,7 @@ import {getDocumento} from '../../store';
 import {CdkUtils} from '@cdk/utils';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-avulso-edit-anexos',
@@ -62,6 +63,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
     routerState: any;
 
     assinaturaInterval = null;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      *
@@ -70,13 +72,15 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
      * @param _router
      * @param _dynamicService
      * @param _activatedRoute
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoEditAnexosAppState>,
         private _location: Location,
         private _router: Router,
         private _dynamicService: DynamicService,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(getDocumento));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
@@ -89,10 +93,10 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
 
-        this._store
-            .pipe(
-                select(getMercureState),
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -118,6 +122,13 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
                 }
             }
         });
+
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -128,9 +139,13 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => this.documento = documento);
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
 
-        this.assinandoDocumentosVinculadosId$.subscribe((assinandoDocumentosVinculadosId) => {
+        this.assinandoDocumentosVinculadosId$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((assinandoDocumentosVinculadosId) => {
             if (assinandoDocumentosVinculadosId.length > 0) {
                 if (this.assinaturaInterval) {
                     clearInterval(this.assinaturaInterval);
@@ -148,15 +163,6 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
             }
             this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
         });
-
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
     }
 
     ngAfterViewInit(): void {
@@ -165,7 +171,10 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -175,6 +184,8 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -198,7 +209,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.doDeleteDocumentoVinculado(id, this.lote));
     }
@@ -278,7 +289,8 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
     }
 
     doRemoveAssinatura(documentoId: number): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumentoVinculado(documentoId));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumentoVinculado({documentoId: documentoId, operacaoId: operacaoId}));
     }
 
     anexarCopia(): void {

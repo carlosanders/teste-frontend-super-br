@@ -32,7 +32,7 @@
                     (click)="doRealizarTransicaoBloco()">
                 <ng-container>
                     <mat-icon>check</mat-icon>
-                    <span>Realizar {{modalidadeTransicao.valor | titlecase}}</span>
+                    <span>Realizar {{modalidadeTransicao?.valor | titlecase}}</span>
                 </ng-container>
             </button>
 
@@ -45,7 +45,7 @@
             </button>
 
             <button mat-menu-item aria-label="desarquivar"
-                    *ngIf="!modalidadeTransicao || modalidadeTransicao.valor !== 'TRANSFERÊNCIA'"
+                    *ngIf="!modalidadeTransicao || modalidadeTransicao?.valor !== 'TRANSFERÊNCIA'"
                     (click)="doDesarquivarBloco()">
                 <ng-container>
                     <mat-icon>check</mat-icon>

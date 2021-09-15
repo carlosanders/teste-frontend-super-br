@@ -26,13 +26,13 @@ export class ResolveGuard implements CanActivate {
         private _store: Store<TipoDocumentoListAppState>,
         private _loginService: LoginService
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -45,7 +45,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getTipoDocumento().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -64,7 +67,7 @@ export class ResolveGuard implements CanActivate {
                         gridFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {criadoEm: 'ASC'},
+                        sort: {id: 'ASC'},
                         populate: [
                             'populateAll'
                         ],

@@ -24,13 +24,13 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<JuntadaListAppState>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -43,7 +43,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getJuntadas().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -79,7 +82,14 @@ export class ResolveGuard implements CanActivate {
                             'documento.componentesDigitais',
                             'documento.tipoDocumento',
                             'documento.vinculacoesDocumentos',
-                            'documento.vinculacaoDocumentoPrincipal'
+                            'documento.vinculacaoDocumentoPrincipal',
+                            'documento.criadoPor',
+                            'documento.origemDados',
+                            'documento.setorOrigem',
+                            'documento.setorOrigem.unidade',
+                            'documento.pasta',
+                            'documento.procedencia',
+                            'documento.componentesDigitais.assinaturas',
                         ]
                     };
 

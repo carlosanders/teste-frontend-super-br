@@ -24,13 +24,13 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<AssuntoEditAppState>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -43,7 +43,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getAssunto().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -61,7 +64,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateAssunto());
                     } else {
                         this._store.dispatch(new fromStore.GetAssunto({
-                           id: 'eq:' + this.routerState.params['assuntoHandle']
+                            id: 'eq:' + this.routerState.params['assuntoHandle']
                         }));
                     }
 

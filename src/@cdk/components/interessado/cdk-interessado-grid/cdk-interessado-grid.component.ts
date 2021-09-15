@@ -61,6 +61,11 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
             fixed: true
         },
         {
+            id: 'pessoa.numeroDocumentoPrincipal',
+            label: 'Número Documento Principal',
+            fixed: true
+        },
+        {
             id: 'pessoa.nome',
             label: 'Interessado',
             fixed: true
@@ -196,9 +201,9 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
@@ -353,7 +358,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

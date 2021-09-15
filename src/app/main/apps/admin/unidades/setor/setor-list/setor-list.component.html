@@ -6,21 +6,21 @@
 </div>
 
 <cdk-setor-grid
-        [loading]="(loading$ | async)"
-        [setores]="(setores$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletingErrors]="(deletingErrors$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [displayedColumns]="['select', 'id', 'nome', 'sigla','especieSetor.nome','parent.nome', 'apenasDistribuidor','ativo','actions']"
-        [actions]="['edit','create','lotacoes','localizadores', 'transferirProcessosProtocolo']"
-        (reload)="reload($event)"
-        (create)="create()"
-        (edit)="edit($event)"
-        (lotacoes)="lotacoes($event)"
-        (localizadores)="localizadores($event)"
-        (transferirProcessosProtocolo)="doTransferirProcessosProtocolo($event)"
-        (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
+    [loading]="(loading$ | async)"
+    [setores]="(setores$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['select', 'id', 'nome', 'sigla','especieSetor.nome','parent.nome', 'apenasDistribuidor','ativo','actions']"
+    [actions]="['edit','create','lotacoes','localizadores', 'transferirProcessosProtocolo']"
+    (reload)="reload($event)"
+    (create)="create()"
+    (edit)="edit($event)"
+    (lotacoes)="lotacoes($event)"
+    (localizadores)="localizadores($event)"
+    (transferirProcessosProtocolo)="doTransferirProcessosProtocolo($event)"
+    (delete)="delete($event)"
+    (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-setor-grid>
 

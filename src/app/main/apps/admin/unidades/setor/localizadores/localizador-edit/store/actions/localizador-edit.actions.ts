@@ -14,96 +14,80 @@ export const GET_LOCALIZADOR_FAILED = '[ADMIN LOCALIZADOR EDIT] GET LOCALIZADOR 
 /**
  * Get Localizador
  */
-export class GetLocalizador implements Action
-{
+export class GetLocalizador implements Action {
     readonly type = GET_LOCALIZADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Localizador Success
  */
-export class GetLocalizadorSuccess implements Action
-{
+export class GetLocalizadorSuccess implements Action {
     readonly type = GET_LOCALIZADOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Localizador Failed
  */
-export class GetLocalizadorFailed implements Action
-{
+export class GetLocalizadorFailed implements Action {
     readonly type = GET_LOCALIZADOR_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Localizador
  */
-export class SaveLocalizador implements Action
-{
+export class SaveLocalizador implements Action {
     readonly type = SAVE_LOCALIZADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Localizador Success
  */
-export class SaveLocalizadorSuccess implements Action
-{
+export class SaveLocalizadorSuccess implements Action {
     readonly type = SAVE_LOCALIZADOR_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Localizador Failed
  */
-export class SaveLocalizadorFailed implements Action
-{
+export class SaveLocalizadorFailed implements Action {
     readonly type = SAVE_LOCALIZADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Localizador
  */
-export class CreateLocalizador implements Action
-{
+export class CreateLocalizador implements Action {
     readonly type = CREATE_LOCALIZADOR;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Localizador Success
  */
-export class CreateLocalizadorSuccess implements Action
-{
+export class CreateLocalizadorSuccess implements Action {
     readonly type = CREATE_LOCALIZADOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

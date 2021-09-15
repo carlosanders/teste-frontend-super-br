@@ -31,13 +31,13 @@ export class ResolveGuard implements CanActivate {
         private _loginService: LoginService,
         private _store: Store<CoordenadorSetorAppState>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this.usuario = this._loginService.getUserProfile();
     }
@@ -53,7 +53,10 @@ export class ResolveGuard implements CanActivate {
         if (this.checkRole()) {
             return this.checkStore().pipe(
                 switchMap(() => of(true)),
-                catchError((err) => {console.log (err); return of(false);})
+                catchError((err) => {
+                    console.log(err);
+                    return of(false);
+                })
             );
         }
     }
@@ -102,7 +105,7 @@ export class ResolveGuard implements CanActivate {
             select(getHasLoadedUnidade),
             tap((loaded: any) => {
                 if ((this.routerState.params['unidadeHandle'] && (this.routerState.params['unidadeHandle'] !== loaded.value))
-                || (!this.routerState.params['unidadeHandle'] && (this.routerState.params['entidadeHandle'] !== loaded.value))) {
+                    || (!this.routerState.params['unidadeHandle'] && (this.routerState.params['entidadeHandle'] !== loaded.value))) {
                     const value = this.routerState.params['unidadeHandle'] ?
                         this.routerState.params['unidadeHandle'] : this.routerState.params['entidadeHandle'];
                     this._store.dispatch(new fromStore.GetUnidade({
@@ -111,7 +114,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => (this.routerState.params['unidadeHandle'] && (this.routerState.params['unidadeHandle'] === loaded.value))
-                    || (!this.routerState.params['unidadeHandle'] && (this.routerState.params['entidadeHandle'] === loaded.value))),
+                || (!this.routerState.params['unidadeHandle'] && (this.routerState.params['entidadeHandle'] === loaded.value))),
             take(1)
         );
     }
@@ -134,7 +137,7 @@ export class ResolveGuard implements CanActivate {
                     }
                 }),
                 filter((loaded: any) => this.routerState.params['setorHandle'] &&
-                        (this.routerState.params['setorHandle'] === loaded.value)),
+                    (this.routerState.params['setorHandle'] === loaded.value)),
                 take(1)
             );
         }

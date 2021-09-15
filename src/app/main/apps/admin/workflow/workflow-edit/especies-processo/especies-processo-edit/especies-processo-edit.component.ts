@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnChanges,
+    OnChanges, OnDestroy,
     OnInit,
     SimpleChange,
     ViewEncapsulation
@@ -16,6 +16,8 @@ import {EspecieProcesso, Pagination} from '@cdk/models';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {Back, getRouterState} from '../../../../../../../store';
 import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'workflow-especies-processo-edit',
@@ -25,7 +27,7 @@ import {CdkUtils} from '../../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
+export class EspeciesProcessoEditComponent implements OnInit, OnChanges, OnDestroy {
 
     routerState: any;
     isSaving: boolean;
@@ -35,7 +37,7 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
     especieProcessoGridPagination: Pagination;
     especieProcessoAutocompletePagination: Pagination;
     activeCard: string = 'form';
-
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.WorkflowEspeciesProcessoEditAppState>,
@@ -44,15 +46,19 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
         private _formBuilder: FormBuilder,
         private _changeDetectorRef: ChangeDetectorRef,
     ) {
-        this._store.pipe(select(fromStore.getIsSaving))
-            .subscribe((isSaving) => {
-                this.isSaving = isSaving;
-            });
+        this._store.pipe(
+            select(fromStore.getIsSaving),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isSaving) => {
+            this.isSaving = isSaving;
+        });
 
-        this._store.pipe(select(fromStore.getErrors))
-            .subscribe((erros) => {
-                this.errors = erros;
-            });
+        this._store.pipe(
+            select(fromStore.getErrors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((erros) => {
+            this.errors = erros;
+        });
 
         this.especieProcessoGridPagination = new Pagination();
         this.especieProcessoGridPagination.filter = {
@@ -64,19 +70,17 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
             'workflow': 'isNull'
         };
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.form = this._formBuilder.group({
             id: [null],
             especieProcesso: [null, [Validators.required]]
         });
-
     }
 
     ngOnInit(): void {
@@ -107,6 +111,14 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
         this._changeDetectorRef.markForCheck();
     }
 
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -119,7 +131,7 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
                 {
                     especieProcesso: this.form.value.especieProcesso,
                     changes: {workflow: this.routerState.params.workflowHandle},
-                    filter: {'workflow': 'eq:'+this.routerState.params.workflowHandle},
+                    filter: {'workflow': 'eq:' + this.routerState.params.workflowHandle},
                     operacaoId: operacaoId
                 }
             ));

@@ -13,84 +13,70 @@ export const DELETE_LOTACAO_FAILED = '[ADMIN LOTACAO LIST] DELETE LOTACAO FAILED
 /**
  * Get Lotacoes
  */
-export class GetLotacoes implements Action
-{
+export class GetLotacoes implements Action {
     readonly type = GET_LOTACOES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Lotacoes Success
  */
-export class GetLotacoesSuccess implements Action
-{
+export class GetLotacoesSuccess implements Action {
     readonly type = GET_LOTACOES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Lotacoes Failed
  */
-export class GetLotacoesFailed implements Action
-{
+export class GetLotacoesFailed implements Action {
     readonly type = GET_LOTACOES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Lotacoes
  */
-export class ReloadLotacoes implements Action
-{
+export class ReloadLotacoes implements Action {
     readonly type = RELOAD_LOTACOES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Lotacao
  */
-export class DeleteLotacao implements Action
-{
+export class DeleteLotacao implements Action {
     readonly type = DELETE_LOTACAO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Lotacao Success
  */
-export class DeleteLotacaoSuccess implements Action
-{
+export class DeleteLotacaoSuccess implements Action {
     readonly type = DELETE_LOTACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Lotacao Failed
  */
-export class DeleteLotacaoFailed implements Action
-{
+export class DeleteLotacaoFailed implements Action {
     readonly type = DELETE_LOTACAO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

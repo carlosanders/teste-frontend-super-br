@@ -5,21 +5,21 @@
     </path>
 </div>
 <cdk-coordenador-grid
-        [loading]="(loading$ | async)"
-        [coordenadores]="(coordenadores$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletingErrors]="(deletingErrors$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [displayedColumns]="['select', 'id', 'usuario.nome', 'orgaoCentral.valor', 'unidade.nome', 'setor.nome', 'actions']"
-        [actions]="['create', 'edit']"
-        [usuarioPagination]="usuarioPagination"
-        [orgaoCentralPagination]="orgaoCentralPagination"
-        [unidadePagination]="unidadePagination"
-        [setorPagination]="setorPagination"
-        (reload)="reload($event)"
-        (create)="create()"
-        (edit)="edit($event)"
-        (delete)="delete($event)"
-        (deleteBlocoEmmitter)="deleteBloco($event)">
+    [loading]="(loading$ | async)"
+    [coordenadores]="(coordenadores$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['select', 'id', 'usuario.nome', 'orgaoCentral.valor', 'unidade.nome', 'setor.nome', 'actions']"
+    [actions]="['create', 'edit', 'delete']"
+    [usuarioPagination]="usuarioPagination"
+    [orgaoCentralPagination]="orgaoCentralPagination"
+    [unidadePagination]="unidadePagination"
+    [setorPagination]="setorPagination"
+    (reload)="reload($event)"
+    (create)="create()"
+    (edit)="edit($event)"
+    (delete)="delete($event)"
+    (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-coordenador-grid>

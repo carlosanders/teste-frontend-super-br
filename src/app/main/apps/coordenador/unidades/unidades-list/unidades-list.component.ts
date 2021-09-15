@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Setor} from '@cdk/models/setor.model';
@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'unidades-orgao-central-list',
@@ -33,6 +33,7 @@ export class UnidadesOrgaoCentralListComponent implements OnInit, OnDestroy {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -50,23 +51,26 @@ export class UnidadesOrgaoCentralListComponent implements OnInit, OnDestroy {
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadUnidades());
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
@@ -74,7 +78,7 @@ export class UnidadesOrgaoCentralListComponent implements OnInit, OnDestroy {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                'modalidadeOrgaoCentral.id': this.routerState.params.entidadeHandle,
+                'modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params.entidadeHandle,
                 'parent': 'isNull'
             },
             gridFilter: {
@@ -89,6 +93,6 @@ export class UnidadesOrgaoCentralListComponent implements OnInit, OnDestroy {
     }
 
     select(unidade: Setor): void {
-        this._router.navigate([this.routerState.url.replace('default/listar', `${unidade.id}/modelos`)]);
+        this._router.navigate([this.routerState.url.replace('default/listar', `${unidade.id}/modelos`)]).then();
     }
 }

@@ -10,6 +10,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {Back, getRouterState} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'vinculacao-documento-create',
@@ -36,7 +37,7 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
 
     displayedColumns = ['juntadaAtual.id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions'];
 
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      *
@@ -67,28 +68,27 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
-        this.juntada$.subscribe(
-            (juntada) => {
-                this.juntada = juntada;
-                this.vinculacaoDocumento = new VinculacaoDocumento();
-                this.vinculacaoDocumento.documento = this.juntada.documento;
+        this.juntada$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((juntada) => {
+            this.juntada = juntada;
+            this.vinculacaoDocumento = new VinculacaoDocumento();
+            this.vinculacaoDocumento.documento = this.juntada.documento;
 
-                this.documentoVinculadoPagination.filter = {
-                    'juntadaAtual':'isNotNull',
-                    'id':'neq:' + this.juntada.documento.id,
-                    'juntadaAtual.ativo':'eq:1',
-                    'juntadaAtual.volume.processo.id':'eq:' + this.juntada.volume.processo.id
-                };
-            }
-        );
+            this.documentoVinculadoPagination.filter = {
+                'juntadaAtual': 'isNotNull',
+                'id': 'neq:' + this.juntada.documento.id,
+                'juntadaAtual.ativo': 'eq:1',
+                'juntadaAtual.volume.processo.id': 'eq:' + this.juntada.volume.processo.id
+            };
+        });
     }
 
     doAbort(): void {

@@ -47,11 +47,50 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
     @Output()
     create = new EventEmitter<any>();
 
-    @Output()
-    create = new EventEmitter<any>();
-
     @Input()
     displayedColumns: string[] = ['select', 'id', 'role', 'usuario.nome', 'actions'];
+
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input()
+    actions: string[] = ['edit', 'delete', 'select'];
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    selected = new EventEmitter<VinculacaoRole>();
+
+    @Output()
+    selectedIds: number[] = [];
 
     allColumns: any[] = [
         {
@@ -113,51 +152,6 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
 
     columns = new FormControl();
 
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<number>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    selected = new EventEmitter<VinculacaoRole>();
-
-    @Output()
-    selectedIds: number[] = [];
-
     dataSource: VinculacaoRoleDataSource;
 
     showFilter = false;
@@ -186,9 +180,9 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
@@ -341,7 +335,7 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

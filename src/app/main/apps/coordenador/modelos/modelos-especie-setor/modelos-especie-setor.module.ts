@@ -22,6 +22,7 @@ import {ModelosEspecieSetorComponent} from './modelos-especie-setor.component';
 import {ModelosEspecieSetorStoreModule} from './store/store.module';
 import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import {modulesConfig} from 'modules/modules-config';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
     {
@@ -76,7 +77,8 @@ modulesConfig.forEach((module) => {
 
         ModelosEspecieSetorStoreModule,
 
-        CdkSharedModule
+        CdkSharedModule,
+        MatTooltipModule
     ],
     providers: [
         ModeloService,

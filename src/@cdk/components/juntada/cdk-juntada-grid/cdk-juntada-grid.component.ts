@@ -98,23 +98,18 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
             fixed: false
         },
         {
-            id: 'documentoAvulso.especieDocumentoAvulso.nome',
-            label: 'Documento Avulso',
-            fixed: false
-        },
-        {
-            id: 'atividade.especieAtividade.nome',
-            label: 'Atividade',
-            fixed: false
-        },
-        {
-            id: 'tarefa.especieTarefa.nome',
-            label: 'Tarefa',
-            fixed: false
-        },
-        {
             id: 'documento.componentesDigitais.extensao',
             label: 'Componentes Digitais',
+            fixed: false
+        },
+        {
+            id: 'documento.setorOrigem.nome',
+            label: 'Setor',
+            fixed: false
+        },
+        {
+            id: 'documento.setorOrigem.unidade.nome',
+            label: 'Unidade',
             fixed: false
         },
         {
@@ -267,9 +262,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
@@ -453,7 +448,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

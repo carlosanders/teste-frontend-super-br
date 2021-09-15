@@ -147,7 +147,7 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
-                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload.documentoId]
             };
         }
 
@@ -161,7 +161,7 @@ export function DocumentosVinculadosReducer(
         case DocumentosVinculadosActions.REMOVE_ASSINATURA_DOCUMENTO_VINCULADO_FAILED: {
             return {
                 ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload.documentoId)
             };
         }
 

@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {EspecieProcessoListReducer, EspecieProcessoListState} from './especie-processo-list.reducer';
 
-export interface EspecieProcessoListAppState
-{
+export interface EspecieProcessoListAppState {
     especieProcessoList: EspecieProcessoListState;
 }
 

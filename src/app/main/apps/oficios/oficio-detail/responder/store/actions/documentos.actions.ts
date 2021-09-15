@@ -29,7 +29,24 @@ export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[RESPONDER DOCUMENTOS] ASSINA D
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
+export const PREPARA_ASSINATURA_SUCCESS = '[RESPONDER DOCUMENTOS] PREPARA ASSINATURA DOCUMENTO SUCCESS';
+export const PREPARA_ASSINATURA_FAILED = '[RESPONDER DOCUMENTOS] PREPARA ASSINATURA DOCUMENTO FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO = '[RESPONDER DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[RESPONDER DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[RESPONDER DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO FAILED';
+
 export const CHANGE_SELECTED_DOCUMENTOS = '[RESPONDER DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
+
+export const UPDATE_DOCUMENTO = '[RESPONDER DOCUMENTOS] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_SUCCESS = '[RESPONDER DOCUMENTOS] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_FAILED = '[RESPONDER DOCUMENTOS] UPDATE DOCUMENTO FAILED';
+
+export const DOWNLOAD_DOCUMENTO_P7S = '[RESPONDER DOCUMENTOS] DOWNLOAD DOCUMENTOP7S DOCUMENTO';
+export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[RESPONDER DOCUMENTOS] DOWNLOAD DOCUMENTOP7S DOCUMENTO SUCCESS';
+export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[RESPONDER DOCUMENTOS] DOWNLOAD DOCUMENTOP7S FAILED';
+
+export const SET_SAVING = '[RESPONDER DOCUMENTOS] SET SAVING COMPONENTES DIGITAIS';
 
 /**
  * Get Documentos
@@ -224,6 +241,30 @@ export class AssinaDocumentoFailed implements Action
 }
 
 /**
+ * Prepara Assinatura Success
+ */
+export class PreparaAssinaturaSuccess implements Action
+{
+    readonly type = PREPARA_ASSINATURA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Prepara Assinatura Failed
+ */
+export class PreparaAssinaturaFailed implements Action
+{
+    readonly type = PREPARA_ASSINATURA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Assina Documento Eletronicamente
  */
 export class AssinaDocumentoEletronicamente implements Action
@@ -260,6 +301,42 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
 }
 
 /**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Change Selected Documentos
  */
 export class ChangeSelectedDocumentos implements Action {
@@ -282,6 +359,81 @@ export class GetDocumentoResposta implements Action
     }
 }
 
+/**
+ * Download Documento P7S
+ */
+export class DownloadP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento
+ */
+export class UpdateDocumento implements Action
+{
+    readonly type = UPDATE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Success
+ */
+export class UpdateDocumentoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Failed
+ */
+export class UpdateDocumentoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -297,11 +449,23 @@ export type DocumentosActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | PreparaAssinaturaSuccess
+    | PreparaAssinaturaFailed
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
     | AssinaDocumentoEletronicamenteFailed
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoSuccess
+    | RemoveAssinaturaDocumentoFailed
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
     | ChangeSelectedDocumentos
-    | GetDocumentoResposta;
+    | GetDocumentoResposta
+    | DownloadP7S
+    | DownloadP7SSuccess
+    | DownloadP7SFailed
+    | UpdateDocumento
+    | UpdateDocumentoSuccess
+    | UpdateDocumentoFailed
+    | SetSavingComponentesDigitais;

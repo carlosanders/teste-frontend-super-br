@@ -14,96 +14,80 @@ export const GET_TEMPLATES_FAILED = '[TEMPLATES EDIT] GET TEMPLATES FAILED';
 /**
  * Get Templates
  */
-export class GetTemplates implements Action
-{
+export class GetTemplates implements Action {
     readonly type = GET_TEMPLATES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Templates Success
  */
-export class GetTemplatesSuccess implements Action
-{
+export class GetTemplatesSuccess implements Action {
     readonly type = GET_TEMPLATES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Templates Failed
  */
-export class GetTemplatesFailed implements Action
-{
+export class GetTemplatesFailed implements Action {
     readonly type = GET_TEMPLATES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Templates
  */
-export class SaveTemplates implements Action
-{
+export class SaveTemplates implements Action {
     readonly type = SAVE_TEMPLATES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Templates Success
  */
-export class SaveTemplatesSuccess implements Action
-{
+export class SaveTemplatesSuccess implements Action {
     readonly type = SAVE_TEMPLATES_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Templates Failed
  */
-export class SaveTemplatesFailed implements Action
-{
+export class SaveTemplatesFailed implements Action {
     readonly type = SAVE_TEMPLATES_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Templates
  */
-export class CreateTemplates implements Action
-{
+export class CreateTemplates implements Action {
     readonly type = CREATE_TEMPLATES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Templates Success
  */
-export class CreateTemplatesSuccess implements Action
-{
+export class CreateTemplatesSuccess implements Action {
     readonly type = CREATE_TEMPLATES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

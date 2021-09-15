@@ -1,17 +1,18 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Interessado, Pessoa, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
+import {getProcesso} from '../../../store';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {Back} from '../../../../../../store/actions';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'interessado-edit',
@@ -34,6 +35,7 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
     routerState: any;
 
     pessoa: Pessoa;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -47,6 +49,13 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.interessado$ = this._store.pipe(select(fromStore.getInteressado));
         this.processo$ = this._store.pipe(select(getProcesso));
+
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,11 +66,15 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             processo => this.processo = processo
         );
 
-        this.interessado$.subscribe(
+        this.interessado$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             interessado => this.interessado = interessado
         );
 
@@ -69,20 +82,14 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
             this.interessado = new Interessado();
             this.interessado.processo = this.processo;
         }
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }
 

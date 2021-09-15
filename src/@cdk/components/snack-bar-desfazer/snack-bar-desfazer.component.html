@@ -5,5 +5,8 @@
         <mat-icon>{{data.icon}}</mat-icon>
         <span>{{data.text}}</span>
     </div>
-    <button mat-button type="button" class="primary" (click)="desfazer()">Cancelar</button>
+    <button mat-raised-button type="button" color="accent" (click)="desfazer()" aria-label="Desfazer">Desfazer</button>
+    <button mat-icon-button type="button" (click)="confirmar()" aria-label="Fechar">
+        <mat-icon>close</mat-icon>
+    </button>
 </div>

@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'interessados',
@@ -30,23 +31,22 @@ export class InteressadosComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if (this.routerState.url.indexOf('interessados/listar') > -1) {
-                        this.action = 'listar';
-                    }
-                    if (this.routerState.url.indexOf('interessados/editar') > -1) {
-                        this.action = 'editar';
-                    }
-                    if (this.routerState.url.indexOf('interessados/criar') > -1) {
-                        this.action = 'criar';
-                    }
-                    this._changeDetectorRef.markForCheck();
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('interessados/listar') > -1) {
+                this.action = 'listar';
+            }
+            if (this.routerState.url.indexOf('interessados/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('interessados/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**

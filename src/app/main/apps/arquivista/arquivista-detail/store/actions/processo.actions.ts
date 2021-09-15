@@ -9,48 +9,40 @@ export const SAVE_PROCESSO_FAILED = '[ARQUIVISTA EDIT] SAVE PROCESSO FAILED';
 /**
  * Save Processo
  */
-export class SaveProcesso implements Action
-{
+export class SaveProcesso implements Action {
     readonly type = SAVE_PROCESSO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Processo Success
  */
-export class SaveProcessoSuccess implements Action
-{
+export class SaveProcessoSuccess implements Action {
     readonly type = SAVE_PROCESSO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Processo Failed
  */
-export class SaveProcessoFailed implements Action
-{
+export class SaveProcessoFailed implements Action {
     readonly type = SAVE_PROCESSO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Expandir Processo
  */
-export class ExpandirTela implements Action
-{
+export class ExpandirTela implements Action {
     readonly type = EXPANDIR_TELA;
 
-    constructor(public payload: boolean)
-    {
+    constructor(public payload: boolean) {
     }
 }
 

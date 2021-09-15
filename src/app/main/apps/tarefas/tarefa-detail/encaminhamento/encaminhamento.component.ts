@@ -15,9 +15,10 @@ import * as fromTarefaDetailStore from '../store';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Tarefa} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'encaminhamento',
@@ -29,8 +30,6 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 })
 export class EncaminhamentoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
 
@@ -41,6 +40,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -55,7 +55,6 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _matDialog: MatDialog,
     ) {
-
         this.tarefa$ = this._store.pipe(select(fromTarefaDetailStore.getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -68,11 +67,10 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
         ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+            this.routerState = routerState.state;
         });
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -81,6 +79,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         });
 
     }
+
     /**
      * On destroy
      */
@@ -95,7 +94,10 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
         if (values.options === 'criar_tarefa') {
-            this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id]).then();
+            this._router.navigate([
+                'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id
+            ]).then();
         }
         if (values.options === 'arquivar') {
             this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
@@ -110,7 +112,11 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
 
             this.confirmDialogRef.afterClosed().subscribe((result) => {
                 if (result) {
-                    this._store.dispatch(new fromStore.SaveProcesso(this.tarefa.processo));
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new fromStore.SaveProcesso({
+                        processo: this.tarefa.processo,
+                        operacaoId: operacaoId
+                    }));
                 }
                 this.confirmDialogRef = null;
             });
@@ -123,6 +129,8 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     }
 
     cancel(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.url.split('/')[3] + '/' + this.routerState.url.split('/')[4] + '/entrada']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.url.split('/')[3] + '/' + this.routerState.url.split('/')[4] + '/entrada'
+        ]).then();
     }
 }

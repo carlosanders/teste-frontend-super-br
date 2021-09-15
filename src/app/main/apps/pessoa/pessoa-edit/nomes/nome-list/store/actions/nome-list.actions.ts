@@ -13,84 +13,70 @@ export const DELETE_NOME_FAILED = '[NOME LIST] DELETE NOME FAILED';
 /**
  * Get Nomes
  */
-export class GetNomes implements Action
-{
+export class GetNomes implements Action {
     readonly type = GET_NOMES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Nomes Success
  */
-export class GetNomesSuccess implements Action
-{
+export class GetNomesSuccess implements Action {
     readonly type = GET_NOMES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Nomes Failed
  */
-export class GetNomesFailed implements Action
-{
+export class GetNomesFailed implements Action {
     readonly type = GET_NOMES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Nomes
  */
-export class ReloadNomes implements Action
-{
+export class ReloadNomes implements Action {
     readonly type = RELOAD_NOMES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Nome
  */
-export class DeleteNome implements Action
-{
+export class DeleteNome implements Action {
     readonly type = DELETE_NOME;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Nome Success
  */
-export class DeleteNomeSuccess implements Action
-{
+export class DeleteNomeSuccess implements Action {
     readonly type = DELETE_NOME_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Nome Failed
  */
-export class DeleteNomeFailed implements Action
-{
+export class DeleteNomeFailed implements Action {
     readonly type = DELETE_NOME_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

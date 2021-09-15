@@ -69,9 +69,9 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.dataSourceJuntadasAdicionadas = new JuntadaDataSource(of(this.juntadasAdicionadas));
     }

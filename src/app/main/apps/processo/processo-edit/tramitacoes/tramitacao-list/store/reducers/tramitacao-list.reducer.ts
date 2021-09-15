@@ -96,7 +96,7 @@ export function TramitacaoListReducer(
         case TramitacaoListActions.DELETE_TRAMITACAO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.tramitacaoId]
             };
         }
 
@@ -112,7 +112,7 @@ export function TramitacaoListReducer(
         case TramitacaoListActions.DELETE_TRAMITACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

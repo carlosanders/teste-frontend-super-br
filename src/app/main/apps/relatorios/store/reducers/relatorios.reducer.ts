@@ -137,7 +137,7 @@ export function RelatoriosReducer(state = RelatoriosInitialState, action: Relato
         case RelatoriosActions.DELETE_RELATORIO: {
             return {
                 ...state,
-                deletingRelatorioIds: [...state.deletingRelatorioIds, action.payload]
+                deletingRelatorioIds: [...state.deletingRelatorioIds, action.payload.relatorioId]
             };
         }
 
@@ -160,7 +160,7 @@ export function RelatoriosReducer(state = RelatoriosInitialState, action: Relato
         case RelatoriosActions.DELETE_RELATORIO_FAILED: {
             return {
                 ...state,
-                deletingRelatorioIds: state.deletingRelatorioIds.filter(id => id !== action.payload)
+                deletingRelatorioIds: state.deletingRelatorioIds.filter(id => id !== action.payload.id)
             };
         }
 

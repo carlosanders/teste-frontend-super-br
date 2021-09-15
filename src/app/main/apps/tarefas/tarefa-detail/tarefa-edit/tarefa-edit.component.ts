@@ -10,7 +10,8 @@ import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
 import {SaveTarefa} from 'app/main/apps/tarefas/tarefa-detail/store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefa-edit',
@@ -22,8 +23,6 @@ import {Back} from '../../../../../store/actions';
 })
 export class TarefaEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
     isSaving$: Observable<boolean>;
@@ -34,6 +33,8 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
     logEntryPagination: Pagination;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -90,6 +91,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
+        const operacaoId = CdkUtils.makeId();
         const tarefa = new Tarefa();
 
         Object.entries(values).forEach(
@@ -100,7 +102,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
         tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
 
-        this._store.dispatch(new SaveTarefa(tarefa));
+        this._store.dispatch(new SaveTarefa({tarefa: tarefa, operacaoId: operacaoId}));
 
     }
 

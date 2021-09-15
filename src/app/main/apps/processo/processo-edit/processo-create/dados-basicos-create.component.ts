@@ -166,7 +166,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     editandoProcedencia = false;
     editandoInteressado = false;
 
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      *
@@ -249,6 +249,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             id: [null],
             temProcessoOrigem: [null],
             processoOrigem: [null],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             tipoProtocolo: [null, [Validators.required]],
             unidadeArquivistica: [null, [Validators.required]],
@@ -329,61 +330,58 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      */
     ngOnInit(): void {
 
-        this.configuracaoNupList$.subscribe((configuracaoNupList) => {
+        this.configuracaoNupList$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((configuracaoNupList) => {
             this.configuracaoNupList = configuracaoNupList;
-            if(configuracaoNupList.length === 1)
-            {
+            if (configuracaoNupList.length === 1) {
                 this.formProcesso.get('configuracaoNup').setValue(configuracaoNupList[0]);
             }
         });
 
-
-        this.nupIsValid$.subscribe((isValid) => {
+        this.nupIsValid$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((isValid) => {
             this.nupIsValid = isValid;
-        } );
+        });
 
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    this.genero = this.routerState.params.generoHandle;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.genero = this.routerState.params.generoHandle;
+        });
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
-        ).subscribe(
-            (processo) => {
-                this.processo = processo;
-                this.isLinear = false;
+        ).subscribe((processo) => {
+            this.processo = processo;
+            this.isLinear = false;
 
-                this.tarefa = new Tarefa();
-                this.tarefa.processo = this.processo;
-                this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
-                this.tarefa.dataHoraInicioPrazo = moment();
-                this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
-                this.tarefa.setorOrigem = processo.setorAtual;
+            this.tarefa = new Tarefa();
+            this.tarefa.processo = this.processo;
+            this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
+            this.tarefa.dataHoraInicioPrazo = moment();
+            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
+            this.tarefa.setorOrigem = processo.setorAtual;
 
-                this.assuntoActivated = 'form';
-                this.interessadoActivated = 'form';
-                this.vinculacaoProcessoActivated = 'form';
-                this.processoVinculadoPagination.filter = {
-                    'id':'neq:' + this.processo.id
-                };
+            this.assuntoActivated = 'form';
+            this.interessadoActivated = 'form';
+            this.vinculacaoProcessoActivated = 'form';
+            this.processoVinculadoPagination.filter = {
+                'id': 'neq:' + this.processo.id
+            };
 
-                this.assunto = new Assunto();
-                this.assunto.processo = this.processo;
+            this.assunto = new Assunto();
+            this.assunto.processo = this.processo;
 
-                setTimeout(() => {
-                    this.selectedIndex = 1;
-                }, 1000);
-            }
-        );
-
-        this.configuracaoNupList$.subscribe(configuracaoNupList => this.configuracaoNupList = configuracaoNupList);
+            setTimeout(() => {
+                this.selectedIndex = 1;
+            }, 1000);
+        });
 
         if (!this.processo) {
             this.processo = new Processo();
@@ -397,7 +395,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.vinculacaoProcessoActivated = 'form';
         }
 
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: this.processo.id};
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo',
+            id: this.processo.id
+        };
         this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio', 'workflow'];
         this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero.toUpperCase()};
 
@@ -425,61 +426,60 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(assuntos => !!assuntos)
-        ).subscribe(
-            (assuntos) => {
-                this.assuntos = assuntos;
+        ).subscribe((assuntos) => {
+            this.assuntos = assuntos;
 
-                if (assuntos.length > 0) {
-                    this.temAssuntos = true;
-                }
-
-                if (this.temAssuntos) {
-                    this.assuntoActivated = 'grid';
-                    this.formAssunto.reset();
-                }
+            if (assuntos.length > 0) {
+                this.temAssuntos = true;
             }
-        );
-        this.assuntosPagination$.subscribe((pagination) => {
+
+            if (this.temAssuntos) {
+                this.assuntoActivated = 'grid';
+                this.formAssunto.reset();
+            }
+        });
+        this.assuntosPagination$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
             this.assuntosPagination = pagination;
         });
 
         this.interessados$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(interessados => !!interessados)
-        ).subscribe(
-            (interessados) => {
-                this.interessados = interessados;
+        ).subscribe((interessados) => {
+            this.interessados = interessados;
 
-                if (interessados.length > 0) {
-                    this.temInteressados = true;
-                }
-
-                if (this.temInteressados) {
-                    this.interessadoActivated = 'grid';
-                    this.formInteressado.reset();
-                }
+            if (interessados.length > 0) {
+                this.temInteressados = true;
             }
-        );
-        this.interessadosPagination$.subscribe((pagination) => {
+
+            if (this.temInteressados) {
+                this.interessadoActivated = 'grid';
+                this.formInteressado.reset();
+            }
+        });
+        this.interessadosPagination$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
             this.interessadosPagination = pagination;
         });
 
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(juntadas => !!juntadas)
-        ).subscribe(
-            juntadas => this.juntadas = juntadas
-        );
+        ).subscribe(juntadas => this.juntadas = juntadas);
 
-        this.juntadasPagination$.subscribe((pagination) => {
+        this.juntadasPagination$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
             this.juntadasPagination = pagination;
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -530,17 +530,17 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.vinculacoesProcessos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(vinculacoesProcessos => !!vinculacoesProcessos)
-        ).subscribe(
-            (vinculacoesProcessos) => {
-                this.vinculacoesProcessos = vinculacoesProcessos;
+        ).subscribe((vinculacoesProcessos) => {
+            this.vinculacoesProcessos = vinculacoesProcessos;
 
-                if (this.vinculacoesProcessos) {
-                    this.vinculacaoProcessoActivated = 'grid';
-                    this.formVinculacaoProcesso.reset();
-                }
+            if (this.vinculacoesProcessos) {
+                this.vinculacaoProcessoActivated = 'grid';
+                this.formVinculacaoProcesso.reset();
             }
-        );
-        this.vinculacoesProcessosPagination$.subscribe((pagination) => {
+        });
+        this.vinculacoesProcessosPagination$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((pagination) => {
             this.vinculacoesProcessosPagination = pagination;
         });
 
@@ -600,7 +600,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    onActivate(componentReference): void  {
+    onActivate(componentReference): void {
         if (componentReference.select) {
             if (this.editandoProcedencia) {
                 componentReference.select.subscribe((pessoa: Pessoa) => {
@@ -621,7 +621,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }
@@ -816,7 +816,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteBlocoAssunto(ids: number[]) {
+    deleteBlocoAssunto(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteAssunto(id, this.lote));
     }
@@ -864,7 +864,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteBlocoInteressado(ids: number[]) {
+    deleteBlocoInteressado(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteInteressado(id, this.lote));
     }
@@ -911,7 +911,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    deleteBlocoVinculacaoProcesso(ids: number[]) {
+    deleteBlocoVinculacaoProcesso(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.deleteVinculacaoProcesso(id, this.lote));
     }
@@ -921,6 +921,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             case 'assunto':
                 this.assunto = new Assunto();
                 this.assuntoActivated = 'form';
+                this.assunto.processo = this.processo;
                 break;
             case 'interessado':
                 this.interessado = new Interessado();
@@ -934,7 +935,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     validateNup(values: any): void {
-       this._store.dispatch(new fromStore.ValidaNup(values));
+        this._store.dispatch(new fromStore.ValidaNup(values));
     }
 
     doSelectClassificacao(classificacao: Classificacao): void {
