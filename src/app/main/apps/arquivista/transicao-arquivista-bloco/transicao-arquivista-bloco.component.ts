@@ -49,6 +49,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
 
+    lote: string;
     private routerState: RouterStateUrl;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -87,7 +88,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação');
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote);
             this._changeDetectorRef.markForCheck();
         });
 

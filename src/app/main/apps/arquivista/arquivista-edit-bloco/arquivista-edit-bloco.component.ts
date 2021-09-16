@@ -38,6 +38,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterVie
     blocoEditClassificacao = false;
     blocoEditDataHoraProximaTransicao = false;
     blocoEditLembrete = true;
+    lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
@@ -62,12 +63,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterVie
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'arquivista') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'arquivista' && operacao.lote === this.lote);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -112,7 +108,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterVie
 
     submit(values): void {
         this.operacoes = [];
-        const loteId = CdkUtils.makeId();
+        this.lote = CdkUtils.makeId();
         this.processos.forEach((processoBloco) => {
             const processo = new Processo();
             processo.id = processoBloco.id;
@@ -127,13 +123,13 @@ export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterVie
 
             const payload: any = {
                 operacaoId: operacaoId,
-                loteId: loteId,
+                loteId: this.lote,
                 processo: processo,
                 changes: changes,
                 redo: [
                     new fromStore.SaveProcesso({
                         operacaoId: operacaoId,
-                        loteId: loteId,
+                        loteId: this.lote,
                         processo: processo,
                         changes: changes,
                         redo: 'inherent',

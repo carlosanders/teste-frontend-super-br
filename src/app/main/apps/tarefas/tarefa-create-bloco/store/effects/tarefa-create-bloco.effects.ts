@@ -30,6 +30,7 @@ export class TarefaCreateBlocoEffect {
             type: 'tarefa',
             content: 'Salvando a tarefa ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
         mergeMap(action => this._tarefaService.save(action.payload.tarefa).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
@@ -37,6 +38,7 @@ export class TarefaCreateBlocoEffect {
                 type: 'tarefa',
                 content: 'Tarefa id ' + response.id + ' salva com sucesso.',
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: Tarefa) => [
                 new TarefaCreateBlocoActions.SaveTarefaSuccess(action.payload),
@@ -53,6 +55,7 @@ export class TarefaCreateBlocoEffect {
                     type: 'tarefa',
                     content: 'Erro ao salvar a tarefa!',
                     status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new TarefaCreateBlocoActions.SaveTarefaFailed(payload));
             })
