@@ -1,0 +1,22 @@
+<button mat-icon-button
+        class="custom-search-button"
+        aria-label="Pesquisar por"
+        [matTooltip]="'Filtrando as ' + entidades + ' pelas ' + labelEtiquetasSearch"
+        [matMenuTriggerFor]="menuBusca">
+    <span class="material-icons-outlined mat-icon mat-icon-no-color icone">manage_search</span>
+</button>
+<cdk-etiqueta-chips [etiquetas]="etiquetas"
+                    [placeholder]="'Filtrar as ' + entidades + ' pelas ' + labelEtiquetasSearch"
+                    (create)="adiciona($event)"
+                    [pagination]="vinculacaoEtiquetaPagination"
+                    (delete)="remove($event)">
+</cdk-etiqueta-chips>
+<mat-menu #menuBusca="matMenu" class="menu-busca" [overlapTrigger]="false" xPosition="before">
+    <div class="custom-search-header">
+        <span class="title">Filtrar {{entidades}} por:</span>
+    </div>
+    <div *ngFor="let filtro of arraySearchTypes" class="campo" (click)="selecionaCampo(filtro)" [ngClass]="{'selected': labelEtiquetasSearch === filtro.label}">
+        <span>{{filtro.label}}</span>
+        <mat-icon class="green-fg" *ngIf="labelEtiquetasSearch === filtro.label">check</mat-icon>
+    </div>
+</mat-menu>

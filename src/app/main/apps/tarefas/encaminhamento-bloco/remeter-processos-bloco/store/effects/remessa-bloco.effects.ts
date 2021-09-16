@@ -30,6 +30,7 @@ export class RemessaBlocoEffects {
             type: 'tramitação',
             content: 'Salvando a tramitação ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
         mergeMap(action => this._tramitacaoService.save(action.payload.tramitacao).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
@@ -37,6 +38,7 @@ export class RemessaBlocoEffects {
                 type: 'tramitação',
                 content: 'Tramitação id ' + response.id + ' salva com sucesso.',
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: Tramitacao) => [
                 new RemessaBlocoActions.SaveTramitacaoSuccess(action.payload),
@@ -53,6 +55,7 @@ export class RemessaBlocoEffects {
                     type: 'tramitação',
                     content: 'Erro ao salvar a tramitação!',
                     status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new RemessaBlocoActions.SaveTramitacaoFailed(payload));
             })

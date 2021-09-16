@@ -1,9 +1,9 @@
 import {ErrorHandler, Injectable} from '@angular/core';
-import {environment} from "../environments/environment";
+import {environment} from '../environments/environment';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-    handleError(error) {
+    handleError(error): void {
         console.log (error);
         const path = 'log_collector';
         if (window.location.pathname.indexOf('ckeditor') > -1) {
@@ -14,7 +14,9 @@ export class GlobalErrorHandler implements ErrorHandler {
             {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
