@@ -67,18 +67,30 @@ export class CdkModeloAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const andxFilter = [...this.andxFilter];
+                    const termFilterNome = [];
+                    const termFilterId = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        andxFilter.push({
-                            nome: `like:%${bit}%`
-                        });
+                        const nomeKey = 'nome';
+                        const idKey = 'id';
+                        const objNome = {};
+                        objNome[nomeKey] = `like:%${bit}%`;
+                        termFilterNome.push(objNome);
+                        const objId = {};
+                        objId[idKey] = `eq:%${bit}%`;
+                        termFilterId.push(objId);
                     });
-                    if (typeof value === 'string' && andxFilter.length > 0) {
+                    const termFilter = {
+                        orX: [
+                            {orX: termFilterNome},
+                            {orX: termFilterId}
+                        ]
+                    };
+                    if (typeof value === 'string' && termFilterNome.length > 0 || termFilterId.length > 0) {
                         this.modeloListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
-                            andX: andxFilter,
-                            ...this.pagination.filter
+                            ...this.pagination.filter,
+                            ...termFilter
                         };
                         return this._modeloService.search(
                             JSON.stringify(filterParam),
