@@ -40,6 +40,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
     operacoes: any[] = [];
     routerState: any;
     etiquetas: Etiqueta[] = [];
+    lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: any;
 
@@ -99,12 +100,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'vinculação etiqueta') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'vinculação etiqueta' && operacao.lote === this.lote);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -138,11 +134,12 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
 
     submit(): void {
         this.operacoes = [];
+        this.lote = CdkUtils.makeId();
 
         this.processos.forEach((processo) => {
             const vinculacaoEtiqueta = new VinculacaoEtiqueta();
 
-            Object.entries(this.etiquetas).forEach(([key, etiqueta]) => {
+            Object.entries(this.etiquetas).forEach(([, etiqueta]) => {
                 vinculacaoEtiqueta.etiqueta = etiqueta;
             });
 
@@ -152,7 +149,8 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta({
                 vinculacaoEtiqueta: vinculacaoEtiqueta,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
         });
     }
