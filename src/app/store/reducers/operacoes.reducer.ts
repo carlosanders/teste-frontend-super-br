@@ -112,6 +112,10 @@ export function OperacoesReducer(state = OperacoesInitialState, action: Operacoe
             };
         }
 
+        case OperacoesActions.UNLOAD_OPERACAO: {
+            return OperacoesInitialState;
+        }
+
         default:
             return state;
     }
