@@ -15,7 +15,6 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import * as fromStoreSidebar from 'app/main/apps/tarefas/store';
-import * as fromStoreOperacao from 'app/store';
 import * as moment from 'moment';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {filter, take, takeUntil, tap} from 'rxjs/operators';
@@ -65,7 +64,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     /**
      * @param _store
      * @param _storeSideBar
-     * @param _storeOperacao
      * @param _loginService
      * @param dialog
      * @param _router
@@ -74,7 +72,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.TarefaCreateAppState>,
         private _storeSideBar: Store<fromStoreSidebar.TarefasAppState>,
-        private _storeOperacao: Store<fromStoreOperacao.State>,
         public _loginService: LoginService,
         public dialog: MatDialog,
         private _router: Router,
@@ -200,7 +197,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
 
         this._store.dispatch(new fromStore.UnloadProcesso());
-        this._storeOperacao.dispatch(new fromStoreOperacao.UnloadOperacao());
 
         if (this.dialog) {
             this.dialog.closeAll();
