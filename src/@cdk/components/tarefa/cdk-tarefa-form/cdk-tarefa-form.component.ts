@@ -32,9 +32,10 @@ import {of} from 'rxjs';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
-import {MatMenuTrigger} from "@angular/material/menu";
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {MatMenuTrigger} from '@angular/material/menu';
 import {modulesConfig} from '../../../../modules/modules-config';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -76,7 +77,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     save = new EventEmitter<Tarefa>();
 
     @Output()
-    abort = new EventEmitter<any>();
+    saveBloco = new EventEmitter<any>();
+
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
 
     @Input()
     especieTarefaPagination: Pagination;
@@ -108,34 +112,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     lotacaoPagination: Pagination;
 
-    especieTarefaList: EspecieTarefa[] = [];
-
-    especieTarefaListIsLoading: boolean;
-
-    usuarioResponsavelList: Usuario[] = [];
-
-    usuarioResponsavelListIsLoading: boolean;
-
-    setorResponsavelList: Setor[] = [];
-
-    setorResponsavelListIsLoading: boolean;
-
-    unidadeResponsavelList: Setor[] = [];
-
-    unidadeResponsavelListIsLoading: boolean;
-
     @Input()
     mode = 'regular';
-
-    inputProcesso: boolean;
-
-    feriados = ['01-01', '21-04', '01-05', '07-09', '12-10', '02-11', '15-11', '25-12'];
-
-    evento = false;
-
-    editable = true;
-
-    _profile: Colaborador;
 
     @Input()
     blocoEdit = {
@@ -153,26 +131,55 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     fromProcesso: boolean = false;
 
-    activeCard = 'form';
-
     @Input()
     processos: Processo[] = [];
-    blocoResponsaveis: Responsavel[] = [];
 
     @Output()
     processo = new EventEmitter<Processo>();
 
-    generoProcessos: any[] = [];
-
     @Input()
     clearForm = false;
-
-    lotacaoControl: FormControl = new FormControl('');
 
     @ViewChild('autoCompleteLotacao', {static: false, read: MatAutocompleteTrigger})
     autoCompleteLotacao: MatAutocompleteTrigger;
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+    blocoResponsaveis: Responsavel[] = [];
+
+    especieTarefaList: EspecieTarefa[] = [];
+
+    especieTarefaListIsLoading: boolean;
+
+    usuarioResponsavelList: Usuario[] = [];
+
+    usuarioResponsavelListIsLoading: boolean;
+
+    setorResponsavelList: Setor[] = [];
+
+    setorResponsavelListIsLoading: boolean;
+
+    unidadeResponsavelList: Setor[] = [];
+
+    unidadeResponsavelListIsLoading: boolean;
+
+    inputProcesso: boolean;
+
+    feriados = ['01-01', '21-04', '01-05', '07-09', '12-10', '02-11', '15-11', '25-12'];
+
+    evento = false;
+
+    editable = true;
+
+    _profile: Colaborador;
+
+    activeCard = 'form';
+
+    generoProcessos: any[] = [];
+
+    lotacaoControl: FormControl = new FormControl('');
+
+    lote: string;
 
     /**
      * Constructor
@@ -239,7 +246,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             'contatos.usuario.colaborador.lotacoes.setor.unidade',
         ];
         this.grupoContatoPagination.filter = {'usuario.id': 'eq:' + this._loginService.getUserProfile().id};
-        this.lotacaoPagination = new Pagination;
+        this.lotacaoPagination = new Pagination();
         this.lotacaoPagination.context = {
             'semAfastamento': true
         };
@@ -315,6 +322,20 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('usuarioResponsavel').disable();
         }
 
+        this.form.get('blocoProcessos').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (value && this.processos.length > 0) {
+                    this.form.get('especieTarefa').enable();
+                } else {
+                    this.form.get('especieTarefa').disable();
+                }
+
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
         this.form.get('distribuicaoAutomatica').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -334,7 +355,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
                         // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                         if (this.form.get('setorResponsavel').value.apenasDistribuidor) {
-                            const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id);
+                            const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id === parseInt(this.form.get('setorResponsavel').value.id, 10));
                             if (lotacoes.length === 0) {
                                 this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = this.form.get('setorResponsavel').value.id;
                             }
@@ -416,7 +437,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor) {
-                        const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id);
+                        const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id === parseInt(value.id, 10));
                         if (lotacoes.length === 0) {
                             this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
                         }
@@ -498,7 +519,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             this.form.get('especieTarefa').value) {
                             this.form.get('especieTarefa').reset();
                         }
-                    } else {
+                    } else if (!this.form.get('blocoProcessos').value || (this.form.get('blocoProcessos').value && this.processos.length === 0)) {
                         this.form.get('especieTarefa').disable();
                     }
 
@@ -837,7 +858,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-
+            this.lote = CdkUtils.makeId();
             // caso usuario selecione Bloco de Processos
             if (this.form.get('blocoProcessos').value && this.processos) {
 
@@ -866,7 +887,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                                 };
                             }
                             tarefa.bloco = true;
-                            this.save.emit(tarefa);
+                            this.saveBloco.emit({tarefa: tarefa, loteId: this.lote});
                         });
 
                     } else {
@@ -877,7 +898,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             processo: processo
                         };
                         tarefa.bloco = true;
-                        this.save.emit(tarefa);
+                        this.saveBloco.emit({tarefa: tarefa, loteId: this.lote});
                     }
                 });
 
@@ -905,7 +926,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         };
                     }
                     tarefa.bloco = true;
-                    this.save.emit(tarefa);
+                    this.saveBloco.emit({tarefa: tarefa, loteId: this.lote});
                 });
             }
 
