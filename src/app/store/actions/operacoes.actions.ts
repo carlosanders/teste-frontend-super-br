@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 
 export const RESULTADO = '[OPERACOES] RESULTADO';
 export const OPERACAO = '[OPERACOES] OPERACAO';
+export const UNLOAD_OPERACAO = '[OPERACOES] UNLOAD OPERACAO';
 export const SET_CURRENT_LOTE = '[OPERACOES] SET CURRENT LOTE';
 
 /**
@@ -30,6 +31,15 @@ export class Operacao implements Action
     }
 }
 
+export class UnloadOperacao implements Action
+{
+    readonly type = UNLOAD_OPERACAO;
+
+    constructor()
+    {
+    }
+}
+
 export class SetCurrentLote implements Action
 {
     readonly type = SET_CURRENT_LOTE;
@@ -42,4 +52,5 @@ export class SetCurrentLote implements Action
 export type OperacoesActionsAll
     = Resultado
     | Operacao
+    | UnloadOperacao
     | SetCurrentLote;
