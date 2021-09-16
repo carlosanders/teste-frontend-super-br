@@ -177,12 +177,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'tarefa') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa');
             this._changeDetectorRef.detectChanges();
         });
 

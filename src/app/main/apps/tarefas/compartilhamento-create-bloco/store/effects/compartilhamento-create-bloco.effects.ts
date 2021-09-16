@@ -30,6 +30,7 @@ export class CompartilhamentoCreateBlocoEffect {
             type: 'compartilhamento',
             content: 'Salvando o compartilhamento ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
         mergeMap(action => this._compartilhamentoService.save(action.payload.compartilhamento).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
@@ -37,6 +38,7 @@ export class CompartilhamentoCreateBlocoEffect {
                 type: 'compartilhamento',
                 content: 'Compartilhamento id ' + response.id + ' salvo com sucesso.',
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: Compartilhamento) => [
                 new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(action.payload.compartilhamento),
@@ -53,6 +55,7 @@ export class CompartilhamentoCreateBlocoEffect {
                     type: 'compartilhamento',
                     content: 'Erro ao salvar o compartilhamento!',
                     status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoFailed(payload));
             })

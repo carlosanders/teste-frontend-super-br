@@ -88,6 +88,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     encerraTarefa: boolean;
 
     lote: string;
+    loteAtividades: string;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Colaborador;
@@ -131,12 +132,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'atividade') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'atividade' && operacao.lote === this.loteAtividades);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -307,7 +303,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         delete values.unidadeAprovacao;
 
         this.operacoes = [];
-
+        this.loteAtividades = CdkUtils.makeId();
         this.encerraTarefa = values.encerraTarefa;
 
         this.tarefas.forEach((tarefa) => {
@@ -332,7 +328,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveAtividade({
                 atividade: atividade,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.loteAtividades
             }));
         });
     }
