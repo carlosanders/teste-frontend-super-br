@@ -6,7 +6,7 @@
     <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s)</h3>
 
     <cdk-realizar-transicao-form
-        *ngIf="operacoes.length === 0"
+        [hidden]="operacoes.length > 0"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [mode]="'bloco'"

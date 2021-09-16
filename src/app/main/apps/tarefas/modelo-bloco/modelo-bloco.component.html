@@ -5,7 +5,7 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
-    <cdk-modelo-grid *ngIf="(tarefas$ | async)?.length && !(isSaving$ | async)"
+    <cdk-modelo-grid *ngIf="(tarefas$ | async)?.length && (isSaving$ | async) === false"
             [loading]="(loading$ | async)"
             [modelos]="(modelos$ | async)"
             [total]="(pagination$ | async)?.total"
