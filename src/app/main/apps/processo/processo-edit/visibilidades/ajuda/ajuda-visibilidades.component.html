@@ -2,51 +2,51 @@
     <div *ngIf="titulo === 'visibilidades'" class="content p-16" fxLayout="column">
         <h3><strong>RESTRIÇÕES DE ACESSO</strong></h3>
         <p style="text-align: justify;text-indent: 20px">
-            A configuração de restrição de acesso determina de que modo um 
-            processo/documento avulso pode ser acessado pelos usuários internos e externos do SAPIENS.
+            A configuração de restrição de acesso determina de que modo um
+            processo/documento avulso pode ser acessado pelos usuários internos e externos do sistema.
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            Se não houver “Restrição de Acesso”, significa que todos os usuários internos (colaboradores) da 
-            Instituição podem acessar e visualizar o processo/documento avulso. 
+            Se não houver “Restrição de Acesso”, significa que todos os usuários internos (colaboradores) da
+            Instituição podem acessar e visualizar o processo/documento avulso.
         </p>
         <p style="text-align: justify;text-indent: 20px">
             Caso a opção seja marcada por um usuário com perfil de coordenador, o processo/documento avulso passará a ter o acesso restrito.
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            A partir do momento em que um processo/documento avulso tenha acesso restrito, 
-            apenas o coordenador que criou a restrição tem acesso sobre ele, com poder “Master”. 
+            A partir do momento em que um processo/documento avulso tenha acesso restrito,
+            apenas o coordenador que criou a restrição tem acesso sobre ele, com poder “Master”.
         </p>
         <p style="text-align: justify;text-indent: 20px">
             <strong>Qualquer outro usuário terá acesso negado.</strong>
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            Deve-se então realizar a configuração da restrição de acesso, 
+            Deve-se então realizar a configuração da restrição de acesso,
             para liberar o acesso para usuários escolhidos pelo coordenador.
         </p>
         <p style="text-align: justify;text-indent: 20px">
             <strong>Apenas um usuário com poder “Master” pode liberar o acesso para outros usuários.</strong>
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            O acesso pode ser liberado para um usuário interno ou externo, ou para um setor, 
+            O acesso pode ser liberado para um usuário interno ou externo, ou para um setor,
             sendo que nesse último caso, todos os usuários lotados naquele setor estão automaticamente liberados.
         </p>
         <p style="text-align: justify;margin-left: 20px">
             Poderes que podem ser concedidos:
         </p>
         <ul>
-            <li><strong>Master</strong>: o usuário com poder “Master” sobre um processo/documento avulso tem automaticamente os poderes de “Ver”, “Editar” e “Apagar”, 
+            <li><strong>Master</strong>: o usuário com poder “Master” sobre um processo/documento avulso tem automaticamente os poderes de “Ver”, “Editar” e “Apagar”,
                 mais o poder de atribuir poderes para outros usuários (inclusive o poder “Master”).</li>
             <li><strong>Ver</strong>: o poder de “Ver” o processo/documento avulso permite acessá-lo e visualizar seu conteúdo, mas não o editar.</li>
             <li><strong>Editar</strong>: o poder de “Editar” o processo/documento avulso permite editar seus dados.</li>
-            <li><strong>Apagar</strong>: o poder de “Apagar” não se aplica aos processos/documentos avulsos, 
+            <li><strong>Apagar</strong>: o poder de “Apagar” não se aplica aos processos/documentos avulsos,
                 pois eles não podem ser apagados como regra geral.</li>
         </ul>
-        
+
         <p style="text-align: justify;text-indent: 20px">
             APENAS o usuário com o Poder “Master” pode retirar poderes de outros usuários.
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            A liberação da restrição para um usuário externo específico, que já tenha se cadastrado no SAPIENS, significa que o cidadão, ao consultar o SAPIENS via internet, terá acesso mesmo se houver restrição de acesso.
+            A liberação da restrição para um usuário externo específico, que já tenha se cadastrado, significa que o cidadão, ao consultar o sistema via internet, terá acesso mesmo se houver restrição de acesso.
             Um usuário externo não pode receber o poder “Master”.
         </p>
         <h3 style="text-align: justify;text-indent: 20px">
@@ -56,17 +56,17 @@
             1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Restrições de Acessos</strong>
         </p>
         <p style="text-align: center;margin-left: 40px">
-            <img src="assets/images/ajuda/processovisibilidades.png" style="width: 256px;" class="fr-fic fr-dib fr-fil"> 
+            <img src="assets/images/ajuda/processovisibilidades.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
         </p>
         <p style="text-align: justify;margin-left: 40px">
-            2. A página de restrições de acesso é aberta. 
+            2. A página de restrições de acesso é aberta.
             É possível ver a lista de acessos e os poderes concedidos de cada usuário ou cadastrar uma nova permissão de acesso a partir do botão
             <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.
         </p>
         <p style="text-align: justify;margin-left: 40px">
-            3. Apertando no botão Novo, a página de configuração da restrição de acesso é aberta. 
+            3. Apertando no botão Novo, a página de configuração da restrição de acesso é aberta.
             é possível escolher "Quem receberá acesso", sendo praticável dar acesso para um setor ou para um usuário.
-            Clique na Lupa 
+            Clique na Lupa
             <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii"> para escolher os usuário/setores possíveis.
         </p>
         <p style="text-align: justify;margin-left: 40px">
@@ -76,9 +76,9 @@
             5. Clique em <strong>Salvar</strong> para finalizar o cadastramento de acesso.
         </p>
         <p style="text-align: justify;margin-left: 40px">
-            6. A página de restrições é aberta novamente. Importante ressaltar que facilmente é possível retirar o acesso concedido, por meio da lixeira 
+            6. A página de restrições é aberta novamente. Importante ressaltar que facilmente é possível retirar o acesso concedido, por meio da lixeira
             <img src="assets/images/ajuda/lixeiraacesso.png" style="width: 25px;"class="fr-fic fr-dii">
-            que fica na lateral direita de cada acesso. 
+            que fica na lateral direita de cada acesso.
         </p>
         <hr>
         <!-- ESPAÇO PARA RULES DE VISIBILIDADES<p style="background-color: #d3d3d3;margin-left: 20px">
@@ -86,9 +86,9 @@
         </p> -->
    </div>
     <h4>Restrições de acesso</h4>
-    <iframe width="400" height="225" 
-        src="https://www.youtube.com/embed/K6j8tRoCokM" frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    <iframe width="400" height="225"
+        src="https://www.youtube.com/embed/K6j8tRoCokM" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
     </iframe>
     <p><br></p>
