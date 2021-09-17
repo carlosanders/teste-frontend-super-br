@@ -32,7 +32,7 @@ export class VinculacaoProcessoEffects {
                 ...action.payload.listFilter,
                 ...action.payload.gridFilter,
             }),
-            action.payload.imit,
+            action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate))),
@@ -96,7 +96,7 @@ export class VinculacaoProcessoEffects {
     saveVinculacoesProcessosSuccess: any = createEffect(() => this._actions.pipe(
         ofType<VinculacoesProcessosActions.SaveVinculacaoProcessoSuccess>(VinculacoesProcessosActions.SAVE_VINCULACAO_PROCESSO_SUCCESS),
         withLatestFrom(this._store.pipe(select(getVinculacoesProcessosPagination))),
-        tap(([action, pagination]) => {
+        tap(([, pagination]) => {
             this._store.dispatch(new VinculacoesProcessosActions.GetVinculacoesProcessos(pagination));
         }),
     ), {dispatch: false});
@@ -107,21 +107,19 @@ export class VinculacaoProcessoEffects {
      */
     deleteVinculacaoProcesso: Observable<VinculacoesProcessosActions.VinculacaoProcessoActionsAll> = createEffect(() => this._actions.pipe(
         ofType<VinculacoesProcessosActions.DeleteVinculacaoProcesso>(VinculacoesProcessosActions.DELETE_VINCULACAO_PROCESSO),
-        tap((action) => {
-            this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'vinculação do processo',
-                content: 'Apagando a vinculação do processo id ' + action.payload.vinculacaoProcessoId + '...',
-                status: 0, // carregando
-                lote: action.payload.loteId
-            }));
-        }),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'vinculação do processo',
+            content: 'Apagando a vinculação de processo id ' + action.payload.vinculacaoProcessoId + '...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
         mergeMap(action => this._vinculacaoProcessoService.destroy(action.payload.vinculacaoProcessoId).pipe(
             map((response) => {
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'vinculação do processo',
-                    content: 'Vinculação do processo id ' + action.payload.vinculacaoProcessoId + ' deletada com sucesso.',
+                    content: 'Vinculação de processo id ' + action.payload.vinculacaoProcessoId + ' deletada com sucesso.',
                     status: 1, // sucesso
                     lote: action.payload.loteId
                 }));

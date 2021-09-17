@@ -258,6 +258,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : {};
+        contexto.isAdmin = this.hasInatived
         this.reload.emit({
             gridFilter: filter,
             limit: this.paginator.pageSize,

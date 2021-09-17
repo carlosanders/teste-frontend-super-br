@@ -229,7 +229,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 loadingAcompanhamento: true,
-                deletingIds: [...state.deletingIds, action.payload]
             };
         }
 
@@ -237,8 +236,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 loadingAcompanhamento: false,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
             };
         }
 
@@ -246,7 +243,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 loadingAcompanhamento: false,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 

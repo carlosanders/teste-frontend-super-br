@@ -239,6 +239,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             descricao: [null],
             criadoPor: [null],
             atualizadoPor: [null],
+            unidade: [null],
         });
 
         this.formEditor = this._formBuilder.group({
@@ -564,15 +565,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.form.get('atualizadoPor').valueChanges.subscribe((value) => {
+        this.form.get('unidade').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.listFilter = {
                     ...this.listFilter,
-                    'documento.atualizadoPor.id': `eq:${value.id}`
+                    'documento.setorOrigem.unidade.id': `eq:${value.id}`
                 };
             } else {
-                if (this.listFilter.hasOwnProperty('documento.atualizadoPor.id')) {
-                    delete this.listFilter['documento.atualizadoPor.id'];
+                if (this.listFilter.hasOwnProperty('documento.setorOrigem.unidade.id')) {
+                    delete this.listFilter['documento.setorOrigem.unidade.id'];
                 }
             }
         });

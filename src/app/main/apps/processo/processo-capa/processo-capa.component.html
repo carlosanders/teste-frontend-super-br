@@ -185,7 +185,7 @@
             [loading]="(loadingInteressados$ | async)"
             (reload)="reloadInteressados($event)"
             [interessados]="interessados"
-            [displayedColumns]="['id', 'pessoa.nome', 'modalidadeInteressado.valor']"
+            [displayedColumns]="['id', 'pessoa.numeroDocumentoPrincipal', 'pessoa.nome', 'modalidadeInteressado.valor']"
             [total]="(paginationInteressados$ | async)?.total">
         </cdk-interessado-grid>
     </mat-card>

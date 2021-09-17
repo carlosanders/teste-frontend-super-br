@@ -6,7 +6,7 @@
     <h3>{{(tarefas$ | async)?.length}} tarefas(s) selecionada(s) </h3>
 
     <cdk-documento-avulso-form
-            *ngIf="operacoes.length === 0"
+            [hidden]="operacoes.length > 0"
             [documentoAvulso]="documentoAvulso"
             [especieDocumentoAvulsoPagination]="especieDocumentoAvulsoPagination"
             [setorDestinoPagination]="setorDestinoPagination"

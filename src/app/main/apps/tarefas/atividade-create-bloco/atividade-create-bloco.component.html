@@ -28,7 +28,7 @@
         </cdk-minutas-atividade-card-list>
     </div>
 
-    <cdk-atividade-form *ngIf="operacoes.length === 0"
+    <cdk-atividade-form [hidden]="operacoes.length > 0"
                         [atividade]="atividade"
                         [blocoTarefasFavorito]="tarefas"
                         [especieAtividadePagination]="especieAtividadePagination"

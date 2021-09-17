@@ -30,6 +30,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
             type: 'vinculação etiqueta',
             content: 'Salvando a etiqueta ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
         mergeMap(action => this._vinculacaoEtiquetaService.save(action.payload.vinculacaoEtiqueta).pipe(
             tap((response) => {
@@ -39,6 +40,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                     type: 'vinculação etiqueta',
                     content: 'Etiqueta id ' + response.id + ' salva com sucesso.',
                     status: 1, // sucesso
+                    lote: action.payload.loteId
                 }));
             }),
             mergeMap((response: VinculacaoEtiqueta) => [
@@ -61,6 +63,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                     type: 'vinculação etiqueta',
                     content: 'Erro ao salvar a etiqueta!',
                     status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(payload));
             })

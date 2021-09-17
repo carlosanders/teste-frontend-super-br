@@ -61,6 +61,11 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
             fixed: true
         },
         {
+            id: 'pessoa.numeroDocumentoPrincipal',
+            label: 'Número Documento Principal',
+            fixed: true
+        },
+        {
             id: 'pessoa.nome',
             label: 'Interessado',
             fixed: true

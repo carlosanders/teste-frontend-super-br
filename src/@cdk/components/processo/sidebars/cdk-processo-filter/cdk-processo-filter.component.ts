@@ -101,6 +101,17 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         this.assuntoAdministrativoPagination.populate = ['parent'];
     }
 
+    ngOnInit(): void {
+        this.form.get('unidade').valueChanges.subscribe((value) => {
+            if (value && typeof value === 'object') {
+                this.setorPagination.filter = {
+                    ...this.setorPagination.filter,
+                    ...{'unidade.id': `eq:${value.id}`}
+                };
+            }
+        });
+    }
+
     ngAfterViewInit(): void {
         if (this._loginService.isGranted('ROLE_COLABORADOR')) {
             const path = '@cdk/components/processo/sidebars/cdk-processo-filter';

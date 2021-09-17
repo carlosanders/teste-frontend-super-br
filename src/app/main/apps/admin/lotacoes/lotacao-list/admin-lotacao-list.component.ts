@@ -142,7 +142,7 @@ export class AdminLotacaoListComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DeleteLotacao({
             lotacaoId: lotacaoId,
             operacaoId: operacaoId,
-            loteId: loteId,
+            loteId: loteId
         }));
     }
 

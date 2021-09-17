@@ -132,6 +132,7 @@ export class LoginComponent implements OnInit {
             this.cdkConfigService.sigla = config.sigla;
             this.cdkConfigService.barramento = config.barramento;
             localStorage.setItem('barramento', config.barramento);
+            this.cdkConfigService.email = config.email;
         });
 
         if (environment.base_url_x509) {

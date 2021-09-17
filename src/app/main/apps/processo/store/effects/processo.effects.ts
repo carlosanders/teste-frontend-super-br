@@ -20,7 +20,6 @@ import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import * as fromStore from '../index';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
-import {now} from 'moment';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable()
@@ -250,7 +249,7 @@ export class ProcessoEffect {
         ))
     ));
     /**
-     * Save Processo Success
+     * Arquivar Processo Success
      */
     arquivarProcessoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoActions.ArquivarProcesso>(ProcessoActions.ARQUIVAR_PROCESSO_SUCCESS),

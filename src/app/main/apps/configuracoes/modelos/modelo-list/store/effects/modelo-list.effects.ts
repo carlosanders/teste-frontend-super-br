@@ -36,7 +36,7 @@ export class ModeloListEffect {
                 mode = 'search';
             }
             return this._modeloService[`${mode}`](
-                JSON.stringify(filter),
+                JSON.stringify(filters),
                 action.payload.limit,
                 action.payload.offset,
                 JSON.stringify(action.payload.sort),
