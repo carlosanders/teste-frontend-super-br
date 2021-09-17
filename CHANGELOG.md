@@ -592,3 +592,4 @@
 * Correção do carregamento de modelos nas configurações do usuário
 * Melhoria listagem de atividades por tarefa no processo edit
 * Correção retirada de menções de sapiens, supp, agu
+* Correção painel de tarefas exibição do coordenador
