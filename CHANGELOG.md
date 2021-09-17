@@ -588,3 +588,7 @@
 * Correção ao criar tarefas para bloco de processos/responsáveis, a informação do lote é passada ao componente para tratar corretamente o bloco de resultados da operação
 * Correção em bug em que o cdk do formulário de criação de tarefas era removido do DOM, fazendo com que algumas das tarefas do bloco não fossem criadas corretamente
 * Correção replicada para todas as telas de blocos
+* Melhoria para busca de modelos pelo ID
+* Correção do carregamento de modelos nas configurações do usuário
+* Melhoria listagem de atividades por tarefa no processo edit
+* Correção retirada de menções de sapiens, supp, agu
