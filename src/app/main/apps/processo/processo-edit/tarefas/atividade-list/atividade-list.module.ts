@@ -15,39 +15,24 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {TarefasComponent} from './tarefas.component';
-import {TarefaService} from '@cdk/services/tarefa.service';
+import {AtividadeListComponent} from './atividade-list.component';
+import {AtividadeService} from '@cdk/services/atividade.service';
 import {RouterModule, Routes} from '@angular/router';
-import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {AtividadeListStoreModule} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list/store/store.module';
+import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
+import {CdkAtividadeGridModule} from '@cdk/components/atividade/cdk-atividade-grid/cdk-atividade-grid.module';
+import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
-        path: '',
-        component: TarefasComponent,
-        children: [
-            {
-                path       : 'listar',
-                loadChildren: () => import('./tarefa-list/processo-tarefa-list.module').then(m => m.ProcessoTarefaListModule),
-            },
-            {
-                path       : 'editar',
-                loadChildren: () => import('./tarefa-edit/processo-tarefa-edit.module').then(m => m.ProcessoTarefaEditModule),
-            },
-            {
-                path       : 'atividades',
-                loadChildren: () => import('./atividade-list/atividade-list.module').then(m => m.AtividadeListModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'listar'
-            }
-        ]
+        path: ':tarefaHandle',
+        component: AtividadeListComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
-const path = 'app/main/apps/processo/processo-edit/tarefas';
+const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -57,7 +42,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        TarefasComponent
+        AtividadeListComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -77,15 +62,19 @@ modulesConfig.forEach((module) => {
         TranslateModule,
 
         CdkSharedModule,
-        MatTooltipModule,
+
+        CdkAtividadeGridModule,
+
+        AtividadeListStoreModule,
     ],
     providers: [
-        TarefaService,
-        EspecieTarefaService
+        AtividadeService,
+        EspecieAtividadeService,
+        fromGuards.ResolveGuard
     ],
     exports: [
-        TarefasComponent
+        AtividadeListComponent
     ]
 })
-export class ProcessoTarefasModule {
+export class AtividadeListModule {
 }

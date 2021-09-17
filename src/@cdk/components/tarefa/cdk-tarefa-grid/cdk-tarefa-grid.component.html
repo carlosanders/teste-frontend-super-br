@@ -323,7 +323,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && !tarefa.dataHoraConclusaoPrazo"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="editTarefa(tarefa.id)"
                                 aria-label="editar"
@@ -336,12 +336,22 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(tarefa.id) === -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('delete') > -1 &&
+                                deletingIds?.indexOf(tarefa.id) === -1 &&
+                                !hasExcluded && !tarefa.dataHoraConclusaoPrazo"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="deleteTarefa(tarefa.id)"
                                 aria-label="apagar"
                                 matTooltip="Apagar">
                             <mat-icon>delete</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                aria-label="ver atividades"
+                                matTooltip="Ver Atividades"
+                                *ngIf="actions.indexOf('atividades') > -1 && !hasExcluded"
+                                (click)="listAtividade(tarefa.id)">
+                            <mat-icon class="black-fg">list</mat-icon>
                         </button>
                     </td>
                 </ng-container>
