@@ -20,6 +20,7 @@ import {environment} from '../../../../../../../../environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {getPagination} from '../selectors';
 import * as JuntadaActions from 'app/main/apps/processo/processo-edit/processo-create/store/actions';
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class JuntadaEffects {
@@ -145,7 +146,7 @@ export class JuntadaEffects {
     reloadJuntadas: any = createEffect(() => this._actions.pipe(
         ofType<JuntadaActions.ReloadJuntadas>(JuntadaActions.RELOAD_JUNTADAS),
         withLatestFrom(this._store.pipe(select(getPagination))),
-        tap(([action, pagination]) => this._store.dispatch(new JuntadaActions.GetJuntadas(pagination)))
+        tap(([, pagination]) => this._store.dispatch(new JuntadaActions.GetJuntadas(pagination)))
     ), {dispatch: false});
     /**
      * Save Desentranhamento
@@ -161,10 +162,10 @@ export class JuntadaEffects {
             status: 0, // carregando
         }))),
         switchMap(action => this._desentranhamentoService.save(action.payload.desentranhamento).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+            tap(() => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'desentranhamento',
-                content: 'Desentranhamento id ' + response.id + ' salvo com sucesso.',
+                content: 'Juntada id ' + action.payload.desentranhamento.juntada.id + ' desentranhada com sucesso.',
                 status: 1, // sucesso
             }))),
             mergeMap((response: Desentranhamento) => [
@@ -173,10 +174,12 @@ export class JuntadaEffects {
             ]),
             catchError((err) => {
                 console.log(err);
+                const serializedMessage = CdkUtils.errorsToString(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'desentranhamento',
-                    content: 'Erro ao salvar o desentranhamento!',
+                    content: 'Erro no desentranhamento da juntada id ' + action.payload.desentranhamento.juntada.id + ': ' +
+                        serializedMessage,
                     status: 2, // erro
                 }));
                 return of(new JuntadaActions.SaveDesentranhamentoFailed(action.payload));

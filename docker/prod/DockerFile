@@ -10,9 +10,9 @@ COPY package.json /var/www/html/package.json
 
 RUN npm config set unsafe-perm true
 
-RUN npm install npm@7.21.0 -g
+RUN npm install npm@7.23.0 -g
 
-RUN npm install -g @angular/cli@12.2.2
+RUN npm install -g @angular/cli@12.2.5
 
 RUN npm install --legacy-peer-deps --package-lock=false
 

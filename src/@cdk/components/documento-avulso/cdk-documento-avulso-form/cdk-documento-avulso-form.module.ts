@@ -37,6 +37,7 @@ import {FavoritoService} from '../../../services/favorito.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import {CdkPessoaGridsearchModule} from "../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatCardModule,
         MatRadioModule,
         MatSelectModule,
+        CdkPessoaGridsearchModule,
     ],
     providers: [
         EspecieDocumentoAvulsoService,

@@ -59,6 +59,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
     operacaoId?: string;
+    lote: string = '';
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -177,12 +178,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'tarefa') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
             this._changeDetectorRef.detectChanges();
         });
 
@@ -220,6 +216,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
         const tarefa = new Tarefa();
+        this.lote = '';
 
         this.operacaoId = CdkUtils.makeId();
 
@@ -231,7 +228,24 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
         tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
 
-        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId}));
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
+    }
+
+    submitLote(event: any): void {
+        this.lote = event.loteId;
+        const tarefa = new Tarefa();
+
+        this.operacaoId = CdkUtils.makeId();
+
+        Object.entries(event.tarefa).forEach(
+            ([key, value]) => {
+                tarefa[key] = value;
+            }
+        );
+
+        tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
+
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
     }
 
     cancel(): void {

@@ -124,7 +124,8 @@ export function VinculacaoProcessoReducer(
         case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id),
+                errors: action.payload.errors
             };
         }
 

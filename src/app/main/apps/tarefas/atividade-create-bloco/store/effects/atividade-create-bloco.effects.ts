@@ -32,6 +32,7 @@ export class AtividadeCreateBlocoEffect {
             type: 'atividade',
             content: 'Salvando a atividade ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
         mergeMap(action => this._atividadeService.save(action.payload.atividade).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
@@ -39,6 +40,7 @@ export class AtividadeCreateBlocoEffect {
                 type: 'atividade',
                 content: 'Atividade id ' + response.id + ' salva com sucesso.',
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: Atividade) => [
                 new AtividadeCreateBlocoActions.SaveAtividadeSuccess(action.payload.atividade),
@@ -55,6 +57,7 @@ export class AtividadeCreateBlocoEffect {
                     type: 'atividade',
                     content: 'Erro ao salvar a atividade!',
                     status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(payload));
             })

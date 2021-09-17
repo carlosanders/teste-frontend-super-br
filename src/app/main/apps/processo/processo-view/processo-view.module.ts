@@ -39,6 +39,7 @@ import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-di
 import {MatCardModule} from "@angular/material/card";
 import {CdkUploadDialogModule} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.module';
 import {CdkUsuarioAutocompleteModule} from "../../../../../@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module";
+import {CdkSetorAutocompleteModule} from "../../../../../@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module";
 
 const routes: Routes = [
     {
@@ -126,7 +127,8 @@ modulesConfig.forEach((module) => {
         MatExpansionModule,
         MatChipsModule,
         MatCardModule,
-        CdkUsuarioAutocompleteModule
+        CdkUsuarioAutocompleteModule,
+        CdkSetorAutocompleteModule
     ],
     providers: [
         JuntadaService,

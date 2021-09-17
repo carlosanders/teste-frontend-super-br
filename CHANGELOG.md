@@ -572,3 +572,24 @@
 * Melhoria implementar delete do Coordenador para o Admin
 * Melhoria filtros para Juntada
 * Melhoria tooltip de componente digital mostrando o seu nome
+
+1.6.9
+
+* Melhoria usuário, setor e unidade responsável na juntada
+* Melhoria número do documento principal do interessado aparecendo na capa do processo
+* Correção bug ao tentar remeter ofício assinado
+* Correção para selecionar o barramento na criação de ofício
+* Melhoria adicionado ícone à barra de pesquisa no topo do sistema para identificar que existem opções avançadas de busca
+* Correção em effects e componentes de ações em bloco, para exibir somente os resultados das operações que dizem respeito àquele submit específico de bloco
+* Melhoria criado componente para pesquisa de etiquetas, que permite customização de pesquisa em campos diferentes da etiqueta da entidade
+* Melhoria utilizado componente citado acima para pesquisar tarefas por etiquetas do processo
+* Correção comportamentos incorretos de botões que afetam campos desabilitados estando habilitados no formulário de criação de tarefa
+* Correção implementado método que verifica alteração do toggle blocoProcessos para desabilitar/habilitar corretamente o campo espécie tarefa
+* Correção ao criar tarefas para bloco de processos/responsáveis, a informação do lote é passada ao componente para tratar corretamente o bloco de resultados da operação
+* Correção em bug em que o cdk do formulário de criação de tarefas era removido do DOM, fazendo com que algumas das tarefas do bloco não fossem criadas corretamente
+* Correção replicada para todas as telas de blocos
+* Melhoria para busca de modelos pelo ID
+* Correção do carregamento de modelos nas configurações do usuário
+* Melhoria listagem de atividades por tarefa no processo edit
+* Correção retirada de menções de sapiens, supp, agu
+* Correção painel de tarefas exibição do coordenador

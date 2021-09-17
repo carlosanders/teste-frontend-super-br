@@ -160,9 +160,15 @@
                     (click)="doEditPessoaDestino()">
                 <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
             </button>
-            <button matSuffix mat-button mat-icon-button *ngIf="!inputReadOnly"
+            <button matSuffix mat-button mat-icon-button
+                    *ngIf="!inputReadOnly && form.get('mecanismoRemessa').value !== 'barramento'"
                     (click)="doGerirPessoaDestino()">
                 <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button
+                    *ngIf="form.get('mecanismoRemessa').value === 'barramento'"
+                    (click)="showPessoaDestinoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
                 {{form.get('pessoaDestino').errors.formError}}
@@ -274,3 +280,10 @@
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
+
+<cdk-pessoa-gridsearch
+    *ngIf="activeCard === 'pessoa-gridsearch'"
+    [pagination]="pessoaDestinoPagination"
+    (selected)="selectPessoaDestino($event)"
+    (cancel)="cancel()">
+</cdk-pessoa-gridsearch>

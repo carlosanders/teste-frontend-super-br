@@ -37,6 +37,7 @@ import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
+import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
 
 @Component({
     selector: 'tarefas',
@@ -106,8 +107,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     maximizado$: Observable<boolean>;
     maximizado = false;
 
-    vinculacaoEtiquetaPagination: Pagination;
-
     mobileMode = false;
 
     mostraCriar = false;
@@ -138,6 +137,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     usuarioAtual: Usuario;
 
     javaWebStartOK = false;
+
+    arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
+    filtroEtiquetas: SearchBarEtiquetasFiltro;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -198,8 +200,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
-        this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {
+        const vinculacaoEtiquetaPagination = new Pagination();
+        vinculacaoEtiquetaPagination.filter = {
             orX: [
                 {
                     'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
@@ -225,6 +227,44 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             ]
         };
+        this.arrayFiltrosEtiquetas.push({
+            label: 'etiquetas',
+            pagination: vinculacaoEtiquetaPagination,
+            queryFilter: 'vinculacoesEtiquetas.etiqueta.id'
+        });
+        const vinculacaoEtiquetaProcessoPagination = new Pagination();
+        vinculacaoEtiquetaProcessoPagination.filter = {
+            orX: [
+                {
+                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
+                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'sistema': 'eq:true',
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                }
+            ]
+        };
+        this.arrayFiltrosEtiquetas.push({
+            label: 'etiquetas do processo',
+            pagination: vinculacaoEtiquetaProcessoPagination,
+            queryFilter: 'processo.vinculacoesEtiquetas.etiqueta.id'
+        });
+        this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
 
         this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.loadingInteressadosProcessosId$ = this._store.pipe(select(fromStore.getIsInteressadosLoading));
@@ -436,11 +476,19 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.proccessEtiquetaFilter();
     }
 
+    changeEtiquetaFilter(filtro: SearchBarEtiquetasFiltro): void {
+        this.etiquetas = [];
+        this.filtroEtiquetas = filtro;
+        this.proccessEtiquetaFilter();
+    }
+
     proccessEtiquetaFilter(): any {
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
         const andXFilter = [];
         this.etiquetas.forEach((e) => {
-            andXFilter.push({'vinculacoesEtiquetas.etiqueta.id': `eq:${e.id}`});
+            const objFiltro = {};
+            objFiltro[this.filtroEtiquetas.queryFilter] = `eq:${e.id}`;
+            andXFilter.push(objFiltro);
         });
         let etiquetaFilter = {};
         if (andXFilter.length) {

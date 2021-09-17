@@ -16,6 +16,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import { ShepherdService } from 'angular-shepherd';
 import Shepherd from 'shepherd.js';
 import { steps as defaultSteps, defaultStepOptions} from './tour/data';
+import {CdkConfigService} from '@cdk/services/config.service';
 
 @Component({
     selector: 'ajuda',
@@ -35,8 +36,6 @@ export class AjudaComponent implements OnInit {
     card = 'form';
     titulo = '';
     categoria= '';
-    email = 'sapiens@agu.gov.br'; //INDICAR AQUI O EMAIL UTILIZADO PELO SUPORTE DO SISTEMA
-    wiki = 'http://sapienswiki.agu.gov.br/index.php/P%C3%A1gina_principal'; //INDICAR AQUI O WIKI UTILIZADO PELO SUPORTE DO SISTEMA
 
     isSubmited = false;
 
@@ -51,6 +50,7 @@ export class AjudaComponent implements OnInit {
      * Constructor
      */
     constructor(
+        public _cdkConfigService: CdkConfigService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _dynamicService: DynamicService,
@@ -58,7 +58,6 @@ export class AjudaComponent implements OnInit {
         public _cdkSidebarService: CdkSidebarService,
       public shepherdService: ShepherdService,
     ) {
-
         this.form = this._formBuilder.group({
             pesquisa: [null, [Validators.required, Validators.maxLength(255)]],
         });

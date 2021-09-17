@@ -50,6 +50,8 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     blocoEditUrgente = false;
     blocoEditDistribuicao = false;
     blocoEditObservacao = false;
+
+    lote: string;
     private _profile: any;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -87,12 +89,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'tarefa') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -123,8 +120,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
     submit(values): void {
         this.operacoes = [];
-
-        const loteId = CdkUtils.makeId();
+        this.lote = CdkUtils.makeId();
         this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
@@ -170,7 +166,12 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             }
 
             const operacaoId = CdkUtils.makeId();
-            this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes, operacaoId: operacaoId, loteId: loteId}));
+            this._store.dispatch(new fromStore.SaveTarefa({
+                tarefa: tarefa,
+                changes: changes,
+                operacaoId: operacaoId,
+                loteId: this.lote
+            }));
         });
     }
 

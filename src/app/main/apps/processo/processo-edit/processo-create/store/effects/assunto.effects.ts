@@ -140,7 +140,7 @@ export class AssuntosEffect {
     saveAssuntoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<AssuntoActions.SaveAssuntoSuccess>(AssuntoActions.SAVE_ASSUNTO_SUCCESS),
         withLatestFrom(this._store.pipe(select(getAssuntosPagination))),
-        tap(([action, pagination]) => {
+        tap(([, pagination]) => {
             this._store.dispatch(new AssuntoActions.GetAssuntos(pagination));
         }),
     ), {dispatch: false});

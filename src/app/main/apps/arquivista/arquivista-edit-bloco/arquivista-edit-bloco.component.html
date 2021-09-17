@@ -23,7 +23,7 @@
     </div>
 
     <cdk-processo-arquivista-form
-        *ngIf="operacoes.length === 0"
+        [hidden]="operacoes.length > 0"
         [valid]="(processos$ | async)?.length > 0 && (blocoEditClassificacao || blocoEditDataHoraProximaTransicao || blocoEditLembrete)"
         [saving]="(savingId$ | async).length > 0"
         [mode]="'bloco-edit'"

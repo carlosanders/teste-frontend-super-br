@@ -174,9 +174,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUnDeletingDocumentosId));
         this.screen$ = this._store.pipe(select(getScreenState));
 
-        this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
-            loaded => this.loadedMinutas = loaded
-        );
+        this._store.pipe(
+            select(getDocumentosHasLoaded),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loaded => this.loadedMinutas = loaded);
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];

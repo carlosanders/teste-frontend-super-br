@@ -34,11 +34,11 @@ export const builtInButtons = {
       ],
       classes: 'shepherd-text',
       id: 'intro',
-      title: 'Seja bem-vindo ao SuperSapiens',
+      title: 'Seja bem-vindo',
       text: `
         <div>
             <p>
-              O Super Sapiens manteve as funcionalidades do antigo Sapiens, além de adicionar novas que auxiliarão o dia a dia do usuário.
+              O sistema manteve as funcionalidades do antigo Sapiens, além de adicionar novas que auxiliarão o dia a dia do usuário.
             </p>
 
             <p>
@@ -122,7 +122,7 @@ export const builtInButtons = {
           classes: 'custom-class-name-1 custom-class-name-2',
           id: 'Painel Lateral',
           title: 'Painel Lateral',
-          text: 'No Painel lateral, que pode ser fixado ou não, o usuário pode acessar diferentes opções do Sapiens'
+          text: 'No Painel lateral, que pode ser fixado ou não, o usuário pode acessar diferentes opções do sistema'
       },
       {
           attachTo: {
@@ -171,7 +171,7 @@ export const builtInButtons = {
       title: 'Nome, Configurações e Logout',
       text: `
       <p>
-        O nome fica em um lugar semelhante ao do Sapiens 1.0.
+        O nome fica em um lugar semelhante ao do sistema antigo.
       </p>
 
       <p>

@@ -1,0 +1,23 @@
+{
+    "admin":{
+        "codigo": "000.0",
+        "nome": "MODERNIZAÇÃO E REFORMA ADMINISTRATIVA PROJETOS, ESTUDOS E NORMAS",
+
+        "modalidadeDestinacao":[
+            {
+                "modalidade1": "ELIMINAÇÃO",
+                "modalidade2": "TRANSFERÊNCIA"
+            }
+        ],
+        
+        "classificacaoPai": "PESSOAL",
+        "prazoGuardaFaseCorrenteDia": 10,
+        "prazoGuardaFaseCorrenteMes": 10,
+        "prazoGuardaFaseCorrenteAno": 10,
+        "prazoGuardaFaseCorrenteEvento": "TESTE",
+        "prazoGuardaFaseIntermediariaDia": 10,
+        "prazoGuardaFaseIntermediariaMes": 10,
+        "prazoGuardaFaseIntermediariaAno": 10,
+        "prazoGuardaFaseIntermediariaEvento": "TESTE"
+    }
+}

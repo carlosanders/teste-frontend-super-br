@@ -143,7 +143,7 @@ export class InteressadosEffect {
     saveInteressadoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<InteressadoActions.SaveInteressadoSuccess>(InteressadoActions.SAVE_INTERESSADO_SUCCESS),
         withLatestFrom(this._store.pipe(select(getInteressadosPagination))),
-        tap(([action, pagination]) => {
+        tap(([, pagination]) => {
             this._store.dispatch(new InteressadoActions.GetInteressados(pagination));
         }),
     ), {dispatch: false});
