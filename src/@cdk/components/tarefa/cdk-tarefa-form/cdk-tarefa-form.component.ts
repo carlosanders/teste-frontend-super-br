@@ -269,6 +269,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.evento = false;
 
+        if (!this.tarefa.dataHoraFinalPrazo) {
+            this.form.get('prazoDias').disable();
+            this.form.get('diasUteis').disable();
+            this.form.get('dataHoraInicioPrazo').disable();
+            this.form.get('dataHoraFinalPrazo').disable();
+        }
+
         if (this.form.get('processo').value && this.form.get('processo').value.NUP && this.form.get('processo').value.especieProcesso?.generoProcesso) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
@@ -802,6 +809,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (changes['tarefa'] && this.tarefa && (!this.tarefa.id || (this.tarefa.id !== this.form.get('id').value))) {
+            if (!this.tarefa.dataHoraFinalPrazo) {
+                this.form.get('prazoDias').disable();
+                this.form.get('diasUteis').disable();
+                this.form.get('dataHoraInicioPrazo').disable();
+                this.form.get('dataHoraFinalPrazo').disable();
+            }
             this.form.patchValue({...this.tarefa});
 
             this.inputProcesso = !!this.tarefa.id || this.fromProcesso;
@@ -816,6 +829,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('usuarioResponsavel').reset();
                 this.form.get('usuarioResponsavel').disable();
                 this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.tarefa.unidadeResponsavel.id}`;
+            }
+
+            if (!this.tarefa.dataHoraFinalPrazo) {
+                this.form.get('prazoDias').disable();
+                this.form.get('diasUteis').disable();
+                this.form.get('dataHoraInicioPrazo').disable();
+                this.form.get('dataHoraFinalPrazo').disable();
             }
 
             if (this.tarefa.processo?.especieProcesso?.workflow) {

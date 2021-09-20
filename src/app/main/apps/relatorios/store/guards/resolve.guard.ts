@@ -69,9 +69,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     checkStore(): Observable<any> {
-        return forkJoin(
-            this.getFolders()
-        ).pipe(
+        return forkJoin([this.getFolders()]).pipe(
             filter(([foldersLoaded]) => !!(foldersLoaded)),
             take(1),
             switchMap(() =>

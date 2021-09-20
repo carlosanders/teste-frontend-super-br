@@ -593,3 +593,10 @@
 * Melhoria listagem de atividades por tarefa no processo edit
 * Correção retirada de menções de sapiens, supp, agu
 * Correção painel de tarefas exibição do coordenador
+
+1.6.10
+
+* Melhoria ordenação de listagens agora informa melhor ao usuário qual o campo da ordenação e qual a ordem aplicada no momento
+* Melhoria prazos na edição de tarefas são desabilitados caso tarefa tenha sido criada sem prazo final (intimação de integração)
+* Correção botão cancelar na tela de download de processo
+* Melhoria adicionado cadeado para informar prazo fechado em grid de tarefas quando não há prazo final para a tarefa

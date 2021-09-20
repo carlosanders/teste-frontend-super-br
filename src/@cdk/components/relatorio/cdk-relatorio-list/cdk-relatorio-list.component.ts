@@ -86,7 +86,9 @@ export class CdkRelatorioListComponent {
     criaRelatorio = new EventEmitter<boolean>();
 
     listFilter: any;
-    listSort: {} = {};
+    listSort: Record<string, string> = {};
+    sortField: string = 'id';
+    sortOrder: string = 'DESC';
 
     isIndeterminate = false;
 
@@ -116,6 +118,8 @@ export class CdkRelatorioListComponent {
 
     doSort(sort: any): void {
         this.listSort = sort;
+        this.sortField = Object.keys(this.listSort)[0];
+        this.sortOrder = Object.values(this.listSort)[0];
         this.loadPage();
     }
 

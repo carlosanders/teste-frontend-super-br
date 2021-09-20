@@ -50,6 +50,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     blocoEditUrgente = false;
     blocoEditDistribuicao = false;
     blocoEditObservacao = false;
+    prazoDesabilitado = false;
 
     lote: string;
     private _profile: any;
@@ -83,7 +84,10 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => this.tarefas = tarefas);
+        ).subscribe((tarefas) => {
+            this.tarefas = tarefas;
+            this.prazoDesabilitado = tarefas.filter(tarefa => !tarefa.dataHoraFinalPrazo).length > 0;
+        });
 
         this._store.pipe(
             select(getOperacoes),

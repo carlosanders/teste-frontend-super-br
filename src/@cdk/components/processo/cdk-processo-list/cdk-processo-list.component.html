@@ -89,11 +89,19 @@
             <button mat-icon-button [matMenuTriggerFor]="selectMenu">
                 <mat-icon>sort</mat-icon>
             </button>
-            <mat-menu fxHide #selectMenu="matMenu">
-                <button mat-menu-item (click)="doSort({'dataHoraAbertura': 'DESC'})">Final do
-                    Prazo
+            <mat-menu fxHide #selectMenu="matMenu" class="menu-sort">
+                <button mat-menu-item class="sort-button"
+                        [ngClass]="{'selected': sortFields.includes('dataHoraProximaTransicao') && sortFields.includes('dataHoraAbertura')}"
+                        (click)="doSort({'dataHoraProximaTransicao': sortFields.includes('dataHoraProximaTransicao') && sortOrders[0] === 'ASC' ? 'DESC' : 'ASC', 'dataHoraAbertura': sortFields.includes('dataHoraAbertura') && sortOrders[1] === 'ASC' ? 'DESC' : 'ASC'})">
+                    <span>Abertura</span>
+                    <mat-icon color="accent" *ngIf="sortFields.includes('dataHoraProximaTransicao') && sortFields.includes('dataHoraAbertura')">{{sortOrders[0] === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                 </button>
-                <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+                <button mat-menu-item class="sort-button"
+                        [ngClass]="{'selected': sortFields.includes('id')}"
+                        (click)="doSort({'id': sortFields.includes('id') && sortOrders[0] === 'DESC' ? 'ASC' : 'DESC'})">
+                    <span>Data/hora criação</span>
+                    <mat-icon color="accent" *ngIf="sortFields.includes('id')">{{sortOrders[0] === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
+                </button>
             </mat-menu>
 
             <div class="toolbar-separator" *ngIf="pagination.total"></div>

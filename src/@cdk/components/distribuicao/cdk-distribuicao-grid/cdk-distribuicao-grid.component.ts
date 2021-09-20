@@ -52,6 +52,48 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
         'usuarioAnterior.nome', 'usuarioPosterior.nome', 'setorAnterior.nome', 'setorPosterior.nome', 'distribuicaoAutomatica',
         'livreBalanceamento', 'auditoriaDistribuicao', 'tipoDistribuicao', 'actions'];
 
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input()
+    actions: string[] = ['edit', 'delete', 'select'];
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    selected = new EventEmitter<Distribuicao>();
+
+    @Output()
+    selectedIds: number[] = [];
+
     allColumns: any[] = [
         {
             id: 'select',
@@ -156,48 +198,6 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
     ];
 
     columns = new FormControl();
-
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<number>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    selected = new EventEmitter<Distribuicao>();
-
-    @Output()
-    selectedIds: number[] = [];
 
     dataSource: DistribuicaoDataSource;
 

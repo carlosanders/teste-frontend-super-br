@@ -60,7 +60,7 @@
                     <cdk-tarefa-list (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
                                      [togglingUrgenteIds]="(togglingUrgenteIds$ | async)"
-                                     [tarefas]="(tarefas$ | async)"
+                                     [tarefas]="tarefas"
                                      [error]="(error$ | async)"
                                      [draggingIds]="draggingIds$ | async"
                                      [errorDelete]="(errorDelete$ | async)"
