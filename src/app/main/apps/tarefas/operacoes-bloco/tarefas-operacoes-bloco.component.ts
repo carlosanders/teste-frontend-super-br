@@ -317,7 +317,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     doEditTarefaBloco(): void {
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-            + this.routerState.params.targetHandle + '/tarefa-edit-bloco'
+            + this.routerState.params.targetHandle + '/tarefa-editar-bloco'
         ]).then();
     }
 

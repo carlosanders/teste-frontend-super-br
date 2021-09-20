@@ -10,13 +10,13 @@
                         (create)="addEtiqueta($event)"
                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
 
-    <div *ngIf="(isSaving$ | async) === false" class="actions mr-sm-12 mt-8 mb-16">
+    <div *ngIf="(isSaving$ | async) === false && operacoes.length === 0" class="actions mr-sm-12 mt-8 mb-16">
         <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                 [disabled]="!(tarefas$ | async)?.length || !etiquetas.length">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()">
-            CANCELAR
+            VOLTAR
         </button>
     </div>
 
@@ -24,7 +24,7 @@
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 
-    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+    <mat-list *ngIf="operacoes.length > 0">
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
@@ -34,5 +34,4 @@
                [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
-
 </div>

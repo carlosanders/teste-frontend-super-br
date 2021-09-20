@@ -600,3 +600,9 @@
 * Melhoria prazos na edição de tarefas são desabilitados caso tarefa tenha sido criada sem prazo final (intimação de integração)
 * Correção botão cancelar na tela de download de processo
 * Melhoria adicionado cadeado para informar prazo fechado em grid de tarefas quando não há prazo final para a tarefa
+* Correção removidos atalhos fxFlex de html de ações em bloco
+* Melhoria botão de voltar em telas de resultados de operações em bloco
+* Correção corrigida url de edição em bloco de tarefas para português
+* Correção comportamento de redistribuição em bloco de tarefas causando um reload na listagem
+* Correção redistribuição de tarefas possivelmente removendo relacionamentos do objeto da tarefa no estado da aplicação
+* Correção bug na edição em bloco da tarefa não atualizando todo o objeto tarefa de acordo com o retorno do backend

@@ -13,5 +13,24 @@ tarefa-create {
             justify-content: center;
             align-items: center;
         }
+
+        > mat-list {
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 auto;
+            p.mat-line {
+                white-space: pre-wrap !important;
+            }
+        }
+
+        > div.actions {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: row;
+            flex: 0 0 auto;
+            align-content: center;
+            align-items: center;
+            align-self: center;
+        }
     }
 }

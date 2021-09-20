@@ -88,7 +88,7 @@ const routes: Routes = [
                 loadChildren: () => import('./tarefa-create-bloco/tarefa-create-bloco.module').then(m => m.TarefaCreateBlocoModule),
             },
             {
-                path: 'tarefa-edit-bloco',
+                path: 'tarefa-editar-bloco',
                 loadChildren: () => import('./tarefa-edit-bloco/tarefa-edit-bloco.module').then(m => m.TarefaEditBlocoModule),
             },
             {
