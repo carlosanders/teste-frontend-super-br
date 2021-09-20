@@ -187,11 +187,19 @@
                     matTooltip="Ordenar">
                 <mat-icon>sort</mat-icon>
             </button>
-            <mat-menu fxHide #selectMenu="matMenu">
-                <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'ASC'})">Final do
-                    Prazo
+            <mat-menu fxHide #selectMenu="matMenu" class="menu-sort">
+                <button mat-menu-item class="sort-button"
+                        [ngClass]="{'selected': sortField === 'dataHoraFinalPrazo'}"
+                        (click)="doSort({'dataHoraFinalPrazo': sortField === 'dataHoraFinalPrazo' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                    <span>Final do Prazo</span>
+                    <mat-icon color="accent" *ngIf="sortField === 'dataHoraFinalPrazo'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                 </button>
-                <button mat-menu-item (click)="doSort({'dataHoraDistribuicao': 'DESC'})">Data da Distribuição</button>
+                <button mat-menu-item class="sort-button"
+                        [ngClass]="{'selected': sortField === 'dataHoraDistribuicao'}"
+                        (click)="doSort({'dataHoraDistribuicao': sortField === 'dataHoraDistribuicao' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                    <span>Data da Distribuição</span>
+                    <mat-icon color="accent" *ngIf="sortField === 'dataHoraDistribuicao'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
+                </button>
             </mat-menu>
 
             <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">

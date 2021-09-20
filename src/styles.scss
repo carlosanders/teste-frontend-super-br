@@ -156,6 +156,23 @@ div.menu-busca {
     }
 }
 
+div.menu-sort {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    .sort-button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
+        &.selected {
+            font-weight: bold;
+        }
+    }
+}
+
 .mat-list-base .mat-list-item {
     height: auto !important;
 }

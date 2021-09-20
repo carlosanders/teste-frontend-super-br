@@ -21,12 +21,12 @@
             Urgência
         </mat-slide-toggle>
 
-        <mat-slide-toggle [(ngModel)]="blocoEditInicioPrazo"
+        <mat-slide-toggle [(ngModel)]="blocoEditInicioPrazo" [disabled]="prazoDesabilitado"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
             Início do Prazo
         </mat-slide-toggle>
 
-        <mat-slide-toggle [(ngModel)]="blocoEditFinalPrazo"
+        <mat-slide-toggle [(ngModel)]="blocoEditFinalPrazo" [disabled]="prazoDesabilitado"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
             Final do Prazo
         </mat-slide-toggle>

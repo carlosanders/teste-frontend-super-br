@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../store';
 import * as fromStoreDownload from './store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store';
+import {Back, getRouterState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -92,6 +92,10 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    abort(): void {
+        this._storeProcesso.dispatch(new Back());
     }
 
     submitDownload(values): void {
