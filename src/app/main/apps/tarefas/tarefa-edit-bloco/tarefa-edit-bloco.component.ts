@@ -20,7 +20,6 @@ import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
-import {Back} from 'app/store/actions';
 import {CdkUtils} from '@cdk/utils';
 
 @Component({
@@ -41,6 +40,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
 
     routerState: any;
 
@@ -94,6 +94,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
             this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -180,6 +181,6 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     }
 
     doAbort(): void {
-        this._store.dispatch(new Back());
+        this._router.navigate([this.routerState.url.split('/tarefa-editar-bloco')[0] + '/operacoes-bloco']).then();
     }
 }

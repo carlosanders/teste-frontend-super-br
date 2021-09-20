@@ -807,7 +807,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doEditTarefaBloco(): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-edit-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-editar-bloco']).then();
     }
 
     doRedistribuiTarefaBloco(): void {

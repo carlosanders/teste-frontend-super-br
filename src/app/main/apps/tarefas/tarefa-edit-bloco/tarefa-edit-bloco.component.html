@@ -49,7 +49,7 @@
             (abort)="doAbort()">
     </cdk-tarefa-form>
 
-    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+    <mat-list *ngIf="operacoes.length > 0">
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
@@ -60,4 +60,9 @@
         </mat-list-item>
     </mat-list>
 
+    <div class="actions" *ngIf="operacoes.length > 0 && operacoesPendentes.length === 0">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()">
+            VOLTAR
+        </button>
+    </div>
 </div>

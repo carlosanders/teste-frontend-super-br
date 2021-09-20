@@ -13,6 +13,7 @@ import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {RemoveTarefa} from '../../../store';
 
 @Injectable()
 export class TarefaEditBlocoEffect {
@@ -27,35 +28,64 @@ export class TarefaEditBlocoEffect {
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'tarefa',
-            content: 'Salvando a tarefa ...',
+            content: 'Redistribuindo a tarefa ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
-        mergeMap(action => this._tarefaService.save(action.payload.tarefa).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'tarefa',
-                content: 'Tarefa id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: Tarefa) => [
-                new RedistribuicaoEditBlocoActions.SaveTarefaSuccess(response),
-                new AddData<Tarefa>({data: [response], schema: tarefaSchema})
-            ]),
-            catchError((err) => {
-                const payload = {
-                    id: action.payload.tarefa.id,
-                    errors: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
+        mergeMap((action) => {
+            const populate = JSON.stringify([
+                'processo',
+                'colaborador.usuario',
+                'setor.especieSetor',
+                'setor.generoSetor',
+                'setor.parent',
+                'setor.unidade',
+                'processo.especieProcesso',
+                'processo.especieProcesso.generoProcesso',
+                'processo.modalidadeMeio',
+                'processo.documentoAvulsoOrigem',
+                'especieTarefa',
+                'usuarioResponsavel',
+                'setorResponsavel',
+                'setorResponsavel.unidade',
+                'setorOrigem',
+                'setorOrigem.unidade',
+                'especieTarefa.generoTarefa',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta',
+                'processo.especieProcesso.workflow',
+                'workflow'
+            ]);
+            return this._tarefaService.save(action.payload.tarefa, '{}', populate).pipe(
+                tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tarefa',
-                    content: 'Erro ao salvar a tarefa!',
-                    status: 2, // erro
-                }));
-                return of(new RedistribuicaoEditBlocoActions.SaveTarefaFailed(payload));
-            })
-        ))
+                    content: 'Tarefa id ' + response.id + ' redistribuída com sucesso.',
+                    status: 1, // sucesso
+                    lote: action.payload.loteId
+                }))),
+                mergeMap((response: Tarefa) => [
+                    new RedistribuicaoEditBlocoActions.SaveTarefaSuccess(response),
+                    new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
+                    new RemoveTarefa(action.payload.tarefa.id)
+                ]),
+                catchError((err) => {
+                    const payload = {
+                        id: action.payload.tarefa.id,
+                        errors: err
+                    };
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Erro ao redistribuir a tarefa!',
+                        status: 2, // erro
+                        lote: action.payload.loteId
+                    }));
+                    return of(new RedistribuicaoEditBlocoActions.SaveTarefaFailed(payload));
+                })
+            );
+        })
     ));
 
     constructor(

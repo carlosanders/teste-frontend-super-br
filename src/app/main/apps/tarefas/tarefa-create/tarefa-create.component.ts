@@ -58,6 +58,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     isClearForm = false;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     operacaoId?: string;
     lote: string = '';
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -179,6 +180,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
             this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.detectChanges();
         });
 

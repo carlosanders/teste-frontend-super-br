@@ -224,7 +224,30 @@ export class TarefaDetailEffect {
                     url: action.payload.url
                 }));
             }
-            return this._tarefaService.save(action.payload.tarefa).pipe(
+            const populate = JSON.stringify([
+                'processo',
+                'colaborador.usuario',
+                'setor.especieSetor',
+                'setor.generoSetor',
+                'setor.parent',
+                'setor.unidade',
+                'processo.especieProcesso',
+                'processo.especieProcesso.generoProcesso',
+                'processo.modalidadeMeio',
+                'processo.documentoAvulsoOrigem',
+                'especieTarefa',
+                'usuarioResponsavel',
+                'setorResponsavel',
+                'setorResponsavel.unidade',
+                'setorOrigem',
+                'setorOrigem.unidade',
+                'especieTarefa.generoTarefa',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta',
+                'processo.especieProcesso.workflow',
+                'workflow'
+            ]);
+            return this._tarefaService.save(action.payload.tarefa, '{}', populate).pipe(
                 map((response) => {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
