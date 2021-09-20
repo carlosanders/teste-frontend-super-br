@@ -10,6 +10,7 @@
     "videoUploadOnPasses": false,
     "screenshotOnRunFailure": true,
     "chromeWebSecurity": false,
+    "defaultCommandTimeout": 10000,
     "retries": {
       "runMode": 2,
       "openMode": 0
