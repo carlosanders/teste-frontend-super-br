@@ -35,6 +35,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterVie
     savingId$: Observable<number[]>;
     errors$: Observable<any>;
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     blocoEditClassificacao = false;
     blocoEditDataHoraProximaTransicao = false;
     blocoEditLembrete = true;
@@ -64,6 +65,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterVie
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
             this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'arquivista' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'arquivista' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 

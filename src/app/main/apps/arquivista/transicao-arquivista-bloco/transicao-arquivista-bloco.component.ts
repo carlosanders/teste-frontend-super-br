@@ -45,6 +45,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
 
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
@@ -89,6 +90,8 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
             this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes)
+                .filter(operacao => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
