@@ -221,4 +221,23 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
             'operacoes-bloco'
         ]).then();
     }
+
+    goBack(): void {
+        if (this.processos.length > 1) {
+            this._router.navigate([
+                'apps',
+                'arquivista',
+                this.routerState.params.unidadeHandle,
+                this.routerState.params.typeHandle,
+                'operacoes-bloco'
+            ]).then();
+        } else {
+            this._router.navigate([
+                'apps',
+                'arquivista',
+                this.routerState.params.unidadeHandle,
+                this.routerState.params.typeHandle
+            ]).then();
+        }
+    }
 }
