@@ -113,6 +113,16 @@
                 </cdk-usuario-autocomplete>
             </mat-form-field>
 
+            <mat-form-field>
+                <input matInput placeholder="Relevância"
+                       formControlName="especieRelevancia"
+                       [matAutocomplete]="especieRelevancia.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-especie-relevancia-autocomplete #especieRelevancia="especieRelevanciaAutocomplete"
+                                                     [control]="form.get('especieRelevancia')">
+                </cdk-especie-relevancia-autocomplete>
+            </mat-form-field>
+
             <div class="filtro-data">
                 <span [ngClass]="{'filtrado': filterDataHoraLeitura?.length}">Data da Leitura</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraLeitura">

@@ -83,6 +83,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             unidadeOrigem: [null],
             setorOrigem: [null],
             setorResponsavel: [null],
+            especieRelevancia: [null],
             usuarioConclusaoPrazo: [null],
             distribuicaoAutomatica: [null],
             livreBalanceamento: [null],
@@ -186,6 +187,10 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
         if (this.form.get('especieTarefa').value) {
             andXFilter.push({'especieTarefa.id': `eq:${this.form.get('especieTarefa').value.id}`});
+        }
+
+        if (this.form.get('especieRelevancia').value) {
+            andXFilter.push({'processo.relevancias.especieRelevancia.id': `eq:${this.form.get('especieRelevancia').value.id}`});
         }
 
         if (this.form.get('usuarioResponsavel').value) {
