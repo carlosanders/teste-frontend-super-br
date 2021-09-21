@@ -67,7 +67,7 @@
                   fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
-                        <input matInput placeholder="Nome"
+                        <input matInput placeholder="Nome ou ID"
                                formControlName="modelo"
                                #autoCompleteModelos
                                [matAutocomplete]="modelo.autocomplete"

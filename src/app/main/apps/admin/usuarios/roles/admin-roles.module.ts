@@ -14,39 +14,28 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
+import * as fromGuards from './store/guards';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {UsuarioService} from '@cdk/services/usuario.service';
 import {RouterModule, Routes} from '@angular/router';
-import {UsuariosComponent} from './usuarios.component';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {AdminRolesComponent} from './admin-roles.component';
+import {AdminRolesStoreModule} from './store/store.module';
+import {VinculacaoRoleService} from '@cdk/services/vinculacao-role.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
         path: '',
-        component: UsuariosComponent,
+        component: AdminRolesComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path: 'listar',
-                loadChildren: () => import('./usuarios-list/usuarios-list.module').then(m => m.UsuariosListModule),
+                loadChildren: () => import('./roles-list/roles-list.module').then(m => m.RolesListModule),
             },
             {
                 path: 'editar',
-                loadChildren: () => import('./usuario-edit/usuario-edit.module').then(m => m.UsuarioEditModule),
-            },
-            {
-                path: ':usuarioHandle/lotacoes',
-                loadChildren: () => import('../lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
-            },
-            {
-                path: ':usuarioHandle/afastamentos',
-                loadChildren: () => import('./afastamentos/admin-afastamentos.module').then(m => m.AdminAfastamentosModule),
-            },
-            {
-                path: ':usuarioHandle/coordenadores',
-                loadChildren: () => import('./coordenadores/admin-coordenadores.module').then(m => m.AdminCoordenadoresModule),
-            },
-            {
-                path: ':usuarioHandle/roles',
-                loadChildren: () => import('./roles/admin-roles.module').then(m => m.AdminRolesModule),
+                loadChildren: () => import('./roles-edit/roles-edit.module').then(m => m.RolesEditModule),
             },
             {
                 path: '**',
@@ -54,11 +43,12 @@ const routes: Routes = [
             }
         ]
     }
+
 ];
 
 @NgModule({
     declarations: [
-        UsuariosComponent
+        AdminRolesComponent,
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -74,15 +64,22 @@ const routes: Routes = [
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         TranslateModule,
+
+        AdminRolesStoreModule,
+
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
-        UsuarioService
+        VinculacaoRoleService,
+        UsuarioService,
+        fromGuards.ResolveGuard
     ],
     exports: [
-        UsuariosComponent
+        AdminRolesComponent
     ]
 })
-export class UsuariosModule {
+export class AdminRolesModule {
 }
