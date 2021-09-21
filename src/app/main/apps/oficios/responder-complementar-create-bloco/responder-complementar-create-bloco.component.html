@@ -19,7 +19,7 @@
                                       (completed)="onComplete($event)">
     </cdk-componente-digital-card-list>
 
-    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+    <mat-list *ngIf="operacoes.length > 0">
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
@@ -29,5 +29,4 @@
                [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
-
 </div>
