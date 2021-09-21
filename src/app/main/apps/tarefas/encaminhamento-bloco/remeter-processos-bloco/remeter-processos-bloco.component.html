@@ -5,7 +5,7 @@
 
     <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s)</h3>
 
-    <mat-list *ngIf="operacoes.length > 0" fxFlex cdkScrollTo>
+    <mat-list *ngIf="operacoes.length > 0" cdkScrollTo>
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
@@ -32,6 +32,12 @@
         [setorOrigemPagination]="setorOrigemPagination"
         [setorOrigemPaginationTree]="setorOrigemPaginationTree">
     </cdk-remessa-form>
+
+    <div class="actions" *ngIf="operacoes.length > 0 && operacoesPendentes.length === 0">
+        <button mat-raised-button color="warn" type="button" (click)="cancel()">
+            VOLTAR
+        </button>
+    </div>
 </div>
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
