@@ -606,3 +606,4 @@
 * Correção comportamento de redistribuição em bloco de tarefas causando um reload na listagem
 * Correção redistribuição de tarefas possivelmente removendo relacionamentos do objeto da tarefa no estado da aplicação
 * Correção bug na edição em bloco da tarefa não atualizando todo o objeto tarefa de acordo com o retorno do backend
+* Correção na mensagem de erro no upload #188
