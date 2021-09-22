@@ -178,7 +178,7 @@
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Documento"
+                        <input matInput placeholder="Tipo de Documento"
                                formControlName="tipoDocumento"
                                [matAutocomplete]="tipoDocumento.autocomplete">
                     </div>
@@ -189,7 +189,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput placeholder="Criado Por"
+                    <input matInput placeholder="Juntador Por"
                            formControlName="criadoPor"
                            [matAutocomplete]="usuarioCriadoPor.autocomplete">
                     <cdk-usuario-autocomplete
@@ -199,7 +199,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput placeholder="Unidade Responsável"
+                    <input matInput placeholder="Unidade Origem"
                            formControlName="unidade"
                            [matAutocomplete]="setor.autocomplete">
                     <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidade')">
@@ -656,7 +656,7 @@
                     <div *ngIf="juntada.ativo">
                         <div class="descricao">{{juntada.descricao.split('/').join(' ')}}</div>
                         <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
-                        <div class="criado-em">{{juntada.documento?.criadoPor?.nome.split('/').join(' ')}}</div>
+                        <div class="criado-em">{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
                         <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla">
                             {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}})
                         </div>

@@ -556,11 +556,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             if (typeof value === 'object' && value) {
                 this.listFilter = {
                     ...this.listFilter,
-                    'documento.criadoPor.id': `eq:${value.id}`
+                    'criadoPor.id': `eq:${value.id}`
                 };
             } else {
-                if (this.listFilter.hasOwnProperty('documento.criadoPor.id')) {
-                    delete this.listFilter['documento.criadoPor.id'];
+                if (this.listFilter.hasOwnProperty('criadoPor.id')) {
+                    delete this.listFilter['criadoPor.id'];
                 }
             }
         });
