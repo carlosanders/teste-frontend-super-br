@@ -607,3 +607,9 @@
 * Correção redistribuição de tarefas possivelmente removendo relacionamentos do objeto da tarefa no estado da aplicação
 * Correção bug na edição em bloco da tarefa não atualizando todo o objeto tarefa de acordo com o retorno do backend
 * Correção na mensagem de erro no upload #188
+* Correção prazo de tarefa edit sempre desabilitado
+* Correção alinhamento de botão de copiar NUP para clipboard
+* Melhoria filtros de setor responsável/setor origem desabilitados até que unidade responsável/unidade origem sejam preenchidas
+* Correção filtro de juntadas na sidebar do processo-view para se comportar da forma correta
+* Melhoria filtro de juntadas na sidebar do processo-view adicionado filtro origem
+* Correção css filtro de juntadas na sidebar do processo-view para corrigir aparência do botão de filtrar
