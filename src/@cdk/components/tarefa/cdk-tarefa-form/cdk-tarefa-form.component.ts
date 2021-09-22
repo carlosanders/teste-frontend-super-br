@@ -814,6 +814,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('diasUteis').disable();
                 this.form.get('dataHoraInicioPrazo').disable();
                 this.form.get('dataHoraFinalPrazo').disable();
+            } else {
+                this.form.get('prazoDias').enable();
+                this.form.get('diasUteis').enable();
+                this.form.get('dataHoraInicioPrazo').enable();
+                this.form.get('dataHoraFinalPrazo').enable();
             }
             this.form.patchValue({...this.tarefa});
 
