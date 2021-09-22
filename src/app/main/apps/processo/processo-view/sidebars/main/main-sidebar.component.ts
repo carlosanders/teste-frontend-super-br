@@ -26,7 +26,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-import {getDocumentosHasLoaded, getIsSavingDocumentosVinculados, getSelectedVolume, getVolumes} from '../../store';
+import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -125,8 +125,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     pagination$: any;
     pagination: any;
 
-    listFilter: {} = {};
-    listSort: {} = {};
+    listFilter: Record<string, string> = {};
+    listSort: Record<string, string> = {};
 
     showListFilter = false;
 
@@ -240,6 +240,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             criadoPor: [null],
             atualizadoPor: [null],
             unidade: [null],
+            origemDados: ['']
         });
 
         this.formEditor = this._formBuilder.group({
@@ -513,71 +514,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.form.get('tipoDocumento').valueChanges.subscribe((value) => {
-            if (typeof value === 'object' && value) {
-                this.listFilter = {
-                    ...this.listFilter,
-                    'documento.tipoDocumento.id': `eq:${value.id}`
-                };
-            } else {
-                if (this.listFilter.hasOwnProperty('documento.tipoDocumento.id')) {
-                    delete this.listFilter['documento.tipoDocumento.id'];
-                }
-            }
-        });
-
-        this.form.get('numeracaoSequencial').valueChanges.subscribe((value) => {
-            if (typeof value === 'string' && value) {
-                this.listFilter = {
-                    ...this.listFilter,
-                    'documento.juntadas.numeracaoSequencial': `like:%${value}%`
-                };
-            } else {
-                if (this.listFilter.hasOwnProperty('documento.juntadas.numeracaoSequencial')) {
-                    delete this.listFilter['documento.juntadas.numeracaoSequencial'];
-                }
-            }
-        });
-
-        this.form.get('descricao').valueChanges.subscribe((value) => {
-            if (typeof value === 'string' && value) {
-                this.listFilter = {
-                    ...this.listFilter,
-                    'documento.juntadaAtual.descricao': `like:%${value}%`
-                };
-            } else {
-                if (this.listFilter.hasOwnProperty('documento.juntadaAtual.descricao')) {
-                    delete this.listFilter['documento.juntadaAtual.descricao'];
-                }
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe((value) => {
-            if (typeof value === 'object' && value) {
-                this.listFilter = {
-                    ...this.listFilter,
-                    'criadoPor.id': `eq:${value.id}`
-                };
-            } else {
-                if (this.listFilter.hasOwnProperty('criadoPor.id')) {
-                    delete this.listFilter['criadoPor.id'];
-                }
-            }
-        });
-
-        this.form.get('unidade').valueChanges.subscribe((value) => {
-            if (typeof value === 'object' && value) {
-                this.listFilter = {
-                    ...this.listFilter,
-                    'documento.setorOrigem.unidade.id': `eq:${value.id}`
-                };
-            } else {
-                if (this.listFilter.hasOwnProperty('documento.setorOrigem.unidade.id')) {
-                    delete this.listFilter['documento.setorOrigem.unidade.id'];
-                }
-            }
-        });
-
         const pathDocumento = 'app/main/apps/documento/documento-edit';
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(pathDocumento) &&
@@ -749,7 +685,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      */
     dropzoneEnabledJuntada(event: DragEvent, juntada: Juntada): boolean {
         const tmpJuntadaArrastada = JSON.parse(event.dataTransfer.types[0]);
-        const juntadaArrastada = this.juntadas.find(juntada => juntada.id == tmpJuntadaArrastada.id);
+        const juntadaArrastada = this.juntadas.find(aJuntada => aJuntada.id == tmpJuntadaArrastada.id);
         // eslint-disable-next-line max-len
         return juntadaArrastada.id !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
@@ -762,7 +698,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      */
     dropEnabledJuntada(event: DndDropEvent, juntada: Juntada): boolean {
         const juntadaArrastadaId = event.data;
-        const juntadaArrastada = this.juntadas.find((juntada) => juntada.id == juntadaArrastadaId);
+        const juntadaArrastada = this.juntadas.find(aJuntada => aJuntada.id == juntadaArrastadaId);
         // eslint-disable-next-line max-len
         return juntadaArrastadaId !== juntada.id && juntadaArrastada.documento.vinculacoesDocumentos.length === 0 && !juntadaArrastada.documento.vinculacaoDocumentoPrincipal && juntadaArrastada.ativo;
     }
@@ -809,23 +745,65 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.showListFilter = !this.showListFilter;
     }
 
-    pesquisar(): void {
-        if (this.selectedVolume) {
-            this.listFilter = {
-                ...this.listFilter,
-                'volume.id': `eq:${this.selectedVolume}`
-            };
+    emite(): void {
+        if (!this.form.valid) {
+            return;
         }
+
+        const andXFilter = [];
+        if (this.form.get('tipoDocumento').value) {
+            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value}`});
+        }
+
+        if (this.form.get('numeracaoSequencial').value) {
+            andXFilter.push({'numeracaoSequencial': `like:%${this.form.get('numeracaoSequencial').value}%`});
+        }
+
+        if (this.form.get('descricao').value) {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'descricao': `like:%${bit}%`});
+            });
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
+        }
+
+        if (this.form.get('unidade').value) {
+            andXFilter.push({'documento.setorOrigem.unidade.id': `eq:${this.form.get('unidade').value.id}`});
+        }
+
+        if (this.form.get('origemDados').value) {
+            if (this.form.get('origemDados').value === 'administrativo') {
+                andXFilter.push({'origemDados.id': 'isNull'});
+            } else if (this.form.get('origemDados').value === 'integracao') {
+                andXFilter.push({'origemDados.id': 'isNotNull'});
+            }
+        }
+
+        if (this.selectedVolume) {
+            andXFilter.push({'volume.id': `eq:${this.selectedVolume}`});
+        }
+
+        const request = {
+            filters: {},
+        };
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = andXFilter;
+        }
+        this.listFilter = request.filters;
         this.reload({listFilter: this.listFilter, listSort: this.listSort});
         this.toggleFilter();
     }
 
+    pesquisar(): void {
+        this.emite();
+    }
+
     limpar(): void {
-        this.listFilter = {};
+        this.form.reset({origemDados: ''});
         this._store.dispatch(new fromStore.SelectVolume(false));
-        this.reload({listFilter: this.listFilter});
-        this.toggleFilter();
-        this.form.reset();
+        this.emite();
     }
 
     upload(): void {
@@ -1158,24 +1136,24 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const alteraTipoSub = dialogRef.componentInstance.alteraTipoDocumento.subscribe((values) => {
             this._store.dispatch(new fromStore.UpdateDocumentoVinculado(values));
         });
-        const aprovaSub = dialogRef.componentInstance.aprovarDocumento.subscribe((documento: Documento) => {
+        const aprovaSub = dialogRef.componentInstance.aprovarDocumento.subscribe((aDocumento: Documento) => {
             this._store.dispatch(new fromStore.AprovarComponenteDigital({
-                documentoOrigem: documento
+                documentoOrigem: aDocumento
             }));
         });
-        const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((documento: Documento) => {
-            this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));
+        const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((aDocumento: Documento) => {
+            this._store.dispatch(new fromStore.GetDocumentosVinculados(aDocumento));
         });
         const assinaBlocoSub = dialogRef.componentInstance.assinaBloco.subscribe((result) => {
             if (result.certificadoDigital) {
                 const documentosId = [];
-                result.documentos.forEach((documento) => {
-                    documentosId.push(documento.id);
+                result.documentos.forEach((aDocumento) => {
+                    documentosId.push(aDocumento.id);
                 });
                 this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
             } else {
-                result.documentos.forEach((documento) => {
-                    documento.componentesDigitais.forEach((componenteDigital) => {
+                result.documentos.forEach((aDocumento) => {
+                    aDocumento.componentesDigitais.forEach((componenteDigital) => {
                         const assinatura = new Assinatura();
                         assinatura.componenteDigital = componenteDigital;
                         assinatura.algoritmoHash = 'A1';
@@ -1187,7 +1165,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         const operacaoId = CdkUtils.makeId();
                         this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                             assinatura: assinatura,
-                            documento: documento,
+                            documento: aDocumento,
                             operacaoId: operacaoId
                         }));
                     });
@@ -1219,22 +1197,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         const changeSelectedSub = dialogRef.componentInstance.changeSelected.subscribe((selectedIds) => {
             this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
         });
-        const clickedSub = dialogRef.componentInstance.clickDocumento.subscribe((documento) => {
+        const clickedSub = dialogRef.componentInstance.clickDocumento.subscribe((aDocumento) => {
             this._store.dispatch(new fromStore.ClickedDocumento({
-                documento: documento,
+                documento: aDocumento,
                 routeAtividade: this.routeAtividadeDocumento,
                 routeOficio: this.routeOficioDocumento
             }));
             dialogRef.close();
         });
-        const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe((documento: Documento) => {
+        const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe(() => {
             this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
         });
         const deleteSub = dialogRef.componentInstance.deleteDocumento.subscribe((result) => {
             this.doDeleteDocumentoVinculado(result.documentoId, result.loteId);
         });
-        const downloadP7SSub = dialogRef.componentInstance.downloadP7S.subscribe((documento: Documento) => {
-            documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+        const downloadP7SSub = dialogRef.componentInstance.downloadP7S.subscribe((aDocumento: Documento) => {
+            aDocumento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
                 this._store.dispatch(new fromStore.DownloadVinculadoP7S(componenteDigital));
             });
         });
