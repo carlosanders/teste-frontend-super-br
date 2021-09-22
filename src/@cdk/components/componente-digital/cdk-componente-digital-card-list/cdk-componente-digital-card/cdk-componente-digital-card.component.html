@@ -1,4 +1,4 @@
-<div class="arquivo" [matTooltip]="this.fullTitle"
+<div class="arquivo" [matTooltip]="componenteDigital.errorMsg ?? this.fullTitle"
      matTooltipClass="multiline-tooltip"
      [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'content': mode === 'tarefa' || mode === 'documento-edit'}">
     <mat-checkbox class="ml-8 select"
@@ -15,6 +15,9 @@
     <div (click)="onClick(componenteDigital)" class="content-card">
         <div class="content-card-item">
             {{title}}
+        </div>
+        <div class="content-card-item" *ngIf="componenteDigital.errorMsg">
+            <mat-error>Erro no upload!</mat-error>
         </div>
         <div class="content-card-item">
             <mat-progress-bar mode="determinate" *ngIf="componenteDigital.inProgress"
@@ -79,8 +82,3 @@
         </form>
     </mat-menu>
 </div>
-
-
-
-
-
