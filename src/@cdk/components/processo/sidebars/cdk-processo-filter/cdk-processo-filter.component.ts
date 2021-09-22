@@ -4,6 +4,7 @@ import {
     Component,
     EventEmitter,
     Input,
+    OnInit,
     Output,
     ViewChild,
     ViewContainerRef,
@@ -19,8 +20,8 @@ import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {Subject} from 'rxjs';
 import {Pagination} from '../../../../models';
 import {Router} from '@angular/router';
-import {CdkConfirmDialogComponent} from "../../../confirm-dialog/confirm-dialog.component";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CdkConfirmDialogComponent} from '../../../confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -30,18 +31,18 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkProcessoFilterComponent implements AfterViewInit {
+export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
 
     @Output()
     selected = new EventEmitter<any>();
-
-    form: FormGroup;
 
     @Input()
     mode = 'list';
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -72,6 +73,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             processo: [null],
             assunto: [null],
             descricao: [null],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             NUP: [null],
             especieProcesso: [null],
             titulo: [null],
@@ -119,7 +121,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
                 if (module.components.hasOwnProperty(path)) {
                     module.components[path].forEach(((c) => {
                         this._dynamicService.loadComponent(c)
-                            .then(componentFactory => {
+                            .then((componentFactory) => {
                                 this.container.createComponent(componentFactory);
                                 this._changeDetectorRef.detectChanges();
                             });
@@ -150,6 +152,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
 
         if (this.form.get('NUP').value) {
             this.form.get('NUP').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 andXFilter.push({'NUP': `like:%${bit}%`});
             });
         }
@@ -167,7 +170,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         }
 
         if (this.form.get('outroNumero').value) {
-                this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+            this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'outroNumero': `like:%${bit}%`});
             });
         }
