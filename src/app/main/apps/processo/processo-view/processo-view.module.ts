@@ -36,10 +36,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
-import {MatCardModule} from "@angular/material/card";
+import {MatCardModule} from '@angular/material/card';
 import {CdkUploadDialogModule} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.module';
-import {CdkUsuarioAutocompleteModule} from "../../../../../@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module";
-import {CdkSetorAutocompleteModule} from "../../../../../@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module";
+import {CdkUsuarioAutocompleteModule} from '../../../../../@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkSetorAutocompleteModule} from '../../../../../@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {MatSelectModule} from '@angular/material/select';
 
 const routes: Routes = [
     {
@@ -128,7 +129,8 @@ modulesConfig.forEach((module) => {
         MatChipsModule,
         MatCardModule,
         CdkUsuarioAutocompleteModule,
-        CdkSetorAutocompleteModule
+        CdkSetorAutocompleteModule,
+        MatSelectModule
     ],
     providers: [
         JuntadaService,
