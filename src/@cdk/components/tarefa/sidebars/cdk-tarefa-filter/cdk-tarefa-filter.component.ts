@@ -102,7 +102,8 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
-
+        this.form.get('setorResponsavel').disable();
+        this.form.get('setorOrigem').disable();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
         this.setorResponsavelPagination = new Pagination();
@@ -118,8 +119,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             switchMap((value) => {
                     if (value && typeof value === 'object') {
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.form.get('setorResponsavel').enable();
+                        this.form.get('setorResponsavel').reset();
                     } else {
                         delete this.setorResponsavelPagination.filter['unidade.id'];
+                        this.form.get('setorResponsavel').reset();
+                        this.form.get('setorResponsavel').disable();
                     }
                     return of([]);
                 }
@@ -132,8 +137,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             switchMap((value) => {
                     if (value && typeof value === 'object') {
                         this.setorOrigemPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.form.get('setorOrigem').reset();
+                        this.form.get('setorOrigem').enable();
                     } else {
                         delete this.setorOrigemPagination.filter['unidade.id'];
+                        this.form.get('setorOrigem').reset();
+                        this.form.get('setorOrigem').disable();
                     }
                     return of([]);
                 }
