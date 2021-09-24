@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -68,7 +69,8 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
         private _dynamicService: DynamicService,
-        private _cdkTarefaFilterService: CdkTarefaFilterService
+        private _cdkTarefaFilterService: CdkTarefaFilterService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.form = this._formBuilder.group({
             urgente: [null],
@@ -126,6 +128,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
                         this.form.get('setorResponsavel').reset();
                         this.form.get('setorResponsavel').disable();
                     }
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
@@ -144,6 +147,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
                         this.form.get('setorOrigem').reset();
                         this.form.get('setorOrigem').disable();
                     }
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
@@ -156,7 +160,10 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -265,19 +272,17 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         }
 
         if (this.form.get('urgente').value) {
-            if(this.form.get('urgente').value !== 'todos') {
+            if (this.form.get('urgente').value !== 'todos') {
                 andXFilter.push({'urgente': `eq:${this.form.get('urgente').value}`});
-            }
-            else {
+            } else {
                 delete andXFilter['urgente'];
             }
         }
 
         if (this.form.get('redistribuida').value) {
-            if(this.form.get('redistribuida').value !== 'todos') {
+            if (this.form.get('redistribuida').value !== 'todos') {
                 andXFilter.push({'redistribuida': `eq:${this.form.get('redistribuida').value}`});
-            }
-            else {
+            } else {
                 delete andXFilter['redistribuida'];
             }
         }
