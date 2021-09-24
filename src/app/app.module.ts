@@ -29,9 +29,10 @@ import {ErrorInterceptor} from './main/auth/login/error.interceptor';
 import {LoginStoreModule} from './main/auth/login/store/store.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CdkLoginDialogModule} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.module';
-import {MatStepperIntl} from "@angular/material/stepper";
-import {CdkMatStepperIntl} from "../@cdk/angular/cdk-mat-stepper-intl";
-import {GlobalErrorHandler} from "./global-error-handler";
+import {MatStepperIntl} from '@angular/material/stepper';
+import {CdkMatStepperIntl} from '../@cdk/angular/cdk-mat-stepper-intl';
+import {GlobalErrorHandler} from './global-error-handler';
+import {modulesConfig} from '../modules/modules-config';
 
 registerLocaleData(localePt, 'pt');
 
@@ -60,6 +61,24 @@ const routingConfiguration: ExtraOptions = {
 //    onSameUrlNavigation: 'reload'
 };
 
+const httpInterceptors = [
+    {provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+];
+const path = 'app';
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach(((r) => {
+            const index = appRoutes.findIndex(rota => rota.path === r.path);
+            if (index !== -1) {
+                appRoutes[index] = r;
+            } else {
+                appRoutes.push(r);
+            }
+        }));
+    }
+});
 @NgModule({
     declarations: [
         AppComponent,
@@ -104,9 +123,7 @@ const routingConfiguration: ExtraOptions = {
     ],
     providers: [
         {provide: ErrorHandler, useClass: GlobalErrorHandler},
-        {provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true},
-        {provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true},
-        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+        httpInterceptors,
         {provide: MatStepperIntl, useClass: CdkMatStepperIntl},
         {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
         {provide: LOCALE_ID, useValue: 'pt'},

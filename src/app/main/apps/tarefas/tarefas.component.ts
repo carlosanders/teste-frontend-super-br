@@ -29,7 +29,12 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
-import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarRef,
+    MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -140,6 +145,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
     filtroEtiquetas: SearchBarEtiquetasFiltro;
+
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -415,6 +423,45 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             } else {
                 this.mobileMode = false;
             }
+        });
+
+        this.error$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors.error.message || errors.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
+        });
+
+        this.errorDelete$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors.error.message || errors.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
+        });
+
+        this.errorDistribuir$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors.error.message || errors.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
         });
 
         this.pesquisaTarefa = 'tarefa';

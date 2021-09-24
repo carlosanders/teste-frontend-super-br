@@ -243,6 +243,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 loadingAcompanhamento: false,
+                errors: action.payload.error
             };
         }
 
@@ -250,6 +251,20 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 pluginLoading: [...state.pluginLoading, action.payload]
+            };
+        }
+
+        case ProcessoActions.ARQUIVAR_PROCESSO_FAILED: {
+            return {
+                ...state,
+                errors: action.payload
+            };
+        }
+
+        case ProcessoActions.AUTUAR_PROCESSO_FAILED: {
+            return {
+                ...state,
+                errors: action.payload
             };
         }
 
