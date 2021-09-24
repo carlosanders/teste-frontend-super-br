@@ -624,3 +624,8 @@
 * Correção bug mudança de menus módulo arquivista
 * Correção visualização de processo módulo arquivista
 * Correção visualização de processos restritos módulo arquivista
+
+
+1.6.11
+
+* Melhoria filtro de Modelos por ID
