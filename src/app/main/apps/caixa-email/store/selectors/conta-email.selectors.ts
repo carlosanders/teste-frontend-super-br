@@ -48,3 +48,18 @@ export const getContaEmailIsLoaded = createSelector(
     getContaEmailState,
     (state: ContaEmailState) => state.loaded
 );
+
+export const getContaEmailIsSavingProcessoForm = createSelector(
+    getContaEmailState,
+    (state: ContaEmailState) => state.saving
+);
+
+export const getContaEmailProcessoFormError = createSelector(
+    getContaEmailState,
+    (state: ContaEmailState) => state.saveError
+);
+
+export const getActiveCard = createSelector(
+    getContaEmailState,
+    (state: ContaEmailState) => state.activeCard
+);

@@ -11,7 +11,7 @@ import {ContaEmail} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
 
 
@@ -95,10 +95,10 @@ export class ContaEmailListComponent implements OnInit, OnDestroy {
     }
 
     edit(contaEmailId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + contaEmailId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + contaEmailId]).then();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 }

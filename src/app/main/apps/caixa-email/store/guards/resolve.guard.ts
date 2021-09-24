@@ -166,7 +166,7 @@ export class ResolveGuard implements CanActivate {
                 }
 
             }),
-            filter(([folderLoaded, contaEmailLoaded, contaEmailList, folderList]) => this.canPass(folderLoaded, contaEmailList, folderList)),
+            filter(([folderLoaded, , contaEmailList, folderList]) => this.canPass(folderLoaded, contaEmailList, folderList)),
             take(1)
         );
     }

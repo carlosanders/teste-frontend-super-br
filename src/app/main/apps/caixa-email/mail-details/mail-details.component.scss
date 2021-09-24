@@ -5,162 +5,202 @@ mail-details {
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 24px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
 
-    .loading-mail-details {
+    .toolbar {
         display: flex;
         flex-direction: row;
-        place-content: center center;
-        margin: 20px;
-        height: 100%;
-        align-items: center;
-
-        mat-spinner {
-            margin-right: 10px;
-        }
-    }
-
-    .info-text {
-        font-size: 24px;
-        font-weight: 300;
-    }
-
-    .select-message-text {
-        font-size: 24px;
-        font-weight: 300;
-    }
-
-    .mail-header {
-        padding-bottom: 16px;
-        border-bottom: 1px solid;
-        flex-direction: row;
-        box-sizing: border-box;
-        display: flex;
         place-content: center space-between;
         align-items: center;
+        box-sizing: border-box;
 
-        .actions {
-            min-width: 88px;
-        }
-
-        .subject {
-            font-size: 17px;
-            font-weight: 600;
-        }
-
-        .label {
-            font-size: 11px;
-            border-radius: 2px;
-            margin: 4px 4px 4px 0;
-            padding: 3px 8px;
-
-            .label-color {
-                width: 8px;
-                height: 8px;
-                margin-right: 8px;
-                border-radius: 50%;
-            }
+        .toolbar-separator {
+            height: 32px;
+            width: 1px;
+            margin: 0 12px;
         }
     }
 
-    .mail-content {
-        padding: 24px 0;
+    .content {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        overflow-y: auto;
+        overflow-x: hidden;
 
-        .to {
+        .loading-mail-details {
+            display: flex;
+            flex-direction: row;
+            place-content: center center;
+            margin: 20px;
+            height: 100%;
+            align-items: center;
 
-            .to-text {
-                margin-right: 4px;
+            mat-spinner {
+                margin-right: 10px;
             }
         }
 
-        .mail-body-render {
-            word-wrap: anywhere;
+        .info-text {
+            font-size: 24px;
+            font-weight: 300;
         }
 
-        .info {
+        .select-message-text {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .mail-header {
             padding-bottom: 16px;
+            border-bottom: 1px solid;
             flex-direction: row;
             box-sizing: border-box;
             display: flex;
-            place-content: flex-start space-between;
-            align-items: flex-start;
+            place-content: center space-between;
+            align-items: center;
 
-            .info-content {
-                flex: 1 1 auto;
-                box-sizing: border-box;
-                flex-direction: column;
-                display: flex;
-                place-content: flex-start;
-                align-items: flex-start;
+            .actions {
+                min-width: 88px;
             }
 
-            .avatar {
-                margin-right: 16px;
-            }
-
-            .name {
-                margin-right: 8px;
+            .subject {
+                font-size: 17px;
                 font-weight: 600;
             }
 
-            .toggle-details {
-                user-select: none;
-                text-decoration: underline;
-                padding-top: 16px;
-                cursor: pointer;
-                font-weight: 600;
+            .label {
+                font-size: 11px;
+                border-radius: 2px;
+                margin: 4px 4px 4px 0;
+                padding: 3px 8px;
+
+                .label-color {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                }
             }
+        }
 
-            .details {
-                padding-top: 8px;
+        .mail-content {
+            padding: 24px 0;
 
-                .address {
-                    flex-direction: column;
-                    box-sizing: border-box;
-                    display: flex;
-                    align-items: flex-start;
+            .to {
 
-                    .detail {
-                        align-self: baseline;
-                    }
-
-                    .title {
-                        font-weight: 600;
-                        margin-right: 6px;
-                    }
+                .to-text {
+                    margin-right: 4px;
                 }
             }
 
-        }
-    }
-
-    .mail-attachments {
-        padding: 24px 0;
-        border-top: 1px solid;
-
-        .title {
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-
-        .attachment {
-
-            margin-right: 25px;
-
-            .preview {
-                width: 100px;
-                margin: 0 16px 8px 0;
-                border-radius: 4px;
+            .mail-body-render {
+                word-wrap: anywhere;
             }
 
-            .link {
-                margin-bottom: 2px;
+            .info {
+                padding-bottom: 16px;
+                flex-direction: row;
+                box-sizing: border-box;
+                display: flex;
+                place-content: flex-start space-between;
+                align-items: flex-start;
+
+                .info-content {
+                    flex: 1 1 auto;
+                    box-sizing: border-box;
+                    flex-direction: column;
+                    display: flex;
+                    place-content: flex-start;
+                    align-items: flex-start;
+                }
+
+                .avatar {
+                    margin-right: 16px;
+                }
+
+                .name {
+                    margin-right: 8px;
+                    font-weight: 600;
+                }
+
+                .toggle-details {
+                    user-select: none;
+                    text-decoration: underline;
+                    padding-top: 16px;
+                    cursor: pointer;
+                    font-weight: 600;
+                }
+
+                .details {
+                    padding-top: 8px;
+
+                    .address {
+                        flex-direction: column;
+                        box-sizing: border-box;
+                        display: flex;
+                        align-items: flex-start;
+
+                        .detail {
+                            align-self: baseline;
+                        }
+
+                        .title {
+                            font-weight: 600;
+                            margin-right: 6px;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        .mail-attachments {
+            padding: 24px 0;
+            border-top: 1px solid;
+
+            .title {
+                margin-bottom: 16px;
+                font-weight: 600;
             }
 
-            .size {
-                font-size: 11px;
+            .attachment {
+
+                margin-right: 25px;
+
+                .attachment-actions {
+                    display: flex;
+                    flex-direction: row;
+                    place-content: center flex-start;
+                    align-items: center;
+
+                    mat-spinner {
+                        margin-right: 5px;
+                    }
+
+                    a {
+                        cursor: pointer;
+                        &.disabled {
+                            cursor: default;
+                            pointer-events: none;
+                            color: rgba(0, 0, 0, 0.26);
+                        }
+                    }
+                }
+
+                .preview {
+                    width: 100px;
+                    margin: 0 16px 8px 0;
+                    border-radius: 4px;
+                }
+
+                .link {
+                    margin-bottom: 2px;
+                }
+
+                .size {
+                    font-size: 11px;
+                }
             }
         }
     }

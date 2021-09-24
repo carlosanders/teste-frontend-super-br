@@ -102,8 +102,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let contaEmail" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(contaEmail.id) > -1 ||
-                                    (isWorkflow && !contaEmail.valida), 'error': getProp(deletingErrors, contaEmail.id)}"> {{contaEmail.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(contaEmail.id) > -1 || !contaEmail.valida, 'error': getProp(deletingErrors, contaEmail.id)}"> {{contaEmail.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->

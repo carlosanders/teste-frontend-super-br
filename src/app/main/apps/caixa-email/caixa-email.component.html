@@ -7,7 +7,7 @@
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="caixa-email-folder-sidebar" position="left" lockedOpen="gt-md">
         <caixa-email-folder-sidebar
-            (reloadHandler)="reload()"
+            (reloadHandler)="reloadFolders()"
             (changeContaEmailHandler)="changeContaEmail($event)"
             (clickFolderHandler)="clickFolder($event)"
             [selectedContaEmail]="selectedContaEmail"
@@ -33,7 +33,7 @@
 
                 <div class="search">
                     <mat-icon class="secondary-text">search</mat-icon>
-                    <input [formControl]="searchInput" [placeholder]="'PESQUISAR...'" fxFlex>
+                    <input [formControl]="searchInput" (keydown.enter)="pesquisar()" [placeholder]="'PESQUISAR...'" fxFlex>
                 </div>
             </div>
         </div>
@@ -42,46 +42,36 @@
         <!-- CONTENT CARD -->
         <div class="content-card">
 
-            <!-- CONTENT TOOLBAR -->
-            <div class="toolbar px-24 py-8">
-                <button class="refresh" mat-icon-button
-                        *ngIf="!selectedMessage"
-                        (click)="reloadEmailLIst()"
-                        [disabled]="messageListIsLoading"
-                        aria-label="recarregar"
-                        matTooltip="Recarregar">
-                    <mat-icon>refresh</mat-icon>
-                </button>
-                <button class="refresh" mat-icon-button
-                        *ngIf="!!selectedMessage"
-                        (click)="unselectMessage()"
-                        aria-label="voltar"
-                        matTooltip="Voltar">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
-
-            </div>
-            <!-- / CONTENT TOOLBAR -->
-
-            <!-- CONTENT -->
-            <div class="content" fxLayout="row">
-                <mail-list
-                    *ngIf="!selectedMessage"
-                    [messageList]="messageList"
-                    [messageListIsLoading]="messageListIsLoading"
-                    (scrollHandler)="loadEmails()"
-                    (selectMessageHandler)="selectMessage($event)"
-                    class="mail-list">
-                </mail-list>
-                <mail-details
-                    *ngIf="!!selectedMessage"
-                    [message]="selectedMessage"
-                    [messageIsLoading]="messageIsLoading"
-                    (downloadAttachmentHandler)="downloadAttachment($event)"
-                    class="mail-defails">
-                </mail-details>
-            </div>
-            <!-- / CONTENT -->
+            <mail-list
+                *ngIf="activeCard === 'mail-list'"
+                [selectedFolder]="selectedFolder"
+                [messageList]="messageList"
+                [messageListIsLoading]="messageListIsLoading"
+                (reloadEmailListHandler)="reloadEmailList()"
+                (scrollHandler)="loadEmails()"
+                (selectMessageHandler)="selectMessage($event)"
+                class="mail-list">
+            </mail-list>
+            <mail-details
+                *ngIf="activeCard === 'mail-details'"
+                [message]="selectedMessage"
+                [messageIsLoading]="messageIsLoading"
+                [messageDownloadingAttachments]="messageDownloadingAttachments"
+                (voltarHandler)="changeState('mail-list')"
+                (processoFormHandler)="changeState('mail-processo-form')"
+                (downloadAttachmentHandler)="downloadAttachment($event)"
+                class="mail-defails">
+            </mail-details>
+            <mail-processo-form
+                *ngIf="activeCard === 'mail-processo-form'"
+                [message]="selectedMessage"
+                [loading]="messageIsLoading"
+                [saving]="emailProcessoFormIsSaving"
+                [errors]="emailProcessoFormError"
+                (saveHandler)="enviarParaProcesso($event)"
+                (cancelarHandler)="changeState('mail-details')"
+                class="mail-processo-form">
+            </mail-processo-form>
 
         </div>
         <!-- / CONTENT CARD -->

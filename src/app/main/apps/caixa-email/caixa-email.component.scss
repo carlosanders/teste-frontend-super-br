@@ -70,15 +70,6 @@ caixa-email {
 
         .content-card {
 
-            .toolbar {
-
-                .toolbar-separator {
-                    height: 32px;
-                    width: 1px;
-                    margin: 0 12px;
-                }
-            }
-
             @include media-breakpoint(xs) {
 
                 .caixa-email-list {

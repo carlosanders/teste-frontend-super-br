@@ -33,6 +33,9 @@
 
                 .toolbar {
 
+                    border-bottom: 1px solid;
+                    border-bottom-color: map-get($foreground, divider);
+
                     .toolbar-separator {
                         background: map-get($foreground, divider);
                     }

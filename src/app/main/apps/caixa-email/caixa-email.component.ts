@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, SecurityContext,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Subject} from 'rxjs';
@@ -13,7 +13,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
 import {FormControl} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, filter, takeUntil} from "rxjs/operators";
+import {filter, takeUntil} from "rxjs/operators";
 import {ContaEmail} from "../../../../@cdk/models";
 import {select, Store} from "@ngrx/store";
 import * as fromStore from "./store"
@@ -22,6 +22,7 @@ import {getRouterState} from "../../../store";
 import {Message} from "./models/message.model";
 import {Attachment} from "./models/attachment.model";
 import {DomSanitizer} from "@angular/platform-browser";
+import {EmailProcessoForm} from "./models/email-processo-form.model";
 
 @Component({
     selector: 'caixa-email',
@@ -34,7 +35,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class CaixaEmailComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
-    searchInput: FormControl;
+    searchInput: FormControl = new FormControl('');
     routerState: any;
     selectedContaEmail: ContaEmail;
     selectedFolder: Folder;
@@ -42,11 +43,15 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
     contaEmailList: ContaEmail[] = [];
     folderList: Folder[] = [];
     messageList: Message[] = [];
+    messageDownloadingAttachments: string[] = [];
     messageListPagination: any = {};
     messageListIsLoading: boolean = false;
     messageListIsLoaded: any = false;
     messageIsLoading: any = false;
+    emailProcessoFormIsSaving: any = false;
     folderIsLoading: boolean = false;
+    emailProcessoFormError: any;
+    activeCard: string = 'mail-list';
 
     /**
      * @param _store
@@ -63,15 +68,6 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
                 private _sanitizer: DomSanitizer,
                 private _loginService: LoginService)
     {
-        this.searchInput = new FormControl('');
-        this.searchInput.valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(searchText => {
-            //@todo
-        });
-
         this._store
             .pipe(
                 select(getRouterState),
@@ -81,6 +77,13 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
             .subscribe((routerState) => {
                 this.routerState = routerState.state;
             });
+
+        this._store
+            .pipe(
+                select(fromStore.getActiveCard),
+                takeUntil(this._unsubscribeAll),
+            )
+            .subscribe(activeCard => this.activeCard = activeCard);
 
         this._store
             .pipe(
@@ -116,7 +119,7 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
 
                 if (!this.selectedFolder) {
                     this._store.dispatch(new fromStore.UnloadMessage());
-
+                    this._store.dispatch(new fromStore.SetActiveCard('mail-list'));
                 } else if (this.selectedFolder.uuid !== this.messageListIsLoaded) {
                     this._store.dispatch(new fromStore.GetMessages({
                         contaEmail: this.selectedContaEmail,
@@ -131,6 +134,7 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
                         }
                     }));
                 }
+                this._store.dispatch(new fromStore.SetActiveCard('mail-list'));
             });
 
         this._store
@@ -166,6 +170,23 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(
+                select(fromStore.getContaEmailIsSavingProcessoForm),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe((emailProcessoFormIsSaving) => {
+                this.emailProcessoFormIsSaving = emailProcessoFormIsSaving;
+                this._changeDetectorRef.markForCheck();
+            });
+
+        this._store
+            .pipe(
+                select(fromStore.getContaEmailProcessoFormError),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(error => this.emailProcessoFormError = error);
+
+        this._store
+            .pipe(
                 select(fromStore.getMessageListIsLoading),
                 takeUntil(this._unsubscribeAll)
             )
@@ -184,6 +205,48 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(messageListPagination => this.messageListPagination = messageListPagination);
+
+        this._store
+            .pipe(
+                select(fromStore.getMessageDownloadingAttachments),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe((messageDownloadingAttachments) => {
+                this.messageDownloadingAttachments = messageDownloadingAttachments;
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    pesquisar(): void
+    {
+        if (!this.messageListIsLoading) {
+            let filter = {...this.messageListPagination.filter};
+
+            if (this.searchInput.value.trim() !== (filter?.text || '')) {
+
+                if (!!this.searchInput.value?.trim()) {
+                    filter = {
+                        ...filter,
+                        'text': this.searchInput.value.trim()
+                    };
+                } else if (filter.hasOwnProperty('text')){
+                    delete filter['text'];
+                }
+
+                const params = {
+                    pagination: {
+                        ...this.messageListPagination,
+                        limit: 10,
+                        offset: 0,
+                        filter: filter,
+                    },
+                    contaEmail: this.selectedContaEmail,
+                    folder: this.selectedFolder
+                };
+
+                this._store.dispatch(new fromStore.GetMessages(params));
+            }
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -200,27 +263,21 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    reload(): void
+    reloadFolders(): void
     {
 
     }
 
     changeContaEmail(contaEmail: ContaEmail): void
     {
+        this.changeState('mail-list');
         this._router.navigate([`/apps/caixa-email/${contaEmail.id}/default`]).then();
     }
 
     clickFolder(folder: Folder): void
     {
+        this.changeState('mail-list');
         this._router.navigate([`/apps/caixa-email/${this.selectedContaEmail.id}/${folder.uuid}`]).then()
-    }
-
-    onScroll(): void
-    {
-    }
-
-    doRefresh(): void
-    {
     }
 
     toggleSidebar(name): void
@@ -239,6 +296,8 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
                 folder: this.selectedFolder,
             }));
         }
+
+        this._store.dispatch(new fromStore.SetActiveCard('mail-details'));
     }
 
     loadEmails(): void
@@ -261,7 +320,7 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetMessages(params));
     }
 
-    reloadEmailLIst(): void
+    reloadEmailList(): void
     {
         const params = {
             pagination: {
@@ -279,6 +338,7 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
     unselectMessage(): void
     {
         this._store.dispatch(new fromStore.SetMessage(null));
+        this.changeState('mail-list');
     }
 
     downloadAttachment(attachment: Attachment): void
@@ -286,8 +346,35 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DownloadAttachment({
             contaEmail: this.selectedContaEmail.id,
             folder: this.selectedFolder.uuid,
-            message: this.selectedMessage.id,
+            message: this.selectedMessage.uuid,
             attachment: attachment.uuid
+        }));
+    }
+
+    changeState(state: string): void
+    {
+        this._store.dispatch(new fromStore.SetActiveCard(state));
+    }
+
+    enviarParaProcesso(values: any): void
+    {
+        console.log('enviar processo', values)
+        const emailProcessoForm = new EmailProcessoForm();
+        emailProcessoForm.contaEmail = this.selectedContaEmail;
+        emailProcessoForm.folderIdentifier = this.selectedFolder.uuid;
+        emailProcessoForm.messageIdentifier = this.selectedMessage.uuid;
+
+        Object.entries(values).forEach(
+            ([key, value]) => {
+                emailProcessoForm[key] = value;
+            }
+        );
+
+        console.log('entidade/dispatch', emailProcessoForm, this.selectedContaEmail);
+
+        this._store.dispatch(new fromStore.SaveEmailProcessoForm({
+            contaEmail: this.selectedContaEmail,
+            emailProcessoForm: emailProcessoForm
         }));
     }
 }

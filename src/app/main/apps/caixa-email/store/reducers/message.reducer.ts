@@ -10,6 +10,7 @@ export interface MessageState {
         loaded: boolean;
         error: any;
         message: Message;
+        downloadingAttachments: string[];
     };
     pagination: {
         limit: number;
@@ -29,7 +30,8 @@ export const MessageInitialState: MessageState = {
         loading: false,
         loaded: false,
         error: null,
-        message: null
+        message: null,
+        downloadingAttachments: []
     },
     pagination: {
         limit: 0,
@@ -51,7 +53,8 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                 loading: false,
                 loaded: false,
                 error: null,
-                message: null
+                message: null,
+                downloadingAttachments: []
             }
 
             return {
@@ -62,9 +65,9 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                 loading: true,
                 loaded: false,
                 pagination: {
-                    filter: action.payload.filter,
-                    limit: action.payload.limit,
-                    offset: action.payload.offset,
+                    filter: action.payload.pagination.filter,
+                    limit: action.payload.pagination.limit,
+                    offset: action.payload.pagination.offset,
                     total: state.pagination.total
                 },
                 error: null
@@ -76,7 +79,7 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                 ...state,
                 messages: [
                     ...state.messages,
-                    ...action.payload.messages.filter(newMessage => action.payload.messages.find(message => message.id !== newMessage.id))
+                    ...action.payload.messages.filter(newMessage => action.payload.messages.find(message => message.uuid !== newMessage.uuid))
                 ],
                 pagination: {
                     ...state.pagination,
@@ -106,7 +109,8 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                     loading: false,
                     loaded: false,
                     error: null,
-                    message: null
+                    message: null,
+                    downloadingAttachments: []
                 },
                 loading: true,
                 loaded: false,
@@ -127,7 +131,8 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                     loading: true,
                     loaded: false,
                     message: action.payload.message,
-                    error: null
+                    error: null,
+                    downloadingAttachments: []
                 },
             };
         }
@@ -135,7 +140,7 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
         case fromStore.GET_MESSAGE_SUCCESS: {
             const messages = state.messages.slice();
 
-            const message = messages.find(message => message.id === action.payload.id);
+            const message = messages.find(message => message.uuid === action.payload.uuid);
 
             messages.splice(
                 messages.indexOf(message),
@@ -150,7 +155,8 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                     loading: false,
                     loaded: true,
                     message: action.payload,
-                    error: null
+                    error: null,
+                    downloadingAttachments: []
                 },
             };
         }
@@ -162,7 +168,8 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                     loading: false,
                     loaded: false,
                     error: action.payload,
-                    message: null
+                    message: null,
+                    downloadingAttachments: []
                 }
             };
         }
@@ -174,7 +181,47 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                     loading: false,
                     loaded: true,
                     error: null,
-                    message: action.payload
+                    message: action.payload,
+                    downloadingAttachments: []
+                }
+            };
+        }
+
+        case fromStore.DOWNLOAD_ATTACHMENT: {
+            return {
+                ...state,
+                selectedMessage: {
+                    ...state.selectedMessage,
+                    downloadingAttachments: [
+                        ...state.selectedMessage.downloadingAttachments,
+                        action.payload.attachment
+                    ],
+                    error: null
+                }
+            };
+        }
+
+        case fromStore.DOWNLOAD_ATTACHMENT_SUCCESS: {
+            return {
+                ...state,
+                selectedMessage: {
+                    ...state.selectedMessage,
+                    downloadingAttachments: [
+                        ...state.selectedMessage.downloadingAttachments.filter(attachment => attachment !== action.payload),
+                    ]
+                }
+            };
+        }
+
+        case fromStore.DOWNLOAD_ATTACHMENT_FAILED: {
+            return {
+                ...state,
+                selectedMessage: {
+                    ...state.selectedMessage,
+                    downloadingAttachments: [
+                        ...state.selectedMessage.downloadingAttachments.filter(attachment => attachment !== action.payload.attachment),
+                    ],
+                    error: action.payload.error
                 }
             };
         }

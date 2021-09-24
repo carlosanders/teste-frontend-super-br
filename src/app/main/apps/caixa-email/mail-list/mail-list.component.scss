@@ -7,9 +7,26 @@ mail-list {
     flex: 1;
     padding: 0;
     border-right: 1px solid;
-    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
+
+    .toolbar {
+        display: flex;
+        flex-direction: row;
+        place-content: center space-between;
+        align-items: center;
+        box-sizing: border-box;
+
+        .toolbar-separator {
+            height: 32px;
+            width: 1px;
+            margin: 0 12px;
+        }
+    }
+
+    .content {
+        overflow: hidden;
+    }
 
     .loading-mail-list {
         display: flex;

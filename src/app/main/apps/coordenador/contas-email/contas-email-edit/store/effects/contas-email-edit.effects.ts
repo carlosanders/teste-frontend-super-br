@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
@@ -59,7 +59,7 @@ export class ContasEmailEditEffects {
                     new ContaEmailEditActions.GetContaEmailSuccess({
                         loaded: {
                             id: 'contaEmailHandle',
-                            value: this.routerState.params.contaEmailHandle
+                            value: this.routerState.params['contaEmailHandle']
                         },
                         entityId: response['entities'][0].id
                     })
@@ -102,7 +102,6 @@ export class ContasEmailEditEffects {
      *
      * @type {Observable<any>}
      */
-    @Effect()
     updateContaEmail: any = createEffect(() => {
         return this._actions
             .pipe(
@@ -129,7 +128,7 @@ export class ContasEmailEditEffects {
         return this._actions
             .pipe(
                 ofType<ContaEmailEditActions.SaveContaEmailSuccess>(ContaEmailEditActions.SAVE_CONTA_EMAIL_SUCCESS),
-                tap((action) => {
+                tap(_=> {
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.contaEmailHandle), 'listar')]).then();
                 })
             )

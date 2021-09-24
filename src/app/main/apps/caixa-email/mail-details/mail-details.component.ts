@@ -31,10 +31,19 @@ export class MailDetailsComponent implements OnInit, OnChanges, OnDestroy {
     message: Message = null;
 
     @Input()
+    messageDownloadingAttachments: string[] = [];
+
+    @Input()
     messageIsLoading: boolean = false;
 
     @Output()
     downloadAttachmentHandler: EventEmitter<Attachment> = new EventEmitter<Attachment>();
+
+    @Output()
+    voltarHandler: EventEmitter<void> = new EventEmitter<void>();
+
+    @Output()
+    processoFormHandler: EventEmitter<void> = new EventEmitter<void>();
 
     private _unsubscribeAll: Subject<any> = new Subject();
     routerState: RouterStateUrl = null;
@@ -85,11 +94,28 @@ export class MailDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
     downloadAttachment(attachment: Attachment): void
     {
-        this.downloadAttachmentHandler.emit(attachment);
+        if (!this.messageDownloadingAttachments.length) {
+            this.downloadAttachmentHandler.emit(attachment);
+        }
+    }
+
+    voltar(): void
+    {
+        this.voltarHandler.emit();
+    }
+
+    processoForm(): void
+    {
+        this.processoFormHandler.emit();
     }
 
     formatAddress(addresses: Address[]): string
     {
         return addresses.map(address => address.name || address.full).join(', ');
+    }
+
+    isAttachmentLoading(attachment: Attachment): boolean
+    {
+        return this.messageDownloadingAttachments.includes(attachment.uuid);
     }
 }

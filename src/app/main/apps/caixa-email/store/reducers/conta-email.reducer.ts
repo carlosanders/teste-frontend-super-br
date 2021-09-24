@@ -17,7 +17,10 @@ export interface ContaEmailState {
     loading: boolean;
     loaded: any;
     selectedContaEmailId: number,
-    error: any
+    saving: boolean;
+    saveError: any;
+    error: any;
+    activeCard: string;
 }
 
 export const ContaEmailInitialState: ContaEmailState = {
@@ -36,7 +39,10 @@ export const ContaEmailInitialState: ContaEmailState = {
     loading: false,
     loaded: false,
     selectedContaEmailId: null,
-    error: null
+    saving: false,
+    saveError: null,
+    error: null,
+    activeCard: 'mail-list'
 };
 
 export function ContaEmailReducer(state = ContaEmailInitialState, action: fromStore.ContaEmailActionsAll): ContaEmailState {
@@ -58,7 +64,10 @@ export function ContaEmailReducer(state = ContaEmailInitialState, action: fromSt
                     total: state.pagination.total,
                     context: action.payload.context
                 },
-                error: null
+                error: null,
+                saving: false,
+                saveError: null,
+                activeCard: (action.payload.increment ? state.activeCard : 'mail-list')
             };
         }
 
@@ -92,6 +101,36 @@ export function ContaEmailReducer(state = ContaEmailInitialState, action: fromSt
                 ...state,
                 selectedContaEmailId: action.payload
             };
+        }
+
+        case fromStore.SAVE_EMAIL_PROCESSO_FORM: {
+            return {
+                ...state,
+                saving: true,
+                saveError: null
+            }
+        }
+
+        case fromStore.SAVE_EMAIL_PROCESSO_FORM_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+            }
+        }
+
+        case fromStore.SAVE_EMAIL_PROCESSO_FORM_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                saveError: action.payload
+            }
+        }
+
+        case fromStore.SET_ACTIVE_CARD: {
+            return {
+                ...state,
+                activeCard: action.payload
+            }
         }
 
         default:

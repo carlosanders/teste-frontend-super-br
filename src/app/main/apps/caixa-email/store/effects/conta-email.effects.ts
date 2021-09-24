@@ -65,8 +65,40 @@ export class ContaEmailEffects {
                         total: response['total']
                     })
                 ]),
-                catchError((err, caught) => {
+                catchError((err) => {
                     return of(new fromStore.GetContaEmailFailed(err));
+                })
+            );
+    });
+
+    saveEmailProcessoForm: Observable<any> = createEffect(() => {
+        return this._actions
+            .pipe(
+                ofType<fromStore.SaveEmailProcessoForm>(fromStore.SAVE_EMAIL_PROCESSO_FORM),
+                switchMap(action => this._contaEmailService.saveEmailProcessoForm(
+                    action.payload.contaEmail,
+                    action.payload.emailProcessoForm,
+                ).pipe(
+                    tap((response) => {
+                        console.log('effects processo form', action.payload)
+                        if (action.payload.emailProcessoForm.tipo === 'novo_processo') {
+                            this._store.dispatch(new fromStore.SetActiveCard('mail-list'));
+                            this._router.navigate([
+                                `apps/processo/${response.id}/editar/dados-basicos`
+                            ]);
+                        } else {
+                            this._store.dispatch(new fromStore.SetActiveCard('mail-list'));
+                            this._router.navigate([
+                                `apps/processo/${response.id}/visualizar/default`
+                            ]);
+                        }
+                    })
+                )),
+                concatMap(response => [
+                    new fromStore.SaveEmailProcessoFormSuccess(response)
+                ]),
+                catchError((err) => {
+                    return of(new fromStore.SaveEmailProcessoFormFailed(err));
                 })
             );
     });

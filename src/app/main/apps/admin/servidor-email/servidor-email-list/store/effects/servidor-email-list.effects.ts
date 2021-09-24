@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
@@ -37,35 +37,35 @@ export class ServidorEmailListEffects {
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    getServidorEmail: any =
-        this._actions
+    getServidorEmail: Observable<any> = createEffect(() => {
+        return this._actions
             .pipe(
                 ofType<ServidorEmailListActions.GetServidorEmail>(ServidorEmailListActions.GET_SERVIDOR_EMAIL),
                 switchMap(action => this._servidorEmailService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.gridFilter,
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context)).pipe(
-                        mergeMap(response => [
-                            new AddData<ServidorEmail>({data: response['entities'], schema: servidorEmailSchema}),
-                            new ServidorEmailListActions.GetServidorEmailSuccess({
-                                entitiesId: response['entities'].map(servidorEmail => servidorEmail.id),
-                                loaded: {
-                                    id: 'servidorEmailHandle',
-                                    value: this.routerState.params.servidorEmailHandle
-                                },
-                                total: response['total']
-                            })
-                        ]),
-                        catchError((err) => {
-                            return of(new ServidorEmailListActions.GetServidorEmailFailed(err));
+                    JSON.stringify({
+                        ...action.payload.filter,
+                        ...action.payload.gridFilter,
+                    }),
+                    action.payload.limit,
+                    action.payload.offset,
+                    JSON.stringify(action.payload.sort),
+                    JSON.stringify(action.payload.populate),
+                    JSON.stringify(action.payload.context)).pipe(
+                    mergeMap(response => [
+                        new AddData<ServidorEmail>({data: response['entities'], schema: servidorEmailSchema}),
+                        new ServidorEmailListActions.GetServidorEmailSuccess({
+                            entitiesId: response['entities'].map(servidorEmail => servidorEmail.id),
+                            loaded: {
+                                id: 'servidorEmailHandle',
+                                value: this.routerState.params['servidorEmailHandle']
+                            },
+                            total: response['total']
                         })
-                    ))
+                    ]),
+                    catchError((err) => {
+                        return of(new ServidorEmailListActions.GetServidorEmailFailed(err));
+                    })
+                ))
             );
+    });
 }

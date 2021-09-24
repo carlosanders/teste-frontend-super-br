@@ -57,7 +57,9 @@ export function FolderReducer(state = FolderInitialState, action: fromStore.Fold
         case fromStore.SET_FOLDER: {
             return {
                 ...state,
-                selectedFolder: action.payload
+                selectedFolder: action.payload,
+                loading: false,
+                loaded: true
             };
         }
         case fromStore.UNLOAD_FOLDER: {

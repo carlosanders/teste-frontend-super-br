@@ -47,8 +47,8 @@ const routes: Routes = [
 const path = 'app/main/apps/coordenador/contas-email';
 
 modulesConfig.forEach((module) => {
-    if (module.routes.hasOwnProperty(path)) {
-        module.routes[path].forEach((r => routes[0].children.push(r)));
+    if (module['routes'].hasOwnProperty(path)) {
+        module['routes'][path].forEach((r => routes[0].children.push(r)));
     }
 });
 

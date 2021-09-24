@@ -129,7 +129,7 @@ export class ServidorEmailEditEffects {
         return this._actions
             .pipe(
                 ofType<ServidorEmailEditActions.SaveServidorEmailSuccess>(ServidorEmailEditActions.SAVE_SERVIDOR_EMAIL_SUCCESS),
-                tap((action) => {
+                tap(_=> {
                     this._router.navigate(['apps/admin/servidor-email/listar']).then();
                 })
             )
