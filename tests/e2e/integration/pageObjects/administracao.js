@@ -49,11 +49,18 @@ class Administracao{
     }
 
     getItemEditar(paramentro, acao){
-        return cy.get('.mat-row > .cdk-column-nome:contains("'+paramentro+'")').first().parent().find('.mat-icon-no-color:contains("'+acao+'")')
+        cy.get('.mat-icon-no-color:contains("'+acao+'")').as('itemEditar')
+        return cy.get('.mat-row > .cdk-column-nome:contains("'+paramentro+'")').then(($row) => {
+            cy.wrap($row).get('@itemEditar')
+        })
     }
 
     getItemEditarValor(paramentro, acao){
-        return cy.get('.mat-row > .cdk-column-valor:contains("'+paramentro+'")').first().parent().find('.mat-icon-no-color:contains("'+acao+'")')
+        cy.get('.mat-icon-no-color:contains("'+acao+'")').as('itemEditarValor')
+        return cy.get('.mat-row > .cdk-column-valor:contains("'+paramentro+'")').then(($row) => {
+            cy.wrap($row).get('@itemEditarValor')
+        })
+
     }
 
     getFiltrar(){

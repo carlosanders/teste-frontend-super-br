@@ -20,7 +20,7 @@
             <mat-icon class="black-fg">book</mat-icon>
         </button>
 
-        <button [routerLinkActive]="['active', 'accent']" [routerLink]="[(processo$ | async)?.id, 'editar']" aria-label="Lembretes"
+        <button [routerLinkActive]="['active', 'accent']" [routerLink]="[(processo$ | async)?.id, 'editar']" aria-label="Editar"
                 mat-icon-button
                 matTooltip="Editar">
             <mat-icon class="black-fg">edit</mat-icon>
@@ -34,7 +34,7 @@
             <mat-icon class="black-fg">swap_horiz</mat-icon>
         </button>
 
-        <button *ngIf="(processo$ | async).modalidadeFase?.valor === 'INTERMEDIÁRIA'" [routerLinkActive]="['active', 'accent']"
+        <button *ngIf="(processo$ | async)?.modalidadeFase?.valor === 'INTERMEDIÁRIA'" [routerLinkActive]="['active', 'accent']"
                 [routerLink]="[(processo$ | async)?.id, 'desarquivar']" aria-label="Desarquivar"
                 mat-icon-button
                 matTooltip="Desarquivar">

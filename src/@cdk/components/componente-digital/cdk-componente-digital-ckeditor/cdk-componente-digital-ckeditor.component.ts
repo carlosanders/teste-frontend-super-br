@@ -60,15 +60,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Input()
     mode = 'documento';
 
-    editor: any;
-
-    hashAntigo: string;
-
     @Input()
     errors: any;
-
-    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-    verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     @Input()
     logEntryPagination: Pagination;
@@ -158,6 +151,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Output()
     pdf = new EventEmitter<any>();
 
+    editor: any;
+
+    hashAntigo: string;
+
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
     salvando: any = false;
 
     assinando: any = false;
@@ -170,7 +170,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     src: any;
 
-    dragstart_inside = false
+    dragstart_inside = false;
 
     /**
      * @param _changeDetectorRef

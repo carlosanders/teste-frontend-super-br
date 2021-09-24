@@ -216,11 +216,6 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     savingObservacao: boolean = false;
 
-    listFilter: any;
-    listSort: {} = {};
-
-    isIndeterminate = false;
-
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
@@ -238,6 +233,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     mobileMode: boolean = false;
+
+    @Input()
+    draggingIds: number[] = [];
 
     allCampos: any[] = [
         {
@@ -274,8 +272,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     campos = new FormControl();
 
-    @Input()
-    draggingIds: number[] = [];
+    listFilter: any;
+    listSort: Record<string, string> = {};
+    sortField: string = 'dataHoraDistribuicao';
+    sortOrder: string = 'DESC';
+
+    isIndeterminate = false;
 
     /**
      * Constructor
@@ -385,6 +387,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doSort(sort: any): void {
         this.listSort = sort;
+        this.sortField = Object.keys(this.listSort)[0];
+        this.sortOrder = Object.values(this.listSort)[0];
         this.loadPage();
     }
 

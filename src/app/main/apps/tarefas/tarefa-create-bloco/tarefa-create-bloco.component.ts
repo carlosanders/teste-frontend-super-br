@@ -41,6 +41,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
 
     routerState: any;
     lote: string;
@@ -82,6 +83,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
             this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 

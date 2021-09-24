@@ -40,6 +40,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     routerState: any;
     lote: string;
     private _profile: any;
@@ -78,6 +79,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
             this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 

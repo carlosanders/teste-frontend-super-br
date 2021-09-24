@@ -123,6 +123,13 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     }
 
     displayProcessoFn(processoSearch: Processo): string {
+        if (processoSearch) {
+            if (this.searchField === 'outroNumero') {
+                return processoSearch.outroNumero;
+            } else {
+                return processoSearch.NUPFormatado;
+            }
+        }
         return processoSearch ? processoSearch.NUPFormatado : '';
     }
 }
