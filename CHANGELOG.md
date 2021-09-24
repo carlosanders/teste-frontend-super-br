@@ -614,3 +614,9 @@
 * Melhoria filtro de juntadas na sidebar do processo-view adicionado filtro origem
 * Correção css filtro de juntadas na sidebar do processo-view para corrigir aparência do botão de filtrar
 * Melhoria form para vinculação de roles estáticas
+* Correção filtro de setor origem na sidebar de tarefas estava verificando o campo unidade responsável para ser exibido, em vez de unidade origem
+* Melhoria exibindo mensagens de erro de algumas operações em processos e tarefas na snackbar de erro
+* Correção resolvidos alguns problemas de eslint
+* Melhoria exibindo o Outro Número de processo caso seja este o campo selecionado na busca avançada da search-bar de processo
+* Melhoria permitindo modularização de componente de login para substituição completa da camada de login do frontend através de módulos externos
+* Correção de css em algumas telas de resultado de bloco
