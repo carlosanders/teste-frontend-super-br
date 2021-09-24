@@ -64,12 +64,19 @@ export class ArquivistaEffect {
     setCurrentProcesso: Observable<ArquivistaActions.ArquivistaActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ArquivistaActions.SetCurrentProcesso>(ArquivistaActions.SET_CURRENT_PROCESSO),
         map((action) => {
-            this._router.navigate([
-                'apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                this.routerState.params.typeHandle + '/detalhe/processo/' +
-                action.payload.processoId + '/visualizar']
-            ).then();
-
+            if (action.payload.acessoNegado) {
+                this._router.navigate([
+                    'apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
+                    this.routerState.params.typeHandle + '/detalhe/processo/' +
+                    action.payload.processoId + '/acesso-negado']
+                ).then();
+            } else {
+                this._router.navigate([
+                    'apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
+                    this.routerState.params.typeHandle + '/detalhe/processo/' +
+                    action.payload.processoId + '/visualizar']
+                ).then();
+            }
             return new ArquivistaActions.SetCurrentProcessoSuccess();
         })
     ));

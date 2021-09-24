@@ -602,7 +602,7 @@
 * Melhoria adicionado cadeado para informar prazo fechado em grid de tarefas quando não há prazo final para a tarefa
 * Correção removidos atalhos fxFlex de html de ações em bloco
 * Melhoria botão de voltar em telas de resultados de operações em bloco
-* Correção corrigida url de edição em bloco de tarefas para português
+* Correção da url de edição em bloco de tarefas para português
 * Correção comportamento de redistribuição em bloco de tarefas causando um reload na listagem
 * Correção redistribuição de tarefas possivelmente removendo relacionamentos do objeto da tarefa no estado da aplicação
 * Correção bug na edição em bloco da tarefa não atualizando todo o objeto tarefa de acordo com o retorno do backend
@@ -620,3 +620,7 @@
 * Melhoria exibindo o Outro Número de processo caso seja este o campo selecionado na busca avançada da search-bar de processo
 * Melhoria permitindo modularização de componente de login para substituição completa da camada de login do frontend através de módulos externos
 * Correção de css em algumas telas de resultado de bloco
+* Correção bug módulo do arquivista edit
+* Correção bug mudança de menus módulo arquivista
+* Correção visualização de processo módulo arquivista
+* Correção visualização de processos restritos módulo arquivista
