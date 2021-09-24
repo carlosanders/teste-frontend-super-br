@@ -45,3 +45,8 @@ export const getMessageError = createSelector(
     getMessageState,
     (state: MessageState) => state.selectedMessage.error
 );
+
+export const getMessageDownloadingAttachments = createSelector(
+    getMessageState,
+    (state: MessageState) => state.selectedMessage.downloadingAttachments
+);

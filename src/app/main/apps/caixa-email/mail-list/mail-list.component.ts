@@ -14,6 +14,7 @@ import {select, Store} from "@ngrx/store";
 import * as fromStore from "../store"
 import {getRouterState, RouterStateUrl} from "../../../../store";
 import {Message} from "../models/message.model";
+import {Folder} from "../models/folder.model";
 
 @Component({
     selector: 'mail-list',
@@ -26,6 +27,9 @@ import {Message} from "../models/message.model";
 export class MailListComponent implements OnInit, OnDestroy {
 
     @Input()
+    selectedFolder: Folder;
+
+    @Input()
     messageList: Message[] = [];
 
     @Input()
@@ -33,6 +37,9 @@ export class MailListComponent implements OnInit, OnDestroy {
 
     @Output()
     selectMessageHandler: EventEmitter<Message> = new EventEmitter<Message>();
+
+    @Output()
+    reloadEmailListHandler: EventEmitter<void> = new EventEmitter<void>();
 
     @Output()
     scrollHandler: EventEmitter<void> = new EventEmitter<void>();
@@ -83,5 +90,10 @@ export class MailListComponent implements OnInit, OnDestroy {
     scroll(): void
     {
         this.scrollHandler.emit();
+    }
+
+    reloadEmailList(): void
+    {
+        this.reloadEmailListHandler.emit();
     }
 }

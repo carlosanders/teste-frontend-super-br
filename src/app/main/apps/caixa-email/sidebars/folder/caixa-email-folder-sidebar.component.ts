@@ -1,6 +1,4 @@
 import {
-    AfterViewChecked,
-    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -11,7 +9,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
@@ -81,7 +79,6 @@ export class CaixaEmailFolderSidebarComponent implements OnInit, OnChanges, OnDe
             distinctUntilChanged(),
             takeUntil(this._unsubscribeAll)
         ).subscribe(value => {
-            console.log('change conta email', value, this.routerState.params['contaEmailHandle'])
             if (value && value != this.selectedContaEmail.id) {
                 this.changeContaEmailHandler.emit(this.contaEmailList.find(item => item.id === value));
             }
@@ -100,8 +97,8 @@ export class CaixaEmailFolderSidebarComponent implements OnInit, OnChanges, OnDe
 
         const path = 'app/main/apps/tarefas/sidebars/main';
         modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
+            if (module['sidebars'].hasOwnProperty(path)) {
+                module['sidebars'][path].forEach((s => this.links.push(s)));
             }
         });
     }

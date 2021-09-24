@@ -11,8 +11,8 @@ import {ServidorEmail} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
+import {getRouterState} from '../../../../../store';
 
 
 @Component({
@@ -104,10 +104,10 @@ export class ServidorEmailListComponent implements OnInit, OnDestroy {
     }
 
     edit(servidorEmailId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + servidorEmailId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + servidorEmailId]).then();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 }

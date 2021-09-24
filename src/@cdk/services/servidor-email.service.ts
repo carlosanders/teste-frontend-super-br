@@ -20,7 +20,7 @@ export class ServidorEmailService extends ParentGenericService<ServidorEmail> {
 
     patch(servidorEmail: ServidorEmail, changes: any): Observable<ServidorEmail> {
         return this.http.patch(
-            `${environment.api_url}${'administrativo/servidor_email'}/${servidorEmail.id}` + environment.xdebug,
+            `${environment.api_url}administrativo/servidor_email/${servidorEmail.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map((response) => {

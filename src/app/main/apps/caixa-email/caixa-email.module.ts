@@ -10,7 +10,7 @@ import {
     MatIconModule,
     MatInputModule,
     MatMenuModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule, MatRadioModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
@@ -34,6 +34,12 @@ import {CaixaEmailStoreModule} from "./store/store.module";
 import {EmailClientService} from "./services/email-client.service";
 import {MailListComponent} from "./mail-list/mail-list.component";
 import {MailDetailsComponent} from "./mail-details/mail-details.component";
+import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {CdkProcessoAutocompleteModule} from "../../../../@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module";
+import {CdkProcessoGridsearchModule} from "../../../../@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module";
+import {ProcessoService} from "../../../../@cdk/services/processo.service";
+import {MailProcessoFormComponent} from "./mail-processo-form/mail-processo-form.component";
 
 const routes: Routes = [
     {
@@ -46,8 +52,8 @@ const routes: Routes = [
 const path = 'app/main/apps/caixa-email';
 
 modulesConfig.forEach((module) => {
-    if (module.routes.hasOwnProperty(path)) {
-        module.routes[path].forEach((r => routes[0].children.push(r)));
+    if (module['routes'].hasOwnProperty(path)) {
+        module['routes'][path].forEach((r => routes[0].children.push(r)));
     }
 });
 
@@ -56,7 +62,8 @@ modulesConfig.forEach((module) => {
         CaixaEmailComponent,
         CaixaEmailFolderSidebarComponent,
         MailListComponent,
-        MailDetailsComponent
+        MailDetailsComponent,
+        MailProcessoFormComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -81,12 +88,18 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         MatBadgeModule,
-        CaixaEmailStoreModule
+        NgxUpperCaseDirectiveModule,
+        MatSlideToggleModule,
+        MatRadioModule,
+        CaixaEmailStoreModule,
+        CdkProcessoAutocompleteModule,
+        CdkProcessoGridsearchModule,
     ],
     providers: [
         fromGuards.ResolveGuard,
         ContaEmailService,
-        EmailClientService
+        EmailClientService,
+        ProcessoService
     ]
 })
 

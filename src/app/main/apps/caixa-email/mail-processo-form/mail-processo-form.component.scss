@@ -1,0 +1,33 @@
+@import "src/@cdk/scss/cdk";
+@import "src/@cdk/scss/partials/cdk-form";
+
+mail-processo-form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    .toolbar {
+        display: flex;
+        flex-direction: row;
+        place-content: center space-between;
+        align-items: center;
+        box-sizing: border-box;
+
+        .toolbar-separator {
+            height: 32px;
+            width: 1px;
+            margin: 0 12px;
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    mat-radio-button {
+        margin-right: 4px;
+    }
+}

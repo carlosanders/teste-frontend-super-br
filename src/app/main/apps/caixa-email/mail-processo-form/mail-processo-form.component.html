@@ -1,0 +1,63 @@
+<div class="toolbar px-24 py-8">
+    <button class="refresh" mat-icon-button
+            (click)="cancelar()"
+            [disabled]="saving || loading"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</div>
+<div class="content">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+        <label class="mb-8" id="tipo-rg">Selecione a destinação</label>
+
+        <mat-radio-group class="mb-8 tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
+            <mat-radio-button [value]="'processo_existente'">
+                Processo existente
+            </mat-radio-button>
+            <mat-radio-button class="ml-8" [value]="'novo_processo'">
+                Novo processo
+            </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field *ngIf="this.form.get('tipo').value === 'processo_existente'">
+            <input matInput placeholder="Processo"
+                   formControlName="processo"
+                   [matAutocomplete]="processo.autocomplete" required
+                   (blur)="checkProcesso()">
+            <cdk-processo-autocomplete
+                #processo="processoAutocomplete"
+                [control]="form.get('processo')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processo').hasError('formError')">
+                {{form.get('processo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div class="actions">
+            <button mat-raised-button color="accent" (click)="submit()" *ngIf="!saving"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" (click)="cancelar()" *ngIf="!saving">
+                CANCELAR
+            </button>
+            <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+        </div>
+    </form>
+
+    <cdk-processo-gridsearch
+        *ngIf="activeCard === 'processo-gridsearch'"
+        [pagination]="processoPagination"
+        (selected)="selectProcesso($event)"
+        (cancel)="cancel()">
+    </cdk-processo-gridsearch>
+</div>

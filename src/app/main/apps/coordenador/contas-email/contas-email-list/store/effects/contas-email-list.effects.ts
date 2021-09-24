@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
-import {getRouterState, State} from '../../../../../../../store/reducers';
+import {getRouterState, State} from '../../../../../../../store';
 import * as ContaEmailListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {ContaEmailService} from '@cdk/services/conta-email.service';
@@ -37,35 +37,35 @@ export class ContaEmailListEffects {
      *
      * @type {Observable<any>}
      */
-    @Effect()
-    getContaEmail: any =
-        this._actions
+    getContaEmail: Observable<any> = createEffect(() => {
+        return this._actions
             .pipe(
                 ofType<ContaEmailListActions.GetContaEmail>(ContaEmailListActions.GET_CONTA_EMAIL),
                 switchMap(action => this._contaEmailService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.gridFilter,
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context)).pipe(
-                        mergeMap(response => [
-                            new AddData<ContaEmail>({data: response['entities'], schema: contaEmailSchema}),
-                            new ContaEmailListActions.GetContaEmailSuccess({
-                                entitiesId: response['entities'].map(contaEmail => contaEmail.id),
-                                loaded: {
-                                    id: 'contaEmailHandle',
-                                    value: this.routerState.params.contaEmailHandle
-                                },
-                                total: response['total']
-                            })
-                        ]),
-                        catchError((err) => {
-                            return of(new ContaEmailListActions.GetContaEmailFailed(err));
+                    JSON.stringify({
+                        ...action.payload.filter,
+                        ...action.payload.gridFilter,
+                    }),
+                    action.payload.limit,
+                    action.payload.offset,
+                    JSON.stringify(action.payload.sort),
+                    JSON.stringify(action.payload.populate),
+                    JSON.stringify(action.payload.context)).pipe(
+                    mergeMap(response => [
+                        new AddData<ContaEmail>({data: response['entities'], schema: contaEmailSchema}),
+                        new ContaEmailListActions.GetContaEmailSuccess({
+                            entitiesId: response['entities'].map(contaEmail => contaEmail.id),
+                            loaded: {
+                                id: 'contaEmailHandle',
+                                value: this.routerState.params['contaEmailHandle']
+                            },
+                            total: response['total']
                         })
-                    ))
+                    ]),
+                    catchError((err) => {
+                        return of(new ContaEmailListActions.GetContaEmailFailed(err));
+                    })
+                ))
             );
+    });
 }
