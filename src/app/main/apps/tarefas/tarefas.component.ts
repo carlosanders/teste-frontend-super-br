@@ -429,33 +429,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(errors => !!errors),
             takeUntil(this._unsubscribeAll)
         ).subscribe((errors) => {
-            const error = 'Erro! ' + (errors.error.message || errors.statusText);
-            this._snackBar.open(error, null, {
-                duration: 5000,
-                horizontalPosition: this.horizontalPosition,
-                verticalPosition: this.verticalPosition,
-                panelClass: ['danger-snackbar']
-            });
-        });
-
-        this.errorDelete$.pipe(
-            filter(errors => !!errors),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((errors) => {
-            const error = 'Erro! ' + (errors.error.message || errors.statusText);
-            this._snackBar.open(error, null, {
-                duration: 5000,
-                horizontalPosition: this.horizontalPosition,
-                verticalPosition: this.verticalPosition,
-                panelClass: ['danger-snackbar']
-            });
-        });
-
-        this.errorDistribuir$.pipe(
-            filter(errors => !!errors),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((errors) => {
-            const error = 'Erro! ' + (errors.error.message || errors.statusText);
+            const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
             this._snackBar.open(error, null, {
                 duration: 5000,
                 horizontalPosition: this.horizontalPosition,
