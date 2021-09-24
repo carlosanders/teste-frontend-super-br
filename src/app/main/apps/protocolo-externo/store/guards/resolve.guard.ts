@@ -3,12 +3,12 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {select, Store} from '@ngrx/store';
 
-import {forkJoin, Observable, of, throwError} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {ProcessosAppState} from '../reducers';
 import * as fromStore from '../../store';
-import {getIsLoading, getPessoaLoaded, getPessoaLoading, getProcessosLoaded} from '../selectors';
+import {getIsLoading, getPessoaLoaded, getProcessosLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -16,11 +16,10 @@ import {Usuario} from '@cdk/models';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
+    routerState: any;
+    loading: boolean = false;
     private _profile: Usuario;
     private unidadeArquivistica = 2;
-    routerState: any;
-
-    loading: boolean = false;
 
     /**
      *
@@ -33,13 +32,13 @@ export class ResolveGuard implements CanActivate {
         private _router: Router,
         private _loginService: LoginService
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
 
         this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
 
@@ -147,7 +146,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.loading || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) === loaded.value)),
+                (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) === loaded.value)),
             take(1)
         );
     }
@@ -180,7 +179,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
-                    && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] === loaded.value)),
+                && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] === loaded.value)),
             take(1)
         );
     }

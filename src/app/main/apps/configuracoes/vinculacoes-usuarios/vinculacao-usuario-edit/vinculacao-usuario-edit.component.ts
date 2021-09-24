@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -11,6 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Back, getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'vinculacao-usuario-edit',
@@ -31,6 +32,7 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
 
     usuarioVinculadoPagination: Pagination;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -51,13 +53,12 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
         this.usuarioVinculadoPagination.filter = {'colaborador.id': 'isNotNull'};
         this.logEntryPagination = new Pagination();
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -68,22 +69,28 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.vinculacaoUsuario$.subscribe(
-            vinculacaoUsuario => this.vinculacaoUsuario = vinculacaoUsuario
-        );
+        this.vinculacaoUsuario$.pipe(
+            filter(vinculacaoUsuario => !!vinculacaoUsuario),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(vinculacaoUsuario => this.vinculacaoUsuario = vinculacaoUsuario);
 
         if (!this.vinculacaoUsuario) {
             this.vinculacaoUsuario = new VinculacaoUsuario();
             this.vinculacaoUsuario.usuario = this.usuario;
         }
 
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\VinculacaoUsuario', id: + this.vinculacaoUsuario.id};
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\VinculacaoUsuario',
+            id: +this.vinculacaoUsuario.id
+        };
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

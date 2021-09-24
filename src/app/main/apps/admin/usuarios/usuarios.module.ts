@@ -25,24 +25,28 @@ const routes: Routes = [
         component: UsuariosComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./usuarios-list/usuarios-list.module').then(m => m.UsuariosListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./usuario-edit/usuario-edit.module').then(m => m.UsuarioEditModule),
             },
             {
-                path       : ':usuarioHandle/lotacoes',
+                path: ':usuarioHandle/lotacoes',
                 loadChildren: () => import('../lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
             },
             {
-                path       : ':usuarioHandle/afastamentos',
+                path: ':usuarioHandle/afastamentos',
                 loadChildren: () => import('./afastamentos/admin-afastamentos.module').then(m => m.AdminAfastamentosModule),
             },
             {
-                path       : ':usuarioHandle/coordenadores',
+                path: ':usuarioHandle/coordenadores',
                 loadChildren: () => import('./coordenadores/admin-coordenadores.module').then(m => m.AdminCoordenadoresModule),
+            },
+            {
+                path: ':usuarioHandle/roles',
+                loadChildren: () => import('./roles/admin-roles.module').then(m => m.AdminRolesModule),
             },
             {
                 path: '**',

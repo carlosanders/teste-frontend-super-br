@@ -17,6 +17,7 @@ import {
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import {TourModule} from './tour/tour.module';
+import {CdkConfigService} from "../@cdk/services/config.service";
 
 
 @NgModule({
@@ -38,7 +39,9 @@ import {TourModule} from './tour/tour.module';
     exports: [
         AjudaComponent
     ],
-    providers: []
+    providers: [
+        CdkConfigService
+    ]
 })
 export class AjudaModule {
 }

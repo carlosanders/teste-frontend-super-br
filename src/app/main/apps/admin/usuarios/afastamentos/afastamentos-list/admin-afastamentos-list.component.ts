@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Afastamento, Pagination} from '@cdk/models';
@@ -8,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'coordenador-afastamentos-list',
@@ -17,7 +25,7 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AdminAfastamentosListComponent implements OnInit {
+export class AdminAfastamentosListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     afastamentos$: Observable<Afastamento[]>;
@@ -29,6 +37,7 @@ export class AdminAfastamentosListComponent implements OnInit {
     deletedIds$: Observable<any>;
     colaboradorPagination: Pagination = new Pagination();
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -47,13 +56,12 @@ export class AdminAfastamentosListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.colaboradorPagination.filter = {};
         this.colaboradorPagination.populate = ['populateAll'];
@@ -66,10 +74,25 @@ export class AdminAfastamentosListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetAfastamentos({
@@ -89,11 +112,11 @@ export class AdminAfastamentosListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(afastamentoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + afastamentoId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + afastamentoId]).then();
     }
 
     delete(afastamentoId: number, loteId: string = null): void {
@@ -105,7 +128,7 @@ export class AdminAfastamentosListComponent implements OnInit {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

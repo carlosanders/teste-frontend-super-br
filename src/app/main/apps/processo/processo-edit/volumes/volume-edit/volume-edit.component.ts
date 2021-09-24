@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Pagination, Processo, Volume} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -9,6 +9,8 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getProcesso} from '../../../store';
 import {Back} from '../../../../../../store';
+import {CdkUtils} from '@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'volume-edit',
@@ -30,6 +32,7 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
 
     modalidadeMeioPagination: Pagination;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * @param _store
@@ -44,7 +47,6 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
 
         this.modalidadeMeioPagination = new Pagination();
         this.logEntryPagination = new Pagination();
-        // this.modalidadeMeioPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -55,26 +57,32 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            processo => this.processo = processo
-        );
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processo => this.processo = processo);
 
-        this.volume$.subscribe(
-            volume => this.volume = volume
-        );
+        this.volume$.pipe(
+            filter(volume => !!volume),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(volume => this.volume = volume);
 
         if (!this.volume) {
             this.volume = new Volume();
             this.volume.processo = this.processo;
         }
 
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Volume', id: + this.volume.id};
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\Volume',
+            id: +this.volume.id
+        };
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }
 
@@ -83,7 +91,6 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const volume = new Volume();
 
         Object.entries(values).forEach(
@@ -92,8 +99,8 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveVolume(volume));
-
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveVolume({volume: volume, operacaoId: operacaoId}));
     }
 
     doAbort(): void {

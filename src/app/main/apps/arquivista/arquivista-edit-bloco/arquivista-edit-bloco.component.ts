@@ -2,14 +2,14 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {Processo} from '@cdk/models';
-import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
+import {getOperacoes, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
 import {getSelectedProcessos} from '../arquivista-list/store';
@@ -25,22 +25,22 @@ import {CdkUtils} from '@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
+export class ArquivistaEditBlocoComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
     loading: boolean;
     processos: Processo[] = [];
     processos$: Observable<Processo[]>;
     total = 0;
-
     routerState: RouterStateUrl;
     savingId$: Observable<number[]>;
     errors$: Observable<any>;
     operacoes: any[] = [];
-
+    operacoesPendentes: any[] = [];
     blocoEditClassificacao = false;
     blocoEditDataHoraProximaTransicao = false;
     blocoEditLembrete = true;
+    lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     constructor(
         private _store: Store<fromStore.ArquivistaEditBlocoAppState>,
@@ -60,29 +60,23 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
             this.processos = processos;
         });
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'arquivista')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'arquivista' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'arquivista' && operacao.lote === this.lote && operacao.status === 0);
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    this.operacoes = [];
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
+        });
     }
 
     ngAfterViewInit(): void {
@@ -94,6 +88,14 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
                 this.routerState.params.typeHandle
             ]).then();
         }
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     doAbort(): void {
@@ -108,7 +110,7 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
 
     submit(values): void {
         this.operacoes = [];
-        const loteId = CdkUtils.makeId();
+        this.lote = CdkUtils.makeId();
         this.processos.forEach((processoBloco) => {
             const processo = new Processo();
             processo.id = processoBloco.id;
@@ -123,13 +125,13 @@ export class ArquivistaEditBlocoComponent implements OnInit, AfterViewInit {
 
             const payload: any = {
                 operacaoId: operacaoId,
-                loteId: loteId,
+                loteId: this.lote,
                 processo: processo,
                 changes: changes,
                 redo: [
                     new fromStore.SaveProcesso({
                         operacaoId: operacaoId,
-                        loteId: loteId,
+                        loteId: this.lote,
                         processo: processo,
                         changes: changes,
                         redo: 'inherent',

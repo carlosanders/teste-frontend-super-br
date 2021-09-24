@@ -63,8 +63,6 @@ export function VinculacaoPessoaUsuarioListReducer(
         }
 
         case VinculacaoPessoaUsuarioListActions.GET_VINCULACAO_PESSOA_USUARIO_SUCCESS: {
-            const loaded = action.payload.loaded;
-
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
@@ -97,7 +95,7 @@ export function VinculacaoPessoaUsuarioListReducer(
         case VinculacaoPessoaUsuarioListActions.DELETE_VINCULACAO_PESSOA_USUARIO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.vinculacaoPessoaUsuarioId]
             };
         }
 
@@ -113,7 +111,7 @@ export function VinculacaoPessoaUsuarioListReducer(
         case VinculacaoPessoaUsuarioListActions.DELETE_VINCULACAO_PESSOA_USUARIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

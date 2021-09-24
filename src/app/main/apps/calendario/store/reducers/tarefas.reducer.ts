@@ -94,7 +94,7 @@ export function CalendarioReducer(state = CalendarioInitialState, action: Tarefa
         case TarefasActions.DELETE_TAREFA: {
             return {
                 ...state,
-                deletingTarefaIds: [...state.deletingTarefaIds, action.payload]
+                deletingTarefaIds: [...state.deletingTarefaIds, action.payload.tarefaId]
             };
         }
 
@@ -114,7 +114,7 @@ export function CalendarioReducer(state = CalendarioInitialState, action: Tarefa
         case TarefasActions.DELETE_TAREFA_FAILED: {
             return {
                 ...state,
-                deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload)
+                deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload.id)
             };
         }
 

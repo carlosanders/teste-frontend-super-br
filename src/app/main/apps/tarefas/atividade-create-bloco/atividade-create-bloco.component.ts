@@ -18,7 +18,7 @@ import * as moment from 'moment';
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getMercureState, getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -88,9 +88,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     encerraTarefa: boolean;
 
     lote: string;
+    loteAtividades: string;
 
     private _unsubscribeAll: Subject<any> = new Subject();
-
     private _profile: Colaborador;
 
     /**
@@ -128,18 +128,13 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
         this.processosIdsEncaminhar$ = this._store.pipe(select(getProcessosIdsEncaminhar));
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'atividade')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'atividade' && operacao.lote === this.loteAtividades);
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -210,15 +205,15 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 }
             } else if (this.processosIdsEncaminhar.length > 0) {
                 // tslint:disable-next-line:max-line-length
+                // eslint-disable-next-line max-len
                 this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/encaminhamento-bloco']).then();
             }
         });
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((message) => {
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -256,19 +251,17 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.documentos$.pipe(
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            (documentos) => {
-                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
-                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+        ).subscribe((documentos) => {
+            this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
 
-                this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
+            this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
 
-                if (this.atividade.encerraTarefa) {
-                    this.disabledIds = this.minutas.map(minuta => minuta.id);
-                }
-                this._changeDetectorRef.markForCheck();
+            if (this.atividade.encerraTarefa) {
+                this.disabledIds = this.minutas.map(minuta => minuta.id);
             }
-        );
+            this._changeDetectorRef.markForCheck();
+        });
 
         this.assinandoDocumentosId$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -307,11 +300,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         delete values.unidadeAprovacao;
 
         this.operacoes = [];
-
+        this.loteAtividades = CdkUtils.makeId();
         this.encerraTarefa = values.encerraTarefa;
 
         this.tarefas.forEach((tarefa) => {
@@ -336,7 +328,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveAtividade({
                 atividade: atividade,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.loteAtividades
             }));
         });
     }
@@ -374,7 +367,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         }));
     }
 
-    doDeleteBloco(ids) {
+    doDeleteBloco(ids): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.doDelete(id, this.lote));
     }
@@ -391,6 +384,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             });
             this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
         } else {
+            const lote = CdkUtils.makeId();
             result?.documentos?.forEach((documento) => {
                 documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -404,7 +398,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     const operacaoId = CdkUtils.makeId();
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
-                        operacaoId: operacaoId
+                        documento: documento,
+                        operacaoId: operacaoId,
+                        loteId: lote
                     }));
                 });
             });
@@ -424,8 +420,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 assinatura.assinatura = 'A1';
                 assinatura.plainPassword = result.plainPassword;
 
+                const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura
+                    assinatura: assinatura,
+                    documento: result.documento,
+                    operacaoId: operacaoId
                 }));
             });
         }

@@ -1,17 +1,17 @@
 <div class="content" cdkPerfectScrollbar>
-    <mat-list *ngIf="operacoes.length > 1" fxFlex cdkScrollTo>
+    <mat-list *ngIf="operacoes.length > 0 && lote !== ''" cdkScrollTo>
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
 
         <mat-list-item *ngFor="let operacao of operacoes">
             <p matLine class="mb-4 p-8 secondary-text"
-               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+               [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
 
     <cdk-tarefa-form
-        *ngIf="operacoes.length <= 1"
+        [hidden]="operacoes.length > 0 && lote !== ''"
         [tarefa]="tarefa"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -22,7 +22,14 @@
         [setorOrigemPaginationTree]="setorOrigemPaginationTree"
         [lotacaoPagination]="lotacaoPagination"
         (save)="submit($event)"
+        (saveBloco)="submitLote($event)"
         (abort)="cancel()"
         (processo)="verificaVisibilidadeProcesso($event)">
     </cdk-tarefa-form>
+
+    <div class="actions" *ngIf="lote !== '' && operacoes.length > 0 && operacoesPendentes.length === 0">
+        <button mat-raised-button color="warn" type="button" (click)="cancel()">
+            VOLTAR
+        </button>
+    </div>
 </div>

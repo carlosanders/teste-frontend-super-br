@@ -11,9 +11,9 @@ import {getConfig, getErrorMessage, getLoadingConfig} from './store';
 import {LoginService} from './login.service';
 import {filter} from 'rxjs/operators';
 import packageInfo from '../../../../../package.json';
-import * as LoginActions from "./store/actions/login.actions";
-import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+import * as LoginActions from './store/actions/login.actions';
+import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -71,13 +71,12 @@ export class LoginComponent implements OnInit {
             }
         };
 
-        this.store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this.store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.getLoginState = this.store.pipe(select(getLoginAppState));
         this.config$ = this.store.pipe(select(getConfig));
@@ -96,7 +95,7 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
         this.versionChanged$.pipe(
             filter(changed => !!changed)
-        ).subscribe(versionChanged => {
+        ).subscribe((versionChanged) => {
             const dialogRef = this._dialog.open(CdkConfirmDialogComponent, {
                 data: {
                     title: 'Nova versão lançada',
@@ -133,6 +132,7 @@ export class LoginComponent implements OnInit {
             this.cdkConfigService.sigla = config.sigla;
             this.cdkConfigService.barramento = config.barramento;
             localStorage.setItem('barramento', config.barramento);
+            this.cdkConfigService.email = config.email;
         });
 
         if (environment.base_url_x509) {

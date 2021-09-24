@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
@@ -6,6 +6,7 @@ import * as fromStore from '../store';
 import {Documento, Template} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'template-edit',
@@ -15,7 +16,7 @@ import {Location} from '@angular/common';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoTemplateEditComponent implements OnInit, OnDestroy {
+export class DocumentoTemplateEditComponent implements OnInit {
 
     documento$: Observable<Documento>;
 
@@ -40,12 +41,6 @@ export class DocumentoTemplateEditComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
     }
 
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
-    }
-
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -64,7 +59,11 @@ export class DocumentoTemplateEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveTemplate(template));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveTemplate({
+            template: template,
+            operacaoId: operacaoId
+        }));
     }
 
 }

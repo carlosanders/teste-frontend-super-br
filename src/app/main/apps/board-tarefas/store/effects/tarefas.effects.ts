@@ -15,6 +15,7 @@ import {Observable, of} from 'rxjs';
 import {
     catchError,
     concatMap,
+    filter,
     map,
     mergeMap,
     tap
@@ -30,12 +31,372 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
-import {InteressadoService} from "../../../../../../@cdk/services/interessado.service";
-import {AssuntoService} from "../../../../../../@cdk/services/assunto.service";
+import {InteressadoService} from '../../../../../../@cdk/services/interessado.service';
+import {AssuntoService} from '../../../../../../@cdk/services/assunto.service';
 
 @Injectable()
 export class TarefasEffect {
     routerState: any;
+    getTarefas: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
+        concatMap(action => this._tarefaService.query(
+                JSON.stringify({
+                    ...action.payload.pagination.filter,
+                    ...action.payload.pagination.folderFilter,
+                    ...action.payload.pagination.listFilter,
+                    ...action.payload.pagination.etiquetaFilter
+                }),
+                action.payload.pagination.limit,
+                action.payload.pagination.offset,
+                JSON.stringify(action.payload.pagination.sort),
+                JSON.stringify(action.payload.pagination.populate),
+                JSON.stringify(action.payload.pagination.context)).pipe(
+                concatMap(response => [
+                    new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
+                    new TarefasActions.GetTarefasSuccess({
+                        entitiesId: response['entities'].map(tarefa => tarefa.id),
+                        nome: action.payload.nome,
+                        total: response['total']
+                    })
+                ]),
+                catchError(err => of(new TarefasActions.GetTarefasFailed({
+                    error: err,
+                    nome: action.payload.nome
+                })))
+            )
+        )
+    ));
+    deleteTarefa: Observable<TarefasActions.TarefasActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.DeleteTarefas>(TarefasActions.DELETE_TAREFAS),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tarefa',
+            content: 'Apagando a tarefa id ' + action.payload.tarefa.id + '...',
+            status: 0, // carregando
+            lote: action.payload.loteId,
+            redo: action.payload.redo,
+            undo: action.payload.undo
+        }))),
+        mergeMap(action => this._tarefaService.destroy(action.payload.tarefa.id).pipe(
+            map((response) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Tarefa id ' + action.payload.tarefa.id + ' deletada com sucesso.',
+                    status: 1, // sucesso
+                    lote: action.payload.loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                }));
+                this._store.dispatch(new UpdateData<Tarefa>({
+                    id: response.id,
+                    schema: tarefaSchema,
+                    changes: {apagadoEm: response.apagadoEm}
+                }));
+                return new TarefasActions.DeleteTarefasSuccess(action.payload);
+            }),
+            catchError((err) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Erro ao apagar a tarefa id ' + action.payload.tarefa.id + '!',
+                    status: 2, // erro
+                    lote: action.payload.loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                }));
+                return of(new TarefasActions.DeleteTarefasFailed({
+                    ...action.payload,
+                    error: err
+                }));
+            })
+        ), 25)
+    ));
+    undeleteTarefa: Observable<TarefasActions.TarefasActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.UndeleteTarefas>(TarefasActions.UNDELETE_TAREFAS),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tarefa',
+            content: 'Restaurando a tarefa id ' + action.payload.tarefa.id + '...',
+            status: 0, // carregando
+        }))),
+        mergeMap((action) => {
+            const folder = action.payload.folder ? action.payload.folder.id : null;
+            const context: any = {};
+            if (folder) {
+                context.folderId = folder;
+            }
+            return this._tarefaService.undelete(
+                action.payload.tarefa,
+                JSON.stringify(
+                    [
+                        'folder',
+                        'processo',
+                        'colaborador.usuario',
+                        'setor.especieSetor',
+                        'setor.generoSetor',
+                        'setor.parent',
+                        'setor.unidade',
+                        'processo.especieProcesso',
+                        'processo.especieProcesso.generoProcesso',
+                        'processo.modalidadeMeio',
+                        'processo.documentoAvulsoOrigem',
+                        'especieTarefa',
+                        'usuarioResponsavel',
+                        'setorResponsavel',
+                        'setorResponsavel.unidade',
+                        'setorOrigem',
+                        'setorOrigem.unidade',
+                        'especieTarefa.generoTarefa',
+                        'vinculacoesEtiquetas',
+                        'vinculacoesEtiquetas.etiqueta',
+                        'processo.especieProcesso.workflow',
+                        'workflow'
+                    ]
+                ),
+                JSON.stringify(context)
+            ).pipe(
+                map((response) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Tarefa id ' + action.payload.tarefa.id + ' restaurada com sucesso.',
+                        status: 1, // sucesso
+                    }));
+                    this._store.dispatch(new AddData<Tarefa>({
+                        data: [response],
+                        schema: tarefaSchema
+                    }));
+                    return new TarefasActions.UndeleteTarefasSuccess(action.payload);
+                }),
+                catchError((err) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Erro ao restaurar a tarefa id ' + action.payload.tarefa.id + '!',
+                        status: 2, // erro
+                    }));
+                    return of(new TarefasActions.UndeleteTarefasFailed({
+                        ...action.payload,
+                        error: err
+                    }));
+                })
+            );
+        }, 25)
+    ));
+    toggleUrgenteTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.ToggleUrgenteTarefa>(TarefasActions.TOGGLE_URGENTE_TAREFA),
+        mergeMap(action => this._tarefaService.patch(action.payload, {
+            urgente: !action.payload.urgente
+        }).pipe(
+            mergeMap(response => [
+                new TarefasActions.ToggleUrgenteTarefaSuccess(response.id),
+                new UpdateData<Tarefa>({
+                    id: response.id,
+                    schema: tarefaSchema,
+                    changes: {urgente: response.urgente}
+                })
+            ]),
+            catchError(err => of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload)))
+        ))
+    ));
+    darCienciaTarefa: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.DarCienciaTarefas>(TarefasActions.DAR_CIENCIA_TAREFAS),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tarefa',
+            content: 'Dando ciência na tarefa id ' + action.payload.tarefa.id + '...',
+            status: 0, // carregando
+            lote: action.payload.loteId,
+            redo: action.payload.redo,
+            undo: action.payload.undo
+        }))),
+        mergeMap(action => this._tarefaService.ciencia(action.payload.tarefa).pipe(
+            map((response) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Tarefa id ' + action.payload.tarefa.id + ' ciência com sucesso.',
+                    status: 1, // sucesso
+                    lote: action.payload.loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                }));
+                this._store.dispatch(new AddData<Tarefa>({
+                    data: [response],
+                    schema: tarefaSchema,
+                }));
+                return new TarefasActions.DarCienciaTarefasSuccess(action.payload);
+            }),
+            catchError((err) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'tarefa',
+                    content: 'Erro ao dar ciência na tarefa id ' + action.payload.tarefa.id + '!',
+                    status: 2, // erro
+                    lote: action.payload.loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                }));
+                return of(new TarefasActions.DarCienciaTarefasFailed({
+                    ...action.payload,
+                    error: err
+                }));
+            })
+        ), 25)
+    ));
+    getInteressados: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetTarefasInteressados>(TarefasActions.GET_TAREFAS_INTERESSADOS),
+        mergeMap(action => this._interessadoService.query(
+            JSON.stringify({
+                ...action.payload.params.filter
+            }),
+            action.payload.params.limit,
+            action.payload.params.offset,
+            JSON.stringify(action.payload.params.sort),
+            JSON.stringify(action.payload.params.populate)).pipe(
+            mergeMap(response => [
+                new TarefasActions.GetTarefasInteressadosSuccess({
+                    processoId: action.payload.processoId,
+                    total: response['total']
+                }),
+                new AddChildData<Interessado>({
+                    data: response['entities'],
+                    childSchema: interessadoSchema,
+                    parentSchema: processoSchema,
+                    parentId: action.payload.processoId
+                }),
+            ]),
+            catchError(() => of(new TarefasActions.GetTarefasInteressadosFailed(action.payload.processoId)))
+        )),
+    ));
+    getAssuntos: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetTarefasAssuntos>(TarefasActions.GET_TAREFAS_ASSUNTOS),
+        mergeMap(action => this._assuntoService.query(
+            JSON.stringify({
+                ...action.payload.params.filter
+            }),
+            action.payload.params.limit,
+            action.payload.params.offset,
+            JSON.stringify(action.payload.params.sort),
+            JSON.stringify(action.payload.params.populate)).pipe(
+            mergeMap(response => [
+                new TarefasActions.GetTarefasAssuntosSuccess({
+                    processoId: action.payload.processoId,
+                    total: response['total']
+                }),
+                new AddChildData<Assunto>({
+                    data: response['entities'],
+                    childSchema: assuntoSchema,
+                    parentSchema: processoSchema,
+                    parentId: action.payload.processoId
+                }),
+            ]),
+            catchError(() => of(new TarefasActions.GetTarefasAssuntosFailed(action.payload.processoId)))
+        )),
+    ));
+    changeTarefasFolder: any = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.ChangeTarefasFolder>(TarefasActions.CHANGE_TAREFAS_FOLDER),
+        tap((action) => {
+            this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'tarefa',
+                content: `Movendo a tarefa id ${action.payload.tarefa.id} para a pasta ${(action.payload.newFolder?.nome || 'Entrada')}...`,
+                status: 0, // carregando
+                lote: action.payload.loteId,
+                redo: action.payload.redo,
+                undo: action.payload.undo
+            }));
+
+            if (action.payload.newFolder?.id) {
+                this._store.dispatch(new UpdateData<Tarefa>({
+                    id: action.payload.tarefa.id,
+                    schema: tarefaSchema,
+                    changes: {folder: action.payload.newFolder.id}
+                }));
+            } else {
+                this._store.dispatch(new UpdateData<Tarefa>({
+                    id: action.payload.tarefa.id,
+                    schema: tarefaSchema,
+                    changes: {folder: {id: null}}
+                }));
+            }
+        }),
+        concatMap((action) => {
+            const folder = action.payload.newFolder?.id || null;
+
+            return this._tarefaService.patch(
+                action.payload.tarefa,
+                {folder: folder},
+                JSON.stringify(
+                    [
+                        'folder',
+                        'processo',
+                        'colaborador.usuario',
+                        'setor.especieSetor',
+                        'setor.generoSetor',
+                        'setor.parent',
+                        'setor.unidade',
+                        'processo.especieProcesso',
+                        'processo.especieProcesso.generoProcesso',
+                        'processo.modalidadeMeio',
+                        'processo.documentoAvulsoOrigem',
+                        'especieTarefa',
+                        'usuarioResponsavel',
+                        'setorResponsavel',
+                        'setorResponsavel.unidade',
+                        'setorOrigem',
+                        'setorOrigem.unidade',
+                        'especieTarefa.generoTarefa',
+                        'vinculacoesEtiquetas',
+                        'vinculacoesEtiquetas.etiqueta',
+                        'processo.especieProcesso.workflow',
+                        'workflow'
+                    ]
+                )
+            ).pipe(
+                mergeMap((response: any) => [
+                    new TarefasActions.ChangeTarefasFolderSuccess({
+                        ...action.payload,
+                        tarefa: response
+                    }),
+                    new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: `Tarefa id ${action.payload.tarefa.id} movida para a pasta ${(action.payload.newFolder?.nome || 'Entrada')} com sucesso!`,
+                        status: 1, // sucesso
+                        lote: action.payload.loteId,
+                        redo: 'inherent',
+                        undo: 'inherent'
+                    })
+                ]),
+                catchError((err) => {
+                    this._store.dispatch(new UpdateData<Tarefa>({
+                        id: action.payload.tarefa.id,
+                        schema: tarefaSchema,
+                        changes: {folder: (action.payload.oldFolder || null)}
+                    }));
+
+                    this._store.dispatch(
+                        new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'tarefa',
+                            content: `Erro ao mover a tarefa id ${action.payload.tarefa.id} para a pasta ${(action.payload.newFolder?.nome || 'Entrada')}!`,
+                            status: 2, // erro
+                            lote: action.payload.loteId,
+                            redo: 'inherent',
+                            undo: 'inherent'
+                        })
+                    );
+
+                    return of(new TarefasActions.ChangeTarefasFolderFailed({
+                        ...action.payload,
+                        error: err
+                    }));
+                })
+            );
+        })
+    ));
 
     constructor(private _actions: Actions,
                 private _tarefaService: TarefaService,
@@ -43,431 +404,13 @@ export class TarefasEffect {
                 private _interessadoService: InteressadoService,
                 private _assuntoService: AssuntoService,
                 private _store: Store<State>,
-                private _router: Router)
-    {
-        this._store
-            .pipe(
-                select(getRouterState),
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+                private _router: Router) {
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
     }
-
-    getTarefas: Observable<any> = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
-                concatMap(action => this._tarefaService.query(
-                    JSON.stringify({
-                        ...action.payload.pagination.filter,
-                        ...action.payload.pagination.folderFilter,
-                        ...action.payload.pagination.listFilter,
-                        ...action.payload.pagination.etiquetaFilter
-                    }),
-                    action.payload.pagination.limit,
-                    action.payload.pagination.offset,
-                    JSON.stringify(action.payload.pagination.sort),
-                    JSON.stringify(action.payload.pagination.populate),
-                    JSON.stringify(action.payload.pagination.context)).pipe(
-                        concatMap(response => {
-                            return [
-                                new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
-                                new TarefasActions.GetTarefasSuccess({
-                                    entitiesId: response['entities'].map(tarefa => tarefa.id),
-                                    nome: action.payload.nome,
-                                    total: response['total']
-                                })
-                            ]
-                        }),
-                        catchError((err, caught) => {
-                            this._store.dispatch(new TarefasActions.GetTarefasFailed({
-                                error: err,
-                                nome: action.payload.nome
-                            }));
-                            return caught;
-                        })
-                    )
-                )
-            );
-    });
-
-    deleteTarefa: Observable<TarefasActions.TarefasActionsAll> = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.DeleteTarefas>(TarefasActions.DELETE_TAREFAS),
-                tap((action) => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
-                        type: 'tarefa',
-                        content: 'Apagando a tarefa id ' + action.payload.tarefa.id + '...',
-                        status: 0, // carregando
-                        lote: action.payload.loteId,
-                        redo: action.payload.redo,
-                        undo: action.payload.undo
-                    }));
-                }),
-                mergeMap((action) => {
-                    return this._tarefaService.destroy(action.payload.tarefa.id).pipe(
-                        map((response) => {
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Tarefa id ' + action.payload.tarefa.id + ' deletada com sucesso.',
-                                status: 1, // sucesso
-                                lote: action.payload.loteId,
-                                redo: 'inherent',
-                                undo: 'inherent'
-                            }));
-                            new UpdateData<Tarefa>({
-                                id: response.id,
-                                schema: tarefaSchema,
-                                changes: {apagadoEm: response.apagadoEm}
-                            });
-                            return new TarefasActions.DeleteTarefasSuccess(action.payload);
-                        }),
-                        catchError((err) => {
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Erro ao apagar a tarefa id ' + action.payload.tarefa.id + '!',
-                                status: 2, // erro
-                                lote: action.payload.loteId,
-                                redo: 'inherent',
-                                undo: 'inherent'
-                            }));
-                            return of(new TarefasActions.DeleteTarefasFailed({
-                                ...action.payload,
-                                error: err
-                            }));
-                        })
-                    );
-                }, 25)
-            );
-    });
-
-    undeleteTarefa: Observable<TarefasActions.TarefasActionsAll> = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.UndeleteTarefas>(TarefasActions.UNDELETE_TAREFAS),
-                tap((action) => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
-                        type: 'tarefa',
-                        content: 'Restaurando a tarefa id ' + action.payload.tarefa.id + '...',
-                        status: 0, // carregando
-                    }));
-                }),
-                mergeMap((action) => {
-                    const folder = action.payload.folder ? action.payload.folder.id : null;
-                    const context: any = {};
-                    if (folder) {
-                        context.folderId = folder;
-                    }
-                    return this._tarefaService.undelete(
-                        action.payload.tarefa,
-                        JSON.stringify(
-                            [
-                                'folder',
-                                'processo',
-                                'colaborador.usuario',
-                                'setor.especieSetor',
-                                'setor.generoSetor',
-                                'setor.parent',
-                                'setor.unidade',
-                                'processo.especieProcesso',
-                                'processo.especieProcesso.generoProcesso',
-                                'processo.modalidadeMeio',
-                                'processo.documentoAvulsoOrigem',
-                                'especieTarefa',
-                                'usuarioResponsavel',
-                                'setorResponsavel',
-                                'setorResponsavel.unidade',
-                                'setorOrigem',
-                                'setorOrigem.unidade',
-                                'especieTarefa.generoTarefa',
-                                'vinculacoesEtiquetas',
-                                'vinculacoesEtiquetas.etiqueta',
-                                'processo.especieProcesso.workflow',
-                                'workflow'
-                            ]
-                        ),
-                        JSON.stringify(context)
-                    ).pipe(
-                        map((response) => {
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Tarefa id ' + action.payload.tarefa.id + ' restaurada com sucesso.',
-                                status: 1, // sucesso
-                            }));
-                            this._store.dispatch(new AddData<Tarefa>({
-                                data: [response],
-                                schema: tarefaSchema
-                            }));
-                            return new TarefasActions.UndeleteTarefasSuccess(action.payload);
-                        }),
-                        catchError((err) => {
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Erro ao restaurar a tarefa id ' + action.payload.tarefa.id + '!',
-                                status: 2, // erro
-                            }));
-                            return of(new TarefasActions.UndeleteTarefasFailed({
-                                ...action.payload,
-                                error: err
-                            }));
-                        })
-                    );
-                }, 25)
-            );
-    });
-
-    toggleUrgenteTarefa: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.ToggleUrgenteTarefa>(TarefasActions.TOGGLE_URGENTE_TAREFA),
-                mergeMap(action => this._tarefaService.patch(action.payload, {
-                    urgente: !action.payload.urgente
-                }).pipe(
-                    mergeMap(response => [
-                        new TarefasActions.ToggleUrgenteTarefaSuccess(response.id),
-                        new UpdateData<Tarefa>({
-                            id: response.id,
-                            schema: tarefaSchema,
-                            changes: {urgente: response.urgente}
-                        })
-                    ]),
-                    catchError((err) => {
-                        return of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload));
-                    })
-                ))
-            );
-    });
-
-    darCienciaTarefa: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.DarCienciaTarefas>(TarefasActions.DAR_CIENCIA_TAREFAS),
-                tap((action) => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
-                        type: 'tarefa',
-                        content: 'Dando ciência na tarefa id ' + action.payload.tarefa.id + '...',
-                        status: 0, // carregando
-                        lote: action.payload.loteId,
-                        redo: action.payload.redo,
-                        undo: action.payload.undo
-                    }));
-                }),
-                mergeMap((action) => {
-                    return this._tarefaService.ciencia(action.payload.tarefa).pipe(
-                        map((response) => {
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Tarefa id ' + action.payload.tarefa.id + ' ciência com sucesso.',
-                                status: 1, // sucesso
-                                lote: action.payload.loteId,
-                                redo: 'inherent',
-                                undo: 'inherent'
-                            }));
-                            new AddData<Tarefa>({
-                                data: [response],
-                                schema: tarefaSchema,
-                            });
-                            return new TarefasActions.DarCienciaTarefasSuccess(action.payload);
-                        }),
-                        catchError((err) => {
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: 'Erro ao dar ciência na tarefa id ' + action.payload.tarefa.id + '!',
-                                status: 2, // erro
-                                lote: action.payload.loteId,
-                                redo: 'inherent',
-                                undo: 'inherent'
-                            }));
-                            return of(new TarefasActions.DarCienciaTarefasFailed({
-                                ...action.payload,
-                                error: err
-                            }));
-                        })
-                    );
-                }, 25)
-            );
-    });
-
-    getInteressados: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.GetTarefasInteressados>(TarefasActions.GET_TAREFAS_INTERESSADOS),
-                mergeMap(action => this._interessadoService.query(
-                        JSON.stringify({
-                            ...action.payload.params.filter
-                        }),
-                        action.payload.params.limit,
-                        action.payload.params.offset,
-                        JSON.stringify(action.payload.params.sort),
-                        JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap(response => [
-                            new TarefasActions.GetTarefasInteressadosSuccess({
-                                processoId: action.payload.processoId,
-                                total: response['total']
-                            }),
-                            new AddChildData<Interessado>({
-                                data: response['entities'],
-                                childSchema: interessadoSchema,
-                                parentSchema: processoSchema,
-                                parentId: action.payload.processoId
-                            }),
-                        ]),
-                        catchError((err, caught) => {
-                            this._store.dispatch(new TarefasActions.GetTarefasInteressadosFailed(action.payload.processoId));
-                            return caught;
-                        })
-                    )),
-            );
-    });
-
-    getAssuntos: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.GetTarefasAssuntos>(TarefasActions.GET_TAREFAS_ASSUNTOS),
-                mergeMap(action => this._assuntoService.query(
-                        JSON.stringify({
-                            ...action.payload.params.filter
-                        }),
-                        action.payload.params.limit,
-                        action.payload.params.offset,
-                        JSON.stringify(action.payload.params.sort),
-                        JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap(response => [
-                            new TarefasActions.GetTarefasAssuntosSuccess({
-                                processoId: action.payload.processoId,
-                                total: response['total']
-                            }),
-                            new AddChildData<Assunto>({
-                                data: response['entities'],
-                                childSchema: assuntoSchema,
-                                parentSchema: processoSchema,
-                                parentId: action.payload.processoId
-                            }),
-                        ]),
-                        catchError((err, caught) => {
-                            this._store.dispatch(new TarefasActions.GetTarefasAssuntosFailed(action.payload.processoId));
-                            return caught;
-                        })
-                    )),
-            );
-    });
-
-    changeTarefasFolder: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<TarefasActions.ChangeTarefasFolder>(TarefasActions.CHANGE_TAREFAS_FOLDER),
-                tap(action => {
-                    this._store.dispatch(new OperacoesActions.Operacao({
-                        id: action.payload.operacaoId,
-                        type: 'tarefa',
-                        content: `Movendo a tarefa id ${action.payload.tarefa.id} para a pasta ${(action.payload.newFolder?.nome || 'Entrada')}...`,
-                        status: 0, // carregando
-                        lote: action.payload.loteId,
-                        redo: action.payload.redo,
-                        undo: action.payload.undo
-                    }));
-
-                    if (action.payload.newFolder?.id) {
-                        this._store.dispatch(new UpdateData<Tarefa>({
-                            id: action.payload.tarefa.id,
-                            schema: tarefaSchema,
-                            changes: {folder: action.payload.newFolder.id}
-                        }));
-                    } else {
-                        this._store.dispatch(new UpdateData<Tarefa>({
-                            id: action.payload.tarefa.id,
-                            schema: tarefaSchema,
-                            changes: {folder: {id: null}}
-                        }));
-                    }
-                }),
-                concatMap((action) => {
-                    const folder = action.payload.newFolder?.id || null;
-
-                    return this._tarefaService.patch(
-                        action.payload.tarefa,
-                        {folder: folder},
-                        JSON.stringify(
-                            [
-                                'folder',
-                                'processo',
-                                'colaborador.usuario',
-                                'setor.especieSetor',
-                                'setor.generoSetor',
-                                'setor.parent',
-                                'setor.unidade',
-                                'processo.especieProcesso',
-                                'processo.especieProcesso.generoProcesso',
-                                'processo.modalidadeMeio',
-                                'processo.documentoAvulsoOrigem',
-                                'especieTarefa',
-                                'usuarioResponsavel',
-                                'setorResponsavel',
-                                'setorResponsavel.unidade',
-                                'setorOrigem',
-                                'setorOrigem.unidade',
-                                'especieTarefa.generoTarefa',
-                                'vinculacoesEtiquetas',
-                                'vinculacoesEtiquetas.etiqueta',
-                                'processo.especieProcesso.workflow',
-                                'workflow'
-                            ]
-                        )
-                    ).pipe(
-                        mergeMap((response: any) => [
-                            new TarefasActions.ChangeTarefasFolderSuccess({
-                                ...action.payload,
-                                tarefa: response
-                            }),
-                            new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'tarefa',
-                                content: `Tarefa id ${action.payload.tarefa.id} movida para a pasta ${(action.payload.newFolder?.nome || 'Entrada')} com sucesso!`,
-                                status: 1, // sucesso
-                                lote: action.payload.loteId,
-                                redo: 'inherent',
-                                undo: 'inherent'
-                            })
-                        ]),
-                        catchError((err) => {
-                            this._store.dispatch(new UpdateData<Tarefa>({
-                                id: action.payload.tarefa.id,
-                                schema: tarefaSchema,
-                                changes: {folder: (action.payload.oldFolder || null )}
-                            }));
-
-                            this._store.dispatch(
-                                new OperacoesActions.Operacao({
-                                    id: action.payload.operacaoId,
-                                    type: 'tarefa',
-                                    content: `Erro ao mover a tarefa id ${action.payload.tarefa.id} para a pasta ${(action.payload.newFolder?.nome || 'Entrada')}!`,
-                                    status: 2, // erro
-                                    lote: action.payload.loteId,
-                                    redo: 'inherent',
-                                    undo: 'inherent'
-                                })
-                            );
-
-                            return of(new TarefasActions.ChangeTarefasFolderFailed({
-                                ...action.payload,
-                                error: err
-                            }));
-                        })
-                    );
-                })
-            );
-    });
 
 }

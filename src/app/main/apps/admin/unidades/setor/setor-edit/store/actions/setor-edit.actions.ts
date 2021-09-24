@@ -14,96 +14,80 @@ export const GET_SETOR_FAILED = '[ADMIN SETOR EDIT] GET SETOR FAILED';
 /**
  * Get Setor
  */
-export class GetSetor implements Action
-{
+export class GetSetor implements Action {
     readonly type = GET_SETOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Success
  */
-export class GetSetorSuccess implements Action
-{
+export class GetSetorSuccess implements Action {
     readonly type = GET_SETOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Setor Failed
  */
-export class GetSetorFailed implements Action
-{
+export class GetSetorFailed implements Action {
     readonly type = GET_SETOR_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Setor
  */
-export class SaveSetor implements Action
-{
+export class SaveSetor implements Action {
     readonly type = SAVE_SETOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Setor Success
  */
-export class SaveSetorSuccess implements Action
-{
+export class SaveSetorSuccess implements Action {
     readonly type = SAVE_SETOR_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Setor Failed
  */
-export class SaveSetorFailed implements Action
-{
+export class SaveSetorFailed implements Action {
     readonly type = SAVE_SETOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Setor
  */
-export class CreateSetor implements Action
-{
+export class CreateSetor implements Action {
     readonly type = CREATE_SETOR;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Setor Success
  */
-export class CreateSetorSuccess implements Action
-{
+export class CreateSetorSuccess implements Action {
     readonly type = CREATE_SETOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

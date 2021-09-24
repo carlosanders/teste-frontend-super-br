@@ -6,12 +6,11 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 
 @NgModule({
-    imports  : [
+    imports: [
         StoreModule.forFeature('admin-localizador-edit-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class RootLocalizadorEditStoreModule
-{
+export class RootLocalizadorEditStoreModule {
 }

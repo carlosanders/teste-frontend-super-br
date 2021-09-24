@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ModeloEditActions from '../actions';
@@ -19,6 +19,43 @@ import {GetDocumento} from '../../../../store';
 @Injectable()
 export class ModeloEditEffects {
     routerState: any;
+    /**
+     * Save Modelo
+     *
+     * @type {Observable<any>}
+     */
+    saveModelo: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ModeloEditActions.SaveModelo>(ModeloEditActions.SAVE_MODELO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'modelo',
+            content: 'Salvando o modelo ...',
+            status: 0, // carregando
+        }))),
+        switchMap(action => this._modeloService.save(action.payload.modelo).pipe(
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'modelo',
+                content: 'Modelo id ' + response.id + ' salvo com sucesso.',
+                status: 1, // sucesso
+            }))),
+            mergeMap((response: Modelo) => [
+                new AddData<Modelo>({data: [response], schema: modeloSchema}),
+                new ModeloEditActions.SaveModeloSuccess(),
+                new GetDocumento()
+            ]),
+            catchError((err) => {
+                console.log(err);
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'modelo',
+                    content: 'Erro ao salvar o modelo!',
+                    status: 2, // erro
+                }));
+                return of(new ModeloEditActions.SaveModeloFailed(err));
+            })
+        ))
+    ));
 
     /**
      *
@@ -33,57 +70,11 @@ export class ModeloEditEffects {
         private _router: Router,
         private _store: Store<State>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
     }
-
-    /**
-     * Save Modelo
-     *
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveModelo: any =
-        this._actions
-            .pipe(
-                ofType<ModeloEditActions.SaveModelo>(ModeloEditActions.SAVE_MODELO),
-                tap((action) => this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'modelo',
-                    content: 'Salvando o modelo ...',
-                    status: 0, // carregando
-                }))),
-                switchMap(action => {
-                    return this._modeloService.save(action.payload.modelo).pipe(
-                        tap((response) =>
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'modelo',
-                                content: 'Modelo id ' + response.id + ' salvo com sucesso.',
-                                status: 1, // sucesso
-                            }))
-                        ),
-                        mergeMap((response: Modelo) => [
-                            new ModeloEditActions.SaveModeloSuccess(),
-                            new GetDocumento(),
-                            new AddData<Modelo>({data: [response], schema: modeloSchema})
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            this._store.dispatch(new OperacoesActions.Operacao({
-                                id: action.payload.operacaoId,
-                                type: 'modelo',
-                                content: 'Erro ao salvar o modelo!',
-                                status: 2, // erro
-                            }));
-                            return of(new ModeloEditActions.SaveModeloFailed(err));
-                        })
-                    )
-                })
-            );
 }

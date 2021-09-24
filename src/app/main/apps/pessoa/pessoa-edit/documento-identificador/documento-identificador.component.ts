@@ -13,7 +13,7 @@ import * as fromStore from './documento-identificador-list/store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-identificador',
@@ -25,10 +25,9 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class DocumentoIdentificadorComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -41,30 +40,28 @@ export class DocumentoIdentificadorComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
-            }
+    }
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('documentos/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('documentos/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('documentos/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('documentos/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('documentos/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('documentos/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
     }
 

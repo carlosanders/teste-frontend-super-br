@@ -7,8 +7,8 @@ import {Pagination, Processo, VinculacaoProcesso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
-import {Back} from '../../../../../../store/actions';
+import {getProcesso} from '../../../store';
+import {Back} from '../../../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 
@@ -22,8 +22,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 })
 export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     vinculacaoProcesso$: Observable<VinculacaoProcesso>;
     vinculacaoProcesso: VinculacaoProcesso;
     isSaving$: Observable<boolean>;
@@ -33,6 +31,7 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     processoVinculadoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -60,18 +59,17 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
-        ).subscribe(
-            (processo) => {
-                this.processo = processo;
-                this.processoVinculadoPagination.filter = {
-                    'id':'neq:' + this.processo.id
-                };
-            }
-        );
+        ).subscribe((processo) => {
+            this.processo = processo;
+            this.processoVinculadoPagination.filter = {
+                'id': 'neq:' + this.processo.id
+            };
+        });
 
-        this.vinculacaoProcesso$.subscribe(
-            vinculacaoProcesso => this.vinculacaoProcesso = vinculacaoProcesso
-        );
+        this.vinculacaoProcesso$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(vinculacaoProcesso => !!vinculacaoProcesso)
+        ).subscribe(vinculacaoProcesso => this.vinculacaoProcesso = vinculacaoProcesso);
 
         if (!this.vinculacaoProcesso) {
             this.vinculacaoProcesso = new VinculacaoProcesso();
@@ -93,7 +91,6 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const vinculacaoProcesso = new VinculacaoProcesso();
 
         Object.entries(values).forEach(

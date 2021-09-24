@@ -14,7 +14,7 @@
     <form class="form-tree" name="form" [formGroup]="formClassificacao">
         <mat-label class="title-arvore">Árvore</mat-label>
         <div cdkPerfectScrollbar [ngClass]="{'tree-responsive': mobileMode, 'tree': !mobileMode}">
-            <div *ngIf="!this.dataSource.data.length">
+            <div *ngIf="this.loading">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
             <mat-tree *ngIf="dataSource.data.length" [dataSource]="dataSource" [treeControl]="treeControl">

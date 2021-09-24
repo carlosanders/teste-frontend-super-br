@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../auth/login/login.service';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../store';
 import {CdkUtils} from '../../../../../@cdk/utils';
 
@@ -28,8 +28,6 @@ import {CdkUtils} from '../../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class VisibilidadeComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     loading$: Observable<boolean>;
     isSaving$: Observable<boolean>;
@@ -60,6 +58,7 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
     unidadePagination: Pagination;
     setorPagination: Pagination;
     usuarioPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -92,19 +91,25 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         this.usuarioPagination = new Pagination();
         this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
 
-        this._store
-            .pipe(select(getRouterState),
-                takeUntil(this._unsubscribeAll))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
     }
 
     ngOnInit(): void {
+    }
 
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     showFormAcessoRestrito(): void {
@@ -137,17 +142,9 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
     }
 
     reload(params): void {

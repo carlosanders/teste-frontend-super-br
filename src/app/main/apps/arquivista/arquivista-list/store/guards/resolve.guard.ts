@@ -19,14 +19,12 @@ import * as moment from 'moment';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
-    private _profile: Usuario;
     routerState: any;
-    private currentDate: any;
     colaborador: Colaborador;
-
     loading: boolean = false;
-
     loadingModalidadeTransicao: boolean = false;
+    private _profile: Usuario;
+    private currentDate: any;
 
     /**
      *
@@ -39,13 +37,13 @@ export class ResolveGuard implements CanActivate {
         private _loginService: LoginService,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
         this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
         this._store.pipe(select(getIsLoadingModalidadeTransicao)).subscribe(loading => this.loadingModalidadeTransicao = loading);
         this._profile = _loginService.getUserProfile();
@@ -170,7 +168,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => this.loading || (this.routerState.params['unidadeHandle'] && this.routerState.params['typeHandle'] &&
-                    (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) === loaded.value)),
+                (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) === loaded.value)),
             take(1)
         );
     }

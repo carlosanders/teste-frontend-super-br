@@ -46,13 +46,13 @@
             [control]="form.get('especieTarefa')"
             [pagination]="especieTarefaPagination">
         </cdk-especie-tarefa-autocomplete>
-        <button [disabled]="!form.get('processo').value || form.get('processo').value?.especieProcesso?.workflow"
+        <button [disabled]="(!form.get('blocoProcessos').value && (!form.get('processo').value || form.get('processo').value?.especieProcesso?.workflow)) || (form.get('blocoProcessos').value && processos.length === 0)"
                 matSuffix mat-button mat-icon-button
                 (click)="getFavoritosEspecieTarefa()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button
-                [disabled]="form.get('id').value && form.get('processo').value?.especieProcesso?.workflow && mode === 'regular'"
+                [disabled]="(form.get('id').value && form.get('processo').value?.especieProcesso?.workflow && mode === 'regular') || (!form.get('blocoProcessos').value && (!form.get('processo').value || form.get('processo').value?.especieProcesso?.workflow)) || (form.get('blocoProcessos').value && processos.length === 0)"
                 (click)="showEspecieTarefaGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>

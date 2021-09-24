@@ -97,36 +97,26 @@ export function SetorListReducer(
         }
 
         case SetorListActions.DELETE_SETOR: {
-            console.log('dele');
-            console.log(state);
-            let x = [...state.deletingIds, action.payload];
-            console.log(x);
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload.setorId]
             };
         }
 
         case SetorListActions.DELETE_SETOR_SUCCESS: {
-            console.log('suce');
-            console.log(state);
-            console.log(action);
-            let x = [...state.deletedIds, action.payload];
-            console.log("[...state.deletedIds, action.payload]");
-            console.log(x);
-
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
-                deletingErrors: _.omit(state.deletingErrors, [action.payload])
+                deletingErrors: _.omit(state.deletingErrors, [action.payload]),
+                entitiesId: state.entitiesId.filter(id => id !== action.payload)
             };
         }
 
         case SetorListActions.DELETE_SETOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

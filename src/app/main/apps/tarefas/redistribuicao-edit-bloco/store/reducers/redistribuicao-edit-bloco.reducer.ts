@@ -35,15 +35,15 @@ export function RedistribuicaoEditBlocoReducer(
         case RedistribuicaoEditBlocoActions.SAVE_TAREFA_SUCCESS: {
             return {
                 ...state,
-                savingId: state.savingId.filter(id => id !== action.payload.tarefa.id)
+                savingId: state.savingId.filter(id => id !== action.payload.id)
             };
         }
 
         case RedistribuicaoEditBlocoActions.SAVE_TAREFA_FAILED: {
             return {
                 ...state,
-                savingId: state.savingId.filter(id => id !== action.payload.tarefa.id),
-                errors: action.payload
+                savingId: state.savingId.filter(id => id !== action.payload.id),
+                errors: action.payload.errors
             };
         }
 

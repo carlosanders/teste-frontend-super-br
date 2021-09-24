@@ -13,6 +13,7 @@ import * as fromStore from '../store';
 import {Back} from 'app/store';
 import {ComponenteDigital, Documento} from '@cdk/models';
 import {Observable} from 'rxjs';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'visualizar-processo',
@@ -78,7 +79,8 @@ export class VisualizarProcessoComponent implements OnInit, OnDestroy {
         componenteDigital.mimetype = this.componenteDigital.mimetype;
         componenteDigital.extensao = this.componenteDigital.extensao;
 
-        this._store.dispatch(new fromStore.SaveComponenteDigital(componenteDigital));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveComponenteDigital({componenteDigital: componenteDigital, operacaoId: operacaoId}));
     }
 
     // -----------------------------------------------------------------------------------------------------

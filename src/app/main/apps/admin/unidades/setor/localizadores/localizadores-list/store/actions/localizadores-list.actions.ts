@@ -13,84 +13,70 @@ export const DELETE_LOCALIZADOR_FAILED = '[ADMIN LOCALIZADORES LIST] DELETE LOCA
 /**
  * Get Localizadores
  */
-export class GetLocalizadores implements Action
-{
+export class GetLocalizadores implements Action {
     readonly type = GET_LOCALIZADORES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Localizadores Success
  */
-export class GetLocalizadoresSuccess implements Action
-{
+export class GetLocalizadoresSuccess implements Action {
     readonly type = GET_LOCALIZADORES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Localizadores Failed
  */
-export class GetLocalizadoresFailed implements Action
-{
+export class GetLocalizadoresFailed implements Action {
     readonly type = GET_LOCALIZADORES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Localizadores
  */
-export class ReloadLocalizadores implements Action
-{
+export class ReloadLocalizadores implements Action {
     readonly type = RELOAD_LOCALIZADORES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Localizador
  */
-export class DeleteLocalizador implements Action
-{
+export class DeleteLocalizador implements Action {
     readonly type = DELETE_LOCALIZADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Localizador Success
  */
-export class DeleteLocalizadorSuccess implements Action
-{
+export class DeleteLocalizadorSuccess implements Action {
     readonly type = DELETE_LOCALIZADOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Localizador Failed
  */
-export class DeleteLocalizadorFailed implements Action
-{
+export class DeleteLocalizadorFailed implements Action {
     readonly type = DELETE_LOCALIZADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

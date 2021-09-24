@@ -214,6 +214,9 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    listAtividades = new EventEmitter<number>();
+
+    @Output()
     deleteBlocoEmmitter = new EventEmitter<number[]>();
 
     @Output()
@@ -252,9 +255,9 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     ngOnInit(): void {
-        const ElementQueries = require('css-element-queries/src/ElementQueries');
-        ElementQueries.listen();
-        ElementQueries.init();
+        const elementQueries = require('css-element-queries/src/ElementQueries');
+        elementQueries.listen();
+        elementQueries.init();
 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
@@ -341,6 +344,10 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.delete.emit(tarefaId);
     }
 
+    listAtividade(tarefaId): void {
+        this.listAtividades.emit(tarefaId);
+    }
+
     deleteBloco(ids): void {
         this.deleteBlocoEmmitter.emit(ids);
         this.selectedIds = this.selectedIds.filter(id => ids.indexOf(id) === -1);
@@ -409,7 +416,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.create.emit();
     }
 
-    getProp(obj, prop) {
+    getProp(obj, prop): any|boolean {
         if (obj && obj.hasOwnProperty(prop)) {
             return obj[prop];
         }

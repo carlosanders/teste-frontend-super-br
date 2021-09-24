@@ -18,135 +18,112 @@ export const GET_CARGO_FAILED = '[ADMIN CARGO EDIT] GET CARGO FAILED';
 /**
  * Get Cargo
  */
-export class GetCargo implements Action
-{
+export class GetCargo implements Action {
     readonly type = GET_CARGO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Cargo Success
  */
-export class GetCargoSuccess implements Action
-{
+export class GetCargoSuccess implements Action {
     readonly type = GET_CARGO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Cargo Failed
  */
-export class GetCargoFailed implements Action
-{
+export class GetCargoFailed implements Action {
     readonly type = GET_CARGO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Cargo
  */
-export class SaveCargo implements Action
-{
+export class SaveCargo implements Action {
     readonly type = SAVE_CARGO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Cargo
  */
-export class UpdateCargo implements Action
-{
+export class UpdateCargo implements Action {
     readonly type = UPDATE_CARGO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Cargo Success
  */
-export class SaveCargoSuccess implements Action
-{
+export class SaveCargoSuccess implements Action {
     readonly type = SAVE_CARGO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Cargo Failed
  */
-export class SaveCargoFailed implements Action
-{
+export class SaveCargoFailed implements Action {
     readonly type = SAVE_CARGO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Cargo Success
  */
-export class UpdateCargoSuccess implements Action
-{
+export class UpdateCargoSuccess implements Action {
     readonly type = UPDATE_CARGO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Update Cargo Failed
  */
-export class UpdateCargoFailed implements Action
-{
+export class UpdateCargoFailed implements Action {
     readonly type = UPDATE_CARGO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Cargo
  */
-export class CreateCargo implements Action
-{
+export class CreateCargo implements Action {
     readonly type = CREATE_CARGO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Cargo Success
  */
-export class CreateCargoSuccess implements Action
-{
+export class CreateCargoSuccess implements Action {
     readonly type = CREATE_CARGO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
-
 
 
 export type CargoEditActionsAll

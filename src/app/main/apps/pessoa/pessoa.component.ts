@@ -19,7 +19,7 @@ import {Router} from '@angular/router';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {PessoaEditService} from './pessoa-edit/pessoa-edit.service';
 
 @Component({
@@ -32,17 +32,13 @@ import {PessoaEditService} from './pessoa-edit/pessoa-edit.service';
 })
 export class PessoaComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() select: EventEmitter<Pessoa> = new EventEmitter();
     action = '';
     routerState: any;
-
     pessoas$: Observable<Pessoa[]>;
-
     pessoaSelecionada: Pessoa;
-
-    @Output()
-    select: EventEmitter<Pessoa> = new EventEmitter();
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -61,24 +57,22 @@ export class PessoaComponent implements OnInit, OnDestroy {
     ) {
         this.pessoas$ = this._store.pipe(select(fromStore.getPessoaList));
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('pessoa/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('pessoa/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('pessoa/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('pessoa/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('pessoa/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('pessoa/editar/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
     }
 

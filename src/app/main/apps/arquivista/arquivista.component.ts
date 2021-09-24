@@ -18,7 +18,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
 import {Observable, Subject} from 'rxjs';
 import {Usuario} from '@cdk/models/usuario.model';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {ToggleMaximizado} from '../tarefas/store';
 import {getRouterState, getScreenState} from '../../../store';
 
@@ -45,22 +45,17 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
 
     pagination$: Observable<any>;
     pagination: any;
-
-    private _profile: Usuario;
-
-    private _unsubscribeAll: Subject<any> = new Subject();
     mode = 'Arquivista';
     routerState: any;
-
     unidadeHandle = '';
     typeHandle = '';
     setoresCoordenacao: Setor[] = [];
-
     usuariosAssessor: Usuario[] = [];
-
     colaborador: Colaborador;
     unidades: Setor[] = [];
     links: any;
+    private _profile: Usuario;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -87,12 +82,13 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
 
-        this._store.pipe(select(getRouterState)).subscribe((routerState) => {
-            if (routerState.state) {
-                this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState.state)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
 
-                this.unidadeHandle = this.routerState.params['unidadeHandle'];
-            }
+            this.unidadeHandle = this.routerState.params['unidadeHandle'];
         });
 
         this.vinculacaoEtiquetaPagination.filter = {
@@ -111,6 +107,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
                 },
                 {
                     // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
                 }
@@ -170,7 +167,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    getUnidade(): number{
+    getUnidade(): number {
         return this.unidades[0]?.id;
     }
 

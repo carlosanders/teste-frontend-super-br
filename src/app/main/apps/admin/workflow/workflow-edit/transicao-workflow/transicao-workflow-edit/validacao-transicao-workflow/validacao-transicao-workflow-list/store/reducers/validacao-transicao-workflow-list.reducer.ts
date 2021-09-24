@@ -67,7 +67,7 @@ export function ValidacaoTransicaoWorkflowListReducer(
         case ValidacaoTransicaoWorkflowListActions.DELETE_VALIDACAO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload.validacaoId]
+                deletingIds: [...state.deletingIds, action.payload.validacaoTransicaoWorkflowId]
             };
         }
 
@@ -84,7 +84,7 @@ export function ValidacaoTransicaoWorkflowListReducer(
         case ValidacaoTransicaoWorkflowListActions.DELETE_VALIDACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
                 deletingErrors: {
                     ...state.deletingErrors,
                     ...action.payload

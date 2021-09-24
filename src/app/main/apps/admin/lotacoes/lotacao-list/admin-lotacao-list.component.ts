@@ -1,5 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Lotacao} from '@cdk/models/lotacao.model';
@@ -9,6 +16,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'admin-lotacao-list',
@@ -18,7 +26,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AdminLotacaoListComponent implements OnInit {
+export class AdminLotacaoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     lotacoes$: Observable<Lotacao[]>;
@@ -32,6 +40,7 @@ export class AdminLotacaoListComponent implements OnInit {
     colaboradorPagination: Pagination = new Pagination();
     modulo: string;
     lote: string;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -50,20 +59,19 @@ export class AdminLotacaoListComponent implements OnInit {
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                    if (this.routerState.url.includes('unidade')) {
-                        this.modulo = 'unidade';
-                    } else if (this.routerState.url.includes('usuario')) {
-                        this.modulo = 'usuario';
-                    } else {
-                        this.modulo = 'lotacao';
-                    }
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.includes('unidade')) {
+                this.modulo = 'unidade';
+            } else if (this.routerState.url.includes('usuario')) {
+                this.modulo = 'usuario';
+            } else {
+                this.modulo = 'lotacao';
+            }
+        });
 
         this.setorPagination.populate = ['populateAll'];
         this.colaboradorPagination.filter = {};
@@ -92,13 +100,20 @@ export class AdminLotacaoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe((pagination) => {
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }
 
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     reload(params): void {
@@ -119,7 +134,7 @@ export class AdminLotacaoListComponent implements OnInit {
     }
 
     edit(lotacaoId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + lotacaoId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + lotacaoId]).then();
     }
 
     delete(lotacaoId: number, loteId: string = null): void {
@@ -127,11 +142,11 @@ export class AdminLotacaoListComponent implements OnInit {
         this._store.dispatch(new fromStore.DeleteLotacao({
             lotacaoId: lotacaoId,
             operacaoId: operacaoId,
-            loteId: loteId,
+            loteId: loteId
         }));
     }
 
-    deleteBloco(ids: number[]) {
+    deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }

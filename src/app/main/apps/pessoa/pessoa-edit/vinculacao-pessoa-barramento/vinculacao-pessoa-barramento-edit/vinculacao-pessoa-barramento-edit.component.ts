@@ -7,17 +7,18 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Pessoa} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {VinculacaoPessoaBarramento} from "@cdk/models/vinculacao-pessoa-barramento";
-import {Back} from "../../../../../../store";
-import {getPessoa} from "../../dados-pessoa-edit/store";
+import {VinculacaoPessoaBarramento} from '@cdk/models/vinculacao-pessoa-barramento';
+import {Back} from '../../../../../../store';
+import {getPessoa} from '../../dados-pessoa-edit/store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'vinculacaoPessoaBarramento-edit',
@@ -33,11 +34,10 @@ export class VinculacaoPessoaBarramentoEditComponent implements OnInit, OnDestro
     vinculacaoPessoaBarramento: VinculacaoPessoaBarramento;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     pessoa$: Observable<Pessoa>;
     pessoa: Pessoa;
-
     vinculacaoPessoaBarramentoPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -62,13 +62,14 @@ export class VinculacaoPessoaBarramentoEditComponent implements OnInit, OnDestro
      * On init
      */
     ngOnInit(): void {
-        this.pessoa$.subscribe(
-            pessoa => this.pessoa = pessoa
-        );
+        this.pessoa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pessoa => this.pessoa = pessoa);
 
-        this.vinculacaoPessoaBarramento$.subscribe(
-            vinculacaoPessoaBarramento => this.vinculacaoPessoaBarramento = vinculacaoPessoaBarramento
-        );
+        this.vinculacaoPessoaBarramento$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(vinculacaoPessoaBarramento => !!vinculacaoPessoaBarramento)
+        ).subscribe(vinculacaoPessoaBarramento => this.vinculacaoPessoaBarramento = vinculacaoPessoaBarramento);
 
         if (!this.vinculacaoPessoaBarramento) {
             this.vinculacaoPessoaBarramento = new VinculacaoPessoaBarramento();
@@ -80,6 +81,8 @@ export class VinculacaoPessoaBarramentoEditComponent implements OnInit, OnDestro
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

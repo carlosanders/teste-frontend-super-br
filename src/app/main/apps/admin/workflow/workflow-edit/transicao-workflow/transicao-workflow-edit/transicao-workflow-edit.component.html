@@ -1,4 +1,5 @@
-<div class="header" *ngIf="routerState.url.includes('/transicoes') && (!routerState.url.includes('/acoes') && !routerState.url.includes('validacoes'))">
+<div class="header"
+     *ngIf="routerState.url.includes('/transicoes') && (!routerState.url.includes('/acoes') && !routerState.url.includes('validacoes'))">
     <path icone="low_priority"
           [caminhoAbsoluto]="routerState.url"
           inicioCaminho="workflows">

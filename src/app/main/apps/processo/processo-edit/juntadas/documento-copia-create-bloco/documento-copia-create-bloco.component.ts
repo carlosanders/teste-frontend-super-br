@@ -15,8 +15,8 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getCopiandoJuntadas} from '../juntada-list/store/selectors';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getCopiandoJuntadas} from '../juntada-list/store';
+import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../../store';
@@ -32,8 +32,6 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 })
 export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[];
 
@@ -42,10 +40,11 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     operacoes: any[] = [];
-
-    private _profile: any;
-
+    operacoesPendentes: any[] = [];
     routerState: any;
+    lote: string;
+    private _profile: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -64,7 +63,6 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -76,28 +74,22 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(juntadas => this.juntadas = juntadas);
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'documentoCopia')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote && operacao.status === 0);
+            this._changeDetectorRef.markForCheck();
+        });
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.operacoes = [];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.operacoes = [];
         });
     }
 
@@ -114,6 +106,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         this.operacoes = [];
+        this.lote = CdkUtils.makeId();
 
         this.juntadas.forEach((juntada) => {
             const documento = new Documento();
@@ -131,9 +124,9 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.SaveDocumentoCopia({
                 juntadaId: juntada.id,
                 documento: documento,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
-
         });
     }
 

@@ -5,8 +5,11 @@
         <input matInput #nome
                name="valor"
                formControlName="valor"
-               maxlength="255" upperCase>
+               maxlength="255" upperCase required>
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('valor').hasError('formError')">
+            {{form.get('valor').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -17,7 +20,7 @@
                   #autosize="cdkTextareaAutosize"
                   cdkAutosizeMinRows="4"
                   cdkAutosizeMaxRows="10"
-                  maxlength="255" minlength="3" upperCase></textarea>
+                  maxlength="255" minlength="3" upperCase required></textarea>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         <mat-error *ngIf="form.get('descricao').hasError('formError')">
             {{form.get('descricao').errors.formError}}

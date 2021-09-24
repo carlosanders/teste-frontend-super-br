@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {SetorListReducer, SetorListState} from './setor-list.reducer';
 
-export interface SetorListAppState
-{
+export interface SetorListAppState {
     setorList: SetorListState;
 }
 

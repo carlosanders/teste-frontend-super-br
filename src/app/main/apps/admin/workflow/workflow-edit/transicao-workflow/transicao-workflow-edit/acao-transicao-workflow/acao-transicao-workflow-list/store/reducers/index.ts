@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {AcaoTransicaoWorkflowListReducer, AcaoTransicaoWorkflowListState} from './acao-transicao-workflow-list.reducer';
 
-export interface AcaoTransicaoWorkflowListAppState
-{
+export interface AcaoTransicaoWorkflowListAppState {
     acaoTransicaoWorkflowList: AcaoTransicaoWorkflowListState;
 }
 

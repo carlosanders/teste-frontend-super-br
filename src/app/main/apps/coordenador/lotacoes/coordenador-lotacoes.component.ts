@@ -13,7 +13,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Usuario} from '@cdk/models';
 
 @Component({
@@ -26,14 +26,13 @@ import {Usuario} from '@cdk/models';
 })
 export class CoordenadorLotacoesComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     usuario$: Observable<Usuario>;
     usuario: Usuario;
 
     action = '';
     entidade = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -53,18 +52,18 @@ export class CoordenadorLotacoesComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this._changeDetectorRef.markForCheck();
-            }
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this._changeDetectorRef.markForCheck();
         });
 
-        this.usuario$.subscribe(usuario => this.usuario = usuario);
+        this.usuario$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(usuario => this.usuario = usuario);
     }
 
     ngOnDestroy(): void {

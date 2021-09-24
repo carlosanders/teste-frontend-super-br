@@ -62,7 +62,7 @@ export const navigation: CdkNavigation[] = [
                             bg : '#F44336',
                             fg: '#FFFFFF'
                         },
-                        role: 'ROLE_ARQUIVISTA'
+                        role: 'ROLE_COLABORADOR'
                     }
                 ],
                 role: 'ROLE_COLABORADOR'

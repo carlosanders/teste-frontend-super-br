@@ -13,84 +13,70 @@ export const DELETE_COORDENADOR_FAILED = '[ADMIN COORDENADORES LIST] DELETE COOR
 /**
  * Get Coordenador
  */
-export class GetCoordenadores implements Action
-{
+export class GetCoordenadores implements Action {
     readonly type = GET_COORDENADORES;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Coordenador Success
  */
-export class GetCoordenadoresSuccess implements Action
-{
+export class GetCoordenadoresSuccess implements Action {
     readonly type = GET_COORDENADORES_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Coordenadores Failed
  */
-export class GetCoordenadoresFailed implements Action
-{
+export class GetCoordenadoresFailed implements Action {
     readonly type = GET_COORDENADORES_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload Coordenadores
  */
-export class ReloadCoordenadores implements Action
-{
+export class ReloadCoordenadores implements Action {
     readonly type = RELOAD_COORDENADORES;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete Coordenador
  */
-export class DeleteCoordenador implements Action
-{
+export class DeleteCoordenador implements Action {
     readonly type = DELETE_COORDENADOR;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Coordenador Success
  */
-export class DeleteCoordenadorSuccess implements Action
-{
+export class DeleteCoordenadorSuccess implements Action {
     readonly type = DELETE_COORDENADOR_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Coordenador Failed
  */
-export class DeleteCoordenadorFailed implements Action
-{
+export class DeleteCoordenadorFailed implements Action {
     readonly type = DELETE_COORDENADOR_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

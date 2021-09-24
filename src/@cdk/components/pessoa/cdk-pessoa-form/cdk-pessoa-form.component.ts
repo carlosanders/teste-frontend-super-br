@@ -129,6 +129,7 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
         if (changes['pessoa'] && this.pessoa && ((!this.pessoa.id && !this.form.dirty) || (this.pessoa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.pessoa});
         }
+        this.checkModalidadeQualificacaoPessoa();
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {

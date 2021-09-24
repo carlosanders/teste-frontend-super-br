@@ -5,19 +5,19 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
-    <mat-list *ngIf="operacoes.length > 0" fxFlex cdkScrollTo>
+    <mat-list *ngIf="operacoes.length > 0" cdkScrollTo>
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
 
         <mat-list-item *ngFor="let operacao of operacoes">
             <p matLine class="mb-4 p-8 secondary-text"
-               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+               [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
 
     <cdk-tarefa-form
-            *ngIf="operacoes.length === 0"
+            [hidden]="operacoes.length > 0"
             [tarefa]="tarefa"
             [valid]="(tarefas$ | async)?.length > 0"
             [saving]="(isSaving$ | async)"
@@ -26,4 +26,9 @@
             (save)="submit($event)">
     </cdk-tarefa-form>
 
+    <div class="actions" *ngIf="operacoes.length > 0 && operacoesPendentes.length === 0">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()">
+            VOLTAR
+        </button>
+    </div>
 </div>

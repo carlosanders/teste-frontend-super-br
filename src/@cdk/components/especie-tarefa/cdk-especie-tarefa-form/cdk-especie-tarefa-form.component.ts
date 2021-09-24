@@ -76,7 +76,8 @@ export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
                 nome: this.especieTarefa.nome,
                 generoTarefa: this.especieTarefa.generoTarefa,
                 descricao: this.especieTarefa.descricao,
-                ativo: this.especieTarefa.ativo
+                ativo: this.especieTarefa.ativo,
+                evento: this.especieTarefa.evento
             });
         }
 

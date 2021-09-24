@@ -17,120 +17,100 @@ export const VISUALIZAR_MODELO_FAILED = '[DOCUMENTO MODELO] VISUALIZAR MODELO FA
 /**
  * Save Componente Digital
  */
-export class SaveComponenteDigital implements Action
-{
+export class SaveComponenteDigital implements Action {
     readonly type = SAVE_COMPONENTE_DIGITAL;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Componente Digital Success
  */
-export class SaveComponenteDigitalSuccess implements Action
-{
+export class SaveComponenteDigitalSuccess implements Action {
     readonly type = SAVE_COMPONENTE_DIGITAL_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Componente Digital Failed
  */
-export class SaveComponenteDigitalFailed implements Action
-{
+export class SaveComponenteDigitalFailed implements Action {
     readonly type = SAVE_COMPONENTE_DIGITAL_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Componente Digital
  */
-export class CreateComponenteDigital implements Action
-{
+export class CreateComponenteDigital implements Action {
     readonly type = CREATE_COMPONENTE_DIGITAL;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Componente Digital Success
  */
-export class CreateComponenteDigitalSuccess implements Action
-{
+export class CreateComponenteDigitalSuccess implements Action {
     readonly type = CREATE_COMPONENTE_DIGITAL_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Get Documento
  */
-export class GetDocumento implements Action
-{
+export class GetDocumento implements Action {
     readonly type = GET_DOCUMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Documento Success
  */
-export class GetDocumentoSuccess implements Action
-{
+export class GetDocumentoSuccess implements Action {
     readonly type = GET_DOCUMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Documento Failed
  */
-export class GetDocumentoFailed implements Action
-{
+export class GetDocumentoFailed implements Action {
     readonly type = GET_DOCUMENTO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Visualizar Modelo
  */
-export class VisualizarModelo implements Action
-{
+export class VisualizarModelo implements Action {
     readonly type = VISUALIZAR_MODELO;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Visualizar Modelo Failed
  */
-export class VisualizarModeloFailed implements Action
-{
+export class VisualizarModeloFailed implements Action {
     readonly type = VISUALIZAR_MODELO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 

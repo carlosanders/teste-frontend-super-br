@@ -76,7 +76,7 @@ export class CdkVinculacaoRoleFilterComponent {
                 andXFilter.push(filter);
             });
         }
-        
+
         if (this.form.get('apagadoPor').value) {
             andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }

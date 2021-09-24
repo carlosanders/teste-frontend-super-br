@@ -26,11 +26,11 @@ const routes: Routes = [
         component: ModalidadeOrgaoCentralComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./modalidade-orgao-central-list/modalidade-orgao-central-list.module').then(m => m.ModalidadeOrgaoCentralListModule),
             },
             {
-                path       : 'editar',
+                path: 'editar',
                 loadChildren: () => import('./modalidade-orgao-central-edit/modalidade-orgao-central-edit.module').then(m => m.ModalidadeOrgaoCentralEditModule),
             },
             {

@@ -13,9 +13,9 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Setor} from '@cdk/models';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 
 @Component({
     selector: 'competencias',
@@ -27,12 +27,10 @@ import {Back} from '../../../../../store/actions';
 })
 export class CompetenciasComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     unidade$: Observable<Setor>;
-
     action = '';
     routerState: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -44,30 +42,29 @@ export class CompetenciasComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.CompetenciasState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {}
+    ) {
+    }
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('competencias/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('competencias/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('competencias/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
-                this._changeDetectorRef.markForCheck();
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            if (this.routerState.url.indexOf('competencias/listar') > -1) {
+                this.action = 'listar';
             }
+            if (this.routerState.url.indexOf('competencias/editar') > -1) {
+                this.action = 'editar';
+            }
+            if (this.routerState.url.indexOf('competencias/editar/criar') > -1) {
+                this.action = 'criar';
+            }
+            this._changeDetectorRef.markForCheck();
         });
 
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));

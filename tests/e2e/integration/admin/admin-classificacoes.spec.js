@@ -1,23 +1,103 @@
-context('Administrador', () => {
-    beforeEach(() => {
-        cy.login();
+/// <reference types="cypress" />
+
+import Administracao from '../pageObjects/administracao'
+
+describe('Teste para cadastrar, editar e exluir classificações', function () {
+
+  let paramNome
+
+  beforeEach(function () {
+    cy.fixture('admin/admin-classificacoes.json').then((fixture) => {
+        this.admin = fixture.admin;
+    })
+  })
+
+  it('Deve permitir cadastrar, editar e exluir classificações', function () {
+
+    //locar no sistema
+    cy.login('00000000004') 
+    cy.visit("./apps/admin/classificacoes/listar")
+    const administracao = new Administracao()
+
+    paramNome = this.admin.nome + Math.random()
+
+    administracao.getAdicionar().click()
+    cy.wait(1000)
+    administracao.getCodigo().type(this.admin.codigo)
+    administracao.getNome().type(paramNome)
+    this.admin.modalidadeDestinacao.map(function(data){
+      administracao.completeModalidadeDestinacao(data.modalidade1)
+    })
+    administracao.completeClassificacaoPai(this.admin.classificacaoPai)
+    administracao.getSituacao().click()
+    administracao.salvar().click()
+
+    // Pesquisar item cadastrado
+    administracao.getFiltrar().click()
+    administracao.getNome().clear().type(paramNome)
+    administracao.buscar().click()
+    administracao.getTabelaAviso().should('be.visible')
+    administracao.getTabelaAviso().should("contain.text", this.admin.codigo)
+    administracao.getTabelaAviso().should("contain.text", paramNome)
+    this.admin.modalidadeDestinacao.map(function(data){
+      administracao.getTabelaAviso().should("contain.text", data.modalidade1)
     })
 
-    //Teste desativado por erro de implementação, deverá ser reativado assim que for corrigido
-    it.skip('Administrador -> Classificações', () => {
-        cy.get('[fxflex="1 0 auto"] > .mat-focus-indicator > .mat-button-wrapper > .mat-icon').click();
-        cy.get('.nav-link:contains("Administrador")').scrollIntoView();
-        cy.get('.nav-link:contains("Administrador")').click();
-        cy.get('.mat-ripple:contains("Classificações")').click();
-        cy.get('.back > .mat-focus-indicator > .mat-button-wrapper > .mat-icon:contains("add")',{timeout: 40000}).click();
-        cy.wait(3000);
-        cy.get('.mat-input-element[formControlName="codigo"]').type("000.0");
-        cy.get('.mat-input-element[formControlName="nome"]').type("teste");
-        cy.get('.mat-input-element[formControlName="modalidadeDestinacao"]').type("ELIMINAÇÃO");
-        cy.get('.mat-input-element[formControlName="parent"]').type("020 - PESSOAL");
-        cy.get('#mat-checkbox-65 > .mat-checkbox-layout > .mat-checkbox-label').click();
-        cy.get('.mat-button-wrapper:contains("SALVAR")').click();
-        cy.get('.mat-row > .cdk-column-nome:contains("TESTE")').first().parent().find('.mat-icon-no-color:contains("delete")').click();
-        cy.get('.mat-row > .cdk-column-nome:contains("TESTE")').first().should('have.class','deleted');
+    // Editar registro
+    administracao.getItemEditar(paramNome, "edit").should('be.visible')
+    administracao.getItemEditar(paramNome, "edit").click()
+    cy.wait(1000)
+    this.admin.modalidadeDestinacao.map(function(data){
+      administracao.completeModalidadeDestinacao(data.modalidade2)
     })
+    administracao.getRestricaoAcesso().click()
+    administracao.getPermissaoUso().click()
+    administracao.getPrazoGuardaFaseCorrenteDia().type(this.admin.prazoGuardaFaseCorrenteDia)
+    administracao.getPrazoGuardaFaseCorrenteMes().type(this.admin.prazoGuardaFaseCorrenteMes)
+    administracao.getPrazoGuardaFaseCorrenteAno().type(this.admin.prazoGuardaFaseCorrenteAno)
+    administracao.getPrazoGuardaFaseCorrenteEvento().type(this.admin.prazoGuardaFaseCorrenteEvento)
+    administracao.getPrazoGuardaFaseIntermediariaDia().type(this.admin.prazoGuardaFaseIntermediariaDia)
+    administracao.getPrazoGuardaFaseIntermediariaMes().type(this.admin.prazoGuardaFaseIntermediariaMes)
+    administracao.getPrazoGuardaFaseIntermediariaAno().type(this.admin.prazoGuardaFaseIntermediariaAno)
+    administracao.getPrazoGuardaFaseIntermediariaEvento().type(this.admin.prazoGuardaFaseIntermediariaEvento)
+    administracao.salvar().click()
+
+    // Pesquisar item cadastrado
+    administracao.getFiltrar().click()
+    administracao.getNome().clear().type(paramNome)
+    administracao.buscar().click()
+    administracao.getTabelaAviso().should('be.visible')
+    administracao.getTabelaAviso().should("contain.text", this.admin.codigo)
+    administracao.getTabelaAviso().should("contain.text", paramNome)
+    this.admin.modalidadeDestinacao.map(function(data){
+      administracao.getTabelaAviso().should("contain.text", data.modalidade2)
+    })    
+
+    // Inativar registro
+    administracao.getItemEditar(paramNome, "edit").should('be.visible')
+    administracao.getItemEditar(paramNome, "edit").click()
+    cy.wait(1000)
+    administracao.getSituacao().click()
+    administracao.salvar().click()
+
+    // Pesquisar item cadastrado
+    administracao.getFiltrar().click()
+    administracao.getNome().clear().type(paramNome)
+    administracao.buscar().click()
+    administracao.btnInativos().click()
+    administracao.getTabelaAviso().should('be.visible')
+    administracao.getTabelaAviso().should("contain.text", this.admin.codigo)
+    administracao.getTabelaAviso().should("contain.text", paramNome)
+    this.admin.modalidadeDestinacao.map(function(data){
+      administracao.getTabelaAviso().should("contain.text", data.modalidade2)
+    })   
+
+    // Remover registro
+    administracao.getItemEditar(paramNome, "delete").should('be.visible')
+    administracao.getItemEditar(paramNome, "delete").click()
+    administracao.getItemEditar(paramNome, "edit").should('not.be.enabled')
+    administracao.getItemEditar(paramNome, "delete").should('not.be.enabled')
+
+  })
+
 })

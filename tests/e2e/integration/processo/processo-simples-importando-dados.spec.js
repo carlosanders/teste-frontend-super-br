@@ -3,45 +3,32 @@
 import { strict } from 'assert'
 import Protocolo from '../pageObjects/protocolo'
 
-describe('Cria processo simples importanda dados de protocolo existente no sistema', function () {
-  const protocolo = new Protocolo()  
-  let paramPessoa, 
-      paramOrgao, 
-      paramProcessoDeTrabalho, 
-      paramMeio, 
-      paramClassificacao,
-      paramTitulo,
-      paramEspecieTarefa,
-      paramAssuntos,
-      paramModalidadeInteressado,
-      paramUsuarioResponsavel
+describe('Teste de criação de processo simples importando dados de protocolo existente no sistema', function () {
 
-      paramPessoa = "ADVOCACIA-GERAL DA UNIÃO"
-      paramOrgao = "SECRETARIA (SEI)"
-      paramProcessoDeTrabalho = "COMUM"
-      paramMeio = "ELETRÔNICO"
-      paramClassificacao = "MODERNIZAÇÃO E REFORMA ADMINISTRATIVA PROJETOS, ESTUDOS E NORMAS"
-      paramTitulo = "PROCESSO DE TESTE"
-      paramAssuntos = "RECURSOS HUMANOS"
-      paramModalidadeInteressado = "REQUERENTE (PÓLO ATIVO)"
-      paramEspecieTarefa = "ADOTAR PROVIDÊNCIAS ADMINISTRATIVAS"
-      paramUsuarioResponsavel = "JOÃO ADMIN"            
+  beforeEach(function () {
+    cy.fixture('processos/processo-simples-importando.json').then((fixture) => {
+        this.processo = fixture.processo;
+        this.distribuicao = fixture.distribuicao;
+    })
+  })
 
-  it('Protocolo -> Administrativo -> Processo -> Simples', function () {
+  const protocolo = new Protocolo()
+
+  it('Deve permitir criar um processo simples (sem documentos)', function () {
 
     //locar no sistema
     cy.login('00000000004')
 
-    /**Aba Dados básicos */
-    cy.navegarProtocolo()
+    //Aba Dados básicos
+    cy.visit("./apps/processo/criar/editar/dados-basicos-steps/administrativo")
     protocolo.getUnidadeArquivisticaProcesso().click()
     protocolo.getAtribuirNovoProtocolo().click()
-    protocolo.completeProcedencia(paramPessoa)
-    protocolo.completeProcessoDeTrabalho(paramProcessoDeTrabalho)
-    protocolo.completeMeio(paramMeio)
-    protocolo.completeClassificacao(paramClassificacao)
-    protocolo.getTitulo().clear().type(paramTitulo)
-    protocolo.completeSetorResponsavelDadosBasicos(paramOrgao)
+    protocolo.completeProcedencia(this.processo.procedencia)
+    protocolo.completeProcessoDeTrabalho(this.processo.processoDeTrabalho)
+    protocolo.completeMeio(this.processo.meio)
+    protocolo.completeClassificacao(this.processo.classificacao)
+    protocolo.getTitulo().clear().type(this.processo.titulo)
+    protocolo.completeSetorResponsavelDadosBasicos(this.processo.setorOrigem)
 
     protocolo.salvarDadosBasicos().click()
 
@@ -52,76 +39,81 @@ describe('Cria processo simples importanda dados de protocolo existente no siste
     protocolo.getNup().should('be.visible')
     protocolo.getNup().invoke('val').as("numProtocolo")
     protocolo.getNup().invoke('val').should('not.be.empty')
-
     protocolo.getChaveDeAcesso().should('be.visible')
     protocolo.getChaveDeAcesso().invoke('val').should("not.be.empty")
-    
     protocolo.getDataHoraDeAbertura().should('be.visible')
     protocolo.getDataHoraDeAbertura().invoke('val').should("not.be.empty")
 
-    /**Aba assustos */
+    //Aba assustos
     protocolo.abaAssuntos().click()
-    protocolo.getPrincipal().click()
-    protocolo.completeAssuntos(paramAssuntos)
-    protocolo.salvarAssuntos().click()
-    protocolo.getTabelaAssuntos().should("contain.text", paramAssuntos)
+    this.processo.assuntos.map(function(data){
+        protocolo.getPrincipal().click()
+        protocolo.completeAssuntos(data.nome)
+        protocolo.salvarAssuntos().click()
+        protocolo.getTabelaAssuntos().should("be.visible")
+        protocolo.getTabelaAssuntos().should("contain.text", data.nome)
+    })
 
-    /**Aba Interessados */
+    //Aba Interessados
     protocolo.abaInteressados().click()
-    protocolo.completePessoa(paramPessoa)
-    protocolo.completeModalidadeInteressado(paramModalidadeInteressado)
-    protocolo.salvarInteressados().click()
-    protocolo.getTabelaInteressados().should("contain.text", paramPessoa)
+    this.processo.interessados.map(function(data){
+        protocolo.completePessoa(data.pessoa)
+        protocolo.completeModalidadeInteressado(data.modalidade)
+        protocolo.salvarInteressados().click()
+        protocolo.getTabelaInteressados().should("be.visible")
+        protocolo.getTabelaInteressados().should("contain.text", data.pessoa)
+    })
 
   })
 
-  it('Protocolo -> Administrativo -> Processo -> Simples -> Importa Dados de Protocolo Existente no Sistema', function () {
+  it('Deve permitir criar um processo simples (sem documentos) importando dados de protocolo existente no sistema', function () {
 
     //locar no sistema
     cy.login('00000000004')
 
     /**Aba Dados básicos */
-    cy.navegarProtocolo()
+    cy.visit("./apps/processo/criar/editar/dados-basicos-steps/administrativo")
     protocolo.getUnidadeArquivisticaProcesso().click()
     protocolo.getAtribuirNovoProtocolo().click()
     protocolo.getBtnProcessoOrigem().click()
-    //protocolo.getBuscarProcessoOrigem()
     protocolo.completeImportarProcessoOrigem(this.numProtocolo)
     protocolo.getProcessoDeTrabalho().click()
     protocolo.getProcessoDeTrabalho().invoke('val').should("not.be.empty")
-    //protocolo.getMeio().invoke("val").should("")
     protocolo.getClassificacao().invoke('val').should("not.be.empty")
     protocolo.getTitulo().invoke('val').should("not.be.empty")
     protocolo.getSetorResponsavelDadosBasicos().invoke('val').should("not.be.empty")
     protocolo.salvarDadosBasicos().click()
 
-    /**Aba assustos */
+    //Aba assustos
     protocolo.abaAssuntos().click()
-    cy.wait(5000)
-    protocolo.getTabelaAssuntos().should("be.visible")
-    protocolo.getTabelaAssuntos().should("contain.text", paramAssuntos)
+    this.processo.assuntos.map(function(data){
+        cy.wait(1000)
+        protocolo.getTabelaAssuntos().should("be.visible")
+        protocolo.getTabelaAssuntos().should("contain.text", data.nome)
+    })
 
-    /**Aba Interessados */
+    //Aba Interessados
     protocolo.abaInteressados().click()
-    cy.wait(5000)
-    protocolo.getTabelaInteressados().should("be.visible")
-    protocolo.getTabelaInteressados().should("contain.text", paramPessoa)
+    this.processo.interessados.map(function(data){
+        protocolo.getTabelaInteressados().should("be.visible")
+        protocolo.getTabelaInteressados().should("contain.text", data.pessoa)
+    })
 
-    /**Aba Distribuição */
+    //Aba Distribuição
     protocolo.abaDistribuicao().click()
     protocolo.getProcessoDistribuicao().invoke('val').should("not.be.empty")
-    protocolo.completeEspecieTarefa(paramEspecieTarefa)
+    protocolo.completeEspecieTarefa(this.distribuicao.especieTarefa)
     protocolo.getDistribuicaoAutomatica().click()
     protocolo.getBlocoResponsaveis().click()
     protocolo.getUnidadeResponsavel().invoke('val').should("not.be.empty")
-    protocolo.completeSetorResponsavelDistribuicao(paramOrgao)
+    protocolo.completeSetorResponsavelDistribuicao(this.processo.setorOrigem)
     protocolo.getDistribuicaoAutomatica().click()
-    protocolo.getBlocoResponsaveis().click()    
-    protocolo.completeUsuarioResponsavel(paramUsuarioResponsavel)
+    protocolo.getBlocoResponsaveis().click()
+    protocolo.completeUsuarioResponsavel(this.distribuicao.responsavel)
     protocolo.getPrazoDias().invoke('val').should("not.be.empty")
     protocolo.getDataHoraInicioPrazo().invoke('val').should("not.be.empty")
     protocolo.getDataHoraFinalPrazo().invoke('val').should("not.be.empty")
-    protocolo.completeSetorOrigem(paramOrgao)
+    protocolo.completeSetorOrigem(this.distribuicao.setorOrigem)
     protocolo.salvarDistribuicao().click()
 
     protocolo.getMenuJuntada().click()

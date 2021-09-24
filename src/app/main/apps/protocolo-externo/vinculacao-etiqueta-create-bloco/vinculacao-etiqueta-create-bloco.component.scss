@@ -1,3 +1,15 @@
 vinculacao-etiqueta-create {
+    flex: 1 1 auto;
+    display: flex;
 
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        overflow-y: auto;
+        flex-direction: column;
+
+        .mat-list-base .mat-list-item .mat-line {
+            white-space: pre-wrap !important;
+        }
+    }
 }

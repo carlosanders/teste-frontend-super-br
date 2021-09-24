@@ -85,7 +85,7 @@ export function VisibilidadeReducer(
         case VisibilidadeActions.DELETE_VISIBILIDADE_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

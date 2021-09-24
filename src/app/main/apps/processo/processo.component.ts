@@ -29,6 +29,11 @@ import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkUtils} from '../../../../@cdk/utils';
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'processo',
@@ -39,6 +44,12 @@ import {CdkUtils} from '../../../../@cdk/utils';
     animations: cdkAnimations
 })
 export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @ViewChild('dynamicComponent', {read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    @ViewChild('dynamicComponentConverter', {read: ViewContainerRef})
+    containerConverter: ViewContainerRef;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
@@ -58,12 +69,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     chaveAcesso: string;
     steps$: Observable<boolean>;
 
-    @ViewChild('dynamicComponent', {read: ViewContainerRef})
-    container: ViewContainerRef;
-
-    @ViewChild('dynamicComponentConverter', {read: ViewContainerRef})
-    containerConverter: ViewContainerRef;
-
     pluginLoading$: Observable<string[]>;
     pluginLoading: string[];
 
@@ -71,8 +76,10 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     togglingAcompanharProcesso$: Observable<boolean>;
 
-    private _profile: Usuario;
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+    private _profile: Usuario;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -85,6 +92,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _router
      * @param _dynamicService
      * @param _matDialog
+     * @param _snackBar
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -95,6 +103,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         private _router: Router,
         private _dynamicService: DynamicService,
         private _matDialog: MatDialog,
+        private _snackBar: MatSnackBar
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
@@ -120,6 +129,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                         'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                     },
                     {
+                        // eslint-disable-next-line max-len
                         'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                         'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                     }
@@ -142,32 +152,39 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
-        this.processo$
-            .pipe(
-                filter(processo => !!processo),
-                distinctUntilKeyChanged('id')
-            )
-            .subscribe((processo) => {
-                this.processo = processo;
-                this.iniciaModulos();
-                this.refresh();
-            });
+        this.processo$.pipe(
+            filter(processo => !!processo),
+            distinctUntilKeyChanged('id')
+        ).subscribe((processo) => {
+            this.processo = processo;
+            this.iniciaModulos();
+            this.refresh();
+        });
 
         this.pluginLoading$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            pluginLoading => this.pluginLoading = pluginLoading
-        );
+        ).subscribe(pluginLoading => this.pluginLoading = pluginLoading);
+
+        this.errors$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors.error.message || errors.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
+        });
     }
 
     ngAfterViewInit(): void {
@@ -185,7 +202,10 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 module.components[path].forEach(((c) => {
                     if (this.container !== undefined) {
                         this._dynamicService.loadComponent(c)
-                            .then(componentFactory => this.container.createComponent(componentFactory));
+                            .then((componentFactory) => {
+                                this.container.createComponent(componentFactory);
+                                this._changeDetectorRef.markForCheck();
+                            });
                     }
                 }));
             }
@@ -199,7 +219,10 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 module.components[path].forEach(((c) => {
                     if (this.containerConverter !== undefined) {
                         this._dynamicService.loadComponent(c)
-                            .then(componentFactory => this.containerConverter.createComponent(componentFactory));
+                            .then((componentFactory) => {
+                                this.containerConverter.createComponent(componentFactory);
+                                this._changeDetectorRef.markForCheck();
+                            });
                     }
                 }));
             }
@@ -213,6 +236,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
+        this._store.dispatch(new fromStore.UnloadProcesso());
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
@@ -238,7 +262,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doAutuar(): void {
-        this._store.dispatch(new fromStore.AutuarProcesso(this.processo));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.AutuarProcesso({processo: this.processo, operacaoId: operacaoId}));
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
@@ -299,7 +324,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                     'setorAtual.unidade',
                     'modalidadeFase'
                 ]);
-                this._store.dispatch(new fromStore.ArquivarProcesso({processo: this.processo, populate: populate}));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.ArquivarProcesso({
+                    processo: this.processo,
+                    populate: populate,
+                    operacaoId: operacaoId
+                }));
             } else {
                 this._store.dispatch(new fromStore.RemovePluginLoading('arquivar_processo'));
             }
@@ -307,9 +337,10 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
-    acompanharProcesso(processo): void {
+    acompanharProcesso(processo: Processo): void {
         if (!this.processo.compartilhamentoUsuario) {
-            this._store.dispatch(new fromStore.SaveAcompanhamento(processo));
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveAcompanhamento({processo: processo, operacaoId: operacaoId}));
         } else {
             const payload = {
                 'acompanhamentoId': processo.compartilhamentoUsuario.id,
@@ -319,7 +350,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    sincronizarBarramento(processo): void {
-        this._store.dispatch(new fromStore.SincronizaBarramento(processo));
+    sincronizarBarramento(processo: Processo): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SincronizaBarramento({processo: processo, operacaoId: operacaoId}));
     }
 }

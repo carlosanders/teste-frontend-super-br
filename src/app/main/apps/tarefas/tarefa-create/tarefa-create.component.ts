@@ -21,8 +21,8 @@ import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
-import {Back, getOperacoesState, getRouterState} from '../../../../store';
-import {CdkUtils} from "../../../../../@cdk/utils";
+import {Back, getOperacoes, getRouterState} from '../../../../store';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'tarefa-create',
@@ -33,8 +33,6 @@ import {CdkUtils} from "../../../../../@cdk/utils";
     animations: cdkAnimations
 })
 export class TarefaCreateComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefa: Tarefa;
     isSaving$: Observable<boolean>;
@@ -52,6 +50,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     visibilidades$: Observable<boolean>;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     NUP: any;
 
     routerState: any;
@@ -59,7 +58,10 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     isClearForm = false;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     operacaoId?: string;
+    lote: string = '';
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -111,14 +113,12 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.operacaoId = null;
         this.operacoes = [];
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
         });
 
         this.processo$.pipe(
@@ -142,59 +142,53 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
         this.visibilidades$.pipe(
             takeUntil(this._unsubscribeAll),
-        ).subscribe(
-            (restricao) => {
-                if (restricao) {
-                    const dialogRef = this.dialog.open(CdkVisibilidadePluginComponent, {
-                        data: {
-                            NUP: this.NUP
-                        },
-                        hasBackdrop: false,
-                        closeOnNavigation: true
-                    });
+            filter(restricao => !!restricao)
+        ).subscribe(() => {
+            const dialogRef = this.dialog.open(CdkVisibilidadePluginComponent, {
+                data: {
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    NUP: this.NUP
+                },
+                hasBackdrop: false,
+                closeOnNavigation: true
+            });
 
-                    dialogRef.afterClosed()
-                        .pipe(
-                            tap(
-                                (value) => {
-                                    const processoId = this.routerState.params.processoHandle ?
-                                        this.routerState.params.processoHandle : this.processo.id;
-                                    if (value === 1 && processoId) {
-                                        this._router.navigate(['apps/tarefas/' +
-                                        this.routerState.params.generoHandle + '/' +
-                                        this.routerState.params.typeHandle + '/' +
-                                        this.routerState.params.targetHandle + '/visibilidade/' + processoId]);
-                                    }
-                                }
-                            ),
-                            tap(() => dialogRef.close()),
-                            take(1)
-                        ).subscribe();
+            dialogRef.afterClosed().pipe(
+                tap(
+                    (value) => {
+                        const processoId = this.routerState.params.processoHandle ?
+                            this.routerState.params.processoHandle : this.processo.id;
+                        if (value === 1 && processoId) {
+                            this._router.navigate(['apps/tarefas/' +
+                            this.routerState.params.generoHandle + '/' +
+                            this.routerState.params.typeHandle + '/' +
+                            this.routerState.params.targetHandle + '/visibilidade/' + processoId]).then();
+                        }
+                    }
+                ),
+                tap(() => dialogRef.close()),
+                take(1)
+            ).subscribe();
 
-                    this._store.dispatch(new fromStore.GetVisibilidadesSuccess({
-                        restricaoProcesso: false
-                    }));
-                }
-            }
-        );
+            this._store.dispatch(new fromStore.GetVisibilidadesSuccess({
+                restricaoProcesso: false
+            }));
+        });
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => this.operacaoId && !!op && !!op.content && op.type === 'tarefa')
-            )
-            .subscribe(
-                (operacao) => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.detectChanges();
-                }
-            );
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
+            this._changeDetectorRef.detectChanges();
+        });
 
-        this.isClearForm$.subscribe((limpaForm) => {
-            if (limpaForm) {
-                this.isClearForm = true;
-            }
+        this.isClearForm$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(limpaForm => !!limpaForm)
+        ).subscribe(() => {
+            this.isClearForm = true;
         });
     }
 
@@ -216,7 +210,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.NUP = value.NUP;
         this.processo = value;
         this._store.dispatch(new fromStore.GetVisibilidades(value.id));
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -225,6 +218,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
         const tarefa = new Tarefa();
+        this.lote = '';
 
         this.operacaoId = CdkUtils.makeId();
 
@@ -236,11 +230,27 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
         tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
 
-        this._store.dispatch(new fromStore.SaveTarefa(tarefa));
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
+    }
+
+    submitLote(event: any): void {
+        this.lote = event.loteId;
+        const tarefa = new Tarefa();
+
+        this.operacaoId = CdkUtils.makeId();
+
+        Object.entries(event.tarefa).forEach(
+            ([key, value]) => {
+                tarefa[key] = value;
+            }
+        );
+
+        tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
+
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
     }
 
     cancel(): void {
         this._store.dispatch(new Back());
     }
-
 }

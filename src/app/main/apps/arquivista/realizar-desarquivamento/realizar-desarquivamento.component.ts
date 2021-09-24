@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {ModalidadeTransicao, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -19,22 +26,17 @@ import {CdkUtils} from '../../../../../@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class RealizarDesarquivamentoComponent implements OnInit {
-    private _unsubscribeAll: Subject<any> = new Subject();
-    private routerState: RouterStateUrl;
-
+export class RealizarDesarquivamentoComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
     dialogRef: any;
-
     processo$: Observable<Processo>;
     processo: Processo;
-
     transicao: Transicao;
-
     modalidadeTransicao$: Observable<ModalidadeTransicao>;
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private routerState: RouterStateUrl;
 
     constructor(
         private _store: Store<fromStore.RealizarDesarquivamentoAppState>,
@@ -48,13 +50,12 @@ export class RealizarDesarquivamentoComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
 
         this.processo$.pipe(
             filter(processo => !!processo && (!this.processo || processo.id !== this.processo.id)),
@@ -64,19 +65,22 @@ export class RealizarDesarquivamentoComponent implements OnInit {
         });
     }
 
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
     submit(values): void {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
+                message: 'Deseja realmente desarquivar o processo? NUPs apensos ou anexos também serão desarquivados.'
             },
             disableClose: false
         });
 
-        this.confirmDialogRef
-            .componentInstance
-            .confirmMessage = 'Deseja realmente desarquivar o processo? NUPs apensos ou anexos também serão desarquivados.';
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const transicao = new Transicao();

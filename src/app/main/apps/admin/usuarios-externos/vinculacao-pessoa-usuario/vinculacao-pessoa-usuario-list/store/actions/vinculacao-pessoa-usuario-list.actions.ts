@@ -13,84 +13,70 @@ export const DELETE_VINCULACAO_PESSOA_USUARIO_FAILED = '[SUPERADMIN VINCULACAO P
 /**
  * Get VinculacaoPessoaUsuario
  */
-export class GetVinculacaoPessoaUsuario implements Action
-{
+export class GetVinculacaoPessoaUsuario implements Action {
     readonly type = GET_VINCULACAO_PESSOA_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoPessoaUsuario Success
  */
-export class GetVinculacaoPessoaUsuarioSuccess implements Action
-{
+export class GetVinculacaoPessoaUsuarioSuccess implements Action {
     readonly type = GET_VINCULACAO_PESSOA_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get VinculacaoPessoaUsuario Failed
  */
-export class GetVinculacaoPessoaUsuarioFailed implements Action
-{
+export class GetVinculacaoPessoaUsuarioFailed implements Action {
     readonly type = GET_VINCULACAO_PESSOA_USUARIO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Reload VinculacaoPessoaUsuario
  */
-export class ReloadVinculacaoPessoaUsuario implements Action
-{
+export class ReloadVinculacaoPessoaUsuario implements Action {
     readonly type = RELOAD_VINCULACAO_PESSOA_USUARIO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Delete VinculacaoPessoaUsuario
  */
-export class DeleteVinculacaoPessoaUsuario implements Action
-{
+export class DeleteVinculacaoPessoaUsuario implements Action {
     readonly type = DELETE_VINCULACAO_PESSOA_USUARIO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete VinculacaoPessoaUsuario Success
  */
-export class DeleteVinculacaoPessoaUsuarioSuccess implements Action
-{
+export class DeleteVinculacaoPessoaUsuarioSuccess implements Action {
     readonly type = DELETE_VINCULACAO_PESSOA_USUARIO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete VinculacaoPessoaUsuario Failed
  */
-export class DeleteVinculacaoPessoaUsuarioFailed implements Action
-{
+export class DeleteVinculacaoPessoaUsuarioFailed implements Action {
     readonly type = DELETE_VINCULACAO_PESSOA_USUARIO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

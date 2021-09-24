@@ -14,96 +14,80 @@ export const GET_RELACIONAMENTO_FAILED = '[RELACIONAMENTO] GET RELACIONAMENTO FA
 /**
  * Get Relacionamento
  */
-export class GetRelacionamento implements Action
-{
+export class GetRelacionamento implements Action {
     readonly type = GET_RELACIONAMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Relacionamento Success
  */
-export class GetRelacionamentoSuccess implements Action
-{
+export class GetRelacionamentoSuccess implements Action {
     readonly type = GET_RELACIONAMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Get Relacionamento Failed
  */
-export class GetRelacionamentoFailed implements Action
-{
+export class GetRelacionamentoFailed implements Action {
     readonly type = GET_RELACIONAMENTO_FAILED;
 
-    constructor(public payload: string)
-    {
+    constructor(public payload: string) {
     }
 }
 
 /**
  * Save Relacionamento
  */
-export class SaveRelacionamento implements Action
-{
+export class SaveRelacionamento implements Action {
     readonly type = SAVE_RELACIONAMENTO;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Relacionamento Success
  */
-export class SaveRelacionamentoSuccess implements Action
-{
+export class SaveRelacionamentoSuccess implements Action {
     readonly type = SAVE_RELACIONAMENTO_SUCCESS;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Save Relacionamento Failed
  */
-export class SaveRelacionamentoFailed implements Action
-{
+export class SaveRelacionamentoFailed implements Action {
     readonly type = SAVE_RELACIONAMENTO_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Relacionamento
  */
-export class CreateRelacionamento implements Action
-{
+export class CreateRelacionamento implements Action {
     readonly type = CREATE_RELACIONAMENTO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
 /**
  * Create Relacionamento Success
  */
-export class CreateRelacionamentoSuccess implements Action
-{
+export class CreateRelacionamentoSuccess implements Action {
     readonly type = CREATE_RELACIONAMENTO_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 

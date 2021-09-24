@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="tune"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="usuarios">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-vinculacao-role-form
+        [vinculacaoRole]="role"
+        [staticRoles]="staticRoles"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-vinculacao-role-form>
+</div>

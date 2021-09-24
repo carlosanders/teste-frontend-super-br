@@ -111,8 +111,10 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
 
     gridFilter: any;
 
-    listFilter: {} = {};
-    listSort: {} = {};
+    listFilter: any = {};
+    listSort: Record<string, string> = {};
+    sortField: string = 'dataHoraFinalPrazo';
+    sortOrder: string = 'ASC';
 
     isIndeterminate = false;
 
@@ -150,6 +152,8 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
 
     doSort(sort: any): void {
         this.listSort = sort;
+        this.sortField = Object.keys(this.listSort)[0];
+        this.sortOrder = Object.values(this.listSort)[0];
         this.loadPage();
     }
 

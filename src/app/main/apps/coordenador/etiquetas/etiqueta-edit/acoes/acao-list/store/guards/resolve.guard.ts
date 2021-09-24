@@ -24,13 +24,13 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<AcaoListAppState>
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe((routerState) => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this._store.pipe(
+            select(getRouterState),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
+        });
+
     }
 
     /**
@@ -103,7 +103,7 @@ export class ResolveGuard implements CanActivate {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
 
                     const filter = {
-                            'id': 'eq:' + this.routerState.params.etiquetaHandle
+                        'id': 'eq:' + this.routerState.params.etiquetaHandle
                     };
 
                     this._store.dispatch(new fromStore.GetEtiqueta(filter));

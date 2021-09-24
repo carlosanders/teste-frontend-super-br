@@ -12,9 +12,9 @@ import {Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
-import {Colaborador, Lotacao, Setor, Usuario} from '@cdk/models';
+import {Colaborador, Lotacao, Setor} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
@@ -29,29 +29,21 @@ import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sideb
 })
 export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
-
     mode = 'Arquivista';
-
     routerState: any;
-
     unidadeHandle = '';
     typeHandle = '';
-
-    setoresCoordenacao: Setor[] = [];
-
-    usuariosAssessor: Usuario[] = [];
-
     colaborador: Colaborador;
     setores: Setor[] = [];
     links: any;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
      * @param _store
      * @param _changeDetectorRef
      * @param _loginService
+     * @param _cdkSidebarService
      */
     constructor(
         private _store: Store<fromStore.ArquivistaAppState>,
@@ -107,20 +99,18 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe((routerState) => {
-            if (routerState) {
-                this.routerState = routerState.state;
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll),
+            filter(routerState => !!routerState)
+        ).subscribe((routerState) => {
+            this.routerState = routerState.state;
 
-                if (routerState.state.params['unidadeHandle']) {
-                    this.unidadeHandle = routerState.state.params['unidadeHandle'];
-                }
-
-                this.typeHandle = routerState.state.params['typeHandle'] ?? 'pronto-transferencia';
+            if (routerState.state.params['unidadeHandle']) {
+                this.unidadeHandle = routerState.state.params['unidadeHandle'];
             }
+
+            this.typeHandle = routerState.state.params['typeHandle'] ?? 'pronto-transferencia';
         });
     }
 
@@ -128,14 +118,13 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
 
-    fecharSidebar() {
-        if(!this._cdkSidebarService.getSidebar('arquivista-main-sidebar').isLockedOpen) {
+    fecharSidebar(): void {
+        if (!this._cdkSidebarService.getSidebar('arquivista-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('arquivista-main-sidebar').close();
         }
     }

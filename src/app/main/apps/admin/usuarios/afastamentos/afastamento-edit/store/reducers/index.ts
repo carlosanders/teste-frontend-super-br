@@ -1,8 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {AfastamentoEditReducer, AfastamentoEditState} from './afastamento-edit.reducer';
 
-export interface AfastamentoEditAppState
-{
+export interface AfastamentoEditAppState {
     afastamento: AfastamentoEditState;
 }
 

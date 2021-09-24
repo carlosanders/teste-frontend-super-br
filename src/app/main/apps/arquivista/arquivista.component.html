@@ -1,7 +1,7 @@
 <div class="page-layout carded left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="arquivista-main-sidebar" position="left"
+    <cdk-sidebar *ngIf="(maximizado$ | async) === false" class="sidebar" name="arquivista-main-sidebar" position="left"
                  lockedOpen="gt-md">
         <arquivista-main-sidebar></arquivista-main-sidebar>
     </cdk-sidebar>
@@ -11,7 +11,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" fxHide.lt-md *ngIf="!(maximizado$ | async)">
+        <div class="header" fxHide.lt-md *ngIf="(maximizado$ | async) === false">
 
             <div class="search-wrapper">
 

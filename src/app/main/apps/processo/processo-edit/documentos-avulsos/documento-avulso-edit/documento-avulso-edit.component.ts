@@ -1,16 +1,17 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {DocumentoAvulso, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {getProcesso} from '../../../store/selectors';
+import {getProcesso} from '../../../store';
 import * as moment from 'moment';
-import {Back} from '../../../../../../store/actions';
+import {Back} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -32,6 +33,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     documentoAvulsoAdministrativoPagination: Pagination;
     logEntryPagination: Pagination;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _store
@@ -57,13 +59,15 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            processo => this.processo = processo
-        );
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe(processo => this.processo = processo);
 
-        this.documentoAvulso$.subscribe((documentoAvulso) => {
+        this.documentoAvulso$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(documentoAvulso => !!documentoAvulso)
+        ).subscribe((documentoAvulso) => {
             this.documentoAvulso = documentoAvulso;
-
         });
 
         if (!this.documentoAvulso) {
@@ -75,7 +79,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         }
         this.logEntryPagination.filter = {
             entity: 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso',
-            id: + this.documentoAvulso.id
+            id: +this.documentoAvulso.id
         };
     }
 
@@ -83,6 +87,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

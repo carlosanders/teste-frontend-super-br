@@ -15,7 +15,7 @@ processo-view-main-sidebar {
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
         > .actions {
-            flex: 1 1 auto;
+            flex: 1 0 auto;
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
@@ -23,6 +23,8 @@ processo-view-main-sidebar {
 
             > .mat-icon-button {
                 width: 32px;
+                height: 32px;
+                line-height: 34px !important;
             }
 
             > .espaco-icones {
@@ -48,49 +50,72 @@ processo-view-main-sidebar {
             display: flex;
             flex-direction: column;
 
-            .volumes-filter {
+            > form {
+                flex: 0 1 auto;
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
 
-                mat-label {
-                    margin-right: 8px;
-                    line-height: 22px;
-                }
-
-                > .volumes {
+                > div.grupo {
+                    flex: 1 0 auto;
+                    padding: 8px;
                     display: flex;
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    flex: 1 1 auto;
-                }
+                    flex-direction: column;
 
-                .index-volume {
-                    display: flex;
-                    flex-direction: row;
-                    margin-right: 2px;
-                    margin-bottom: 2px;
-                    width: 22px;
-                    cursor: pointer;
-
-                    span {
+                    .volumes-filter {
                         display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        position: relative;
-                        width: 22px;
-                        min-width: 22px;
-                        max-width: 22px;
-                        height: 22px;
-                        border-radius: 100%;
-                        border: 2px solid;
-                        font-weight: bold;
-                        font-size: 12px;
-                        z-index: 10;
+                        flex-direction: row;
+
+                        mat-label {
+                            margin-right: 8px;
+                            line-height: 22px;
+                        }
+
+                        > .volumes {
+                            display: flex;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                            flex: 1 1 auto;
+                        }
+
+                        .index-volume {
+                            display: flex;
+                            flex-direction: row;
+                            margin-right: 2px;
+                            margin-bottom: 2px;
+                            width: 22px;
+                            cursor: pointer;
+
+                            span {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                position: relative;
+                                width: 22px;
+                                min-width: 22px;
+                                max-width: 22px;
+                                height: 22px;
+                                border-radius: 100%;
+                                border: 2px solid;
+                                font-weight: bold;
+                                font-size: 12px;
+                                z-index: 10;
+                            }
+
+                            &.current {
+                                span {
+                                    border-color: red;
+                                }
+                            }
+                        }
                     }
 
-                    &.current {
-                        span {
-                            border-color: red;
+                    mat-form-field {
+                        flex: 1 1 auto;
+                        display: flex;
+                        margin-right: 16px;
+
+                        .mat-form-field-wrapper {
+                            flex: 1 1 auto;
                         }
                     }
                 }
