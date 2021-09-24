@@ -10,6 +10,13 @@
     <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
+            <mat-label>Id</mat-label>
+            <input matInput #id
+                   name="id"
+                   formControlName="id">
+        </mat-form-field>
+
+        <mat-form-field>
             <mat-label>Conteúdo</mat-label>
             <input matInput #conteudo
                    name="conteudo"
