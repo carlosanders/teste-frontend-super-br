@@ -18,11 +18,11 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-import {ContaEmail} from "../../../../../../@cdk/models";
-import {FormControl} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
-import {Folder} from "../../models/folder.model";
-import {getRouterState} from "../../../../../store";
+import {ContaEmail} from '@cdk/models';
+import {FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
+import {Folder} from '../../models/folder.model';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'caixa-email-folder-sidebar',

@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, concatMap} from 'rxjs/operators';
 import {State} from 'app/store/reducers';
 import * as fromStore from '../index';
-import {EmailClientService} from "../../services/email-client.service";
+import {EmailClientService} from '../../services/email-client.service';
 
 @Injectable()
 export class FolderEffects {

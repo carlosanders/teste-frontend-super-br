@@ -12,17 +12,17 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
-import {FormControl} from "@angular/forms";
-import {filter, takeUntil} from "rxjs/operators";
-import {ContaEmail} from "../../../../@cdk/models";
-import {select, Store} from "@ngrx/store";
-import * as fromStore from "./store"
-import {Folder} from "./models/folder.model";
-import {getRouterState} from "../../../store";
-import {Message} from "./models/message.model";
-import {Attachment} from "./models/attachment.model";
-import {DomSanitizer} from "@angular/platform-browser";
-import {EmailProcessoForm} from "./models/email-processo-form.model";
+import {FormControl} from '@angular/forms';
+import {filter, takeUntil} from 'rxjs/operators';
+import {ContaEmail} from '@cdk/models';
+import {select, Store} from '@ngrx/store';
+import * as fromStore from './store'
+import {Folder} from './models/folder.model';
+import {getRouterState} from '../../../store';
+import {Message} from './models/message.model';
+import {Attachment} from './models/attachment.model';
+import {DomSanitizer} from '@angular/platform-browser';
+import {EmailProcessoForm} from './models/email-processo-form.model';
 
 @Component({
     selector: 'caixa-email',

@@ -27,7 +27,7 @@ import {ServidorEmailEditStoreModule} from './store/store.module';
 import {ServidorEmailService} from '@cdk/services/servidor-email.service';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {CdkServidorEmailFormModule} from "@cdk/components/servidor-email/cdk-servidor-email-form/cdk-servidor-email-form.module";
+import {CdkServidorEmailFormModule} from '@cdk/components/servidor-email/cdk-servidor-email-form/cdk-servidor-email-form.module';
 
 const routes: Routes = [
     {

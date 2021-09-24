@@ -1,8 +1,8 @@
-import {Transform, Type} from "class-transformer";
-import * as moment from "moment";
-import {Folder} from "./folder.model";
-import {Address} from "./address.model";
-import {Attachment} from "./attachment.model";
+import {Transform, Type} from 'class-transformer';
+import * as moment from 'moment';
+import {Folder} from './folder.model';
+import {Address} from './address.model';
+import {Attachment} from './attachment.model';
 
 export class Message {
 

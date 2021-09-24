@@ -3,11 +3,11 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {ModelService} from '@cdk/services/model.service';
 import {Observable} from 'rxjs';
 import {environment} from 'environments/environment';
-import {map} from "rxjs/operators";
-import {plainToClass} from "class-transformer";
-import {Message} from "../models/message.model";
-import {PaginatedResponse} from "@cdk/models";
-import {Attachment} from "../models/attachment.model";
+import {map} from 'rxjs/operators';
+import {plainToClass} from 'class-transformer';
+import {Message} from '../models/message.model';
+import {PaginatedResponse} from '@cdk/models';
+import {Attachment} from '../models/attachment.model';
 
 @Injectable()
 export class EmailClientService {

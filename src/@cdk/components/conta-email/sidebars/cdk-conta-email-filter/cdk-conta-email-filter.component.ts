@@ -3,7 +3,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
-import {Pagination} from "../../../../models";
+import {Pagination} from '../../../../models';
 
 
 @Component({
@@ -54,7 +54,7 @@ export class CdkContaEmailFilterComponent {
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
-        this.form.controls.ativo.setValue("todos");
+        this.form.controls.ativo.setValue('todos');
     }
 
     emite(): void {
@@ -154,7 +154,7 @@ export class CdkContaEmailFilterComponent {
 
     resetarFormulario(): void {
         this.form.reset();
-        this.form.controls.ativo.setValue("todos");
+        this.form.controls.ativo.setValue('todos');
     }
 }
 

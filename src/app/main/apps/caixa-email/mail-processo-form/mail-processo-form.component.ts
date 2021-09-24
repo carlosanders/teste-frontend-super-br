@@ -17,7 +17,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination, Processo} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap, takeUntil} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
-import {Message} from "../models/message.model";
+import {Message} from '../models/message.model';
 
 @Component({
     selector: 'mail-processo-form',

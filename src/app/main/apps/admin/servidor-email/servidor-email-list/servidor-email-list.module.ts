@@ -26,8 +26,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {ServidorEmailStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {ServidorEmailService} from "@cdk/services/servidor-email.service";
-import {CdkServidorEmailGridModule} from "@cdk/components/servidor-email/cdk-servidor-email-grid/cdk-servidor-email-grid.module";
+import {ServidorEmailService} from '@cdk/services/servidor-email.service';
+import {CdkServidorEmailGridModule} from '@cdk/components/servidor-email/cdk-servidor-email-grid/cdk-servidor-email-grid.module';
 
 const routes: Routes = [
     {

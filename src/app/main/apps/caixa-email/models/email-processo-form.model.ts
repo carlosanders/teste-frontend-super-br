@@ -1,5 +1,5 @@
-import {Transform, Type} from "class-transformer";
-import {ContaEmail, Processo} from "@cdk/models";
+import {Transform, Type} from 'class-transformer';
+import {ContaEmail, Processo} from '@cdk/models';
 
 export class EmailProcessoForm {
 

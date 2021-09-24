@@ -4,7 +4,7 @@ import {MatAutocompleteModule, MatProgressSpinnerModule} from '@cdk/angular/mate
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkServidorEmailAutocompleteComponent} from './cdk-servidor-email-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
-import {ServidorEmailService} from "../../../services/servidor-email.service";
+import {ServidorEmailService} from '../../../services/servidor-email.service';
 
 @NgModule({
     declarations: [

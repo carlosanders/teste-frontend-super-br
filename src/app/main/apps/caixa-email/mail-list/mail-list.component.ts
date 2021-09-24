@@ -9,12 +9,12 @@ import {
 import {Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from "rxjs/operators";
-import {select, Store} from "@ngrx/store";
-import * as fromStore from "../store"
-import {getRouterState, RouterStateUrl} from "../../../../store";
-import {Message} from "../models/message.model";
-import {Folder} from "../models/folder.model";
+import {filter, takeUntil} from 'rxjs/operators';
+import {select, Store} from '@ngrx/store';
+import * as fromStore from '../store'
+import {getRouterState, RouterStateUrl} from '../../../../store';
+import {Message} from '../models/message.model';
+import {Folder} from '../models/folder.model';
 
 @Component({
     selector: 'mail-list',
