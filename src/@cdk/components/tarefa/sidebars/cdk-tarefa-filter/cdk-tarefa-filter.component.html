@@ -73,7 +73,7 @@
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *ngIf="this.form.get('unidadeResponsavel').value?.id">
+            <mat-form-field *ngIf="this.form.get('setorResponsavel').enabled">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorResponsavel"
                        [matAutocomplete]="setorResponsavel.autocomplete"
@@ -93,7 +93,7 @@
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *ngIf="this.form.get('unidadeResponsavel').value?.id">
+            <mat-form-field *ngIf="this.form.get('setorOrigem').enabled">
                 <input matInput placeholder="Setor de Origem"
                        formControlName="setorOrigem"
                        [matAutocomplete]="setor.autocomplete"
