@@ -1,6 +1,6 @@
 import * as fromStore from '../index';
-import {Folder} from "../../models/folder.model";
-import {Message} from "../../models/message.model";
+import {Folder} from '../../models/folder.model';
+import {Message} from '../../models/message.model';
 
 export interface MessageState {
     folder: Folder,

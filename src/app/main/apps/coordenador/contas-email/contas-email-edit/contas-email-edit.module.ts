@@ -27,7 +27,7 @@ import {ContaEmailEditStoreModule} from './store/store.module';
 import {ContaEmailService} from '@cdk/services/conta-email.service';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {CdkContaEmailFormModule} from "@cdk/components/conta-email/cdk-conta-email-form/cdk-conta-email-form.module";
+import {CdkContaEmailFormModule} from '@cdk/components/conta-email/cdk-conta-email-form/cdk-conta-email-form.module';
 
 const routes: Routes = [
     {

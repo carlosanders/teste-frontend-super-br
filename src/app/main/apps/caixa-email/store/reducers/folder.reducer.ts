@@ -1,5 +1,5 @@
 import * as fromStore from '../index';
-import {Folder} from "../../models/folder.model";
+import {Folder} from '../../models/folder.model';
 
 export interface FolderState {
     folders: Folder[];

@@ -26,8 +26,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {ContaEmailStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {ContaEmailService} from "@cdk/services/conta-email.service";
-import {CdkContaEmailGridModule} from "@cdk/components/conta-email/cdk-conta-email-grid/cdk-conta-email-grid.module";
+import {ContaEmailService} from '@cdk/services/conta-email.service';
+import {CdkContaEmailGridModule} from '@cdk/components/conta-email/cdk-conta-email-grid/cdk-conta-email-grid.module';
 
 const routes: Routes = [
     {

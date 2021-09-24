@@ -19,9 +19,9 @@ import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {CdkServidorEmailAutocompleteModule} from "../cdk-servidor-email-autocomplete/cdk-servidor-email-autocomplete.module";
-import {CdkServidorEmailGridComponent} from "./cdk-servidor-email-grid.component";
-import {ServidorEmailService} from "../../../services/servidor-email.service";
+import {CdkServidorEmailAutocompleteModule} from '../cdk-servidor-email-autocomplete/cdk-servidor-email-autocomplete.module';
+import {CdkServidorEmailGridComponent} from './cdk-servidor-email-grid.component';
+import {ServidorEmailService} from '../../../services/servidor-email.service';
 
 @NgModule({
     declarations: [

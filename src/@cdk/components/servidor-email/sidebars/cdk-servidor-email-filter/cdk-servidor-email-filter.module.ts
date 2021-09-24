@@ -15,7 +15,7 @@ import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
-import {ServidorEmailService} from "../../../../services/servidor-email.service";
+import {ServidorEmailService} from '../../../../services/servidor-email.service';
 
 @NgModule({
     declarations: [

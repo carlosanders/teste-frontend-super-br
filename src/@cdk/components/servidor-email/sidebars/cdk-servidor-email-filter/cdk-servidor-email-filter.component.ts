@@ -52,7 +52,7 @@ export class CdkServidorEmailFilterComponent {
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
-        this.form.controls.ativo.setValue("todos");
+        this.form.controls.ativo.setValue('todos');
     }
 
     emite(): void {
@@ -168,7 +168,7 @@ export class CdkServidorEmailFilterComponent {
 
     resetarFormulario(): void {
         this.form.reset();
-        this.form.controls.ativo.setValue("todos");
+        this.form.controls.ativo.setValue('todos');
     }
 }
 

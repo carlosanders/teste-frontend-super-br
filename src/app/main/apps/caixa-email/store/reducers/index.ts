@@ -1,7 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {ContaEmailReducer, ContaEmailState} from './conta-email.reducer';
-import {FolderReducer, FolderState} from "./folder.reducer";
-import {MessageReducer, MessageState} from "./message.reducer";
+import {FolderReducer, FolderState} from './folder.reducer';
+import {MessageReducer, MessageState} from './message.reducer';
 
 
 export interface CaixaEmailAppState

@@ -19,8 +19,8 @@ import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {CdkContaEmailGridComponent} from "./cdk-conta-email-grid.component";
-import {ContaEmailService} from "../../../services/conta-email.service";
+import {CdkContaEmailGridComponent} from './cdk-conta-email-grid.component';
+import {ContaEmailService} from '../../../services/conta-email.service';
 
 @NgModule({
     declarations: [

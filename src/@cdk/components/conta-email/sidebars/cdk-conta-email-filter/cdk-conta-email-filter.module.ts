@@ -15,8 +15,8 @@ import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
-import {ContaEmailService} from "../../../../services/conta-email.service";
-import {CdkServidorEmailAutocompleteModule} from "../../../servidor-email/cdk-servidor-email-autocomplete/cdk-servidor-email-autocomplete.module";
+import {ContaEmailService} from '../../../../services/conta-email.service';
+import {CdkServidorEmailAutocompleteModule} from '../../../servidor-email/cdk-servidor-email-autocomplete/cdk-servidor-email-autocomplete.module';
 
 @NgModule({
     declarations: [
