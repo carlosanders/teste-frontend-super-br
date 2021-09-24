@@ -4,7 +4,6 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {ArquivistaEditBlocoComponent} from './arquivista-edit-bloco.component';
 import {ProcessoService} from '@cdk/services/processo.service';
-import {LoginService} from '../../../auth/login/login.service';
 import {ArquivistaEditBlocoStoreModule} from './store/store.module';
 import {MatListModule} from '@angular/material/list';
 import {modulesConfig} from 'modules/modules-config';
@@ -15,6 +14,7 @@ import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-cla
 import {CdkClassificacaoGridTreeService} from '@cdk/components/classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
 
 const routes: Routes = [
     {
@@ -43,7 +43,8 @@ modulesConfig.forEach((module) => {
         DirectivesModule,
         CdkProcessoArquivistaFormModule,
         MatSlideToggleModule,
-        FormsModule
+        FormsModule,
+        MatButtonModule
     ],
     providers: [
         ProcessoService,

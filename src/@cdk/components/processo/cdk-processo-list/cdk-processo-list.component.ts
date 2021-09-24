@@ -7,7 +7,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
@@ -103,8 +103,6 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     mode = 'list';
 
-    gridFilter: any;
-
     @Output()
     loadAssuntos = new EventEmitter<any>();
 
@@ -117,8 +115,12 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     loadingInteressadosProcessosId: number[];
 
-    listFilter: {} = {};
-    listSort: {} = {};
+    gridFilter: any;
+
+    listFilter: Record<string, unknown> = {};
+    listSort: Record<string, string> = {};
+    sortFields: string[] = [];
+    sortOrders: string[] = [];
 
     isIndeterminate = false;
 
@@ -134,7 +136,12 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['pagination']) {
+            const sort = this.pagination.sort;
+            this.sortFields = Object.keys(sort);
+            this.sortOrders = Object.values(sort);
+        }
     }
 
     ngOnInit(): void {
@@ -156,6 +163,8 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     doSort(sort: any): void {
         this.listSort = sort;
+        this.sortFields = Object.keys(sort);
+        this.sortOrders = Object.values(sort);
         this.loadPage();
     }
 

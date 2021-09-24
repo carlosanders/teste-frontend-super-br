@@ -1,5 +1,5 @@
 <div class="content" cdkPerfectScrollbar>
-    <mat-list *ngIf="operacoes.length > 0 && lote !== ''" fxFlex cdkScrollTo>
+    <mat-list *ngIf="operacoes.length > 0 && lote !== ''" cdkScrollTo>
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>
@@ -26,4 +26,10 @@
         (abort)="cancel()"
         (processo)="verificaVisibilidadeProcesso($event)">
     </cdk-tarefa-form>
+
+    <div class="actions" *ngIf="lote !== '' && operacoes.length > 0 && operacoesPendentes.length === 0">
+        <button mat-raised-button color="warn" type="button" (click)="cancel()">
+            VOLTAR
+        </button>
+    </div>
 </div>

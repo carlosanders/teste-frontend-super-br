@@ -1,7 +1,7 @@
 <div class="page-layout carded left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="tarefas-main-sidebar" position="left"
+    <cdk-sidebar *ngIf="(maximizado$ | async) === false" class="sidebar" name="tarefas-main-sidebar" position="left"
                  lockedOpen="gt-md">
         <tarefas-main-sidebar (reload)="reload($event)"></tarefas-main-sidebar>
     </cdk-sidebar>
@@ -11,7 +11,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" *ngIf="!(maximizado$ | async)">
+        <div class="header" *ngIf="(maximizado$ | async) === false">
 
             <div class="search-wrapper">
 
@@ -60,7 +60,7 @@
                     <cdk-tarefa-list (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
                                      [togglingUrgenteIds]="(togglingUrgenteIds$ | async)"
-                                     [tarefas]="(tarefas$ | async)"
+                                     [tarefas]="tarefas"
                                      [error]="(error$ | async)"
                                      [draggingIds]="draggingIds$ | async"
                                      [errorDelete]="(errorDelete$ | async)"

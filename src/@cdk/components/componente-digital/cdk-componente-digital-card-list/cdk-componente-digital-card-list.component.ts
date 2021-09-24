@@ -16,6 +16,7 @@ import {catchError, last, map, tap} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 import {environment} from 'environments/environment';
 import {CdkDragEnter, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkUtils} from '../../../utils';
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -146,8 +147,9 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     onRetry(componenteDigital: ComponenteDigital): void {
-        this.componentesDigitais = this.componentesDigitais.filter(el => el.file != componenteDigital.file);
+        this.componentesDigitais = this.componentesDigitais.filter(el => el.file !== componenteDigital.file);
         componenteDigital.canRetry = false;
+        componenteDigital.errorMsg = null;
         this._changeDetectorRef.markForCheck();
         componenteDigital.file.sub.unsubscribe();
         const file = componenteDigital.file;
@@ -199,6 +201,7 @@ export class CdkComponenteDigitalCardListComponent {
                 componenteDigital.documentoOrigem = this.documentoOrigem;
                 componenteDigital.documento = this.documento;
                 componenteDigital.canRetry = false;
+                componenteDigital.errorMsg = null;
                 componenteDigital.inProgress = false;
 
                 this.componentesDigitais.push(componenteDigital);
@@ -291,6 +294,7 @@ export class CdkComponenteDigitalCardListComponent {
                     catchError((error: HttpErrorResponse) => {
                         componenteDigital.inProgress = false;
                         componenteDigital.canRetry = true;
+                        componenteDigital.errorMsg = CdkUtils.errorsToString(error);
                         file.inProgress = false;
                         file.canRetry = true;
                         file.retrying = false;

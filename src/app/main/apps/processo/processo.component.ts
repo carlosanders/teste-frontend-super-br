@@ -29,6 +29,11 @@ import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkUtils} from '../../../../@cdk/utils';
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'processo',
@@ -71,6 +76,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     togglingAcompanharProcesso$: Observable<boolean>;
 
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
     private _profile: Usuario;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -84,6 +92,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _router
      * @param _dynamicService
      * @param _matDialog
+     * @param _snackBar
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -94,6 +103,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         private _router: Router,
         private _dynamicService: DynamicService,
         private _matDialog: MatDialog,
+        private _snackBar: MatSnackBar
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
@@ -162,6 +172,19 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pluginLoading$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(pluginLoading => this.pluginLoading = pluginLoading);
+
+        this.errors$.pipe(
+            filter(errors => !!errors),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            const error = 'Erro! ' + (errors.error.message || errors.statusText);
+            this._snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
+        });
     }
 
     ngAfterViewInit(): void {
@@ -213,6 +236,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
+        this._store.dispatch(new fromStore.UnloadProcesso());
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }

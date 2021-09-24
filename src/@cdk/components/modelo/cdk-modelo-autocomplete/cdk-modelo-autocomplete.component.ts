@@ -67,30 +67,28 @@ export class CdkModeloAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const termFilterNome = [];
-                    const termFilterId = [];
+                    const andxFilter = [...this.andxFilter];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        const nomeKey = 'nome';
-                        const idKey = 'id';
-                        const objNome = {};
-                        objNome[nomeKey] = `like:%${bit}%`;
-                        termFilterNome.push(objNome);
-                        const objId = {};
-                        objId[idKey] = `eq:%${bit}%`;
-                        termFilterId.push(objId);
+                        if (isNaN(bit)) {
+                            andxFilter.push(
+                                {
+                                   nome: `like:%${bit}%`
+                                }
+                            );
+                        } else {
+                            andxFilter.push(
+                                {
+                                    id: `eq:${bit}`
+                                }
+                            );
+                        }
                     });
-                    const termFilter = {
-                        orX: [
-                            {orX: termFilterNome},
-                            {orX: termFilterId}
-                        ]
-                    };
-                    if (typeof value === 'string' && termFilterNome.length > 0 || termFilterId.length > 0) {
+                    if (typeof value === 'string' && andxFilter.length > 0) {
                         this.modeloListIsLoading = true;
-                        this._changeDetectorRef.detectChanges();
+                        this._changeDetectorRef.markForCheck();
                         const filterParam = {
-                            ...this.pagination.filter,
-                            ...termFilter
+                            andX: andxFilter,
+                            ...this.pagination.filter
                         };
                         return this._modeloService.search(
                             JSON.stringify(filterParam),
