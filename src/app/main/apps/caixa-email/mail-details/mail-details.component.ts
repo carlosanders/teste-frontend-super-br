@@ -1,9 +1,9 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component, ElementRef, EventEmitter, Input, OnChanges,
     OnDestroy,
-    OnInit, Output, SimpleChanges,
+    OnInit, Output, SimpleChanges, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {Subject} from 'rxjs';
@@ -16,6 +16,7 @@ import {getRouterState, RouterStateUrl} from '../../../../store';
 import {Message} from '../models/message.model';
 import {Attachment} from '../models/attachment.model';
 import {Address} from '../models/address.model';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     selector: 'mail-details',
@@ -45,6 +46,9 @@ export class MailDetailsComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     processoFormHandler: EventEmitter<void> = new EventEmitter<void>();
 
+    // @ViewChild('iframe', {static: false})
+    // iframe: ElementRef;
+
     private _unsubscribeAll: Subject<any> = new Subject();
     routerState: RouterStateUrl = null;
     showDetails: boolean = false;
@@ -52,10 +56,12 @@ export class MailDetailsComponent implements OnInit, OnChanges, OnDestroy {
     /**
      * @param _store
      * @param _changeDetectorRef
+     * @param sanitizer
      * @param _router
      */
     constructor(private _store: Store<fromStore.CaixaEmailAppState>,
                 private _changeDetectorRef: ChangeDetectorRef,
+                private sanitizer: DomSanitizer,
                 private _router: Router)
     {
 
@@ -118,4 +124,10 @@ export class MailDetailsComponent implements OnInit, OnChanges, OnDestroy {
     {
         return this.messageDownloadingAttachments.includes(attachment.uuid);
     }
+
+    // onLoadIframe(): void
+    // {
+    //     let doc = this.iframe.nativeElement.contentDocument || this.iframe.nativeElement.contentWindow;
+    //     doc.body.insertAdjacentHTML('beforeend',this.message.htmlBody);
+    // }
 }

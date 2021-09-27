@@ -9,7 +9,7 @@
 
 </div>
 <div class="content" fxLayout="row">
-    <div class="no-message" *ngIf="!messageList?.length && !messageListIsLoading && selectedFolder">
+    <div class="no-message" *ngIf="!messageList?.length && !messageListIsLoading && !!selectedContaEmail">
         <span class="info-text hint-text">Nenhum e-mail encontrado.</span>
     </div>
 
@@ -39,11 +39,11 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="messageListIsLoading && selectedFolder" class="loading-mail-list">
+        <div *ngIf="messageListIsLoading" class="loading-mail-list">
             <mat-spinner diameter="30"></mat-spinner>
             <span class="hint-text info-text"> Carregando e-mails...</span>
         </div>
-        <div *ngIf="!selectedFolder" class="loading-mail-list">
+        <div *ngIf="!selectedContaEmail && !messageListIsLoading" class="loading-mail-list">
             <mat-icon class="secondary-text">empty</mat-icon>
             <span class="hint-text info-text"> Nenhuma conta de e-mail selecionada...</span>
         </div>

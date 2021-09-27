@@ -15,6 +15,7 @@ import * as fromStore from '../store'
 import {getRouterState, RouterStateUrl} from '../../../../store';
 import {Message} from '../models/message.model';
 import {Folder} from '../models/folder.model';
+import {ContaEmail} from "../../../../../@cdk/models";
 
 @Component({
     selector: 'mail-list',
@@ -25,6 +26,9 @@ import {Folder} from '../models/folder.model';
     animations: cdkAnimations
 })
 export class MailListComponent implements OnInit, OnDestroy {
+
+    @Input()
+    selectedContaEmail: ContaEmail;
 
     @Input()
     selectedFolder: Folder;

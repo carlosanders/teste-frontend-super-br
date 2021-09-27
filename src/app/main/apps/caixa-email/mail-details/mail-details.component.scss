@@ -40,6 +40,9 @@ mail-details {
                 margin-right: 10px;
             }
         }
+        .no-message{
+            margin-top: 15px;
+        }
 
         .info-text {
             font-size: 24px;
@@ -96,6 +99,9 @@ mail-details {
 
             .mail-body-render {
                 word-wrap: anywhere;
+                border: none;
+                height: 100%;
+                width: 100%;
             }
 
             .info {

@@ -47,6 +47,7 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
     messageListPagination: any = {};
     messageListIsLoading: boolean = false;
     messageListIsLoaded: any = false;
+    folderIsLoaded: any = false;
     messageIsLoading: any = false;
     emailProcessoFormIsSaving: any = false;
     folderIsLoading: boolean = false;
@@ -120,7 +121,7 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
                 if (!this.selectedFolder) {
                     this._store.dispatch(new fromStore.UnloadMessage());
                     this._store.dispatch(new fromStore.SetActiveCard('mail-list'));
-                } else if (this.selectedFolder.uuid !== this.messageListIsLoaded) {
+                } else {
                     this._store.dispatch(new fromStore.GetMessages({
                         contaEmail: this.selectedContaEmail,
                         folder: this.selectedFolder,
@@ -198,6 +199,13 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(messageListIsLoaded => this.messageListIsLoaded = messageListIsLoaded);
+
+        this._store
+            .pipe(
+                select(fromStore.getFolderIsLoaded),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(folderIsLoaded => this.folderIsLoaded = folderIsLoaded);
 
         this._store
             .pipe(
