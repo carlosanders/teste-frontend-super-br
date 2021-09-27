@@ -186,7 +186,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
 
     back(): void {
         // eslint-disable-next-line max-len
-        this.deveRecarregarJuntadas = !!this.documento.juntadaAtual || this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
+        this.deveRecarregarJuntadas = !!this.documento?.juntadaAtual || this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
         this.destroying = true;
         let url = this.routerState.url.split('/documento/')[0];
         this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
