@@ -129,12 +129,12 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         });
 
         this.tarefa = new Tarefa();
-        this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
         this.tarefa.dataHoraInicioPrazo = moment();
         this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
         let lotacaoPrincipal: Setor = null;
         this._profile.lotacoes.filter(lotacao => lotacao.principal ? lotacaoPrincipal = lotacao.setor : null);
         this.tarefa.setorOrigem = lotacaoPrincipal ? lotacaoPrincipal : this._profile.lotacoes[0].setor;
+        this.tarefa.unidadeResponsavel = lotacaoPrincipal.unidade;
 
         if (this.processo) {
             this.tarefa.processo = this.processo;
