@@ -62,7 +62,7 @@ export class CdkContaEmailFormComponent implements OnChanges, OnDestroy {
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
             login: [null, [Validators.required, Validators.maxLength(255)]],
             senha: [null, [Validators.required, Validators.maxLength(255)]],
-            metodoAutenticacao: [null, [Validators.required, Validators.maxLength(255)]],
+            metodoAutenticacao: [null, [Validators.maxLength(255)]],
             servidorEmail: [null, [Validators.required]],
             ativo: [null],
         });

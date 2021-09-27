@@ -44,6 +44,7 @@
 
             <mail-list
                 *ngIf="activeCard === 'mail-list'"
+                [selectedContaEmail]="selectedContaEmail"
                 [selectedFolder]="selectedFolder"
                 [messageList]="messageList"
                 [messageListIsLoading]="messageListIsLoading"
