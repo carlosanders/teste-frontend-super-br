@@ -8,7 +8,7 @@
     [loading]="(loading$ | async)"
     [avisos]="(avisos$ | async)"
     [total]="(pagination$ | async)?.total"
-    [actions]="['actions', 'showInatived']"
+    [actions]="['edit', 'create', 'delete', 'showInatived']"
     (inatived)="inatived($event)"
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
