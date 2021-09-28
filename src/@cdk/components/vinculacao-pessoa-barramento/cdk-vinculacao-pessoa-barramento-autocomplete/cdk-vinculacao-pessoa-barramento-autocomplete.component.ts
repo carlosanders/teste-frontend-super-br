@@ -12,8 +12,8 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
-import {VinculacaoPessoaBarramento} from "../../../models/vinculacao-pessoa-barramento";
-import {VinculacaoPessoaBarramentoService} from "../../../services/vinculacao-pessoa-barramento.service";
+import {VinculacaoPessoaBarramento} from '../../../models/vinculacao-pessoa-barramento';
+import {VinculacaoPessoaBarramentoService} from '../../../services/vinculacao-pessoa-barramento.service';
 
 @Component({
     selector: 'cdk-vinculacao-pessoa-barramento-autocomplete',
@@ -32,10 +32,10 @@ export class CdkVinculacaoPessoaBarramentoAutocompleteComponent implements OnIni
     @Input()
     control: AbstractControl;
 
-    vinculacaoPessoaBarramentoList: VinculacaoPessoaBarramento[];
-    vinculacaoPessoaBarramentoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    vinculacaoPessoaBarramentoList: VinculacaoPessoaBarramento[];
+
+    vinculacaoPessoaBarramentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkVinculacaoPessoaBarramentoAutocompleteComponent implements OnIni
         this.pagination = new Pagination();
     }
 
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.vinculacaoPessoaBarramentoList = [];
+        }
+    }
+
     ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),
@@ -54,7 +60,7 @@ export class CdkVinculacaoPessoaBarramentoAutocompleteComponent implements OnIni
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             servico: `like:%${bit}%`});
                     });
@@ -80,7 +86,7 @@ export class CdkVinculacaoPessoaBarramentoAutocompleteComponent implements OnIni
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.vinculacaoPessoaBarramentoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

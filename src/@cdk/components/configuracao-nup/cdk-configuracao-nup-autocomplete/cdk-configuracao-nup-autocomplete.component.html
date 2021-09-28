@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayConfiguracaoNupFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayConfiguracaoNupFn">
     <mat-option *ngFor="let configuracaoNup of configuracaoNupList"
                 [value]="configuracaoNup">
         <span [innerHTML]="displayConfiguracaoNupFn(configuracaoNup) | highlightOption: this.control.value"></span>

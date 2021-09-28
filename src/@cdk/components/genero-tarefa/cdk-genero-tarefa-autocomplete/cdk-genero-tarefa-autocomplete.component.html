@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayGeneroTarefaFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayGeneroTarefaFn">
     <mat-option *ngFor="let generoTarefa of generoTarefaList"
                 [value]="generoTarefa">
         <span [innerHTML]="displayGeneroTarefaFn(generoTarefa) | highlightOption: this.control.value"></span>

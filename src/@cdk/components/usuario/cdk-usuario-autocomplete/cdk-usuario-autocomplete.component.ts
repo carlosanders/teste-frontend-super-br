@@ -60,6 +60,12 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.usuarioList = [];
+        }
+    }
+
     ngOnInit(): void {
         this.filtrarPor = localStorage.getItem('filtrarPor');
         this.control.valueChanges.pipe(

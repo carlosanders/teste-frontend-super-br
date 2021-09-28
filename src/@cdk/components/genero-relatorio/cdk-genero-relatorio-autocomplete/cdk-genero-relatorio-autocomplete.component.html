@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayGeneroRelatorioFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayGeneroRelatorioFn">
     <mat-option *ngFor="let generoRelatorio of generoRelatorioList"
                 [value]="generoRelatorio">
         <span [innerHTML]="displayGeneroRelatorioFn(generoRelatorio) | highlightOption: this.control.value"></span>

@@ -51,8 +51,13 @@ export class CdkTransicaoWorkflowAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
-    ngOnInit(): void {
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.transicoesWorkflowsList = [];
+        }
+    }
 
+    ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),

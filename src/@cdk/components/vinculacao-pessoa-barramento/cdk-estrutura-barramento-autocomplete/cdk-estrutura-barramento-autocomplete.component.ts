@@ -31,10 +31,10 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    estruturaBarramentoList: any[];
-    estruturaBarramentoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    estruturaBarramentoList: any[];
+
+    estruturaBarramentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -44,14 +44,18 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
         this.estruturaBarramentoListIsLoading = false;
     }
 
-    ngOnInit(): void {
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.estruturaBarramentoList = [];
+        }
+    }
 
+    ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(600),
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 5),
             switchMap((value) => {
-
                 if (typeof value === 'string' && value.length >= 5) {
                     const filterParam = {
                         nome: value,
@@ -65,8 +69,8 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
                 } else {
                     return of([]);
                 }
-            }
-        )).subscribe(response => {
+            })
+        ).subscribe((response) => {
             this.estruturaBarramentoListIsLoading = false;
             this.estruturaBarramentoList = response['entities'];
             this._changeDetectorRef.markForCheck();
@@ -76,8 +80,8 @@ export class CdkEstruturaBarramentoAutocompleteComponent implements OnInit {
     displayEstruturaBarramentoFn(estruturaBarramento): string {
         return estruturaBarramento ? estruturaBarramento.nome + ' - ' +
             estruturaBarramento.sigla + ' / ' +
-            estruturaBarramento.hierarquia[0]['sigla']+ ' / ' +
-            estruturaBarramento.hierarquia[1]['sigla']+ ' / ' +
+            estruturaBarramento.hierarquia[0]['sigla'] + ' / ' +
+            estruturaBarramento.hierarquia[1]['sigla'] + ' / ' +
             estruturaBarramento.hierarquia[2]['sigla'] + ' - ID ' +
             estruturaBarramento.numeroDeIdentificacaoDaEstrutura : null;
     }

@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayCompartilhamentoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayCompartilhamentoFn">
     <mat-option *ngFor="let compartilhamento of compartilhamentoList"
                 [value]="compartilhamento">
         <span [innerHTML]="displayCompartilhamentoFn(compartilhamento) | highlightOption: this.control.value"></span>

@@ -33,10 +33,10 @@ export class CdkAtividadeAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    atividadeList: Atividade[];
-    atividadeListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    atividadeList: Atividade[];
+
+    atividadeListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkAtividadeAutocompleteComponent implements OnInit {
         this.atividadeListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.atividadeList = [];
+        }
     }
 
     ngOnInit(): void {

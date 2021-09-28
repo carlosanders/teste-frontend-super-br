@@ -33,10 +33,10 @@ export class CdkModalidadeOrgaoCentralAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeOrgaoCentralList: ModalidadeOrgaoCentral[];
-    modalidadeOrgaoCentralListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeOrgaoCentralList: ModalidadeOrgaoCentral[];
+
+    modalidadeOrgaoCentralListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeOrgaoCentralAutocompleteComponent implements OnInit {
         this.modalidadeOrgaoCentralListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeOrgaoCentralList = [];
+        }
     }
 
     ngOnInit(): void {

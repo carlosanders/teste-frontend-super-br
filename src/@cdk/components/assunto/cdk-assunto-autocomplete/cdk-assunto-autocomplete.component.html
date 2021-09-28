@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAssuntoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAssuntoFn">
     <mat-option *ngFor="let assunto of assuntoList"
                 [value]="assunto">
         <div *ngIf="assunto?.assuntoAdministrativo?.parent">{{ assunto.assuntoAdministrativo.parent.nome }}</div>

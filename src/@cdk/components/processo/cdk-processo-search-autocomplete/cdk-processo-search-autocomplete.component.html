@@ -1,5 +1,5 @@
 <div class="content" id="xxx">
-<mat-autocomplete [displayWith]="displayProcessoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayProcessoFn">
 
     <mat-option *ngFor="let processo of processoSearchList"
                 [value]="processo"

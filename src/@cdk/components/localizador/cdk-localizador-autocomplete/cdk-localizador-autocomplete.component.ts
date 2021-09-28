@@ -33,10 +33,10 @@ export class CdkLocalizadorAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    localizadorList: Localizador[];
-    localizadorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    localizadorList: Localizador[];
+
+    localizadorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkLocalizadorAutocompleteComponent implements OnInit {
         this.localizadorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.localizadorList = [];
+        }
     }
 
     ngOnInit(): void {

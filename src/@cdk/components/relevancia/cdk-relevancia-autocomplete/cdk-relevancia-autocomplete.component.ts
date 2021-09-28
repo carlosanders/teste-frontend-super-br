@@ -33,10 +33,10 @@ export class CdkRelevanciaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    relevanciaList: Relevancia[];
-    relevanciaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    relevanciaList: Relevancia[];
+
+    relevanciaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkRelevanciaAutocompleteComponent implements OnInit {
         this.relevanciaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.relevanciaList = [];
+        }
     }
 
     ngOnInit(): void {

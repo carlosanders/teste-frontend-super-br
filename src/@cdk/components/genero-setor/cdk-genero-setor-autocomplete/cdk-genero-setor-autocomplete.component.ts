@@ -33,10 +33,10 @@ export class CdkGeneroSetorAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    generoSetorList: GeneroSetor[];
-    generoSetorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    generoSetorList: GeneroSetor[];
+
+    generoSetorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkGeneroSetorAutocompleteComponent implements OnInit {
         this.generoSetorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.generoSetorList = [];
+        }
     }
 
     ngOnInit(): void {

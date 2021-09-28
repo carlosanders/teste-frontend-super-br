@@ -33,10 +33,10 @@ export class CdkModalidadeFaseAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeFaseList: ModalidadeFase[];
-    modalidadeFaseListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeFaseList: ModalidadeFase[];
+
+    modalidadeFaseListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeFaseAutocompleteComponent implements OnInit {
         this.modalidadeFaseListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeFaseList = [];
+        }
     }
 
     ngOnInit(): void {
