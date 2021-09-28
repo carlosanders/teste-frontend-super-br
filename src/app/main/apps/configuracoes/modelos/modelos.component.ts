@@ -18,7 +18,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 @Component({
     selector: 'modelos',
     templateUrl: './modelos.component.html',
-    styleUrls: ['./contas-email.component.scss'],
+    styleUrls: ['./modelos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
