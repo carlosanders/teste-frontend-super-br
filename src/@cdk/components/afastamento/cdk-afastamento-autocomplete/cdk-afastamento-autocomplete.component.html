@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAfastamentoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAfastamentoFn">
     <mat-option *ngFor="let afastamento of afastamentoList"
                 [value]="afastamento">
         <span [innerHTML]="displayAfastamentoFn(afastamento) | highlightOption: this.control.value"></span>

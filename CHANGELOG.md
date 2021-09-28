@@ -625,3 +625,7 @@
 * Correção visualização de processo módulo arquivista
 * Correção visualização de processos restritos módulo arquivista
 * Melhoria filtro de Modelos por ID
+
+1.6.11
+
+* Correção nos autocompletes do sistema, limpando a lista de resultados após fechado o modal de autocomplete

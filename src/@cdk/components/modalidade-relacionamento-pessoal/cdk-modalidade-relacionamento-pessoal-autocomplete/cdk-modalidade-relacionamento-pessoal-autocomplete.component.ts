@@ -33,10 +33,10 @@ export class CdkModalidadeRelacionamentoPessoalAutocompleteComponent implements 
     @Input()
     control: AbstractControl;
 
-    modalidadeRelacionamentoPessoalList: ModalidadeRelacionamentoPessoal[];
-    modalidadeRelacionamentoPessoalListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeRelacionamentoPessoalList: ModalidadeRelacionamentoPessoal[];
+
+    modalidadeRelacionamentoPessoalListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeRelacionamentoPessoalAutocompleteComponent implements 
         this.modalidadeRelacionamentoPessoalListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeRelacionamentoPessoalList = [];
+        }
     }
 
     ngOnInit(): void {

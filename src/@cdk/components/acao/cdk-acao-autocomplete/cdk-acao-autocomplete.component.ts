@@ -33,10 +33,10 @@ export class CdkAcaoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+
     acaoList: Acao[];
     acaoListIsLoading: boolean;
-
-    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkAcaoAutocompleteComponent implements OnInit {
         this.acaoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.acaoList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayTransicaoWorkflowFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayTransicaoWorkflowFn">
     <mat-option *ngFor="let transicaoWorkflow of transicoesWorkflowsList"
                 [value]="transicaoWorkflow">
         <span [innerHTML]="displayTransicaoWorkflowFn(transicaoWorkflow) | highlightOption: this.control.value">

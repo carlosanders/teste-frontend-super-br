@@ -33,10 +33,10 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    colaboradorList: Colaborador[];
-    colaboradorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    colaboradorList: Colaborador[];
+
+    colaboradorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
 
         this.pagination = new Pagination();
         this.pagination.populate = ['populateAll', 'usuario'];
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.colaboradorList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -33,10 +33,10 @@ export class CdkModalidadeColaboradorAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeColaboradorList: ModalidadeColaborador[];
-    modalidadeColaboradorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeColaboradorList: ModalidadeColaborador[];
+
+    modalidadeColaboradorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeColaboradorAutocompleteComponent implements OnInit {
         this.modalidadeColaboradorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeColaboradorList = [];
+        }
     }
 
     ngOnInit(): void {

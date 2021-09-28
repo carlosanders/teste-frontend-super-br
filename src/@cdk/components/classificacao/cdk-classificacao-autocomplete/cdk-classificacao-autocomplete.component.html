@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayClassificacaoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayClassificacaoFn">
     <mat-option [ngClass]="{'multiline':classificacao.parent}"
                 *ngFor="let classificacao of classificacaoList"
                 [value]="classificacao">

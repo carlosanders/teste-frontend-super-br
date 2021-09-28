@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayEspecieTarefaFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayEspecieTarefaFn">
     <mat-option *ngFor="let especieTarefa of especieTarefaList" [disabled]="(isWorkflow && !especieTarefa.valida)"
                 [value]="especieTarefa">
         <span [innerHTML]="displayEspecieTarefaFn(especieTarefa) | highlightOption: this.control.value"

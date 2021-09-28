@@ -33,10 +33,10 @@ export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    relacionamentoPessoalList: RelacionamentoPessoal[];
-    relacionamentoPessoalListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    relacionamentoPessoalList: RelacionamentoPessoal[];
+
+    relacionamentoPessoalListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {
         this.relacionamentoPessoalListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.relacionamentoPessoalList = [];
+        }
     }
 
     ngOnInit(): void {

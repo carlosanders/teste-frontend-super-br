@@ -33,10 +33,10 @@ export class CdkComponenteDigitalAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    componenteDigitalList: ComponenteDigital[];
-    componenteDigitalListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    componenteDigitalList: ComponenteDigital[];
+
+    componenteDigitalListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkComponenteDigitalAutocompleteComponent implements OnInit {
         this.componenteDigitalListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.componenteDigitalList = [];
+        }
     }
 
     ngOnInit(): void {

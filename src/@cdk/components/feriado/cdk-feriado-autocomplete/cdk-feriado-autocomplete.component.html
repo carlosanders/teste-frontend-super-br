@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayFeriadoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayFeriadoFn">
     <mat-option *ngFor="let feriado of feriadoList"
                 [value]="feriado">
         <span [innerHTML]="displayFeriadoFn(feriado) | highlightOption: this.control.value"></span>

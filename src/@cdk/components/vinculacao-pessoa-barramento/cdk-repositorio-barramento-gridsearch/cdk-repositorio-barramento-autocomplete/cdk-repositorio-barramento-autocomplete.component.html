@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayRepositorioBarramentoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayRepositorioBarramentoFn">
     <mat-option *ngFor="let repositorioBarramento of repositorioBarramentoList"
                 [value]="repositorioBarramento">
         <span [innerHTML]="displayRepositorioBarramentoFn(repositorioBarramento) | highlightOption: this.control.value"></span>

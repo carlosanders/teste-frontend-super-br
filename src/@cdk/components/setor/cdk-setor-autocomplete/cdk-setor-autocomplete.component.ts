@@ -54,6 +54,12 @@ export class CdkSetorAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.setorList = [];
+        }
+    }
+
     ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),

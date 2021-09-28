@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayTipoValidacaoWorkflowFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayTipoValidacaoWorkflowFn">
     <mat-option *ngFor="let tipoValidacaoWorkflow of tipoValidacaoWorkflowList"
                 [value]="tipoValidacaoWorkflow">
         <span [innerHTML]="displayTipoValidacaoWorkflowFn(tipoValidacaoWorkflow) | highlightOption: this.control.value"></span>

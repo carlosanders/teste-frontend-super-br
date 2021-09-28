@@ -33,10 +33,10 @@ export class CdkModalidadeVinculacaoDocumentoAutocompleteComponent implements On
     @Input()
     control: AbstractControl;
 
-    modalidadeVinculacaoDocumentoList: ModalidadeVinculacaoDocumento[];
-    modalidadeVinculacaoDocumentoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeVinculacaoDocumentoList: ModalidadeVinculacaoDocumento[];
+
+    modalidadeVinculacaoDocumentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeVinculacaoDocumentoAutocompleteComponent implements On
         this.modalidadeVinculacaoDocumentoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeVinculacaoDocumentoList = [];
+        }
     }
 
     ngOnInit(): void {

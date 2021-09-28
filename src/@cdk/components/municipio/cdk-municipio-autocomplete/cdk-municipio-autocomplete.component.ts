@@ -33,10 +33,10 @@ export class CdkMunicipioAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    municipioList: Municipio[];
-    municipioListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    municipioList: Municipio[];
+
+    municipioListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkMunicipioAutocompleteComponent implements OnInit {
 
         this.pagination = new Pagination();
         this.pagination.populate = ['estado'];
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.municipioList = [];
+        }
     }
 
     ngOnInit(): void {

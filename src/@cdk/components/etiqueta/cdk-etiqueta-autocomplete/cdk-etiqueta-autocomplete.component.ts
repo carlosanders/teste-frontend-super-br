@@ -38,10 +38,10 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
     @Output()
     selected = new EventEmitter<any>();
 
-    etiquetaList: Etiqueta[];
-    etiquetaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    etiquetaList: Etiqueta[];
+
+    etiquetaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -51,6 +51,12 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
         this.etiquetaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.etiquetaList = [];
+        }
     }
 
     ngOnInit(): void {
@@ -67,7 +73,7 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.etiquetaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
-                        let filterParam = '';
+                        let filterParam;
                         if (Array.isArray(this.pagination.filter.orX)) {
                             const arrayFilterParam = this.pagination.filter.orX.map(v => ({
                                     ...v,

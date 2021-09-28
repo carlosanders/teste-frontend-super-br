@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayJuntadaFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayJuntadaFn">
     <mat-option *ngFor="let juntada of juntadaList"
                 [value]="juntada">
         <span [innerHTML]="displayJuntadaFn(juntada) | highlightOption: this.control.value"></span>

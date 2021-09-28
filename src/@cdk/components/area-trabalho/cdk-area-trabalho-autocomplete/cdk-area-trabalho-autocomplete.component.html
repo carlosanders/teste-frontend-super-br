@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAreaTrabalhoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAreaTrabalhoFn">
     <mat-option *ngFor="let areaTrabalho of areaTrabalhoList"
                 [value]="areaTrabalho">
         <span [innerHTML]="displayAreaTrabalhoFn(areaTrabalho) | highlightOption: this.control.value"></span>

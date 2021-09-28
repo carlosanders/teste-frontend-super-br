@@ -33,10 +33,10 @@ export class CdkCompartilhamentoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    compartilhamentoList: Compartilhamento[];
-    compartilhamentoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    compartilhamentoList: Compartilhamento[];
+
+    compartilhamentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkCompartilhamentoAutocompleteComponent implements OnInit {
         this.compartilhamentoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.compartilhamentoList = [];
+        }
     }
 
     ngOnInit(): void {
