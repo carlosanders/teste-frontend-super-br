@@ -59,6 +59,30 @@ export function AvisoEditReducer(
             };
         }
 
+        case AvisoEditActions.SAVE_AVISO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case AvisoEditActions.SAVE_AVISO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case AvisoEditActions.SAVE_AVISO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
         default:
             return state;
     }
