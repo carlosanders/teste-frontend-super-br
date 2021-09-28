@@ -142,6 +142,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'info',
                 link: 'avisos',
                 role: ['ROLE_ADMIN']
+            },
+            {
+                nome: 'Servidores de Email',
+                icon: 'mail',
+                link: 'servidor-email',
+                role: ['ROLE_ADMIN']
             }
         ];
 

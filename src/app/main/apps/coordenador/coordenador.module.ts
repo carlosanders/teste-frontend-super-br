@@ -55,6 +55,10 @@ const routes: Routes = [
             {
                 path       : ':entidadeHandle/avisos',
                 loadChildren: () => import('./avisos/aviso.module').then(m => m.AvisoModule)
+            },
+            {
+                path       : ':entidadeHandle/contas-email',
+                loadChildren: () => import('./contas-email/contas-email.module').then(m => m.ContasEmailModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

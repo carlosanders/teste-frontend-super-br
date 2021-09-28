@@ -1,0 +1,15 @@
+<div class="header">
+    <path icone="mail"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="contas-email">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-conta-email-form
+        [contaEmail]="contaEmail"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitContaEmail($event)"
+        (abort)="doAbort()">
+    </cdk-conta-email-form>
+</div>

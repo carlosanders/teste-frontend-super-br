@@ -100,6 +100,10 @@ const routes: Routes = [
             {
                 path: 'avisos',
                 loadChildren: () => import('./aviso/aviso.module').then(m => m.AvisoModule)
+            },
+            {
+                path: 'servidor-email',
+                loadChildren: () => import('./servidor-email/servidor-email.module').then(m => m.ServidorEmailModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

@@ -1,0 +1,58 @@
+<!-- SIDEBAR HEADER -->
+<div class="header light-blue p-24 pb-4">
+
+    <div class="logo">
+        <span class="logo-text">Caixas de E-mail</span>
+    </div>
+
+    <div class="account" fxLayout="column">
+        <mat-form-field floatLabel="never">
+            <mat-select [formControl]="contaEmailControl" class="account-selection"
+                        placeholder="Conta de E-mail">
+                <mat-option *ngFor="let contaEmail of contaEmailList" [value]="contaEmail.id">
+                    {{contaEmail.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="content" cdkPerfectScrollbar>
+
+    <div class="nav material2" *ngIf="!!selectedContaEmail">
+
+        <div class="nav-subheader">
+            <mat-icon *ngIf="!foldersIsLoading" class="secondary-text">folder</mat-icon>
+            <div *ngIf="foldersIsLoading" class="loading">
+                <mat-spinner diameter="20"></mat-spinner>
+            </div>
+            PASTAS
+        </div>
+        <div class="nav-item" *ngFor="let folder of folderList">
+            <a class="nav-link" matRipple [ngClass]="{'accent': isFolderActive(folder)}"
+                (click)="clickFolder(folder)">
+                <span>{{folder.parsedName}}
+                    <span *ngIf="folder.unreadMessages"> ({{folder.unreadMessages > 99 ? '+99' : folder.unreadMessages}})</span>
+                </span>
+            </a>
+        </div>
+
+<!--        <div class="nav-subheader">-->
+<!--            <mat-icon class="secondary-text">label_outline</mat-icon>-->
+<!--            FILTROS-->
+<!--        </div>-->
+<!---->
+<!--        <div class="nav-item" *ngFor="let filter of (filters$ | async)">-->
+<!--            <a class="nav-link" matRipple [routerLink]="'/apps/mail-ngrx/filter/' + filter.handle"-->
+<!--               [routerLinkActive]="['active', 'accent']">-->
+<!--                <mat-icon class="nav-link-icon" [ngClass]="filter.color" *ngIf="filter.icon">{{filter.icon}}</mat-icon>-->
+<!--                <span>{{filter.title}}</span>-->
+<!--            </a>-->
+<!--        </div>-->
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

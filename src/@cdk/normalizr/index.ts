@@ -129,6 +129,8 @@ export const chatMensagem = new schema.Entity('chat-mensagem');
 export const chatParticipante = new schema.Entity('chat-participante');
 export const statusBarramento = new schema.Entity('status-barramento');
 export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-barramento');
+export const servidorEmail = new schema.Entity('servidor-email');
+export const contaEmail = new schema.Entity('conta-email');
 
 acao.define({
     criadoPor: usuario,
@@ -1084,4 +1086,16 @@ statusBarramento.define( {
 
 vinculacaoPessoaBarramento.define({
     pessoa: pessoa
+});
+
+servidorEmail.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+});
+
+contaEmail.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    setor: setor,
+    servidorEmail: servidorEmail
 });

@@ -1,0 +1,37 @@
+@import "../../../scss/partials/cdk-form";
+
+cdk-servidor-email-form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    form {
+        .responsive-group {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            place-content: center flex-start;
+            .mat-radio-group {
+                margin-bottom: 8px;
+                .mat-radio-button {
+                    margin-right: 24px;
+                }
+            }
+        }
+
+        .responsive-group[max-width~="600px"] {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            place-content: center flex-start;
+            .mat-radio-button {
+                margin-right: 0;
+            }
+        }
+
+        .radio-button-label {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+    }
+}
