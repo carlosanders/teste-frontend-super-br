@@ -67,7 +67,7 @@
                   fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
-                        <input matInput placeholder="Nome"
+                        <input matInput placeholder="Nome ou Id"
                                formControlName="modelo"
                                #autoCompleteModelos
                                [matAutocomplete]="modelo.autocomplete"
@@ -141,10 +141,9 @@
     <div class="filters" *ngIf="showListFilter">
         <h3>Filtros</h3>
 
-        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
-              fxFlex="1 0 auto" name="form" [formGroup]="form">
+        <form class="p-8 mb-8" name="form" [formGroup]="form">
 
-            <div fxFlex="1 0 auto" fxLayout="column">
+            <div class="grupo">
                 <div class="volumes-filter">
                     <mat-label>Volume:</mat-label>
                     <div class="volumes">
@@ -178,7 +177,7 @@
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Documento"
+                        <input matInput placeholder="Tipo de Documento"
                                formControlName="tipoDocumento"
                                [matAutocomplete]="tipoDocumento.autocomplete">
                     </div>
@@ -189,7 +188,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput placeholder="Criado Por"
+                    <input matInput placeholder="Juntador Por"
                            formControlName="criadoPor"
                            [matAutocomplete]="usuarioCriadoPor.autocomplete">
                     <cdk-usuario-autocomplete
@@ -199,19 +198,26 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput placeholder="Unidade Responsável"
+                    <input matInput placeholder="Unidade Origem"
                            formControlName="unidade"
                            [matAutocomplete]="setor.autocomplete">
                     <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidade')">
                     </cdk-setor-autocomplete>
                 </mat-form-field>
 
+                <mat-form-field>
+                    <mat-label>Origem</mat-label>
+                    <mat-select formControlName="origemDados">
+                        <mat-option value="">Todos</mat-option>
+                        <mat-option value="administrativo">Administrativo</mat-option>
+                        <mat-option value="integracao">Integração</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
                  fxLayoutAlign="center center">
-                <button mat-raised-button color="accent" class="mr-sm-12"
-                        [disabled]="(listFilter | json) === '{}' && !selectedVolume" (click)="pesquisar()">
+                <button mat-raised-button color="accent" class="mr-sm-12" (click)="pesquisar()">
                     Pesquisar
                 </button>
                 <button mat-raised-button color="warn" class="mr-sm-12"
@@ -656,7 +662,7 @@
                     <div *ngIf="juntada.ativo">
                         <div class="descricao">{{juntada.descricao.split('/').join(' ')}}</div>
                         <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
-                        <div class="criado-em">{{juntada.documento?.criadoPor?.nome.split('/').join(' ')}}</div>
+                        <div class="criado-em">{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
                         <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla">
                             {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}})
                         </div>

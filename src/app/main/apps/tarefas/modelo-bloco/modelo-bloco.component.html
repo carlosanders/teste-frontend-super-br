@@ -5,7 +5,7 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
-    <cdk-modelo-grid *ngIf="(tarefas$ | async)?.length && !(isSaving$ | async)"
+    <cdk-modelo-grid *ngIf="(tarefas$ | async)?.length && (isSaving$ | async) === false"
             [loading]="(loading$ | async)"
             [modelos]="(modelos$ | async)"
             [total]="(pagination$ | async)?.total"
@@ -20,7 +20,7 @@
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 
-    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+    <mat-list *ngIf="operacoes.length > 0">
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>

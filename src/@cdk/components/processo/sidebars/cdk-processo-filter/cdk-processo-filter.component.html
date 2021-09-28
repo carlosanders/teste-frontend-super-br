@@ -172,7 +172,7 @@
 
             <mat-form-field *ngIf="form.get('unidade').value && form.get('unidade').value.id">
                 <input matInput placeholder="Setor Responsável"
-                       formControlName="setorAtual"
+                       formControlName="setorAtual" [extraFilter]="'unidade'"
                        [matAutocomplete]="setor.autocomplete"
                        (change)="verificarValor($event)">
                 <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')"

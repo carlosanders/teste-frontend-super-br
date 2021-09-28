@@ -41,8 +41,10 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
 
     routerState: any;
+    lote: string;
     private _profile: Colaborador;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -80,12 +82,8 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'tarefa') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -117,7 +115,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
     submit(values): void {
         this.operacoes = [];
-
+        this.lote = CdkUtils.makeId();
         this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
@@ -132,7 +130,8 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveTarefa({
                 tarefa: tarefa,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
         });
     }

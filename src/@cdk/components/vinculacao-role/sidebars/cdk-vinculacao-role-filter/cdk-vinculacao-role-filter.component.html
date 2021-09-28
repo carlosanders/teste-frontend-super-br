@@ -14,8 +14,8 @@
                    formControlName="role"
                    [matAutocomplete]="role.autocomplete"
                    (change)="verificarValor($event)">
-            <cdk-role-autocomplete #role="roleAutocomplete" [control]="form.get('role')">
-            </cdk-role-autocomplete>
+            <cdk-vinculacao-role-autocomplete #role [control]="form.get('role')">
+            </cdk-vinculacao-role-autocomplete>
         </mat-form-field>
 
         <mat-form-field>

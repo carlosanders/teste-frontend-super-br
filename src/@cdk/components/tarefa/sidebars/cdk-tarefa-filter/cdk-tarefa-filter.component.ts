@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -68,7 +69,8 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
         private _dynamicService: DynamicService,
-        private _cdkTarefaFilterService: CdkTarefaFilterService
+        private _cdkTarefaFilterService: CdkTarefaFilterService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.form = this._formBuilder.group({
             urgente: [null],
@@ -83,6 +85,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             unidadeOrigem: [null],
             setorOrigem: [null],
             setorResponsavel: [null],
+            especieRelevancia: [null],
             usuarioConclusaoPrazo: [null],
             distribuicaoAutomatica: [null],
             livreBalanceamento: [null],
@@ -101,7 +104,8 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
-
+        this.form.get('setorResponsavel').disable();
+        this.form.get('setorOrigem').disable();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
         this.setorResponsavelPagination = new Pagination();
@@ -117,9 +121,14 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             switchMap((value) => {
                     if (value && typeof value === 'object') {
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.form.get('setorResponsavel').enable();
+                        this.form.get('setorResponsavel').reset();
                     } else {
                         delete this.setorResponsavelPagination.filter['unidade.id'];
+                        this.form.get('setorResponsavel').reset();
+                        this.form.get('setorResponsavel').disable();
                     }
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
@@ -131,9 +140,14 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             switchMap((value) => {
                     if (value && typeof value === 'object') {
                         this.setorOrigemPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.form.get('setorOrigem').reset();
+                        this.form.get('setorOrigem').enable();
                     } else {
                         delete this.setorOrigemPagination.filter['unidade.id'];
+                        this.form.get('setorOrigem').reset();
+                        this.form.get('setorOrigem').disable();
                     }
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
@@ -146,7 +160,10 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then((componentFactory) => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });
@@ -186,6 +203,10 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
         if (this.form.get('especieTarefa').value) {
             andXFilter.push({'especieTarefa.id': `eq:${this.form.get('especieTarefa').value.id}`});
+        }
+
+        if (this.form.get('especieRelevancia').value) {
+            andXFilter.push({'processo.relevancias.especieRelevancia.id': `eq:${this.form.get('especieRelevancia').value.id}`});
         }
 
         if (this.form.get('usuarioResponsavel').value) {
@@ -251,19 +272,17 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         }
 
         if (this.form.get('urgente').value) {
-            if(this.form.get('urgente').value !== 'todos') {
+            if (this.form.get('urgente').value !== 'todos') {
                 andXFilter.push({'urgente': `eq:${this.form.get('urgente').value}`});
-            }
-            else {
+            } else {
                 delete andXFilter['urgente'];
             }
         }
 
         if (this.form.get('redistribuida').value) {
-            if(this.form.get('redistribuida').value !== 'todos') {
+            if (this.form.get('redistribuida').value !== 'todos') {
                 andXFilter.push({'redistribuida': `eq:${this.form.get('redistribuida').value}`});
-            }
-            else {
+            } else {
                 delete andXFilter['redistribuida'];
             }
         }

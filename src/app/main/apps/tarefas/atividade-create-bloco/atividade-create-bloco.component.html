@@ -28,7 +28,7 @@
         </cdk-minutas-atividade-card-list>
     </div>
 
-    <cdk-atividade-form *ngIf="operacoes.length === 0"
+    <cdk-atividade-form [hidden]="operacoes.length > 0"
                         [atividade]="atividade"
                         [blocoTarefasFavorito]="tarefas"
                         [especieAtividadePagination]="especieAtividadePagination"
@@ -41,7 +41,7 @@
                         (abort)="doAbort()">
     </cdk-atividade-form>
 
-    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+    <mat-list *ngIf="operacoes.length > 0">
         <h3 matSubheader>
             <span>Resultado do Bloco</span>
         </h3>

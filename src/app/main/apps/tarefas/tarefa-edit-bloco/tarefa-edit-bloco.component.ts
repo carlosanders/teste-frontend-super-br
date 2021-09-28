@@ -20,7 +20,6 @@ import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
-import {Back} from 'app/store/actions';
 import {CdkUtils} from '@cdk/utils';
 
 @Component({
@@ -41,6 +40,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
 
     routerState: any;
 
@@ -50,6 +50,9 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     blocoEditUrgente = false;
     blocoEditDistribuicao = false;
     blocoEditObservacao = false;
+    prazoDesabilitado = false;
+
+    lote: string;
     private _profile: any;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -81,18 +84,17 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => this.tarefas = tarefas);
+        ).subscribe((tarefas) => {
+            this.tarefas = tarefas;
+            this.prazoDesabilitado = tarefas.filter(tarefa => !tarefa.dataHoraFinalPrazo).length > 0;
+        });
 
         this._store.pipe(
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'tarefa') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -123,8 +125,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
     submit(values): void {
         this.operacoes = [];
-
-        const loteId = CdkUtils.makeId();
+        this.lote = CdkUtils.makeId();
         this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
@@ -170,11 +171,16 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             }
 
             const operacaoId = CdkUtils.makeId();
-            this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes, operacaoId: operacaoId, loteId: loteId}));
+            this._store.dispatch(new fromStore.SaveTarefa({
+                tarefa: tarefa,
+                changes: changes,
+                operacaoId: operacaoId,
+                loteId: this.lote
+            }));
         });
     }
 
     doAbort(): void {
-        this._store.dispatch(new Back());
+        this._router.navigate([this.routerState.url.split('/tarefa-editar-bloco')[0] + '/operacoes-bloco']).then();
     }
 }

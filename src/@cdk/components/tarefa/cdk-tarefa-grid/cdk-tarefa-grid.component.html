@@ -71,7 +71,7 @@
             <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
 
                 <!-- Selection Column -->
-                <ng-container matColumnDef="select" >
+                <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
@@ -153,11 +153,13 @@
                 </ng-container>
 
                 <!-- DataHoraDistribuicao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraDistribuicao') > -1" matColumnDef="dataHoraDistribuicao">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraDistribuicao') > -1"
+                              matColumnDef="dataHoraDistribuicao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data da Distribuicao
                     </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Data da Distribuicao: '
+                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
+                        data-label='Data da Distribuicao: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -180,7 +182,12 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Data do Final do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}">
+                        <span
+                            *ngIf="!!tarefa.dataHoraFinalPrazo">{{tarefa.dataHoraFinalPrazo.toDate() | date: 'dd/MM/yyyy'}}</span>
+                        <span
+                            *ngIf="!tarefa.dataHoraFinalPrazo"><mat-icon class="secondary-text" matTooltip="Prazo fechado">lock</mat-icon></span>
+                    </td>
                 </ng-container>
 
                 <!-- DataHoraConclusaoPrazo Column -->
@@ -323,7 +330,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && !tarefa.dataHoraConclusaoPrazo"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="editTarefa(tarefa.id)"
                                 aria-label="editar"
@@ -336,12 +343,22 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(tarefa.id) === -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('delete') > -1 &&
+                                deletingIds?.indexOf(tarefa.id) === -1 &&
+                                !hasExcluded && !tarefa.dataHoraConclusaoPrazo"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="deleteTarefa(tarefa.id)"
                                 aria-label="apagar"
                                 matTooltip="Apagar">
                             <mat-icon>delete</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                aria-label="ver atividades"
+                                matTooltip="Ver Atividades"
+                                *ngIf="actions.indexOf('atividades') > -1 && !hasExcluded"
+                                (click)="listAtividade(tarefa.id)">
+                            <mat-icon class="black-fg">list</mat-icon>
                         </button>
                     </td>
                 </ng-container>

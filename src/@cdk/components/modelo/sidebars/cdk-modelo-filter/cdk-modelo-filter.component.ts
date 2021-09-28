@@ -43,6 +43,7 @@ export class CdkModeloFilterComponent {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
+            id: [null],
             conteudo: [null],
             modalidadeModelo: [null],
             nome: [null],
@@ -63,6 +64,10 @@ export class CdkModeloFilterComponent {
         }
 
         const andXFilter = [];
+
+        if (this.form.get('id').value) {
+            andXFilter.push({'id': `eq:${this.form.get('id').value}`});
+        }
 
         if (this.form.get('conteudo').value) {
             this.form.get('conteudo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {

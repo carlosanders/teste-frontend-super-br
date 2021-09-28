@@ -13,7 +13,6 @@ export class VinculacaoRole {
 
     role?: string;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;

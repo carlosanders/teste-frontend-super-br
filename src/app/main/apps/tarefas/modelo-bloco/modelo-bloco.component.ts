@@ -39,6 +39,8 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy {
     tarefas: Tarefa[];
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
+    lote: string;
 
     routerState: any;
 
@@ -81,12 +83,8 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'componente digital') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'componente digital' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'componente digital' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -122,14 +120,14 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy {
     }
 
     doSelect(modelo): void {
-        const loteId = CdkUtils.makeId();
+        this.lote = CdkUtils.makeId();
         this.tarefas.forEach((tarefa) => {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.CreateComponenteDigital({
                 modelo: modelo,
                 tarefaOrigem: tarefa,
                 operacaoId: operacaoId,
-                loteId: loteId
+                loteId: this.lote
             }));
         });
     }

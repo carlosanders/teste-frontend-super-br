@@ -31,6 +31,7 @@ export class TarefaCreateEffect {
             type: 'tarefa',
             content: 'Criando tarefa ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
         mergeMap(action => this._tarefaService.save(action.payload.tarefa).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
@@ -38,6 +39,7 @@ export class TarefaCreateEffect {
                 type: 'tarefa',
                 content: `Tarefa id ${response.id} criada com sucesso!`,
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: Tarefa) => [
                 new TarefaCreateActions.SaveTarefaSuccess(action.payload.tarefa.bloco),
@@ -51,7 +53,8 @@ export class TarefaCreateEffect {
                     type: 'tarefa',
                     // eslint-disable-next-line max-len
                     content: `Houve erro na criação de tarefa no processo ${action.payload.tarefa.processo.NUP} para o setor ${action.payload.tarefa.setorResponsavel.nome}! ${erroString}`,
-                    status: 2 // erro
+                    status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new TarefaCreateActions.SaveTarefaFailed(err));
             })

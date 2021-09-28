@@ -29,6 +29,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
             type: 'documento avulso',
             content: 'Salvando o documento avulso ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
         mergeMap(action => this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
@@ -36,6 +37,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
                 type: 'documento avulso',
                 content: 'Documento avulso id ' + response.id + ' salvo com sucesso.',
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: DocumentoAvulso) => [
                 new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload.documentoAvulso),
@@ -52,6 +54,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
                     type: 'documento avulso',
                     content: 'Erro ao salvar o documento avulso!',
                     status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoFailed(payload));
             })

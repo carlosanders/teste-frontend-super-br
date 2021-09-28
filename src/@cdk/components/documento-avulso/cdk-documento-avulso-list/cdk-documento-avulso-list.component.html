@@ -60,11 +60,19 @@
                 <button mat-icon-button [matMenuTriggerFor]="selectMenu">
                     <mat-icon>sort</mat-icon>
                 </button>
-                <mat-menu fxHide #selectMenu="matMenu">
-                    <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'DESC'})">Final do
-                        Prazo
+                <mat-menu fxHide #selectMenu="matMenu" class="menu-sort">
+                    <button mat-menu-item class="sort-button"
+                            [ngClass]="{'selected': sortField === 'dataHoraFinalPrazo'}"
+                            (click)="doSort({'dataHoraFinalPrazo': sortField === 'dataHoraFinalPrazo' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                        <span>Data/hora de criação</span>
+                        <mat-icon color="accent" *ngIf="sortField === 'dataHoraFinalPrazo'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
                     </button>
-                    <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+                    <button mat-menu-item class="sort-button"
+                            [ngClass]="{'selected': sortField === 'id'}"
+                            (click)="doSort({'id': sortField === 'id' && sortOrder === 'DESC' ? 'ASC' : 'DESC'})">
+                        <span>Data da Distribuição</span>
+                        <mat-icon color="accent" *ngIf="sortField === 'id'">{{sortOrder === 'ASC' ? 'arrow_upward' : 'arrow_downward'}}</mat-icon>
+                    </button>
                 </mat-menu>
 
                 <div class="toolbar-separator" *ngIf="pagination.total"></div>

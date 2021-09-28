@@ -3,12 +3,12 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {select, Store} from '@ngrx/store';
 
-import {forkJoin, Observable, of, throwError} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {ProcessosAppState} from '../reducers';
 import * as fromStore from '../../store';
-import {getIsLoading, getPessoaLoaded, getPessoaLoading, getProcessosLoaded} from '../selectors';
+import {getIsLoading, getPessoaLoaded, getProcessosLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -16,11 +16,10 @@ import {Usuario} from '@cdk/models';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
+    routerState: any;
+    loading: boolean = false;
     private _profile: Usuario;
     private unidadeArquivistica = 2;
-    routerState: any;
-
-    loading: boolean = false;
 
     /**
      *

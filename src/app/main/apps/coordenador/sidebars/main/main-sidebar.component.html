@@ -65,7 +65,7 @@
             </div>
             <div *ngFor="let setor of setores">
                 <div class="nav-subheader mt-0">
-                    <span>{{setor.nome | uppercase}}</span>
+                    <span>{{setor.nome | uppercase}} / {{setor?.unidade?.sigla | uppercase}}</span>
                 </div>
                 <div class="nav-item" *ngFor="let link of linksLocal">
                     <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/local/' + setor.id + '/' + link.link"

@@ -577,3 +577,60 @@
 
 * Melhoria usuário, setor e unidade responsável na juntada
 * Melhoria número do documento principal do interessado aparecendo na capa do processo
+* Correção bug ao tentar remeter ofício assinado
+* Correção para selecionar o barramento na criação de ofício
+* Melhoria adicionado ícone à barra de pesquisa no topo do sistema para identificar que existem opções avançadas de busca
+* Correção em effects e componentes de ações em bloco, para exibir somente os resultados das operações que dizem respeito àquele submit específico de bloco
+* Melhoria criado componente para pesquisa de etiquetas, que permite customização de pesquisa em campos diferentes da etiqueta da entidade
+* Melhoria utilizado componente citado acima para pesquisar tarefas por etiquetas do processo
+* Correção comportamentos incorretos de botões que afetam campos desabilitados estando habilitados no formulário de criação de tarefa
+* Correção implementado método que verifica alteração do toggle blocoProcessos para desabilitar/habilitar corretamente o campo espécie tarefa
+* Correção ao criar tarefas para bloco de processos/responsáveis, a informação do lote é passada ao componente para tratar corretamente o bloco de resultados da operação
+* Correção em bug em que o cdk do formulário de criação de tarefas era removido do DOM, fazendo com que algumas das tarefas do bloco não fossem criadas corretamente
+* Correção replicada para todas as telas de blocos
+* Melhoria para busca de modelos pelo ID
+* Correção do carregamento de modelos nas configurações do usuário
+* Melhoria listagem de atividades por tarefa no processo edit
+* Correção retirada de menções de sapiens, supp, agu
+* Correção painel de tarefas exibição do coordenador
+
+1.6.10
+
+* Melhoria ordenação de listagens agora informa melhor ao usuário qual o campo da ordenação e qual a ordem aplicada no momento
+* Melhoria prazos na edição de tarefas são desabilitados caso tarefa tenha sido criada sem prazo final (intimação de integração)
+* Correção botão cancelar na tela de download de processo
+* Melhoria adicionado cadeado para informar prazo fechado em grid de tarefas quando não há prazo final para a tarefa
+* Correção removidos atalhos fxFlex de html de ações em bloco
+* Melhoria botão de voltar em telas de resultados de operações em bloco
+* Correção da url de edição em bloco de tarefas para português
+* Correção comportamento de redistribuição em bloco de tarefas causando um reload na listagem
+* Correção redistribuição de tarefas possivelmente removendo relacionamentos do objeto da tarefa no estado da aplicação
+* Correção bug na edição em bloco da tarefa não atualizando todo o objeto tarefa de acordo com o retorno do backend
+* Correção na mensagem de erro no upload #188
+* Correção prazo de tarefa edit sempre desabilitado
+* Correção alinhamento de botão de copiar NUP para clipboard
+* Melhoria filtros de setor responsável/setor origem desabilitados até que unidade responsável/unidade origem sejam preenchidas
+* Correção filtro de juntadas na sidebar do processo-view para se comportar da forma correta
+* Melhoria filtro de juntadas na sidebar do processo-view adicionado filtro origem
+* Correção css filtro de juntadas na sidebar do processo-view para corrigir aparência do botão de filtrar
+* Melhoria form para vinculação de roles estáticas
+* Correção filtro de setor origem na sidebar de tarefas estava verificando o campo unidade responsável para ser exibido, em vez de unidade origem
+* Melhoria exibindo mensagens de erro de algumas operações em processos e tarefas na snackbar de erro
+* Correção resolvidos alguns problemas de eslint
+* Melhoria exibindo o Outro Número de processo caso seja este o campo selecionado na busca avançada da search-bar de processo
+* Melhoria permitindo modularização de componente de login para substituição completa da camada de login do frontend através de módulos externos
+* Correção de css em algumas telas de resultado de bloco
+* Correção bug módulo do arquivista edit
+* Correção bug mudança de menus módulo arquivista
+* Correção visualização de processo módulo arquivista
+* Correção visualização de processos restritos módulo arquivista
+* Melhoria filtro de Modelos por ID
+
+1.6.11
+
+* Correção unidade responsável no form tarefa pegando lotação principal
+* Correção bug visualização de minutas tarefa-list
+* Correção para salvar modelos,etiquetas,repositórios no módulo do coordenador
+* Correção para adicionar botões no list do aviso
+* Correção para salvar avisos no módulo do coordenador
+

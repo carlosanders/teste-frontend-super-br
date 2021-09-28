@@ -48,8 +48,10 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
     modeloPaginationAndx: any;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
 
     routerState: any;
+    lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -134,12 +136,8 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'documento avulso') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'documento avulso' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'documento avulso' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -169,8 +167,8 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         this.operacoes = [];
+        this.lote = CdkUtils.makeId();
 
         this.tarefas.forEach((tarefaBloco) => {
             const documentoAvulso = new DocumentoAvulso();
@@ -187,7 +185,8 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveDocumentoAvulso({
                 documentoAvulso: documentoAvulso,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
         });
     }

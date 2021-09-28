@@ -158,6 +158,8 @@ export class ComponenteDigital {
     @Exclude()
     canRetry?: boolean;
     @Exclude()
+    errorMsg?: string;
+    @Exclude()
     canCancel?: boolean;
     @Exclude()
     complete?: boolean;
@@ -211,6 +213,7 @@ export class ComponenteDigital {
         this.inProgress = null;
         this.progress = null;
         this.canRetry = null;
+        this.errorMsg = null;
         this.canCancel = null;
         this.sub = null;
         this.complete = null;

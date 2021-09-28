@@ -11,17 +11,13 @@ vinculacao-etiqueta-create {
         cdk-etiqueta-chips {
             flex: 0 1 auto;
         }
-
-        .mat-list-base .mat-list-item .mat-line {
-            white-space: pre-wrap !important;
-        }
-
-        .actions {
+        > mat-list {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             flex: 0 1 auto;
-            align-items: center;
-            justify-content: center;
+            p.mat-line {
+                white-space: pre-wrap !important;
+            }
         }
     }
 }

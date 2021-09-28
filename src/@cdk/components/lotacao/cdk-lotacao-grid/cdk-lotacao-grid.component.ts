@@ -49,6 +49,57 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     displayedColumns: string[] = ['select', 'id', 'setor.unidade.nome', 'setor.nome', 'peso', 'distribuidor', 'principal', 'actions'];
 
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input()
+    actions: string[] = ['edit', 'delete', 'select', 'setPrincipal'];
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
+    selected = new EventEmitter<Lotacao>();
+
+    @Output()
+    setPrincipal = new EventEmitter<Lotacao>();
+
+    @Output()
+    selectedIds: number[] = [];
+
+    @Input()
+    setorPagination: Pagination;
+
     allColumns: any[] = [
         {
             id: 'select',
@@ -144,58 +195,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     columns = new FormControl();
 
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'setPrincipal'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<number>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
-
-    @Output()
-    selected = new EventEmitter<Lotacao>();
-
-    @Output()
-    setPrincipal = new EventEmitter<Lotacao>();
-
-    @Output()
-    selectedIds: number[] = [];
-
     dataSource: LotacaoDataSource;
-
-    @Input()
-    setorPagination: Pagination;
 
     showFilter = false;
 

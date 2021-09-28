@@ -1,0 +1,9 @@
+<div class="content">
+    <cdk-atividade-grid
+        [loading]="(loading$ | async)"
+        [atividades]="(atividades$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="[]"
+        (reload)="reload($event)">
+    </cdk-atividade-grid>
+</div>
