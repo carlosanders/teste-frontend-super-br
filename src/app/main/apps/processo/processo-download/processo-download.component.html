@@ -1,6 +1,7 @@
 <cdk-download-form
     [errors]="errors"
     [saving]="(saving$ | async)"
-    (save)="submitDownload($event)">
+    (save)="submitDownload($event)"
+    (abort)="abort()">
 </cdk-download-form>
 

@@ -51,6 +51,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {AssinaturaService} from '../../../../@cdk/services/assinatura.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
+import {CdkSearchBarEtiquetasModule} from '../../../../@cdk/components/search-bar-etiquetas/search-bar-etiquetas.module';
 
 const routes: Routes = [
     {
@@ -87,7 +88,7 @@ const routes: Routes = [
                 loadChildren: () => import('./tarefa-create-bloco/tarefa-create-bloco.module').then(m => m.TarefaCreateBlocoModule),
             },
             {
-                path: 'tarefa-edit-bloco',
+                path: 'tarefa-editar-bloco',
                 loadChildren: () => import('./tarefa-edit-bloco/tarefa-edit-bloco.module').then(m => m.TarefaEditBlocoModule),
             },
             {
@@ -172,6 +173,7 @@ modulesConfig.forEach((module) => {
         SnackBarDesfazerModule,
         MatBadgeModule,
         CdkAssinaturaEletronicaPluginModule,
+        CdkSearchBarEtiquetasModule,
     ],
     providers: [
         TarefaService,

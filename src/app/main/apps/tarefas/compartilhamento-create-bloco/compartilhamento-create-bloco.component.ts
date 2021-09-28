@@ -39,7 +39,9 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     routerState: any;
+    lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
 
@@ -75,12 +77,8 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'compartilhamento') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'compartilhamento' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'compartilhamento' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -105,8 +103,8 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         this.operacoes = [];
+        this.lote = CdkUtils.makeId();
 
         this.tarefas.forEach((tarefa) => {
             const compartilhamento = new Compartilhamento();
@@ -122,7 +120,8 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveCompartilhamento({
                 compartilhamento: compartilhamento,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
         });
     }

@@ -40,8 +40,9 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     routerState: any;
-
+    lote: string;
     private _profile: any;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -77,12 +78,8 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'cópia da juntada') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -109,6 +106,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         this.operacoes = [];
+        this.lote = CdkUtils.makeId();
 
         this.juntadas.forEach((juntada) => {
             const documento = new Documento();
@@ -126,7 +124,8 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.SaveDocumentoCopia({
                 juntadaId: juntada.id,
                 documento: documento,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
         });
     }

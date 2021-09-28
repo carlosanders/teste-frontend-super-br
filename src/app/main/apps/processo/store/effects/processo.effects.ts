@@ -18,9 +18,9 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
-import * as fromStore from '../index';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {CdkUtils} from '@cdk/utils';
 
 @Injectable()
 export class ProcessoEffect {
@@ -81,12 +81,15 @@ export class ProcessoEffect {
      */
     autuarProcesso: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoActions.AutuarProcesso>(ProcessoActions.AUTUAR_PROCESSO),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'processo',
-            content: 'Autuando o processo id ' + action.payload.processo.id + ' ...',
-            status: 0, // carregando
-        }))),
+        tap((action) => {
+            this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'processo',
+                content: 'Autuando o processo id ' + action.payload.processo.id + ' ...',
+                status: 0, // carregando
+            }));
+            this._store.dispatch(new ProcessoActions.AddPluginLoading('autuar_processo'));
+        }),
         switchMap(action => this._processoService.autuar(action.payload.processo).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
@@ -97,14 +100,17 @@ export class ProcessoEffect {
             mergeMap((response: Processo) => [
                 new ProcessoActions.AutuarProcessoSuccess(response),
                 new AddData<Processo>({data: [response], schema: processoSchema}),
+                new ProcessoActions.RemovePluginLoading('autuar_processo')
             ]),
             catchError((err) => {
+                const erroString = CdkUtils.errorsToString(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'processo',
-                    content: 'Erro ao autuar o processo id ' + action.payload.processo.id + '!',
+                    content: 'Erro ao autuar o processo id ' + action.payload.processo.id + ': ' + erroString,
                     status: 2, // erro
                 }));
+                this._store.dispatch(new ProcessoActions.RemovePluginLoading('autuar_processo'));
                 return of(new ProcessoActions.AutuarProcessoFailed(err));
             })
         ))
@@ -165,7 +171,6 @@ export class ProcessoEffect {
     saveConteudoVinculacaoEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoActions.SaveConteudoVinculacaoEtiqueta>(ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
         mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-            // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
             mergeMap(response => [
                 new ProcessoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                 new UpdateData<VinculacaoEtiqueta>(
@@ -224,7 +229,7 @@ export class ProcessoEffect {
                 status: 1, // sucesso
             }))),
             mergeMap((response: Processo) => [
-                new fromStore.RemovePluginLoading('arquivar_processo'),
+                new ProcessoActions.RemovePluginLoading('arquivar_processo'),
                 new ProcessoActions.ArquivarProcessoSuccess(response),
                 new UpdateData<Processo>({
                     id: response.id, schema: processoSchema, changes:
@@ -237,13 +242,14 @@ export class ProcessoEffect {
             ]),
             catchError((err) => {
                 console.log(err);
+                const erroString = CdkUtils.errorsToString(err);
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'processo',
-                    content: 'Erro ao arquivar o processo id ' + action.payload.processo.id + '!',
+                    content: 'Erro ao arquivar o processo id ' + action.payload.processo.id + ': ' + erroString,
                     status: 2, // erro
                 }));
-                this._store.dispatch(new fromStore.RemovePluginLoading('arquivar_processo'));
+                this._store.dispatch(new ProcessoActions.RemovePluginLoading('arquivar_processo'));
                 return of(new ProcessoActions.ArquivarProcessoFailed(err));
             })
         ))
@@ -325,11 +331,12 @@ export class ProcessoEffect {
                     new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema})
                 ]),
                 catchError((err) => {
+                    const erroString = CdkUtils.errorsToString(err);
                     console.log(err);
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
                         type: 'acompanhamento',
-                        content: 'Erro ao salvar o acompanhamento!',
+                        content: 'Erro ao salvar o acompanhamento: ' + erroString,
                         status: 2, // erro
                     }));
                     return of(new ProcessoActions.SaveAcompanhamentoFailed(err));
@@ -357,8 +364,12 @@ export class ProcessoEffect {
                 ],
             ),
             catchError((err) => {
+                const payload = {
+                    id: action.payload.acompanhamentoId,
+                    error: err
+                };
                 console.log(err);
-                return of(new ProcessoActions.DeleteAcompanhamentoFailed(action.payload.acompanhamentoId));
+                return of(new ProcessoActions.DeleteAcompanhamentoFailed(payload));
             })
         ), 25)
     ));

@@ -26,6 +26,7 @@ import {CdkAssuntoAdministrativoAutocompleteModule} from '../../../assunto-admin
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {CdkEspecieRelevanciaAutocompleteModule} from '../../../especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         CdkDateFilterModule,
         MatMenuModule,
         MatButtonToggleModule,
+        CdkEspecieRelevanciaAutocompleteModule,
     ],
     providers: [
         EspecieTarefaService

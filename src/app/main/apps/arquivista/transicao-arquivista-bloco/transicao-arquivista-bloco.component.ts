@@ -45,10 +45,12 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
 
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
 
+    lote: string;
     private routerState: RouterStateUrl;
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -87,7 +89,9 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação');
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes)
+                .filter(operacao => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -216,5 +220,24 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
             this.routerState.params.typeHandle,
             'operacoes-bloco'
         ]).then();
+    }
+
+    goBack(): void {
+        if (this.processos.length > 1) {
+            this._router.navigate([
+                'apps',
+                'arquivista',
+                this.routerState.params.unidadeHandle,
+                this.routerState.params.typeHandle,
+                'operacoes-bloco'
+            ]).then();
+        } else {
+            this._router.navigate([
+                'apps',
+                'arquivista',
+                this.routerState.params.unidadeHandle,
+                this.routerState.params.typeHandle
+            ]).then();
+        }
     }
 }

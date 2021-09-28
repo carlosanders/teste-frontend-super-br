@@ -47,7 +47,9 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
     routerState: any;
 
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     operacaoId?: string;
+    lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -106,12 +108,8 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = [];
-            Object.keys(operacoes).forEach((operacaoId) => {
-                if (operacoes[operacaoId].type === 'tramitação') {
-                    this.operacoes.push(operacoes[operacaoId]);
-                }
-            });
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tramitação' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tramitação' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.detectChanges();
         });
     }
@@ -153,7 +151,7 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
 
     submit(values): void {
         this.operacaoId = CdkUtils.makeId();
-
+        this.lote = CdkUtils.makeId();
         this.processos.forEach((processoBloco) => {
 
             const tramitacao = new Tramitacao();
@@ -169,7 +167,8 @@ export class RemeterProcessosBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveTramitacao({
                 tramitacao: tramitacao,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
         });
     }

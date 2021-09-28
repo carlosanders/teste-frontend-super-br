@@ -45,6 +45,10 @@ const routes: Routes = [
                 loadChildren: () => import('./coordenadores/admin-coordenadores.module').then(m => m.AdminCoordenadoresModule),
             },
             {
+                path: ':usuarioHandle/roles',
+                loadChildren: () => import('./roles/admin-roles.module').then(m => m.AdminRolesModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

@@ -17,9 +17,9 @@ import * as fromStore from './store';
 import {getTarefasProcessoRestritoValidadas} from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getSelectedTarefas} from '../store';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
-import {filter, skip, take, takeUntil, tap} from 'rxjs/operators';
+import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {Back} from 'app/store/actions';
 import {MatDialog} from '@cdk/angular/material';
@@ -45,10 +45,12 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
     routerState: any;
     pagination$: Observable<any>;
     pagination: any;
     blocoEditDistribuicao = true;
+    lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: any;
 
@@ -127,16 +129,12 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         });
 
         this._store.pipe(
-            select(getOperacoesState),
-            skip(1),
-            takeUntil(this._unsubscribeAll),
-            filter(op => !!op && !!op.content && op.type === 'tarefa')
-        ).subscribe(() => {
-            this.reloadTarefas();
-
-            this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-            this.routerState.params.typeHandle + '/' +
-            '/' + this.routerState.params.targetHandle]).then();
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
+            this._changeDetectorRef.markForCheck();
         });
 
         this._store.pipe(
@@ -162,28 +160,10 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    reloadTarefas(): void {
-        this._store.dispatch(new fromStoreTarefas.UnloadTarefas({reset: false}));
-
-        const nparams = {
-            ...this.pagination,
-            filter: {
-                ...this.pagination.filter
-            },
-            sort: this.pagination.sort,
-            limit: this.pagination.limit,
-            offset: this.pagination.offset,
-            populate: this.pagination.populate
-        };
-
-        this._store.dispatch(new fromStoreTarefas.GetTarefas(nparams));
-        this._store.dispatch(new fromStoreTarefas.ChangeSelectedTarefas([]));
-    }
-
     submit(values): void {
 
         this.operacoes = [];
-
+        this.lote = CdkUtils.makeId();
         this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
@@ -206,7 +186,8 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveTarefa({
                 tarefa: tarefa,
-                operacaoId: operacaoId
+                operacaoId: operacaoId,
+                loteId: this.lote
             }));
         });
     }

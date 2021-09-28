@@ -7,7 +7,7 @@ import {catchError, filter, mergeMap, tap} from 'rxjs/operators';
 import * as TarefaEditBlocoActions from '../actions/tarefa-edit-bloco.actions';
 
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -32,40 +32,61 @@ export class TarefaEditBlocoEffect {
             status: 0, // carregando
             lote: action.payload.loteId
         }))),
-        mergeMap(action => this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'tarefa',
-                content: `Tarefa id ${response.id} editada com sucesso!`,
-                status: 1, // sucesso
-                lote: action.payload.loteId
-            }))),
-            mergeMap((response: Tarefa) => [
-                new TarefaEditBlocoActions.SaveTarefaSuccess(action.payload),
-                new UpdateData<Tarefa>({
-                    id: response.id,
-                    schema: tarefaSchema,
-                    changes: {...action.payload.changes}
-                })
-            ]),
-            catchError((err) => {
-                const payload = {
-                    id: action.payload.tarefa.id,
-                    errors: err
-                };
-                console.log(err);
-                const erroString = CdkUtils.errorsToString(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
+        mergeMap((action) => {
+            const populate = JSON.stringify([
+                'processo',
+                'colaborador.usuario',
+                'setor.especieSetor',
+                'setor.generoSetor',
+                'setor.parent',
+                'setor.unidade',
+                'processo.especieProcesso',
+                'processo.especieProcesso.generoProcesso',
+                'processo.modalidadeMeio',
+                'processo.documentoAvulsoOrigem',
+                'especieTarefa',
+                'usuarioResponsavel',
+                'setorResponsavel',
+                'setorResponsavel.unidade',
+                'setorOrigem',
+                'setorOrigem.unidade',
+                'especieTarefa.generoTarefa',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta',
+                'processo.especieProcesso.workflow',
+                'workflow'
+            ]);
+            return this._tarefaService.patch(action.payload.tarefa, action.payload.changes, populate).pipe(
+                tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'tarefa',
-                    // eslint-disable-next-line max-len
-                    content: `Houve erro na alteração da tarefa id ${action.payload.tarefa.id}! ${erroString}`,
-                    status: 2, // erro
+                    content: `Tarefa id ${response.id} editada com sucesso!`,
+                    status: 1, // sucesso
                     lote: action.payload.loteId
-                }));
-                return of(new TarefaEditBlocoActions.SaveTarefaFailed(payload));
-            })
-        ))
+                }))),
+                mergeMap((response: Tarefa) => [
+                    new TarefaEditBlocoActions.SaveTarefaSuccess(action.payload),
+                    new AddData<Tarefa>({data: [response], schema: tarefaSchema})
+                ]),
+                catchError((err) => {
+                    const payload = {
+                        id: action.payload.tarefa.id,
+                        errors: err
+                    };
+                    console.log(err);
+                    const erroString = CdkUtils.errorsToString(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        // eslint-disable-next-line max-len
+                        content: `Houve erro na alteração da tarefa id ${action.payload.tarefa.id}! ${erroString}`,
+                        status: 2, // erro
+                        lote: action.payload.loteId
+                    }));
+                    return of(new TarefaEditBlocoActions.SaveTarefaFailed(payload));
+                })
+            );
+        })
     ));
 
     constructor(

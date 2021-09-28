@@ -36,6 +36,10 @@ const routes: Routes = [
                 loadChildren: () => import('./tarefa-edit/processo-tarefa-edit.module').then(m => m.ProcessoTarefaEditModule),
             },
             {
+                path       : 'atividades',
+                loadChildren: () => import('./atividade-list/atividade-list.module').then(m => m.AtividadeListModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

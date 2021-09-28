@@ -69,9 +69,19 @@ export class CdkModeloAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     const andxFilter = [...this.andxFilter];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        andxFilter.push({
-                            nome: `like:%${bit}%`
-                        });
+                        if (isNaN(bit)) {
+                            andxFilter.push(
+                                {
+                                   nome: `like:%${bit}%`
+                                }
+                            );
+                        } else {
+                            andxFilter.push(
+                                {
+                                    id: `eq:${bit}`
+                                }
+                            );
+                        }
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.modeloListIsLoading = true;

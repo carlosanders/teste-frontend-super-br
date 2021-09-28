@@ -48,7 +48,7 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo', 'especieRelevancia.nome', 'observacao', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'especieRelevancia.nome', 'observacao', 'actions'];
 
     allColumns: any[] = [
         {
@@ -62,7 +62,7 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
             fixed: true
         },
         {
-            id: 'processo',
+            id: 'processo.NUP',
             label: 'NUP',
             fixed: true
         },

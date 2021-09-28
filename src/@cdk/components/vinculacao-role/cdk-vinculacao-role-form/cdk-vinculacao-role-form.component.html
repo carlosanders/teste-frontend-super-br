@@ -1,0 +1,28 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-card>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Roles</mat-label>
+            <mat-select formControlName="role" required multiple>
+                <mat-option *ngFor="let role of staticRoles" [value]="role.role">{{ role.label }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('role').hasError('required')">
+                A Role é de preenchimento obrigatório
+            </mat-error>
+        </mat-form-field>
+    </mat-card>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>

@@ -19,14 +19,12 @@ import * as moment from 'moment';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
-    private _profile: Usuario;
     routerState: any;
-    private currentDate: any;
     colaborador: Colaborador;
-
     loading: boolean = false;
-
     loadingModalidadeTransicao: boolean = false;
+    private _profile: Usuario;
+    private currentDate: any;
 
     /**
      *
