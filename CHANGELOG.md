@@ -628,4 +628,9 @@
 
 1.6.11
 
+* Correção unidade responsável no form tarefa pegando lotação principal
+* Correção bug visualização de minutas tarefa-list
+* Correção para salvar modelos,etiquetas,repositórios no módulo do coordenador
+* Correção para adicionar botões no list do aviso
+* Correção para salvar avisos no módulo do coordenador
 * Correção nos autocompletes do sistema, limpando a lista de resultados após fechado o modal de autocomplete
