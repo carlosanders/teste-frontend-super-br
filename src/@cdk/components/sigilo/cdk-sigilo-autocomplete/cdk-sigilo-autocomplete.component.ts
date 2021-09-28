@@ -33,10 +33,10 @@ export class CdkSigiloAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    sigiloList: Sigilo[];
-    sigiloListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    sigiloList: Sigilo[];
+
+    sigiloListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkSigiloAutocompleteComponent implements OnInit {
         this.sigiloListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.sigiloList = [];
+        }
     }
 
     ngOnInit(): void {

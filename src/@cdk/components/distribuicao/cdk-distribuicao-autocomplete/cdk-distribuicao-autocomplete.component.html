@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayDistribuicaoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayDistribuicaoFn">
     <mat-option *ngFor="let distribuicao of distribuicaoList"
                 [value]="distribuicao">
         <span [innerHTML]="displayDistribuicaoFn(distribuicao) | highlightOption: this.control.value"></span>

@@ -33,10 +33,10 @@ export class CdkPaisAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    paisList: Pais[];
-    paisListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    paisList: Pais[];
+
+    paisListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkPaisAutocompleteComponent implements OnInit {
         this.paisListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.paisList = [];
+        }
     }
 
     ngOnInit(): void {

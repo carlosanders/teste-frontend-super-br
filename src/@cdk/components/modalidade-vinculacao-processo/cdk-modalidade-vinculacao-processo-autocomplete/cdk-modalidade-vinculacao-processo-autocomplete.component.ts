@@ -33,10 +33,10 @@ export class CdkModalidadeVinculacaoProcessoAutocompleteComponent implements OnI
     @Input()
     control: AbstractControl;
 
-    modalidadeVinculacaoProcessoList: ModalidadeVinculacaoProcesso[];
-    modalidadeVinculacaoProcessoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeVinculacaoProcessoList: ModalidadeVinculacaoProcesso[];
+
+    modalidadeVinculacaoProcessoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeVinculacaoProcessoAutocompleteComponent implements OnI
         this.modalidadeVinculacaoProcessoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeVinculacaoProcessoList = [];
+        }
     }
 
     ngOnInit(): void {

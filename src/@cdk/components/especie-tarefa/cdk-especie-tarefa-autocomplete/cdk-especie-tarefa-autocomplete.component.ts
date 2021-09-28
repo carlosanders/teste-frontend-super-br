@@ -39,9 +39,9 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
     @Input()
     especieTarefaListIsLoading: boolean;
 
-    isWorkflow = false;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+
+    isWorkflow = false;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -51,6 +51,12 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
         this.especieTarefaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.especieTarefaList = [];
+        }
     }
 
     ngOnInit(): void {

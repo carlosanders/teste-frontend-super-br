@@ -33,10 +33,10 @@ export class CdkModalidadeQualificacaoPessoaAutocompleteComponent implements OnI
     @Input()
     control: AbstractControl;
 
-    modalidadeQualificacaoPessoaList: ModalidadeQualificacaoPessoa[];
-    modalidadeQualificacaoPessoaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeQualificacaoPessoaList: ModalidadeQualificacaoPessoa[];
+
+    modalidadeQualificacaoPessoaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeQualificacaoPessoaAutocompleteComponent implements OnI
         this.modalidadeQualificacaoPessoaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeQualificacaoPessoaList = [];
+        }
     }
 
     ngOnInit(): void {

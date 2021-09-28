@@ -33,10 +33,10 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    documentoList: Documento[];
-    documentoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    documentoList: Documento[];
+
+    documentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
 
         this.pagination = new Pagination();
         this.pagination.populate = ['tipoDocumento', 'juntadaAtual'];
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.documentoList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -33,10 +33,10 @@ export class CdkVinculacaoAvisoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    vinculacaoAvisoList: VinculacaoAviso[];
-    vinculacaoAvisoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    vinculacaoAvisoList: VinculacaoAviso[];
+
+    vinculacaoAvisoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkVinculacaoAvisoAutocompleteComponent implements OnInit {
         this.vinculacaoAvisoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.vinculacaoAvisoList = [];
+        }
     }
 
     ngOnInit(): void {

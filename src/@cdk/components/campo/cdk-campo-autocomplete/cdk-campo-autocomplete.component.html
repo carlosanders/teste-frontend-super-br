@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayCampoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayCampoFn">
     <mat-option *ngFor="let campo of campoList"
                 [value]="campo">
         <span [innerHTML]="displayCampoFn(campo) | highlightOption: this.control.value"></span>

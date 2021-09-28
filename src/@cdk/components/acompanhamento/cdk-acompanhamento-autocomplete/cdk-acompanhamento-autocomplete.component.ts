@@ -33,10 +33,9 @@ export class CdkAcompanhamentoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
     acompanhamentoList: Compartilhamento[];
     acompanhamentoListIsLoading: boolean;
-
-    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +45,12 @@ export class CdkAcompanhamentoAutocompleteComponent implements OnInit {
         this.acompanhamentoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.acompanhamentoList = [];
+        }
     }
 
     ngOnInit(): void {

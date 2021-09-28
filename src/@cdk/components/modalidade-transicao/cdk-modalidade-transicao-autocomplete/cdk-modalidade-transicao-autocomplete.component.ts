@@ -33,10 +33,10 @@ export class CdkModalidadeTransicaoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeTransicaoList: ModalidadeTransicao[];
-    modalidadeTransicaoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeTransicaoList: ModalidadeTransicao[];
+
+    modalidadeTransicaoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeTransicaoAutocompleteComponent implements OnInit {
         this.modalidadeTransicaoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeTransicaoList = [];
+        }
     }
 
     ngOnInit(): void {

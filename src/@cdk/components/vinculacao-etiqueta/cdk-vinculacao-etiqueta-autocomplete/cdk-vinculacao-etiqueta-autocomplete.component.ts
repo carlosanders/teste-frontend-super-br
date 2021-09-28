@@ -33,10 +33,10 @@ export class CdkVinculacaoEtiquetaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    vinculacaoEtiquetaList: VinculacaoEtiqueta[];
-    vinculacaoEtiquetaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    vinculacaoEtiquetaList: VinculacaoEtiqueta[];
+
+    vinculacaoEtiquetaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkVinculacaoEtiquetaAutocompleteComponent implements OnInit {
         this.vinculacaoEtiquetaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.vinculacaoEtiquetaList = [];
+        }
     }
 
     ngOnInit(): void {
@@ -62,7 +68,7 @@ export class CdkVinculacaoEtiquetaAutocompleteComponent implements OnInit {
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.vinculacaoEtiquetaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
-                        let filterParam = '';
+                        let filterParam;
                         if (Array.isArray(this.pagination.filter)) {
                             const arrayFilterParam = [
                                 ...this.pagination.filter,

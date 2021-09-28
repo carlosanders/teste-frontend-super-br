@@ -33,10 +33,10 @@ export class CdkGeneroRelevanciaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    generoRelevanciaList: GeneroRelevancia[];
-    generoRelevanciaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    generoRelevanciaList: GeneroRelevancia[];
+
+    generoRelevanciaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkGeneroRelevanciaAutocompleteComponent implements OnInit {
         this.generoRelevanciaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.generoRelevanciaList = [];
+        }
     }
 
     ngOnInit(): void {

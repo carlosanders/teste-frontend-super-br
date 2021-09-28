@@ -33,10 +33,10 @@ export class CdkModalidadeGeneroPessoaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeGeneroPessoaList: ModalidadeGeneroPessoa[];
-    modalidadeGeneroPessoaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeGeneroPessoaList: ModalidadeGeneroPessoa[];
+
+    modalidadeGeneroPessoaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeGeneroPessoaAutocompleteComponent implements OnInit {
         this.modalidadeGeneroPessoaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeGeneroPessoaList = [];
+        }
     }
 
     ngOnInit(): void {
