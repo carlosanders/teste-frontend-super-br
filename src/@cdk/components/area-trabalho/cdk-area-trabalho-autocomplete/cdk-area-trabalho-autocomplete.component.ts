@@ -33,10 +33,10 @@ export class CdkAreaTrabalhoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    areaTrabalhoList: AreaTrabalho[];
-    areaTrabalhoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    areaTrabalhoList: AreaTrabalho[];
+
+    areaTrabalhoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkAreaTrabalhoAutocompleteComponent implements OnInit {
         this.areaTrabalhoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.areaTrabalhoList = [];
+        }
     }
 
     ngOnInit(): void {

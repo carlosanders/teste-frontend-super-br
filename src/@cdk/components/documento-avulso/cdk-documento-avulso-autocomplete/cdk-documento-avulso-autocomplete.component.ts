@@ -33,10 +33,10 @@ export class CdkDocumentoAvulsoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    documentoAvulsoList: DocumentoAvulso[];
-    documentoAvulsoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    documentoAvulsoList: DocumentoAvulso[];
+
+    documentoAvulsoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkDocumentoAvulsoAutocompleteComponent implements OnInit {
         this.documentoAvulsoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.documentoAvulsoList = [];
+        }
     }
 
     ngOnInit(): void {

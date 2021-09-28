@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displaySigiloFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displaySigiloFn">
     <mat-option *ngFor="let sigilo of sigiloList"
                 [value]="sigilo">
         <span [innerHTML]="displaySigiloFn(sigilo) | highlightOption: this.control.value"></span>

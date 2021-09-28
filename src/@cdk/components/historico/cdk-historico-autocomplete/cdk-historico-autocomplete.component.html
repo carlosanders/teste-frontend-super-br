@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayHistoricoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayHistoricoFn">
     <mat-option *ngFor="let historico of historicoList"
                 [value]="historico">
         <span [innerHTML]="displayHistoricoFn(historico) | highlightOption: this.control.value"></span>

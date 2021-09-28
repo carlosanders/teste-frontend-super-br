@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayVolumeFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayVolumeFn">
     <mat-option *ngFor="let volume of volumeList"
                 [value]="volume">
         <span [innerHTML]="displayVolumeFn(volume) | highlightOption: this.control.value"></span>

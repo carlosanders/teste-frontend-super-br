@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayDocumentoAvulsoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayDocumentoAvulsoFn">
     <mat-option *ngFor="let documentoAvulso of documentoAvulsoList"
                 [value]="documentoAvulso">
         <span [innerHTML]="displayDocumentoAvulsoFn(documentoAvulso) | highlightOption: this.control.value"></span>

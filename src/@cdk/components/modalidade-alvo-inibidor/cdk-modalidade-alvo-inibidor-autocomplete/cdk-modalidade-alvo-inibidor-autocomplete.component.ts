@@ -33,10 +33,10 @@ export class CdkModalidadeAlvoInibidorAutocompleteComponent implements OnInit {
     @Input()
     control: FormControl;
 
-    modalidadealvoInibidorList: ModalidadeAlvoInibidor[];
-    modalidadealvoInibidorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadealvoInibidorList: ModalidadeAlvoInibidor[];
+
+    modalidadealvoInibidorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeAlvoInibidorAutocompleteComponent implements OnInit {
         this.modalidadealvoInibidorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadealvoInibidorList = [];
+        }
     }
 
     ngOnInit(): void {

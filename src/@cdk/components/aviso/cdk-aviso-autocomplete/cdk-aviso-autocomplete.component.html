@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAvisoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAvisoFn">
     <mat-option *ngFor="let aviso of avisoList"
                 [value]="aviso">
         <span [innerHTML]="displayAvisoFn(aviso) | highlightOption: this.control.value"></span>

@@ -55,7 +55,7 @@ export class CdkLotacaoAutocompleteComponent implements OnInit {
     }
 
     fechado(): void {
-        if (!this.control.value || typeof this.control.value === 'string') {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
             this.lotacaoList = [];
         }
     }

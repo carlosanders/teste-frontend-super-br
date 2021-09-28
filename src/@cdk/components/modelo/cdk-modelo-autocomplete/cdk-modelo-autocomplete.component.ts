@@ -56,7 +56,7 @@ export class CdkModeloAutocompleteComponent implements OnInit {
     }
 
     fechado(): void {
-        if (!this.control.value || typeof this.control.value === 'string') {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
             this.modeloList = [];
         }
     }

@@ -10,13 +10,12 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Pagination} from '@cdk/models';
-import {AbstractControl, FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {EspecieRelatorio} from '@cdk/models/especie-relatorio.model';
 import {EspecieRelatorioService} from '../../../services/especie-relatorio.service';
-
 
 @Component({
     selector: 'cdk-especie-relatorio-autocomplete',
@@ -51,6 +50,12 @@ export class CdkEspecieRelatorioAutocompleteComponent implements OnInit {
         this.especieRelatorioListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.especieRelatorioList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayTipoDocumentoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayTipoDocumentoFn">
     <mat-option *ngFor="let tipoDocumento of tipoDocumentoList"
                 [value]="tipoDocumento">
         <span [innerHTML]="displayTipoDocumentoFn(tipoDocumento) | highlightOption: this.control.value"></span>

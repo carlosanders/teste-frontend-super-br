@@ -33,10 +33,10 @@ export class CdkModalidadeFolderAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeFolderList: ModalidadeFolder[];
-    modalidadeFolderListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeFolderList: ModalidadeFolder[];
+
+    modalidadeFolderListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeFolderAutocompleteComponent implements OnInit {
         this.modalidadeFolderListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeFolderList = [];
+        }
     }
 
     ngOnInit(): void {

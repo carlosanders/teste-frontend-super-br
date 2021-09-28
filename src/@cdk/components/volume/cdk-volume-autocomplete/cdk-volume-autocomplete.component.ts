@@ -33,10 +33,10 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    volumeList: Volume[];
-    volumeListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    volumeList: Volume[];
+
+    volumeListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
         this.volumeListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.volumeList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayEtiquetaFn" (optionSelected)="onSelected($event)">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayEtiquetaFn" (optionSelected)="onSelected($event)">
     <mat-option *ngFor="let etiqueta of etiquetaList"
                 [value]="etiqueta">
         <span [innerHTML]="displayEtiquetaFn(etiqueta) | highlightOption: this.control.value"></span>

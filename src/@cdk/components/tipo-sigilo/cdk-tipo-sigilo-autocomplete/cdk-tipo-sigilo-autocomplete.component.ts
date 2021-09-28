@@ -33,10 +33,10 @@ export class CdkTipoSigiloAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    tipoSigiloList: TipoSigilo[];
-    tipoSigiloListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    tipoSigiloList: TipoSigilo[];
+
+    tipoSigiloListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkTipoSigiloAutocompleteComponent implements OnInit {
         this.tipoSigiloListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.tipoSigiloList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displaySetorFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displaySetorFn">
     <mat-option *ngFor="let tipoRelatorio of tipoRelatorioList"
                 [value]="tipoRelatorio">
         <div *ngIf="tipoRelatorio">{{ tipoRelatorio.nome }}</div>

@@ -33,10 +33,10 @@ export class CdkEnderecoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    enderecoList: Endereco[];
-    enderecoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    enderecoList: Endereco[];
+
+    enderecoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkEnderecoAutocompleteComponent implements OnInit {
         this.enderecoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.enderecoList = [];
+        }
     }
 
     ngOnInit(): void {

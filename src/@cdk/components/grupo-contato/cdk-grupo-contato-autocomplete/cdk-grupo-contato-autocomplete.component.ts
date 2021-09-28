@@ -34,10 +34,10 @@ export class CdkGrupoContatoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    grupoContatoList: GrupoContato[];
-    grupoContatoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    grupoContatoList: GrupoContato[];
+
+    grupoContatoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkGrupoContatoAutocompleteComponent implements OnInit {
         this.grupoContatoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.grupoContatoList = [];
+        }
     }
 
     ngOnInit(): void {

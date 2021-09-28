@@ -8,11 +8,11 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {AbstractControl} from '@angular/forms';
-import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
-import {VinculacaoPessoaBarramentoService} from "../../../../services/vinculacao-pessoa-barramento.service";
+import {VinculacaoPessoaBarramentoService} from '../../../../services/vinculacao-pessoa-barramento.service';
 
 @Component({
     selector: 'cdk-repositorio-barramento-autocomplete',
@@ -31,13 +31,13 @@ export class CdkRepositorioBarramentoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    nomePesquisa: any;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
+    nomePesquisa: any;
     repositorioBarramentoList: any[];
     repositorioBarramentoListTotal: any[];
-    repositorioBarramentoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    repositorioBarramentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -48,8 +48,13 @@ export class CdkRepositorioBarramentoAutocompleteComponent implements OnInit {
         this.repositorioBarramentoListIsLoading = false;
     }
 
-    ngOnInit(): void {
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.repositorioBarramentoList = [];
+        }
+    }
 
+    ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -66,17 +71,15 @@ export class CdkRepositorioBarramentoAutocompleteComponent implements OnInit {
                         return of(this.repositorioBarramentoListTotal);
                     }
                 }
-            }
-        )).subscribe(response => {
+            })
+        ).subscribe((response) => {
             if (this.repositorioBarramentoListTotal.length === 0) {
                 this.repositorioBarramentoListTotal = response;
             }
-            this.repositorioBarramentoListIsLoading = false
+            this.repositorioBarramentoListIsLoading = false;
             this.repositorioBarramentoList = [];
             this.repositorioBarramentoList =
-                this.repositorioBarramentoListTotal.filter(el => {
-                   return el.nome.toLowerCase().indexOf(this.nomePesquisa.toLowerCase()) >= 0
-            });
+                this.repositorioBarramentoListTotal.filter(el => el.nome.toLowerCase().indexOf(this.nomePesquisa.toLowerCase()) >= 0);
             this._changeDetectorRef.markForCheck();
         });
     }

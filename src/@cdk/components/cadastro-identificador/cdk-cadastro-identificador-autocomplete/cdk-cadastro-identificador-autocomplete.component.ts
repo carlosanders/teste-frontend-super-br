@@ -33,10 +33,10 @@ export class CdkCadastroIdentificadorAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    cadastroIdentificadorList: CadastroIdentificador[];
-    cadastroIdentificadorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    cadastroIdentificadorList: CadastroIdentificador[];
+
+    cadastroIdentificadorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkCadastroIdentificadorAutocompleteComponent implements OnInit {
         this.cadastroIdentificadorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.cadastroIdentificadorList = [];
+        }
     }
 
     ngOnInit(): void {

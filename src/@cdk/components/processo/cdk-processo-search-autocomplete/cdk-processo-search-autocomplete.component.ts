@@ -63,6 +63,12 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
         }
     }
 
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.processoSearchList = [];
+        }
+    }
+
     ngOnInit(): void {
         this.control.valueChanges.pipe(
             tap(() => this.processoSearchList = []),
