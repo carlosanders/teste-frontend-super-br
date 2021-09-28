@@ -625,3 +625,12 @@
 * Correção visualização de processo módulo arquivista
 * Correção visualização de processos restritos módulo arquivista
 * Melhoria filtro de Modelos por ID
+
+1.6.11
+
+* Correção unidade responsável no form tarefa pegando lotação principal
+* Correção bug visualização de minutas tarefa-list
+* Correção para salvar modelos,etiquetas,repositórios no módulo do coordenador
+* Correção para adicionar botões no list do aviso
+* Correção para salvar avisos no módulo do coordenador
+
