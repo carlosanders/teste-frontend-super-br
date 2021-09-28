@@ -1,0 +1,62 @@
+caixa-email-folder-sidebar {
+
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    height: 100%;
+
+    .light-blue .mat-select-value, .light-blue .mat-select-arrow {
+        color: white !important;
+    }
+
+    .light-blue .mat-form-field-underline {
+        background-color: white !important;
+    }
+
+    .header {
+        flex-direction: column;
+        box-sizing: border-box;
+        display: flex;
+        place-content: flex-start space-between;
+        align-items: flex-start;
+        height: 200px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
+
+        .logo {
+            flex-direction: row;
+            box-sizing: border-box;
+            display: flex;
+            place-content: center flex-start;
+            align-items: center;
+            flex: 1 1 auto;
+            margin-bottom: 10px;
+
+            .logo-icon {
+                margin: 0 16px 0 0;
+            }
+
+            .logo-text {
+                font-size: 24px;
+                line-height: 24px;
+            }
+        }
+
+        .account {
+            width: 100%;
+        }
+    }
+
+    .content {
+        .nav {
+            .nav-subheader {
+                .mat-icon {
+                    margin-right: 5px;
+                }
+                .loading {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

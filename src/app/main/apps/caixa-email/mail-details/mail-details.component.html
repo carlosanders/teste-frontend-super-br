@@ -1,0 +1,136 @@
+<div class="toolbar px-24 py-8">
+    <button class="refresh" mat-icon-button
+            (click)="voltar()"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #moreMenu="matMenu">
+        <button mat-menu-item aria-label="Enviar para Processo"
+                [disabled]="messageIsLoading"
+                (click)="processoForm()">
+            <mat-icon>share</mat-icon>
+            <span>Enviar para Processo</span>
+        </button>
+    </mat-menu>
+</div>
+<div class="content">
+    <div *ngIf="!message?.htmlBody && messageIsLoading" class="loading-mail-details">
+        <mat-spinner diameter="30"></mat-spinner>
+        <span class="hint-text info-text">
+        <span>Carregando mensagem...</span>
+    </span>
+    </div>
+
+    <ng-container *ngIf="message?.htmlBody && !messageIsLoading">
+
+        <div class="mail-header">
+            <div class="subject">{{message.subject}}</div>
+            <!--        <div class="actions" fxLayout="row" fxLayoutAlign="start center">-->
+            <!--        </div>-->
+        </div>
+
+        <div class="mail-content">
+
+            <div class="info">
+
+                <div class="info-content">
+
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <div fxLayout="column" fxLayoutAlign="start start">
+                            <div class="name">
+                                {{!message.from ? 'Rascunho' : (message.from.name || message.from.full)}}
+                            </div>
+
+                            <div class="to" fxLayout="row" fxLayoutAlign="start center">
+                                <div class="to-text">Para:</div>
+                                <div>{{formatAddress(message.to || [])}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="toggle-details" (click)="showDetails = !showDetails">
+                        <span *ngIf="!showDetails">Exibir Detalhes</span>
+                        <span *ngIf="showDetails">Esconder Detalhes</span>
+                    </a>
+
+                    <div *ngIf="showDetails" class="details" fxLayout="row" fxLayoutAlign="start start">
+
+                        <div class="address">
+                            <span class="title">De:</span>
+                            <span class="title">Para:</span>
+                            <span class="title" *ngIf="!!message.cc?.length">CC:</span>
+                            <span class="title" *ngIf="!!message.bcc?.length">CCO:</span>
+                            <span class="title">Data:</span>
+                        </div>
+
+                        <div class="address">
+                            <span class="detail">{{message.from.full}}</span>
+                            <span class="detail">{{formatAddress(message.to || [])}} &nbsp;</span>
+                            <span class="detail" *ngIf="!!message.cc?.length">{{formatAddress(message.cc || [])}}</span>
+                            <span class="detail" *ngIf="!!message.bcc?.length">{{formatAddress(message.bcc || [])}}</span>
+                            <span class="detail">{{message.date?.toDate() | date: 'dd/MM/yyyy H:mm'}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More">-->
+                <!--                <mat-icon>more_vert</mat-icon>-->
+                <!--            </button>-->
+
+                <!--            <mat-menu #moreMenu="matMenu">-->
+                <!--                <button mat-menu-item aria-label="Reply">-->
+                <!--                    <mat-icon>reply</mat-icon>-->
+                <!--                    <span>Reply</span>-->
+                <!--                </button>-->
+
+                <!--                <button mat-menu-item aria-label="Forward">-->
+                <!--                    <mat-icon>forward</mat-icon>-->
+                <!--                    <span>Forward</span>-->
+                <!--                </button>-->
+
+                <!--                <button mat-menu-item aria-label="Print">-->
+                <!--                    <mat-icon>print</mat-icon>-->
+                <!--                    <span>Print</span>-->
+                <!--                </button>-->
+                <!--            </mat-menu>-->
+            </div>
+
+<!--            <iframe #iframe class="mail-body-render" (load)="onLoadIframe(iframe)" *ngIf="message.htmlBody">-->
+<!--            </iframe>-->
+            <div class="mail-body-render" [innerHTML]="message.htmlBody | safeHtml"></div>
+
+        </div>
+
+        <div *ngIf="!!message.attachments?.length" class="mail-attachments">
+
+            <div class="title">
+                <span>Anexos</span>
+                ({{message.attachments.length}})
+            </div>
+
+            <div class="attachment-list" fxLayout="row wrap">
+
+                <div class="attachment" fxLayout="column"
+                     *ngFor="let attachment of message.attachments">
+                    <span>{{attachment.fileName}}</span>
+                    <div class="attachment-actions">
+                        <a [ngClass]="{'disabled': messageDownloadingAttachments.length}"
+                           *ngIf="!isAttachmentLoading(attachment)"
+                           (click)="downloadAttachment(attachment)">Baixar</a>
+                        <ng-container *ngIf="isAttachmentLoading(attachment)">
+                            <mat-spinner diameter="15"></mat-spinner>
+                            <span class="hint-text">
+                            <span>Baixando anexo...</span>
+                        </span>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
