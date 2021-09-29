@@ -49,6 +49,7 @@ import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from 
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {Contador} from '@cdk/models/contador';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -200,6 +201,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
+
+    contador: Contador = new Contador();
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
