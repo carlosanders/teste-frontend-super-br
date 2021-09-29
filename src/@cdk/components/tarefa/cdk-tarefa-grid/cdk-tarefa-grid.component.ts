@@ -67,11 +67,6 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: true
         },
         {
-            id: 'postIt',
-            label: 'Post It',
-            fixed: false
-        },
-        {
             id: 'urgente',
             label: 'Urgente',
             fixed: false
