@@ -2,7 +2,7 @@ import {Injectable, SecurityContext} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, concatMap, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {State} from 'app/store/reducers';
 import * as fromStore from '../index';
 import {EmailClientService} from '../../services/email-client.service';
@@ -11,17 +11,18 @@ import {DomSanitizer} from '@angular/platform-browser';
 @Injectable()
 export class MessageEffects {
 
-    constructor(private _actions: Actions,
-                private _store: Store<State>,
-                private _sanitizer: DomSanitizer,
-                private _emailClientService: EmailClientService)
-    {
+    constructor(
+        private _actions: Actions,
+        private _store: Store<State>,
+        private _sanitizer: DomSanitizer,
+        private _emailClientService: EmailClientService
+    ) {
     }
 
     getMessages: Observable<any> = createEffect(() => this._actions
         .pipe(
             ofType<fromStore.GetMessages>(fromStore.GET_MESSAGES),
-            concatMap(
+            switchMap(
                 action => this._emailClientService
                     .getMessages(
                         action.payload.contaEmail.id,
@@ -30,7 +31,7 @@ export class MessageEffects {
                         action.payload.pagination.offset,
                     )
                     .pipe(
-                        concatMap(response => [
+                        switchMap(response => [
                             new fromStore.GetMessagesSuccess({
                                 messages: response['entities'],
                                 total: response['total'],
@@ -48,7 +49,7 @@ export class MessageEffects {
     getMessage: Observable<any> = createEffect(() => this._actions
         .pipe(
             ofType<fromStore.GetMessage>(fromStore.GET_MESSAGE),
-            concatMap(
+            switchMap(
                 action => this._emailClientService
                     .getMessage(
                         action.payload.contaEmail.id,
@@ -56,7 +57,7 @@ export class MessageEffects {
                         action.payload.message.uuid
                     )
                     .pipe(
-                        concatMap(response => [
+                        switchMap(response => [
                             new fromStore.GetMessageSuccess(response)
                         ]),
                         catchError((err) => {
@@ -92,7 +93,7 @@ export class MessageEffects {
                             if (response.mimetype === 'application/pdf' || response.mimetype === 'text/html') {
                                 const data = URL.createObjectURL(blob);
                                 window.open(data, '_blank');
-                                setTimeout( () => {
+                                setTimeout(() => {
                                     URL.revokeObjectURL(data);
                                 }, 100);
                             } else {
@@ -124,6 +125,5 @@ export class MessageEffects {
                     })
                 )
             )
-
         ), {dispatch: false});
 }

@@ -105,7 +105,7 @@ export class CaixaEmailComponent implements OnInit, OnDestroy {
                 select(fromStore.getFolderList),
                 takeUntil(this._unsubscribeAll)
             )
-            .subscribe(folderList => {
+            .subscribe((folderList) => {
                 this.folderList = folderList;
                 this._changeDetectorRef.markForCheck();
             });

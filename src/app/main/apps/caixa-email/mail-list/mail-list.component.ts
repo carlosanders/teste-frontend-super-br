@@ -15,7 +15,7 @@ import * as fromStore from '../store'
 import {getRouterState, RouterStateUrl} from '../../../../store';
 import {Message} from '../models/message.model';
 import {Folder} from '../models/folder.model';
-import {ContaEmail} from "../../../../../@cdk/models";
+import {ContaEmail} from '../../../../../@cdk/models';
 
 @Component({
     selector: 'mail-list',
