@@ -3,7 +3,7 @@ import {Folder} from '../../models/folder.model';
 import {Message} from '../../models/message.model';
 
 export interface MessageState {
-    folder: Folder,
+    folder: Folder;
     messages: Message[];
     selectedMessage: {
         loading: boolean;
@@ -20,7 +20,7 @@ export interface MessageState {
     };
     loading: boolean;
     loaded: any;
-    error: any
+    error: any;
 }
 
 export const MessageInitialState: MessageState = {
@@ -55,7 +55,7 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                 error: null,
                 message: null,
                 downloadingAttachments: []
-            }
+            };
 
             return {
                 ...state,
@@ -112,7 +112,7 @@ export function MessageReducer(state = MessageInitialState, action: fromStore.Me
                     message: null,
                     downloadingAttachments: []
                 },
-                loading: true,
+                loading: false,
                 loaded: false,
                 pagination: {
                     limit: 0,
