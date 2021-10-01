@@ -1,25 +1,25 @@
 <div class="header">
-    <path icone="person"
+    <path icone="tune"
           [caminhoAbsoluto]="routerState.url"
           inicioCaminho="usuarios">
     </path>
 </div>
-<cdk-usuario-grid
+<cdk-coordenador-grid
     [loading]="(loading$ | async)"
-    [usuarios]="(usuarios$ | async)"
+    [coordenadores]="(coordenadores$ | async)"
     [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
     [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
-    [displayedColumns]="displayedColumns"
-    [actions]="actions"
+    [displayedColumns]="['select', 'id', 'usuario.nome', 'orgaoCentral.valor', 'unidade.nome', 'setor.nome', 'actions']"
+    [actions]="['create', 'edit', 'delete']"
+    [usuarioPagination]="usuarioPagination"
+    [orgaoCentralPagination]="orgaoCentralPagination"
+    [unidadePagination]="unidadePagination"
+    [setorPagination]="setorPagination"
     (reload)="reload($event)"
     (create)="create()"
     (edit)="edit($event)"
-    (lotacoes)="lotacoes($event)"
-    (afastamentos)="afastamentos($event)"
-    (coordenadores)="coordenadores($event)"
-    (resetaSenhaColaborador)="resetaSenha($event)"
     (delete)="delete($event)"
     (deleteBlocoEmmitter)="deleteBloco($event)">
-</cdk-usuario-grid>
+</cdk-coordenador-grid>
