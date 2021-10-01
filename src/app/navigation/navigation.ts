@@ -1,5 +1,5 @@
 import {CdkNavigation} from '@cdk/types';
-import {modulesConfig} from "../../modules/modules-config";
+import {modulesConfig} from '../../modules/modules-config';
 
 export let navigationConverter = {
     'arquivistico': 'arquivístico'
@@ -10,7 +10,7 @@ modulesConfig.forEach((module) => {
         navigationConverter = {
             ...navigationConverter,
             ...module.navigationConverter.mainMenu
-        }
+        };
     }
 });
 
@@ -98,6 +98,15 @@ export const navigation: CdkNavigation[] = [
                         type: 'item',
                         icon: 'book',
                         url: '/apps/processo/criar/editar/dados-basicos-steps/administrativo'
+                    },
+                    {
+                        id: 'caixa-email',
+                        title: 'E-mail',
+                        translate: 'NAV.CAIXA_EMAIL.TITLE',
+                        type: 'item',
+                        icon: 'mail',
+                        role: 'ROLE_PROTOCOLO_EMAIL',
+                        url: '/apps/caixa-email/default/default'
                     }
                 ],
                 role: 'ROLE_COLABORADOR'
@@ -110,15 +119,6 @@ export const navigation: CdkNavigation[] = [
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
                 role: 'ROLE_USER'
-            },
-            {
-                id: 'caixa-email',
-                title: 'Caixas de E-mail',
-                translate: 'NAV.CAIXA_EMAIL.TITLE',
-                type: 'item',
-                icon: 'mail',
-                role: 'ROLE_COLABORADOR',
-                url: '/apps/caixa-email/default/default'
             }
         ]
     },
