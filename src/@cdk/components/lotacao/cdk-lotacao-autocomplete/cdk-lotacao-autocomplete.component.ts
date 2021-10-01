@@ -74,7 +74,7 @@ export class CdkLotacaoAutocompleteComponent implements OnInit {
                             termFilterNome.push(objNome);
                         });
                         const termFilter = {
-                            'orX': [...termFilterNome]
+                            'andX': [...termFilterNome]
                         };
                         if (typeof value === 'string' && termFilterNome.length > 0) {
                             this.lotacaoListIsLoading = true;
