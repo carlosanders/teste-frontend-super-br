@@ -281,7 +281,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.tipoDocumentoPagination = new Pagination();
 
-        this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
+        this.juntadas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).pipe(filter(juntadas => !!juntadas)).subscribe(
             (juntadas) => {
                 this.juntadas = juntadas;
                 this.totalSteps = juntadas.length;
@@ -290,34 +292,48 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.currentStep$.subscribe(
+        this.currentStep$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             (currentStep) => {
                 this.currentStep = currentStep;
                 this._changeDetectorRef.markForCheck();
             }
         );
 
-        this.index$.subscribe(
+        this.index$.pipe(
+            filter(index => !!index)
+        ).subscribe(
             index => this.index = index
         );
 
-        this.selectedVolume$.subscribe(
+        this.selectedVolume$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             volume => this.selectedVolume = volume
         );
 
-        this.pagination$.subscribe(
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             pagination => this.pagination = pagination
         );
 
-        this.volumesPagination$.subscribe(
+        this.volumesPagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             pagination => this.volumesPagination = pagination
         );
 
-        this.processo$.subscribe(
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             processo => this.processo = processo
         );
 
-        this.volumes$.subscribe(
+        this.volumes$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             volumes => this.volumes = volumes
         );
 

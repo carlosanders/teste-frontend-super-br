@@ -128,8 +128,8 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
             return {
                 ...state,
                 currentStep: {
-                    step: parseInt(action.payload.step),
-                    subStep: parseInt(action.payload.subStep),
+                    step: parseInt(action.payload.step, 10),
+                    subStep: parseInt(action.payload.subStep, 10),
                 },
                 binary: {
                     src: null,
@@ -171,6 +171,13 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
                     offset: 0,
                     total: 0
                 }
+            };
+        }
+
+        case ProcessoViewActions.UPDATE_INDEX: {
+            return {
+                ...state,
+                index: action.payload
             };
         }
 

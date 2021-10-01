@@ -60,6 +60,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     deveRecarregarJuntadas: boolean = false;
     unloadDocumentosTarefas: boolean = false;
     getDocumentosAtividades: boolean = false;
+    atualizarJuntadaId: number = null;
     getDocumentosAvulsos: boolean = false;
     getDocumentosProcesso: boolean = false;
     lote: string;
@@ -151,6 +152,9 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         } else if (this.getDocumentosProcesso) {
             this._store.dispatch(new GetDocumentosProcesso());
         }
+        if (this.atualizarJuntadaId !== null) {
+            this._store.dispatch(new fromStore.GetJuntada(this.atualizarJuntadaId));
+        }
         if (this.deveRecarregarJuntadas) {
             this.reloadJuntadas();
             return;
@@ -186,7 +190,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
 
     back(): void {
         // eslint-disable-next-line max-len
-        this.deveRecarregarJuntadas = !!this.documento?.juntadaAtual || this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
+        this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
+        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
         this.destroying = true;
         let url = this.routerState.url.split('/documento/')[0];
         this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;

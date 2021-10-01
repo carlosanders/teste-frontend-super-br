@@ -637,3 +637,7 @@
 * Melhoria implementado contador de componentes digitais das juntadas, e exibindo na lista de juntadas do processo-view, para possibilitar ao usuário referenciar componentes digitais específicos no seu processo de trabalho
 * Melhoria implementado botão de adição de Coordenadores para Coordenador de Órgão Central e Coordenador de Unidade
 * Correção coluna indevida no grid de Tarefas
+* Correção removido reload incorreto de juntadas ao abrir/fechar o editor de documentos de dentro da visão de processo
+* Correção de erro ao tentar visualizar uma juntada que não foi ainda carregada dentro dos índices da visão de processo
+* Correção css de busca na tela de anexar documento por cópia no editor de documentos
+* Melhoria exibindo NUP do processo que está sendo visualizado na tela de anexar documento por cópia no editor de documentos

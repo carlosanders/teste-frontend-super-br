@@ -692,11 +692,11 @@
                             <mat-icon class="s-14">picture_as_pdf</mat-icon>
                             <a class="ml-4"
                                (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
-                               [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                               [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                 {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                             </a>
                             <mat-icon class="ml-4 s-24"
-                                      *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                      *ngIf="!capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                                 arrow_left
                             </mat-icon>
                         </div>
@@ -710,11 +710,11 @@
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
                                    (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
-                                   [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                   [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                     {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
                                 </a>
                                 <mat-icon class="ml-4 s-24"
-                                          *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                          *ngIf="!capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                                     arrow_left
                                 </mat-icon>
                             </div>

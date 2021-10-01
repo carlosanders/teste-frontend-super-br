@@ -3,8 +3,8 @@ import {DocumentoAppState, DocumentoState, getDocumentoAppState} from 'app/main/
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital, Documento} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
-import {AtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
-import {getAtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';
+import {AtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {getAtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
