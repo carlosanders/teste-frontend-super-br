@@ -3,21 +3,23 @@ import {
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from '../store';
+import * as fromStore from './store';
+import * as fromStoreDocumento from '../store';
 import {getCurrentComponenteDigitalId} from '../store';
 import {getRouterState} from 'app/store';
-import {ComponenteDigital, Documento} from '@cdk/models';
+import {ComponenteDigital, Documento, Processo} from '@cdk/models';
 import {Observable, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UnloadJuntadas} from '../../processo/processo-view/store';
-import {CdkUtils} from '../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {CdkSearchBarComponent} from '@cdk/components/search-bar/search-bar.component';
 
 @Component({
     selector: 'anexar-copia',
@@ -28,6 +30,11 @@ import {filter, takeUntil} from 'rxjs/operators';
     animations: cdkAnimations
 })
 export class AnexarCopiaComponent implements OnInit, OnDestroy {
+
+    @ViewChild('searchBarComponent')
+    cdkSearchBar: CdkSearchBarComponent;
+    processo$: Observable<Processo>;
+    processo: Processo;
 
     componenteDigital: ComponenteDigital;
     documento$: Observable<Documento>;
@@ -49,15 +56,16 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      * @param _activatedRoute
      */
     constructor(
-        private _store: Store<fromStore.DocumentoAppState>,
+        private _store: Store<fromStore.AnexarCopiaAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _activatedRoute: ActivatedRoute
     ) {
-        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
+        this.documento$ = this._store.pipe(select(fromStoreDocumento.getDocumento));
         this.currentComponenteDigitalId$ = this._store.pipe(select(getCurrentComponenteDigitalId));
-        this.isSaving$ = this._store.pipe(select(fromStore.getComponenteDigitalIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getComponenteDigitalErrors));
+        this.isSaving$ = this._store.pipe(select(fromStoreDocumento.getComponenteDigitalIsSaving));
+        this.errors$ = this._store.pipe(select(fromStoreDocumento.getComponenteDigitalErrors));
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
@@ -84,6 +92,13 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentComponenteDigitalId) => {
             this.currentComponenteDigitalId = currentComponenteDigitalId;
+        });
+
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(processo => !!processo)
+        ).subscribe((processo) => {
+            this.processo = processo;
         });
     }
 
@@ -116,7 +131,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         componenteDigital.extensao = this.componenteDigital.extensao;
 
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveComponenteDigital({
+        this._store.dispatch(new fromStoreDocumento.SaveComponenteDigital({
             componenteDigital: componenteDigital,
             operacaoId: operacaoId
         }));
@@ -146,6 +161,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      * @param emissao
      */
     search(emissao): void {
+        this.cdkSearchBar.collapse();
         let rota = 'anexar-copia/' + emissao.id;
         if (this.routerState.params.chaveAcessoHandle) {
             rota += '/chave/' + this.routerState.params.chaveAcessoHandle;

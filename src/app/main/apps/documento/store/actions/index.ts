@@ -3,3 +3,4 @@ export * from './componentes-digitais.actions';
 export * from './assinaturas.actions';
 export * from './repositorios.actions';
 export * from './documentos-vinculados.actions';
+export * from './juntadas.actions';
