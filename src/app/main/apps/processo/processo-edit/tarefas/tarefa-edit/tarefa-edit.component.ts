@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Pagination, Processo, Tarefa, Usuario} from '@cdk/models';
+import {Colaborador, Pagination, Processo, Setor, Tarefa, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -32,7 +32,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    _profile: Usuario;
+    _profile: Colaborador;
 
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
@@ -52,14 +52,14 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.processo$ = this._store.pipe(select(getProcesso));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this.logEntryPagination = new Pagination();
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa', 'especieProcesso', 'especieProcesso.workflow'];
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
-        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -89,10 +89,13 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         if (!this.tarefa) {
             this.tarefa = new Tarefa();
             this.tarefa.processo = this.processo;
-            this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
             this.tarefa.dataHoraInicioPrazo = moment();
             this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
-            this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
+
+            let lotacaoPrincipal: Setor = null;
+            this._profile.lotacoes.filter(lotacao => lotacao.principal ? lotacaoPrincipal = lotacao.setor : null);
+            this.tarefa.setorOrigem = lotacaoPrincipal ? lotacaoPrincipal : this._profile.lotacoes[0].setor;
+            this.tarefa.unidadeResponsavel = lotacaoPrincipal.unidade;
         }
     }
 
