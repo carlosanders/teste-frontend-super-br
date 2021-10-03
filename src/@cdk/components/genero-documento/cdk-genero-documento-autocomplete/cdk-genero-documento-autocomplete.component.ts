@@ -33,10 +33,10 @@ export class CdkGeneroDocumentoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    generoDocumentoList: GeneroDocumento[];
-    generoDocumentoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    generoDocumentoList: GeneroDocumento[];
+
+    generoDocumentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkGeneroDocumentoAutocompleteComponent implements OnInit {
         this.generoDocumentoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.generoDocumentoList = [];
+        }
     }
 
     ngOnInit(): void {

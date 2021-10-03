@@ -33,10 +33,10 @@ export class CdkCargoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    cargoList: Cargo[];
-    cargoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    cargoList: Cargo[];
+
+    cargoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkCargoAutocompleteComponent implements OnInit {
         this.cargoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.cargoList = [];
+        }
     }
 
     ngOnInit(): void {

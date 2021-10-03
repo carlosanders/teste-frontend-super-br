@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayMunicipioFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayMunicipioFn">
     <mat-option *ngFor="let municipio of municipioList"
                 [value]="municipio">
         <span [innerHTML]="displayMunicipioFn(municipio) | highlightOption: this.control.value"></span>

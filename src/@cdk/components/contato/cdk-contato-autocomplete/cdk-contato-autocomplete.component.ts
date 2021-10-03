@@ -34,10 +34,10 @@ export class CdkContatoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    contatoList: Contato[];
-    contatoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    contatoList: Contato[];
+
+    contatoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkContatoAutocompleteComponent implements OnInit {
         this.contatoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.contatoList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -1,0 +1,79 @@
+<div class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar class="sidebar" name="caixa-email-folder-sidebar" position="left" lockedOpen="gt-md">
+        <caixa-email-folder-sidebar
+            (reloadHandler)="reloadFolders()"
+            (changeContaEmailHandler)="changeContaEmail($event)"
+            (clickFolderHandler)="clickFolder($event)"
+            [selectedContaEmail]="selectedContaEmail"
+            [folderList]="folderList"
+            [foldersIsLoading]="folderIsLoading"
+            [contaEmailList]="contaEmailList">
+        </caixa-email-folder-sidebar>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header">
+
+            <div class="search-wrapper">
+
+                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                        (click)="toggleSidebar('caixa-email-folder-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="search">
+                    <mat-icon class="secondary-text">search</mat-icon>
+                    <input [formControl]="searchInput" (keydown.enter)="pesquisar()" [placeholder]="'Pesquisar...'" fxFlex>
+                </div>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mail-list
+                *ngIf="activeCard === 'mail-list'"
+                [selectedContaEmail]="selectedContaEmail"
+                [selectedFolder]="selectedFolder"
+                [messageList]="messageList"
+                [messageListIsLoading]="messageListIsLoading"
+                (reloadEmailListHandler)="reloadEmailList()"
+                (scrollHandler)="loadEmails()"
+                (selectMessageHandler)="selectMessage($event)"
+                class="mail-list">
+            </mail-list>
+            <mail-details
+                *ngIf="activeCard === 'mail-details'"
+                [message]="selectedMessage"
+                [messageIsLoading]="messageIsLoading"
+                [messageDownloadingAttachments]="messageDownloadingAttachments"
+                (voltarHandler)="changeState('mail-list')"
+                (processoFormHandler)="changeState('mail-processo-form')"
+                (downloadAttachmentHandler)="downloadAttachment($event)"
+                class="mail-defails">
+            </mail-details>
+            <mail-processo-form
+                *ngIf="activeCard === 'mail-processo-form'"
+                [message]="selectedMessage"
+                [loading]="messageIsLoading"
+                [saving]="emailProcessoFormIsSaving"
+                [errors]="emailProcessoFormError"
+                (saveHandler)="enviarParaProcesso($event)"
+                (cancelarHandler)="changeState('mail-details')"
+                class="mail-processo-form">
+            </mail-processo-form>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

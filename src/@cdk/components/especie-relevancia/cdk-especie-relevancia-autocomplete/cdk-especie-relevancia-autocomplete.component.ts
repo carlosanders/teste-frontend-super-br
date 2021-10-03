@@ -33,10 +33,10 @@ export class CdkEspecieRelevanciaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    especieRelevanciaList: EspecieRelevancia[];
-    especieRelevanciaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    especieRelevanciaList: EspecieRelevancia[];
+
+    especieRelevanciaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkEspecieRelevanciaAutocompleteComponent implements OnInit {
         this.especieRelevanciaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.especieRelevanciaList = [];
+        }
     }
 
     ngOnInit(): void {

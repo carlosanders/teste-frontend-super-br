@@ -33,10 +33,10 @@ export class CdkModalidadeAfastamentoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeAfastamentoList: ModalidadeAfastamento[];
-    modalidadeAfastamentoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeAfastamentoList: ModalidadeAfastamento[];
+
+    modalidadeAfastamentoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeAfastamentoAutocompleteComponent implements OnInit {
         this.modalidadeAfastamentoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeAfastamentoList = [];
+        }
     }
 
     ngOnInit(): void {

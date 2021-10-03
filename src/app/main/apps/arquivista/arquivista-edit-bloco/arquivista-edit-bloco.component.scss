@@ -9,8 +9,13 @@ arquivista-edit-bloco {
         padding: 8px;
         overflow-y: auto;
 
-        .mat-list-base .mat-list-item .mat-line {
-            white-space: pre-wrap !important;
+        > mat-list {
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 auto;
+            p.mat-line {
+                white-space: pre-wrap !important;
+            }
         }
 
         > div.actions {

@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayModalidadeInteressadoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayModalidadeInteressadoFn">
     <mat-option *ngFor="let modalidadeInteressado of modalidadeInteressadoList"
                 [value]="modalidadeInteressado">
         <span [innerHTML]="displayModalidadeInteressadoFn(modalidadeInteressado) | highlightOption: this.control.value"></span>

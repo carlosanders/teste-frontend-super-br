@@ -602,7 +602,7 @@
 * Melhoria adicionado cadeado para informar prazo fechado em grid de tarefas quando não há prazo final para a tarefa
 * Correção removidos atalhos fxFlex de html de ações em bloco
 * Melhoria botão de voltar em telas de resultados de operações em bloco
-* Correção corrigida url de edição em bloco de tarefas para português
+* Correção da url de edição em bloco de tarefas para português
 * Correção comportamento de redistribuição em bloco de tarefas causando um reload na listagem
 * Correção redistribuição de tarefas possivelmente removendo relacionamentos do objeto da tarefa no estado da aplicação
 * Correção bug na edição em bloco da tarefa não atualizando todo o objeto tarefa de acordo com o retorno do backend
@@ -614,3 +614,30 @@
 * Melhoria filtro de juntadas na sidebar do processo-view adicionado filtro origem
 * Correção css filtro de juntadas na sidebar do processo-view para corrigir aparência do botão de filtrar
 * Melhoria form para vinculação de roles estáticas
+* Correção filtro de setor origem na sidebar de tarefas estava verificando o campo unidade responsável para ser exibido, em vez de unidade origem
+* Melhoria exibindo mensagens de erro de algumas operações em processos e tarefas na snackbar de erro
+* Correção resolvidos alguns problemas de eslint
+* Melhoria exibindo o Outro Número de processo caso seja este o campo selecionado na busca avançada da search-bar de processo
+* Melhoria permitindo modularização de componente de login para substituição completa da camada de login do frontend através de módulos externos
+* Correção de css em algumas telas de resultado de bloco
+* Correção bug módulo do arquivista edit
+* Correção bug mudança de menus módulo arquivista
+* Correção visualização de processo módulo arquivista
+* Correção visualização de processos restritos módulo arquivista
+* Melhoria filtro de Modelos por ID
+
+1.6.11
+
+* Correção unidade responsável no form tarefa pegando lotação principal
+* Correção bug visualização de minutas tarefa-list
+* Correção para salvar modelos,etiquetas,repositórios no módulo do coordenador
+* Correção para adicionar botões no list do aviso
+* Correção para salvar avisos no módulo do coordenador
+* Correção nos autocompletes do sistema, limpando a lista de resultados após fechado o modal de autocomplete
+* Melhoria implementado contador de componentes digitais das juntadas, e exibindo na lista de juntadas do processo-view, para possibilitar ao usuário referenciar componentes digitais específicos no seu processo de trabalho
+* Melhoria implementado botão de adição de Coordenadores para Coordenador de Órgão Central e Coordenador de Unidade
+* Correção coluna indevida no grid de Tarefas
+* Correção removido reload incorreto de juntadas ao abrir/fechar o editor de documentos de dentro da visão de processo
+* Correção de erro ao tentar visualizar uma juntada que não foi ainda carregada dentro dos índices da visão de processo
+* Correção css de busca na tela de anexar documento por cópia no editor de documentos
+* Melhoria exibindo NUP do processo que está sendo visualizado na tela de anexar documento por cópia no editor de documentos

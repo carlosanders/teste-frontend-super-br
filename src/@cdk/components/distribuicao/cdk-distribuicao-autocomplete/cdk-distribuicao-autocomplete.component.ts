@@ -33,10 +33,10 @@ export class CdkDistribuicaoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    distribuicaoList: Distribuicao[];
-    distribuicaoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    distribuicaoList: Distribuicao[];
+
+    distribuicaoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkDistribuicaoAutocompleteComponent implements OnInit {
         this.distribuicaoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.distribuicaoList = [];
+        }
     }
 
     ngOnInit(): void {

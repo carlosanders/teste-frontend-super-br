@@ -33,10 +33,10 @@ export class CdkModalidadeGarantiaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeGarantiaList: ModalidadeGarantia[];
-    modalidadeGarantiaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeGarantiaList: ModalidadeGarantia[];
+
+    modalidadeGarantiaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeGarantiaAutocompleteComponent implements OnInit {
         this.modalidadeGarantiaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeGarantiaList = [];
+        }
     }
 
     ngOnInit(): void {

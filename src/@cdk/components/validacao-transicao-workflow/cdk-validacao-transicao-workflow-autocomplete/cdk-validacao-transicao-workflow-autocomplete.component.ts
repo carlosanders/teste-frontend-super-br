@@ -34,10 +34,10 @@ export class CdkValidacaoTransicaoWorkflowAutocompleteComponent implements OnIni
     @Input()
     control: AbstractControl;
 
-    validacaoList: ValidacaoTransicaoWorkflow[];
-    validacaoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    validacaoList: ValidacaoTransicaoWorkflow[];
+
+    validacaoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkValidacaoTransicaoWorkflowAutocompleteComponent implements OnIni
         this.validacaoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.validacaoList = [];
+        }
     }
 
     ngOnInit(): void {

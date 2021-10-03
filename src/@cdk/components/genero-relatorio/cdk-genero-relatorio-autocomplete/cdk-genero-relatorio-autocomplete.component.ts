@@ -52,6 +52,12 @@ export class CdkGeneroRelatorioAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.generoRelatorioList = [];
+        }
+    }
+
     ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),

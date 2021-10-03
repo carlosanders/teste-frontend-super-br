@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayComponenteDigitalFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayComponenteDigitalFn">
     <mat-option *ngFor="let componenteDigital of componenteDigitalList"
                 [value]="componenteDigital">
         <span [innerHTML]="displayComponenteDigitalFn(componenteDigital) | highlightOption: this.control.value"></span>

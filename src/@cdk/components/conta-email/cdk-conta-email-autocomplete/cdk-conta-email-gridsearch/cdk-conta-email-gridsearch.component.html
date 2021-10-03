@@ -1,0 +1,10 @@
+<cdk-conta-email-grid
+        [loading]="loading"
+        [contaEmailList]="contaEmailList"
+        [displayedColumns]="['id', 'nome', 'descricao', 'servidorEmail.nome', 'login', 'metodoAutenticacao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-conta-email-grid>

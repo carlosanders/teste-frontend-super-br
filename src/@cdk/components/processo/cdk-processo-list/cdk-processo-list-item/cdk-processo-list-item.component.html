@@ -49,7 +49,7 @@
 
                 <div *showIfRole="'ROLE_COLABORADOR'">
                     <div *ngIf="!transicionando">
-                        Data Temporalidade e Destinação: {{processo.dataHoraProximaTransicao?.toDate() | date: 'dd/MM/yyyy'}}
+                        Data Temporalidade e Destinação: {{processo?.dataHoraProximaTransicao?.toDate() | date: 'dd/MM/yyyy'}}
                     </div>
 
                     <div *ngIf="transicionando" class="transicao-arquivistica">
@@ -57,11 +57,11 @@
                     </div>
 
                     <div *ngIf="processo.classificacao">
-                        Classificação: {{processo.classificacao?.codigo}} - {{processo.classificacao?.nome}}
+                        Classificação: {{processo?.classificacao?.codigo}} - {{processo?.classificacao?.nome}}
                     </div>
 
                     <div *ngIf="processo.classificacao">
-                        Destinação: {{processo.classificacao.modalidadeDestinacao?.valor}}
+                        Destinação: {{processo?.classificacao?.modalidadeDestinacao?.valor}}
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <mat-expansion-panel *ngIf="processo.lembreteArquivista" (opened)="this.panelOpenState = true"
+            <mat-expansion-panel *ngIf="processo?.lembreteArquivista" (opened)="this.panelOpenState = true"
                                  (closed)="this.panelOpenState = false"
                                  (click)="$event.stopPropagation();">
                 <mat-expansion-panel-header>
@@ -84,9 +84,9 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <p *ngIf="editantoLembrete === false" (click)="doEditarLembrete()"
-                   class="lembrete">{{processo.lembreteArquivista}}</p>
+                   class="lembrete">{{processo?.lembreteArquivista}}</p>
                 <mat-form-field *ngIf="editantoLembrete === true">
-                    <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembreteArquivista"
+                    <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo?.lembreteArquivista"
                            upperCase (blur)="doSalvarLembrete(processo, lembreteConteudo.value)"/>
                 </mat-form-field>
             </mat-expansion-panel>
@@ -121,7 +121,7 @@
                     </ng-container>
                 </button>
 
-                <button *ngIf="processo.modalidadeFase.valor === 'INTERMEDIÁRIA'" mat-menu-item aria-label="desarquivar"
+                <button *ngIf="processo?.modalidadeFase?.valor === 'INTERMEDIÁRIA'" mat-menu-item aria-label="desarquivar"
                         (click)="doDesarquivar(processo)">
                     <ng-container>
                         <mat-icon>check</mat-icon>

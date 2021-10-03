@@ -33,10 +33,10 @@ export class CdkModalidadeTipoInibidorAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeTipoInibidorList: ModalidadeTipoInibidor[];
-    modalidadeTipoInibidorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeTipoInibidorList: ModalidadeTipoInibidor[];
+
+    modalidadeTipoInibidorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeTipoInibidorAutocompleteComponent implements OnInit {
         this.modalidadeTipoInibidorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeTipoInibidorList = [];
+        }
     }
 
     ngOnInit(): void {

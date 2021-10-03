@@ -1,0 +1,109 @@
+@import 'src/@cdk/scss/cdk';
+
+caixa-email {
+
+    flex: 1 1 auto;
+    display: flex;
+
+    > .page-layout {
+
+        flex: 1 1 auto;
+        display: flex;
+
+        > .center {
+
+            flex: 1 1 auto;
+            display: flex;
+
+            > .header {
+
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+
+                height: 72px !important;
+                min-height: 72px !important;
+                max-height: 72px !important;
+
+                > .search-wrapper {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    border-radius: 28px;
+                    overflow: hidden;
+                    @include mat-elevation(1);
+
+                    > .sidebar-toggle {
+                        margin: 0 0 0 6px;
+                        width: 56px;
+                        height: 56px;
+                        border-radius: 0;
+                        border-right: 1px solid;
+                    }
+
+                    > .search {
+                        flex: 1 1 auto;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+
+                        height: 46px;
+                        padding: 0 8px;
+                    }
+                }
+            }
+        }
+
+        > .content {
+
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+
+            @include media-breakpoint(xs) {
+
+                .caixa-email-list {
+                    border-right: none;
+                }
+
+                .caixa-email-list,
+                .caixa-email-details {
+                    flex: 1 0 100%;
+                }
+
+                .caixa-email-details {
+                    display: none !important;
+                }
+
+                &.current-mail-selected {
+
+                    .toolbar {
+                        padding-left: 16px !important;
+
+                        .caixa-email-selection {
+                            display: none !important;
+                        }
+                    }
+
+                    .content {
+
+                        .caixa-email-list {
+                            display: none !important;
+                        }
+
+                        .caixa-email-details {
+                            display: flex !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

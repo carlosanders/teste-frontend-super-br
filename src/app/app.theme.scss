@@ -103,6 +103,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/relatorios/relatorios.theme";
 @import "src/modules/modules.theme";
 @import "src/app/main/apps/board-tarefas/board-tarefas.theme";
+@import "src/app/main/apps/caixa-email/caixa-email.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -130,6 +131,7 @@ $typography: mat-typography-config(
     @include relatorios-theme($theme);
     @include modules-theme($theme);
     @include board-tarefas-theme($theme);
+    @include caixa-email-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

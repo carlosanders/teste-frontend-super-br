@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {RepositoriosListAppState} from '../reducers';
@@ -12,6 +12,8 @@ import {getRouterState} from 'app/store/reducers';
 import {getRepositoriosListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Colaborador, Setor} from '@cdk/models';
+import {getHasLoaded} from '../../../../store';
+import * as fromStoreCoordenador from '../../../../store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -47,7 +49,10 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getRepositorios().pipe(
+        return forkJoin([
+            this.getEntidade(),
+            this.getRepositorios(),
+        ]).pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
@@ -139,6 +144,40 @@ export class ResolveGuard implements CanActivate {
                 || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
                         loaded.value)))),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Entidade
+     *
+     * @returns
+     */
+    getEntidade(): any {
+        return this._store.pipe(
+            select(getHasLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params['generoHandle'] || !this.routerState.params['entidadeHandle']
+                    || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
+                        loaded.value)) {
+                    if (this.routerState.params['generoHandle'] === 'nacional') {
+                        this._store.dispatch(new fromStoreCoordenador.GetOrgaoCentral({
+                            id: 'eq:' + this.routerState.params['entidadeHandle']
+                        }));
+                    } else if (this.routerState.params['generoHandle'] === 'unidade') {
+                        this._store.dispatch(new fromStoreCoordenador.GetUnidade({
+                            id: 'eq:' + this.routerState.params['entidadeHandle']
+                        }));
+                    } else if (this.routerState.params['generoHandle'] === 'local') {
+                        this._store.dispatch(new fromStoreCoordenador.GetSetor({
+                            id: 'eq:' + this.routerState.params['entidadeHandle']
+                        }));
+                    }
+                }
+            }),
+            filter((loaded: any) => this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
+                (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                    loaded.value)),
             take(1)
         );
     }

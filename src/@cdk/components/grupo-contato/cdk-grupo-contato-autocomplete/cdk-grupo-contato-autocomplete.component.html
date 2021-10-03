@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayGrupoContatoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayGrupoContatoFn">
     <mat-option *ngFor="let grupoContato of grupoContatoList"
                 [value]="grupoContato">
         <span [innerHTML]="displayGrupoContatoFn(grupoContato) | highlightOption: this.control.value"></span>

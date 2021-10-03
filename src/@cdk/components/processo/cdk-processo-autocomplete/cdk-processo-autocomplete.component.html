@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayProcessoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayProcessoFn">
     <mat-option [ngClass]="{'multiline':processo.outroNumero}"
                 *ngFor="let processo of processoList"
                 [value]="processo">

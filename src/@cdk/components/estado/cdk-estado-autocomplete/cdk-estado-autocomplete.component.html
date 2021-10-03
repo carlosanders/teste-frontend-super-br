@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayEstadoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayEstadoFn">
     <mat-option *ngFor="let estado of estadoList"
                 [value]="estado">
         <span [innerHTML]="displayEstadoFn(estado) | highlightOption: this.control.value"></span>

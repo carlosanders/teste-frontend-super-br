@@ -35,13 +35,13 @@ export class CdkLembreteAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    lembreteList: Lembrete[];
-    lembreteListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     @Output()
     selected = new EventEmitter<any>();
+    lembreteList: Lembrete[];
+
+    lembreteListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -51,6 +51,12 @@ export class CdkLembreteAutocompleteComponent implements OnInit {
         this.lembreteListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.lembreteList = [];
+        }
     }
 
     ngOnInit(): void {

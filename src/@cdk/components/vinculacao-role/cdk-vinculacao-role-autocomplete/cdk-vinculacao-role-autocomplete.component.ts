@@ -33,10 +33,10 @@ export class CdkVinculacaoRoleAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    vinculacaoRoleList: VinculacaoRole[];
-    vinculacaoRoleListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    vinculacaoRoleList: VinculacaoRole[];
+
+    vinculacaoRoleListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkVinculacaoRoleAutocompleteComponent implements OnInit {
         this.vinculacaoRoleListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.vinculacaoRoleList = [];
+        }
     }
 
     ngOnInit(): void {

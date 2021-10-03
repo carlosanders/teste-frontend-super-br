@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayValidacaoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayValidacaoFn">
     <mat-option *ngFor="let validacao of validacaoList"
                 [value]="validacao">
         <span [innerHTML]="displayValidacaoFn(validacao) | highlightOption: this.control.value"></span>

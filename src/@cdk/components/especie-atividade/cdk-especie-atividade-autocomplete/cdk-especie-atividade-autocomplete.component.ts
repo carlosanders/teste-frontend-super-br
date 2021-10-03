@@ -39,9 +39,9 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
     @Input()
     especieAtividadeListIsLoading: boolean;
 
-    isWorkflow = false;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+
+    isWorkflow = false;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -51,6 +51,12 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
         this.especieAtividadeListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.especieAtividadeList = [];
+        }
     }
 
     ngOnInit(): void {

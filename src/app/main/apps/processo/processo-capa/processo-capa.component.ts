@@ -41,7 +41,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     routerState$: Observable<any>;
 
     processo$: Observable<Processo>;
-    processo: Processo;
+    processo: Processo = null;
 
     assuntos$: Observable<Assunto[]>;
     assuntos: Assunto[] = [];

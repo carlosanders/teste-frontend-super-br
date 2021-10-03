@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayEspecieProcessoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayEspecieProcessoFn">
     <mat-option *ngFor="let especieProcesso of especieProcessoList"
                 [value]="especieProcesso">
         <span [innerHTML]="displayEspecieProcessoFn(especieProcesso) | highlightOption: this.control.value"></span>
