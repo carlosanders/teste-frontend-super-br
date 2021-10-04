@@ -641,3 +641,5 @@
 * Correção de erro ao tentar visualizar uma juntada que não foi ainda carregada dentro dos índices da visão de processo
 * Correção css de busca na tela de anexar documento por cópia no editor de documentos
 * Melhoria exibindo NUP do processo que está sendo visualizado na tela de anexar documento por cópia no editor de documentos
+* Correção exibição de campos do grid de tarefas
+* Correção criação de minutas em bloco de tarefas
