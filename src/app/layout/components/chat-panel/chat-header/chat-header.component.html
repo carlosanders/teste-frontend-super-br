@@ -8,11 +8,11 @@
 
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="s-16 secondary-text">search</mat-icon>
-                    <input matInput formControlName="pesquisa" placeholder="Pesquisar" fxFlex>
+                    <input tabindex="-1" matInput formControlName="pesquisa" placeholder="Pesquisar" fxFlex>
                 </div>
             </div>
             <div>
-                <button mat-icon-button
+                <button mat-icon-button tabindex="-1"
                         [matMenuTriggerFor]="userMenu"
                         aria-label="more">
                     <mat-icon>more_vert</mat-icon>
@@ -39,7 +39,7 @@
 
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="s-16 secondary-text">search</mat-icon>
-                    <input
+                    <input tabindex="-1"
                            #usuarioInput
                            fxFlex
                            matInput placeholder="Pesquisar usuário..."
