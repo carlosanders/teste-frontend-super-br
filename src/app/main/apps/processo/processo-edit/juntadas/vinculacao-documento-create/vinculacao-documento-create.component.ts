@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Juntada, Pagination, VinculacaoDocumento} from '@cdk/models';
+import {Juntada, Pagination, Processo, VinculacaoDocumento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 import {Back, getRouterState} from '../../../../../../store';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {getProcesso} from '../../../store';
 
 @Component({
     selector: 'vinculacao-documento-create',
@@ -26,6 +27,7 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
 
     juntada$: Observable<Juntada>;
     juntada: Juntada;
+    processo$: Observable<Processo>;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -51,9 +53,16 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.juntada$ = this._store.pipe(select(fromStore.getJuntada));
+        this.processo$ = this._store.pipe(select(getProcesso));
 
         this.modalidadeVinculacaoDocumentoPagination = new Pagination();
         this.documentoVinculadoPagination = new Pagination();
+        this.documentoVinculadoPagination.filter = {
+            'juntadaAtual': 'isNotNull',
+            'juntadaAtual.ativo': 'eq:1',
+            'vinculacoesDocumentos.id': 'isNull',
+            'vinculacaoDocumentoPrincipal.id': 'isNull'
+        };
         this.documentoVinculadoPagination.populate = [
             'tipoDocumento',
             'juntadaAtual',
@@ -82,12 +91,14 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
             this.vinculacaoDocumento = new VinculacaoDocumento();
             this.vinculacaoDocumento.documento = this.juntada.documento;
 
-            this.documentoVinculadoPagination.filter = {
-                'juntadaAtual': 'isNotNull',
-                'id': 'neq:' + this.juntada.documento.id,
-                'juntadaAtual.ativo': 'eq:1',
-                'juntadaAtual.volume.processo.id': 'eq:' + this.juntada.volume.processo.id
-            };
+            this.documentoVinculadoPagination.filter['id'] = 'neq:' + this.juntada.documento.id;
+        });
+
+        this.processo$.pipe(
+            filter(processo => !!processo),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
+            this.documentoVinculadoPagination.filter['juntadaAtual.volume.processo.id'] = 'eq:' + processo.id;
         });
     }
 

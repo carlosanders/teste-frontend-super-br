@@ -10,7 +10,7 @@ export interface ProcessoViewVinculacaoDocumentoState {
     loadedVinculada: any;
 }
 
-export const JuntadaListInitialState: ProcessoViewVinculacaoDocumentoState = {
+export const juntadaListInitialState: ProcessoViewVinculacaoDocumentoState = {
     juntadaId: null,
     juntadaVinculadaId: null,
     saving: false,
@@ -20,28 +20,55 @@ export const JuntadaListInitialState: ProcessoViewVinculacaoDocumentoState = {
     loadedVinculada: false
 };
 
-export function ProcessoViewVinculacaoDocumentoReducer(state = JuntadaListInitialState, action: ProcessoViewVinculacaoDocumentoActions.ProcessoViewVinculacaoDocumentoActionsAll): ProcessoViewVinculacaoDocumentoState {
+export const processoViewVinculacaoDocumentoReducer = (state = juntadaListInitialState, action: ProcessoViewVinculacaoDocumentoActions.ProcessoViewVinculacaoDocumentoActionsAll): ProcessoViewVinculacaoDocumentoState => {
     switch (action.type) {
 
         case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA: {
             return {
                 ...state,
-                loading: true
+                juntadaId: null,
+                loading: true,
+                loaded: false
             };
         }
 
         case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_SUCCESS: {
-            const loaded = action.payload.loaded ?? state.loaded;
-            const loadedVinculada = action.payload.loadedVinculada ?? state.loadedVinculada;
+            const loaded = action.payload.loaded;
             return {
                 ...state,
                 loading: false,
-                loaded,
-                loadedVinculada
+                juntadaId: action.payload.juntadaId,
+                loaded
             };
         }
 
         case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_FAILED: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
+        case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_VINCULADA: {
+            return {
+                ...state,
+                juntadaVinculadaId: null,
+                loading: true,
+                loadedVinculada: false
+            };
+        }
+
+        case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_VINCULADA_SUCCESS: {
+            const loadedVinculada = action.payload.loadedVinculada;
+            return {
+                ...state,
+                loading: false,
+                juntadaVinculadaId: action.payload.juntadaVinculadaId,
+                loadedVinculada
+            };
+        }
+
+        case ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_VINCULADA_FAILED: {
             return {
                 ...state,
                 loading: false
@@ -75,11 +102,12 @@ export function ProcessoViewVinculacaoDocumentoReducer(state = JuntadaListInitia
         case ProcessoViewVinculacaoDocumentoActions.UNLOAD_JUNTADA_VINCULADA: {
             return {
                 ...state,
+                juntadaVinculadaId: null,
                 loadedVinculada: false
-            }
+            };
         }
 
         default:
             return state;
     }
-}
+};
