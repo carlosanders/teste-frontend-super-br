@@ -253,18 +253,6 @@
                         <mat-checkbox [disabled]="true" [checked]="classificacao.permissaoUso"></mat-checkbox>
                     </td>
                 </ng-container>
-
-                <!-- VisibilidadeRestrita Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('visibilidadeRestrita') > -1" matColumnDef="visibilidadeRestrita">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Restrição de Acesso
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
-                        data-label='Restrição de Acesso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}">
-                        <mat-checkbox [disabled]="true" [checked]="classificacao.visibilidadeRestrita"></mat-checkbox>
-                    </td>
-                </ng-container>
                 <!-- Observacao Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -351,6 +339,14 @@
                                 aria-label="editar"
                                 matTooltip="Editar">
                             <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('visibility') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded && classificacao.immutable !== true"
+                                [disabled]="deletedIds?.indexOf(classificacao.id) > -1 && !hasExcluded || classificacao.immutable === true"
+                                (click)="listClassificacaoVisibility(classificacao.id)"
+                                aria-label="acessos"
+                                matTooltip="Acessos">
+                            <mat-icon>lock_open</mat-icon>
                         </button>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(classificacao.id) > -1">

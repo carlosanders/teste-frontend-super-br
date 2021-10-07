@@ -29,6 +29,9 @@ export class CdkVisibilidadeListItemComponent implements OnInit {
     @Input()
     total: number;
 
+    @Input()
+    adminCount: number;
+
     @Output()
     delete = new EventEmitter<number>();
 
