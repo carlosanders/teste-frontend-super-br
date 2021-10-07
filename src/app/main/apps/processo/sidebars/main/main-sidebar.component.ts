@@ -10,6 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'processo-main-sidebar',
@@ -41,6 +42,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.ProcessoAppState>,
+        private _cdkSidebarService: CdkSidebarService,
         private _router: Router,
         public _loginService: LoginService
     ) {
@@ -140,5 +142,15 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    /**
+     * Toggle the sidebar
+     */
+    fecharSidebar(): void {
+        if (!this._cdkSidebarService.getSidebar('processo-main-sidebar').isLockedOpen &&
+            this.routerState.url.indexOf('apps/tarefas') > -1) {
+            this._cdkSidebarService.getSidebar('processo-main-sidebar').close();
+        }
     }
 }

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, filter, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -54,7 +54,10 @@ export class ProcessoDownloadEffect {
                 }
             );
         }),
-        catchError(err => of(new ProcessoDownloadActions.DownloadProcessoFailed(err)))
+        catchError((err , caught) => {
+            this._store.dispatch(new ProcessoDownloadActions.DownloadProcessoFailed(err))
+            return caught
+        })
     ), {dispatch: false});
 
     /**
