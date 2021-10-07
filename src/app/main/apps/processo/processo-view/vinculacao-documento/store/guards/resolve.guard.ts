@@ -72,12 +72,10 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetJuntada({
-                        id: this.routerState.params['juntadaHandle'],
+                        juntadaId: this.routerState.params['juntadaHandle'],
                         loaded: {
-                            loaded: {
-                                id: 'juntadaHandle',
-                                value: this.routerState.params.juntadaHandle
-                            }
+                            id: 'juntadaHandle',
+                            value: this.routerState.params.juntadaHandle
                         }
                     }));
                 }
@@ -98,13 +96,11 @@ export class ResolveGuard implements CanActivate {
                 select(getHasLoadedVinculada),
                 tap((loaded: any) => {
                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                        this._store.dispatch(new fromStore.GetJuntada({
-                            id: this.routerState.params['juntadaVinculadaHandle'],
-                            loaded: {
-                                loadedVinculada: {
-                                    id: 'juntadaVinculadaHandle',
-                                    value: this.routerState.params.juntadaVinculadaHandle
-                                }
+                        this._store.dispatch(new fromStore.GetJuntadaVinculada({
+                            juntadaVinculadaId: this.routerState.params['juntadaVinculadaHandle'],
+                            loadedVinculada: {
+                                id: 'juntadaVinculadaHandle',
+                                value: this.routerState.params.juntadaVinculadaHandle
                             }
                         }));
                     }
