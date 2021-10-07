@@ -35,14 +35,13 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
     idDeletados: Set<number> = new Set([]);
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router,
-        private _store: Store<fromStore.ClassificacaoListAppState>,
-    ) {
+    constructor(private _changeDetectorRef: ChangeDetectorRef,
+                private _router: Router,
+                private _store: Store<fromStore.ClassificacaoListAppState>) {
+
         this.classificacoes$ = this._store.pipe(select(fromStore.getClassificacaoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -57,10 +56,10 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
             this.routerState = routerState.state;
         });
         this.deletingIds$.subscribe((e) => e.forEach((itemdic) => this.idDeletados.add(itemdic['classificacaoId'])));
-
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void
+    {
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((pagination) => {
@@ -68,13 +67,15 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
+    ngOnDestroy(): void
+    {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadClassificacao());
     }
 
-    reload(params): void {
+    reload(params): void
+    {
         this._store.dispatch(new fromStore.GetClassificacao({
             ...this.pagination,
             filter: {
@@ -91,7 +92,8 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    inatived(params): void {
+    inatived(params): void
+    {
         this._store.dispatch(new fromStore.GetClassificacao({
             ...this.pagination,
             filter: {
@@ -106,15 +108,23 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    edit(classificacaoId: number): void {
+    edit(classificacaoId: number): void
+    {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + classificacaoId]).then();
     }
 
-    create(): void {
+    visibility(classificacaoId: number): void
+    {
+        this._router.navigate([this.routerState.url.replace('listar', classificacaoId+ '/acessos')]).then();
+    }
+
+    create(): void
+    {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
-    delete(classificacaoId: number, loteId: string = null): void {
+    delete(classificacaoId: number, loteId: string = null): void
+    {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteClassificacao({
             classificacaoId: classificacaoId,
@@ -123,7 +133,8 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    deleteBloco(ids: number[]): void {
+    deleteBloco(ids: number[]): void
+    {
         this.lote = CdkUtils.makeId();
         ids = ids.filter((id:number) => !this.idDeletados.has(id));
         ids.forEach((id: number) => this.delete(id, this.lote));

@@ -189,13 +189,14 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     }
 
     doSelectClassificacao(classificacao: Classificacao | null): void {
-        if (classificacao && classificacao.visibilidadeRestrita === true && this.processo.acessoRestrito !== true) {
-            this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
-                data: [this.processo],
-                hasBackdrop: false,
-                closeOnNavigation: true
-            });
-        }
+        //o- @todo verificar se vai existir algum aviso
+        // if (classificacao && classificacao.visibilidadeRestrita === true && this.processo.acessoRestrito !== true) {
+        //     this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
+        //         data: [this.processo],
+        //         hasBackdrop: false,
+        //         closeOnNavigation: true
+        //     });
+        // }
     }
 
     gerirProcedencia(): void {

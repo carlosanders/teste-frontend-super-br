@@ -939,13 +939,14 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     doSelectClassificacao(classificacao: Classificacao): void {
-        if (classificacao && classificacao.visibilidadeRestrita === true && this.processo.acessoRestrito !== true) {
-            this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
-                data: {},
-                hasBackdrop: false,
-                closeOnNavigation: true
-            });
-        }
+        //o- @todo verificar se vai existir algum aviso
+        // if (classificacao && classificacao.visibilidadeRestrita === true && this.processo.acessoRestrito !== true) {
+        //     this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
+        //         data: {},
+        //         hasBackdrop: false,
+        //         closeOnNavigation: true
+        //     });
+        // }
     }
 
     desentranhar(juntada: Juntada): void {
