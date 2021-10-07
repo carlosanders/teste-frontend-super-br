@@ -84,6 +84,7 @@ export interface NormalizeActionConfig<T> extends NormalizeActionSchemaConfig {
      * The array of entities which should be normalized and added to the store.
      */
     data: T[];
+    populate?: string[];
 }
 
 /**
@@ -378,7 +379,23 @@ export class AddData<T> implements Action {
      * @param config The action config object
      */
     constructor(config: NormalizeActionConfig<T>) {
-        this.payload = normalize(config.data, [config.schema]);
+        const populate = [];
+        if (Array.isArray(config.populate)) {
+            config.populate.forEach((key) => {
+                if (key !== 'populateAll') {
+                    populate.push(key);
+                }
+            });
+            if ((config.populate.indexOf('populateAll') > -1)) {
+                Object.keys(config.schema.schema).forEach((key) => {
+                    if (populate.indexOf(key) === -1) {
+                        populate.push(key);
+                    }
+                });
+            }
+        }
+        this.payload = normalize(config.data, [config.schema], (config.populate ? populate : undefined));
+        this.payload['populate'] = !!populate.length;
     }
 }
 

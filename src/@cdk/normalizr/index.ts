@@ -210,11 +210,13 @@ classificacao.define({
 });
 
 colaborador.define({
+    usuario: usuario,
     cargo: cargo,
     modalidadeColaborador: modalidadeColaborador,
     criadoPor: usuario,
     atualizadoPor: usuario,
-    apagadoPor: usuario
+    apagadoPor: usuario,
+    lotacoes: [lotacao],
 });
 
 compartilhamento.define({
@@ -797,6 +799,10 @@ setor.define({
     municipio: municipio,
     especieSetor: especieSetor,
     unidade: unidade,
+    generoSetor: generoSetor,
+    parent: setor,
+    unidadePai: setor,
+    modalidadeOrgaoCentral: modalidadeOrgaoCentral,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -874,7 +880,11 @@ transicao.define({
 
 unidade.define({
     municipio: municipio,
+    especieSetor: especieSetor,
+    unidade: unidade,
     generoSetor: generoSetor,
+    parent: setor,
+    unidadePai: setor,
     modalidadeOrgaoCentral: modalidadeOrgaoCentral,
     criadoPor: usuario,
     atualizadoPor: usuario,
