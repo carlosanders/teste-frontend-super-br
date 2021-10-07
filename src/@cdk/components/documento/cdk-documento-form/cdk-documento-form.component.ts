@@ -84,6 +84,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         this.tipoDocumentoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.procedenciaPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------

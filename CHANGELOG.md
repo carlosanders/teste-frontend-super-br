@@ -648,3 +648,5 @@
 * Melhoria de escolha de metadados para o Imprimir Relatório
 * Correção filtro de juntadas
 * Melhoria inclusão do ID das juntadas no Processo View
+* Correção exibição de erro no cópia documento juntada
+* Correção logentry localizador form documento
