@@ -771,11 +771,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         const andXFilter = [];
         if (this.form.get('tipoDocumento').value) {
-            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value}`});
+            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value.id}`});
         }
 
         if (this.form.get('numeracaoSequencial').value) {
-            andXFilter.push({'numeracaoSequencial': `like:%${this.form.get('numeracaoSequencial').value}%`});
+            andXFilter.push({'numeracaoSequencial': `like:%${this.form.get('numeracaoSequencial').value.id}%`});
         }
 
         if (this.form.get('descricao').value) {

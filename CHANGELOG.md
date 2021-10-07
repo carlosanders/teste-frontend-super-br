@@ -645,3 +645,6 @@
 * Correção exibição de campos do grid de tarefas
 * Correção criação de minutas em bloco de tarefas
 * Melhoria para adicionar restrição de acesso para tipos de relatórios
+* Melhoria de escolha de metadados para o Imprimir Relatório
+* Correção filtro de juntadas
+* Melhoria inclusão do ID das juntadas no Processo View

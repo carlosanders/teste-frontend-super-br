@@ -746,8 +746,9 @@
                                 </mat-menu>
                             </div>
                         </div>
+                        <div class="criado-em">{{juntada.id}}</div>
                         <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
-                        <div class="criado-em">{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
+                        <div class="criado-em" *ngIf="juntada.documento?.criadoPor" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
                         <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla">
                             {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}})
                         </div>
