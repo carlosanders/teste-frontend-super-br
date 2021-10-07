@@ -178,6 +178,9 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     @Output()
     selectedIds: number[] = [];
 
+    @Output()
+    visibilidade = new EventEmitter<number>();
+
     dataSource: TipoRelatorioDataSource;
 
     showFilter = false;
@@ -387,5 +390,9 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             return obj[prop];
         }
         return false;
+    }
+
+    editVisibilidadeTipoRelatorio(tipoRelatorioId): void {
+        this.visibilidade.emit(tipoRelatorioId);
     }
 }

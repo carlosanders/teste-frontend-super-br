@@ -53,6 +53,9 @@ export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnCh
     @Output()
     create = new EventEmitter<any>();
 
+    @Input()
+    tipoRelatorio: boolean;
+
     /**
      * Constructor
      */
