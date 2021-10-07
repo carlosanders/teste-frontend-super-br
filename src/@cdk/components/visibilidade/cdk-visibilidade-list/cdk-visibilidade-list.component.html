@@ -6,6 +6,7 @@
 
     <div class="items" cdkPerfectScrollbar *ngIf="!loading">
         <cdk-visibilidade-list-item matRipple *ngFor="let visibilidade of visibilidades" [visibilidade]="visibilidade"
+                                    [tipoRelatorio]="tipoRelatorio"
                                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(visibilidade.id) > -1"
                                     [total]="visibilidades.length"
                                     (delete)="doDeleteVisibilidade($event)"

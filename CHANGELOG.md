@@ -626,8 +626,9 @@
 * Correção visualização de processos restritos módulo arquivista
 * Melhoria filtro de Modelos por ID
 
-1.6.11
+1.7.0
 
+* Nova funcionalidade de visualização de contas de email
 * Correção unidade responsável no form tarefa pegando lotação principal
 * Correção bug visualização de minutas tarefa-list
 * Correção para salvar modelos,etiquetas,repositórios no módulo do coordenador
@@ -643,3 +644,4 @@
 * Melhoria exibindo NUP do processo que está sendo visualizado na tela de anexar documento por cópia no editor de documentos
 * Correção exibição de campos do grid de tarefas
 * Correção criação de minutas em bloco de tarefas
+* Melhoria para adicionar restrição de acesso para tipos de relatórios

@@ -4,6 +4,7 @@
     <cdk-vinculacao-documento-form
         [vinculacaoDocumento]="vinculacaoDocumento"
         [documentoVinculado]="(juntadaVinculada$ | async)?.documento"
+        [processo]="processo$ | async"
         [displayedColumns]="displayedColumns"
         [documentoVinculadoPagination]="documentoVinculadoPagination"
         [modalidadeVinculacaoDocumentoPagination]="modalidadeVinculacaoDocumentoPagination"
