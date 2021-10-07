@@ -13,7 +13,7 @@ import {Modelo, Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getOperacoes, getRouterState} from 'app/store';
+import {Back, getOperacoes, getRouterState} from 'app/store';
 import {getSelectedTarefas} from '../store';
 import {getIsSaving} from './store/selectors/componentes-digitais.selectors';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -130,6 +130,10 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy {
                 loteId: this.lote
             }));
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
 }

@@ -53,13 +53,15 @@ export class ComponenteDigitalEffect {
             type: 'componente digital',
             content: 'Criando componente digital ...',
             status: 0, // carregando
+            lote: action.payload.loteId
         }))),
-        mergeMap(action => this._componenteDigitalService.save(action.payload).pipe(
+        mergeMap(action => this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'componente digital',
                 content: `Componente Digital id ${response.id} criado com sucesso!`,
                 status: 1, // sucesso
+                lote: action.payload.loteId
             }))),
             mergeMap((response: ComponenteDigital) => [
                 new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
@@ -75,7 +77,8 @@ export class ComponenteDigitalEffect {
                     id: action.payload.operacaoId,
                     type: 'componente digital',
                     content: `Houve erro na criação de componente digital: ${erroString}`,
-                    status: 2 // erro
+                    status: 2, // erro
+                    lote: action.payload.loteId
                 }));
                 return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(action.payload));
             })
