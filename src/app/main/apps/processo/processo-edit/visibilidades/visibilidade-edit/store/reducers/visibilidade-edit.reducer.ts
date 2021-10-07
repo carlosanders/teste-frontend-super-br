@@ -8,7 +8,7 @@ export interface VisibilidadeEditState {
     loaded: any;
 }
 
-export const VisibilidadeEditInitialState: VisibilidadeEditState = {
+export const visibilidadeEditInitialState: VisibilidadeEditState = {
     visibilidadeId: null,
     saving: false,
     errors: false,
@@ -16,10 +16,10 @@ export const VisibilidadeEditInitialState: VisibilidadeEditState = {
     loaded: false
 };
 
-export function VisibilidadeEditReducer(
-    state = VisibilidadeEditInitialState,
+export const visibilidadeEditReducer = (
+    state = visibilidadeEditInitialState,
     action: VisibilidadeEditActions.VisibilidadeEditActionsAll
-): VisibilidadeEditState {
+): VisibilidadeEditState => {
     switch (action.type) {
 
         case VisibilidadeEditActions.GET_VISIBILIDADE: {
@@ -70,6 +70,7 @@ export function VisibilidadeEditReducer(
         case VisibilidadeEditActions.SAVE_VISIBILIDADE_SUCCESS: {
             return {
                 ...state,
+                saving: false,
                 errors: false
             };
         }
@@ -84,7 +85,7 @@ export function VisibilidadeEditReducer(
 
         case VisibilidadeEditActions.UNLOAD_STORE: {
             return {
-                ...VisibilidadeEditInitialState
+                ...visibilidadeEditInitialState
             };
         }
 

@@ -14,7 +14,15 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Documento, ModalidadeVinculacaoDocumento, Pagination, VinculacaoDocumento} from '@cdk/models';
+import {
+    Documento,
+    ModalidadeVinculacaoDocumento,
+    Pagination,
+    Processo,
+    VinculacaoDocumento
+} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-vinculacao-documento-form',
@@ -28,6 +36,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
 
     @Input()
     vinculacaoDocumento: VinculacaoDocumento;
+
+    @Input()
+    processo: Processo;
 
     @Input()
     documentoVinculado: Documento;
@@ -44,13 +55,6 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     @Output()
     save = new EventEmitter<VinculacaoDocumento>();
 
-    @Output()
-    abort = new EventEmitter<any>();
-
-    form: FormGroup;
-
-    activeCard = 'form';
-
     @Input()
     documentoPagination: Pagination;
 
@@ -59,6 +63,13 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
 
     @Input()
     modalidadeVinculacaoDocumentoPagination: Pagination;
+
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
+
+    form: FormGroup;
+
+    activeCard = 'form';
 
     /**
      * Constructor
@@ -76,8 +87,21 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
         });
 
         this.documentoPagination = new Pagination();
+        this.documentoPagination.filter = {
+            'juntadaAtual': 'isNotNull',
+            'juntadaAtual.ativo': 'eq:1',
+            'vinculacoesDocumentos.id': 'isNull',
+            'vinculacaoDocumentoPrincipal.id': 'isNull'
+        };
+        this.documentoPagination.populate = ['tipoDocumento', 'tipoDocumento.especieDocumento', 'juntadaAtual'];
         this.documentoVinculadoPagination = new Pagination();
-        this.documentoVinculadoPagination.populate = ['tipoDocumento', 'juntadaAtual'];
+        this.documentoVinculadoPagination.filter = {
+            'juntadaAtual': 'isNotNull',
+            'juntadaAtual.ativo': 'eq:1',
+            'vinculacoesDocumentos.id': 'isNull',
+            'vinculacaoDocumentoPrincipal.id': 'isNull'
+        };
+        this.documentoVinculadoPagination.populate = ['tipoDocumento', 'tipoDocumento.especieDocumento', 'juntadaAtual'];
         this.modalidadeVinculacaoDocumentoPagination = new Pagination();
     }
 
@@ -89,6 +113,25 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
      * On init
      */
     ngOnInit(): void {
+        this.form.get('documento').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (value && typeof value === 'object') {
+                    this.form.get('documentoVinculado').reset();
+                    this.documentoVinculadoPagination.filter = {
+                        'juntadaAtual': 'isNotNull',
+                        'id': 'neq:' + value.id,
+                        'juntadaAtual.ativo': 'eq:1',
+                        'vinculacoesDocumentos.id': 'isNull',
+                        'vinculacaoDocumentoPrincipal.id': 'isNull',
+                        'juntadaAtual.volume.processo.id': 'eq:' + this.processo.id
+                    };
+                    this._changeDetectorRef.markForCheck();
+                }
+                return of([]);
+            })
+        ).subscribe();
     }
 
     /**
@@ -105,6 +148,15 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
             this.form.get('documentoVinculado').setValue(this.documentoVinculado);
             this.activeCard = 'form';
             this._changeDetectorRef.detectChanges();
+        }
+        if (changes['processo']) {
+            this.documentoPagination.filter = {
+                'juntadaAtual': 'isNotNull',
+                'juntadaAtual.ativo': 'eq:1',
+                'vinculacoesDocumentos.id': 'isNull',
+                'vinculacaoDocumentoPrincipal.id': 'isNull',
+                'juntadaAtual.volume.processo.id': 'eq:' + this.processo.id
+            };
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
