@@ -32,7 +32,6 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {EstadoService} from '@cdk/services/estado.service';
 import {modulesConfig} from 'modules/modules-config';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkProtocoloExternoFormModule} from '@cdk/components/protocolo-externo/cdk-protocolo-externo-form/cdk-protocolo-externo-form.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 
@@ -92,7 +91,6 @@ modulesConfig.forEach((module) => {
     providers: [
         ProcessoService,
         EstadoService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard,
         AssinaturaService
     ]

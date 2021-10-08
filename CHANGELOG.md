@@ -659,3 +659,5 @@
 * Correção removendo exibição do botão cancelar em formulários do editor de documento que causavam problemas de navegação indevida
 * Correção upload de anexos dentro do editor/no dialog de upload passam a ser lineares
 * Correção ao transformar um usuário externo em um usuário interno #652
+* Correção de erro no editor ao clicar em anexo com alterações no conteúdo do editor (loop de confirmação)
+* Correção de erro de inconsistência grave no editor ao salvar

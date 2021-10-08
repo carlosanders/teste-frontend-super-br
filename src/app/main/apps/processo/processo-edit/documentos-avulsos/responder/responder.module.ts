@@ -32,7 +32,6 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTabsModule} from '@angular/material/tabs';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 
 const routes: Routes = [
@@ -89,7 +88,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoAvulsoService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard,
         AssinaturaService
     ]
