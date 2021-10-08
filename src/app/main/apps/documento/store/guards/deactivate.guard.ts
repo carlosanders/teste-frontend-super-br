@@ -33,13 +33,10 @@ export class DeactivateGuard implements CanDeactivate<DocumentoComponent> {
                     title: 'Confirmação',
                     confirmLabel: 'Sim',
                     cancelLabel: 'Não',
+                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
                 },
                 disableClose: false
             });
-
-            this.confirmDialogRef
-                .componentInstance
-                .confirmMessage = 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?';
 
             return this.confirmDialogRef.afterClosed();
         } else {

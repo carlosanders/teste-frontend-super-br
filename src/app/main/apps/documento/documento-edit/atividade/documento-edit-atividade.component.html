@@ -18,6 +18,7 @@
         [temMinutas]="true"
         [form]="form"
         [mode]="'vertical'"
+        [actions]="['save']"
         [saving]="(atividadeIsSaving$ | async)"
         [errors]="(atividadeErrors$ | async)"
         (changeEncerramentoTarefa)="changeEncerramentoTarefa($event)"

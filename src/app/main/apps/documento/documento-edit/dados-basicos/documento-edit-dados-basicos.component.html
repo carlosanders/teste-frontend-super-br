@@ -5,6 +5,7 @@
     <cdk-documento-form cdkPerfectScrollbar [documento]="(documento$ | async)"
                         [saving]="(isSaving$ | async)"
                         [errors]="(errors$ | async)"
+                        [actions]="['save']"
                         (save)="submit($event)"
                         [logEntryPagination]="logEntryPagination">
     </cdk-documento-form>

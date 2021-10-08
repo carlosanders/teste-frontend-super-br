@@ -8,6 +8,7 @@
         [logEntryPagination]="logEntryPagination"
         [blocoEdit]="{blocoEditDescricao: true}"
         [saving]="(juntadaIsSaving$ | async)"
+        [actions]="['save']"
         [errors]="(juntadaErrors$ | async)"
         (save)="submitJuntada($event)">
     </cdk-juntada-form>

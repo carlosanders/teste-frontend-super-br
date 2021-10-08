@@ -62,11 +62,14 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     mode = 'horizontal';
 
+    @Input()
+    actions: string[] = ['save', 'abort'];
+
     @Output()
     save = new EventEmitter<Atividade>();
 
-    @Output()
-    abort = new EventEmitter<any>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
 
     @Input()
     especieAtividadePagination: Pagination;
