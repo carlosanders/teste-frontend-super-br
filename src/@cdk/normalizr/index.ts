@@ -227,6 +227,9 @@ compartilhamento.define({
 });
 
 componenteDigital.define({
+    modelo: modelo,
+    documento: documento,
+    tarefaOrigem: tarefa,
     origemDados: origemDados,
     criadoPor: usuario,
     atualizadoPor: usuario,

@@ -245,6 +245,14 @@ processo-view-main-sidebar {
             padding: 16px;
             cursor: pointer;
 
+            .actions {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
             .index {
 
                 &:after {
@@ -375,6 +383,8 @@ processo-view-main-sidebar {
 
             .descricao {
                 display: flex;
+                flex: 1 1 auto;
+                align-items: center;
             }
 
             .numero {
@@ -402,6 +412,14 @@ processo-view-main-sidebar {
             margin-top: 2px;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
 
+            .actions {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
             .index {
 
                 &:after {
@@ -532,6 +550,8 @@ processo-view-main-sidebar {
 
             .descricao {
                 display: flex;
+                flex: 1 1 auto;
+                align-items: center;
             }
 
             .numero {

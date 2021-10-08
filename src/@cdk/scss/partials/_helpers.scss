@@ -87,7 +87,7 @@
         @each $prop, $abbrev in (margin: m, padding: p) {
 
             @for $index from 0 through 64 {
-                $size: $index * 4;
+                $size: $index * 2;
                 $length: #{$size}px;
 
                 .#{$abbrev}#{$infix}-#{$size} {
@@ -96,7 +96,7 @@
             }
 
             @for $index from 0 through 64 {
-                $size: $index * 4;
+                $size: $index * 2;
                 $length: #{$size}px;
 
                 .#{$abbrev}x#{$infix}-#{$size} {
@@ -111,7 +111,7 @@
             }
 
             @for $index from 0 through 64 {
-                $size: $index * 4;
+                $size: $index * 2;
                 $length: #{$size}px;
 
                 .#{$abbrev}t#{$infix}-#{$size} {
