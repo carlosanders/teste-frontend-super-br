@@ -22,6 +22,7 @@
                        [saving]="(visibilidadeIsSaving$ | async)"
                        [errors]="(errors$ | async)"
                        [unidadePagination]="unidadePagination"
+                       [actions]="['save']"
                        [setorPagination]="setorPagination"
                        [usuarioPagination]="usuarioPagination"
                        (save)="submitVisibilidade($event)">

@@ -45,11 +45,14 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
     @Input()
     setorPagination: Pagination;
 
+    @Input()
+    actions: string[] = ['save', 'abort'];
+
     @Output()
     save = new EventEmitter<Visibilidade>();
 
-    @Output()
-    abort = new EventEmitter<any>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
 
     form: FormGroup;
 
