@@ -659,3 +659,4 @@
 * Correção alertando ao usuário quando alterações serão perdidas no documento editado em várias novas ações no editor
 * Correção removendo exibição do botão cancelar em formulários do editor de documento que causavam problemas de navegação indevida
 * Correção upload de anexos dentro do editor/no dialog de upload passam a ser lineares
+* Correção ao transformar um usuário externo em um usuário interno #652
