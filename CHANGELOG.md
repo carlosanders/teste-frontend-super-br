@@ -651,3 +651,4 @@
 * Melhoria inclusão do ID das juntadas no Processo View
 * Correção exibição de erro no cópia documento juntada
 * Correção logentry localizador form documento
+* Correção removendo botão de movimentar quando visualizando anexo de uma minuta no editor
