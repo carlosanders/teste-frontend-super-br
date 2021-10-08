@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import {ComponenteDigital, Documento, Etiqueta, Pagination, Tarefa, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -22,10 +22,12 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {getTarefa} from '../../tarefas/tarefa-detail/store';
 import {LoginService} from '../../../auth/login/login.service';
-import {DynamicService} from '../../../../../modules/dynamic.service';
-import {modulesConfig} from '../../../../../modules/modules-config';
+import {DynamicService} from 'modules/dynamic.service';
+import {modulesConfig} from 'modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
 import {CdkUtils} from '@cdk/utils';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'documento-edit',
@@ -82,6 +84,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * @param _ref
      * @param _documentoEditService
      * @param _activatedRoute
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
@@ -92,7 +95,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         private _dynamicService: DynamicService,
         private _ref: ChangeDetectorRef,
         private _documentoEditService: DocumentoEditService,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _matDialog: MatDialog
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
@@ -245,7 +249,18 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    onClickedDocumentoVinculado(documento): void {
+    onClickedDocumentoVinculado(documento: Documento): void {
+        if (this.documento.vinculacaoDocumentoPrincipal) {
+            return this.navigateToDocumento(documento);
+        }
+        this.podeNavegarDoEditor().subscribe((result) => {
+            if (result) {
+                return this.navigateToDocumento(documento);
+            }
+        });
+    }
+
+    navigateToDocumento(documento: Documento): void {
         let sidebar = 'editar/atividade';
         let primary: string;
         primary = 'componente-digital/';
@@ -268,8 +283,36 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             }).then();
     }
 
-    back(): void {
-        this._location.back();
+    hasChanges(): boolean {
+        const editor = window['CKEDITOR'];
+        if (editor && editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) && editor.instances[editorInstance]) {
+                    if (editor.instances[editorInstance].checkDirty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    podeNavegarDoEditor(): Observable<boolean> {
+        if (this.hasChanges()) {
+            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
+                },
+                disableClose: false
+            });
+
+            return confirmDialogRef.afterClosed();
+        } else {
+            return of(true);
+        }
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
