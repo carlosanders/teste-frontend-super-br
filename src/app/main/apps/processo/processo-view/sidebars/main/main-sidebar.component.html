@@ -778,12 +778,10 @@
                                 </mat-menu>
                             </div>
                         </div>
-                        <div class="criado-em">{{juntada.id}}</div>
                         <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
-                        <div class="criado-em" *ngIf="juntada.documento?.criadoPor" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
-                        <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla">
-                            {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}}
-                            )
+                        <div class="criado-em" *ngIf="juntada.criadoPor?.nome" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
+                        <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla && juntada.documento?.setorOrigem?.sigla">
+                            {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}})
                         </div>
                         <div
                             *ngIf="juntada.documento.origemDados !== undefined && juntada.documento.origemDados.status === 0">
