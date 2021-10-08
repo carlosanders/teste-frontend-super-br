@@ -33,10 +33,10 @@ export class CdkRepresentanteAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    representanteList: Representante[];
-    representanteListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    representanteList: Representante[];
+
+    representanteListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkRepresentanteAutocompleteComponent implements OnInit {
         this.representanteListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.representanteList = [];
+        }
     }
 
     ngOnInit(): void {

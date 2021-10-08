@@ -1,4 +1,4 @@
-<div class="actions p-8" fxLayout="row" fxLayoutAlign="start center">
+<div class="actions p-8">
     <button class="back" mat-icon-button
             (click)="back()"
             aria-label="voltar"
@@ -6,7 +6,9 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
 
-    <cdk-search-bar (inputText)="search($event)"></cdk-search-bar>
+    <cdk-search-bar (inputText)="search($event)" #searchBarComponent></cdk-search-bar>
+
+    <div class="nup">{{processo?.NUPFormatado}}</div>
 
     <div *ngIf="!(isSaving$ | async)" class="anexar-copia">
         <button mat-raised-button color="accent" class="mr-sm-12"

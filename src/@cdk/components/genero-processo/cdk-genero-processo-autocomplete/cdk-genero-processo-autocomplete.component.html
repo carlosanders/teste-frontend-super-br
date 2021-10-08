@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayGeneroProcessoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayGeneroProcessoFn">
     <mat-option *ngFor="let generoProcesso of generoProcessoList"
                 [value]="generoProcesso">
         <span [innerHTML]="displayGeneroProcessoFn(generoProcesso) | highlightOption: this.control.value"></span>

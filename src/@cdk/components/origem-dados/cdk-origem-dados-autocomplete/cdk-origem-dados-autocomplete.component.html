@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayOrigemDadosFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayOrigemDadosFn">
     <mat-option *ngFor="let origemDados of origemDadosList"
                 [value]="origemDados">
         <span [innerHTML]="displayOrigemDadosFn(origemDados) | highlightOption: this.control.value"></span>

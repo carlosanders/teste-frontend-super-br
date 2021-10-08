@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -24,6 +24,8 @@ import {ComponenteDigital, Documento, Usuario} from '@cdk/models';
 import {GetDocumento, SetCurrentStep} from '../../store';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'documento-edit-componentes-digitais',
@@ -70,6 +72,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
      * @param _loginService
      * @param _dynamicService
      * @param _ref
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditComponentesDigitaisAppState>,
@@ -77,7 +80,8 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         private _router: Router,
         public _loginService: LoginService,
         private _dynamicService: DynamicService,
-        private _ref: ChangeDetectorRef
+        private _ref: ChangeDetectorRef,
+        private _matDialog: MatDialog
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componentesDigitais$ = this._store.pipe(select(fromStore.getComponentesDigitais));
@@ -188,11 +192,53 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         ids.forEach((id: number) => this.deleteComponenteDigital(id, this.lote));
     }
 
+    hasChanges(): boolean {
+        const editor = window['CKEDITOR'];
+        if (editor && editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) && editor.instances[editorInstance]) {
+                    if (editor.instances[editorInstance].checkDirty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    podeNavegarDoEditor(): Observable<boolean> {
+        if (this.hasChanges()) {
+            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
+                },
+                disableClose: false
+            });
+
+            return confirmDialogRef.afterClosed();
+        } else {
+            return of(true);
+        }
+    }
+
     viewComponenteDigital(componenteDigital: ComponenteDigital): void {
-        this._store.dispatch(new SetCurrentStep({
-            id: componenteDigital.id,
-            editavel: componenteDigital.editavel && this.documento.minuta
-        }));
+        if (!componenteDigital.editavel) {
+            return this._store.dispatch(new SetCurrentStep({
+                id: componenteDigital.id,
+                editavel: componenteDigital.editavel && this.documento.minuta
+            }));
+        }
+        this.podeNavegarDoEditor().subscribe((result) => {
+            if (result) {
+                return this._store.dispatch(new SetCurrentStep({
+                    id: componenteDigital.id,
+                    editavel: componenteDigital.editavel && this.documento.minuta
+                }));
+            }
+        });
     }
 
     reloadComponentesDigitais(params): void {

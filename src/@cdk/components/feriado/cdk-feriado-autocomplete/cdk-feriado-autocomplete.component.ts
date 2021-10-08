@@ -33,10 +33,10 @@ export class CdkFeriadoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    feriadoList: Feriado[];
-    feriadoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    feriadoList: Feriado[];
+
+    feriadoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkFeriadoAutocompleteComponent implements OnInit {
         this.feriadoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.feriadoList = [];
+        }
     }
 
     ngOnInit(): void {

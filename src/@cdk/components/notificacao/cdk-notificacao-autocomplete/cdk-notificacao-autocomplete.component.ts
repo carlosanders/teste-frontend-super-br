@@ -33,10 +33,10 @@ export class CdkNotificacaoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    notificacaoList: Notificacao[];
-    notificacaoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    notificacaoList: Notificacao[];
+
+    notificacaoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkNotificacaoAutocompleteComponent implements OnInit {
         this.notificacaoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.notificacaoList = [];
+        }
     }
 
     ngOnInit(): void {

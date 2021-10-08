@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displaySetorFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displaySetorFn">
     <mat-option [ngClass]="{'multiline':setor.unidade}"
                 *ngFor="let setor of setorList"
                 [value]="setor">

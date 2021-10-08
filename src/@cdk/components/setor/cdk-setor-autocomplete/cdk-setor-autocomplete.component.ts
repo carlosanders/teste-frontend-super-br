@@ -54,6 +54,12 @@ export class CdkSetorAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.setorList = [];
+        }
+    }
+
     ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),
@@ -74,8 +80,8 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            {orX: termFilterNome},
-                            {orX: termFilterSigla}
+                            {andX: termFilterNome},
+                            {andX: termFilterSigla}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterSigla.length > 0)) {

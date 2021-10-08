@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayUsuarioFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayUsuarioFn">
     <mat-option *ngFor="let usuario of usuarioList" [disabled]="(temDistribuidor && !usuario.isDisponivel)"
                 [value]="usuario">
         <span [innerHTML]="displayUsuarioFn(usuario) | highlightOption: this.control.value"

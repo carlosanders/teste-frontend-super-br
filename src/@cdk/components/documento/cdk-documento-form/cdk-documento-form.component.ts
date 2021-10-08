@@ -48,11 +48,14 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     @Input()
     logEntryPagination: Pagination;
 
+    @Input()
+    actions: string[] = ['save', 'abort'];
+
     @Output()
     save = new EventEmitter<Documento>();
 
-    @Output()
-    abort = new EventEmitter<any>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -84,6 +87,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         this.tipoDocumentoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.procedenciaPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------

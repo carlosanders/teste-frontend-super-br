@@ -1,0 +1,53 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-card>
+
+        <mat-card-subtitle>Metadados</mat-card-subtitle>
+
+        <div>
+            <mat-slide-toggle formControlName="capaProcesso">
+                Capa do Processo
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id">
+            </button>
+        </div>
+
+        <div>
+            <mat-slide-toggle formControlName="interessados">
+                Interessados
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id">
+            </button>
+        </div>
+
+        <div>
+            <mat-slide-toggle formControlName="assuntos">
+                Assuntos
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id">
+            </button>
+        </div>
+
+        <div>
+            <mat-slide-toggle formControlName="sequenciais">
+                Relação de Documentos
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id">
+            </button>
+        </div>
+
+    </mat-card>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>

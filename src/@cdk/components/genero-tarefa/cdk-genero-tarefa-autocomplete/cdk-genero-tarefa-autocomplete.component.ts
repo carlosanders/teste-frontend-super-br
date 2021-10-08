@@ -33,10 +33,10 @@ export class CdkGeneroTarefaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    generoTarefaList: GeneroTarefa[];
-    generoTarefaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    generoTarefaList: GeneroTarefa[];
+
+    generoTarefaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkGeneroTarefaAutocompleteComponent implements OnInit {
         this.generoTarefaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.generoTarefaList = [];
+        }
     }
 
     ngOnInit(): void {

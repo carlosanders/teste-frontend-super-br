@@ -55,7 +55,7 @@ export class CdkLotacaoAutocompleteComponent implements OnInit {
     }
 
     fechado(): void {
-        if (!this.control.value || typeof this.control.value === 'string') {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
             this.lotacaoList = [];
         }
     }
@@ -74,7 +74,7 @@ export class CdkLotacaoAutocompleteComponent implements OnInit {
                             termFilterNome.push(objNome);
                         });
                         const termFilter = {
-                            'orX': [...termFilterNome]
+                            'andX': [...termFilterNome]
                         };
                         if (typeof value === 'string' && termFilterNome.length > 0) {
                             this.lotacaoListIsLoading = true;

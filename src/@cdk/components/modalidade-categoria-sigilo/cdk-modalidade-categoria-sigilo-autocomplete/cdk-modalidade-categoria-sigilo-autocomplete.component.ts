@@ -33,10 +33,10 @@ export class CdkModalidadeCategoriaSigiloAutocompleteComponent implements OnInit
     @Input()
     control: AbstractControl;
 
-    modalidadeCategoriaSigiloList: ModalidadeCategoriaSigilo[];
-    modalidadeCategoriaSigiloListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeCategoriaSigiloList: ModalidadeCategoriaSigilo[];
+
+    modalidadeCategoriaSigiloListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeCategoriaSigiloAutocompleteComponent implements OnInit
         this.modalidadeCategoriaSigiloListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeCategoriaSigiloList = [];
+        }
     }
 
     ngOnInit(): void {

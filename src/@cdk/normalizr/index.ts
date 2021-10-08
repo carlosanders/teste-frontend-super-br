@@ -129,6 +129,8 @@ export const chatMensagem = new schema.Entity('chat-mensagem');
 export const chatParticipante = new schema.Entity('chat-participante');
 export const statusBarramento = new schema.Entity('status-barramento');
 export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-barramento');
+export const servidorEmail = new schema.Entity('servidor-email');
+export const contaEmail = new schema.Entity('conta-email');
 
 acao.define({
     criadoPor: usuario,
@@ -208,11 +210,13 @@ classificacao.define({
 });
 
 colaborador.define({
+    usuario: usuario,
     cargo: cargo,
     modalidadeColaborador: modalidadeColaborador,
     criadoPor: usuario,
     atualizadoPor: usuario,
-    apagadoPor: usuario
+    apagadoPor: usuario,
+    lotacoes: [lotacao],
 });
 
 compartilhamento.define({
@@ -223,6 +227,9 @@ compartilhamento.define({
 });
 
 componenteDigital.define({
+    modelo: modelo,
+    documento: documento,
+    tarefaOrigem: tarefa,
     origemDados: origemDados,
     criadoPor: usuario,
     atualizadoPor: usuario,
@@ -795,6 +802,10 @@ setor.define({
     municipio: municipio,
     especieSetor: especieSetor,
     unidade: unidade,
+    generoSetor: generoSetor,
+    parent: setor,
+    unidadePai: setor,
+    modalidadeOrgaoCentral: modalidadeOrgaoCentral,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -872,7 +883,11 @@ transicao.define({
 
 unidade.define({
     municipio: municipio,
+    especieSetor: especieSetor,
+    unidade: unidade,
     generoSetor: generoSetor,
+    parent: setor,
+    unidadePai: setor,
     modalidadeOrgaoCentral: modalidadeOrgaoCentral,
     criadoPor: usuario,
     atualizadoPor: usuario,
@@ -1084,4 +1099,16 @@ statusBarramento.define( {
 
 vinculacaoPessoaBarramento.define({
     pessoa: pessoa
+});
+
+servidorEmail.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+});
+
+contaEmail.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    setor: setor,
+    servidorEmail: servidorEmail
 });

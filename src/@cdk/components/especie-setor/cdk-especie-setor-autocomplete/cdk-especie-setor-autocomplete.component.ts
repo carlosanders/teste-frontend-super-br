@@ -33,10 +33,10 @@ export class CdkEspecieSetorAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    especieSetorList: EspecieSetor[];
-    especieSetorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    especieSetorList: EspecieSetor[];
+
+    especieSetorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkEspecieSetorAutocompleteComponent implements OnInit {
         this.especieSetorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.especieSetorList = [];
+        }
     }
 
     ngOnInit(): void {

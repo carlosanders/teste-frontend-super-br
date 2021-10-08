@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayVinculacaoRoleFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayVinculacaoRoleFn">
     <mat-option *ngFor="let vinculacaoRole of vinculacaoRoleList"
                 [value]="vinculacaoRole">
         <span [innerHTML]="displayVinculacaoRoleFn(vinculacaoRole) | highlightOption: this.control.value"></span>

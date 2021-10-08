@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayRelevanciaFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayRelevanciaFn">
     <mat-option *ngFor="let relevancia of relevanciaList"
                 [value]="relevancia">
         <span [innerHTML]="displayRelevanciaFn(relevancia) | highlightOption: this.control.value"></span>

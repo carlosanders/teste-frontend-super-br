@@ -33,10 +33,10 @@ export class CdkOrigemDadosAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    origemDadosList: OrigemDados[];
-    origemDadosListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    origemDadosList: OrigemDados[];
+
+    origemDadosListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkOrigemDadosAutocompleteComponent implements OnInit {
         this.origemDadosListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.origemDadosList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -6,7 +6,8 @@
                [readonly]="!!vinculacaoDocumento.documento">
         <cdk-documento-autocomplete
             #documento="documentoAutocomplete"
-            [control]="form.get('documento')">
+            [control]="form.get('documento')"
+            [pagination]="documentoPagination">
         </cdk-documento-autocomplete>
         <mat-error *ngIf="form.get('documento').hasError('formError')">
             {{form.get('documento').errors.formError}}
@@ -15,7 +16,7 @@
     <mat-form-field>
         <input matInput placeholder="Documento Vinculado"
                formControlName="documentoVinculado"
-               [readonly]="!form.get('documento').value"
+               [readonly]="!form.get('documento').value?.id"
                [matAutocomplete]="documentoVinculado.autocomplete" required
                (blur)="checkDocumentoVinculado()">
         <cdk-documento-autocomplete
@@ -55,7 +56,8 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid || !form.get('modalidadeVinculacaoDocumento').value?.id" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

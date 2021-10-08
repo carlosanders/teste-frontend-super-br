@@ -33,10 +33,10 @@ export class CdkModalidadeTemplateAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeTemplateList: ModalidadeTemplate[];
-    modalidadeTemplateListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeTemplateList: ModalidadeTemplate[];
+
+    modalidadeTemplateListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeTemplateAutocompleteComponent implements OnInit {
         this.modalidadeTemplateListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeTemplateList = [];
+        }
     }
 
     ngOnInit(): void {

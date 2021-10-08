@@ -1,0 +1,49 @@
+@import '@cdk/scss/cdk';
+
+caixa-email-folder-sidebar {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .logo {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 10px;
+
+            > .titulo {
+                display: flex;
+                flex: 1 1 auto;
+                justify-content: center;
+                align-items: center;
+                font-size: 24px;
+            }
+        }
+
+        .account {
+            width: 90%;
+        }
+    }
+
+    .content {
+        .nav {
+            .nav-subheader {
+                .mat-icon {
+                    margin-right: 5px;
+                }
+                .loading {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

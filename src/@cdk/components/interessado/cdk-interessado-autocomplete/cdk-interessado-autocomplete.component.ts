@@ -33,10 +33,10 @@ export class CdkInteressadoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    interessadoList: Interessado[];
-    interessadoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    interessadoList: Interessado[];
+
+    interessadoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkInteressadoAutocompleteComponent implements OnInit {
         this.interessadoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.interessadoList = [];
+        }
     }
 
     ngOnInit(): void {

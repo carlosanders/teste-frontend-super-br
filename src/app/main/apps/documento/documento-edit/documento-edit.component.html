@@ -2,8 +2,9 @@
     <!-- CENTER -->
     <div class="center">
         <!-- CONTENT HEADER -->
-        <div class="actions p-16">
-            <button *ngIf="(tarefa$ | async) && !(documento$ | async)?.juntadaAtual && !(documento$ | async)?.apagadoEm" mat-icon-button aria-label="movimentar"
+        <div class="actions p-16" *ngIf="!routerState.url.includes('visualizar-processo')">
+            <button *ngIf="(tarefa$ | async) && !(documento$ | async)?.juntadaAtual && !(documento$ | async)?.apagadoEm && !(documento$ | async)?.vinculacaoDocumentoPrincipal && !routerState.url.includes('anexar-copia')"
+                    mat-icon-button aria-label="movimentar"
                     matTooltip="Movimentar" [routerLink]="routeAtividade"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">send</mat-icon>

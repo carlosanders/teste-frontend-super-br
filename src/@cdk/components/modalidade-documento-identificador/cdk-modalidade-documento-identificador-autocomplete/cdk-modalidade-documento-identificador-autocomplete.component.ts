@@ -33,10 +33,10 @@ export class CdkModalidadeDocumentoIdentificadorAutocompleteComponent implements
     @Input()
     control: AbstractControl;
 
-    modalidadeDocumentoIdentificadorList: ModalidadeDocumentoIdentificador[];
-    modalidadeDocumentoIdentificadorListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeDocumentoIdentificadorList: ModalidadeDocumentoIdentificador[];
+
+    modalidadeDocumentoIdentificadorListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeDocumentoIdentificadorAutocompleteComponent implements
         this.modalidadeDocumentoIdentificadorListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeDocumentoIdentificadorList = [];
+        }
     }
 
     ngOnInit(): void {

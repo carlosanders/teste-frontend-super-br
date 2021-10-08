@@ -6,15 +6,20 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AnexarCopiaComponent} from './anexar-copia.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
+import {AnexarCopiaStoreModule} from './store/store.module';
+import * as fromGuards from './store/guards';
+
 import {modulesConfig} from 'modules/modules-config';
 import {CdkSearchBarModule} from '@cdk/components';
 import {CdkProcessoSearchAutocompleteModule} from '@cdk/components/processo/cdk-processo-search-autocomplete/cdk-processo-search-autocomplete.module';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {ProcessoService} from '@cdk/services/processo.service';
 
 const routes: Routes = [
     {
         path: ':processoCopiaHandle',
         component: AnexarCopiaComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path: 'visualizar',
@@ -45,6 +50,8 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         MatAutocompleteModule,
 
+        AnexarCopiaStoreModule,
+
         MatTooltipModule,
         MatProgressSpinnerModule,
         CdkSearchBarModule,
@@ -52,6 +59,8 @@ modulesConfig.forEach((module) => {
 
     ],
     providers: [
+        ProcessoService,
+        fromGuards.ResolveGuard,
     ],
     exports: [
         AnexarCopiaComponent

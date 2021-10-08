@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayEstruturaBarramentoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayEstruturaBarramentoFn">
     <mat-option *ngFor="let estruturaBarramento of estruturaBarramentoList"
                 [value]="estruturaBarramento">
         <span [innerHTML]="displayEstruturaBarramentoFn(estruturaBarramento) | highlightOption: this.control.value"></span>

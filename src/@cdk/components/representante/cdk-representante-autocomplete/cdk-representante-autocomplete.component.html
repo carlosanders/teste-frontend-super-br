@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayRepresentanteFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayRepresentanteFn">
     <mat-option *ngFor="let representante of representanteList"
                 [value]="representante">
         <span [innerHTML]="displayRepresentanteFn(representante) | highlightOption: this.control.value"></span>

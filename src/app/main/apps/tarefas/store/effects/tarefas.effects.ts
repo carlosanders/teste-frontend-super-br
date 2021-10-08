@@ -70,19 +70,20 @@ export class TarefasEffect {
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
-            JSON.stringify(action.payload.context))),
-        concatMap(response => [
-            new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
-            new TarefasActions.GetTarefasSuccess({
-                entitiesId: response['entities'].map(tarefa => tarefa.id),
-                loaded: {
-                    id: 'generoHandle_typeHandle_targetHandle',
-                    value: this.routerState.params.generoHandle + '_' +
-                        this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
-                },
-                total: response['total']
-            })
-        ]),
+            JSON.stringify(action.payload.context)).pipe(
+                concatMap(response => [
+                    new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema, populate: action.payload.populate}),
+                    new TarefasActions.GetTarefasSuccess({
+                        entitiesId: response['entities'].map(tarefa => tarefa.id),
+                        loaded: {
+                            id: 'generoHandle_typeHandle_targetHandle',
+                            value: this.routerState.params.generoHandle + '_' +
+                                this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
+                        },
+                        total: response['total']
+                    })
+                ])
+        )),
         catchError((err) => {
             console.log(err);
             return of(new TarefasActions.GetTarefasFailed(err));

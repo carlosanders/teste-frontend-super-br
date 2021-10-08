@@ -1,0 +1,32 @@
+import {createSelector} from '@ngrx/store';
+import {getCaixaEmailAppState, CaixaEmailAppState, FolderState} from '../reducers';
+
+export const getFolderState = createSelector(
+    getCaixaEmailAppState,
+    (state: CaixaEmailAppState) => state.folder
+);
+
+export const getSelectedFolder = createSelector(
+    getFolderState,
+    (state: FolderState) => state.selectedFolder
+);
+
+export const getFolderList = createSelector(
+    getFolderState,
+    (state: FolderState) => state.folders
+);
+
+export const getFolderIsLoading = createSelector(
+    getFolderState,
+    (state: FolderState) => state.loading
+);
+
+export const getFolderIsLoaded = createSelector(
+    getFolderState,
+    (state: FolderState) => state.loaded
+);
+
+export const getFolderError = createSelector(
+    getFolderState,
+    (state: FolderState) => state.error
+);

@@ -1,0 +1,195 @@
+@import "src/@cdk/scss/cdk";
+
+mail-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0;
+    border-right: 1px solid;
+    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+
+    .toolbar {
+        display: flex;
+        flex-direction: row;
+        place-content: center space-between;
+        align-items: center;
+        box-sizing: border-box;
+
+        .toolbar-separator {
+            height: 32px;
+            width: 1px;
+            margin: 0 12px;
+        }
+    }
+
+    .content {
+        overflow: hidden;
+    }
+
+    .loading-mail-list {
+        display: flex;
+        flex-direction: row;
+        place-content: center center;
+        margin: 20px;
+        height: 100%;
+        align-items: center;
+
+        mat-spinner {
+            margin-right: 10px;
+        }
+    }
+
+    .no-message {
+        height: 100%;
+        min-height: 100%;
+        min-width: 100%;
+        width: 100%;
+        flex-direction: column;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center;
+        align-items: center;
+    }
+
+    .info-text {
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    .mail-list-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+
+        .mail-list-item {
+            flex-direction: row;
+            box-sizing: border-box;
+            display: flex;
+            place-content: center flex-start;
+            align-items: center;
+            flex-shrink: 0;
+            position: relative;
+            padding: 16px 24px;
+            border-bottom: 1px solid;
+            cursor: pointer;
+
+
+            &.unread {
+
+                .info {
+
+                    .name {
+                        font-weight: 700;
+                    }
+
+                    .row-2 {
+
+                        .subject {
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+
+            .info {
+                flex: 1 1 auto;
+                box-sizing: border-box;
+                overflow: hidden;
+                width: 0;
+                margin-left: 16px;
+                position: relative;
+
+                .row-1 {
+                    flex-direction: row;
+                    box-sizing: border-box;
+                    display: flex;
+                    place-content: center flex-start;
+                    align-items: center;
+                    margin-bottom: 8px;
+
+                    .name {
+                        flex-direction: row;
+                        box-sizing: border-box;
+                        display: flex;
+                        place-content: center flex-start;
+                        align-items: center;
+                        flex: 1 1 auto;
+                        font-size: 15px;
+                        font-weight: 600;
+                        word-wrap: break-word;
+
+                        .avatar {
+                            min-width: 32px;
+                            width: 32px;
+                            height: 32px;
+                            line-height: 32px;
+                        }
+                    }
+
+                    .mail-date {
+                        flex-direction: row;
+                        box-sizing: border-box;
+                        display: flex;
+                        place-content: center flex-start;
+                        align-items: center;
+                    }
+
+                    .actions {
+                        margin-left: 4px;
+
+                        .mat-icon-button {
+                            width: 32px;
+                            height: 32px;
+                            line-height: 1;
+                        }
+                    }
+                }
+
+                .row-2 {
+                    flex-direction: row;
+                    box-sizing: border-box;
+                    display: flex;
+                    place-content: center flex-start;
+                    align-items: center;
+
+                    .subject,
+                    .message {
+                        flex-direction: column;
+                        box-sizing: border-box;
+                        display: flex;
+                        place-content: flex-start;
+                        align-items: flex-start;
+                        width: 100%;
+                    }
+
+                    .message {
+                        position: relative;
+                    }
+
+                    .labels {
+                        margin-top: 8px;
+
+                        .label {
+                            font-size: 11px;
+                            border-radius: 4px;
+                            margin: 0 4px 0 0;
+                            padding: 3px 8px;
+
+                            .label-color {
+                                width: 8px;
+                                height: 8px;
+                                margin-right: 8px;
+                                border-radius: 50%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

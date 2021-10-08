@@ -624,8 +624,38 @@
 * Correção bug mudança de menus módulo arquivista
 * Correção visualização de processo módulo arquivista
 * Correção visualização de processos restritos módulo arquivista
-
+* Melhoria filtro de Modelos por ID
 
 1.6.11
 
-* Melhoria filtro de Modelos por ID
+* Nova funcionalidade de visualização de contas de email
+* Correção unidade responsável no form tarefa pegando lotação principal
+* Correção bug visualização de minutas tarefa-list
+* Correção para salvar modelos,etiquetas,repositórios no módulo do coordenador
+* Correção para adicionar botões no list do aviso
+* Correção para salvar avisos no módulo do coordenador
+* Correção nos autocompletes do sistema, limpando a lista de resultados após fechado o modal de autocomplete
+* Melhoria implementado contador de componentes digitais das juntadas, e exibindo na lista de juntadas do processo-view, para possibilitar ao usuário referenciar componentes digitais específicos no seu processo de trabalho
+* Melhoria implementado botão de adição de Coordenadores para Coordenador de Órgão Central e Coordenador de Unidade
+* Correção coluna indevida no grid de Tarefas
+* Correção removido reload incorreto de juntadas ao abrir/fechar o editor de documentos de dentro da visão de processo
+* Correção de erro ao tentar visualizar uma juntada que não foi ainda carregada dentro dos índices da visão de processo
+* Correção css de busca na tela de anexar documento por cópia no editor de documentos
+* Melhoria exibindo NUP do processo que está sendo visualizado na tela de anexar documento por cópia no editor de documentos
+* Correção exibição de campos do grid de tarefas
+* Correção criação de minutas em bloco de tarefas
+* Melhoria para adicionar restrição de acesso para tipos de relatórios
+* Correção alinhamento 3 pontinhos da juntada
+* Melhoria de escolha de metadados para o Imprimir Relatório
+* Correção filtro de juntadas
+* Melhoria inclusão do ID das juntadas no Processo View
+* Correção exibição de erro no cópia documento juntada
+* Correção logentry localizador form documento
+* Correção de tamanho mínimo para sigla em setor
+* Correção removendo botão de movimentar quando visualizando anexo de uma minuta no editor
+* Correção no editor de documentos de menu lateral sendo exibido ao visualizar detalhes do processo
+* Correção remoção do botão movimentar na tela de anexar por cópia
+* Correção alertando ao usuário quando alterações serão perdidas no documento editado em várias novas ações no editor
+* Correção removendo exibição do botão cancelar em formulários do editor de documento que causavam problemas de navegação indevida
+* Correção upload de anexos dentro do editor/no dialog de upload passam a ser lineares
+* Correção ao transformar um usuário externo em um usuário interno #652

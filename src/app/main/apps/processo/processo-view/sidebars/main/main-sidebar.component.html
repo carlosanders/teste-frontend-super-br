@@ -148,14 +148,16 @@
                     <mat-label>Volume:</mat-label>
                     <div class="volumes">
                         <div *ngFor="let volume of (volumes$ | async)">
-                            <div class="index-volume" [ngClass]="{'current': volume.id === selectedVolume}" (click)="filtraVolume(volume)">
+                            <div class="index-volume" [ngClass]="{'current': volume.id === selectedVolume}"
+                                 (click)="filtraVolume(volume)">
                                 <span>{{volume.numeracaoSequencial}}</span>
                             </div>
                         </div>
                         <div class="loading" *ngIf="loadingVolumes$ | async">
                             <mat-spinner class="volumes-loading" diameter="22"></mat-spinner>
                         </div>
-                        <div class="index-volume" (click)="paginaVolumes()" *ngIf="this.volumes && this.volumes.length < this.volumesPagination.total">
+                        <div class="index-volume" (click)="paginaVolumes()"
+                             *ngIf="this.volumes && this.volumes.length < this.volumesPagination.total">
                             <span>+</span>
                         </div>
                     </div>
@@ -268,8 +270,126 @@
                         </span>
                     </div>
                     <div fxFlex fxLayout="column">
-                        <div>
-                            <div class="descricao">{{minuta.tipoDocumento.nome}}</div>
+                        <div fxFlex fxLayout="column">
+                            <div fxFlex fxLayout="row">
+                                <div class="descricao">{{minuta.tipoDocumento.nome}}</div>
+                                <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'"
+                                          class="mt-10 ml-4 mr-4"
+                                          (click)="uploadAnexo(minuta); $event.stopPropagation();">attach_file
+                                </mat-icon>
+                                <mat-icon *ngIf="minuta.assinado" [matTooltip]="'Assinado'" class="mt-10 ml-4 mr-4">
+                                    lock
+                                </mat-icon>
+                                <div class="actions">
+                                    <button mat-icon-button [matMenuTriggerFor]="minutasMenu"
+                                            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                                            *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) &&
+                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)">
+                                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                                    </button>
+
+                                    <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) ||
+                            ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)"
+                                         class="spinner-container m-8">
+                                        <mat-spinner diameter="24"></mat-spinner>
+                                    </div>
+
+                                    <mat-menu #minutasMenu="matMenu">
+
+                                        <button
+                                            *ngIf="(!minuta.documentoAvulsoRemessa || !minuta.documentoAvulsoRemessa.dataHoraRemessa) && !minuta.apagadoEm"
+                                            fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta)"
+                                            mat-menu-item>
+                                            <mat-icon color="accent">delete</mat-icon>
+                                            <span>Apagar Minuta</span>
+                                        </button>
+                                        <button
+                                            *ngIf="minuta.apagadoEm"
+                                            fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(minuta)"
+                                            mat-menu-item>
+                                            <mat-icon color="accent">undo</mat-icon>
+                                            <span>Restaurar</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!minuta.apagadoEm"
+                                                (click)="doAssinatura(minuta)"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">lock</mat-icon>
+                                            <span>Assinar</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                (click)="doRemoveAssinatura(minuta.id)"
+                                                mat-menu-item
+                                                *ngIf="minuta.assinado && !minuta.apagadoEm">
+                                            <mat-icon color="accent">lock_open</mat-icon>
+                                            <span>Remover Assinatura</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!minuta.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
+                                                (click)="doAbreMinutaOutraAba(minuta)"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">open_in_new</mat-icon>
+                                            <span>Abrir em outra aba</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!minuta.apagadoEm && (minuta?.componentesDigitais[0]?.extensao === 'html' || minuta?.componentesDigitais[0]?.extensao === 'HTML')"
+                                                (click)="doConverte(minuta.id)"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                            <span>Converter em PDF</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.convertidoPdf"
+                                                (click)="doConverteHtml(minuta.id)"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">restore_page</mat-icon>
+                                            <span>Converter em HTML</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="minuta.assinado"
+                                                (click)="doDownloadP7S(minuta)"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">get_app</mat-icon>
+                                            <span>Exportar como P7S</span>
+                                        </button>
+                                        <button
+                                            *ngIf="minuta.documentoAvulsoRemessa && minuta.documentoAvulsoRemessa.dataHoraResposta && !minuta.apagadoEm"
+                                            fxLayout="row" fxLayoutAlign="start center"
+                                            (click)="doVerResposta(minuta.documentoAvulsoRemessa.documentoResposta)"
+                                            mat-menu-item>
+                                            <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                            <span>Ver Resposta</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!minuta.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
+                                                [matMenuTriggerFor]="tipoDocumentoMenu" #menuTrigger="matMenuTrigger"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">edit</mat-icon>
+                                            <span>Alterar Tipo de Documento</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                mat-menu-item aria-label="upload anexo"
+                                                (click)="uploadAnexo(minuta)">
+                                            <ng-container>
+                                                <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                                <span>Anexos</span>
+                                            </ng-container>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </div>
                             <div class="criado-em">{{minuta.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
                             <div class="numero"
                                  *ngIf="minuta.numeroUnicoDocumentoFormatado">
@@ -299,113 +419,6 @@
                             </div>
                         </div>
                     </div>
-                    <mat-icon *ngIf="minuta.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4" (click)="uploadAnexo(minuta); $event.stopPropagation();">attach_file</mat-icon>
-                    <mat-icon *ngIf="minuta.assinado" [matTooltip]="'Assinado'" class="ml-4 mr-4">lock</mat-icon>
-                    <div class="actions">
-                        <button mat-icon-button [matMenuTriggerFor]="minutasMenu"
-                                aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                                *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) &&
-                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)">
-                            <mat-icon class="secondary-text">more_vert</mat-icon>
-                        </button>
-
-                        <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) ||
-                            ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)"
-                             class="spinner-container m-8">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
-
-                        <mat-menu #minutasMenu="matMenu">
-
-                            <button
-                                *ngIf="(!minuta.documentoAvulsoRemessa || !minuta.documentoAvulsoRemessa.dataHoraRemessa) && !minuta.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta)" mat-menu-item>
-                                <mat-icon color="accent">delete</mat-icon>
-                                <span>Apagar Minuta</span>
-                            </button>
-                            <button
-                                *ngIf="minuta.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(minuta)" mat-menu-item>
-                                <mat-icon color="accent">undo</mat-icon>
-                                <span>Restaurar</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm"
-                                    (click)="doAssinatura(minuta)"
-                                    mat-menu-item>
-                                <mat-icon color="accent">lock</mat-icon>
-                                <span>Assinar</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(minuta.id)"
-                                    mat-menu-item
-                                    *ngIf="minuta.assinado && !minuta.apagadoEm">
-                                <mat-icon color="accent">lock_open</mat-icon>
-                                <span>Remover Assinatura</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
-                                    (click)="doAbreMinutaOutraAba(minuta)"
-                                    mat-menu-item>
-                                <mat-icon color="accent">open_in_new</mat-icon>
-                                <span>Abrir em outra aba</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm && (minuta?.componentesDigitais[0]?.extensao === 'html' || minuta?.componentesDigitais[0]?.extensao === 'HTML')"
-                                    (click)="doConverte(minuta.id)"
-                                    mat-menu-item>
-                                <mat-icon color="accent">picture_as_pdf</mat-icon>
-                                <span>Converter em PDF</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.convertidoPdf"
-                                    (click)="doConverteHtml(minuta.id)"
-                                    mat-menu-item>
-                                <mat-icon color="accent">restore_page</mat-icon>
-                                <span>Converter em HTML</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="minuta.assinado"
-                                    (click)="doDownloadP7S(minuta)"
-                                    mat-menu-item>
-                                <mat-icon color="accent">get_app</mat-icon>
-                                <span>Exportar como P7S</span>
-                            </button>
-                            <button
-                                *ngIf="minuta.documentoAvulsoRemessa && minuta.documentoAvulsoRemessa.dataHoraResposta && !minuta.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center"
-                                (click)="doVerResposta(minuta.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
-                                <mat-icon color="accent">picture_as_pdf</mat-icon>
-                                <span>Ver Resposta</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
-                                    [matMenuTriggerFor]="tipoDocumentoMenu" #menuTrigger="matMenuTrigger" mat-menu-item>
-                                <mat-icon color="accent">edit</mat-icon>
-                                <span>Alterar Tipo de Documento</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    mat-menu-item aria-label="upload anexo"
-                                    (click)="uploadAnexo(minuta)">
-                                <ng-container>
-                                    <mat-icon color="accent">picture_as_pdf</mat-icon>
-                                    <span>Anexos</span>
-                                </ng-container>
-                            </button>
-                        </mat-menu>
-                    </div>
-
                     <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento" id="testeMenu">
                         <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
                               fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()">
@@ -441,8 +454,117 @@
                     </span>
                     </div>
                     <div fxFlex fxLayout="column">
-                        <div>
-                            <div class="descricao">{{oficio.tipoDocumento.nome}}</div>
+                        <div fxFlex fxLayout="column">
+                            <div fxFlex fxLayout="row">
+                                <div class="descricao">{{oficio.tipoDocumento.nome}}</div>
+                                <mat-icon *ngIf="oficio.temAnexos" [matTooltip]="'Possui Anexos'"
+                                          class="mt-10 ml-4 mr-4"
+                                          (click)="uploadAnexo(oficio); $event.stopPropagation();">attach_file
+                                </mat-icon>
+                                <mat-icon *ngIf="oficio.assinado" class="mt-10 ml-4 mr-4">lock</mat-icon>
+                                <div class="actions">
+                                    <button mat-icon-button [matMenuTriggerFor]="oficiosMenu"
+                                            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                                            *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) &&
+                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)">
+                                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                                    </button>
+
+                                    <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) ||
+                            ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
+                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
+                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) ||
+                            ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) ||
+                            ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)"
+                                         class="spinner-container m-8">
+                                        <mat-spinner diameter="24"></mat-spinner>
+                                    </div>
+
+                                    <mat-menu #oficiosMenu="matMenu">
+                                        <button
+                                            *ngIf="(!oficio.documentoAvulsoRemessa || !oficio.documentoAvulsoRemessa.dataHoraRemessa) && !oficio.apagadoEm"
+                                            fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(oficio)"
+                                            mat-menu-item>
+                                            <mat-icon color="accent">delete</mat-icon>
+                                            <span>Apagar Ofício</span>
+                                        </button>
+                                        <button
+                                            *ngIf="oficio.apagadoEm"
+                                            fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(oficio)"
+                                            mat-menu-item>
+                                            <mat-icon color="accent">undo</mat-icon>
+                                            <span>Restaurar</span>
+                                        </button>
+
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!oficio.apagadoEm"
+                                                (click)="doAssinatura(oficio)"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">lock</mat-icon>
+                                            <span>Assinar</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                (click)="doRemoveAssinatura(oficio.id)"
+                                                mat-menu-item
+                                                *ngIf="oficio.assinado && !oficio.apagadoEm">
+                                            <mat-icon color="accent">lock_open</mat-icon>
+                                            <span>Remover Assinatura</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                (click)="doConverte(oficio.id)"
+                                                *ngIf="oficio?.componentesDigitais[0]?.extensao === 'pdf' || oficio?.componentesDigitais[0]?.extensao === 'PDF'"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                            <span>Converter em PDF</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                (click)="doConverteHtml(oficio.id)"
+                                                *ngIf="oficio?.componentesDigitais[0]?.convertidoPdf" mat-menu-item>
+                                            <mat-icon color="accent">restore_page</mat-icon>
+                                            <span>Converter em HTML</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="oficio.assinado"
+                                                (click)="doDownloadP7S(oficio)"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">get_app</mat-icon>
+                                            <span>Converter em P7S</span>
+                                        </button>
+                                        <button
+                                            *ngIf="oficio.documentoAvulsoRemessa && oficio.documentoAvulsoRemessa.dataHoraResposta && !oficio.apagadoEm"
+                                            fxLayout="row" fxLayoutAlign="start center"
+                                            (click)="doVerResposta(oficio.documentoAvulsoRemessa.documentoResposta)"
+                                            mat-menu-item>
+                                            <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                            <span>Ver Resposta</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!oficio.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
+                                                [matMenuTriggerFor]="tipoDocumentoMenu2"
+                                                #menuTriggerOficios="matMenuTrigger"
+                                                mat-menu-item>
+                                            <mat-icon color="accent">edit</mat-icon>
+                                            <span>Alterar Tipo de Documento</span>
+                                        </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                mat-menu-item aria-label="upload anexo"
+                                                (click)="uploadAnexo(oficio)">
+                                            <ng-container>
+                                                <mat-icon color="accent">picture_as_pdf</mat-icon>
+                                                <span>Upload de Anexo</span>
+                                            </ng-container>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </div>
                             <div class="criado-em">{{oficio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
                             <div
                                 *ngIf="oficio.origemDados !== undefined && oficio.origemDados.status === 0">
@@ -467,102 +589,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <mat-icon *ngIf="oficio.temAnexos" [matTooltip]="'Possui Anexos'" class="ml-4 mr-4" (click)="uploadAnexo(oficio); $event.stopPropagation();">attach_file</mat-icon>
-                    <mat-icon *ngIf="oficio.assinado" class="ml-4 mr-4">lock</mat-icon>
-                    <div class="actions">
-                        <button mat-icon-button [matMenuTriggerFor]="oficiosMenu"
-                                aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                                *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) &&
-                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)">
-                            <mat-icon class="secondary-text">more_vert</mat-icon>
-                        </button>
-
-                        <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) ||
-                            ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)"
-                             class="spinner-container m-8">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
-
-                        <mat-menu #oficiosMenu="matMenu">
-                            <button
-                                *ngIf="(!oficio.documentoAvulsoRemessa || !oficio.documentoAvulsoRemessa.dataHoraRemessa) && !oficio.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(oficio)" mat-menu-item>
-                                <mat-icon color="accent">delete</mat-icon>
-                                <span>Apagar Ofício</span>
-                            </button>
-                            <button
-                                *ngIf="oficio.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(oficio)" mat-menu-item>
-                                <mat-icon color="accent">undo</mat-icon>
-                                <span>Restaurar</span>
-                            </button>
-
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!oficio.apagadoEm"
-                                    (click)="doAssinatura(oficio)"
-                                    mat-menu-item>
-                                <mat-icon color="accent">lock</mat-icon>
-                                <span>Assinar</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(oficio.id)"
-                                    mat-menu-item
-                                    *ngIf="oficio.assinado && !oficio.apagadoEm">
-                                <mat-icon color="accent">lock_open</mat-icon>
-                                <span>Remover Assinatura</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(oficio.id)"
-                                    *ngIf="oficio?.componentesDigitais[0]?.extensao === 'pdf' || oficio?.componentesDigitais[0]?.extensao === 'PDF'" mat-menu-item>
-                                <mat-icon color="accent">picture_as_pdf</mat-icon>
-                                <span>Converter em PDF</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverteHtml(oficio.id)"
-                                    *ngIf="oficio?.componentesDigitais[0]?.convertidoPdf" mat-menu-item>
-                                <mat-icon color="accent">restore_page</mat-icon>
-                                <span>Converter em HTML</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="oficio.assinado"
-                                    (click)="doDownloadP7S(oficio)"
-                                    mat-menu-item>
-                                <mat-icon color="accent">get_app</mat-icon>
-                                <span>Converter em P7S</span>
-                            </button>
-                            <button
-                                *ngIf="oficio.documentoAvulsoRemessa && oficio.documentoAvulsoRemessa.dataHoraResposta && !oficio.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center"
-                                (click)="doVerResposta(oficio.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
-                                <mat-icon color="accent">picture_as_pdf</mat-icon>
-                                <span>Ver Resposta</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!oficio.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
-                                    [matMenuTriggerFor]="tipoDocumentoMenu2" #menuTriggerOficios="matMenuTrigger"
-                                    mat-menu-item>
-                                <mat-icon color="accent">edit</mat-icon>
-                                <span>Alterar Tipo de Documento</span>
-                            </button>
-                            <button fxLayout="row" fxLayoutAlign="start center"
-                                    mat-menu-item aria-label="upload anexo"
-                                    (click)="uploadAnexo(oficio)">
-                                <ng-container>
-                                    <mat-icon color="accent">picture_as_pdf</mat-icon>
-                                    <span>Upload de Anexo</span>
-                                </ng-container>
-                            </button>
-                        </mat-menu>
                     </div>
 
                     <mat-menu #tipoDocumentoMenu2="matMenu" class="menuTipoDocumento" id="testeMenu2">
@@ -641,8 +667,10 @@
         <div class="volume" id="juntada_{{juntada.id}}" #element
              *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;"
              [dndDisableDropIf]="!juntada.ativo" dndDragoverClass="custom-drag-over"
-             dndDropzone dndDropzoneDisabledClass="custom-drag-over-disabled" (dndDragover)="dragOver($event, element, dropzoneEnabledJuntada($event, juntada))"
+             dndDropzone dndDropzoneDisabledClass="custom-drag-over-disabled"
+             (dndDragover)="dragOver($event, element, dropzoneEnabledJuntada($event, juntada))"
              (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
+            {{contador.reset()}}
             <div class="juntada drag-juntada" matRipple
                  (click)="gotoStep(i, juntada.ativo)"
                  [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
@@ -659,11 +687,100 @@
                     <div *ngIf="!juntada.ativo">
                         <div class="desentranhado">DESENTRANHADO</div>
                     </div>
-                    <div *ngIf="juntada.ativo">
-                        <div class="descricao">{{juntada.descricao.split('/').join(' ')}}</div>
+                    <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
+                        <div fxFlex fxLayout="row">
+                            <div class="descricao">{{juntada.descricao.split('/').join(' ')}}</div>
+                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-10 ml-4 mr-4">lock
+                            </mat-icon>
+                            <mat-icon class="mt-10 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
+                            <div class="actions">
+                                <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                                        *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
+                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                                        aria-label="Ferramentas" (click)="$event.stopPropagation()">
+                                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                                </button>
+
+                                <div
+                                    *ngIf="((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                                    class="spinner-container m-8">
+                                    <mat-spinner diameter="24"></mat-spinner>
+                                </div>
+
+                                <mat-menu #moreMenu="matMenu">
+                                    <button mat-menu-item aria-label="enviar por email"
+                                            (click)="enviarDocumentoEmail(juntada.id)">
+                                        <ng-container>
+                                            <mat-icon>send</mat-icon>
+                                            <span>Enviar por email</span>
+                                        </ng-container>
+                                    </button>
+
+                                    <button mat-menu-item aria-label="editar"
+                                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                            (click)="onClickedMinuta(juntada.documento)">
+                                        <ng-container>
+                                            <mat-icon>edit</mat-icon>
+                                            <span>Editar</span>
+                                        </ng-container>
+                                    </button>
+
+                                    <button mat-menu-item aria-label="assinar juntada"
+                                            (click)="doAssinaturaJuntada(juntada.documento)">
+                                        <ng-container>
+                                            <mat-icon>lock</mat-icon>
+                                            <span>Assinar</span>
+                                        </ng-container>
+                                    </button>
+
+                                    <button mat-menu-item aria-label="abrir em outra aba"
+                                            (click)="doJuntadaOutraAba(juntada.documento)">
+                                        <ng-container>
+                                            <mat-icon>open_in_new</mat-icon>
+                                            <span>Abrir em outra aba</span>
+                                        </ng-container>
+                                    </button>
+
+                                    <button fxLayout="row" fxLayoutAlign="start center"
+                                            *ngIf="juntada.documento.assinado"
+                                            (click)="doDownloadP7S(juntada.documento)"
+                                            mat-menu-item>
+                                        <mat-icon color="accent">get_app</mat-icon>
+                                        <span>Exportar como P7S</span>
+                                    </button>
+
+                                    <button mat-menu-item aria-label="adicionar vinculação"
+                                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                            (click)="doAdicionarVinculacao(juntada.id)">
+                                        <ng-container>
+                                            <mat-icon>link</mat-icon>
+                                            <span>Adicionar vinculação</span>
+                                        </ng-container>
+                                    </button>
+
+                                    <button mat-menu-item aria-label="remover vinculações"
+                                            (click)="doRemoverVinculacoes(juntada)"
+                                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
+                                        <ng-container>
+                                            <mat-icon>lock</mat-icon>
+                                            <span>Desvincular</span>
+                                        </ng-container>
+                                    </button>
+
+                                    <button mat-menu-item aria-label="desentranhar"
+                                            (click)="doDesentranharSimples(juntada.id)"
+                                            *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR')">
+                                        <ng-container>
+                                            <mat-icon>low_priority</mat-icon>
+                                            <span>Desentranhar</span>
+                                        </ng-container>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
                         <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
-                        <div class="criado-em">{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
-                        <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla">
+                        <div class="criado-em" *ngIf="juntada.criadoPor?.nome" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
+                        <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla && juntada.documento?.setorOrigem?.sigla">
                             {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}})
                         </div>
                         <div
@@ -686,36 +803,34 @@
                                 PENDENTE DE CIÊNCIA
                             </div>
                         </div>
-                        <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); let j = index;"
+                        <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); index as j;"
                              class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                             <mat-icon class="s-14">picture_as_pdf</mat-icon>
                             <a class="ml-4"
                                (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
-                               [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
-                                {{juntada.documento.tipoDocumento.nome}}
+                               [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                             </a>
-                            <div *ngIf="j>0">{{j + 1}}</div>
                             <mat-icon class="ml-4 s-24"
-                                      *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                      *ngIf="!capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                                 arrow_left
                             </mat-icon>
                         </div>
                         <div
-                            *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); let k = index;"
+                            *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); index as k;"
                             class="tipo-documento" fxLayout="column" fxLayoutAlign="start">
                             <div
-                                *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); let z = index;"
+                                *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); index as z;"
                                 class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="ml-16 s-14">attach_file</mat-icon>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
                                    (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
-                                   [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
-                                    {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}
+                                   [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                    {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
                                 </a>
-                                <div *ngIf="z>0">{{z + 1}}</div>
                                 <mat-icon class="ml-4 s-24"
-                                          *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                          *ngIf="!capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                                     arrow_left
                                 </mat-icon>
                             </div>
@@ -734,88 +849,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-4 mr-4">lock</mat-icon>
-                <mat-icon class="place-holder">move_to_inbox</mat-icon>
-                <div class="actions">
-                    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                            *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
-                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
-                            aria-label="Ferramentas" (click)="$event.stopPropagation()">
-                        <mat-icon class="secondary-text">more_vert</mat-icon>
-                    </button>
-
-                    <div *ngIf="((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
-                         class="spinner-container m-8">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
-
-                    <mat-menu #moreMenu="matMenu">
-                        <button mat-menu-item aria-label="enviar por email" (click)="enviarDocumentoEmail(juntada.id)">
-                            <ng-container>
-                                <mat-icon>send</mat-icon>
-                                <span>Enviar por email</span>
-                            </ng-container>
-                        </button>
-
-                        <button mat-menu-item aria-label="editar"
-                                *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                                (click)="onClickedMinuta(juntada.documento)">
-                            <ng-container>
-                                <mat-icon>edit</mat-icon>
-                                <span>Editar</span>
-                            </ng-container>
-                        </button>
-
-                        <button mat-menu-item aria-label="assinar juntada"
-                                (click)="doAssinaturaJuntada(juntada.documento)">
-                            <ng-container>
-                                <mat-icon>lock</mat-icon>
-                                <span>Assinar</span>
-                            </ng-container>
-                        </button>
-
-                        <button mat-menu-item aria-label="abrir em outra aba"
-                                (click)="doJuntadaOutraAba(juntada.documento)">
-                            <ng-container>
-                                <mat-icon>open_in_new</mat-icon>
-                                <span>Abrir em outra aba</span>
-                            </ng-container>
-                        </button>
-
-                        <button fxLayout="row" fxLayoutAlign="start center"
-                                *ngIf="juntada.documento.assinado"
-                                (click)="doDownloadP7S(juntada.documento)"
-                                mat-menu-item>
-                            <mat-icon color="accent">get_app</mat-icon>
-                            <span>Exportar como P7S</span>
-                        </button>
-
-                        <button mat-menu-item aria-label="adicionar vinculação"
-                                *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                                (click)="doAdicionarVinculacao(juntada.id)">
-                            <ng-container>
-                                <mat-icon>link</mat-icon>
-                                <span>Adicionar vinculação</span>
-                            </ng-container>
-                        </button>
-
-                        <button mat-menu-item aria-label="remover vinculações" (click)="doRemoverVinculacoes(juntada)"
-                                *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
-                            <ng-container>
-                                <mat-icon>lock</mat-icon>
-                                <span>Desvincular</span>
-                            </ng-container>
-                        </button>
-
-                        <button mat-menu-item aria-label="desentranhar" (click)="doDesentranharSimples(juntada.id)"
-                                *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR')">
-                            <ng-container>
-                                <mat-icon>low_priority</mat-icon>
-                                <span>Desentranhar</span>
-                            </ng-container>
-                        </button>
-                    </mat-menu>
                 </div>
             </div>
             <div class="separador-volume"

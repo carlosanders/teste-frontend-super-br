@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAcompanhamentoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAcompanhamentoFn">
     <mat-option *ngFor="let acompanhamento of acompanhamentoList"
                 [value]="acompanhamento">
         <span [innerHTML]="displayAcompanhamentoFn(acompanhamento) | highlightOption: this.control.value"></span>

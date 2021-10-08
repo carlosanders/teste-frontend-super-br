@@ -33,10 +33,10 @@ export class CdkModalidadeInteressadoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    modalidadeInteressadoList: ModalidadeInteressado[];
-    modalidadeInteressadoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    modalidadeInteressadoList: ModalidadeInteressado[];
+
+    modalidadeInteressadoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkModalidadeInteressadoAutocompleteComponent implements OnInit {
         this.modalidadeInteressadoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.modalidadeInteressadoList = [];
+        }
     }
 
     ngOnInit(): void {

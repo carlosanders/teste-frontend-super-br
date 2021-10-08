@@ -34,10 +34,10 @@ export class CdkTipoContatoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    tipoContatoList: TipoContato[];
-    tipoContatoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    tipoContatoList: TipoContato[];
+
+    tipoContatoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -47,6 +47,12 @@ export class CdkTipoContatoAutocompleteComponent implements OnInit {
         this.tipoContatoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.tipoContatoList = [];
+        }
     }
 
     ngOnInit(): void {

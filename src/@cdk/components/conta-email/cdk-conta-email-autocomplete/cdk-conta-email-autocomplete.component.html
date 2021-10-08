@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayContaEmailFn">
+    <mat-option *ngFor="let contaEmail of contaEmailList"
+                [value]="contaEmail">
+        <span [innerHTML]="displayContaEmailFn(contaEmail) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="contaEmailListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>
