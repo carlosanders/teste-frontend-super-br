@@ -119,6 +119,9 @@ export function normalized(
                                     Object.keys(entities[c][id]).forEach(
                                         (key) => {
                                             if (!populate) {
+                                                if (c === 'componenteDigital' && key === 'conteudo' && !entities[c][id][key]) {
+                                                    return;
+                                                }
                                                 if (p[c][id][key]?.['id'] && !entities[c][id][key]) {
                                                     return;
                                                 }
