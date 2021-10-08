@@ -653,3 +653,9 @@
 * Correção logentry localizador form documento
 * Melhoria adicionando o campo sigla na entidade Template
 * Correção de tamanho mínimo para sigla em setor
+* Correção removendo botão de movimentar quando visualizando anexo de uma minuta no editor
+* Correção no editor de documentos de menu lateral sendo exibido ao visualizar detalhes do processo
+* Correção remoção do botão movimentar na tela de anexar por cópia
+* Correção alertando ao usuário quando alterações serão perdidas no documento editado em várias novas ações no editor
+* Correção removendo exibição do botão cancelar em formulários do editor de documento que causavam problemas de navegação indevida
+* Correção upload de anexos dentro do editor/no dialog de upload passam a ser lineares

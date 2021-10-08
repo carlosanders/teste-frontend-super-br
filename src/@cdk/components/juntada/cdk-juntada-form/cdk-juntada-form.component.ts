@@ -35,16 +35,17 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     @Input()
     errors: any;
 
+    @Input()
+    actions: string[] = ['save', 'abort'];
+
     @Output()
     save = new EventEmitter<Juntada>();
 
-    @Output()
-    abort = new EventEmitter<any>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
 
     @Input()
     form: FormGroup;
-
-    activeCard = 'form';
 
     @Input()
     documentoPagination: Pagination;
@@ -74,6 +75,8 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
 
     @Input()
     logEntryPagination: Pagination;
+
+    activeCard = 'form';
 
     /**
      * Constructor

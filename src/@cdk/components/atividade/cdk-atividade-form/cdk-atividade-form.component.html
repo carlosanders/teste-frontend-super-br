@@ -169,10 +169,10 @@
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid || lixeiraMinutas" *ngIf="!saving">
+                [disabled]="form.invalid || lixeiraMinutas" *ngIf="!saving && actions.includes('save')">
             MOVIMENTAR
         </button>
-        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving && actions.includes('abort')">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
