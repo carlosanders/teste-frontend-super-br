@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayTipoContatoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayTipoContatoFn">
     <mat-option *ngFor="let tipoContato of tipoContatoList"
                 [value]="tipoContato">
         <span [innerHTML]="displayTipoContatoFn(tipoContato) | highlightOption: this.control.value"></span>

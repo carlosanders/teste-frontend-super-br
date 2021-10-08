@@ -51,6 +51,12 @@ export class CdkClassificacaoAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.classificacaoList = [];
+        }
+    }
+
     ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),

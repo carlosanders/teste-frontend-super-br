@@ -1,5 +1,5 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ProcessoViewVinculacaoDocumentoReducer, ProcessoViewVinculacaoDocumentoState} from './juntada.reducer';
+import {processoViewVinculacaoDocumentoReducer, ProcessoViewVinculacaoDocumentoState} from './juntada.reducer';
 
 export interface ProcessoViewVinculacaoDocumentoAppState
 {
@@ -16,7 +16,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ProcessoViewVinculacaoDocumentoAppState> = {
-    juntada: ProcessoViewVinculacaoDocumentoReducer
+    juntada: processoViewVinculacaoDocumentoReducer
 };
 
 export * from './juntada.reducer';

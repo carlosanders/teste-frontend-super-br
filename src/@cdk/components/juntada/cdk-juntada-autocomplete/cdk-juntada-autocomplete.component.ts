@@ -33,10 +33,10 @@ export class CdkJuntadaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    juntadaList: Juntada[];
-    juntadaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    juntadaList: Juntada[];
+
+    juntadaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkJuntadaAutocompleteComponent implements OnInit {
         this.juntadaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.juntadaList = [];
+        }
     }
 
     ngOnInit(): void {

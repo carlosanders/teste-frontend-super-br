@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAssinaturaFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAssinaturaFn">
     <mat-option *ngFor="let assinatura of assinaturaList"
                 [value]="assinatura">
         <span [innerHTML]="displayAssinaturaFn(assinatura) | highlightOption: this.control.value"></span>

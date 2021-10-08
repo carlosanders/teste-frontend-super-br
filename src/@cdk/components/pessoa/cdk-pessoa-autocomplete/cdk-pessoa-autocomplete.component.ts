@@ -54,8 +54,13 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
         this.pagination = new Pagination();
     }
 
-    ngOnInit(): void {
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.pessoaList = [];
+        }
+    }
 
+    ngOnInit(): void {
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -70,18 +75,16 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     if (this.isCnpjValid(value)) {
                         context['cnpj'] = value;
                     }
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        termFilterNome.push({
-                            nome: `like:%${bit}%`
-                        });
-                        termFilterNumeroDocumentoPrincipal.push({
-                            numeroDocumentoPrincipal: `like:%${bit}%`
-                        });
+                    termFilterNome.push({
+                        nome: `like:%${value}%`
+                    });
+                    termFilterNumeroDocumentoPrincipal.push({
+                        numeroDocumentoPrincipal: `like:%${value}%`
                     });
                     const termFilter = {
                         orX: [
-                            {orX: termFilterNome},
-                            {orX: termFilterNumeroDocumentoPrincipal}
+                            {andX: termFilterNome},
+                            {andX: termFilterNumeroDocumentoPrincipal}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {
@@ -142,20 +145,20 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
         // Valida 1o digito
         let add = 0;
         for (let i = 0; i < 9; i++)
-            {add += parseInt(cpf.charAt(i)) * (10 - i);}
+            {add += parseInt(cpf.charAt(i), 10) * (10 - i);}
         let rev = 11 - (add % 11);
         if (rev === 10 || rev === 11)
             {rev = 0;}
-        if (rev !== parseInt(cpf.charAt(9)))
+        if (rev !== parseInt(cpf.charAt(9), 10))
             {return false;}
         // Valida 2o digito
         add = 0;
         for (let i = 0; i < 10; i++)
-            {add += parseInt(cpf.charAt(i)) * (11 - i);}
+            {add += parseInt(cpf.charAt(i), 10) * (11 - i);}
         rev = 11 - (add % 11);
         if (rev === 10 || rev === 11)
             {rev = 0;}
-        return rev === parseInt(cpf.charAt(10));
+        return rev === parseInt(cpf.charAt(10), 10);
     }
 
     isCnpjValid(cnpj): boolean {

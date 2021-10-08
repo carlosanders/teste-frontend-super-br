@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAcaoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAcaoFn">
     <mat-option *ngFor="let acao of acaoList"
                 [value]="acao">
         <span [innerHTML]="displayAcaoFn(acao) | highlightOption: this.control.value"></span>

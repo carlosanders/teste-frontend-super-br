@@ -33,10 +33,10 @@ export class CdkRegraEtiquetaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    regraEtiquetaList: RegraEtiqueta[];
-    regraEtiquetaListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    regraEtiquetaList: RegraEtiqueta[];
+
+    regraEtiquetaListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkRegraEtiquetaAutocompleteComponent implements OnInit {
         this.regraEtiquetaListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.regraEtiquetaList = [];
+        }
     }
 
     ngOnInit(): void {

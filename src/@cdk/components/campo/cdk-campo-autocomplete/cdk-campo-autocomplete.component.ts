@@ -33,10 +33,10 @@ export class CdkCampoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    campoList: Campo[];
-    campoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    campoList: Campo[];
+
+    campoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkCampoAutocompleteComponent implements OnInit {
         this.campoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.campoList = [];
+        }
     }
 
     ngOnInit(): void {

@@ -113,6 +113,11 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Avisos da Unidade',
                 icon: 'info',
                 link: 'avisos'
+            },
+            {
+                nome: 'Contas de E-mail',
+                icon: 'mail',
+                link: 'contas-email'
             }
         ];
 

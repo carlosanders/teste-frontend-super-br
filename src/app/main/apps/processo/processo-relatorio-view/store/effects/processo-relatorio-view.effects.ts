@@ -10,10 +10,34 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import {HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class ProcessoRelatorioViewEffect {
     routerState: any;
+
+    /**
+     * Get metadadosProcessoRelatorio
+     *
+     * @type {Observable<any>}
+     */
+    getMetadadosProcessoRelatorio: any = createEffect(() => this._actions.pipe(
+        ofType<ProcessoRelatorioViewActions.GetMetadadosProcessoRelatorio>(ProcessoRelatorioViewActions.GET_METADADOS_PROCESSO_RELATORIO),
+        tap((response) => {
+            this._store.dispatch(new ProcessoRelatorioViewActions.GetMetadadosProcessoRelatorioSuccess({
+                loaded: {
+                    id: 'processoHandle',
+                    value: this.routerState.params.processoHandle,
+                    componenteDigital: response
+                }
+            }));
+        }),
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoRelatorioViewActions.GetMetadadosProcessoRelatorioFailed(err));
+        })
+    ), {dispatch: false});
+
     /**
      * Set imprimirProcessoRelatorio
      *
@@ -21,22 +45,24 @@ export class ProcessoRelatorioViewEffect {
      */
     imprimirProcessoRelatorio: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoRelatorioViewActions.GetProcessoRelatorio>(ProcessoRelatorioViewActions.GET_PROCESSO_RELATORIO),
-        switchMap(() => {
+        switchMap(action => {
             let handle = {
                 id: '',
-                value: ''
+                value: '',
+                metadados: {},
             };
             const routeParams = of('processoHandle');
             routeParams.subscribe((param) => {
                 if (this.routerState.params[param]) {
                     handle = {
                         id: param,
-                        value: this.routerState.params[param]
+                        value: this.routerState.params[param],
+                        metadados: action.payload,
                     };
                 }
             });
 
-            return this._processoService.imprimirRelatorio(handle.value);
+            return this._processoService.imprimirRelatorio(handle.value, JSON.stringify(handle.metadados));
         }),
         tap((response) => {
             this._store.dispatch(new ProcessoRelatorioViewActions.GetProcessoRelatorioSuccess({

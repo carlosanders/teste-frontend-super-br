@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayDocumentoIdentificadorFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayDocumentoIdentificadorFn">
     <mat-option *ngFor="let documentoIdentificador of documentoIdentificadorList"
                 [value]="documentoIdentificador">
         <span [innerHTML]="displayDocumentoIdentificadorFn(documentoIdentificador) | highlightOption: this.control.value"></span>

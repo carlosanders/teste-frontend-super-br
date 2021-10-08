@@ -33,10 +33,10 @@ export class CdkVinculacaoModeloAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    vinculacaoModeloList: VinculacaoModelo[];
-    vinculacaoModeloListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    vinculacaoModeloList: VinculacaoModelo[];
+
+    vinculacaoModeloListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkVinculacaoModeloAutocompleteComponent implements OnInit {
         this.vinculacaoModeloListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.vinculacaoModeloList = [];
+        }
     }
 
     ngOnInit(): void {

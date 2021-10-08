@@ -33,9 +33,16 @@
         </button>
 
         <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
+                fxHide.xs
                 [routerLink]="'editar'"
                 [routerLinkActive]="['active', 'accent']">
             <mat-icon class="black-fg">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
+                fxHide.xs
+                [routerLink]="routeAtividade" [routerLinkActive]="['active', 'accent']">
+            <mat-icon>send</mat-icon>
         </button>
 
         <div class="spinner-container m-8" *ngIf="(pluginLoading$ | async)?.length">
@@ -44,12 +51,20 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
                 (click)="$event.stopPropagation()"
-                *ngIf="(pluginLoading$ | async)?.length === 0"
-                fxHide.xs>
+                *ngIf="(pluginLoading$ | async)?.length === 0">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 
         <mat-menu #moreMenu="matMenu">
+
+            <button mat-menu-item aria-label="Editar"
+                    fxShow.xs fxHide.gt-xs
+                    [routerLink]="'editar'">
+                <ng-container>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                </ng-container>
+            </button>
 
             <button mat-menu-item aria-label="toggle done"
                     (click)="doCreateTarefa()">
@@ -76,6 +91,7 @@
             </button>
 
             <button mat-menu-item aria-label="Movimentar"
+                    fxShow.xs fxHide.gt-xs
                     [routerLink]="routeAtividade">
                 <ng-container>
                     <mat-icon>send</mat-icon>

@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayTarefaFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayTarefaFn">
     <mat-option *ngFor="let tarefa of tarefaList"
                 [value]="tarefa">
         <span [innerHTML]="displayTarefaFn(tarefa) | highlightOption: this.control.value"></span>

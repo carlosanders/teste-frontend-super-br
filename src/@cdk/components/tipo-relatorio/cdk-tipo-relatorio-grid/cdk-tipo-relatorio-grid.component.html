@@ -245,6 +245,15 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('visibilidade') > -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(tipoRelatorio.id) > -1"
+                                (click)="editVisibilidadeTipoRelatorio(tipoRelatorio.id)"
+                                aria-label="Visibilidade"
+                                matTooltip="Visibilidade">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+
                         <mat-error *ngIf="getProp(deletingErrors, tipoRelatorio.id)">
                             {{ getProp(deletingErrors, tipoRelatorio.id) }}
                         </mat-error>

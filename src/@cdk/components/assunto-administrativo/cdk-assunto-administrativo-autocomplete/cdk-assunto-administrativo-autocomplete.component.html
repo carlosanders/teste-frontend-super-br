@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayAssuntoAdministrativoFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayAssuntoAdministrativoFn">
     <mat-option [ngClass]="{'multiline':assuntoAdministrativo.parent}"
                 *ngFor="let assuntoAdministrativo of assuntoAdministrativoList"
                 [value]="assuntoAdministrativo">

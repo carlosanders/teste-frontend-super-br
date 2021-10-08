@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -30,7 +30,10 @@ import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
-import {CdkUtils} from '../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {MatTabGroup} from '@angular/material/tabs';
 
 @Component({
     selector: 'documento',
@@ -42,6 +45,7 @@ import {CdkUtils} from '../../../../@cdk/utils';
 })
 export class DocumentoComponent implements OnInit, OnDestroy {
 
+    @ViewChild('matTabGroup') matTabGroup: MatTabGroup;
     documento$: Observable<Documento>;
     loading$: Observable<boolean>;
     currentComponenteDigital$: Observable<ComponenteDigital>;
@@ -52,7 +56,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
-    modoProcesso = 1;
+    currentIndice = 0;
+    modoProcesso = 0;
 
     destroying = false;
     mobileMode: boolean;
@@ -60,6 +65,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     deveRecarregarJuntadas: boolean = false;
     unloadDocumentosTarefas: boolean = false;
     getDocumentosAtividades: boolean = false;
+    atualizarJuntadaId: number = null;
     getDocumentosAvulsos: boolean = false;
     getDocumentosProcesso: boolean = false;
     lote: string;
@@ -73,6 +79,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _router
      * @param _activatedRoute
+     * @param _matDialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -80,7 +87,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _store: Store<fromStore.DocumentoAppState>,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _matDialog: MatDialog
     ) {
         // Set the defaults
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -151,6 +159,9 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         } else if (this.getDocumentosProcesso) {
             this._store.dispatch(new GetDocumentosProcesso());
         }
+        if (this.atualizarJuntadaId !== null) {
+            this._store.dispatch(new fromStore.GetJuntada(this.atualizarJuntadaId));
+        }
         if (this.deveRecarregarJuntadas) {
             this.reloadJuntadas();
             return;
@@ -186,7 +197,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
 
     back(): void {
         // eslint-disable-next-line max-len
-        this.deveRecarregarJuntadas = !!this.documento.juntadaAtual || this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
+        this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
+        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
         this.destroying = true;
         let url = this.routerState.url.split('/documento/')[0];
         this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
@@ -262,18 +274,39 @@ export class DocumentoComponent implements OnInit, OnDestroy {
      * Go to next step
      */
     gotoNextStep(): void {
-        let nextComponenteDigital = null;
-        this.documento.componentesDigitais.forEach((componenteDigital) => {
-            if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
-                nextComponenteDigital = componenteDigital;
-                return;
+        if (this.currentComponenteDigital.editavel) {
+            this.podeNavegarDoEditor().subscribe((result) => {
+                if (result) {
+                    let nextComponenteDigital = null;
+                    this.documento.componentesDigitais.forEach((componenteDigital) => {
+                        if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
+                            nextComponenteDigital = componenteDigital;
+                            return;
+                        }
+                    });
+                    if (nextComponenteDigital) {
+                        this._store.dispatch(new fromStore.SetCurrentStep({
+                            id: nextComponenteDigital.id,
+                            editavel: nextComponenteDigital.editavel && this.documento.minuta
+                        }));
+                    }
+                }
+            });
+        }
+        if (!this.currentComponenteDigital.editavel) {
+            let nextComponenteDigital = null;
+            this.documento.componentesDigitais.forEach((componenteDigital) => {
+                if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
+                    nextComponenteDigital = componenteDigital;
+                    return;
+                }
+            });
+            if (nextComponenteDigital) {
+                this._store.dispatch(new fromStore.SetCurrentStep({
+                    id: nextComponenteDigital.id,
+                    editavel: nextComponenteDigital.editavel && this.documento.minuta
+                }));
             }
-        });
-        if (nextComponenteDigital) {
-            this._store.dispatch(new fromStore.SetCurrentStep({
-                id: nextComponenteDigital.id,
-                editavel: nextComponenteDigital.editavel && this.documento.minuta
-            }));
         }
     }
 
@@ -315,33 +348,67 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             + '/visualizar', '_blank');
     }
 
-    visualizarProcesso(indice): void {
-        if (indice === 1) {
-            this.modoProcesso = 2;
-            const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
-            const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
-            const steps = stepHandle ? stepHandle.split('-') : false;
-            this._router.navigate([{outlets: {primary: primary}}],
-                {
-                    relativeTo: this._activatedRoute
-                })
-                .then(() => {
-                    if (steps) {
-                        this._store.dispatch(new SetCurrentStep({
-                            step: steps[0],
-                            subStep: steps[1]
-                        }));
+    visualizarProcesso(clickedTab): void {
+        const indice = clickedTab.index;
+        if (this.currentIndice !== indice) {
+            if (indice === 1) {
+                this.podeNavegarDoEditor().subscribe((result) => {
+                    if (result) {
+                        this.currentIndice = indice;
+                        this.modoProcesso = 1;
+                        const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
+                        const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
+                        const steps = stepHandle ? stepHandle.split('-') : false;
+                        const sidebar = 'empty';
+                        this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
+                            {
+                                relativeTo: this._activatedRoute
+                            })
+                            .then(() => {
+                                if (steps) {
+                                    this._store.dispatch(new SetCurrentStep({
+                                        step: steps[0],
+                                        subStep: steps[1]
+                                    }));
+                                }
+                            });
+                    } else {
+                        this.matTabGroup.selectedIndex = 0;
                     }
                 });
+            } else {
+                this.currentIndice = indice;
+                this.modoProcesso = 0;
+                let sidebar = 'editar/atividade';
+                let primary: string;
+                primary = 'componente-digital/' + this.currentComponenteDigital.id;
+                primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
+                if (this.documento.vinculacaoDocumentoPrincipal) {
+                    sidebar = 'editar/dados-basicos';
+                }
+                this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
+                    {
+                        relativeTo: this._activatedRoute
+                    }).then();
+            }
+        }
+    }
+
+    podeNavegarDoEditor(): Observable<boolean> {
+        if (this.hasChanges()) {
+            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
+                },
+                disableClose: false
+            });
+
+            return confirmDialogRef.afterClosed();
         } else {
-            this.modoProcesso = 1;
-            let primary: string;
-            primary = 'componente-digital/' + this.currentComponenteDigital.id;
-            primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
-            this._router.navigate([{outlets: {primary: primary}}],
-                {
-                    relativeTo: this._activatedRoute
-                }).then();
+            return of(true);
         }
     }
 

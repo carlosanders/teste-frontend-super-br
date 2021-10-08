@@ -34,6 +34,9 @@ export class CdkVisibilidadeListItemComponent implements OnInit {
 
     usuario: Usuario;
 
+    @Input()
+    tipoRelatorio = false;
+
     constructor(public _loginService: LoginService) {
         this.usuario = _loginService.getUserProfile();
         this.deleting = false;

@@ -33,10 +33,10 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    estadoList: Estado[];
-    estadoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    estadoList: Estado[];
+
+    estadoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkEstadoAutocompleteComponent implements OnInit {
         this.estadoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.estadoList = [];
+        }
     }
 
     ngOnInit(): void {

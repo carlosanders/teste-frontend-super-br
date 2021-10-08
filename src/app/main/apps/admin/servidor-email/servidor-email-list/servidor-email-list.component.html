@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="supervisor_account"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="servidor-email">
+    </path>
+</div>
+<cdk-servidor-email-grid
+    [loading]="(loading$ | async)"
+    [servidorEmailList]="(servidorEmailList$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [actions]="['edit', 'create', 'showInatived']"
+    (inatived)="inatived($event)"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-servidor-email-grid>

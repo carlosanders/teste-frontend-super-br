@@ -49,6 +49,32 @@ export function ProcessoRelatorioViewReducer(
             };
         }
 
+        case ProcessoRelatorioViewActions.GET_METADADOS_PROCESSO_RELATORIO: {
+            return {
+                ...state,
+                loading: true,
+                binary: {
+                    src: null,
+                    loading: true
+                },
+                loaded: false
+            };
+        }
+
+        case ProcessoRelatorioViewActions.GET_METADADOS_PROCESSO_RELATORIO_SUCCESS: {
+
+            return {
+                ...state,
+                loaded: action.payload.loaded,
+                binary: {
+                    src: action.payload.loaded.componenteDigital,
+                    loading: false
+                },
+                loading: false
+            };
+        }
+
+
         default:
             return state;
     }

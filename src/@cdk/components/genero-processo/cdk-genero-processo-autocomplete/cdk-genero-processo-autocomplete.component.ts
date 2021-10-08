@@ -33,10 +33,10 @@ export class CdkGeneroProcessoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    generoProcessoList: GeneroProcesso[];
-    generoProcessoListIsLoading: boolean;
-
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    generoProcessoList: GeneroProcesso[];
+
+    generoProcessoListIsLoading: boolean;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +46,12 @@ export class CdkGeneroProcessoAutocompleteComponent implements OnInit {
         this.generoProcessoListIsLoading = false;
 
         this.pagination = new Pagination();
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string' || !!this.control.value.id) {
+            this.generoProcessoList = [];
+        }
     }
 
     ngOnInit(): void {

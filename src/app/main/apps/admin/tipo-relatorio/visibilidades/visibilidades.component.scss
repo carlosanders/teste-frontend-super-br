@@ -1,0 +1,23 @@
+visibilidades {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        > .actions {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 16px;
+        }
+    }
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
+    }
+}

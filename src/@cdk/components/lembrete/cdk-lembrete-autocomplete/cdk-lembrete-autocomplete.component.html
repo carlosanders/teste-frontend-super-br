@@ -1,4 +1,4 @@
-<mat-autocomplete [displayWith]="displayLembreteFn">
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayLembreteFn">
     <mat-option *ngFor="let lembrete of lembreteList"
                 [value]="lembrete">
         <span [innerHTML]="displayLembreteFn(lembrete) | highlightOption: this.control.value"></span>

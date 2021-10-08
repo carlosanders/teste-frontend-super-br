@@ -1,0 +1,51 @@
+<div class="toolbar px-24 py-8">
+    <button class="refresh" mat-icon-button
+            (click)="reloadEmailList()"
+            [disabled]="messageListIsLoading"
+            aria-label="recarregar"
+            matTooltip="Recarregar">
+        <mat-icon>refresh</mat-icon>
+    </button>
+
+</div>
+<div class="content" fxLayout="row">
+    <div class="no-message" *ngIf="!messageList?.length && !messageListIsLoading && !!selectedContaEmail">
+        <span class="hint-text mat-h1">Nenhum e-mail encontrado!</span>
+    </div>
+
+    <div class="mail-list-content"
+         infiniteScroll
+         [scrollWindow]="false"
+         [infiniteScrollDistance]="5"
+         [infiniteScrollThrottle]="150"
+         (scrolled)="scroll()">
+
+        <div class="mail-list-item"
+             *ngFor="let message of messageList" (click)="selectMessage(message)"
+             [ngClass]="{'unread': !message.readed}">
+            <div class="info">
+                <div class="row-1">
+                    <div class="name">
+                        <span>{{!message.from ? 'Rascunho' : (message.from.name || message.from.full)}}</span>
+                    </div>
+                    <div class="mail-date">
+                        <div class="time">{{message.date?.toDate() | date: 'dd/MM/yyyy H:mm'}}</div>
+                    </div>
+                </div>
+                <div class="row-2">
+                    <div class="subject text-truncate">
+                        {{message.subject}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="messageListIsLoading" class="loading-mail-list">
+            <mat-spinner diameter="30"></mat-spinner>
+            <span class="hint-text mat-h1"> Carregando e-mails...</span>
+        </div>
+        <div *ngIf="!selectedContaEmail && !messageListIsLoading" class="loading-mail-list">
+            <mat-icon class="secondary-text">empty</mat-icon>
+            <span class="hint-text mat-h1"> Nenhuma conta de e-mail selecionada!</span>
+        </div>
+    </div>
+</div>

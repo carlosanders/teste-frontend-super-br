@@ -42,7 +42,10 @@ export const locale = {
             },
             PROTOCOLO_EXTERNO : {
                 TITLE: 'Protocolo'
-            }
+            },
+            CAIXA_EMAIL: {
+                TITLE: 'Caixa de E-mail'
+            },
         }
     }
 };

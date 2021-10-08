@@ -1,0 +1,10 @@
+<cdk-servidor-email-grid
+        [loading]="loading"
+        [servidorEmailList]="servidorEmailList"
+        [displayedColumns]="['id', 'nome', 'descricao', 'host', 'porta', 'protocolo', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-servidor-email-grid>
