@@ -651,4 +651,6 @@
 * Melhoria inclusão do ID das juntadas no Processo View
 * Correção exibição de erro no cópia documento juntada
 * Correção logentry localizador form documento
+* Melhoria adicionando o campo sigla na entidade Template
+* Correção de tamanho mínimo para sigla em setor
 * Correção removendo botão de movimentar quando visualizando anexo de uma minuta no editor
