@@ -16,6 +16,8 @@ import {getRouterState} from 'app/store/reducers';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Back} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
+import {VinculacaoUsuario} from "../../../../../@cdk/models";
+import {CdkUtils} from "../../../../../@cdk/utils";
 
 @Component({
     selector: 'processo-relatorio-view',
@@ -33,6 +35,10 @@ export class ProcessoRelatorioViewComponent implements OnInit, OnDestroy {
     src: any;
     loading = false;
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    getMetadado: boolean;
+    metadados: any;
+
 
     /**
      *
@@ -62,7 +68,7 @@ export class ProcessoRelatorioViewComponent implements OnInit, OnDestroy {
         this.binary$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((binary) => {
-            if (binary.src.conteudo) {
+            if (binary.src?.conteudo && this.metadados) {
                 const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                 const byteNumbers = new Array(byteCharacters.length);
                 for (let i = 0; i < byteCharacters.length; i++) {
@@ -78,6 +84,8 @@ export class ProcessoRelatorioViewComponent implements OnInit, OnDestroy {
             this.loading = binary.loading;
             this._changeDetectorRef.markForCheck();
         });
+
+        this.getMetadado = true;
     }
 
     /**
@@ -92,6 +100,12 @@ export class ProcessoRelatorioViewComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    submit(values): void {
+        this.getMetadado = false;
+        this.metadados = values;
+        this._store.dispatch(new fromStore.GetProcessoRelatorio(values));
+    }
 
     back(): void {
         this._store.dispatch(new Back());

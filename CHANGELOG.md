@@ -646,3 +646,8 @@
 * Correção criação de minutas em bloco de tarefas
 * Melhoria para adicionar restrição de acesso para tipos de relatórios
 * Correção alinhamento 3 pontinhos da juntada
+* Melhoria de escolha de metadados para o Imprimir Relatório
+* Correção filtro de juntadas
+* Melhoria inclusão do ID das juntadas no Processo View
+* Correção exibição de erro no cópia documento juntada
+* Correção logentry localizador form documento

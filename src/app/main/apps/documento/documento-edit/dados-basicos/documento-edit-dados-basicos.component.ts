@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import * as fromStore from './store';
-import {Documento} from '@cdk/models';
+import {Documento, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
@@ -33,6 +33,7 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     private _unsubscribeAll: Subject<any> = new Subject();
+    logEntryPagination: Pagination;
 
     /**
      *
@@ -51,6 +52,7 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy {
 
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -64,7 +66,13 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy {
         this.documento$.pipe(
             filter(documento => !!documento),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documento => this.documento = documento);
+        ).subscribe((documento) => {
+            this.documento = documento;
+            this.logEntryPagination.filter = {
+                entity: 'SuppCore\\AdministrativoBackend\\Entity\\Documento',
+                id: + this.documento.id
+            };
+        });
     }
 
     /**
