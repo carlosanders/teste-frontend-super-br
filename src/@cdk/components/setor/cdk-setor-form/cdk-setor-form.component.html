@@ -12,7 +12,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
+        <input matInput placeholder="Sigla" formControlName="sigla" required minlength="2" maxlength="20" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                 (click)="showLogEntryGrid('sigla')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
