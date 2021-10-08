@@ -626,7 +626,7 @@
 * Correção visualização de processos restritos módulo arquivista
 * Melhoria filtro de Modelos por ID
 
-1.7.0
+1.6.11
 
 * Nova funcionalidade de visualização de contas de email
 * Correção unidade responsável no form tarefa pegando lotação principal
@@ -645,3 +645,4 @@
 * Correção exibição de campos do grid de tarefas
 * Correção criação de minutas em bloco de tarefas
 * Melhoria para adicionar restrição de acesso para tipos de relatórios
+* Correção alinhamento 3 pontinhos da juntada
