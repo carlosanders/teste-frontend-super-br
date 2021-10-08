@@ -172,6 +172,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     dragstart_inside = false;
 
+    autoSave: any;
+
     /**
      * @param _changeDetectorRef
      * @param dialog
@@ -292,6 +294,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      */
     ngOnDestroy(): void {
         window.addEventListener('resize', this.resizeFunction);
+        if (this.autoSave) {
+            clearInterval(this.autoSave);
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -451,7 +456,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             ev.data.dataValue = writer.getHtml(false);
         });
 
-        setInterval(() => {
+        this.autoSave = setInterval(() => {
             me.doSave();
         }, 180 * 1000);
     }
@@ -463,11 +468,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         if (this.hashAntigo) {
             try {
                 if (!this.src) {
+                    // eslint-disable-next-line max-len
                     alert('Um documento em branco não pode ser salvo. Se houver texto, temos uma inconsistência grave, favor favor salvar o trabalho manualmente em outro local e recarregar o editor!');
                 }
                 this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
                     (conteudo) => {
                         if (!conteudo) {
+                            console.log ('editor sem conteudo!');
                             alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
                         }
                         this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
@@ -475,9 +482,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                     }
                 );
             } catch (err) {
+                console.log (err);
                 alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
             }
         } else {
+            console.log ('sem hash antigo!');
             alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
         }
     }
