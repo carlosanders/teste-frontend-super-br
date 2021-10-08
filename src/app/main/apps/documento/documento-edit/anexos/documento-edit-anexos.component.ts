@@ -146,6 +146,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      */
     ngOnInit(): void {
         this.documento$.pipe(
+            filter(documento => !!documento),
             takeUntil(this._unsubscribeAll)
         ).subscribe(documento => this.documento = documento);
 
