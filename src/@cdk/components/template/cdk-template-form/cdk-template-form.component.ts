@@ -66,7 +66,8 @@ export class CdkTemplateFormComponent implements OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
             modalidadeTemplate: [null, [Validators.required]],
-            tipoDocumento: [null, [Validators.required]]
+            tipoDocumento: [null, [Validators.required]],
+            sigla: [null, [Validators.required]],
         });
 
     }
