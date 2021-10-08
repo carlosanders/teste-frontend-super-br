@@ -1,11 +1,11 @@
 <div class="dados-basicos" *ngIf="(documento$ | async)">
-    <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento
-        Principal</h3>
+    <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento Principal</h3>
     <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
 
     <cdk-documento-form cdkPerfectScrollbar [documento]="(documento$ | async)"
                         [saving]="(isSaving$ | async)"
                         [errors]="(errors$ | async)"
-                        (save)="submit($event)">
+                        (save)="submit($event)"
+                        [logEntryPagination]="logEntryPagination">
     </cdk-documento-form>
 </div>

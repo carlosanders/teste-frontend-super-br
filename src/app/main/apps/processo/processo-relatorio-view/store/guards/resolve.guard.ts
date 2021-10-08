@@ -60,7 +60,7 @@ export class ResolveGuard implements CanActivate {
             select(getHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetProcessoRelatorio());
+                    this._store.dispatch(new fromStore.GetMetadadosProcessoRelatorio());
                 }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
