@@ -53,6 +53,8 @@ export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnCh
     @Output()
     create = new EventEmitter<any>();
 
+    adminCount: number = 0;
+
     @Input()
     tipoRelatorio: boolean;
 
@@ -68,6 +70,8 @@ export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnCh
     // -----------------------------------------------------------------------------------------------------
 
     ngOnChanges(): void {
+        this.adminCount = this.visibilidades
+            ?.filter(visibilidade => visibilidade.poderes.includes('ADMINISTRADOR') && visibilidade.valor !== 'ROLE_USER').length;
     }
 
     ngOnInit(): void {

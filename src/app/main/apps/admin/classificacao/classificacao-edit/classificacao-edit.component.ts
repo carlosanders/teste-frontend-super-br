@@ -92,7 +92,6 @@ export class ClassificacaoEditComponent implements OnInit, OnDestroy {
             prazoGuardaFaseIntermediariaAno: [null],
             prazoGuardaFaseIntermediariaEvento: [null],
             observacao: [null, [Validators.maxLength(255)]],
-            visibilidadeRestrita: [null]
         });
     }
 

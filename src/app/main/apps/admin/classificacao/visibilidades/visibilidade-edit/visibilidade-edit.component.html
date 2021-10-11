@@ -1,0 +1,12 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-visibilidade-form
+        [visibilidade]="visibilidade"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination"
+        [usuarioPagination]="usuarioPagination"
+        (abort)="abort()"
+        (save)="submit($event)">
+    </cdk-visibilidade-form>
+</div>

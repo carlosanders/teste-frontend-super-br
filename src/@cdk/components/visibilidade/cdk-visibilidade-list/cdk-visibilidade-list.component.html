@@ -9,6 +9,7 @@
                                     [tipoRelatorio]="tipoRelatorio"
                                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(visibilidade.id) > -1"
                                     [total]="visibilidades.length"
+                                    [adminCount]="adminCount"
                                     (delete)="doDeleteVisibilidade($event)"
                                     [@animate]="{value:'*',params:{y:'100%'}}">
         </cdk-visibilidade-list-item>

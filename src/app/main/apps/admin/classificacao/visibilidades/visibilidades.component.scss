@@ -1,0 +1,33 @@
+classificacao-visibilidades {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    > .header {
+
+    }
+
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+    }
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 16px;
+            padding: 8px;
+        }
+    }
+}

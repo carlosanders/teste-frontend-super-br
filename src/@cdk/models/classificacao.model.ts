@@ -41,8 +41,6 @@ export class Classificacao {
 
     permissaoUso?: boolean;
 
-    visibilidadeRestrita?: boolean;
-
     observacao?: string;
 
     hasChild?: any;
@@ -104,7 +102,6 @@ export class Classificacao {
         this.codigo = null;
         this.permissaoUso = null;
         this.observacao = null;
-        this.visibilidadeRestrita = null;
         this.parent = null;
         this.criadoPor = null;
         this.criadoEm = null;
