@@ -21,7 +21,6 @@ import {DndModule} from 'ngx-drag-drop';
 import {ProcessoViewComponent} from './processo-view.component';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {ProcessoViewMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {ProcessoViewStoreModule} from './store/store.module';
@@ -135,7 +134,6 @@ modulesConfig.forEach((module) => {
     providers: [
         JuntadaService,
         VinculacaoDocumentoService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ],
     entryComponents: [

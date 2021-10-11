@@ -75,18 +75,16 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     if (this.isCnpjValid(value)) {
                         context['cnpj'] = value;
                     }
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                        termFilterNome.push({
-                            nome: `like:%${bit}%`
-                        });
-                        termFilterNumeroDocumentoPrincipal.push({
-                            numeroDocumentoPrincipal: `like:%${bit}%`
-                        });
+                    termFilterNome.push({
+                        nome: `like:%${value}%`
+                    });
+                    termFilterNumeroDocumentoPrincipal.push({
+                        numeroDocumentoPrincipal: `like:%${value}%`
                     });
                     const termFilter = {
                         orX: [
-                            {orX: termFilterNome},
-                            {orX: termFilterNumeroDocumentoPrincipal}
+                            {andX: termFilterNome},
+                            {andX: termFilterNumeroDocumentoPrincipal}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {

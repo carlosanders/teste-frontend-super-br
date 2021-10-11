@@ -14,6 +14,8 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination, Usuario} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-usuario-form',
@@ -86,6 +88,20 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(): void {
         localStorage.setItem('filtrarPor', 'username');
+
+        this.form.get('username').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (typeof value === 'object')
+                    {
+                        this.checkUsuario();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -199,9 +215,8 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'usuario-gridsearch';
     }
 
-    usuarioAutocompleteLoading(isCarregandoAutocomplete: boolean) {
+    usuarioAutocompleteLoading(isCarregandoAutocomplete: boolean): void {
         this.isCarregadoAutocomplete = !isCarregandoAutocomplete;
-        this.checkUsuario();
     }
 }
 

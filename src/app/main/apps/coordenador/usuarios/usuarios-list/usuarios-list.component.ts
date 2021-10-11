@@ -69,7 +69,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
             this.routerState = routerState.state;
             if (this.routerState.params['generoHandle'] === 'nacional' ||
                 (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'])) {
-                this.actions = ['create', 'edit', 'lotacoes', 'afastamentos', 'resetaSenhaColaborador'];
+                this.actions = ['create', 'edit', 'lotacoes', 'afastamentos', 'resetaSenhaColaborador', 'coordenadores'];
                 this.displayedColumns = ['select', 'id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions'];
             }
             if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
@@ -166,5 +166,9 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     deleteBloco(ids: number[]): void {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
+    }
+
+    coordenadores(usuarioId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/coordenadores`)]).then();
     }
 }

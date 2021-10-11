@@ -28,7 +28,7 @@ import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.servi
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {ProcessoStoreModule} from '../../processo/store/store.module';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
-import {StatusBarramentoService} from "@cdk/services/status-barramento";
+import {StatusBarramentoService} from '@cdk/services/status-barramento';
 
 const routes: Routes = [
     {

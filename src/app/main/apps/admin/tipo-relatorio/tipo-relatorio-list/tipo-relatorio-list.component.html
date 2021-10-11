@@ -12,10 +12,11 @@
     [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'nome', 'especieRelatorio.nome', 'ativo', 'actions']"
-    [actions]="['edit', 'create', 'showInatived']"
+    [actions]="['edit', 'create', 'visibilidade', 'showInatived']"
     (inatived)="inatived($event)"
     (reload)="reload($event)"
     (edit)="edit($event)"
+    (visibilidade)="editVisibilidade($event)"
     (create)="create()"
     (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-tipo-relatorio-grid>

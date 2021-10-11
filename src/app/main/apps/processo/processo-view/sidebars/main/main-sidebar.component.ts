@@ -49,6 +49,7 @@ import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from 
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {Contador} from '@cdk/models/contador';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -201,6 +202,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
 
+    contador: Contador = new Contador();
+
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
 
@@ -278,7 +281,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.tipoDocumentoPagination = new Pagination();
 
-        this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
+        this.juntadas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).pipe(filter(juntadas => !!juntadas)).subscribe(
             (juntadas) => {
                 this.juntadas = juntadas;
                 this.totalSteps = juntadas.length;
@@ -287,34 +292,48 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.currentStep$.subscribe(
+        this.currentStep$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             (currentStep) => {
                 this.currentStep = currentStep;
                 this._changeDetectorRef.markForCheck();
             }
         );
 
-        this.index$.subscribe(
+        this.index$.pipe(
+            filter(index => !!index)
+        ).subscribe(
             index => this.index = index
         );
 
-        this.selectedVolume$.subscribe(
+        this.selectedVolume$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             volume => this.selectedVolume = volume
         );
 
-        this.pagination$.subscribe(
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             pagination => this.pagination = pagination
         );
 
-        this.volumesPagination$.subscribe(
+        this.volumesPagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             pagination => this.volumesPagination = pagination
         );
 
-        this.processo$.subscribe(
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             processo => this.processo = processo
         );
 
-        this.volumes$.subscribe(
+        this.volumes$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             volumes => this.volumes = volumes
         );
 
@@ -752,11 +771,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         const andXFilter = [];
         if (this.form.get('tipoDocumento').value) {
-            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value}`});
+            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value.id}`});
         }
 
         if (this.form.get('numeracaoSequencial').value) {
-            andXFilter.push({'numeracaoSequencial': `like:%${this.form.get('numeracaoSequencial').value}%`});
+            andXFilter.push({'numeracaoSequencial': `like:%${this.form.get('numeracaoSequencial').value.id}%`});
         }
 
         if (this.form.get('descricao').value) {

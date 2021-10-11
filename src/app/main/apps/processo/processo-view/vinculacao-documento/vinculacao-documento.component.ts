@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Juntada, Pagination, VinculacaoDocumento} from '@cdk/models';
+import {Juntada, Pagination, Processo, VinculacaoDocumento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -18,6 +18,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../@cdk/utils';
+import {getProcesso} from '../../store';
 
 @Component({
     selector: 'processo-view-vinculacao-documento',
@@ -35,6 +36,7 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
     juntada: Juntada;
     juntadaVinculada$: Observable<Juntada>;
     juntadaVinculada: Juntada;
+    processo$: Observable<Processo>;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -62,13 +64,19 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.juntada$ = this._store.pipe(select(fromStore.getJuntada));
         this.juntadaVinculada$ = this._store.pipe(select(fromStore.getJuntadaVinculada));
+        this.processo$ = this._store.pipe(select(getProcesso));
 
         this.modalidadeVinculacaoDocumentoPagination = new Pagination();
         this.documentoVinculadoPagination = new Pagination();
+        this.documentoVinculadoPagination.filter = {
+            'juntadaAtual': 'isNotNull',
+            'juntadaAtual.ativo': 'eq:1',
+            'vinculacoesDocumentos.id': 'isNull',
+            'vinculacaoDocumentoPrincipal.id': 'isNull'
+        };
         this.documentoVinculadoPagination.populate = [
             'tipoDocumento',
             'tipoDocumento.especieDocumento',
-            'componentesDigitais.extensao',
             'juntadaAtual',
         ];
     }
@@ -96,15 +104,15 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
             this.vinculacaoDocumento = new VinculacaoDocumento();
             this.vinculacaoDocumento.documento = this.juntada.documento;
 
-            this.documentoVinculadoPagination.filter = {
-                'juntadaAtual': 'isNotNull',
-                'id': 'neq:' + this.juntada.documento.id,
-                'juntadaAtual.ativo': 'eq:1',
-                'vinculacoesDocumentos.id': 'isNull',
-                'vinculacaoDocumentoPrincipal.id': 'isNull',
-                'juntadaAtual.volume.processo.id': 'eq:' + this.juntada.volume.processo.id
-            };
+            this.documentoVinculadoPagination.filter['id'] = 'neq:' + this.juntada.documento.id;
             this._changeDetectorRef.detectChanges();
+        });
+
+        this.processo$.pipe(
+            filter(processo => !!processo),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processo) => {
+            this.documentoVinculadoPagination.filter['juntadaAtual.volume.processo.id'] = 'eq:' + processo.id;
         });
 
         this.juntadaVinculada$.pipe(
@@ -129,11 +137,10 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     doAbort(): void {
-        this._router.navigate([this.routerState.url.replace(('vincular/' + this.routerState.params.juntadaHandle), '')]).then();
+        this._router.navigate([this.routerState.url.split('vincular/' + this.routerState.params.juntadaHandle)[0]]).then();
     }
 
     submit(values): void {
-
         const vinculacaoDocumento = new VinculacaoDocumento();
 
         Object.entries(values).forEach(

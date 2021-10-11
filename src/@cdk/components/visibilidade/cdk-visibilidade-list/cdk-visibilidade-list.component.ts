@@ -55,6 +55,9 @@ export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnCh
 
     adminCount: number = 0;
 
+    @Input()
+    tipoRelatorio: boolean;
+
     /**
      * Constructor
      */

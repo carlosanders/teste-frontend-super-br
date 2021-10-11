@@ -12,9 +12,17 @@
 <!-- / CONTENT HEADER -->
 
 <!-- CONTENT -->
-<div class="content" cdkPerfectScrollbar>
+<div class="content" *ngIf="getMetadado" cdkPerfectScrollbar>
+    <cdk-imprimir-relatorio-form
+        (save)="submit($event)">
+    </cdk-imprimir-relatorio-form>
+</div>
+<!-- / CONTENT -->
+
+
+<div class="content" *ngIf="!getMetadado" cdkPerfectScrollbar>
     <div class="processo-relatorio-view-content">
         <iframe id="iframe-processo-relatorio" [src]="src"></iframe>
     </div>
 </div>
-<!-- / CONTENT -->
+

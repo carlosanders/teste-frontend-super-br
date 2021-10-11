@@ -14,6 +14,7 @@
         <div class="nav-item" *ngFor="let link of links">
             <a matTooltip="{{link.tooltip}}" *ngIf="(link.canShow === undefined || (link.canShow(this.processo$) | async) === true) && this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))"
                class="nav-link" matRipple [routerLink]="link.link"
+               (click)="fecharSidebar()"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>

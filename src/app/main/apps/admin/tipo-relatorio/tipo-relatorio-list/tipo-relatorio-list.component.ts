@@ -125,4 +125,8 @@ export class TipoRelatorioListComponent implements OnInit, OnDestroy {
         this.lote = CdkUtils.makeId();
         ids.forEach((id: number) => this.delete(id, this.lote));
     }
+
+    editVisibilidade(tipoRelatorioId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'visibilidade/') + tipoRelatorioId]).then();
+    }
 }

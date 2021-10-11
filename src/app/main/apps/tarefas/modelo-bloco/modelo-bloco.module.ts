@@ -10,6 +10,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {MatListModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 import {modulesConfig} from 'modules/modules-config';
+import {MatButtonModule} from "@angular/material/button";
 
 const routes: Routes = [
     {
@@ -42,6 +43,7 @@ modulesConfig.forEach((module) => {
 
         TranslateModule,
         CdkSharedModule,
+        MatButtonModule,
     ],
     providers: [
         DocumentoService,

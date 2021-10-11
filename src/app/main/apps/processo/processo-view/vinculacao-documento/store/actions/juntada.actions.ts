@@ -4,6 +4,10 @@ export const GET_JUNTADA = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] GET JUN
 export const GET_JUNTADA_SUCCESS = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] GET JUNTADA SUCCESS';
 export const GET_JUNTADA_FAILED = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] GET JUNTADA FAILED';
 
+export const GET_JUNTADA_VINCULADA = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] GET JUNTADA VINCULADA';
+export const GET_JUNTADA_VINCULADA_SUCCESS = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] GET JUNTADA VINCULADA SUCCESS';
+export const GET_JUNTADA_VINCULADA_FAILED = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] GET JUNTADA VINCULADA FAILED';
+
 export const CREATE_VINCULACAO_DOCUMENTO = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] CREATE VINCULACAO DOCUMENTO';
 export const CREATE_VINCULACAO_DOCUMENTO_SUCCESS = '[PROCESSO VIEW JUNTADA VINCULACAO DOCUMENTO] CREATE VINCULACAO DOCUMENTO SUCCESS';
 
@@ -43,6 +47,42 @@ export class GetJuntadaSuccess implements Action
 export class GetJuntadaFailed implements Action
 {
     readonly type = GET_JUNTADA_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Get Juntada Vinculada
+ */
+export class GetJuntadaVinculada implements Action
+{
+    readonly type = GET_JUNTADA_VINCULADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntada Vinculada Success
+ */
+export class GetJuntadaVinculadaSuccess implements Action
+{
+    readonly type = GET_JUNTADA_VINCULADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntada Vinculada Failed
+ */
+export class GetJuntadaVinculadaFailed implements Action
+{
+    readonly type = GET_JUNTADA_VINCULADA_FAILED;
 
     constructor(public payload: string)
     {
@@ -125,6 +165,9 @@ export type ProcessoViewVinculacaoDocumentoActionsAll
     = GetJuntada
     | GetJuntadaSuccess
     | GetJuntadaFailed
+    | GetJuntadaVinculada
+    | GetJuntadaVinculadaSuccess
+    | GetJuntadaVinculadaFailed
     | CreateVinculacaoDocumento
     | CreateVinculacaoDocumentoSuccess
     | SaveVinculacaoDocumento

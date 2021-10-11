@@ -83,39 +83,6 @@ export class AtividadeDocumentoEffects {
                     if (url.indexOf('/processo') !== -1) {
                         this._store.dispatch(new UnloadDocumentos());
                         this._store.dispatch(new GetDocumentosProcesso());
-                        this._store.dispatch(new UnloadJuntadas({reset: false}));
-                        let processoFilter = null;
-
-                        const routeParams = of('processoHandle');
-                        routeParams.subscribe((param) => {
-                            processoFilter = `eq:${this.routerState.params[param]}`;
-                        });
-
-                        const params = {
-                            filter: {
-                                'volume.processo.id': processoFilter,
-                                'vinculada': 'eq:0'
-                            },
-                            listFilter: {},
-                            limit: 10,
-                            offset: 0,
-                            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
-                            populate: [
-                                'volume',
-                                'documento',
-                                'documento.origemDados',
-                                'documento.tipoDocumento',
-                                'documento.componentesDigitais',
-                                'documento.vinculacoesDocumentos',
-                                'documento.vinculacoesDocumentos.documentoVinculado',
-                                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                                'documento.vinculacoesEtiquetas',
-                                'documento.vinculacoesEtiquetas.etiqueta'
-                            ]
-                        };
-
-                        this._store.dispatch(new GetJuntadas(params));
                     }
                 });
             }

@@ -28,10 +28,9 @@ export class JuntadaEffects {
     getJuntada: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.GetJuntada>(ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA),
         mergeMap(action => this._juntadaService.get(
-            action.payload.id,
+            action.payload.juntadaId,
             JSON.stringify([
                 'volume',
-                'volume.processo',
                 'documento',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
@@ -43,12 +42,49 @@ export class JuntadaEffects {
                 new AddData<Juntada>({data: [response], schema: juntadaSchema}),
                 new ProcessoViewVinculacaoDocumentoActions.GetJuntadaSuccess({
                     juntadaId: response.id,
-                    ...action.payload.loaded
+                    loaded: {
+                        id: 'juntadaHandle',
+                        value: this.routerState.params.juntadaHandle
+                    }
                 })
             ]),
             catchError((err) => {
                 console.log(err);
                 return of(new ProcessoViewVinculacaoDocumentoActions.GetJuntadaFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Get Juntada Vinculada with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getJuntadaVinculada: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewVinculacaoDocumentoActions.GetJuntadaVinculada>(ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_VINCULADA),
+        mergeMap(action => this._juntadaService.get(
+            action.payload.juntadaVinculadaId,
+            JSON.stringify([
+                'volume',
+                'documento',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.tipoDocumento',
+                'documento.vinculacaoDocumentoPrincipal'
+            ])
+        ).pipe(
+            mergeMap(response => [
+                new AddData<Juntada>({data: [response], schema: juntadaSchema}),
+                new ProcessoViewVinculacaoDocumentoActions.GetJuntadaVinculadaSuccess({
+                    juntadaVinculadaId: response.id,
+                    loadedVinculada: {
+                        id: 'juntadaVinculadaHandle',
+                        value: this.routerState.params.juntadaVinculadaHandle
+                    }
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new ProcessoViewVinculacaoDocumentoActions.GetJuntadaVinculadaFailed(err));
             })
         ))
     ));
@@ -73,9 +109,9 @@ export class JuntadaEffects {
                 status: 1, // sucesso
             }))),
             mergeMap((response: VinculacaoDocumento) => [
+                new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
                 new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
-                new ReloadJuntadas(),
-                new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema})
+                new ReloadJuntadas()
             ]),
             catchError((err) => {
                 console.log(err);

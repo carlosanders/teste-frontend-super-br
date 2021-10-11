@@ -1,0 +1,10 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-visibilidade-role-form
+        [visibilidadeRole]="visibilidade"
+        [staticRoles]="staticRoles"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (abort)="abort()"
+        (save)="submit($event)">
+    </cdk-visibilidade-role-form>
+</div>
