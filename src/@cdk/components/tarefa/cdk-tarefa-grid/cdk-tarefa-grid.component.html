@@ -105,15 +105,6 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.processo?.NUP}} </td>
                 </ng-container>
 
-                <!-- PostIt Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('postIt') > -1" matColumnDef="postIt">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Post It
-                    </th>
-                    <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Post It: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.postIt}} </td>
-                </ng-container>
-
                 <!-- Urgente Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -258,7 +249,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Usuário da Conclusao do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.usuarioConclusaoPrazo.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.usuarioConclusaoPrazo?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->

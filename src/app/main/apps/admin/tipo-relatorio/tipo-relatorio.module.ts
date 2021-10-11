@@ -34,6 +34,10 @@ const routes: Routes = [
                 loadChildren: () => import('./tipo-relatorio-edit/tipo-relatorio-edit.module').then(m => m.TipoRelatorioEditModule),
             },
             {
+                path: 'visibilidade',
+                loadChildren: () => import('./visibilidades/visibilidades.module').then(m => m.VisibilidadesModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

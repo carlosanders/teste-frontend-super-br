@@ -16,6 +16,7 @@ import {ProcessoRelatorioViewStoreModule} from 'app/main/apps/processo/processo-
 import * as fromGuards from 'app/main/apps/processo/processo-relatorio-view/store/guards';
 import {modulesConfig} from 'modules/modules-config';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {CdkImprimirRelatorioFormModule} from "../../../../../@cdk/components/imprimir-relatorio/cdk-imprimir-relatorio-form/cdk-imprimir-relatorio-form.module";
 
 const routes: Routes = [
     {
@@ -48,7 +49,8 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         ProcessoRelatorioViewStoreModule,
-        MatTooltipModule
+        MatTooltipModule,
+        CdkImprimirRelatorioFormModule
     ],
     providers: [
         ProcessoService,

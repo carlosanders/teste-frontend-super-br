@@ -100,13 +100,12 @@ export function normalized(
         }
 
         case NormalizeActionTypes.ADD_DATA: {
-            const {result, entities} = action.payload;
+            const {result, entities, populate} = action.payload;
             return {
                 result,
                 entities: Object.keys(entities).reduce(
                     (p: any, c: string) => {
                         // p[c] = {...p[c], ...entities[c], };
-
                         Object.keys(entities[c]).forEach(
                             (id) => {
                                 if (typeof p[c] === 'undefined' || typeof p[c][id] === 'undefined') {
@@ -119,11 +118,16 @@ export function normalized(
                                 } else {
                                     Object.keys(entities[c][id]).forEach(
                                         (key) => {
-                                            if (p[c][id][key]?.['id'] && !entities[c][id][key]) {
-                                                return;
-                                            }
-                                            if (p[c][id][key]?.[0] && !entities[c][id][key]) {
-                                                return;
+                                            if (!populate) {
+                                                if (key === 'conteudo' && p[c][id][key] && !entities[c][id][key]) {
+                                                    return;
+                                                }
+                                                if (p[c][id][key]?.['id'] && !entities[c][id][key]) {
+                                                    return;
+                                                }
+                                                if (Array.isArray(p[c][id][key]) && p[c][id][key].length && Array.isArray(entities[c][id][key]) && !entities[c][id][key].length) {
+                                                    return;
+                                                }
                                             }
                                             p[c] = {
                                                 ...p[c],

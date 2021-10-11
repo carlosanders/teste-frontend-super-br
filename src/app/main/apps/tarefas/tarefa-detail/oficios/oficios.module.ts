@@ -22,14 +22,12 @@ import {OficiosComponent} from './oficios.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {AtividadeCreateStoreModule} from './store/store.module';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 const routes: Routes = [
     {
@@ -85,7 +83,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ]
 })

@@ -165,6 +165,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     inputProcesso: boolean;
 
+    desabilitaEspecieTarefa: boolean;
+
     feriados = ['01-01', '21-04', '01-05', '07-09', '12-10', '02-11', '15-11', '25-12'];
 
     evento = false;
@@ -277,7 +279,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (this.form.get('processo').value && this.form.get('processo').value.NUP && this.form.get('processo').value.especieProcesso?.generoProcesso) {
-            this.form.get('especieTarefa').enable();
+            this.desabilitaEspecieTarefa = false;
             if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
                 this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO'};
             } else {
@@ -301,16 +303,16 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         } else {
             if (this.mode !== 'bloco-edit') {
-                this.form.get('especieTarefa').disable();
+                this.desabilitaEspecieTarefa = true;
             }
         }
 
         if (this.mode === 'bloco-create') {
-            this.form.get('especieTarefa').enable();
+            this.desabilitaEspecieTarefa = false;
         }
 
         if (this.blocoEdit.blocoEditEspecie) {
-            this.form.get('especieTarefa').enable();
+            this.desabilitaEspecieTarefa = false;
         }
 
         if (this.form.get('unidadeResponsavel').value) {
@@ -333,9 +335,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                 if (value && this.processos.length > 0) {
-                    this.form.get('especieTarefa').enable();
+                    this.desabilitaEspecieTarefa = false;
                 } else {
-                    this.form.get('especieTarefa').disable();
+                    this.desabilitaEspecieTarefa = true;
                 }
 
                 this._changeDetectorRef.markForCheck();
@@ -505,7 +507,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     if (value && typeof value === 'object') {
                         this.processo.emit(this.form.get('processo').value);
-                        this.form.get('especieTarefa').enable();
+                        this.desabilitaEspecieTarefa = false;
                         if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
                             this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO'};
                         } else {
@@ -527,7 +529,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             this.form.get('especieTarefa').reset();
                         }
                     } else if (!this.form.get('blocoProcessos').value || (this.form.get('blocoProcessos').value && this.processos.length === 0)) {
-                        this.form.get('especieTarefa').disable();
+                        this.desabilitaEspecieTarefa = true;
                     }
 
                     if (this.form.get('blocoProcessos').value) {
@@ -699,7 +701,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
 
         if (dataHoraInicioPrazo || dataHoraFinalPrazo) {
-            let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+            let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days', true);
 
             if (this.form.get('diasUteis').value) {
                 const curDate = dataHoraInicioPrazo.clone();
@@ -714,8 +716,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             }
 
-            if (diffDays !== this.form.get('prazoDias').value) {
-                this.form.get('prazoDias').setValue(diffDays);
+            if (diffDays > this.form.get('prazoDias').value
+                || parseInt(diffDays) < (this.form.get('prazoDias').value -1 )) {
+                this.form.get('prazoDias').setValue(parseInt(diffDays));
             }
         }
     }
@@ -747,8 +750,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         }
 
-        if (this.form.get('dataHoraFinalPrazo').value.format('YYYY-MM-DDTHH:mm:ss') !== dataHoraFinalPrazo.format('YYYY-MM-DDTHH:mm:ss')) {
-            this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
+        if (this.form.get('dataHoraFinalPrazo').value.format('YYYY-MM-DDTHH:mm:ss') !== dataHoraFinalPrazoCalculado.format('YYYY-MM-DDTHH:mm:ss')) {
+this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
         }
     }
 
@@ -1287,7 +1290,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         + this.form.get('processo').value.especieProcesso.workflow.id;
                 }
             } else {
-                this.form.get('especieTarefa').disable();
+                this.desabilitaEspecieTarefa = true;
             }
         }
     }
@@ -1378,5 +1381,21 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.lotacaoControl.setValue(null);
         this.autoCompleteLotacao?.closePanel();
         this.menuTrigger?.closeMenu();
+    }
+
+    get desabilitaFavoritoEspecieTarefa(): boolean{
+        return this.desabilitaEspecieTarefa || (
+            (
+                !this.form.get('blocoProcessos').value &&
+                (
+                    !this.form.get('processo').value ||
+                    this.form.get('processo').value?.especieProcesso?.workflow
+                )
+            ) ||
+            (
+                this.form.get('blocoProcessos').value &&
+                this.processos.length === 0
+            )
+        );
     }
 }

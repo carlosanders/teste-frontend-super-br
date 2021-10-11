@@ -23,10 +23,12 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital, Pagination} from '@cdk/models';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
+import {Subject} from 'rxjs';
+
 declare var CKEDITOR: any;
 
 @Component({
@@ -172,6 +174,10 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     dragstart_inside = false;
 
+    autoSave: any;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     /**
      * @param _changeDetectorRef
      * @param dialog
@@ -185,20 +191,20 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 private _componenteDigitalService: ComponenteDigitalService,
                 private snackBar: MatSnackBar) {
 
-        this._componenteDigitalService.doEditorSave.subscribe(
+        this._componenteDigitalService.doEditorSave.pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (value) => {
                 this.salvando = value;
                 this.doSave();
             }
         );
 
-        this._componenteDigitalService.revertendo.subscribe(
+        this._componenteDigitalService.revertendo.pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (value) => {
                 this.revertendo = value;
             }
         );
 
-        this._componenteDigitalService.alterandoModelo.subscribe(
+        this._componenteDigitalService.alterandoModelo.pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (value) => {
                 this.alterandoModelo = value;
             }
@@ -292,6 +298,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      */
     ngOnDestroy(): void {
         window.addEventListener('resize', this.resizeFunction);
+        if (this.autoSave) {
+            clearInterval(this.autoSave);
+        }
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -440,8 +451,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             const filter = new CKEDITOR.filter('p(esquerda,centralizado,direita,numerado); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; img[!src];p span{display,color,background-color}[data-service,data-method,data-options];table[*]{*}; tbody; th; td[*](*){width}; tr[*](*); hr; blockquote; h1; h2; h3; h4; section[*](*);header[*](*);li[*];a[*];cite(*)[*];sup(*)[*]{*};ol{*}[start]'),
                 fragment = CKEDITOR.htmlParser.fragment.fromHtml(ev.data.dataValue),
                 writer = new CKEDITOR.htmlParser.basicWriter();
-            fragment.forEach( (node): void => {
-                if((node.name === 'table') && (parseInt(node.attributes.width) > 793)) {
+            fragment.forEach((node): void => {
+                if ((node.name === 'table') && (parseInt(node.attributes.width) > 793)) {
                     alert('Erro! Não foi possível colar! A tabela excede o tamanho máximo permitido!');
                     node.remove();
                 }
@@ -451,7 +462,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             ev.data.dataValue = writer.getHtml(false);
         });
 
-        setInterval(() => {
+        this.autoSave = setInterval(() => {
             me.doSave();
         }, 180 * 1000);
     }
@@ -463,11 +474,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         if (this.hashAntigo) {
             try {
                 if (!this.src) {
+                    // eslint-disable-next-line max-len
                     alert('Um documento em branco não pode ser salvo. Se houver texto, temos uma inconsistência grave, favor favor salvar o trabalho manualmente em outro local e recarregar o editor!');
                 }
                 this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
                     (conteudo) => {
                         if (!conteudo) {
+                            console.log('editor sem conteudo!');
                             alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
                         }
                         this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
@@ -475,9 +488,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                     }
                 );
             } catch (err) {
+                console.log(err);
                 alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
             }
         } else {
+            console.log('sem hash antigo!');
             alert('Inconsistência grave detectada, favor salvar o trabalho manualmente em outro local e recarregar o editor!');
         }
     }
@@ -487,7 +502,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        dialogRef.afterClosed().pipe(filter(result => !!result), takeUntil(this._unsubscribeAll)).subscribe((result) => {
             this.assinando = result;
             this.doSave();
         });
@@ -503,7 +518,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        dialogRef.afterClosed().pipe(filter(result => !!result), takeUntil(this._unsubscribeAll)).subscribe((result) => {
             this.editor.insertHtml(result.html);
         });
     }
@@ -513,7 +528,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+        dialogRef.afterClosed().pipe(filter(result => !!result), takeUntil(this._unsubscribeAll)).subscribe((result) => {
             const html = '<span data-method="repositorio" data-options="' + result.id + '" data-service="App\Fields\Field\RepositorioField">*' + result.nome + '*</span>';
             this.editor.insertHtml(html);
         });

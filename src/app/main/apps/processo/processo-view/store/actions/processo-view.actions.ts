@@ -9,6 +9,8 @@ export const SET_CURRENT_STEP = '[JUNTADAS] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[JUNTADAS] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[JUNTADAS] SET CURRENT STEP FAILED';
 
+export const UPDATE_INDEX = '[PROCESSO VIEW] UPDATE INDEX';
+
 export const UNLOAD_JUNTADAS = '[JUNTADAS] UNLOAD JUNTADAS';
 
 export const RELOAD_JUNTADAS = '[JUNTADAS] RELOAD JUNTADAS';
@@ -127,6 +129,18 @@ export class ReloadJuntadas implements Action
     }
 }
 
+/**
+ * Update Index
+ */
+export class UpdateIndex implements Action
+{
+    readonly type = UPDATE_INDEX;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -137,4 +151,5 @@ export type ProcessoViewActionsAll
     | UnloadJuntadas
     | GetCapaProcesso
     | ExpandirProcesso
-    | ReloadJuntadas;
+    | ReloadJuntadas
+    | UpdateIndex;

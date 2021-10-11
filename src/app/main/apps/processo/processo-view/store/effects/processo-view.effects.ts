@@ -124,8 +124,8 @@ export class ProcessoViewEffect {
                     'documento.vinculacoesEtiquetas',
                     'documento.vinculacoesEtiquetas.etiqueta',
                     'documento.criadoPor',
-                    "documento.setorOrigem",
-                    "documento.setorOrigem.unidade"
+                    'documento.setorOrigem',
+                    'documento.setorOrigem.unidade'
                 ]
             };
             this._store.dispatch(new fromStore.GetJuntadas(params));
@@ -137,7 +137,7 @@ export class ProcessoViewEffect {
     setCurrentStep: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
         withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
-        switchMap(([action, index, currentStep]) => {
+        switchMap(([, index, currentStep]) => {
             if (this.routerState.params.stepHandle !== 'capa' && index[currentStep.step] === undefined) {
                 // não tem documentos, vamos para capa
                 this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
