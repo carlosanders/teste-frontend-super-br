@@ -61,9 +61,7 @@ export class CdkJuntadaFilterComponent {
         }
 
         if (this.form.get('numeracaoSequencial').value) {
-            this.form.get('numeracaoSequencial').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'numeracaoSequencial': `like:%${bit}%`});
-            });
+             andXFilter.push({'numeracaoSequencial': `eq:${this.form.get('numeracaoSequencial').value}`});
         }
         if (this.form.get('tipoDocumento').value) {
             andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value.id}`});

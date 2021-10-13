@@ -775,7 +775,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         }
 
         if (this.form.get('numeracaoSequencial').value) {
-            andXFilter.push({'numeracaoSequencial': `like:%${this.form.get('numeracaoSequencial').value.id}%`});
+            andXFilter.push({'numeracaoSequencial': `eq:${this.form.get('numeracaoSequencial').value}`});
         }
 
         if (this.form.get('descricao').value) {
