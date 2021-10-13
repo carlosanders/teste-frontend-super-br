@@ -68,8 +68,8 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         );
     }
 
-    gerarRelatorioTarefaExcel(): Observable<Tarefa> {
-        return this.modelService.post('administrativo/relatorio/gerar_relatorio_minhas_tarefas');
+    gerarRelatorioTarefaExcel(body: any = '{}'): Observable<Tarefa> {
+        return this.modelService.post('administrativo/relatorio/gerar_relatorio_minhas_tarefas', body);
     }
 
     distribuirTarefasUsuario(usuario: Usuario, context: any = '{}'): Observable<Tarefa> {

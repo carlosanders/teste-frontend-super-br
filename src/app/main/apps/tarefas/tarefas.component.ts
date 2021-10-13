@@ -964,7 +964,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel());
+                this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel(
+                    {idTarefasSelecionadas: this.selectedIds.length === this.pagination.total ? [] : this.selectedIds })
+                );
             }
             this.confirmDialogRef = null;
         });
