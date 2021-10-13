@@ -190,6 +190,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     placeholderId = null;
 
     draggedJuntada: number = null;
+    isOpen:  boolean[] = [];
 
     // Upload de anexo em minuta/ofício
     isSaving$: Observable<boolean>;
@@ -252,6 +253,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         // Set the defaults
         this.animationDirection = 'none';
+
+
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.expandir$ = this._store.pipe(select(fromStore.expandirTela));
@@ -1262,5 +1265,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             operacaoId: operacaoId,
             loteId: loteId,
         }));
+    }
+
+    doTogglePanel(id): void {
+        this.isOpen[id] = !this.isOpen[id];
     }
 }
