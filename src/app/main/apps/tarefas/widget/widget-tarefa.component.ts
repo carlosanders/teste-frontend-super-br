@@ -21,6 +21,8 @@ import {getCounterState} from '../../../../store';
 import * as fromStore from 'app/store';
 import {CounterState} from '../../../../store/reducers/counter.reducer';
 import {CdkNavigationItem} from '../../../../../@cdk/types';
+import {modulesConfig} from "../../../../../modules/modules-config";
+import {keys} from "lodash-es";
 
 @Component({
     selector: 'widget-tarefa',
@@ -112,13 +114,20 @@ export class WidgetTarefaComponent implements OnInit, OnDestroy {
         this.isContadorPrincipal = !this.isContadorPrincipal;
         this.contagemTarefas = []
         let modulos = this.recuperarModulos();
-        for (const modulo of modulos) {
-            const totalTarefaModulo = this.contarTarefas(modulo);
+        let navigationConverter = 'arquivístico';
+
+        modulos.forEach((bit) => {
+            const totalTarefaModulo = this.contarTarefas(bit);
             if (totalTarefaModulo > 0) {
                 this.hasTarefaAberta = true;
-                this.contagemTarefas[modulo] = totalTarefaModulo;
+                if(bit === navigationConverter){
+                    bit = 'arquivistico';
+                }
+                this.contagemTarefas[bit] = totalTarefaModulo;
             }
-        }
+        })
+
+
     }
 
     recuperarModulos(): any {

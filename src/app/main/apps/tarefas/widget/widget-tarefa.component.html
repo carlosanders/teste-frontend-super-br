@@ -20,7 +20,7 @@
         <div class="card-tarefa" *ngIf="!isContadorPrincipal" [@popOverState]="contagemTarefas.length">
             <div *ngFor="let item of contagemTarefas | keyvalue">
                 <button class="botao-link" mat-button
-                        [routerLink]="'/apps/tarefas/' + item.key + '/minhas-tarefas/caixa_entrada'">
+                        [routerLink]="'/apps/tarefas/' + item.key + '/minhas-tarefas/entrada'">
                     <span class="material-icons">link</span>
                     <span class="titulo">{{item.key}}</span>: {{item.value}}
                 </button>
