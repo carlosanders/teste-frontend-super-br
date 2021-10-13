@@ -639,7 +639,7 @@ export class TarefasEffect {
      */
     doGerarRelatorioTarefaExcel: any = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GerarRelatorioTarefaExcel>(TarefasActions.GERAR_RELATORIO_TAREFA_EXCEL),
-        mergeMap(() => this._tarefaService.gerarRelatorioTarefaExcel().pipe(
+        mergeMap(action => this._tarefaService.gerarRelatorioTarefaExcel(action.payload).pipe(
             mergeMap(response => [
                 new TarefasActions.GerarRelatorioTarefaExcelSuccess(response.id),
             ]),

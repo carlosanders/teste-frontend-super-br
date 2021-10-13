@@ -878,7 +878,7 @@ export class GerarRelatorioTarefaExcel implements Action
 {
     readonly type = GERAR_RELATORIO_TAREFA_EXCEL;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
