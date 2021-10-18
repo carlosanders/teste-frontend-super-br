@@ -133,7 +133,7 @@
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
 
         <div>
-            {{juntadas.length}}/{{pagination.total}}
+            {{juntadas?.length}}/{{pagination.total}}
         </div>
 
     </div>
@@ -157,7 +157,7 @@
                             <mat-spinner class="volumes-loading" diameter="22"></mat-spinner>
                         </div>
                         <div class="index-volume" (click)="paginaVolumes()"
-                             *ngIf="this.volumes && this.volumes.length < this.volumesPagination.total">
+                             *ngIf="this.volumes && this.volumes?.length < this.volumesPagination.total">
                             <span>+</span>
                         </div>
                     </div>
@@ -256,7 +256,7 @@
                                                   (completed)="onComplete()">
                 </cdk-componente-digital-card-list>
 
-                <div class="sem-minutas" *ngIf="(!minutas || !minutas.length) && (!oficios || !oficios.length)">
+                <div class="sem-minutas" *ngIf="(!minutas || !minutas?.length) && (!oficios || !oficios?.length)">
                     <div class="m-16" style="font-style: italic;">Não há minutas<span *ngIf="(lixeiraMinutas$ | async)"> na lixeira</span>.
                     </div>
                 </div>
@@ -676,7 +676,7 @@
                  [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
                  [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"
-                 [dndDisableDragIf]="!juntada.ativo || juntada.documento.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
+                 [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
                  (dndEnd)="onCancelDrag($event)"
                  (dndCopied)="onCopied($event, juntada)"
                  (dndStart)="onStartDrag($event, juntada)">
@@ -768,7 +768,7 @@
 
                                     <button mat-menu-item aria-label="remover vinculações"
                                             (click)="doRemoverVinculacoes(juntada)"
-                                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
+                                            *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
                                         <ng-container>
                                             <mat-icon>lock</mat-icon>
                                             <span>Desvincular</span>
@@ -863,7 +863,7 @@
                 </div>
             </div>
             <div class="separador-volume"
-                 *ngIf="juntadasByVolume.get(juntada.volume.numeracaoSequencial)[juntadasByVolume.get(juntada.volume.numeracaoSequencial).length - 1].id === juntada.id">
+                 *ngIf="juntadasByVolume.get(juntada?.volume?.numeracaoSequencial)[juntadasByVolume.get(juntada?.volume?.numeracaoSequencial).length - 1].id === juntada.id">
                 <div class="documentos-juntados-title" fxFlex="0 0 auto"
                      fxLayoutAlign="start center" aria-label="Volume">
                     <div class="ml-24">Volume {{juntada.volume.numeracaoSequencial}}</div>
