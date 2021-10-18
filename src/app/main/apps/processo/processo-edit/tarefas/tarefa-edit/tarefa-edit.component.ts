@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
@@ -10,9 +17,10 @@ import * as fromStore from './store';
 import {getProcesso} from '../../../store';
 import * as moment from 'moment';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {Back} from '../../../../../../store';
+import {Back, getOperacoes} from '../../../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import * as fromStoreSidebar from "../../../../tarefas/store";
 
 @Component({
     selector: 'tarefa-edit',
@@ -40,14 +48,24 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     logEntryPagination: Pagination;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+    operacoes: any[] = [];
+    operacoesPendentes: any[] = [];
+    operacaoId?: string;
+    lote: string = '';
+    isClearForm$: Observable<boolean>;
+    isClearForm = false;
+
     /**
      * @param _store
      * @param _loginService
+     * @param _changeDetectorRef
+     *
      */
     constructor(
         private _store: Store<fromStore.TarefaEditAppState>,
-        public _loginService: LoginService
-    ) {
+        public _loginService: LoginService,
+        private _changeDetectorRef: ChangeDetectorRef,
+) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
@@ -70,6 +88,11 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
+        this.operacaoId = null;
+        this.operacoes = [];
+
+
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => this.processo = processo);
@@ -97,6 +120,15 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             this.tarefa.setorOrigem = lotacaoPrincipal ? lotacaoPrincipal : this._profile.lotacoes[0].setor;
             this.tarefa.unidadeResponsavel = lotacaoPrincipal.unidade;
         }
+
+        this._store.pipe(
+            select(getOperacoes),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((operacoes) => {
+            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
+            this._changeDetectorRef.detectChanges();
+        });
     }
 
     /**
@@ -115,15 +147,31 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const tarefa = new Tarefa();
+        this.lote = '';
 
         Object.entries(values).forEach(
             ([key, value]) => {
                 tarefa[key] = value;
             }
         );
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
+    }
 
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: operacaoId}));
+    submitLote(event: any): void {
+        this.lote = event.loteId;
+        const tarefa = new Tarefa();
+
+        this.operacaoId = CdkUtils.makeId();
+
+        Object.entries(event.tarefa).forEach(
+            ([key, value]) => {
+                tarefa[key] = value;
+            }
+        );
+
+        tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
+
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
     }
 
     doAbort(): void {
