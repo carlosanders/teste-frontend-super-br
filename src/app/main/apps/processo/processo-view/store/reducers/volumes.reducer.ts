@@ -16,7 +16,7 @@ export interface VolumesState {
     selectedVolume: any;
 }
 
-export const VolumesInitialState: VolumesState = {
+export const volumesInitialState: VolumesState = {
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -32,7 +32,7 @@ export const VolumesInitialState: VolumesState = {
     selectedVolume: false
 };
 
-export function VolumesReducer(state = VolumesInitialState, action: VolumesActions.VolumesActionsAll): VolumesState {
+export const volumesReducer = (state = volumesInitialState, action: VolumesActions.VolumesActionsAll): VolumesState => {
     switch (action.type) {
 
         case VolumesActions.GET_VOLUMES: {
@@ -79,7 +79,7 @@ export function VolumesReducer(state = VolumesInitialState, action: VolumesActio
 
             if (action.payload.reset) {
                 return {
-                    ...VolumesInitialState
+                    ...volumesInitialState
                 };
             } else {
                 return {
@@ -106,4 +106,4 @@ export function VolumesReducer(state = VolumesInitialState, action: VolumesActio
         default:
             return state;
     }
-}
+};

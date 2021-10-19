@@ -2,7 +2,7 @@ import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/sto
 import {ProcessoViewReducer, ProcessoViewState} from './processo-view.reducer';
 import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
 import {ProcessoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
-import {VolumesReducer, VolumesState} from './volumes.reducer';
+import {volumesReducer, VolumesState} from './volumes.reducer';
 import {DocumentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
 
 export interface ProcessoViewAppState
@@ -27,7 +27,7 @@ export const reducers: ActionReducerMap<ProcessoViewAppState> = {
     processoView: ProcessoViewReducer,
     componentesDigitais: ComponenteDigitalReducer,
     documentos: ProcessoViewDocumentosReducer,
-    volumes: VolumesReducer,
+    volumes: volumesReducer,
     documentosVinculados: DocumentosVinculadosReducer
 };
 
