@@ -11,7 +11,7 @@
             <mat-icon class="secondary-text">attach_file</mat-icon>
         </button>
 
-        <button class="toggle-filter" mat-icon-button *ngIf="!(expandir$ | async)"
+        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
                 aria-label="Maximizar Tela"
                 matTooltip="Maximizar Tela"
                 (click)="expandirTela(true)">
@@ -93,7 +93,7 @@
             </form>
         </mat-menu>
 
-        <button mat-mini-fab *ngIf="!(loadingDocumentosExcluidos$ | async) && (lixeiraMinutas$ | async)"
+        <button mat-mini-fab *ngIf="(loadingDocumentosExcluidos$ | async) === false && (lixeiraMinutas$ | async)"
                 class="m-4 active accent" aria-label="Sair da lixeira"
                 (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
             <mat-icon class="secondary-text">exit_to_app</mat-icon>
@@ -248,7 +248,7 @@
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="minutas" cdkPerfectScrollbar
-                 *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async) && !(loadingDocumentosExcluidos$ | async)) && tarefa">
+                 *ngIf="((minutasLoading$ | async) === false && (minutasSaving$ | async) === false && (loadingDocumentosExcluidos$ | async) === false) && tarefa">
 
                 <cdk-componente-digital-card-list #ckdUpload
                                                   [mode]="'processo'"
@@ -645,7 +645,7 @@
             <span class="mat-body">Nova juntada recebida... recarregue a lista!</span>
         </div>
 
-        <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
+        <div class="juntada capa" matRipple *ngIf="(isLoading$ | async) === false && capaProcesso"
              (click)="goToCapaProcesso()"
              [ngClass]="{'current': capa}">
             <div class="index">
@@ -687,7 +687,10 @@
                     <div *ngIf="!juntada.ativo">
                         <div class="desentranhado">DESENTRANHADO</div>
                     </div>
-                    <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
+                    <div *ngIf="!!juntada.documento.acessoRestrito">
+                        <div class="desentranhado">ACESSO RESTRITO</div>
+                    </div>
+                    <div fxFlex fxLayout="column" *ngIf="juntada.ativo && !juntada.documento.acessoRestrito">
                         <div fxFlex fxLayout="row">
                             <div class="descricao">
                                 {{juntada.descricao.split('/').join(' ')}}
