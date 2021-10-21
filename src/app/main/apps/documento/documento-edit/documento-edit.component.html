@@ -88,7 +88,7 @@
 
                     <button mat-menu-item aria-label="modelos"
                             matTooltip="Modelos" routerLink="modelos"
-                            *ngIf="this.currentComponenteDigital?.editavel"
+                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">file_copy</mat-icon>
@@ -98,7 +98,7 @@
 
                     <button mat-menu-item aria-label="versões"
                             matTooltip="Versões" routerLink="versoes"
-                            *ngIf="this.currentComponenteDigital?.editavel"
+                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">folder</mat-icon>
