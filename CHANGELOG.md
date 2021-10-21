@@ -661,3 +661,8 @@
 * Correção ao transformar um usuário externo em um usuário interno #652
 * Correção de erro no editor ao clicar em anexo com alterações no conteúdo do editor (loop de confirmação)
 * Correção de erro de inconsistência grave no editor ao salvar
+
+1.6.12
+
+* Correção populateAll tarefa-grid
+* Melhoria inclusão do ID das juntadas no Processo View
