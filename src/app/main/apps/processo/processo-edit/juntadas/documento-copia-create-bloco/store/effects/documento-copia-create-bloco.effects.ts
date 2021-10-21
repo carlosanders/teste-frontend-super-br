@@ -13,6 +13,8 @@ import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as TarefaEditActions from "../../../../tarefas/tarefa-edit/store/actions/tarefa-edit.actions";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class DocumentoCopiaCreateBlocoEffect {
@@ -61,11 +63,22 @@ export class DocumentoCopiaCreateBlocoEffect {
         ))
     ));
 
+    /**
+     * Save DocumentoCopia Success
+     */
+    saveDocumentoCopiaSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaSuccess>(DocumentoCopiaCreateBlocoActions.SAVE_DOCUMENTO_COPIA_SUCCESS),
+        tap(() => {
+            this._router.navigate([this.routerState.url.replace('copiar', 'listar')]).then();
+        })
+    ), {dispatch: false});
+
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
-        private _store: Store<State>
-    ) {
+        private _store: Store<State>,
+        private _router: Router
+) {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
