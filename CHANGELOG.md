@@ -666,3 +666,7 @@
 
 * Correção populateAll tarefa-grid
 * Melhoria inclusão do ID das juntadas no Processo View
+* Correção no editor para não exibir botões de troca de modelo/troca de versão de documentos que já se encontram assinados
+* Correção no editor para exibir alerta ao usuário informando que ele perderá o conteúdo atual do documento ao alterar o seu modelo
+* Correção no editor para exibir alerta ao usuário informando que ele perderá o conteúdo atual do documento ao reverter sua versão
+* Correção em bug onde troca de foco em formulários abria o painel lateral do chat
