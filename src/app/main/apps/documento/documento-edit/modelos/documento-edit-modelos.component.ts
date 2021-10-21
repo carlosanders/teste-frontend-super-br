@@ -13,6 +13,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {getIsLoadingSaving} from "./store";
 
 @Component({
     selector: 'documento-edit-modelos',
@@ -62,6 +63,7 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
 
         this.pagination$ = this._store.pipe(select(fromStore.getModelosPagination));
         this.loading$ = this._store.pipe(select(fromStore.getModelosIsLoading));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
         this.error$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
             select(getRouterState),
