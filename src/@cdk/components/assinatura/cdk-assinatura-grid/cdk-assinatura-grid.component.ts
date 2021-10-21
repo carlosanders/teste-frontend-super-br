@@ -49,6 +49,51 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     displayedColumns: string[] = ['select', 'id', 'criadoEm', 'criadoPor.nome', 'assinadoPor', 'dataHoraAssinatura', 'actions'];
 
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input()
+    actions: string[] = ['edit', 'delete', 'select'];
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
+    selected = new EventEmitter<Assinatura>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    selectedIds: number[] = [];
+
     allColumns: any[] = [
         {
             id: 'select',
@@ -108,51 +153,6 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     ];
 
     columns = new FormControl();
-
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<number>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
-
-    @Output()
-    selected = new EventEmitter<Assinatura>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    selectedIds: number[] = [];
 
     dataSource: AssinaturaDataSource;
 
@@ -335,7 +335,6 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCreate(): void {
         this.create.emit();
-
     }
 
     getProp(obj, prop): any|boolean {

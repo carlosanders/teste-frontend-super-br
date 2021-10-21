@@ -1,6 +1,6 @@
 <mat-toolbar>
     <mat-toolbar-row *ngIf="activeCard === 'chat-list'">
-        <form [formGroup]="pesquisaForm" name="pesquisaForm"
+        <form [formGroup]="pesquisaForm" name="pesquisaForm" tabindex="-1"
               (ngSubmit)="pesquisar()"
               (keydown.enter)="pesquisar(); $event.preventDefault();">
 
@@ -8,11 +8,11 @@
 
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="s-16 secondary-text">search</mat-icon>
-                    <input matInput formControlName="pesquisa" placeholder="Pesquisar" fxFlex>
+                    <input matInput formControlName="pesquisa" placeholder="Pesquisar" tabindex="-1" fxFlex>
                 </div>
             </div>
             <div>
-                <button mat-icon-button
+                <button mat-icon-button tabindex="-1"
                         [matMenuTriggerFor]="userMenu"
                         aria-label="more">
                     <mat-icon>more_vert</mat-icon>
@@ -40,6 +40,7 @@
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="s-16 secondary-text">search</mat-icon>
                     <input #usuarioInput
+                           tabindex="-1"
                            fxFlex
                            matInput placeholder="Pesquisar usuário..."
                            formControlName="usuario"
