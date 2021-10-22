@@ -3,7 +3,7 @@ import {Observable, of} from 'rxjs';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
-import * as DocumentosActions from '../actions';
+import * as ComplementaresActions from '../actions';
 
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
@@ -22,7 +22,7 @@ import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
-export class DocumentosEffects {
+export class ComplementaresEffects {
     routerState: any;
     documentoAvulso: DocumentoAvulso;
     /**
@@ -30,8 +30,8 @@ export class DocumentosEffects {
      *
      * @type {Observable<any>}
      */
-    getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
+    getDocumentosComplementares: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ComplementaresActions.GetDocumentosComplementares>(ComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES),
         switchMap(action => this._documentoService.query(
             JSON.stringify({
                 ...action.payload.filter
@@ -42,7 +42,7 @@ export class DocumentosEffects {
             JSON.stringify(action.payload.populate))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new DocumentosActions.GetDocumentosSuccess({
+            new ComplementaresActions.GetDocumentosComplementaresSuccess({
                 loaded: {
                     id: 'documentoAvulsoHandle',
                     value: this.routerState.params.documentoAvulsoHandle
@@ -53,16 +53,16 @@ export class DocumentosEffects {
         ]),
         catchError((err) => {
             console.log(err);
-            return of(new DocumentosActions.GetDocumentosFailed(err));
+            return of(new ComplementaresActions.GetDocumentosComplementaresFailed(err));
         })
     ));
     /**
      * Reload Documentos
      */
-    reloadDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.ReloadDocumentos>(DocumentosActions.RELOAD_DOCUMENTOS),
+    reloadDocumentosComplementares: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ComplementaresActions.ReloadDocumentosComplementares>(ComplementaresActions.RELOAD_DOCUMENTOS_COMPLEMENTARES),
         map(() => {
-            this._store.dispatch(new DocumentosActions.UnloadDocumentos({reset: false}));
+            this._store.dispatch(new ComplementaresActions.UnloadDocumentosComplementares({reset: false}));
             let documentoId = null;
 
             const routeParams = of('documentoAvulsoHandle');
@@ -85,23 +85,7 @@ export class DocumentosEffects {
                     'juntadaAtual'
                 ]
             };
-            this._store.dispatch(new DocumentosActions.GetDocumentos(params));
-        })
-    ), {dispatch: false});
-    /**
-     * Clicked Documento
-     *
-     * @type {Observable<any>}
-     */
-    clickedDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
-        tap((action) => {
-            this._router.navigate([
-                this.routerState.url.replace(
-                    `detalhe/${this.routerState.params.documentoAvulsoHandle}/complementar/${this.routerState.params.chaveAcessoHandle}`,
-                    'documento/'
-                ) + action.payload.componentesDigitais[0].id + '/visualizar/' + this.routerState.params.chaveAcessoHandle
-            ]).then();
+            this._store.dispatch(new ComplementaresActions.GetDocumentosComplementares(params));
         })
     ), {dispatch: false});
     /**
@@ -109,8 +93,8 @@ export class DocumentosEffects {
      *
      * @type {Observable<any>}
      */
-    converteDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.ConverteToPdf>(DocumentosActions.CONVERTE_DOCUMENTO),
+    converteDocumentoComplementar: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ComplementaresActions.ConverteComplementarToPdf>(ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR),
         mergeMap(action => this._documentoService.convertToPdf(action.payload, {hash: action.payload.hash}, ['componentesDigitais'])
             .pipe(
                 mergeMap(response => [
@@ -119,9 +103,9 @@ export class DocumentosEffects {
                         schema: documentoSchema,
                         changes: {componentesDigitais: response.componentesDigitais}
                     }),
-                    new DocumentosActions.ConverteToPdfSucess(action.payload)
+                    new ComplementaresActions.ConverteComplementarToPdfSucess(action.payload)
                 ]),
-                catchError(err => of(new DocumentosActions.ConverteToPdfFailed(action.payload)))
+                catchError(err => of(new ComplementaresActions.ConverteComplementarToPdfFailed(action.payload)))
             ), 25
         )
     ));
@@ -131,7 +115,7 @@ export class DocumentosEffects {
      * @type {Observable<any>}
      */
     converteDocumentoHtml: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.ConverteToHtml>(DocumentosActions.CONVERTE_DOCUMENTO_HTML),
+        ofType<ComplementaresActions.ConverteComplementarToHtml>(ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR_HTML),
         mergeMap(action => this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
             .pipe(
                 mergeMap(response => [
@@ -139,9 +123,9 @@ export class DocumentosEffects {
                         data: response['entities'],
                         schema: componenteDigitalSchema
                     }),
-                    new DocumentosActions.ConverteToHtmlSucess(action.payload)
+                    new ComplementaresActions.ConverteComplementarToHtmlSucess(action.payload)
                 ]),
-                catchError(err => of(new DocumentosActions.ConverteToHtmlFailed(action.payload)))
+                catchError(() => of(new ComplementaresActions.ConverteComplementarToHtmlFailed(action.payload)))
             ), 25)
     ));
     /**
@@ -149,8 +133,8 @@ export class DocumentosEffects {
      *
      * @type {Observable<any>}
      */
-    deleteDocumento: Observable<DocumentosActions.DocumentosActionsAll> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.DeleteDocumento>(DocumentosActions.DELETE_DOCUMENTO),
+    deleteDocumento: Observable<ComplementaresActions.ComplementaresActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<ComplementaresActions.DeleteDocumentoComplementar>(ComplementaresActions.DELETE_DOCUMENTO_COMPLEMENTAR),
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'documento',
@@ -172,7 +156,7 @@ export class DocumentosEffects {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
-                return new DocumentosActions.DeleteDocumentoSuccess(response.id);
+                return new ComplementaresActions.DeleteDocumentoComplementarSuccess(response.id);
             }),
             catchError((err) => {
                 const payload = {
@@ -187,7 +171,7 @@ export class DocumentosEffects {
                     lote: action.payload.loteId
                 }));
                 console.log(err);
-                return of(new DocumentosActions.DeleteDocumentoFailed(payload));
+                return of(new ComplementaresActions.DeleteDocumentoComplementarFailed(payload));
             })
         ), 25)
     ));
@@ -197,17 +181,17 @@ export class DocumentosEffects {
      * @type {Observable<any>}
      */
     assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.AssinaDocumento>(DocumentosActions.ASSINA_DOCUMENTO),
+        ofType<ComplementaresActions.AssinaDocumentoComplementar>(ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR),
         mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
             .pipe(
-                map(response => new DocumentosActions.PreparaAssinaturaSuccess(response)),
+                map(response => new ComplementaresActions.PreparaAssinaturaComplementarSuccess(response)),
                 catchError((err) => {
                     const payload = {
                         id: action.payload,
                         error: err
                     };
                     console.log(err);
-                    return of(new DocumentosActions.PreparaAssinaturaFailed(payload));
+                    return of(new ComplementaresActions.PreparaAssinaturaComplementarFailed(payload));
                 })
             ), 25)
     ));
@@ -217,7 +201,7 @@ export class DocumentosEffects {
      * @type {Observable<any>}
      */
     preparaAssinaturaSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.PreparaAssinaturaSuccess>(DocumentosActions.PREPARA_ASSINATURA_SUCCESS),
+        ofType<ComplementaresActions.PreparaAssinaturaComplementarSuccess>(ComplementaresActions.PREPARA_ASSINATURA_COMPLEMENTAR_SUCCESS),
         tap((action) => {
             if (action.payload.secret) {
                 const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
@@ -238,7 +222,7 @@ export class DocumentosEffects {
      * @type {Observable<any>}
      */
     assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.AssinaDocumentoEletronicamente>(DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
+        ofType<ComplementaresActions.AssinaDocumentoComplementarEletronicamente>(ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR_ELETRONICAMENTE),
         tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'assinatura',
@@ -255,7 +239,7 @@ export class DocumentosEffects {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: Assinatura) => [
-                new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
+                new ComplementaresActions.AssinaDocumentoComplementarEletronicamenteSuccess(action.payload.documento.id),
                 new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
                 new UpdateData<Documento>({
                     id: action.payload.documento.id,
@@ -276,7 +260,7 @@ export class DocumentosEffects {
                     status: 2, // erro
                     lote: action.payload.loteId
                 }));
-                return of(new DocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
+                return of(new ComplementaresActions.AssinaDocumentoComplementarEletronicamenteFailed(payload));
             })
         ))
     ));
@@ -284,11 +268,11 @@ export class DocumentosEffects {
      * Remove Assinatura de Documento
      */
     removeAssinaturaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.RemoveAssinaturaDocumento>(DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
+        ofType<ComplementaresActions.RemoveAssinaturaDocumentoComplementar>(ComplementaresActions.REMOVE_ASSINATURA_DOCUMENTO_COMPLEMENTAR),
         mergeMap(action => this._documentoService.removeAssinatura(action.payload)
             .pipe(
                 mergeMap(() => [
-                    new DocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
+                    new ComplementaresActions.RemoveAssinaturaDocumentoComplementarSuccess(action.payload),
                     new UpdateData<Documento>({
                         id: action.payload,
                         schema: documentoSchema,
@@ -297,7 +281,7 @@ export class DocumentosEffects {
                 ]),
                 catchError((err) => {
                     console.log(err);
-                    return of(new DocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
+                    return of(new ComplementaresActions.RemoveAssinaturaDocumentoComplementarFailed(action.payload));
                 })
             ), 25)
     ));

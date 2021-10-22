@@ -49,8 +49,8 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
-    @Output()
-    abort = new EventEmitter<any>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
 
     @Output()
     usuarioCarregado = new EventEmitter<any>();
@@ -80,6 +80,9 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.usuarioPagination = new Pagination();
+        this.usuarioPagination.context = {
+            'filtrarPor': 'username'
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -89,8 +92,6 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
      * On Init
      */
     ngOnInit(): void {
-        localStorage.setItem('filtrarPor', 'username');
-
         this.form.get('username').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),

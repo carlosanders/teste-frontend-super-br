@@ -1,6 +1,6 @@
-import * as DocumentosActions from '../actions/documentos.actions';
+import * as ComplementaresActions from '../actions/complementares.actions';
 
-export interface DocumentosState {
+export interface ComplementaresState {
     documentosId: number[];
     pagination: {
         limit: number;
@@ -26,7 +26,7 @@ export interface DocumentosState {
     error: any;
 }
 
-export const documentosInitialState: DocumentosState = {
+export const complementaresInitialState: ComplementaresState = {
     documentosId: [],
     pagination: {
         limit: 0,
@@ -52,12 +52,12 @@ export const documentosInitialState: DocumentosState = {
     error: null,
 };
 
-export const documentosReducer = (
-    state = documentosInitialState,
-    action: DocumentosActions.DocumentosActionsAll
-): DocumentosState => {
+export const complementaresReducer = (
+    state = complementaresInitialState,
+    action: ComplementaresActions.ComplementaresActionsAll
+): ComplementaresState => {
     switch (action.type) {
-        case DocumentosActions.GET_DOCUMENTOS: {
+        case ComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES: {
             return {
                 ...state,
                 saving: false,
@@ -74,7 +74,7 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.GET_DOCUMENTOS_SUCCESS: {
+        case ComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES_SUCCESS: {
             return {
                 ...state,
                 loading: false,
@@ -87,70 +87,70 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.GET_DOCUMENTOS_FAILED: {
+        case ComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case DocumentosActions.COMPLETE_DOCUMENTO: {
+        case ComplementaresActions.COMPLETE_DOCUMENTO_COMPLEMENTAR: {
             return {
                 ...state,
                 documentosId: [...state.documentosId, action.payload.id],
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO: {
+        case ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR: {
             return {
                 ...state,
                 convertendoDocumentoIds: [...state.convertendoDocumentoIds, action.payload],
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
+        case ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR_SUCESS: {
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
+        case ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR_FAILED: {
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_HTML: {
+        case ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR_HTML: {
             return {
                 ...state,
                 convertendoDocumentoHtmlIds: [...state.convertendoDocumentoHtmlIds, action.payload],
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_HTML_SUCESS: {
+        case ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR_HTML_SUCESS: {
             return {
                 ...state,
                 convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_HTML_FAILED: {
+        case ComplementaresActions.CONVERTE_DOCUMENTO_COMPLEMENTAR_HTML_FAILED: {
             return {
                 ...state,
                 convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
 
-        case DocumentosActions.DELETE_DOCUMENTO: {
+        case ComplementaresActions.DELETE_DOCUMENTO_COMPLEMENTAR: {
             return {
                 ...state,
                 deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoId]
             };
         }
 
-        case DocumentosActions.DELETE_DOCUMENTO_SUCCESS: {
+        case ComplementaresActions.DELETE_DOCUMENTO_COMPLEMENTAR_SUCCESS: {
             return {
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
@@ -159,35 +159,35 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.DELETE_DOCUMENTO_FAILED: {
+        case ComplementaresActions.DELETE_DOCUMENTO_COMPLEMENTAR_FAILED: {
             return {
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10))
             };
         }
 
-        case DocumentosActions.ASSINA_DOCUMENTO: {
+        case ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR: {
             return {
                 ...state,
                 assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
             };
         }
 
-        case DocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
+        case ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR_SUCCESS: {
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
-        case DocumentosActions.ASSINA_DOCUMENTO_FAILED: {
+        case ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR_FAILED: {
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
-        case DocumentosActions.PREPARA_ASSINATURA_FAILED: {
+        case ComplementaresActions.PREPARA_ASSINATURA_COMPLEMENTAR_FAILED: {
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id),
@@ -195,7 +195,7 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+        case ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR_ELETRONICAMENTE: {
             return {
                 ...state,
                 assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
@@ -203,7 +203,7 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+        case ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR_ELETRONICAMENTE_SUCCESS: {
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
@@ -211,7 +211,7 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+        case ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR_ELETRONICAMENTE_FAILED: {
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
@@ -219,28 +219,28 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
+        case ComplementaresActions.REMOVE_ASSINATURA_DOCUMENTO_COMPLEMENTAR: {
             return {
                 ...state,
                 removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
             };
         }
 
-        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+        case ComplementaresActions.REMOVE_ASSINATURA_DOCUMENTO_COMPLEMENTAR_SUCCESS: {
             return {
                 ...state,
                 removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
-        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+        case ComplementaresActions.REMOVE_ASSINATURA_DOCUMENTO_COMPLEMENTAR_FAILED: {
             return {
                 ...state,
                 removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
-        case DocumentosActions.UPDATE_DOCUMENTO: {
+        case ComplementaresActions.UPDATE_DOCUMENTO_COMPLEMENTAR: {
             return {
                 ...state,
                 alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
@@ -249,7 +249,7 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.UPDATE_DOCUMENTO_SUCCESS: {
+        case ComplementaresActions.UPDATE_DOCUMENTO_COMPLEMENTAR_SUCCESS: {
             return {
                 ...state,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
@@ -260,7 +260,7 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.UPDATE_DOCUMENTO_FAILED: {
+        case ComplementaresActions.UPDATE_DOCUMENTO_COMPLEMENTAR_FAILED: {
             return {
                 ...state,
                 loading: false,
@@ -269,43 +269,43 @@ export const documentosReducer = (
             };
         }
 
-        case DocumentosActions.DOWNLOAD_DOCUMENTO_P7S: {
+        case ComplementaresActions.DOWNLOAD_DOCUMENTO_COMPLEMENTAR_P7S: {
             return {
                 ...state,
                 downloadDocumentosP7SIds: [...state.downloadDocumentosP7SIds, action.payload],
             };
         }
-        case DocumentosActions.DOWNLOAD_DOCUMENTO_P7S_SUCCESS: {
+        case ComplementaresActions.DOWNLOAD_DOCUMENTO_COMPLEMENTAR_P7S_SUCCESS: {
             return {
                 ...state,
                 downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
             };
         }
-        case DocumentosActions.DOWNLOAD_DOCUMENTO_P7S_FAILED: {
+        case ComplementaresActions.DOWNLOAD_DOCUMENTO_COMPLEMENTAR_P7S_FAILED: {
             return {
                 ...state,
                 downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
             };
         }
 
-        case DocumentosActions.SET_SAVING: {
+        case ComplementaresActions.SET_SAVING_COMPLEMENTAR: {
             return {
                 ...state,
                 saving: !state.loading
             };
         }
 
-        case DocumentosActions.CHANGE_SELECTED_DOCUMENTOS: {
+        case ComplementaresActions.CHANGE_SELECTED_DOCUMENTOS_COMPLEMENTARES: {
             return {
                 ...state,
                 selectedDocumentosId: action.payload
             };
         }
 
-        case DocumentosActions.UNLOAD_DOCUMENTOS: {
+        case ComplementaresActions.UNLOAD_DOCUMENTOS_COMPLEMENTARES: {
             if (action.payload.reset) {
                 return {
-                    ...documentosInitialState
+                    ...complementaresInitialState
                 };
             } else {
                 return {

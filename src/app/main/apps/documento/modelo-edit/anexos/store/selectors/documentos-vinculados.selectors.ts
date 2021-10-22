@@ -22,6 +22,16 @@ export const getDocumentosVinculados = createSelector(
     schemaDocumentoSelectors.entitiesProjector
 );
 
+export const getIsLoadingDocumentosVinculados = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.loading
+);
+
+export const getIsSavingDocumentosVinculados = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.saving
+);
+
 export const getDocumentosVinculadosHasLoaded = createSelector(
     getDocumentosVinculadosState,
     (state: DocumentosVinculadosState) => state.documentosLoaded
@@ -40,6 +50,11 @@ export const getAssinandoDocumentosVinculadosId = createSelector(
 export const getSelectedDocumentosVinculadosIds = createSelector(
     getDocumentosVinculadosState,
     (state: DocumentosVinculadosState) => state.selectedDocumentosId
+);
+
+export const getDocumentosVinculadosPagination = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.pagination
 );
 
 export const getSelectedDocumentosVinculados = createSelector(

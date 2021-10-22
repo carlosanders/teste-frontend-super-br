@@ -36,6 +36,7 @@ import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
+import {GetTarefa as GetTarefaNovaAba, getTarefa as getTarefaNovaAba} from '../../../../tarefa-nova-aba/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -254,8 +255,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         // Set the defaults
         this.animationDirection = 'none';
 
-
-
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.expandir$ = this._store.pipe(select(fromStore.expandirTela));
         this.isLoading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -466,75 +465,83 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
-        this.tarefa$
-            .pipe(
-                takeUntil(this._unsubscribeAll),
-                distinctUntilChanged((x, y) => x === y && this.documentoEdit.uuid === this.routerState.queryParams.documentoEdit),
-            )
-            .subscribe((value) => {
-                this.tarefa = value;
-                this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
-                this.documentoEdit.open = false;
-                if (value) {
-                    this._unsubscribeDocs.next();
-                    this._unsubscribeDocs.complete();
-                    this._unsubscribeDocs = new Subject();
-                    this._store.pipe(select(getTarefa)).pipe(
+        this.tarefa$.pipe(
+            takeUntil(this._unsubscribeAll),
+            distinctUntilChanged((x, y) => x === y && this.documentoEdit.uuid === this.routerState.queryParams.documentoEdit),
+        ).subscribe((value) => {
+            this.tarefa = value;
+            this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
+            this.documentoEdit.open = false;
+            if (value) {
+                this._unsubscribeDocs.next();
+                this._unsubscribeDocs.complete();
+                this._unsubscribeDocs = new Subject();
+                if (this.routerState.url.includes('/tarefas/')) {
+                    this._store.pipe(
+                        select(getTarefa),
                         takeUntil(this._unsubscribeDocs)
                     ).subscribe((tarefa) => {
                         this.tarefaOrigem = tarefa;
                     });
-                    this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
-                    this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
-                    this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
-                    this._store.pipe(select(getDocumentosHasLoaded)).pipe(
+                } else {
+                    this._store.pipe(
+                        select(getTarefaNovaAba),
                         takeUntil(this._unsubscribeDocs)
-                    ).subscribe(
-                        loaded => this.loadedMinutas = loaded
-                    );
-                    this._changeDetectorRef.markForCheck();
-                    this.lixeiraMinutas$.pipe(
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe((lixeira) => {
-                        this.lixeiraMinutas = lixeira;
+                    ).subscribe((tarefa) => {
+                        this.tarefaOrigem = tarefa;
                     });
-                    this.documentos$.pipe(
-                        filter(cd => !!cd),
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe(
-                        (documentos) => {
-                            this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
-                            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
-
-                            if (this.lixeiraMinutas) {
-                                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
-                                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
-                            }
-
-                            this._changeDetectorRef.markForCheck();
-                            if (this.documentoEdit.uuid && !this.documentoEdit.open) {
-                                documentos.forEach((documento) => {
-                                    if (!documento.documentoAvulsoRemessa && documento.uuid === this.documentoEdit.uuid) {
-                                        this.documentoEdit.open = true;
-                                        this._store.dispatch(new fromStore.ClickedDocumento({
-                                            documento: documento,
-                                            routeAtividade: this.routeAtividadeDocumento,
-                                            routeOficio: this.routeOficioDocumento
-                                        }));
-                                    } else if (documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.uuid === this.documentoEdit.uuid) {
-                                        this.documentoEdit.open = true;
-                                        this._store.dispatch(new fromStore.ClickedDocumento({
-                                            documento: documento,
-                                            routeAtividade: this.routeAtividadeDocumento,
-                                            routeOficio: this.routeOficioDocumento
-                                        }));
-                                    }
-                                });
-                            }
-                        }
-                    );
                 }
-            });
+                this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+                this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
+                this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+                this._store.pipe(select(getDocumentosHasLoaded)).pipe(
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe(
+                    loaded => this.loadedMinutas = loaded
+                );
+                this._changeDetectorRef.markForCheck();
+                this.lixeiraMinutas$.pipe(
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe((lixeira) => {
+                    this.lixeiraMinutas = lixeira;
+                });
+                this.documentos$.pipe(
+                    filter(cd => !!cd),
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe(
+                    (documentos) => {
+                        this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
+                        this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
+
+                        if (this.lixeiraMinutas) {
+                            this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
+                            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
+                        }
+
+                        this._changeDetectorRef.markForCheck();
+                        if (this.documentoEdit.uuid && !this.documentoEdit.open) {
+                            documentos.forEach((documento) => {
+                                if (!documento.documentoAvulsoRemessa && documento.uuid === this.documentoEdit.uuid) {
+                                    this.documentoEdit.open = true;
+                                    this._store.dispatch(new fromStore.ClickedDocumento({
+                                        documento: documento,
+                                        routeAtividade: this.routeAtividadeDocumento,
+                                        routeOficio: this.routeOficioDocumento
+                                    }));
+                                } else if (documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.uuid === this.documentoEdit.uuid) {
+                                    this.documentoEdit.open = true;
+                                    this._store.dispatch(new fromStore.ClickedDocumento({
+                                        documento: documento,
+                                        routeAtividade: this.routeAtividadeDocumento,
+                                        routeOficio: this.routeOficioDocumento
+                                    }));
+                                }
+                            });
+                        }
+                    }
+                );
+            }
+        });
 
         const pathDocumento = 'app/main/apps/documento/documento-edit';
         modulesConfig.forEach((module) => {
@@ -1081,7 +1088,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     onComplete(): void {
         if (this.routerState.params['tarefaHandle']) {
-            this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
+            if (this.routerState.url.includes('/tarefas/')) {
+                this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
+            } else {
+                this._store.dispatch(new GetTarefaNovaAba({id: this.routerState.params['tarefaHandle']}));
+            }
         }
         this._store.dispatch(new fromStore.GetDocumentos());
     }

@@ -48,6 +48,9 @@ export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[RESPONDER DOCUMENTOS] DOWNLOAD DO
 
 export const SET_SAVING = '[RESPONDER DOCUMENTOS] SET SAVING COMPONENTES DIGITAIS';
 
+export const RELOAD_DOCUMENTOS = '[RESPONDER DOCUMENTOS] RELOAD DOCUMENTOS';
+export const UNLOAD_DOCUMENTOS = '[RESPONDER DOCUMENTOS] UNLOAD DOCUMENTOS';
+
 /**
  * Get Documentos
  */
@@ -434,6 +437,24 @@ export class SetSavingComponentesDigitais implements Action
     }
 }
 
+export class ReloadDocumentos implements Action
+{
+    readonly type = RELOAD_DOCUMENTOS;
+
+    constructor()
+    {
+    }
+}
+
+export class UnloadDocumentos implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -468,4 +489,6 @@ export type DocumentosActionsAll
     | UpdateDocumento
     | UpdateDocumentoSuccess
     | UpdateDocumentoFailed
-    | SetSavingComponentesDigitais;
+    | SetSavingComponentesDigitais
+    | ReloadDocumentos
+    | UnloadDocumentos;

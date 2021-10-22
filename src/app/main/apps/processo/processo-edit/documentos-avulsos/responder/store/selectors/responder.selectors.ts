@@ -80,6 +80,16 @@ export const getSelectedDocumentos = createSelector(
     schemaDocumentoSelectors.entitiesProjector
 );
 
+export const getIsLoadingDocumentos = createSelector(
+    getDocumentosState,
+    (state: DocumentoAvulsoResponderState) => state.loading
+);
+
+export const getIsSavingDocumentos = createSelector(
+    getDocumentosState,
+    (state: DocumentoAvulsoResponderState) => state.saving
+);
+
 export const getConvertendoAllDocumentosId = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => [
@@ -123,5 +133,20 @@ export const getDocumentosComplementares = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosComplementaresId,
     schemaDocumentoSelectors.entitiesProjector
+);
+
+export const getAlterandoDocumentosId = createSelector(
+    getDocumentosState,
+    (state: DocumentoAvulsoResponderState) => state.alterandoDocumentoIds
+);
+
+export const getDownloadDocumentosP7SId = createSelector(
+    getDocumentosState,
+    (state: DocumentoAvulsoResponderState) => state.downloadDocumentosP7SIds
+);
+
+export const getPagination = createSelector(
+    getDocumentosState,
+    (state: DocumentoAvulsoResponderState) => state.pagination
 );
 

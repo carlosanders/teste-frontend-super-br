@@ -30,7 +30,6 @@ import {CdkDocumentoAvulsoListModule} from '@cdk/components/documento-avulso/cdk
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import {DndModule} from 'ngx-drag-drop';
-import {LoginService} from '../../auth/login/login.service';
 import {OficiosComponent} from './oficios.component';
 import {DocumentoAvulsoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';

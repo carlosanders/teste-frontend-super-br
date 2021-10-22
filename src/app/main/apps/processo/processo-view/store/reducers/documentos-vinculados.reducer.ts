@@ -15,7 +15,7 @@ export interface DocumentosVinculadosState {
     error: any;
 }
 
-export const DocumentosVinculadosInitialState: DocumentosVinculadosState = {
+export const documentosVinculadosInitialState: DocumentosVinculadosState = {
     documentosId: [],
     documentosLoaded: false,
     selectedDocumentosId: [],
@@ -30,10 +30,10 @@ export const DocumentosVinculadosInitialState: DocumentosVinculadosState = {
     error: null,
 };
 
-export function DocumentosVinculadosReducer(
-    state = DocumentosVinculadosInitialState,
+export const documentosVinculadosReducer = (
+    state = documentosVinculadosInitialState,
     action: DocumentosVinculadosActions.DocumentosVinculadosActionsAll
-): DocumentosVinculadosState {
+): DocumentosVinculadosState => {
     switch (action.type) {
 
         case DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS: {
@@ -229,4 +229,4 @@ export function DocumentosVinculadosReducer(
         default:
             return state;
     }
-}
+};

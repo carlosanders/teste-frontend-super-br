@@ -36,13 +36,13 @@ export class ProtocoloDocumentoEffects {
     getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProtocoloDocumentoActions.GetDocumentos>(ProtocoloDocumentoActions.GET_DOCUMENTOS),
         switchMap(action => this._documentoService.query(
-            JSON.stringify(action.payload),
-            100,
-            0,
-            JSON.stringify({}),
-            JSON.stringify([
-                'populateAll'
-            ]))),
+            JSON.stringify({
+                ...action.payload.filter
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new ProtocoloDocumentoActions.GetDocumentosSuccess({
@@ -51,6 +51,7 @@ export class ProtocoloDocumentoEffects {
                     value: this.routerState.params.processoHandle
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
             }),
         ]),
         catchError((err) => {
@@ -58,6 +59,33 @@ export class ProtocoloDocumentoEffects {
             return of(new ProtocoloDocumentoActions.GetDocumentosFailed(err));
         })
     ));
+    /**
+     * Reload Documentos
+     */
+    reloadDocumentosComplementares: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProtocoloDocumentoActions.ReloadDocumentos>(ProtocoloDocumentoActions.RELOAD_DOCUMENTOS),
+        map(() => {
+            this._store.dispatch(new ProtocoloDocumentoActions.UnloadDocumentos());
+            const params = {
+                filter: {
+                    'processoOrigem.id': `eq:${this.routerState.params['processoHandle']}`,
+                    'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                },
+                limit: 10,
+                offset: 0,
+                sort: {criadoEm: 'DESC'},
+                populate: [
+                    'populateAll',
+                    'tipoDocumento',
+                    'documentoAvulsoRemessa',
+                    'documentoAvulsoRemessa.documentoResposta',
+                    'componentesDigitais',
+                    'juntadaAtual'
+                ]
+            };
+            this._store.dispatch(new ProtocoloDocumentoActions.GetDocumentos(params));
+        })
+    ), {dispatch: false});
     /**
      * Clicked Documento
      *
@@ -79,7 +107,7 @@ export class ProtocoloDocumentoEffects {
      */
     assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProtocoloDocumentoActions.AssinaDocumento>(ProtocoloDocumentoActions.ASSINA_DOCUMENTO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
             .pipe(
                 map(response => new ProtocoloDocumentoActions.AssinaDocumentoSuccess(response)),
                 catchError((err) => {
@@ -211,6 +239,24 @@ export class ProtocoloDocumentoEffects {
                 catchError(() => of(new ProtocoloDocumentoActions.ConverteToHtmlFailed(action.payload)))
             )
         )
+    ));
+    /**
+     * Update Documento
+     *
+     * @type {Observable<any>}
+     */
+    updateDocumento: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProtocoloDocumentoActions.UpdateDocumento>(ProtocoloDocumentoActions.UPDATE_DOCUMENTO),
+        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+            mergeMap((response: Documento) => [
+                new ProtocoloDocumentoActions.UpdateDocumentoSuccess(response.id),
+                new AddData<Documento>({data: [response], schema: documentoSchema})
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new ProtocoloDocumentoActions.UpdateDocumentoFailed(err));
+            })
+        ), 25)
     ));
     /**
      * Download P7S

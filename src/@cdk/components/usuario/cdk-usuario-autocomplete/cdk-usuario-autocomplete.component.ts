@@ -46,6 +46,9 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
+    @Input()
+    exibirUsername: boolean = false;
+
     filtrarPor: string;
 
     temDistribuidor = false;
@@ -67,7 +70,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.filtrarPor = localStorage.getItem('filtrarPor');
+        this.filtrarPor = this.pagination.context?.filtrarPor;
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -94,6 +97,8 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                             ...this.pagination.filter,
                             andX: andxFilter
                         };
+                        const context = this.pagination.context;
+                        delete context.filtrarPor;
 
                         return this._usuarioService.query(
                             JSON.stringify(filterParam),
@@ -101,7 +106,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
                             JSON.stringify(this.pagination.populate),
-                            JSON.stringify(this.pagination['context']))
+                            JSON.stringify(context))
                             .pipe(
                                 finalize(() => {
                                     this.usuarioListIsLoading = false;
@@ -124,20 +129,19 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         });
     }
 
-    displayUsuarioFn(usuario: Usuario): string {
-        this.filtrarPor = localStorage.getItem('filtrarPor');
-        if (this.filtrarPor && this.filtrarPor === 'username') {
-            if (usuario) {
-                if (usuario.username) {
-                    return usuario.username;
-                } else {
-                    return usuario.toString();
-                }
+    displayUsernameFn(usuario: Usuario): string {
+        if (usuario) {
+            if (usuario.username) {
+                return usuario.username;
             } else {
-                return null;
+                return usuario.toString();
             }
         } else {
-            return usuario ? usuario.nome + ' (' + usuario.username + ')' : null;
+            return null;
         }
+    }
+
+    displayUsuarioFn(usuario: Usuario): string {
+        return usuario ? usuario.nome + ' (' + usuario.username + ')' : null;
     }
 }

@@ -14,13 +14,11 @@ export class ComplementarEffects {
      *
      */
     getResponderSuccess: any = createEffect(() => this._actions.pipe(
-            ofType<ComplementarActions.SaveComplementarSuccess>(ComplementarActions.SAVE_COMPLEMENTAR_SUCCESS),
-            tap((action) => {
-                this._router.navigate(['apps/oficios/' + action.payload + '/complementar']).then();
-            })
-        ),
-        {dispatch: false}
-    );
+        ofType<ComplementarActions.SaveComplementarSuccess>(ComplementarActions.SAVE_COMPLEMENTAR_SUCCESS),
+        tap((action) => {
+            this._router.navigate(['apps/oficios/' + action.payload + '/complementar']).then();
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

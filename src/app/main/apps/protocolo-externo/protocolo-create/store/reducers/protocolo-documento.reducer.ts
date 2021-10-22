@@ -2,63 +2,105 @@ import * as ProtocoloDocumentoActions from '../actions/protocolo-documento.actio
 
 export interface ProtocoloDocumentoState {
     documentosId: number[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    alterandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
+    downloadDocumentosP7SIds: number[];
     convertendoDocumentoIds: number[];
     convertendoDocumentoHtmlIds: number[];
-    loading: boolean;
-    loaded: boolean;
     saving: boolean;
+    loading: boolean;
+    loaded: any;
     errors: any;
 }
 
-export const ProtocoloDocumentoInitialState: ProtocoloDocumentoState = {
+export const protocoloDocumentoInitialState: ProtocoloDocumentoState = {
     documentosId: [],
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: {},
+        total: 0,
+    },
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
+    alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
+    downloadDocumentosP7SIds: [],
     convertendoDocumentoIds: [],
     convertendoDocumentoHtmlIds: [],
+    saving: false,
     loading: false,
     loaded: false,
-    saving: false,
     errors: false
 };
 
-export function ProtocoloDocumentoReducer(state = ProtocoloDocumentoInitialState, action: ProtocoloDocumentoActions.ProtocoloDocumentoActionsAll): ProtocoloDocumentoState {
+export const protocoloDocumentoReducer = (state = protocoloDocumentoInitialState, action: ProtocoloDocumentoActions.ProtocoloDocumentoActionsAll): ProtocoloDocumentoState => {
     switch (action.type) {
+
+        case ProtocoloDocumentoActions.GET_DOCUMENTOS: {
+            return {
+                ...state,
+                saving: false,
+                loading: true,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
+            };
+        }
 
         case ProtocoloDocumentoActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
-                documentosId: action.payload.entitiesId,
+                loading: false,
+                documentosId: [...state.documentosId, ...action.payload.entitiesId],
                 documentosLoaded: action.payload.loaded,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                }
+            };
+        }
+
+        case ProtocoloDocumentoActions.GET_DOCUMENTOS_FAILED: {
+            return {
+                ...state,
+                loading: false
             };
         }
 
         case ProtocoloDocumentoActions.UNLOAD_DOCUMENTOS: {
             return {
-                ...ProtocoloDocumentoInitialState
+                ...protocoloDocumentoInitialState
             };
         }
 
         case ProtocoloDocumentoActions.ENVIAR_DOCUMENTO: {
             return {
-                assinandoDocumentoIds: [],
-                deletingDocumentoIds: [],
-                documentosId: [],
-                documentosLoaded: undefined,
-                removendoAssinaturaDocumentoIds: [],
-                convertendoDocumentoIds: [],
-                convertendoDocumentoHtmlIds: [],
-                loaded: false,
-                loading: false,
-                selectedDocumentosId: [],
+                ...state,
                 saving: true,
                 errors: false
             };
@@ -138,8 +180,50 @@ export function ProtocoloDocumentoReducer(state = ProtocoloDocumentoInitialState
                 convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
+        case ProtocoloDocumentoActions.UPDATE_DOCUMENTO: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
+                loaded: false,
+                loading: true,
+            };
+        }
+
+        case ProtocoloDocumentoActions.UPDATE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+                documentosId: state.documentosId.filter(id => id !== action.payload),
+                loaded: true,
+                loading: false,
+            };
+        }
+
+        case ProtocoloDocumentoActions.UPDATE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+            };
+        }
+
+        case ProtocoloDocumentoActions.SET_SAVING: {
+            return {
+                ...state,
+                saving: !state.loading
+            };
+        }
+
+        case ProtocoloDocumentoActions.CHANGE_SELECTED_DOCUMENTOS: {
+            return {
+                ...state,
+                selectedDocumentosId: action.payload
+            };
+        }
 
         default:
             return state;
     }
-}
+};

@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -10,9 +11,9 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
-import {Assinatura, Documento} from '@cdk/models';
+import {Assinatura, Documento, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -20,6 +21,10 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'modelo-edit-anexos',
@@ -39,7 +44,15 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
 
     routerState: any;
     documento$: Observable<Documento>;
+    documento: Documento;
     documentosVinculados$: Observable<Documento[]>;
+    documentosVinculados: Documento[];
+    pagination$: Observable<any>;
+    pagination: Pagination;
+
+    isSavingDocumentosVinculados$: Observable<boolean>;
+    isLoadingDocumentosVinculados$: Observable<boolean>;
+
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId$: Observable<number[]>;
@@ -55,18 +68,23 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
      * @param _location
      * @param _dynamicService
      * @param _ref
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.ModeloEditAnexosAppState>,
         private _location: Location,
         private _dynamicService: DynamicService,
-        private _ref: ChangeDetectorRef
+        private _ref: ChangeDetectorRef,
+        private _matDialog: MatDialog
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
         this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+        this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
+        this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
+        this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
 
         this._store.pipe(
             select(getMercureState),
@@ -88,6 +106,11 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                     case 'assinatura_finalizada':
                         this.javaWebStartOK = false;
                         this._store.dispatch(new fromStore.AssinaDocumentoVinculadoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
                         break;
                 }
             }
@@ -109,6 +132,21 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
      * On init
      */
     ngOnInit(): void {
+        this.documento$.pipe(
+            filter(documento => !!documento),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documento => this.documento = documento);
+
+        this.pagination$.pipe(
+            filter(pagination => !!pagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
+
+        this.documentosVinculados$.pipe(
+            filter(documentos => !!documentos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documentos => this.documentosVinculados = documentos);
+
         this.assinandoDocumentosVinculadosId$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((assinandoDocumentosVinculadosId) => {
@@ -183,18 +221,104 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                 const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
                     assinatura: assinatura,
+                    documento: result.documento,
                     operacaoId: operacaoId
                 }));
             });
         }
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentosId));
+        } else {
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+            });
+        }
+    }
+
+    hasChanges(): boolean {
+        const editor = window['CKEDITOR'];
+        if (editor && editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) && editor.instances[editorInstance]) {
+                    if (editor.instances[editorInstance].checkDirty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    podeNavegarDoEditor(): Observable<boolean> {
+        if (this.hasChanges()) {
+            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
+                },
+                disableClose: false
+            });
+
+            return confirmDialogRef.afterClosed();
+        } else {
+            return of(true);
+        }
+    }
+
     onClickedDocumentoVinculado(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+        if (this.documento.vinculacaoDocumentoPrincipal) {
+            return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+        }
+        this.podeNavegarDoEditor().subscribe((result) => {
+            if (result) {
+                return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+            }
+        });
     }
 
     onCompleteDocumentoVinculado(): void {
-        this._store.dispatch(new fromStore.GetDocumentosVinculados());
+        this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+    }
+
+    onCompleteAllDocumentosVinculados(): void {
+        this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
+    }
+
+    paginaDocumentosVinculados(): void {
+        if (this.documentosVinculados.length >= this.pagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.pagination,
+            offset: this.pagination.offset + this.pagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetDocumentosVinculados(nparams));
     }
 
 }
