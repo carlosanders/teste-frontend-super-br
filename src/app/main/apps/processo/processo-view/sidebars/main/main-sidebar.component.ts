@@ -197,12 +197,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     isLoadingDocumentosVinculados$: Observable<boolean>;
     documentosVinculados$: Observable<Documento[]>;
+    documentosVinculados: Documento[];
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId$: Observable<number[]>;
     removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
+    documentosVinculadosPagination$: Observable<any>;
+    documentosVinculadosPagination: any;
 
     contador: Contador = new Contador();
 
@@ -377,6 +380,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.removendoAssinaturaDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosVinculadosId));
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
+        this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
     }
 
     /**
@@ -505,6 +509,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 ).subscribe((lixeira) => {
                     this.lixeiraMinutas = lixeira;
                 });
+
+                this.documentosVinculadosPagination$.pipe(
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(pagination => this.documentosVinculadosPagination = pagination);
+
+                this.documentosVinculados$.pipe(
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(documentosVinculados => this.documentosVinculados = documentosVinculados);
+
                 this.documentos$.pipe(
                     filter(cd => !!cd),
                     takeUntil(this._unsubscribeDocs)
@@ -1152,7 +1165,32 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     uploadAnexo(documento: Documento): void {
-        this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));
+        this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
+        const documentoId = `eq:${documento.id}`;
+
+        const params = {
+            filter: {
+                'vinculacaoDocumentoPrincipal.documento.id': documentoId,
+                'juntadaAtual': 'isNull'
+            },
+            limit: 10,
+            offset: 0,
+            sort: {id: 'DESC'},
+            populate: [
+                'tipoDocumento',
+                'vinculacaoDocumentoPrincipal',
+                'vinculacaoDocumentoPrincipal.documento',
+                'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
+                'componentesDigitais',
+                'processoOrigem',
+                'setorOrigem',
+                'tarefaOrigem',
+                'tarefaOrigem.usuarioResponsavel',
+                'tarefaOrigem.vinculacoesEtiquetas',
+                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+            ]
+        };
+        this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documento: documento}));
         const dialogRef = this.dialog.open(CdkUploadDialogComponent, {
             width: '600px',
             data: {
@@ -1165,7 +1203,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 assinandoDocumentosVinculadosId$: this.assinandoDocumentosId$,
                 removendoAssinaturaDocumentosVinculadosId$: this.removendoAssinaturaDocumentosId$,
                 alterandoDocumentosId$: this.alterandoDocumentosVinculadosId$,
-                downloadP7SDocumentosId$: this.downloadP7SDocumentosId$
+                downloadP7SDocumentosId$: this.downloadP7SDocumentosId$,
+                documentosPagination$: this.documentosVinculadosPagination$
             }
         });
         // Subscribe nos eventos do componente
@@ -1252,8 +1291,20 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this._store.dispatch(new fromStore.DownloadVinculadoP7S(componenteDigital));
             });
         });
-        const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((documentoId: number) => {
-            this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        const getMoreSub = dialogRef.componentInstance.getMore.subscribe(() => {
+            if (this.documentosVinculados.length >= this.documentosVinculadosPagination.total) {
+                return;
+            }
+
+            const nparams = {
+                ...this.documentosVinculadosPagination,
+                offset: this.documentosVinculadosPagination.offset + this.documentosVinculadosPagination.limit
+            };
+
+            this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: nparams, documento: documento}));
+        });
+        const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((docId: number) => {
+            this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(docId));
         });
         // Unsubscribe em todas as assinaturas de eventos
         dialogRef.afterClosed().subscribe(() => {
@@ -1267,8 +1318,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             completeSub.unsubscribe();
             deleteSub.unsubscribe();
             downloadP7SSub.unsubscribe();
+            getMoreSub.unsubscribe();
             removeAssinaturaSub.unsubscribe();
             this._store.dispatch(new fromStore.ReloadDocumento(documento.id));
+            this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
         });
     }
 
