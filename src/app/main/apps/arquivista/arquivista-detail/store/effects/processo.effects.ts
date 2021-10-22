@@ -21,21 +21,29 @@ export class ProcessoEffects {
      */
     saveProcesso: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoActions.SaveProcesso>(ProcessoActions.SAVE_PROCESSO),
-        switchMap(action => this._processoService.patch(action.payload.processo, action.payload.changes).pipe(
-            mergeMap(response => [
-                new UpdateData<Processo>({
-                    id: response.id,
-                    schema: processoSchema,
-                    changes: {
-                        classificacao: response.classificacao,
-                        lembreteArquivista: response.lembreteArquivista,
-                        dataHoraProximaTransicao: response.dataHoraProximaTransicao
-                    }
-                }),
-                new ProcessoActions.SaveProcessoSuccess(response)
-            ]),
-            catchError(err => of(new ProcessoActions.SaveProcessoFailed(err)))
-        ))
+        switchMap((action) => {
+            const populate = JSON.stringify([
+                'classificacao',
+                'modalidadeFase',
+                'classificacao.modalidadeDestinacao'
+            ]);
+
+            return this._processoService.patch(action.payload.processo, action.payload.changes, populate).pipe(
+                mergeMap(response => [
+                    new UpdateData<Processo>({
+                        id: response.id,
+                        schema: processoSchema,
+                        changes: {
+                            classificacao: response.classificacao,
+                            lembreteArquivista: response.lembreteArquivista,
+                            dataHoraProximaTransicao: response.dataHoraProximaTransicao
+                        }
+                    }),
+                    new ProcessoActions.SaveProcessoSuccess(response)
+                ]),
+                catchError(err => of(new ProcessoActions.SaveProcessoFailed(err)))
+            )
+        })
     ));
     /**
      * Save Processo Success
@@ -51,7 +59,15 @@ export class ProcessoEffects {
             } else if (action.payload.dataHoraProximaTransicao > currentDate) {
                 typeHandle = 'aguardando-decurso';
             } else if (action.payload.dataHoraProximaTransicao <= currentDate) {
-                typeHandle = 'pronto-transicao';
+                if (action.payload.modalidadeFase.valor === 'CORRENTE') {
+                    typeHandle = 'pronto-transferencia';
+                }
+                if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'ELIMINAÇÃO') {
+                    typeHandle = 'pronto-eliminação';
+                }
+                if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'RECOLHIMENTO') {
+                    typeHandle = 'pronto-recolhimento';
+                }
             }
             if (typeHandle !== this.routerState.params['typeHandle']) {
                 const newEntitiesId = entitiesId.filter(id => id !== action.payload.processo.id);
