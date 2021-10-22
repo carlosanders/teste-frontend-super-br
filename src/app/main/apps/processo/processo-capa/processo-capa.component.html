@@ -41,7 +41,12 @@
                 Idade:
             </div>
             <div class="valor">
-                {{ processo.modalidadeFase.valor }}
+                <div>
+                    {{ processo.modalidadeFase.valor }}
+                </div>
+                <div *ngIf="processo.modalidadeFase.valor !== 'CORRENTE'" style="color:red;" >
+                     (ENCERRADO)
+                </div>
             </div>
         </div>
     </mat-card>

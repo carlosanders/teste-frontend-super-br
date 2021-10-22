@@ -670,3 +670,8 @@
 * Correção no editor para exibir alerta ao usuário informando que ele perderá o conteúdo atual do documento ao alterar o seu modelo
 * Correção no editor para exibir alerta ao usuário informando que ele perderá o conteúdo atual do documento ao reverter sua versão
 * Correção em bug onde troca de foco em formulários abria o painel lateral do chat
+* Correção de bug no form de criação de usuários
+* Correção de bug no form criar cópia
+* Correção na criação de Tarefas em Bloco no grid de Tarefas do Processo
+* Correção de rota do widget de Tarefas para o módulo arquivista
+* Melhoria inclusão do termo encerrado em processos com idades diferentes de "corrente"
