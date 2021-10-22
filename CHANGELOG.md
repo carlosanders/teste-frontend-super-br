@@ -684,3 +684,4 @@
 * Correção em comportamento do autocomplete de usuário, que em determinadas condições, quebrava e passava a pesquisar somente por username
 * Correção em componente de detalhes de ofício para usuário externo, onde o componente de responder não possuía guarda de rota próprio e quebrava em situações específicas
 * Melhoria inserindo paginação no dialog de documentos vinculados a uma minuta no processo-view
+* Melhoria para exibir a hora nos campos de data dos grids
