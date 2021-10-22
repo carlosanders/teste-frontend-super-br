@@ -168,6 +168,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+    operacaoId?: string;
+
+
     /**
      *
      * @param _store
@@ -329,6 +332,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      * On init
      */
     ngOnInit(): void {
+
+        this.operacaoId = null;
+
 
         this.configuracaoNupList$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -719,18 +725,32 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     submitTarefa(values): void {
         const tarefa = new Tarefa();
+        this.lote = '';
 
         Object.entries(values).forEach(
             ([key, value]) => {
                 tarefa[key] = value;
             }
         );
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
 
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveTarefa({
-            tarefa: tarefa,
-            operacaoId: operacaoId
-        }));
+    }
+
+    submitLote(event: any): void {
+        this.lote = event.loteId;
+        const tarefa = new Tarefa();
+
+        this.operacaoId = CdkUtils.makeId();
+
+        Object.entries(event.tarefa).forEach(
+            ([key, value]) => {
+                tarefa[key] = value;
+            }
+        );
+
+        tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
+
+        this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, operacaoId: this.operacaoId, loteId: this.lote}));
     }
 
     upload(): void {
