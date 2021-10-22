@@ -49,6 +49,7 @@ export class DocumentosVinculadosEffects {
                     value: this.documento.id
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
             })
         ]),
         catchError((err) => {

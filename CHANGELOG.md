@@ -679,3 +679,8 @@
 * Melhoria inclusão do editar tarefa concluída para checagem do histórico
 * Sistema só está enviando a tarefa de um processo apenas para o último adicionado na lista de 'Bloco de Responsáveis'. #668
 * Sistema não está permitindo concluir um processo utilizando a função de 'Bloco de Responsáveis'. #661
+* Melhoria inserindo paginação no componente cdk-documento-card-list e permitindo requisitar os 10 registros seguintes caso haja mais de 10 no total do paginador
+* Melhoria implementados em todos os locais que utilizam o componente acima as lógicas necessárias para solicitar mais registros paginados de documentos
+* Correção em comportamento do autocomplete de usuário, que em determinadas condições, quebrava e passava a pesquisar somente por username
+* Correção em componente de detalhes de ofício para usuário externo, onde o componente de responder não possuía guarda de rota próprio e quebrava em situações específicas
+* Melhoria inserindo paginação no dialog de documentos vinculados a uma minuta no processo-view
