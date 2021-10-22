@@ -35,6 +35,16 @@ export const DOWNLOAD_DOCUMENTO_P7S = '[PROTOCOLO-DOCUMENTO] DOWNLOAD DOCUMENTO 
 export const DOWNLOAD_DOCUMENTO_SUCCESS = '[PROTOCOLO-DOCUMENTO] DOWNLOAD DOCUMENTO P7S SUCESS';
 export const DOWNLOAD_DOCUMENTO_FAILED = '[PROTOCOLO-DOCUMENTO] DOWNLOAD DOCUMENTO P7S FAILED';
 
+export const CHANGE_SELECTED_DOCUMENTOS = '[PROTOCOLO-DOCUMENTO] CHANGE SELECTED DOCUMENTOS';
+
+export const UPDATE_DOCUMENTO = '[PROTOCOLO-DOCUMENTO] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_SUCCESS = '[PROTOCOLO-DOCUMENTO] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_FAILED = '[PROTOCOLO-DOCUMENTO] UPDATE DOCUMENTO FAILED';
+
+export const SET_SAVING = '[PROTOCOLO-DOCUMENTO] SET SAVING COMPONENTES DIGITAIS';
+
+export const RELOAD_DOCUMENTOS = '[PROTOCOLO-DOCUMENTO] RELOAD DOCUMENTOS';
+
 
 /**
  * Unload Documentos
@@ -225,7 +235,6 @@ export class RemoveAssinaturaDocumentoFailed implements Action
     }
 }
 
-
 /**
  * Converte Documento
  */
@@ -316,6 +325,69 @@ export class DownloadToP7SFailed implements Action
     }
 }
 
+/**
+ * Update Documento
+ */
+export class UpdateDocumento implements Action
+{
+    readonly type = UPDATE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Success
+ */
+export class UpdateDocumentoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Failed
+ */
+export class UpdateDocumentoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ChangeSelectedDocumentos implements Action
+{
+    readonly type = CHANGE_SELECTED_DOCUMENTOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
+
+export class ReloadDocumentos implements Action
+{
+    readonly type = RELOAD_DOCUMENTOS;
+
+    constructor()
+    {
+    }
+}
+
 export type ProtocoloDocumentoActionsAll
     = EnviarDocumento
     | EnviarDocumentoSuccess
@@ -341,4 +413,10 @@ export type ProtocoloDocumentoActionsAll
     | ConverteToHtmlFailed
     | DownloadToP7S
     | DownloadToP7SSuccess
-    | DownloadToP7SFailed;
+    | DownloadToP7SFailed
+    | UpdateDocumento
+    | UpdateDocumentoSuccess
+    | UpdateDocumentoFailed
+    | ChangeSelectedDocumentos
+    | SetSavingComponentesDigitais
+    | ReloadDocumentos;

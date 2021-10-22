@@ -37,17 +37,6 @@ export const getDocumentosHasLoaded = createSelector(
     (state: DocumentosState) => state.documentosLoaded
 );
 
-export const getSelectedDocumentoIds = createSelector(
-    getDocumentosState,
-    (state: DocumentosState) => state.selectedDocumentosId
-);
-
-export const getSelectedDocumentos = createSelector(
-    schemaDocumentoSelectors.getNormalizedEntities,
-    getSelectedDocumentoIds,
-    schemaDocumentoSelectors.entitiesProjector
-);
-
 export const getConvertendoAllDocumentosId = createSelector(
     getDocumentosState,
     (state: DocumentosState) => [
@@ -90,5 +79,4 @@ export const getDownloadDocumentosP7SId = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.downloadDocumentosP7SIds
 );
-
 

@@ -29,32 +29,8 @@ export class DocumentosVinculadosEffects {
     getDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
         switchMap((action) => {
-
-            this.documento = action.payload;
-            const documentoId = `eq:${action.payload.id}`;
-
-            const params = {
-                filter: {
-                    'vinculacaoDocumentoPrincipal.documento.id': documentoId,
-                    'juntadaAtual': 'isNull'
-                },
-                limit: 10,
-                offset: 0,
-                sort: {id: 'DESC'},
-                populate: [
-                    'tipoDocumento',
-                    'vinculacaoDocumentoPrincipal',
-                    'vinculacaoDocumentoPrincipal.documento',
-                    'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                    'componentesDigitais',
-                    'processoOrigem',
-                    'setorOrigem',
-                    'tarefaOrigem',
-                    'tarefaOrigem.usuarioResponsavel',
-                    'tarefaOrigem.vinculacoesEtiquetas',
-                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                ]
-            };
+            this.documento = action.payload.documento;
+            const params = action.payload.filters;
 
             return this._documentoService.query(
                 JSON.stringify({

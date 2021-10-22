@@ -321,9 +321,9 @@ export class DocumentoAvulsoResponderEffect {
                     id: 'documentoAvulsoHandle',
                     value: this.routerState.params.documentoAvulsoHandle
                 },
-                documentoAvulso: response['entities'][0]
+                documentoAvulsoId: response['entities'][0]
             }),
-            new DocumentoAvulsoReponderActions.GetDocumentos({id: `eq:${response['entities'][0].documentoResposta.id}`})
+            new DocumentoAvulsoReponderActions.ReloadDocumentosComplementares()
         ]),
         catchError((err) => {
             console.log(err);
@@ -338,32 +338,61 @@ export class DocumentoAvulsoResponderEffect {
     getDocumentosComplementares: any = createEffect(() => this._actions.pipe(
         ofType<DocumentoAvulsoReponderActions.GetDocumentosComplementares>(DocumentoAvulsoReponderActions.GET_DOCUMENTOS_COMPLEMENTARES),
         switchMap(action => this._documentoService.query(
-            JSON.stringify(action.payload),
-            10,
-            0,
-            JSON.stringify({criadoEm: 'DESC'}),
-            JSON.stringify([
-                'tipoDocumento',
-                'documentoAvulsoRemessa',
-                'documentoAvulsoRemessa.documentoResposta',
-                'componentesDigitais',
-                'juntadaAtual'
-            ]))),
+            JSON.stringify({
+                ...action.payload.filter
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new DocumentoAvulsoReponderActions.GetDocumentosCompelemtaresSuccess({
+            new DocumentoAvulsoReponderActions.GetDocumentosComplementaresSuccess({
                 loaded: {
                     id: 'documentoAvulsoHandle',
                     value: this.routerState.params.documentoAvulsoHandle
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
             })
         ]),
         catchError((err) => {
             console.log(err);
-            return of(new DocumentoAvulsoReponderActions.GetDocumentosCompelemtaresFailed(err));
+            return of(new DocumentoAvulsoReponderActions.GetDocumentosComplementaresFailed(err));
         })
     ));
+    /**
+     * Reload Documentos
+     */
+    reloadDocumentosComplementares: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentoAvulsoReponderActions.ReloadDocumentosComplementares>(DocumentoAvulsoReponderActions.RELOAD_DOCUMENTOS_COMPLEMENTARES),
+        map(() => {
+            this._store.dispatch(new DocumentoAvulsoReponderActions.UnloadDocumentosComplementares({reset: false}));
+            let documentoId = null;
+
+            const routeParams = of('documentoAvulsoHandle');
+            routeParams.subscribe((param) => {
+                documentoId = `eq:${this.routerState.params[param]}`;
+            });
+
+            const params = {
+                filter: {
+                    'documentoAvulsoComplementacaoResposta.id': documentoId
+                },
+                limit: 10,
+                offset: 0,
+                sort: {criadoEm: 'DESC'},
+                populate: [
+                    'tipoDocumento',
+                    'documentoAvulsoRemessa',
+                    'documentoAvulsoRemessa.documentoResposta',
+                    'componentesDigitais',
+                    'juntadaAtual'
+                ]
+            };
+            this._store.dispatch(new DocumentoAvulsoReponderActions.GetDocumentosComplementares(params));
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

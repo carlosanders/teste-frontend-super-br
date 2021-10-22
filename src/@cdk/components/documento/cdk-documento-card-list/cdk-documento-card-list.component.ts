@@ -15,9 +15,9 @@ import {cdkAnimations} from '@cdk/animations';
 import {Documento, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {CdkAssinaturaEletronicaPluginComponent} from "../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
-import {filter} from "rxjs/operators";
-import {MatDialog} from "../../../angular/material";
+import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {filter} from 'rxjs/operators';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'cdk-documento-card-list',
@@ -80,6 +80,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     @Output()
     alterarTipoDocumento = new EventEmitter<Documento>();
 
+    @Output()
+    getMore = new EventEmitter<any>();
+
     @Input()
     deletingId: number[] = [];
 
@@ -118,6 +121,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     tipoDocumentoPagination: Pagination;
+
+    @Input()
+    documentosPagination: Pagination = null;
 
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
@@ -313,5 +319,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     doRestaurarBloco(): void {
         this.selectedIds.forEach(documentoId => this.doRestaurar(documentoId));
         this.deselectAll();
+    }
+
+    doGetMore(): void {
+        this.getMore.emit();
     }
 }

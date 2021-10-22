@@ -51,6 +51,19 @@ export const GET_DOCUMENTOS_COMPLEMENTARES = '[DOCUMENTO AVULSO RESPONDER DOCUME
 export const GET_DOCUMENTOS_COMPLEMENTARES_SUCCESS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] GET DOCUMENTOS COMPLEMENTARRES SUCCESS';
 export const GET_DOCUMENTOS_COMPLEMENTARES_FAILED = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] GET DOCUMENTOS COMPLEMENTARES FAILED';
 
+export const UPDATE_DOCUMENTO = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_SUCCESS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_FAILED = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] UPDATE DOCUMENTO FAILED';
+
+export const DOWNLOAD_DOCUMENTO_P7S = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] DOWNLOAD DOCUMENTOP7S DOCUMENTO';
+export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] DOWNLOAD DOCUMENTOP7S DOCUMENTO SUCCESS';
+export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] DOWNLOAD DOCUMENTOP7S FAILED';
+
+export const SET_SAVING = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] SET SAVING COMPONENTES DIGITAIS';
+
+export const RELOAD_DOCUMENTOS_COMPLEMENTARES = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] RELOAD DOCUMENTOS COMPLEMENTARES';
+export const UNLOAD_DOCUMENTOS_COMPLEMENTARES = '[DOCUMENTO AVULSO RESPONDER DOCUMENTOS] UNLOAD DOCUMENTOS COMPLEMENTARES';
+
 /**
  * Get DocumentoAvulso
  */
@@ -432,7 +445,7 @@ export class GetDocumentosComplementares implements Action
 /**
  * Get Documentos Success
  */
-export class GetDocumentosCompelemtaresSuccess implements Action
+export class GetDocumentosComplementaresSuccess implements Action
 {
     readonly type = GET_DOCUMENTOS_COMPLEMENTARES_SUCCESS;
 
@@ -444,11 +457,107 @@ export class GetDocumentosCompelemtaresSuccess implements Action
 /**
  * Get Documentos Success
  */
-export class GetDocumentosCompelemtaresFailed implements Action
+export class GetDocumentosComplementaresFailed implements Action
 {
     readonly type = GET_DOCUMENTOS_COMPLEMENTARES_FAILED;
 
     constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Unload Documentos Complementares
+ */
+export class UnloadDocumentosComplementares implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS_COMPLEMENTARES;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Download Documento P7S
+ */
+export class DownloadP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento
+ */
+export class UpdateDocumento implements Action
+{
+    readonly type = UPDATE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Success
+ */
+export class UpdateDocumentoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Failed
+ */
+export class UpdateDocumentoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
+
+export class ReloadDocumentosComplementares implements Action
+{
+    readonly type = RELOAD_DOCUMENTOS_COMPLEMENTARES;
+
+    constructor()
     {
     }
 }
@@ -489,5 +598,14 @@ export type ResponderActionsAll
     | SaveComplementarFailed
     | SaveComplementarSuccess
     | GetDocumentosComplementares
-    | GetDocumentosCompelemtaresSuccess
-    | GetDocumentosCompelemtaresFailed;
+    | GetDocumentosComplementaresSuccess
+    | GetDocumentosComplementaresFailed
+    | UnloadDocumentosComplementares
+    | DownloadP7S
+    | DownloadP7SSuccess
+    | DownloadP7SFailed
+    | UpdateDocumento
+    | UpdateDocumentoSuccess
+    | UpdateDocumentoFailed
+    | SetSavingComponentesDigitais
+    | ReloadDocumentosComplementares;

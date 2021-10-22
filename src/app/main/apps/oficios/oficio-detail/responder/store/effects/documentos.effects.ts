@@ -58,10 +58,7 @@ export class DocumentosEffects {
                     id: 'documentoAvulsoHandle',
                     value: this.routerState.params.documentoAvulsoHandle
                 },
-                entitiesId: response['entities'].map(documento => documento.id),
-            }),
-            new DocumentosComplementaresActions.GetDocumentosComplementares({
-                'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`
+                entitiesId: response['entities'].map(documento => documento.id)
             })
         ]),
         catchError((err) => {
