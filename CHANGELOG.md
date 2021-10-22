@@ -675,3 +675,4 @@
 * Correção na criação de Tarefas em Bloco no grid de Tarefas do Processo
 * Correção de rota do widget de Tarefas para o módulo arquivista
 * Melhoria inclusão do termo encerrado em processos com idades diferentes de "corrente"
+* Correção de bug ao adicionar etiqueta no painel de tarefa já criar vinculação
