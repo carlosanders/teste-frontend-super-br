@@ -32,7 +32,7 @@ export class ProcessoEffects {
                         dataHoraProximaTransicao: response.dataHoraProximaTransicao
                     }
                 }),
-                new ProcessoActions.SaveProcessoSuccess(action.payload)
+                new ProcessoActions.SaveProcessoSuccess(response)
             ]),
             catchError(err => of(new ProcessoActions.SaveProcessoFailed(err)))
         ))
@@ -46,11 +46,11 @@ export class ProcessoEffects {
         tap(([action, entitiesId]) => {
             const currentDate = moment();
             let typeHandle = this.routerState.params['typeHandle'];
-            if (!action.payload.changes.dataHoraProximaTransicao) {
+            if (!action.payload.dataHoraProximaTransicao) {
                 typeHandle = 'pendencia-analise';
-            } else if (action.payload.changes.dataHoraProximaTransicao > currentDate) {
+            } else if (action.payload.dataHoraProximaTransicao > currentDate) {
                 typeHandle = 'aguardando-decurso';
-            } else if (action.payload.changes.dataHoraProximaTransicao <= currentDate) {
+            } else if (action.payload.dataHoraProximaTransicao <= currentDate) {
                 typeHandle = 'pronto-transicao';
             }
             if (typeHandle !== this.routerState.params['typeHandle']) {

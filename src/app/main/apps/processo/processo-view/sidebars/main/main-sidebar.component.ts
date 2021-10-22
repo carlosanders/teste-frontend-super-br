@@ -36,7 +36,6 @@ import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
-import {GetTarefa as GetTarefaNovaAba, getTarefa as getTarefaNovaAba} from '../../../../tarefa-nova-aba/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -191,7 +190,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     placeholderId = null;
 
     draggedJuntada: number = null;
-    isOpen:  boolean[] = [];
+    isOpen: boolean[] = [];
 
     // Upload de anexo em minuta/ofício
     isSaving$: Observable<boolean>;
@@ -480,21 +479,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this._unsubscribeDocs.next();
                 this._unsubscribeDocs.complete();
                 this._unsubscribeDocs = new Subject();
-                if (this.routerState.url.includes('/tarefas/')) {
-                    this._store.pipe(
-                        select(getTarefa),
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe((tarefa) => {
-                        this.tarefaOrigem = tarefa;
-                    });
-                } else {
-                    this._store.pipe(
-                        select(getTarefaNovaAba),
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe((tarefa) => {
-                        this.tarefaOrigem = tarefa;
-                    });
-                }
+                this._store.pipe(
+                    select(getTarefa),
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe((tarefa) => {
+                    this.tarefaOrigem = tarefa;
+                });
                 this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
                 this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
                 this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
@@ -1101,11 +1091,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     onComplete(): void {
         if (this.routerState.params['tarefaHandle']) {
-            if (this.routerState.url.includes('/tarefas/')) {
-                this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
-            } else {
-                this._store.dispatch(new GetTarefaNovaAba({id: this.routerState.params['tarefaHandle']}));
-            }
+            this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
         }
         this._store.dispatch(new fromStore.GetDocumentos());
     }
