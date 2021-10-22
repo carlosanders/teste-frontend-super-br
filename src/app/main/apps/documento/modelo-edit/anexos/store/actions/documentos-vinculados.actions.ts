@@ -21,6 +21,11 @@ export const COMPLETE_DOCUMENTO_VINCULADO = '[DOCUMENTO EDIT MODELO] COMPLETE DO
 
 export const CHANGE_SELECTED_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT MODELO] CHANGE SELECTED DOCUMENTOS VINCULADOS';
 
+export const SET_SAVING = '[DOCUMENTO EDIT MODELO] SET SAVING COMPONENTES DIGITAIS';
+
+export const RELOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT MODELO ANEXOS] RELOAD DOCUMENTOS VINCULADOS';
+export const UNLOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT MODELO ANEXOS] UNLOAD DOCUMENTOS VINCULADOS';
+
 /**
  * Get Documentos Vinculados
  */
@@ -28,7 +33,7 @@ export class GetDocumentosVinculados implements Action
 {
     readonly type = GET_DOCUMENTOS_VINCULADOS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
@@ -199,6 +204,33 @@ export class CompleteDocumentoVinculado implements Action
     }
 }
 
+export class SetSavingComponentesDigitais implements Action
+{
+    readonly type = SET_SAVING;
+
+    constructor()
+    {
+    }
+}
+
+export class ReloadDocumentosVinculados implements Action
+{
+    readonly type = RELOAD_DOCUMENTOS_VINCULADOS;
+
+    constructor()
+    {
+    }
+}
+
+export class UnloadDocumentosVinculados implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS_VINCULADOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -214,4 +246,7 @@ export type DocumentosVinculadosActionsAll
     | DeleteDocumentoVinculado
     | DeleteDocumentoVinculadoSuccess
     | DeleteDocumentoVinculadoFailed
-    | ChangeSelectedDocumentosVinculados;
+    | ChangeSelectedDocumentosVinculados
+    | SetSavingComponentesDigitais
+    | ReloadDocumentosVinculados
+    | UnloadDocumentosVinculados;

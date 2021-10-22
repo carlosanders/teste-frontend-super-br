@@ -27,7 +27,7 @@
                 </div>
 
                 <div>
-                    <h3 [ngClass]="{'warn' : unsafe}" *ngIf="!(loading$ | async)">{{fileName}}</h3>
+                    <h3 [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">{{fileName}}</h3>
                 </div>
 
                 <div class="right">
@@ -73,11 +73,11 @@
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="!(loading$ | async) && (juntadas)?.length === 0">
+                <div class="sem-juntadas" *ngIf="(loading$ | async) === false && (juntadas)?.length === 0">
                     <span class="no-juntadas-text hint-text">Não há documentos juntados</span>
                 </div>
 
-                <div *ngIf="!(loading$ | async) && (juntadas)?.length > 0"
+                <div *ngIf="(loading$ | async) === false && (juntadas)?.length > 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
                     <iframe id="iframe-juntadas" *ngIf="src"
                             [src]="src">

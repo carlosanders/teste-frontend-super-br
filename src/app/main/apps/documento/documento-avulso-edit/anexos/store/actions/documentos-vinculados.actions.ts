@@ -38,6 +38,9 @@ export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[DOCUMENTO EDIT DOCUMENTO AVULSO] 
 
 export const SET_SAVING = '[DOCUMENTO EDIT DOCUMENTO AVULSO] SET SAVING COMPONENTES DIGITAIS';
 
+export const RELOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] RELOAD DOCUMENTOS VINCULADOS';
+export const UNLOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT DOCUMENTO AVULSO] UNLOAD DOCUMENTOS VINCULADOS';
+
 /**
  * Get Documentos Vinculados
  */
@@ -45,7 +48,7 @@ export class GetDocumentosVinculados implements Action
 {
     readonly type = GET_DOCUMENTOS_VINCULADOS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
@@ -312,7 +315,6 @@ export class UpdateDocumentoFailed implements Action
     }
 }
 
-
 /**
  * Download Documento P7S
  */
@@ -352,6 +354,24 @@ export class SetSavingComponentesDigitais implements Action
     }
 }
 
+export class ReloadDocumentosVinculados implements Action
+{
+    readonly type = RELOAD_DOCUMENTOS_VINCULADOS;
+
+    constructor()
+    {
+    }
+}
+
+export class UnloadDocumentosVinculados implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS_VINCULADOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -379,4 +399,6 @@ export type DocumentosVinculadosActionsAll
     | DownloadP7S
     | DownloadP7SFailed
     | DownloadP7SSuccess
-    | SetSavingComponentesDigitais;
+    | SetSavingComponentesDigitais
+    | ReloadDocumentosVinculados
+    | UnloadDocumentosVinculados;
