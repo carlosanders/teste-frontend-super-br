@@ -89,7 +89,8 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             setorAtual: [null],
             unidade: [null],
             nome: [null],
-            cpfCnpj: [null]
+            cpfCnpj: [null],
+            lembreteArquivista: [null]
         });
 
         this.unidadePagination = new Pagination();
@@ -207,6 +208,12 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             andXFilter.push({'especieProcesso.id': `eq:${this.form.get('especieProcesso').value.id}`});
         }
 
+        if (this.form.get('lembreteArquivista').value) {
+            this.form.get('lembreteArquivista').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'lembreteArquivista': `like:%${bit}%`});
+            });
+        }
+
         if (this.filterDataHoraAbertura?.length) {
             this.filterDataHoraAbertura.forEach((filter) => {
                 andXFilter.push(filter);
@@ -260,6 +267,9 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 disableClose: false,
             });
         }
+        if(this._router.url.indexOf('/apps/arquivista/') > -1){
+            this._cdkSidebarService?.getSidebar('cdk-processo-list-filter').close();
+        }
     }
 
     filtraCriadoEm(value: any): void {
@@ -292,6 +302,9 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
         this._cdkProcessoFilterService.clear.next();
+        if(this._router.url.indexOf('/apps/arquivista/') > -1){
+            this._cdkSidebarService?.getSidebar('cdk-processo-list-filter').close();
+        }
     }
 
     showClassificacao(): boolean {
@@ -313,5 +326,12 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             return false;
         }
         return !(this._router.url.indexOf('/apps/arquivista/') > -1);
+    }
+
+    showLembrete(): boolean {
+        if (!this._loginService.isGranted('ROLE_ARQUIVISTA')) {
+            return false;
+        }
+        return (this._router.url.indexOf('/apps/arquivista/') > -1);
     }
 }
