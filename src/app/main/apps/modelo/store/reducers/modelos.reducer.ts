@@ -18,7 +18,7 @@ export interface ModelosState {
 export const ModelosInitialState: ModelosState = {
     entitiesId: [],
     pagination: {
-        limit: 10,
+        limit: 2,
         offset: 0,
         filter: {},
         gridFilter: {},
