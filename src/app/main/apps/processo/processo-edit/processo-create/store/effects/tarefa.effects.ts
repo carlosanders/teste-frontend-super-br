@@ -33,7 +33,7 @@ export class TarefaEffect {
             content: 'Salvando a tarefa ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._tarefaService.save(action.payload.tarefa).pipe(
+        mergeMap(action => this._tarefaService.save(action.payload.tarefa).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'tarefa',
