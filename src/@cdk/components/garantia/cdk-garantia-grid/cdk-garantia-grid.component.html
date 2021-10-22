@@ -167,7 +167,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1 || garantia.apagadoEm, 'error': getProp(deletingErrors, garantia.id)}"> {{garantia.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1 || garantia.apagadoEm, 'error': getProp(deletingErrors, garantia.id)}"> {{garantia.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -186,7 +186,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1 || garantia.apagadoEm, 'error': getProp(deletingErrors, garantia.id)}"> {{garantia.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1 || garantia.apagadoEm, 'error': getProp(deletingErrors, garantia.id)}"> {{garantia.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -204,7 +204,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1 || garantia.apagadoEm, 'error': getProp(deletingErrors, garantia.id)}"> {{garantia.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1 || garantia.apagadoEm, 'error': getProp(deletingErrors, garantia.id)}"> {{garantia.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

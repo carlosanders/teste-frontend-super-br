@@ -181,7 +181,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -202,7 +202,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -222,7 +222,7 @@
                     </th>
                     <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1, 'error': getProp(deletingErrors, assuntoAdministrativo.id)}"> {{assuntoAdministrativo.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
