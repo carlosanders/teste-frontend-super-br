@@ -2,6 +2,15 @@ import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.a
 
 export interface DocumentosVinculadosState {
     documentosId: number[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
@@ -17,6 +26,15 @@ export interface DocumentosVinculadosState {
 
 export const documentosVinculadosInitialState: DocumentosVinculadosState = {
     documentosId: [],
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: {},
+        total: 0,
+    },
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
@@ -41,7 +59,15 @@ export const documentosVinculadosReducer = (
                 ...state,
                 saving: false,
                 loading: true,
-                documentosLoaded: false,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
             };
         }
 
@@ -49,8 +75,12 @@ export const documentosVinculadosReducer = (
             return {
                 ...state,
                 loading: false,
-                documentosId: action.payload.entitiesId,
+                documentosId: [...state.documentosId, ...action.payload.entitiesId],
                 documentosLoaded: action.payload.loaded,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                }
             };
         }
 
@@ -224,6 +254,25 @@ export const documentosVinculadosReducer = (
                 ...state,
                 saving: !state.loading
             };
+        }
+        case DocumentosVinculadosActions.UNLOAD_DOCUMENTOS_VINCULADOS: {
+            if (action.payload.reset) {
+                return {
+                    ...documentosVinculadosInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    documentosId: [],
+                    documentosLoaded: false,
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
         }
 
         default:
