@@ -137,4 +137,8 @@
     <div class="loading" *ngIf="loading">
         <mat-spinner class="anexos-loading" diameter="24"></mat-spinner>
     </div>
+    <div class="load-more" (click)="doGetMore()" matTooltip="Carregar mais"
+         *ngIf="this.documentosPagination !== null && this.documentos && this.documentos.length < this.documentosPagination.total && !loading && !saving">
+        <span>+</span>
+    </div>
 </div>

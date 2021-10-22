@@ -3,44 +3,69 @@ import * as DocumentoAvulsoResponderActions from '../actions/responder.actions';
 export interface DocumentoAvulsoResponderState {
     documentoAvulsoId: number;
     documentosId: number[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    alterandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
+    downloadDocumentosP7SIds: number[];
     convertendoDocumentoIds: number[];
     convertendoDocumentoHtmlIds: number[];
-    removendoAssinaturaDocumentoIds: number[];
-    loading: boolean;
-    loaded: any;
     saving: boolean;
+    loading: boolean;
+    loadingComplementares: boolean;
+    loaded: any;
     errors: any;
 }
 
-export const DocumentoAvulsoResponderInitialState: DocumentoAvulsoResponderState = {
+export const documentoAvulsoResponderInitialState: DocumentoAvulsoResponderState = {
     documentoAvulsoId: null,
     documentosId: [],
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: {},
+        total: 0,
+    },
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
+    alterandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
+    downloadDocumentosP7SIds: [],
     convertendoDocumentoIds: [],
     convertendoDocumentoHtmlIds: [],
-    removendoAssinaturaDocumentoIds: [],
-    loading: false,
-    loaded: false,
     saving: false,
-    errors: false,
+    loading: false,
+    loadingComplementares: false,
+    loaded: false,
+    errors: null,
 };
 
-export function DocumentoAvulsoResponderReducer(
-    state = DocumentoAvulsoResponderInitialState,
+export const documentoAvulsoResponderReducer = (
+    state = documentoAvulsoResponderInitialState,
     action: DocumentoAvulsoResponderActions.ResponderActionsAll
-): DocumentoAvulsoResponderState {
+): DocumentoAvulsoResponderState => {
     switch (action.type) {
 
         case DocumentoAvulsoResponderActions.GET_DOCUMENTO_AVULSO: {
             return {
                 ...state,
+                saving: false,
                 documentoAvulsoId: null,
                 loading: true
             };
@@ -55,7 +80,6 @@ export function DocumentoAvulsoResponderReducer(
                 loading: false
             };
         }
-
 
         case DocumentoAvulsoResponderActions.GET_DOCUMENTO_AVULSO_FAILED: {
             return {
@@ -269,15 +293,83 @@ export function DocumentoAvulsoResponderReducer(
             };
         }
 
+        case DocumentoAvulsoResponderActions.GET_DOCUMENTOS_COMPLEMENTARES: {
+            return {
+                ...state,
+                loadingComplementares: true,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
+            };
+        }
+
         case DocumentoAvulsoResponderActions.GET_DOCUMENTOS_COMPLEMENTARES_SUCCESS: {
             return {
                 ...state,
-                documentosId: action.payload.entitiesId,
+                loadingComplementares: false,
+                documentosId: [...state.documentosId, ...action.payload.entitiesId],
                 documentosLoaded: action.payload.loaded,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                }
             };
+        }
+
+        case DocumentoAvulsoResponderActions.GET_DOCUMENTOS_COMPLEMENTARES_FAILED: {
+            return {
+                ...state,
+                loadingComplementares: false
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.UNLOAD_DOCUMENTOS_COMPLEMENTARES: {
+            if (action.payload.reset) {
+                return {
+                    ...state,
+                    documentosId: [],
+                    pagination: {
+                        limit: 0,
+                        offset: 0,
+                        filter: {},
+                        listFilter: {},
+                        populate: [],
+                        sort: {},
+                        total: 0,
+                    },
+                    documentosLoaded: false,
+                    selectedDocumentosId: [],
+                    deletingDocumentoIds: [],
+                    assinandoDocumentoIds: [],
+                    alterandoDocumentoIds: [],
+                    removendoAssinaturaDocumentoIds: [],
+                    downloadDocumentosP7SIds: [],
+                    convertendoDocumentoIds: [],
+                    convertendoDocumentoHtmlIds: [],
+                    loadingComplementares: false
+                };
+            } else {
+                return {
+                    ...state,
+                    documentosId: [],
+                    documentosLoaded: false,
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
         }
 
         default:
             return state;
     }
-}
+};

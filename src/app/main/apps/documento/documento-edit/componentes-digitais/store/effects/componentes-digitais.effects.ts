@@ -136,7 +136,7 @@ export class ComponenteDigitalEffects {
                     content: `Componente Digital id ${response.id} criado com sucesso!`,
                     status: 1, // Sucesso
                 }),
-                new fromStore.GetDocumentosVinculados()
+                new fromStore.ReloadDocumentosVinculados()
             ]),
             catchError((err) => {
                 console.log(err);
@@ -258,7 +258,7 @@ export class ComponenteDigitalEffects {
                         content: `Aprovação id ${response.id} criada com sucesso!`,
                         status: 1, // carregando
                     }),
-                    new fromStore.GetDocumentosVinculados()
+                    new fromStore.ReloadDocumentosVinculados()
                 ]),
                 catchError((err) => {
                     console.log(err);

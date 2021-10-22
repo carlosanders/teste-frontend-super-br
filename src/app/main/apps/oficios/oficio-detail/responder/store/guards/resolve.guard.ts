@@ -1,17 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStore from '../../store';
 import {DocumentosState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded} from '../selectors';
+import {getDocumentosHasLoaded, getDocumentosComplementaresHasLoaded} from '../selectors';
+import {DocumentoAvulso} from '@cdk/models';
+import {getDocumentoAvulso} from '../../../store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
-
     routerState: any;
+    documentoAvulso$: Observable<DocumentoAvulso>;
+    documentoAvulso: DocumentoAvulso;
 
     /**
      *
@@ -26,7 +29,10 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
-
+        this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
+        this.documentoAvulso$.pipe(
+            filter(documentoAvulso => !!documentoAvulso)
+        ).subscribe(documentoAvulso => this.documentoAvulso = documentoAvulso);
     }
 
     /**
@@ -47,6 +53,15 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
+     * Check store
+     *
+     * @returns
+     */
+    checkStore(): Observable<any> {
+        return forkJoin([this.getDocumentos(), this.getDocumentosComplementares()]).pipe(take(1));
+    }
+
+    /**
      * Get Documentos
      *
      * @returns
@@ -57,7 +72,25 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.UnloadDocumentos({reset: true}));
+                    this._store.dispatch(new fromStore.GetDocumentos({id: `eq:${this.documentoAvulso.documentoResposta.id}`}));
+                }
+            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            take(1)
+        );
+    }
 
+    /**
+     * Get Documentos Complementares
+     *
+     * @returns
+     */
+    getDocumentosComplementares(): any {
+        return this._store.pipe(
+            select(getDocumentosComplementaresHasLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.UnloadDocumentosComplementares({reset: true}));
                     let documentoId = null;
 
                     const routeParams = of('documentoAvulsoHandle');
@@ -80,7 +113,7 @@ export class ResolveGuard implements CanActivate {
                             'juntadaAtual'
                         ]
                     };
-                    this._store.dispatch(new fromStore.GetDocumentos(params));
+                    this._store.dispatch(new fromStore.GetDocumentosComplementares(params));
                 }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),

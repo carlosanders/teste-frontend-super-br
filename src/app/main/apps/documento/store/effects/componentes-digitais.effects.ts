@@ -15,8 +15,8 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
-import {GetDocumentosVinculados as GetDocumentosVinculadosMinuta} from '../../documento-edit/anexos/store';
-import {GetDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/anexos/store';
+import {ReloadDocumentosVinculados as GetDocumentosVinculadosMinuta} from '../../documento-edit/anexos/store';
+import {ReloadDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/anexos/store';
 
 @Injectable()
 export class ComponenteDigitalEffect {
