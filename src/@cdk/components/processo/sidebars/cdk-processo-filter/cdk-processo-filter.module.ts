@@ -29,8 +29,8 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
-import {CdkAssuntoAutocompleteModule} from "../../../assunto/cdk-assunto-autocomplete/cdk-assunto-autocomplete.module";
-import {CdkAssuntoAdministrativoAutocompleteModule} from "../../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module";
+import {CdkAssuntoAutocompleteModule} from '../../../assunto/cdk-assunto-autocomplete/cdk-assunto-autocomplete.module';
+import {CdkAssuntoAdministrativoAutocompleteModule} from '../../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 
 @NgModule({
     declarations: [
