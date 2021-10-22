@@ -179,6 +179,14 @@
                                         [pagination]="setorPagination">
                 </cdk-setor-autocomplete>
             </mat-form-field>
+
+            <mat-form-field *ngIf="showLembrete()">
+                <mat-label>Lembrete</mat-label>
+                <input matInput #lembreteArquivista
+                       name="lembreteArquivista"
+                       formControlName="lembreteArquivista">
+            </mat-form-field>
+
         </mat-expansion-panel>
 
     </form>
