@@ -677,3 +677,5 @@
 * Melhoria inclusão do termo encerrado em processos com idades diferentes de "corrente"
 * Correção de bug ao adicionar etiqueta no painel de tarefa já criar vinculação
 * Melhoria inclusão do editar tarefa concluída para checagem do histórico
+* Sistema só está enviando a tarefa de um processo apenas para o último adicionado na lista de 'Bloco de Responsáveis'. #668
+* Sistema não está permitindo concluir um processo utilizando a função de 'Bloco de Responsáveis'. #661
