@@ -106,7 +106,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.componenteDigital$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(cd => !!cd)
         ).subscribe((cd) => {
             this.componenteDigital = cd;
 

@@ -1,5 +1,5 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ProcessoViewReducer, ProcessoViewState} from './processo-view.reducer';
+import {processoViewReducer, ProcessoViewState} from './processo-view.reducer';
 import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
 import {ProcessoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
 import {volumesReducer, VolumesState} from './volumes.reducer';
@@ -24,7 +24,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ProcessoViewAppState> = {
-    processoView: ProcessoViewReducer,
+    processoView: processoViewReducer,
     componentesDigitais: ComponenteDigitalReducer,
     documentos: ProcessoViewDocumentosReducer,
     volumes: volumesReducer,

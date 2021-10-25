@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewVinculacaoDocumentoActions from '../actions';
@@ -15,7 +15,7 @@ import {juntada as juntadaSchema, vinculacaoDocumento as vinculacaoDocumentoSche
 import {Router} from '@angular/router';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
-import {ReloadJuntadas} from '../../../store';
+import {getIndex, GetJuntada, RetiraJuntada} from '../../../store';
 
 @Injectable()
 export class JuntadaEffects {
@@ -66,6 +66,7 @@ export class JuntadaEffects {
             JSON.stringify([
                 'volume',
                 'documento',
+                'documento.juntadaAtual',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
                 'documento.tipoDocumento',
@@ -95,24 +96,28 @@ export class JuntadaEffects {
      */
     saveVinculacaoDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumento>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+        withLatestFrom(this._store.pipe(select(getIndex))),
+        tap(([action]) => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'vinculação do documento',
             content: 'Salvando a vinculação do documento ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento).pipe(
+        switchMap(([action, index]) => this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'vinculação do documento',
                 content: 'Vinculação do documento id ' + response.id + ' salva com sucesso.',
                 status: 1, // sucesso
             }))),
-            mergeMap((response: VinculacaoDocumento) => [
-                new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
-                new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
-                new ReloadJuntadas()
-            ]),
+            mergeMap((response: VinculacaoDocumento) => {
+                return [
+                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
+                    new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
+                    new GetJuntada(action.payload.juntada.id),
+                    new RetiraJuntada(action.payload.juntadaVinculadaId)
+                ];
+            }),
             catchError((err) => {
                 console.log(err);
                 this._store.dispatch(new OperacoesActions.Operacao({

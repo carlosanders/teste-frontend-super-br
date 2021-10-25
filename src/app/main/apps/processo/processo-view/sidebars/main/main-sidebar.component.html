@@ -701,10 +701,10 @@
                                           *ngIf="isOpen[juntada.id]">keyboard_arrow_up
                                 </mat-icon>
                             </div>
-                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-10 ml-4 mr-4">lock
-                            </mat-icon>
-                            <mat-icon class="mt-10 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                             <div class="actions">
+                                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
+                                </mat-icon>
+                                <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                                 <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                                         *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
