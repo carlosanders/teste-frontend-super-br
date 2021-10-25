@@ -688,9 +688,10 @@
                         <div class="desentranhado">DESENTRANHADO</div>
                     </div>
                     <div *ngIf="!!juntada.documento.acessoRestrito">
-                        <div class="desentranhado">ACESSO RESTRITO</div>
+                        <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
+                        </mat-icon>
                     </div>
-                    <div fxFlex fxLayout="column" *ngIf="juntada.ativo && !juntada.documento.acessoRestrito">
+                    <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
                         <div fxFlex fxLayout="row">
                             <div class="descricao">
                                 {{juntada.descricao.split('/').join(' ')}}
@@ -821,7 +822,7 @@
                              class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                             <mat-icon class="s-14">picture_as_pdf</mat-icon>
                             <a class="ml-4"
-                               (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoRestrito, componenteDigital.id)"
+                               (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                 {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                             </a>
@@ -839,7 +840,7 @@
                                 <mat-icon class="ml-16 s-14">attach_file</mat-icon>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
-                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoRestrito, componenteDigital.id)"
+                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                    [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                     {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
                                 </a>
