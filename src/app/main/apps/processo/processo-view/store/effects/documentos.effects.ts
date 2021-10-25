@@ -607,7 +607,7 @@ export class ProcessoViewDocumentosEffects {
     ));
     removeVinculacaoDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewDocumentosActions.RemoveVinculacaoDocumento>(ProcessoViewDocumentosActions.REMOVE_VINCULACAO_DOCUMENTO),
-        switchMap(action => this._vinculacaoDocumentoService.destroy(action.payload.id)
+        mergeMap(action => this._vinculacaoDocumentoService.destroy(action.payload.id)
             .pipe(
                 mergeMap(() => [
                     new RemoveChildData({

@@ -96,39 +96,54 @@ export class JuntadaEffects {
      */
     saveVinculacaoDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumento>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO),
-        withLatestFrom(this._store.pipe(select(getIndex))),
-        tap(([action]) => this._store.dispatch(new OperacoesActions.Operacao({
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
             id: action.payload.operacaoId,
             type: 'vinculação do documento',
             content: 'Salvando a vinculação do documento ...',
             status: 0, // carregando
         }))),
-        switchMap(([action, index]) => this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'vinculação do documento',
-                content: 'Vinculação do documento id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: VinculacaoDocumento) => {
-                return [
-                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
-                    new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
-                    new GetJuntada(action.payload.juntada.id),
-                    new RetiraJuntada(action.payload.juntadaVinculadaId)
-                ];
-            }),
-            catchError((err) => {
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
+        switchMap((action) => {
+            const populate = JSON.stringify([
+                'documento',
+                'documento.origemDados',
+                'documento.juntadaAtual',
+                'documento.tipoDocumento',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.vinculacoesEtiquetas',
+                'documento.vinculacoesEtiquetas.etiqueta',
+                'documento.criadoPor',
+                'documento.setorOrigem',
+                'documento.setorOrigem.unidade'
+            ]);
+            return this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento, '{}', populate).pipe(
+                tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'vinculação do documento',
-                    content: 'Erro ao salvar a vinculação do documento!',
-                    status: 2, // erro
-                }));
-                return of(new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoFailed(err));
-            })
-        ))
+                    content: 'Vinculação do documento id ' + response.id + ' salva com sucesso.',
+                    status: 1, // sucesso
+                }))),
+                mergeMap((response: VinculacaoDocumento) => [
+                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
+                    new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
+                    new RetiraJuntada(action.payload.juntadaVinculadaId),
+                    new GetJuntada(action.payload.juntada.id),
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'vinculação do documento',
+                        content: 'Erro ao salvar a vinculação do documento!',
+                        status: 2, // erro
+                    }));
+                    return of(new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoFailed(err));
+                })
+            )
+        })
     ));
     /**
      * Save Assunto Success
