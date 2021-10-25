@@ -281,16 +281,26 @@ export class DocumentosVinculadosEffects {
      */
     updateDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.UpdateDocumento>(DocumentosVinculadosActions.UPDATE_DOCUMENTO),
-        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
-            mergeMap((response: Documento) => [
-                new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
-                new AddData<Documento>({data: [response], schema: documentoSchema})
-            ]),
-            catchError((err) => {
-                console.log(err);
-                return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
-            })
-        ), 25)
+        mergeMap((action) => {
+            const populate = JSON.stringify([
+                'tipoDocumento',
+                'atualizadoPor'
+            ]);
+            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, populate).pipe(
+                mergeMap((response: Documento) => [
+                    new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
+                    new UpdateData<Documento>({
+                        id: response.id,
+                        schema: documentoSchema,
+                        changes: {atualizadoEm: response.atualizadoEm, atualizadoPor: response.atualizadoPor, tipoDocumento: response.tipoDocumento}
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
+                })
+            );
+        }, 25)
     ));
     /**
      * Download P7S

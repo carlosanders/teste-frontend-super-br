@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {buffer, catchError, filter, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
@@ -12,7 +12,8 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {
     assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
-    documento as documentoSchema
+    documento as documentoSchema,
+    vinculacaoDocumento as vinculacaoDocumentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
@@ -606,15 +607,21 @@ export class ProcessoViewDocumentosEffects {
     ));
     removeVinculacaoDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewDocumentosActions.RemoveVinculacaoDocumento>(ProcessoViewDocumentosActions.REMOVE_VINCULACAO_DOCUMENTO),
-        switchMap(action => this._vinculacaoDocumentoService.destroy(action.payload)
+        switchMap(action => this._vinculacaoDocumentoService.destroy(action.payload.id)
             .pipe(
                 mergeMap(() => [
+                    new RemoveChildData({
+                        id: action.payload.id,
+                        childSchema: vinculacaoDocumentoSchema,
+                        parentSchema: documentoSchema,
+                        parentId: action.payload.documento.id
+                    }),
+                    new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoSuccess(action.payload.id),
                     new ReloadJuntadas(),
-                    new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoSuccess(action.payload),
                 ]),
                 catchError((err) => {
                     console.log(err);
-                    return of(new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoFailed(action.payload));
+                    return of(new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoFailed(action.payload.id));
                 })
             )
         )

@@ -149,14 +149,19 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
             }
         );
 
+        let juntadaVinculadaId = vinculacaoDocumento.documentoVinculado.juntadaAtual.id;
+
         vinculacaoDocumento.documento = this.juntada.documento;
         if (this.juntadaVinculada) {
             vinculacaoDocumento.documentoVinculado = this.juntadaVinculada.documento;
+            juntadaVinculadaId = this.juntadaVinculada.id;
         }
 
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.SaveVinculacaoDocumento({
             vinculacaoDocumento: vinculacaoDocumento,
+            juntada: this.juntada,
+            juntadaVinculadaId: juntadaVinculadaId,
             operacaoId: operacaoId
         }));
 

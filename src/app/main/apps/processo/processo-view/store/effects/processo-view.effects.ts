@@ -20,6 +20,80 @@ import * as fromStore from '../index';
 @Injectable()
 export class ProcessoViewEffect {
     routerState: any;
+    index: any;
+    /**
+     * Get Juntada
+     *
+     * @type {Observable<any>}
+     */
+    getJuntada: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.GetJuntada>(ProcessoViewActions.GET_JUNTADA),
+        withLatestFrom(this._store.pipe(select(getIndex))),
+        switchMap(([action, index]) => {
+            const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                chaveAcesso: this.routerState.params.chaveAcessoHandle
+            } : {};
+            const populate = [
+                'volume',
+                'documento',
+                'documento.origemDados',
+                'documento.juntadaAtual',
+                'documento.tipoDocumento',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.vinculacoesEtiquetas',
+                'documento.vinculacoesEtiquetas.etiqueta',
+                'documento.criadoPor',
+                'documento.setorOrigem',
+                'documento.setorOrigem.unidade'
+            ];
+            return this._juntadaService.get(
+                action.payload,
+                JSON.stringify(populate),
+                JSON.stringify(chaveAcesso)
+            ).pipe(
+                tap((response) => {
+                    this.index = index;
+                    const currentJuntadaIndex = index.findIndex(juntadaId => response.id === juntadaId);
+                    if (currentJuntadaIndex !== -1) {
+                        let novoIndex;
+                        if (!response.ativo) {
+                            novoIndex = [];
+                        }
+                        let componentesDigitaisIds = [];
+                        if (response.documento.componentesDigitais) {
+                            componentesDigitaisIds = response.documento.componentesDigitais.map(
+                                cd => cd.id
+                            );
+                        }
+                        if (response.documento.vinculacoesDocumentos) {
+                            response.documento.vinculacoesDocumentos.map(
+                                (vinculacaoDocumento) => {
+                                    vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
+                                        cd => componentesDigitaisIds.push(cd.id)
+                                    );
+                                }
+                            );
+                        }
+                        novoIndex = componentesDigitaisIds;
+                        this.index[currentJuntadaIndex] = novoIndex;
+                    }
+                }),
+                concatMap(response => [
+                    new AddData<Juntada>({data: [response], schema: juntadaSchema}),
+                    new ProcessoViewActions.GetJuntadaSuccess(response),
+                    new ProcessoViewActions.UpdateIndex(this.index)
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoViewActions.GetJuntadaFailed(err));
+                })
+            );
+        })
+    ));
     /**
      * Get Juntadas with router parameters
      *

@@ -216,7 +216,6 @@ export const documentosVinculadosReducer = (
                 ...state,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload),
                 loaded: true,
                 loading: false,
             };
@@ -227,7 +226,6 @@ export const documentosVinculadosReducer = (
                 ...state,
                 loading: false,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
             };
         }
 
