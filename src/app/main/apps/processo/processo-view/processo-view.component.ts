@@ -62,6 +62,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     currentStep$: Observable<any>;
     currentStep: any;
+    currentJuntada: Juntada;
 
     animationDirection: 'left' | 'right' | 'none';
 
@@ -150,7 +151,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.currentStep$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(currentStep => this.currentStep = currentStep);
+        ).subscribe((currentStep) => {
+            this.currentStep = currentStep;
+            if (this.index && this.index[currentStep.step] !== undefined && this.index[currentStep.step][currentStep.subStep] !== undefined) {
+                this.currentJuntada = this.juntadas.find(junt => junt.documento.id === this.index[currentStep.step][currentStep.subStep]);
+            }
+        });
 
         this.index$.pipe(
             takeUntil(this._unsubscribeAll)

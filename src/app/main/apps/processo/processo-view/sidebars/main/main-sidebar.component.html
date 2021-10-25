@@ -672,7 +672,7 @@
              (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
             {{contador.reset()}}
             <div class="juntada drag-juntada" matRipple
-                 (click)="gotoStep(i, juntada.documento.acessoRestrito)"
+                 (click)="gotoStep(i, juntada.documento.acessoNegado)"
                  [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
                  [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"

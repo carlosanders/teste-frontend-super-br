@@ -591,9 +591,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     gotoStep(step, restrito, componenteDigitalId = null): void {
         let substep = 0;
 
-        if (restrito) {
-            return;
-        }
         if (this.juntadas[step] === undefined) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
