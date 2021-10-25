@@ -182,15 +182,9 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
         }
 
         case ProcessoViewActions.RETIRA_JUNTADA: {
-            const currentJuntadaIndex = state.index.findIndex(juntadaId => action.payload === juntadaId);
-            const index = state.index;
-            if (currentJuntadaIndex !== -1) {
-                delete index[currentJuntadaIndex];
-            }
             return {
                 ...state,
                 entitiesId: state.entitiesId.filter(juntadaId => juntadaId !== action.payload),
-                index: index,
                 pagination: {
                     ...state.pagination,
                     total: state.pagination.total > 0 ? state.pagination.total - 1 : 0

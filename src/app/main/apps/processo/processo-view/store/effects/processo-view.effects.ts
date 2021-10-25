@@ -12,7 +12,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex, getPagination} from '../selectors';
+import {getCurrentStep, getIndex, getJuntadas, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
@@ -28,8 +28,8 @@ export class ProcessoViewEffect {
      */
     getJuntada: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.GetJuntada>(ProcessoViewActions.GET_JUNTADA),
-        withLatestFrom(this._store.pipe(select(getIndex))),
-        switchMap(([action, index]) => {
+        withLatestFrom(this._store.pipe(select(getJuntadas))),
+        switchMap(([action, juntadas]) => {
             const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
                 chaveAcesso: this.routerState.params.chaveAcessoHandle
             } : {};
@@ -56,31 +56,29 @@ export class ProcessoViewEffect {
                 JSON.stringify(chaveAcesso)
             ).pipe(
                 tap((response) => {
-                    this.index = index;
-                    const currentJuntadaIndex = index.findIndex(juntadaId => response.id === juntadaId);
-                    if (currentJuntadaIndex !== -1) {
-                        let novoIndex;
-                        if (!response.ativo) {
-                            novoIndex = [];
+                    this.index = juntadas.map(
+                        (juntada) => {
+                            if (!juntada.ativo) {
+                                return [];
+                            }
+                            let componentesDigitaisIds = [];
+                            if (juntada.documento.componentesDigitais) {
+                                componentesDigitaisIds = juntada.documento.componentesDigitais.map(
+                                    cd => cd.id
+                                );
+                            }
+                            if (juntada.documento.vinculacoesDocumentos) {
+                                juntada.documento.vinculacoesDocumentos.map(
+                                    (vinculacaoDocumento) => {
+                                        vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
+                                            cd => componentesDigitaisIds.push(cd.id)
+                                        );
+                                    }
+                                );
+                            }
+                            return componentesDigitaisIds;
                         }
-                        let componentesDigitaisIds = [];
-                        if (response.documento.componentesDigitais) {
-                            componentesDigitaisIds = response.documento.componentesDigitais.map(
-                                cd => cd.id
-                            );
-                        }
-                        if (response.documento.vinculacoesDocumentos) {
-                            response.documento.vinculacoesDocumentos.map(
-                                (vinculacaoDocumento) => {
-                                    vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
-                                        cd => componentesDigitaisIds.push(cd.id)
-                                    );
-                                }
-                            );
-                        }
-                        novoIndex = componentesDigitaisIds;
-                        this.index[currentJuntadaIndex] = novoIndex;
-                    }
+                    );
                 }),
                 concatMap(response => [
                     new AddData<Juntada>({data: [response], schema: juntadaSchema}),
