@@ -208,8 +208,8 @@ export class ProcessoViewEffect {
      */
     setCurrentStep: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
-        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
-        switchMap(([, index, currentStep]) => {
+        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep)), this._store.pipe(select(getJuntadas))),
+        switchMap(([, index, currentStep, juntadas]) => {
             if (this.routerState.params.stepHandle !== 'capa' && index[currentStep.step] === undefined) {
                 // não tem documentos, vamos para capa
                 this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
@@ -218,6 +218,11 @@ export class ProcessoViewEffect {
                 // temos documento sem componente digital
                 return of(null);
             } else {
+                const juntada = juntadas.find(junt => junt.documento.id === index[currentStep.step][currentStep.subStep]);
+                if (juntada.documento.acessoNegado) {
+                    // temos documento com acesso negado
+                    return of(null);
+                }
                 // temos componente digital, vamos pega-lo
                 const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
                     {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
@@ -416,8 +421,7 @@ export class ProcessoViewEffect {
                         });
                 }
             }
-        }),
-        catchError(err => of(new ProcessoViewActions.SetCurrentStepFailed(err)))
+        })
     ), {dispatch: false});
     /**
      * Get Capa Processo
