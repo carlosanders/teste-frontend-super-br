@@ -982,7 +982,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             data: {
                 title: 'Confirmação',
                 confirmLabel: 'Sim',
-                message: 'O procedimento não pode ser desfeito. Deseja realmente remover as vinculações da juntada?',
+                message: 'Deseja realmente remover as vinculações da juntada?',
                 cancelLabel: 'Não',
             },
             disableClose: false
