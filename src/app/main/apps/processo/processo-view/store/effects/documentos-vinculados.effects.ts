@@ -236,7 +236,7 @@ export class DocumentosVinculadosEffects {
                     console.log(err);
                     return of(new DocumentosVinculadosActions.UpdateDocumentoVinculadoFailed(err));
                 })
-            )
+            );
         }, 25)
     ));
     /**
