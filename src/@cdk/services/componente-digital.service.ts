@@ -77,9 +77,9 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         );
     }
 
-    aprovar(componenteDigital: ComponenteDigital, context: any = '{}'): Observable<ComponenteDigital> {
+    aprovar(componenteDigital: ComponenteDigital, populate: any = '[]'): Observable<ComponenteDigital> {
         const params = {};
-        params['context'] = context;
+        params['populate'] = populate;
         return this.modelService.post(
             'administrativo/componente_digital/aprovar', classToPlain(componenteDigital), new HttpParams({fromObject: params})
         ).pipe(
