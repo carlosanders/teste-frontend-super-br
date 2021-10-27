@@ -42,7 +42,6 @@ export class VisibilidadesComponent implements OnInit, OnDestroy {
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
-            console.log('url', this.routerState.url)
             if (this.routerState.url.indexOf('acessos/listar') > -1) {
                 this.action = 'listar';
             }
