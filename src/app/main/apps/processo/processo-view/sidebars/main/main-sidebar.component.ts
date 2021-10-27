@@ -19,7 +19,7 @@ import {
     Juntada,
     Pagination,
     Processo,
-    Tarefa,
+    Tarefa, VinculacaoDocumento,
     Volume
 } from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
@@ -42,13 +42,14 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {Contador} from '@cdk/models/contador';
 
 @Component({
@@ -210,6 +211,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     documentosVinculadosPagination: any;
 
     contador: Contador = new Contador();
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -592,9 +594,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     gotoStep(step, restrito, componenteDigitalId = null): void {
         let substep = 0;
 
-        if (restrito) {
-            return;
-        }
         if (this.juntadas[step] === undefined) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
@@ -979,11 +978,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doRemoverVinculacoes(juntada: Juntada): void {
-        juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao.id));
+        this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                message: 'Deseja realmente remover as vinculações da juntada?',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao));
+            }
+        });
     }
 
-    removeVinculacao(vinculacaoDocumentoId: number): void {
-        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumentoId));
+    removeVinculacao(vinculacao: VinculacaoDocumento): void {
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacao));
     }
 
     doDesentranharSimples(juntadaId: number): void {

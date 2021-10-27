@@ -685,3 +685,9 @@
 * Correção em componente de detalhes de ofício para usuário externo, onde o componente de responder não possuía guarda de rota próprio e quebrava em situações específicas
 * Melhoria inserindo paginação no dialog de documentos vinculados a uma minuta no processo-view
 * Melhoria para exibir a hora nos campos de data dos grids
+* Correção erro ao carregar outro componente digital em editor já aberto
+* Correção removido reload de juntadas ao vincular duas juntadas em visualização de processo
+* Correção erro de estado da aplicação ao desvincular juntadas
+* Melhoria alerta ao usuário quando clica em Desvincular juntadas
+* Melhoria alinhamento dos botões na lista de juntadas
+* Correção ao alterar tipo de documento anexo

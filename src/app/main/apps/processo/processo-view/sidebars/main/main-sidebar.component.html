@@ -244,7 +244,7 @@
                              (opened)="onOpenMinutas()">
             <mat-expansion-panel-header class="minutas-tarefa" [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
                 <mat-panel-title>
-                    Minutas da Tarefa
+                    Minutas da Tarefa <span class="warn badge">{{minutas?.length + oficios?.length}}</span>
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="minutas" cdkPerfectScrollbar
@@ -680,7 +680,7 @@
              (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
             {{contador.reset()}}
             <div class="juntada drag-juntada" matRipple
-                 (click)="gotoStep(i, juntada.documento.acessoRestrito)"
+                 (click)="gotoStep(i, juntada.documento.acessoNegado)"
                  [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
                  [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"
@@ -696,9 +696,10 @@
                         <div class="desentranhado">DESENTRANHADO</div>
                     </div>
                     <div *ngIf="!!juntada.documento.acessoRestrito">
-                        <div class="desentranhado">ACESSO RESTRITO</div>
+                        <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
+                        </mat-icon>
                     </div>
-                    <div fxFlex fxLayout="column" *ngIf="juntada.ativo && !juntada.documento.acessoRestrito">
+                    <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
                         <div fxFlex fxLayout="row">
                             <div class="descricao">
                                 {{juntada.descricao.split('/').join(' ')}}
@@ -709,10 +710,10 @@
                                           *ngIf="isOpen[juntada.id]">keyboard_arrow_up
                                 </mat-icon>
                             </div>
-                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-10 ml-4 mr-4">lock
-                            </mat-icon>
-                            <mat-icon class="mt-10 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                             <div class="actions">
+                                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
+                                </mat-icon>
+                                <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                                 <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                                         *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
@@ -829,7 +830,7 @@
                              class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                             <mat-icon class="s-14">picture_as_pdf</mat-icon>
                             <a class="ml-4"
-                               (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoRestrito, componenteDigital.id)"
+                               (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                 {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                             </a>
@@ -847,7 +848,7 @@
                                 <mat-icon class="ml-16 s-14">attach_file</mat-icon>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
-                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoRestrito, componenteDigital.id)"
+                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                    [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                     {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
                                 </a>

@@ -103,10 +103,7 @@ export class RelatorioViewEffect {
         tap((action) => {
             this._store.dispatch(new RelatorioViewActions.SetCurrentStep({step: 0, subStep: 0}));
         }),
-        catchError((err, caught) => {
-            this._store.dispatch(new RelatorioViewActions.SetCurrentStepFailed(err));
-            return caught;
-        })
+        catchError(err => of(new RelatorioViewActions.SetCurrentStepFailed(err)))
     ), {dispatch: false});
 
     constructor(

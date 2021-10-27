@@ -218,17 +218,26 @@ export class DocumentosVinculadosEffects {
      */
     updateDocumentoVinculado: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.UpdateDocumentoVinculado>(DocumentosVinculadosActions.UPDATE_DOCUMENTO_VINCULADO),
-        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
-            mergeMap((response: Documento) => [
-                new DocumentosVinculadosActions.UpdateDocumentoVinculadoSuccess(response.id),
-                new AddData<Documento>({data: [response], schema: documentoSchema}),
-                new DocumentosVinculadosActions.GetDocumentosVinculados(this.documento)
-            ]),
-            catchError((err) => {
-                console.log(err);
-                return of(new DocumentosVinculadosActions.UpdateDocumentoVinculadoFailed(err));
-            })
-        ), 25)
+        mergeMap((action) => {
+            const populate = JSON.stringify([
+                'tipoDocumento',
+                'atualizadoPor'
+            ]);
+            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, populate).pipe(
+                mergeMap((response: Documento) => [
+                    new DocumentosVinculadosActions.UpdateDocumentoVinculadoSuccess(response.id),
+                    new UpdateData<Documento>({
+                        id: response.id,
+                        schema: documentoSchema,
+                        changes: {atualizadoEm: response.atualizadoEm, atualizadoPor: response.atualizadoPor, tipoDocumento: response.tipoDocumento}
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentosVinculadosActions.UpdateDocumentoVinculadoFailed(err));
+                })
+            );
+        }, 25)
     ));
     /**
      * Download Documento Vinculado P7S
