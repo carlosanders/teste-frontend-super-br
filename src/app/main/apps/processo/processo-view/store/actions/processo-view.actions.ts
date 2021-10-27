@@ -1,5 +1,9 @@
 import {Action} from '@ngrx/store';
 
+export const GET_JUNTADA = '[PROCESSO VIEW] GET JUNTADA';
+export const GET_JUNTADA_SUCCESS = '[PROCESSO VIEW] GET JUNTADA SUCCESS';
+export const GET_JUNTADA_FAILED = '[PROCESSO VIEW] GET JUNTADA FAILED';
+
 export const GET_JUNTADAS = '[PROCESSO VIEW] GET JUNTADAS';
 export const GET_JUNTADAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS SUCCESS';
 export const GET_JUNTADAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS FAILED';
@@ -17,6 +21,8 @@ export const RELOAD_JUNTADAS = '[JUNTADAS] RELOAD JUNTADAS';
 
 export const GET_CAPA_PROCESSO = '[JUNTADAS] GET CAPA PROCESSO';
 
+export const RETIRA_JUNTADA = '[PROCESSO VIEW] RETIRA JUNTADA';
+
 /**
  * Expandir Processo
  */
@@ -25,6 +31,42 @@ export class ExpandirProcesso implements Action
     readonly type = EXPANDIR_PROCESSO;
 
     constructor(public payload: boolean)
+    {
+    }
+}
+
+/**
+ * Get Juntada
+ */
+export class GetJuntada implements Action
+{
+    readonly type = GET_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntada Success
+ */
+export class GetJuntadaSuccess implements Action
+{
+    readonly type = GET_JUNTADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntada Failed
+ */
+export class GetJuntadaFailed implements Action
+{
+    readonly type = GET_JUNTADA_FAILED;
+
+    constructor(public payload: string)
     {
     }
 }
@@ -141,10 +183,25 @@ export class UpdateIndex implements Action
     }
 }
 
+/**
+ * Retira Juntada
+ */
+export class RetiraJuntada implements Action
+{
+    readonly type = RETIRA_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed
+    | GetJuntada
+    | GetJuntadaSuccess
+    | GetJuntadaFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
     | SetCurrentStepFailed
@@ -152,4 +209,5 @@ export type ProcessoViewActionsAll
     | GetCapaProcesso
     | ExpandirProcesso
     | ReloadJuntadas
-    | UpdateIndex;
+    | UpdateIndex
+    | RetiraJuntada;

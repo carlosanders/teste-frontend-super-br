@@ -168,6 +168,8 @@ export class Documento {
 
     acessoRestrito?: boolean;
 
+    acessoNegado?: boolean;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -213,5 +215,6 @@ export class Documento {
         this.vinculacoesEtiquetas = [];
         this.sigilos = [];
         this.acessoRestrito = null;
+        this.acessoNegado = null;
     }
 }

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
 import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -20,6 +20,8 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -71,6 +73,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
      * @param _router
      * @param _formBuilder
      * @param _activatedRoute
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditAtividadeAppState>,
@@ -78,7 +81,8 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _formBuilder: FormBuilder,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _matDialog: MatDialog
     ) {
         this._store.pipe(
             select(getRouterState),
@@ -252,40 +256,77 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
+    hasChanges(): boolean {
+        const editor = window['CKEDITOR'];
+        if (editor && editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) && editor.instances[editorInstance]) {
+                    if (editor.instances[editorInstance].checkDirty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    podeNavegarDoEditor(): Observable<boolean> {
+        if (this.hasChanges()) {
+            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
+                },
+                disableClose: false
+            });
+
+            return confirmDialogRef.afterClosed();
+        } else {
+            return of(true);
+        }
+    }
+
     onClicked(documento): void {
         if (!this.disabledIds.includes(documento.id)) {
-            let primary: string;
-            primary = 'componente-digital/';
-            let componenteDigital = null;
+            this.podeNavegarDoEditor().subscribe((result) => {
+                if (result) {
+                    let primary: string;
+                    primary = 'componente-digital/';
+                    let componenteDigital = null;
 
-            if (documento.componentesDigitais[0]) {
-                componenteDigital = documento.componentesDigitais[0];
-                primary += componenteDigital.id;
-            } else {
-                primary += '0';
-            }
+                    if (documento.componentesDigitais[0]) {
+                        componenteDigital = documento.componentesDigitais[0];
+                        primary += componenteDigital.id;
+                    } else {
+                        primary += '0';
+                    }
 
-            if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
-                primary += '/editor/ckeditor';
-            } else {
-                primary += '/visualizar';
-            }
+                    if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
+                        primary += '/editor/ckeditor';
+                    } else {
+                        primary += '/visualizar';
+                    }
 
-            const sidebar = 'editar/' + this.routeAtividadeDocumento;
+                    const sidebar = 'editar/' + this.routeAtividadeDocumento;
+                    this._componenteDigitalService.trocandoDocumento.next(true);
 
-            this._router.navigate([
-                    this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
-                    '/documento/' + documento.id,
-                    {
-                        outlets: {
-                            primary: primary,
-                            sidebar: sidebar
-                        }
-                    }],
-                {
-                    relativeTo: this._activatedRoute.parent,
-                    queryParams: {lixeira: null}
-                }).then();
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/' + this.routerState.params.documentoHandle)[0] +
+                            '/documento/' + documento.id,
+                            {
+                                outlets: {
+                                    primary: primary,
+                                    sidebar: sidebar
+                                }
+                            }],
+                        {
+                            relativeTo: this._activatedRoute.parent,
+                            queryParams: {lixeira: null}
+                        }).then();
+                }
+            });
         }
     }
 
