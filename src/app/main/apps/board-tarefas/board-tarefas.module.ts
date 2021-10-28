@@ -25,14 +25,14 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 import {BoardTarefasComponent} from './board-tarefas.component';
 import {modulesConfig} from 'modules/modules-config';
-import {TarefaService} from "@cdk/services/tarefa.service";
-import {FolderService} from "@cdk/services/folder.service";
-import {DndModule} from "ngx-drag-drop";
-import {BoardTarefasStoreModule} from "./store/store.module";
-import {BoardTarefasMainSidebarComponent} from "./sidebars/main/main-sidebar.component";
-import {FolderListColumnModule} from "./folder-list-column/folder-list-column.module";
-import {FolderFormComponent} from "./folder-form/folder-form.component";
-import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {TarefaService} from '@cdk/services/tarefa.service';
+import {FolderService} from '@cdk/services/folder.service';
+import {DndModule} from 'ngx-drag-drop';
+import {BoardTarefasStoreModule} from './store/store.module';
+import {BoardTarefasMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {FolderListColumnModule} from './folder-list-column/folder-list-column.module';
+import {FolderFormComponent} from './folder-form/folder-form.component';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 const routes: Routes = [
     {
