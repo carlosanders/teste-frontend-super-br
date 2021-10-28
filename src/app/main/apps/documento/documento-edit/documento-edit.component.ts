@@ -28,6 +28,7 @@ import {DocumentoEditService} from './shared/documento-edit.service';
 import {CdkUtils} from '@cdk/utils';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'documento-edit',
@@ -85,6 +86,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * @param _documentoEditService
      * @param _activatedRoute
      * @param _matDialog
+     * @param _componenteDigitalService
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
@@ -96,7 +98,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         private _ref: ChangeDetectorRef,
         private _documentoEditService: DocumentoEditService,
         private _activatedRoute: ActivatedRoute,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private _componenteDigitalService: ComponenteDigitalService
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
@@ -272,6 +275,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         if (documento.vinculacaoDocumentoPrincipal) {
             sidebar = 'editar/dados-basicos';
         }
+        this._componenteDigitalService.trocandoDocumento.next(true);
         this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id, {
                 outlets: {
                     primary: primary,
