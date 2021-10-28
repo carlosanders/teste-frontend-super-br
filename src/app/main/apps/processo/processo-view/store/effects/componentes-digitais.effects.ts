@@ -276,12 +276,22 @@ export class ComponentesDigitaisEffects {
         switchMap((action) => {
             const componenteDigital = new ComponenteDigital();
             componenteDigital.documentoOrigem = action.payload.documentoOrigem;
+            const documentoId = `eq:${action.payload.documentoOrigem.id}`;
             const populate = [
                 'documento',
                 'documento.componentesDigitais',
                 'documento.vinculacaoDocumentoPrincipal'
             ];
             this.routeAtividadeDocumento = action.payload.routeDocumento;
+            const params = {
+                filter: {
+                    'vinculacaoDocumentoPrincipal.documento.id': documentoId,
+                    'juntadaAtual': 'isNull'
+                },
+                limit: 10,
+                offset: 0,
+                sort: {id: 'DESC'},
+            };
 
             return this._componenteDigitalService.aprovar(componenteDigital, JSON.stringify(populate)).pipe(
                 tap(() => this._store.dispatch(new OperacoesActions.Operacao({
@@ -297,6 +307,7 @@ export class ComponentesDigitaisEffects {
                         schema: componenteDigitalSchema
                     }),
                     new fromStore.GetDocumentosVinculados({
+                        filters: params,
                         documento: action.payload.documentoOrigem}),
                     new fromStore.ClickedDocumento({
                         documento: response.documento,

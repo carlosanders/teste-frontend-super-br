@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewVinculacaoDocumentoActions from '../actions';
@@ -15,7 +15,7 @@ import {juntada as juntadaSchema, vinculacaoDocumento as vinculacaoDocumentoSche
 import {Router} from '@angular/router';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
-import {getIndex, GetJuntada, RetiraJuntada} from '../../../store';
+import {GetJuntada, RetiraJuntada} from '../../../store';
 
 @Injectable()
 export class JuntadaEffects {

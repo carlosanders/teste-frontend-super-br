@@ -288,6 +288,7 @@ export class DocumentosVinculadosEffects {
             if (action.payload.vinculacaoDocumentoPrincipal) {
                 sidebar = 'oficio/dados-basicos';
             }
+            this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {
                         primary: primary,

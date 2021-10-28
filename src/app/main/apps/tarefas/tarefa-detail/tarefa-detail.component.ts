@@ -72,6 +72,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     lote: string;
+    novaAba = false;
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
 
@@ -163,7 +164,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                 this.sheetRef.dismiss();
             }
 
+            if (routerState.state.queryParams['novaAba']) {
+                this.novaAba = true;
+                this.doToggleMaximizado(this.novaAba);
+            }
             this.routerState = routerState.state;
+
         });
 
         this.tarefa$.pipe(
@@ -192,7 +198,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             (expandir) => {
-                this.doToggleMaximizado(expandir);
+                if (expandir || !this.novaAba) {
+                    this.doToggleMaximizado(expandir);
+                }
             }
         );
         this.pluginLoading$.pipe(
@@ -206,7 +214,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
         });
-        this.doToggleMaximizado(false);
+        this.doToggleMaximizado(this.novaAba);
     }
 
     ngOnDestroy(): void {
