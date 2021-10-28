@@ -21,7 +21,7 @@ export interface ProcessoViewDocumentosState {
     errorDelete: number[];
 }
 
-export const ProcessoViewDocumentosInitialState: ProcessoViewDocumentosState = {
+export const processoViewDocumentosInitialState: ProcessoViewDocumentosState = {
     documentosId: [],
     documentosLoaded: false,
     selectedDocumentosId: [],
@@ -42,16 +42,16 @@ export const ProcessoViewDocumentosInitialState: ProcessoViewDocumentosState = {
     errorDelete: []
 };
 
-export function ProcessoViewDocumentosReducer(
-    state = ProcessoViewDocumentosInitialState,
+export const processoViewDocumentosReducer = (
+    state = processoViewDocumentosInitialState,
     action: ProcessoViewDocumentosActions.ProcessoViewDocumentosActionsAll
-): ProcessoViewDocumentosState {
+): ProcessoViewDocumentosState => {
     switch (action.type) {
 
         case ProcessoViewDocumentosActions.GET_DOCUMENTOS: {
             return {
                 ...state,
-                documentosId: null,
+                documentosId: [],
                 documentosLoaded: false,
                 loading: true,
                 lixeiraMinutas: false
@@ -61,7 +61,7 @@ export function ProcessoViewDocumentosReducer(
         case ProcessoViewDocumentosActions.GET_DOCUMENTOS_EXCLUIDOS: {
             return {
                 ...state,
-                documentosId: null,
+                documentosId: [],
                 documentosLoaded: false,
                 loadingDocumentosExcluidos: true,
                 lixeiraMinutas: true
@@ -117,7 +117,7 @@ export function ProcessoViewDocumentosReducer(
 
         case ProcessoViewDocumentosActions.UNLOAD_DOCUMENTOS: {
             return {
-                ...ProcessoViewDocumentosInitialState
+                ...processoViewDocumentosInitialState
             };
         }
 
@@ -417,4 +417,4 @@ export function ProcessoViewDocumentosReducer(
         default:
             return state;
     }
-}
+};
