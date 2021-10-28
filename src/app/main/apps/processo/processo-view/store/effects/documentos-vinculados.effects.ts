@@ -30,16 +30,16 @@ export class DocumentosVinculadosEffects {
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
         switchMap((action) => {
             this.documento = action.payload.documento;
-            const params = action.payload?.filters;
+            const params = action.payload.filters;
 
             return this._documentoService.query(
                 JSON.stringify({
-                    ...params?.filter
+                    ...params.filter
                 }),
-                params?.limit,
-                params?.offset,
-                JSON.stringify(params?.sort),
-                JSON.stringify(params?.populate));
+                params.limit,
+                params.offset,
+                JSON.stringify(params.sort),
+                JSON.stringify(params.populate));
         }),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
