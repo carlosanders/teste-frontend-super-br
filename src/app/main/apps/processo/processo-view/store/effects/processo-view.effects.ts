@@ -367,7 +367,8 @@ export class ProcessoViewEffect {
                         url += '/visualizar/' + firstJuntada + '-0';
                         const extras = {
                             queryParams: {
-                                documentoEdit: this.routerState.queryParams.documentoEdit
+                                documentoEdit: this.routerState.queryParams.documentoEdit,
+                                novaAba: this.routerState.queryParams.novaAba
                             }
                         };
                         this._router.navigate([url], extras)
@@ -429,8 +430,13 @@ export class ProcessoViewEffect {
                         url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                     }
                     url += '/visualizar/' + this.routerState.params['stepHandle'];
-
-                    this._router.navigateByUrl(url)
+                    const extras = {
+                        queryParams: {
+                            documentoEdit: this.routerState.queryParams.documentoEdit,
+                            novaAba: this.routerState.queryParams.novaAba
+                        }
+                    };
+                    this._router.navigate([url], extras)
                         .then(() => {
                             const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
