@@ -80,9 +80,7 @@ export class ResolveGuard implements CanActivate {
 
     checkRole(): any {
         if (this._profile.roles.filter(this.isArquivista).length === 0) {
-            this._router.navigate([
-                'apps/painel']
-            ).then();
+            this._router.navigate(['apps/painel']).then();
         }
     }
 
