@@ -142,7 +142,7 @@ export class JuntadaEffects {
                     }));
                     return of(new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoFailed(err));
                 })
-            )
+            );
         })
     ));
     /**
@@ -151,7 +151,7 @@ export class JuntadaEffects {
     saveVinculacaoDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO_SUCCESS),
         tap(() => {
-            this._router.navigate([this.routerState.url.replace(('vincular/' + this.routerState.params.juntadaHandle), '')]).then();
+            this._router.navigate([this.routerState.url.split(('vincular/' + this.routerState.params.juntadaHandle))[0]]).then();
         })
     ), {dispatch: false});
 

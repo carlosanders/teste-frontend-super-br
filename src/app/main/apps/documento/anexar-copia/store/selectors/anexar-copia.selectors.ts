@@ -16,6 +16,11 @@ export const getProcessoId = createSelector(
     (state: AnexarCopiaState) => state.processoId
 );
 
+export const getProcessoLoaded = createSelector(
+    getAnexarCopiaState,
+    (state: AnexarCopiaState) => state.loaded
+);
+
 export const getProcesso = createSelector(
     schemaSelectors.getNormalizedEntities,
     getProcessoId,
