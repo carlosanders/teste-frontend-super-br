@@ -60,12 +60,12 @@ export const documentosVinculadosReducer = (
                 saving: false,
                 loading: true,
                 pagination: {
-                    limit: action.payload.filters.limit,
-                    offset: action.payload.filters.offset,
-                    filter: action.payload.filters.filter,
-                    listFilter: action.payload.filters.listFilter,
-                    populate: action.payload.filters.populate,
-                    sort: action.payload.filters.sort,
+                    limit: action.payload?.filters?.limit,
+                    offset: action.payload?.filters?.offset,
+                    filter: action.payload?.filters?.filter,
+                    listFilter: action.payload?.filters?.listFilter,
+                    populate: action.payload?.filters?.populate,
+                    sort: action.payload?.filters?.sort,
                     total: state.pagination.total
                 }
             };

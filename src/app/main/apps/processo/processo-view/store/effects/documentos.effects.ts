@@ -483,6 +483,9 @@ export class ProcessoViewDocumentosEffects {
             if (action.payload.documento.componentesDigitais[0]) {
                 componenteDigital = action.payload.documento.componentesDigitais[0];
                 primary += componenteDigital.id;
+            } else if(action.payload.componenteDigital){
+                componenteDigital = action.payload.componenteDigital;
+                primary += componenteDigital.id;
             } else {
                 primary += '0';
             }
@@ -495,9 +498,9 @@ export class ProcessoViewDocumentosEffects {
 
             let sidebar = action.payload.routeOficio + '/dados-basicos';
 
-            if (!action.payload.documento?.documentoAvulsoRemessa && !action.payload.documento?.juntadaAtual && !action.payload.documento?.vinculacaoDocumentoPrincipal) {
+            if (!action.payload.documento?.documentoAvulsoRemessa && !action.payload.documento?.juntadaAtual && !action.payload.documento?.vinculacaoDocumentoPrincipal && !action.payload.componenteDigital?.documentoOrigem ) {
                 sidebar = 'editar/' + action.payload.routeAtividade;
-            } else if (action.payload.documento?.juntadaAtual || action.payload.documento?.vinculacaoDocumentoPrincipal) {
+            } else if (action.payload.documento?.juntadaAtual || action.payload.documento?.vinculacaoDocumentoPrincipal || action.payload.componenteDigital?.documentoOrigem) {
                 sidebar = 'editar/dados-basicos';
             }
 

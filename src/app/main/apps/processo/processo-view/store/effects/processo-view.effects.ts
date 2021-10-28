@@ -218,8 +218,19 @@ export class ProcessoViewEffect {
                 // temos documento sem componente digital
                 return of(null);
             } else {
-                const juntada = juntadas.find(junt => junt.documento.id === index[currentStep.step][currentStep.subStep]);
-                if (juntada.documento.acessoNegado) {
+                const juntada = juntadas.find((junt) => {
+                    if (junt.documento.vinculacoesDocumentos?.length > 0) {
+                        const indexJuntada = junt.documento.vinculacoesDocumentos
+                            .findIndex(vd => vd.documentoVinculado.componentesDigitais.findIndex(cd => cd.id === index[currentStep.step][currentStep.subStep]) !== -1);
+                        if (indexJuntada !== -1) {
+                            return junt;
+                        }
+                    }
+                    if (junt.documento?.componentesDigitais?.findIndex(cd => cd.id === index[currentStep.step][currentStep.subStep]) !== -1) {
+                        return junt;
+                    }
+                });
+                if (!juntada || juntada.documento.acessoNegado) {
                     // temos documento com acesso negado
                     return of(null);
                 }
@@ -228,14 +239,22 @@ export class ProcessoViewEffect {
                     {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
                 const context = JSON.stringify(chaveAcesso);
 
-                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
+                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
+                    map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                        binary: response,
+                        loaded: this.routerState.params.stepHandle
+                    })),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                    })
+                );
             }
         }),
-        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-            binary: response,
-            loaded: this.routerState.params.stepHandle
-        })),
-        catchError(err => of(new ProcessoViewActions.SetCurrentStepFailed(err)))
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+        })
     ));
     /**
      * Get Juntadas Success

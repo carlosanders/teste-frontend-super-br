@@ -71,6 +71,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     @Output()
     scrolled = new EventEmitter<any>();
 
+    @Output()
+    aprovarDocumento: EventEmitter<any> = new EventEmitter<Documento>();
+
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
     @ViewChild('ckdUpload', {static: false})
@@ -1214,6 +1217,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.AprovarComponenteDigital({
                 documentoOrigem: aDocumento
             }));
+            this.dialog.closeAll();
         });
         const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((aDocumento: Documento) => {
             this._store.dispatch(new fromStore.GetDocumentosVinculados(aDocumento));
@@ -1322,6 +1326,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.ReloadDocumento(documento.id));
             this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
         });
+    }
+
+    aprovar(documento: Documento): void {
+        this._store.dispatch(new fromStore.AprovarComponenteDigital({
+                documentoOrigem: documento
+            }));
+        this.aprovarDocumento.emit(documento);
     }
 
     doDeleteDocumentoVinculado(documentoId: number, loteId: string = null): void {
