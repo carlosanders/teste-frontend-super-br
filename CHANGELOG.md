@@ -691,3 +691,4 @@
 * Melhoria alerta ao usuário quando clica em Desvincular juntadas
 * Melhoria alinhamento dos botões na lista de juntadas
 * Correção ao alterar tipo de documento anexo
+* Correção tarefa aberta em nova aba através do painel de tarefas ou do kanban funciona corretamente #662
