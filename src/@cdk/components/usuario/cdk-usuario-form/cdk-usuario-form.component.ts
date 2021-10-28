@@ -14,6 +14,9 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination, Usuario} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-usuario-form',
@@ -46,8 +49,8 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
-    @Output()
-    abort = new EventEmitter<any>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() abort = new EventEmitter<any>();
 
     @Output()
     usuarioCarregado = new EventEmitter<any>();
@@ -63,7 +66,8 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        public _loginService: LoginService,
     ) {
         this.form = this._formBuilder.group({
             id: [null],
@@ -76,6 +80,9 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.usuarioPagination = new Pagination();
+        this.usuarioPagination.context = {
+            'filtrarPor': 'username'
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,7 +92,16 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
      * On Init
      */
     ngOnInit(): void {
-        localStorage.setItem('filtrarPor', 'username');
+        this.form.get('username').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    this.checkUsuario(value);
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -152,10 +168,9 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
-    checkUsuario(): void {
-        const value = this.form.get('username').value;
-        if (value && !this.usuario) {
-            if (typeof value === 'string') {
+    checkUsuario(value): void {
+        if (value) {
+            if (typeof value === 'string' && !this.usuario) {
                 this.isCpfValido = value.trim().length === 11;
                 if (this.isCpfValido) {
                     this.usuario = new Usuario();
@@ -165,11 +180,14 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.carregarForm(this.usuario);
                     this._changeDetectorRef.markForCheck();
                 }
-            } else {
+            }
+            if (typeof value === 'object')
+            {
                 this.usuarioCarregado.emit(value);
                 this.carregarForm(value);
                 this.isCpfValido = true;
                 this._changeDetectorRef.markForCheck();
+                this.isCarregadoAutocomplete = typeof value === 'object' ?? true;
             }
         }
     }
@@ -199,9 +217,8 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'usuario-gridsearch';
     }
 
-    usuarioAutocompleteLoading(isCarregandoAutocomplete: boolean) {
+    usuarioAutocompleteLoading(isCarregandoAutocomplete: boolean): void {
         this.isCarregadoAutocomplete = !isCarregandoAutocomplete;
-        this.checkUsuario();
     }
 }
 

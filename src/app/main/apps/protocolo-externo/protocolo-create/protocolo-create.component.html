@@ -38,19 +38,28 @@
             <cdk-documento-card-list [documentos]="documentos"
                                      (clicked)="onClicked($event)"
                                      [assinandoId]="(assinandoDocumentosId$ | async)"
+                                     [alterandoId]="(alterandoDocumentosId$ | async)"
                                      [deletingId]="(deletingDocumentosId$ | async)"
+                                     [downloadId] ="(downloadP7SDocumentosId$ | async)"
+                                     [saving]="(isSavingDocumentos$ | async)"
+                                     [loading]="(isLoadingDocumentos$ | async)"
+                                     [documentosPagination]="pagination"
                                      (converte)="doConverte($event)"
                                      (converteHtml)="doConverteHtml($event)"
                                      (assinatura)="doAssinatura($event)"
                                      (removeAssinatura)="doRemoveAssinatura($event)"
+                                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                      [convertendoId]="(convertendoDocumentosId$ | async)"
-                                     (downloadP7S)="doDownloadP7S($event)">
+                                     (downloadP7S)="doDownloadP7S($event)"
+                                     (getMore)="paginaDocumentos()"
+                                     (changedSelectedIds)="changedSelectedIds($event)">
             </cdk-documento-card-list>
 
             <cdk-componente-digital-card-list class="pt-8 pb-8 pl-0 pr-8" #cdkUpload
                                               [processoOrigem]="processo"
                                               [uploadMode]="'linear'"
-                                              (completed)="onComplete()">
+                                              (completed)="onComplete()"
+                                              (completedAll)="onCompleteAllDocumentos()">
             </cdk-componente-digital-card-list>
         </div>
 

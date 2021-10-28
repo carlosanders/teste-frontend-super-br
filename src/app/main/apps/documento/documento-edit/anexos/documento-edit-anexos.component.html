@@ -44,6 +44,7 @@
                              [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                              [saving]="(isSavingDocumentosVinculados$ | async)"
                              [loading]="(isLoadingDocumentosVinculados$ | async)"
+                             [documentosPagination]="pagination"
                              (delete)="doDeleteDocumentoVinculado($event)"
                              (deleteBlocoEmmitter)="doDeleteBloco($event)"
                              (assinatura)="doAssinaturaDocumentoVinculado($event)"
@@ -52,11 +53,13 @@
                              (clicked)="onClickedDocumentoVinculado($event)"
                              (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                              (downloadP7S)="doDownloadP7S($event)"
+                             (getMore)="paginaDocumentosVinculados()"
                              (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
     </cdk-documento-card-list>
 
     <cdk-componente-digital-card-list #ckdUpload
                                       [documentoOrigem]="(documento$ | async)"
+                                      [uploadMode]="'linear'"
                                       (completed)="onCompleteDocumentoVinculado()"
                                       (completedAll)="onCompleteAllDocumentosVinculados()">
     </cdk-componente-digital-card-list>

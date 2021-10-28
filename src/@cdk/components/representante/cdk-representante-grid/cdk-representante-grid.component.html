@@ -161,7 +161,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let representante" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1, 'error': getProp(deletingErrors, representante.id)}"> {{representante.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1, 'error': getProp(deletingErrors, representante.id)}"> {{representante.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -182,7 +182,7 @@
                     </th>
                     <td mat-cell *matCellDef="let representante" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1, 'error': getProp(deletingErrors, representante.id)}"> {{representante.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1, 'error': getProp(deletingErrors, representante.id)}"> {{representante.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -200,7 +200,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let representante" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1, 'error': getProp(deletingErrors, representante.id)}"> {{representante.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1, 'error': getProp(deletingErrors, representante.id)}"> {{representante.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
 

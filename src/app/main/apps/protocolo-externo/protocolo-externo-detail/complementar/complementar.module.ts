@@ -28,7 +28,6 @@ import {ComplementarStoreModule} from './store/store.module';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
@@ -88,7 +87,6 @@ modulesConfig.forEach((module) => {
     providers: [
         AtividadeService,
         DocumentoService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ],
     exports: [

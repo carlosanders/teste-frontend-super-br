@@ -701,7 +701,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
 
         if (dataHoraInicioPrazo || dataHoraFinalPrazo) {
-            let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+            let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days', true);
 
             if (this.form.get('diasUteis').value) {
                 const curDate = dataHoraInicioPrazo.clone();
@@ -716,8 +716,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             }
 
-            if (diffDays !== this.form.get('prazoDias').value) {
-                this.form.get('prazoDias').setValue(diffDays);
+            if (diffDays > this.form.get('prazoDias').value
+                || parseInt(diffDays) < (this.form.get('prazoDias').value -1 )) {
+                this.form.get('prazoDias').setValue(parseInt(diffDays));
             }
         }
     }
@@ -749,8 +750,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         }
 
-        if (this.form.get('dataHoraFinalPrazo').value.format('YYYY-MM-DDTHH:mm:ss') !== dataHoraFinalPrazo.format('YYYY-MM-DDTHH:mm:ss')) {
-            this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
+        if (this.form.get('dataHoraFinalPrazo').value.format('YYYY-MM-DDTHH:mm:ss') !== dataHoraFinalPrazoCalculado.format('YYYY-MM-DDTHH:mm:ss')) {
+this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
         }
     }
 

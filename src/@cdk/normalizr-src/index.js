@@ -5,17 +5,17 @@ import ValuesSchema from "./schemas/Values";
 import ArraySchema, * as ArrayUtils from "./schemas/Array";
 import ObjectSchema, * as ObjectUtils from "./schemas/Object";
 
-const visit = (value, parent, key, schema, addEntity, visitedEntities) => {
+const visit = (value, parent, key, schema, addEntity, visitedEntities, populate) => {
   if (typeof value !== "object" || !value || !schema) {
     return value;
   }
 
   if (typeof schema === "object" && (!schema.normalize || typeof schema.normalize !== "function")) {
     const method = Array.isArray(schema) ? ArrayUtils.normalize : ObjectUtils.normalize;
-    return method(schema, value, parent, key, visit, addEntity, visitedEntities);
+    return method(schema, value, parent, key, visit, addEntity, visitedEntities, populate);
   }
 
-  return schema.normalize(value, parent, key, visit, addEntity, visitedEntities);
+  return schema.normalize(value, parent, key, visit, addEntity, visitedEntities, populate);
 };
 
 const addEntities = (entities) => (schema, processedEntity, value, parent, key) => {
@@ -41,7 +41,7 @@ export const schema = {
   Values: ValuesSchema,
 };
 
-export const normalize = (input, schema) => {
+export const normalize = (input, schema, populate) => {
   if (!input || typeof input !== "object") {
     throw new Error(`Unexpected input given to normalize. Expected type to be "object", found "${typeof input}".`);
   }
@@ -50,7 +50,7 @@ export const normalize = (input, schema) => {
   const addEntity = addEntities(entities);
   const visitedEntities = [];
 
-  const result = visit(input, input, null, schema, addEntity, visitedEntities);
+  const result = visit(input, input, null, schema, addEntity, visitedEntities, populate);
   return { entities, result };
 };
 

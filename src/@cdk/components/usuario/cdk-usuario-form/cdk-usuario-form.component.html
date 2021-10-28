@@ -6,13 +6,13 @@
                [readonly]="!!usuario"
                [matAutocomplete]="usuarioAutocomplete.autocomplete"
                required
-               (blur)="checkUsuario()"
                maxlength="11"
                minlength="11">
         <cdk-usuario-autocomplete
             #usuarioAutocomplete="usuarioAutocomplete"
             [control]="form.get('username')"
             [pagination]="usuarioPagination"
+            [exibirUsername]="true"
             (usuarioListIsLoadingEmit)="usuarioAutocompleteLoading($event)">
         </cdk-usuario-autocomplete>
         <button matSuffix mat-button mat-icon-button
@@ -26,8 +26,7 @@
     </mat-form-field>
 
     <ng-template
-        [ngIf]="(isCarregadoAutocomplete && isCpfValido) ||
-                        (usuario && usuario.username && usuario.username.length===11)">
+        [ngIf]="(isCarregadoAutocomplete && isCpfValido) || (usuario && usuario.username && usuario.username.length===11)">
         <mat-form-field>
             <mat-label>Nome</mat-label>
             <input matInput #nome

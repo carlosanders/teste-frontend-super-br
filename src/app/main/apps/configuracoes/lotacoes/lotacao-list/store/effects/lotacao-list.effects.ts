@@ -27,17 +27,14 @@ export class LotacaoListEffect {
     getLotacoes: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<LotacaoListActions.GetLotacoes>(LotacaoListActions.GET_LOTACOES),
         switchMap(action => this._lotacaoService.query(
-            JSON.stringify({
-                ...action.payload.filter,
-                ...action.payload.gridFilter,
-            }),
+            JSON.stringify(action.payload.filter),
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
             JSON.stringify(action.payload.context)).pipe(
             mergeMap(response => [
-                new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
+                new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema, populate: action.payload.populate}),
                 new LotacaoListActions.GetLotacoesSuccess({
                     entitiesId: response['entities'].map(lotacao => lotacao.id),
                     loaded: {

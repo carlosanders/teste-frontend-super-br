@@ -13,7 +13,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';
 import {Observable, Subject} from 'rxjs';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {Documento} from '@cdk/models';
+import {Documento, Pagination} from '@cdk/models';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkUtils} from '@cdk/utils';
@@ -67,6 +67,9 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     @Output()
     removeAssinatura: EventEmitter<any> = new EventEmitter<any>();
 
+    @Output()
+    getMore: EventEmitter<any> = new EventEmitter<any>();
+
     saving$: Subject<boolean>;
     saving: boolean;
 
@@ -80,6 +83,7 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     alterandoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId: number[] = [];
+    documentosPagination$: Observable<Pagination>;
     lote: string;
 
     /**
@@ -107,6 +111,7 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
         this.removendoAssinaturaDocumentosVinculadosId$ = data.removendoAssinaturaDocumentosVinculadosId$;
         this.alterandoDocumentosId$ = data.alterandoDocumentosId$;
         this.downloadP7SDocumentosId$ = data.downloadP7SDocumentosId$;
+        this.documentosPagination$ = data.documentosPagination$;
     }
 
     ngOnInit(): void {
@@ -188,5 +193,9 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
 
     doRemoveAssinatura(documentoId: number): void {
         this.removeAssinatura.emit(documentoId);
+    }
+
+    doGetMore(): void {
+        this.getMore.emit();
     }
 }

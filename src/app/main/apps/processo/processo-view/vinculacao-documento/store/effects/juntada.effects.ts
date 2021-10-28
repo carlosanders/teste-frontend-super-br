@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewVinculacaoDocumentoActions from '../actions';
@@ -15,7 +15,7 @@ import {juntada as juntadaSchema, vinculacaoDocumento as vinculacaoDocumentoSche
 import {Router} from '@angular/router';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
-import {ReloadJuntadas} from '../../../store';
+import {getIndex, GetJuntada, RetiraJuntada} from '../../../store';
 
 @Injectable()
 export class JuntadaEffects {
@@ -28,10 +28,9 @@ export class JuntadaEffects {
     getJuntada: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.GetJuntada>(ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA),
         mergeMap(action => this._juntadaService.get(
-            action.payload.id,
+            action.payload.juntadaId,
             JSON.stringify([
                 'volume',
-                'volume.processo',
                 'documento',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
@@ -43,12 +42,50 @@ export class JuntadaEffects {
                 new AddData<Juntada>({data: [response], schema: juntadaSchema}),
                 new ProcessoViewVinculacaoDocumentoActions.GetJuntadaSuccess({
                     juntadaId: response.id,
-                    ...action.payload.loaded
+                    loaded: {
+                        id: 'juntadaHandle',
+                        value: this.routerState.params.juntadaHandle
+                    }
                 })
             ]),
             catchError((err) => {
                 console.log(err);
                 return of(new ProcessoViewVinculacaoDocumentoActions.GetJuntadaFailed(err));
+            })
+        ))
+    ));
+    /**
+     * Get Juntada Vinculada with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getJuntadaVinculada: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewVinculacaoDocumentoActions.GetJuntadaVinculada>(ProcessoViewVinculacaoDocumentoActions.GET_JUNTADA_VINCULADA),
+        mergeMap(action => this._juntadaService.get(
+            action.payload.juntadaVinculadaId,
+            JSON.stringify([
+                'volume',
+                'documento',
+                'documento.juntadaAtual',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.tipoDocumento',
+                'documento.vinculacaoDocumentoPrincipal'
+            ])
+        ).pipe(
+            mergeMap(response => [
+                new AddData<Juntada>({data: [response], schema: juntadaSchema}),
+                new ProcessoViewVinculacaoDocumentoActions.GetJuntadaVinculadaSuccess({
+                    juntadaVinculadaId: response.id,
+                    loadedVinculada: {
+                        id: 'juntadaVinculadaHandle',
+                        value: this.routerState.params.juntadaVinculadaHandle
+                    }
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new ProcessoViewVinculacaoDocumentoActions.GetJuntadaVinculadaFailed(err));
             })
         ))
     ));
@@ -65,29 +102,48 @@ export class JuntadaEffects {
             content: 'Salvando a vinculação do documento ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'vinculação do documento',
-                content: 'Vinculação do documento id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-            }))),
-            mergeMap((response: VinculacaoDocumento) => [
-                new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
-                new ReloadJuntadas(),
-                new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema})
-            ]),
-            catchError((err) => {
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
+        switchMap((action) => {
+            const populate = JSON.stringify([
+                'documento',
+                'documento.origemDados',
+                'documento.juntadaAtual',
+                'documento.tipoDocumento',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.vinculacoesEtiquetas',
+                'documento.vinculacoesEtiquetas.etiqueta',
+                'documento.criadoPor',
+                'documento.setorOrigem',
+                'documento.setorOrigem.unidade'
+            ]);
+            return this._vinculacaoDocumentoService.save(action.payload.vinculacaoDocumento, '{}', populate).pipe(
+                tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'vinculação do documento',
-                    content: 'Erro ao salvar a vinculação do documento!',
-                    status: 2, // erro
-                }));
-                return of(new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoFailed(err));
-            })
-        ))
+                    content: 'Vinculação do documento id ' + response.id + ' salva com sucesso.',
+                    status: 1, // sucesso
+                }))),
+                mergeMap((response: VinculacaoDocumento) => [
+                    new AddData<VinculacaoDocumento>({data: [response], schema: vinculacaoDocumentoSchema}),
+                    new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess(),
+                    new RetiraJuntada(action.payload.juntadaVinculadaId),
+                    new GetJuntada(action.payload.juntada.id),
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'vinculação do documento',
+                        content: 'Erro ao salvar a vinculação do documento!',
+                        status: 2, // erro
+                    }));
+                    return of(new ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoFailed(err));
+                })
+            );
+        })
     ));
     /**
      * Save Assunto Success
@@ -95,7 +151,7 @@ export class JuntadaEffects {
     saveVinculacaoDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewVinculacaoDocumentoActions.SaveVinculacaoDocumentoSuccess>(ProcessoViewVinculacaoDocumentoActions.SAVE_VINCULACAO_DOCUMENTO_SUCCESS),
         tap(() => {
-            this._router.navigate([this.routerState.url.replace(('vincular/' + this.routerState.params.juntadaHandle), '')]).then();
+            this._router.navigate([this.routerState.url.split(('vincular/' + this.routerState.params.juntadaHandle))[0]]).then();
         })
     ), {dispatch: false});
 

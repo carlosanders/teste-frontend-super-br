@@ -10,6 +10,8 @@ import {getRouterState, State} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'documento-edit-versoes',
@@ -36,12 +38,14 @@ export class DocumentoEditVersoesComponent implements OnInit, OnDestroy {
      * @param _location
      * @param _router
      * @param _componenteDigitalService
+     * @param _matDialog
      */
     constructor(
         private _store: Store<State>,
         private _location: Location,
         private _router: Router,
-        private _componenteDigitalService: ComponenteDigitalService
+        private _componenteDigitalService: ComponenteDigitalService,
+        private _matDialog: MatDialog
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStoreComponente.getComponenteDigital));
 
@@ -70,7 +74,6 @@ export class DocumentoEditVersoesComponent implements OnInit, OnDestroy {
                     logId: 'DESC'
                 };
             }
-            ;
         });
     }
 
@@ -84,11 +87,27 @@ export class DocumentoEditVersoesComponent implements OnInit, OnDestroy {
      * @param data
      */
     doReverter(data: any): void {
-        this._store.dispatch(new fromStoreComponente.RevertComponenteDigital({
-            componenteDigital: this.componenteDigital,
-            hash: data.toString()
-        }));
-        this._componenteDigitalService.revertendo.next(true);
+        const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+                message: 'O conteúdo da minuta será revertido para a versão selecionada, e o conteúdo atual será perdido. Deseja continuar?'
+            },
+            disableClose: false
+        });
+
+        confirmDialogRef.afterClosed().pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((result) => {
+            if (result) {
+                this._store.dispatch(new fromStoreComponente.RevertComponenteDigital({
+                    componenteDigital: this.componenteDigital,
+                    hash: data.toString()
+                }));
+                this._componenteDigitalService.revertendo.next(true);
+            }
+        });
     }
 
     /**

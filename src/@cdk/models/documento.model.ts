@@ -166,6 +166,10 @@ export class Documento {
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
 
+    acessoRestrito?: boolean;
+
+    acessoNegado?: boolean;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -210,5 +214,7 @@ export class Documento {
         this.vinculacaoDocumentoPrincipal = null;
         this.vinculacoesEtiquetas = [];
         this.sigilos = [];
+        this.acessoRestrito = null;
+        this.acessoNegado = null;
     }
 }

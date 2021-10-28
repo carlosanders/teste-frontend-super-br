@@ -17,7 +17,7 @@ export interface DocumentosState {
     error: any;
 }
 
-export const DocumentosInitialState: DocumentosState = {
+export const documentosInitialState: DocumentosState = {
     documentosId: [],
     documentosLoaded: false,
     selectedDocumentosId: [],
@@ -34,17 +34,16 @@ export const DocumentosInitialState: DocumentosState = {
     error: null,
 };
 
-export function DocumentosReducer(
-    state = DocumentosInitialState,
+export const documentosReducer = (
+    state = documentosInitialState,
     action: DocumentosActions.DocumentosActionsAll
-): DocumentosState {
+): DocumentosState => {
     switch (action.type) {
         case DocumentosActions.GET_DOCUMENTOS: {
             return {
                 ...state,
                 saving: false,
-                loading: true,
-                documentosLoaded: false,
+                loading: true
             };
         }
 
@@ -53,7 +52,7 @@ export function DocumentosReducer(
                 ...state,
                 loading: false,
                 documentosId: action.payload.entitiesId,
-                documentosLoaded: action.payload.loaded,
+                documentosLoaded: action.payload.loaded
             };
         }
 
@@ -272,7 +271,21 @@ export function DocumentosReducer(
             };
         }
 
+        case DocumentosActions.UNLOAD_DOCUMENTOS: {
+            if (action.payload.reset) {
+                return {
+                    ...documentosInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    documentosId: [],
+                    documentosLoaded: false
+                };
+            }
+        }
+
         default:
             return state;
     }
-}
+};

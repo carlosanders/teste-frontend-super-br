@@ -97,12 +97,12 @@
 <!-- / AJUDA PANEL -->
 
 <!-- CHAT PANEL -->
-<cdk-sidebar name="chatPanel" position="right" class="chat-panel"
+<cdk-sidebar name="chatPanel" position="right" class="chat-panel" tabindex="-1"
              [ngClass]="{'chat-open': chatOpen === true}"
              [folded]="false"
              [foldedAutoTriggerOnHover]="false"
              [hidden]="cdkConfig.layout.toolbar.hidden">
-    <chat-panel
+    <chat-panel tabindex="-1"
         (toogleChatHandler)="toogleChat($event)">
     </chat-panel>
 </cdk-sidebar>

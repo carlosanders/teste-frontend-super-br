@@ -1,6 +1,7 @@
 <div class="content" cdkPerfectScrollbar>
     <cdk-vinculacao-documento-form
         [vinculacaoDocumento]="vinculacaoDocumento"
+        [processo]="processo$ | async"
         [displayedColumns]="displayedColumns"
         [documentoVinculadoPagination]="documentoVinculadoPagination"
         [modalidadeVinculacaoDocumentoPagination]="modalidadeVinculacaoDocumentoPagination"

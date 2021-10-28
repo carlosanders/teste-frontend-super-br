@@ -16,6 +16,11 @@ export const getIsSavingProtocoloDocumento = createSelector(
     (state: ProtocoloDocumentoState) => state.saving
 );
 
+export const getIsLoadingProtocoloDocumento = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => state.loading
+);
+
 export const getErrorsProtocoloDocumento = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.errors
@@ -70,6 +75,31 @@ export const getRemovendoAssinaturaDocumentosId = createSelector(
     (state: ProtocoloDocumentoState) => state.removendoAssinaturaDocumentoIds
 );
 
+export const getSelectedDocumentosId = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => state.selectedDocumentosId
+);
+
+export const getSelectedDocumentos = createSelector(
+    schemaDocumentoSelectors.getNormalizedEntities,
+    getSelectedDocumentosId,
+    schemaDocumentoSelectors.entitiesProjector
+);
+
+export const getAlterandoDocumentosId = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => state.alterandoDocumentoIds
+);
+
+export const getDownloadDocumentosP7SId = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => state.downloadDocumentosP7SIds
+);
+
+export const getPagination = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => state.pagination
+);
 
 
 

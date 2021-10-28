@@ -77,7 +77,6 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
             prazoGuardaFaseIntermediariaMes: [null],
             prazoGuardaFaseIntermediariaAno: [null],
             prazoGuardaFaseIntermediariaEvento: [null],
-            visibilidadeRestrita: [null],
             observacao: [null, [Validators.maxLength(255)]]
         });
         this.modalidadeDestinacaoPagination = new Pagination();

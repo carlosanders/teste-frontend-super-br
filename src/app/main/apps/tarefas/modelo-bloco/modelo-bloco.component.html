@@ -6,6 +6,7 @@
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
     <cdk-modelo-grid *ngIf="(tarefas$ | async)?.length && (isSaving$ | async) === false"
+            [hidden]="operacoes.length > 0"
             [loading]="(loading$ | async)"
             [modelos]="(modelos$ | async)"
             [total]="(pagination$ | async)?.total"
@@ -14,11 +15,6 @@
             (selected)="doSelect($event)"
             (reload)="reload($event)">
     </cdk-modelo-grid>
-
-    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 
     <mat-list *ngIf="operacoes.length > 0">
         <h3 matSubheader>
@@ -30,6 +26,12 @@
                [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
+
+    <div class="actions" *ngIf="operacoes.length > 0 && operacoesPendentes.length === 0">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()">
+            VOLTAR
+        </button>
+    </div>
 
 </div>
 

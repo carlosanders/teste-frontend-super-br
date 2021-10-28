@@ -11,11 +11,10 @@ import * as fromStore from '../';
 import {getDocumentosHasLoaded} from '../';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from "../../../../../auth/login/login.service";
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
-
     routerState: any;
 
     /**
@@ -91,10 +90,25 @@ export class ResolveGuard implements CanActivate {
                 select(getDocumentosHasLoaded),
                 tap((loaded: any) => {
                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                        this._store.dispatch(new fromStore.GetDocumentos({
-                            'processoOrigem.id': `eq:${this.routerState.params['processoHandle']}`,
-                            'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
-                        }));
+                        this._store.dispatch(new fromStore.UnloadDocumentos());
+                        const params = {
+                            filter: {
+                                'processoOrigem.id': `eq:${this.routerState.params['processoHandle']}`,
+                                'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
+                            },
+                            limit: 10,
+                            offset: 0,
+                            sort: {criadoEm: 'DESC'},
+                            populate: [
+                                'populateAll',
+                                'tipoDocumento',
+                                'documentoAvulsoRemessa',
+                                'documentoAvulsoRemessa.documentoResposta',
+                                'componentesDigitais',
+                                'juntadaAtual'
+                            ]
+                        };
+                        this._store.dispatch(new fromStore.GetDocumentos(params));
                     }
                 }),
                 filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),

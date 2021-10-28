@@ -29,32 +29,8 @@ export class DocumentosVinculadosEffects {
     getDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
         switchMap((action) => {
-
-            this.documento = action.payload;
-            const documentoId = `eq:${action.payload.id}`;
-
-            const params = {
-                filter: {
-                    'vinculacaoDocumentoPrincipal.documento.id': documentoId,
-                    'juntadaAtual': 'isNull'
-                },
-                limit: 10,
-                offset: 0,
-                sort: {id: 'DESC'},
-                populate: [
-                    'tipoDocumento',
-                    'vinculacaoDocumentoPrincipal',
-                    'vinculacaoDocumentoPrincipal.documento',
-                    'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                    'componentesDigitais',
-                    'processoOrigem',
-                    'setorOrigem',
-                    'tarefaOrigem',
-                    'tarefaOrigem.usuarioResponsavel',
-                    'tarefaOrigem.vinculacoesEtiquetas',
-                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                ]
-            };
+            this.documento = action.payload.documento;
+            const params = action.payload.filters;
 
             return this._documentoService.query(
                 JSON.stringify({
@@ -73,6 +49,7 @@ export class DocumentosVinculadosEffects {
                     value: this.documento.id
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
             })
         ]),
         catchError((err) => {
@@ -241,17 +218,26 @@ export class DocumentosVinculadosEffects {
      */
     updateDocumentoVinculado: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.UpdateDocumentoVinculado>(DocumentosVinculadosActions.UPDATE_DOCUMENTO_VINCULADO),
-        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
-            mergeMap((response: Documento) => [
-                new DocumentosVinculadosActions.UpdateDocumentoVinculadoSuccess(response.id),
-                new AddData<Documento>({data: [response], schema: documentoSchema}),
-                new DocumentosVinculadosActions.GetDocumentosVinculados(this.documento)
-            ]),
-            catchError((err) => {
-                console.log(err);
-                return of(new DocumentosVinculadosActions.UpdateDocumentoVinculadoFailed(err));
-            })
-        ), 25)
+        mergeMap((action) => {
+            const populate = JSON.stringify([
+                'tipoDocumento',
+                'atualizadoPor'
+            ]);
+            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, populate).pipe(
+                mergeMap((response: Documento) => [
+                    new DocumentosVinculadosActions.UpdateDocumentoVinculadoSuccess(response.id),
+                    new UpdateData<Documento>({
+                        id: response.id,
+                        schema: documentoSchema,
+                        changes: {atualizadoEm: response.atualizadoEm, atualizadoPor: response.atualizadoPor, tipoDocumento: response.tipoDocumento}
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentosVinculadosActions.UpdateDocumentoVinculadoFailed(err));
+                })
+            );
+        }, 25)
     ));
     /**
      * Download Documento Vinculado P7S

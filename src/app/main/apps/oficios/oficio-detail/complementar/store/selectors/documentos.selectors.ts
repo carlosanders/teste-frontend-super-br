@@ -4,7 +4,6 @@ import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
 
-
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
 export const getDocumentosState = createSelector(
@@ -16,7 +15,6 @@ export const getDocumentosId = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.documentosId
 );
-
 
 export const getDocumentos = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
@@ -93,4 +91,8 @@ export const getDownloadDocumentosP7SId = createSelector(
     (state: DocumentosState) => state.downloadDocumentosP7SIds
 );
 
+export const getDocumentosPagination = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.pagination
+);
 

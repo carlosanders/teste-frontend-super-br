@@ -29,10 +29,16 @@ export class CdkVisibilidadeListItemComponent implements OnInit {
     @Input()
     total: number;
 
+    @Input()
+    adminCount: number;
+
     @Output()
     delete = new EventEmitter<number>();
 
     usuario: Usuario;
+
+    @Input()
+    tipoRelatorio = false;
 
     constructor(public _loginService: LoginService) {
         this.usuario = _loginService.getUserProfile();

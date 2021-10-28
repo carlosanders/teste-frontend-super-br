@@ -10,10 +10,10 @@ import {DocumentoAvulsoResponderAppState} from '../reducers';
 import * as fromStore from '../';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
+import {getDocumentosHasLoaded} from "../";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
-
     routerState: any;
 
     /**
@@ -63,9 +63,46 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetDocumentoAvulso({
                         id: 'eq:' + this.routerState.params['documentoAvulsoHandle']
                     }));
-                    this._store.dispatch(new fromStore.GetDocumentosComplementares({
-                        'documentoAvulsoComplementacaoResposta.id': 'eq:' + this.routerState.params['documentoAvulsoHandle']
-                    }));
+                }
+            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Documentos Complementares
+     *
+     * @returns
+     */
+    getDocumentosComplementares(): Observable<any> {
+        return this._store.pipe(
+            select(getDocumentosHasLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.UnloadDocumentosComplementares({reset: true}));
+                    let documentoId = null;
+
+                    const routeParams = of('documentoAvulsoHandle');
+                    routeParams.subscribe((param) => {
+                        documentoId = `eq:${this.routerState.params[param]}`;
+                    });
+                    const params = {
+                        filter: {
+                            'documentoAvulsoComplementacaoResposta.id': documentoId
+                        },
+                        limit: 10,
+                        offset: 0,
+                        sort: {criadoEm: 'DESC'},
+                        populate: [
+                            'tipoDocumento',
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'componentesDigitais',
+                            'juntadaAtual'
+                        ]
+                    };
+                    this._store.dispatch(new fromStore.GetDocumentosComplementares(params));
                 }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),

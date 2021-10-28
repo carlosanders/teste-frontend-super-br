@@ -148,7 +148,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let modalidademeio" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidademeio.id) > -1, 'error': getProp(deletingErrors, modalidademeio.id)}"> {{modalidademeio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidademeio.id) > -1, 'error': getProp(deletingErrors, modalidademeio.id)}"> {{modalidademeio.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -169,7 +169,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidademeio" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidademeio.id) > -1, 'error': getProp(deletingErrors, modalidademeio.id)}"> {{modalidademeio.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidademeio.id) > -1, 'error': getProp(deletingErrors, modalidademeio.id)}"> {{modalidademeio.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -187,7 +187,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let modalidademeio" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidademeio.id) > -1, 'error': getProp(deletingErrors, modalidademeio.id)}"> {{modalidademeio.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidademeio.id) > -1, 'error': getProp(deletingErrors, modalidademeio.id)}"> {{modalidademeio.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

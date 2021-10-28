@@ -11,9 +11,9 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -24,6 +24,8 @@ import {CdkUtils} from '@cdk/utils';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {filter, takeUntil} from 'rxjs/operators';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -48,6 +50,9 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     documento: Documento;
 
     documentosVinculados$: Observable<Documento[]>;
+    documentosVinculados: Documento[];
+    pagination$: Observable<any>;
+    pagination: Pagination;
 
     isSavingDocumentosVinculados$: Observable<boolean>;
     isLoadingDocumentosVinculados$: Observable<boolean>;
@@ -74,6 +79,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      * @param _dynamicService
      * @param _activatedRoute
      * @param _changeDetectorRef
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditAnexosAppState>,
@@ -81,7 +87,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         private _router: Router,
         private _dynamicService: DynamicService,
         private _activatedRoute: ActivatedRoute,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _matDialog: MatDialog
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -94,6 +101,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
 
         this._store.pipe(
             select(getMercureState),
@@ -142,8 +150,19 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      */
     ngOnInit(): void {
         this.documento$.pipe(
+            filter(documento => !!documento),
             takeUntil(this._unsubscribeAll)
         ).subscribe(documento => this.documento = documento);
+
+        this.pagination$.pipe(
+            filter(pagination => !!pagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
+
+        this.documentosVinculados$.pipe(
+            filter(documentos => !!documentos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documentos => this.documentosVinculados = documentos);
 
         this.assinandoDocumentosVinculadosId$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -253,6 +272,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             });
             this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentosId));
         } else {
+            const lote = CdkUtils.makeId();
             result.documentos.forEach((documento) => {
                 documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -267,15 +287,55 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                     this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
-                        operacaoId: operacaoId
+                        operacaoId: operacaoId,
+                        loteId: lote
                     }));
                 });
             });
         }
     }
 
+    hasChanges(): boolean {
+        const editor = window['CKEDITOR'];
+        if (editor && editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) && editor.instances[editorInstance]) {
+                    if (editor.instances[editorInstance].checkDirty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    podeNavegarDoEditor(): Observable<boolean> {
+        if (this.hasChanges()) {
+            const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                    message: 'Existem mudanças não salvas no editor que serão perdidas. Deseja continuar?'
+                },
+                disableClose: false
+            });
+
+            return confirmDialogRef.afterClosed();
+        } else {
+            return of(true);
+        }
+    }
+
     onClickedDocumentoVinculado(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+        if (this.documento.vinculacaoDocumentoPrincipal) {
+            return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+        }
+        this.podeNavegarDoEditor().subscribe((result) => {
+            if (result) {
+                return this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+            }
+        });
     }
 
     doAlterarTipoDocumento(values): void {
@@ -293,7 +353,20 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     }
 
     onCompleteAllDocumentosVinculados(): void {
-        this._store.dispatch(new fromStore.GetDocumentosVinculados());
+        this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
+    }
+
+    paginaDocumentosVinculados(): void {
+        if (this.documentosVinculados.length >= this.pagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.pagination,
+            offset: this.pagination.offset + this.pagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetDocumentosVinculados(nparams));
     }
 
     doRemoveAssinatura(documentoId: number): void {
@@ -301,12 +374,26 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     }
 
     anexarCopia(): void {
-        const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/capa/mostrar';
-        this._router.navigate(
-            [
-                this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
-                {outlets: {primary: rota}}
-            ],
-            {relativeTo: this._activatedRoute.parent}).then();
+        if (this.documento.vinculacaoDocumentoPrincipal) {
+            const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/capa/mostrar';
+            this._router.navigate(
+                [
+                    this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
+                    {outlets: {primary: rota}}
+                ],
+                {relativeTo: this._activatedRoute.parent}).then();
+            return;
+        }
+        this.podeNavegarDoEditor().subscribe((result) => {
+            if (result) {
+                const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/capa/mostrar';
+                this._router.navigate(
+                    [
+                        this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
+                        {outlets: {primary: rota}}
+                    ],
+                    {relativeTo: this._activatedRoute.parent}).then();
+            }
+        });
     }
 }

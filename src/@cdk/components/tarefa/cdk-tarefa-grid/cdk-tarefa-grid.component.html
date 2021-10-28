@@ -162,7 +162,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Data do Início do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- DataHoraFinalPrazo Column -->
@@ -189,7 +189,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Data da Conclusão do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.dataHoraConclusaoPrazo?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.dataHoraConclusaoPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- EspecieTarefa.nome Column -->
@@ -228,7 +228,7 @@
                         Unidade Responsável
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Unidade Responsável: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.unidadeResponsavel?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.setorResponsavel?.unidade?.sigla}} </td>
                 </ng-container>
 
                 <!-- SetorResponsavel Column -->
@@ -249,7 +249,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Usuário da Conclusao do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.usuarioConclusaoPrazo.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.usuarioConclusaoPrazo?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -267,7 +267,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -286,7 +286,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -304,7 +304,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm, 'error': getProp(deletingErrors, tarefa.id)}"> {{tarefa.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -321,7 +321,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && !tarefa.dataHoraConclusaoPrazo"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="editTarefa(tarefa.id)"
                                 aria-label="editar"

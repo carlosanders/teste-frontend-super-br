@@ -1,0 +1,29 @@
+<!-- CONTENT HEADER -->
+<div class="header">
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="classificacoes">
+    </path>
+</div>
+<!-- / CONTENT HEADER -->
+
+<div class="content">
+    <div class="actions">
+        <button mat-icon-button
+                class="mat-accent"
+                [routerLink]="'editar/criar'"
+                *ngIf="action === 'listar'"
+                aria-label="novo"
+                matTooltip="Novo">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button
+                (click)="goBack()"
+                *ngIf="action !== 'listar'"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+    <router-outlet></router-outlet>
+</div>

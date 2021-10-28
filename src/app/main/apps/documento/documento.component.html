@@ -8,8 +8,7 @@
             </button>
 
             <div class="acoes">
-                <mat-tab-group (selectedTabChange)="visualizarProcesso(this.modoProcesso)"
-                               *ngIf="(documento$ | async)?.processoOrigem?.id && (documento$ | async)?.minuta">
+                <mat-tab-group #matTabGroup (selectedTabChange)="visualizarProcesso($event)" *ngIf="(documento$ | async)?.processoOrigem?.id && (documento$ | async)?.minuta">
                     <mat-tab label="Minuta">
                     </mat-tab>
                     <mat-tab label="Processo">
@@ -36,7 +35,7 @@
         </div>
 
         <div class="content">
-            <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1 && this.modoProcesso === 1" class="header p-16">
+            <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1 && this.modoProcesso === 0" class="header p-16">
 
                 <div class="componentes-digitais-navigation">
 

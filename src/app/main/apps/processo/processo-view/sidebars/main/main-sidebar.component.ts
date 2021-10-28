@@ -19,7 +19,7 @@ import {
     Juntada,
     Pagination,
     Processo,
-    Tarefa,
+    Tarefa, VinculacaoDocumento,
     Volume
 } from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
@@ -42,13 +42,14 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {Contador} from '@cdk/models/contador';
 
 @Component({
@@ -69,6 +70,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     @Output()
     scrolled = new EventEmitter<any>();
+
+    @Output()
+    aprovarDocumento: EventEmitter<any> = new EventEmitter<Documento>();
 
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
@@ -190,19 +194,24 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     placeholderId = null;
 
     draggedJuntada: number = null;
+    isOpen: boolean[] = [];
 
     // Upload de anexo em minuta/ofício
     isSaving$: Observable<boolean>;
     isLoadingDocumentosVinculados$: Observable<boolean>;
     documentosVinculados$: Observable<Documento[]>;
+    documentosVinculados: Documento[];
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId$: Observable<number[]>;
     removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
+    documentosVinculadosPagination$: Observable<any>;
+    documentosVinculadosPagination: any;
 
     contador: Contador = new Contador();
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -375,6 +384,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.removendoAssinaturaDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosVinculadosId));
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
+        this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
     }
 
     /**
@@ -463,75 +473,83 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
-        this.tarefa$
-            .pipe(
-                takeUntil(this._unsubscribeAll),
-                distinctUntilChanged((x, y) => x === y && this.documentoEdit.uuid === this.routerState.queryParams.documentoEdit),
-            )
-            .subscribe((value) => {
-                this.tarefa = value;
-                this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
-                this.documentoEdit.open = false;
-                if (value) {
-                    this._unsubscribeDocs.next();
-                    this._unsubscribeDocs.complete();
-                    this._unsubscribeDocs = new Subject();
-                    this._store.pipe(select(getTarefa)).pipe(
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe((tarefa) => {
-                        this.tarefaOrigem = tarefa;
-                    });
-                    this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
-                    this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
-                    this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
-                    this._store.pipe(select(getDocumentosHasLoaded)).pipe(
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe(
-                        loaded => this.loadedMinutas = loaded
-                    );
-                    this._changeDetectorRef.markForCheck();
-                    this.lixeiraMinutas$.pipe(
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe((lixeira) => {
-                        this.lixeiraMinutas = lixeira;
-                    });
-                    this.documentos$.pipe(
-                        filter(cd => !!cd),
-                        takeUntil(this._unsubscribeDocs)
-                    ).subscribe(
-                        (documentos) => {
-                            this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
-                            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
+        this.tarefa$.pipe(
+            takeUntil(this._unsubscribeAll),
+            distinctUntilChanged((x, y) => x === y && this.documentoEdit.uuid === this.routerState.queryParams.documentoEdit),
+        ).subscribe((value) => {
+            this.tarefa = value;
+            this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
+            this.documentoEdit.open = false;
+            if (value) {
+                this._unsubscribeDocs.next();
+                this._unsubscribeDocs.complete();
+                this._unsubscribeDocs = new Subject();
+                this._store.pipe(
+                    select(getTarefa),
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe((tarefa) => {
+                    this.tarefaOrigem = tarefa;
+                });
+                this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+                this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
+                this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+                this._store.pipe(select(getDocumentosHasLoaded)).pipe(
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe(
+                    loaded => this.loadedMinutas = loaded
+                );
+                this._changeDetectorRef.markForCheck();
+                this.lixeiraMinutas$.pipe(
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe((lixeira) => {
+                    this.lixeiraMinutas = lixeira;
+                });
 
-                            if (this.lixeiraMinutas) {
-                                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
-                                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
-                            }
+                this.documentosVinculadosPagination$.pipe(
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(pagination => this.documentosVinculadosPagination = pagination);
 
-                            this._changeDetectorRef.markForCheck();
-                            if (this.documentoEdit.uuid && !this.documentoEdit.open) {
-                                documentos.forEach((documento) => {
-                                    if (!documento.documentoAvulsoRemessa && documento.uuid === this.documentoEdit.uuid) {
-                                        this.documentoEdit.open = true;
-                                        this._store.dispatch(new fromStore.ClickedDocumento({
-                                            documento: documento,
-                                            routeAtividade: this.routeAtividadeDocumento,
-                                            routeOficio: this.routeOficioDocumento
-                                        }));
-                                    } else if (documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.uuid === this.documentoEdit.uuid) {
-                                        this.documentoEdit.open = true;
-                                        this._store.dispatch(new fromStore.ClickedDocumento({
-                                            documento: documento,
-                                            routeAtividade: this.routeAtividadeDocumento,
-                                            routeOficio: this.routeOficioDocumento
-                                        }));
-                                    }
-                                });
-                            }
+                this.documentosVinculados$.pipe(
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(documentosVinculados => this.documentosVinculados = documentosVinculados);
+
+                this.documentos$.pipe(
+                    filter(cd => !!cd),
+                    takeUntil(this._unsubscribeDocs)
+                ).subscribe(
+                    (documentos) => {
+                        this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
+                        this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
+
+                        if (this.lixeiraMinutas) {
+                            this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
+                            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
                         }
-                    );
-                }
-            });
+
+                        this._changeDetectorRef.markForCheck();
+                        if (this.documentoEdit.uuid && !this.documentoEdit.open) {
+                            documentos.forEach((documento) => {
+                                if (!documento.documentoAvulsoRemessa && documento.uuid === this.documentoEdit.uuid) {
+                                    this.documentoEdit.open = true;
+                                    this._store.dispatch(new fromStore.ClickedDocumento({
+                                        documento: documento,
+                                        routeAtividade: this.routeAtividadeDocumento,
+                                        routeOficio: this.routeOficioDocumento
+                                    }));
+                                } else if (documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.uuid === this.documentoEdit.uuid) {
+                                    this.documentoEdit.open = true;
+                                    this._store.dispatch(new fromStore.ClickedDocumento({
+                                        documento: documento,
+                                        routeAtividade: this.routeAtividadeDocumento,
+                                        routeOficio: this.routeOficioDocumento
+                                    }));
+                                }
+                            });
+                        }
+                    }
+                );
+            }
+        });
 
         const pathDocumento = 'app/main/apps/documento/documento-edit';
         modulesConfig.forEach((module) => {
@@ -570,10 +588,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     /**
      *
      * @param step
-     * @param ativo
+     * @param restrito
      * @param componenteDigitalId
      */
-    gotoStep(step, ativo, componenteDigitalId = null): void {
+    gotoStep(step, restrito, componenteDigitalId = null): void {
         let substep = 0;
 
         if (this.juntadas[step] === undefined) {
@@ -771,11 +789,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         const andXFilter = [];
         if (this.form.get('tipoDocumento').value) {
-            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value}`});
+            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value.id}`});
         }
 
         if (this.form.get('numeracaoSequencial').value) {
-            andXFilter.push({'numeracaoSequencial': `like:%${this.form.get('numeracaoSequencial').value}%`});
+            andXFilter.push({'numeracaoSequencial': `eq:${this.form.get('numeracaoSequencial').value}`});
         }
 
         if (this.form.get('descricao').value) {
@@ -960,11 +978,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doRemoverVinculacoes(juntada: Juntada): void {
-        juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao.id));
+        this.confirmDialogRef = this.dialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                message: 'Deseja realmente remover as vinculações da juntada?',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao));
+            }
+        });
     }
 
-    removeVinculacao(vinculacaoDocumentoId: number): void {
-        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumentoId));
+    removeVinculacao(vinculacao: VinculacaoDocumento): void {
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacao));
     }
 
     doDesentranharSimples(juntadaId: number): void {
@@ -1135,7 +1167,32 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     uploadAnexo(documento: Documento): void {
-        this._store.dispatch(new fromStore.GetDocumentosVinculados(documento));
+        this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
+        const documentoId = `eq:${documento.id}`;
+
+        const params = {
+            filter: {
+                'vinculacaoDocumentoPrincipal.documento.id': documentoId,
+                'juntadaAtual': 'isNull'
+            },
+            limit: 10,
+            offset: 0,
+            sort: {id: 'DESC'},
+            populate: [
+                'tipoDocumento',
+                'vinculacaoDocumentoPrincipal',
+                'vinculacaoDocumentoPrincipal.documento',
+                'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
+                'componentesDigitais',
+                'processoOrigem',
+                'setorOrigem',
+                'tarefaOrigem',
+                'tarefaOrigem.usuarioResponsavel',
+                'tarefaOrigem.vinculacoesEtiquetas',
+                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+            ]
+        };
+        this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documento: documento}));
         const dialogRef = this.dialog.open(CdkUploadDialogComponent, {
             width: '600px',
             data: {
@@ -1148,7 +1205,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 assinandoDocumentosVinculadosId$: this.assinandoDocumentosId$,
                 removendoAssinaturaDocumentosVinculadosId$: this.removendoAssinaturaDocumentosId$,
                 alterandoDocumentosId$: this.alterandoDocumentosVinculadosId$,
-                downloadP7SDocumentosId$: this.downloadP7SDocumentosId$
+                downloadP7SDocumentosId$: this.downloadP7SDocumentosId$,
+                documentosPagination$: this.documentosVinculadosPagination$
             }
         });
         // Subscribe nos eventos do componente
@@ -1159,6 +1217,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.AprovarComponenteDigital({
                 documentoOrigem: aDocumento
             }));
+            this.dialog.closeAll();
         });
         const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((aDocumento: Documento) => {
             this._store.dispatch(new fromStore.GetDocumentosVinculados(aDocumento));
@@ -1235,8 +1294,20 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this._store.dispatch(new fromStore.DownloadVinculadoP7S(componenteDigital));
             });
         });
-        const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((documentoId: number) => {
-            this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        const getMoreSub = dialogRef.componentInstance.getMore.subscribe(() => {
+            if (this.documentosVinculados.length >= this.documentosVinculadosPagination.total) {
+                return;
+            }
+
+            const nparams = {
+                ...this.documentosVinculadosPagination,
+                offset: this.documentosVinculadosPagination.offset + this.documentosVinculadosPagination.limit
+            };
+
+            this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: nparams, documento: documento}));
+        });
+        const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((docId: number) => {
+            this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(docId));
         });
         // Unsubscribe em todas as assinaturas de eventos
         dialogRef.afterClosed().subscribe(() => {
@@ -1250,9 +1321,18 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             completeSub.unsubscribe();
             deleteSub.unsubscribe();
             downloadP7SSub.unsubscribe();
+            getMoreSub.unsubscribe();
             removeAssinaturaSub.unsubscribe();
             this._store.dispatch(new fromStore.ReloadDocumento(documento.id));
+            this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
         });
+    }
+
+    aprovar(documento: Documento): void {
+        this._store.dispatch(new fromStore.AprovarComponenteDigital({
+                documentoOrigem: documento
+            }));
+        this.aprovarDocumento.emit(documento);
     }
 
     doDeleteDocumentoVinculado(documentoId: number, loteId: string = null): void {
@@ -1262,5 +1342,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             operacaoId: operacaoId,
             loteId: loteId,
         }));
+    }
+
+    doTogglePanel(id): void {
+        this.isOpen[id] = !this.isOpen[id];
     }
 }

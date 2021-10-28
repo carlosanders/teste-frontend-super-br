@@ -20,7 +20,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models/documento.model';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Assinatura, ComponenteDigital, DocumentoAvulso, Usuario} from '@cdk/models';
+import {Assinatura, ComponenteDigital, DocumentoAvulso, Pagination, Usuario} from '@cdk/models';
 import {getDocumentoAvulso} from '../store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -47,6 +47,9 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
     documentoAvulso$: Observable<DocumentoAvulso>;
     documentoAvulso: DocumentoAvulso;
     documentos$: Observable<Documento[]>;
+    documentos: Documento[];
+    pagination$: Observable<any>;
+    pagination: Pagination;
 
     selectedDocumentos$: Observable<Documento[]>;
     oficios: Documento[] = [];
@@ -104,6 +107,7 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isSavingDocumentos$ = this._store.pipe(select(fromStore.getIsSavingDocumentos));
         this.isLoadingDocumentos$ = this._store.pipe(select(fromStore.getIsLoadingDocumentos));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.pagination$ = this._store.pipe(select(fromStore.getDocumentosPagination));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -170,6 +174,11 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.oficios = this.oficios.concat(this.documentoAvulso.documentoResposta);
             }
         );
+
+        this.pagination$.pipe(
+            filter(pagination => !!pagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
@@ -330,9 +339,20 @@ export class ComplementarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onCompleteAllDocumentos(): void {
-        this._store.dispatch(new fromStore.GetDocumentos({
-            id: `eq:${this.documentoAvulso.documentoResposta.id}`
-        }));
+        this._store.dispatch(new fromStore.ReloadDocumentos());
+    }
+
+    paginaDocumentos(): void {
+        if (this.documentos.length >= this.pagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.pagination,
+            offset: this.pagination.offset + this.pagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetDocumentos(nparams));
     }
 
     doRemoveAssinatura(documentoId: number): void {

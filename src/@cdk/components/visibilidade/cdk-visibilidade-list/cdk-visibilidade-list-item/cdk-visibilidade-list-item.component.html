@@ -17,7 +17,7 @@
         </div>
 
         <button
-            [disabled]="visibilidade.valor === 'ROLE_USER' || (visibilidade.valor === usuario.username && visibilidade.poderes.indexOf('MASTER') > -1) && total > 1"
+            [disabled]="(visibilidade.valor === 'ROLE_USER' && !tipoRelatorio) || ((visibilidade.valor === usuario.username  && total > 1) || (adminCount <= 1  && visibilidade.poderes.includes('ADMINISTRADOR')) && total > 1)"
             mat-icon-button *ngIf="!deleting" aria-label="remover"
             (click)="doDelete()">
             <mat-icon>delete</mat-icon>

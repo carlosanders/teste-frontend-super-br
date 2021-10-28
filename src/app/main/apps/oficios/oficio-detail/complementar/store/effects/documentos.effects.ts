@@ -33,17 +33,13 @@ export class DocumentosEffects {
     getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
         switchMap(action => this._documentoService.query(
-            JSON.stringify(action.payload),
-            10,
-            0,
-            JSON.stringify({criadoEm: 'DESC'}),
-            JSON.stringify([
-                'tipoDocumento',
-                'documentoAvulsoRemessa',
-                'documentoAvulsoRemessa.documentoResposta',
-                'componentesDigitais',
-                'juntadaAtual'
-            ]))),
+            JSON.stringify({
+                ...action.payload.filter
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate))),
         mergeMap(response => [
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosActions.GetDocumentosSuccess({
@@ -52,6 +48,7 @@ export class DocumentosEffects {
                     value: this.routerState.params.documentoAvulsoHandle
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
             })
         ]),
         catchError((err) => {
@@ -60,39 +57,37 @@ export class DocumentosEffects {
         })
     ));
     /**
-     * Get Documentos Complementares with router parameters
-     *
-     * @type {Observable<any>}
+     * Reload Documentos
      */
-    getDocumentosComplementares: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosActions.GetDocumentosComplementares>(DocumentosActions.GET_DOCUMENTOS_COMPLEMENTARES),
-        switchMap(action => this._documentoService.query(
-            JSON.stringify(action.payload),
-            10,
-            0,
-            JSON.stringify({criadoEm: 'DESC'}),
-            JSON.stringify([
-                'tipoDocumento',
-                'documentoAvulsoRemessa',
-                'documentoAvulsoRemessa.documentoResposta',
-                'componentesDigitais',
-                'juntadaAtual'
-            ]))),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new DocumentosActions.GetDocumentosCompelemtaresSuccess({
-                loaded: {
-                    id: 'documentoAvulsoHandle',
-                    value: this.routerState.params.documentoAvulsoHandle
+    reloadDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosActions.ReloadDocumentos>(DocumentosActions.RELOAD_DOCUMENTOS),
+        map(() => {
+            this._store.dispatch(new DocumentosActions.UnloadDocumentos({reset: false}));
+            let documentoId = null;
+
+            const routeParams = of('documentoAvulsoHandle');
+            routeParams.subscribe((param) => {
+                documentoId = `eq:${this.routerState.params[param]}`;
+            });
+
+            const params = {
+                filter: {
+                    'documentoAvulsoComplementacaoResposta.id': documentoId
                 },
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new DocumentosActions.GetDocumentosComplementaresFailed(err));
+                limit: 10,
+                offset: 0,
+                sort: {criadoEm: 'DESC'},
+                populate: [
+                    'tipoDocumento',
+                    'documentoAvulsoRemessa',
+                    'documentoAvulsoRemessa.documentoResposta',
+                    'componentesDigitais',
+                    'juntadaAtual'
+                ]
+            };
+            this._store.dispatch(new DocumentosActions.GetDocumentos(params));
         })
-    ));
+    ), {dispatch: false});
     /**
      * Clicked Documento
      *

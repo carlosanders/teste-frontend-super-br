@@ -28,8 +28,37 @@ export class DocumentosVinculadosEffects {
      */
     getDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
-        switchMap(() => {
-
+        switchMap(action => this._documentoService.query(
+            JSON.stringify({
+                ...action.payload.filter
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate))),
+        mergeMap(response => [
+            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+            new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
+                loaded: {
+                    id: 'documentoHandle',
+                    value: this.routerState.params.documentoHandle
+                },
+                entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new DocumentosVinculadosActions.GetDocumentosVinculadosFailed(err));
+        })
+    ));
+    /**
+     * Reload Documentos Vinculados
+     */
+    reloadDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.ReloadDocumentosVinculados>(DocumentosVinculadosActions.RELOAD_DOCUMENTOS_VINCULADOS),
+        map(() => {
+            this._store.dispatch(new DocumentosVinculadosActions.UnloadDocumentosVinculados({reset: false}));
             let documentoId = null;
 
             const routeParams = of('documentoHandle');
@@ -59,31 +88,9 @@ export class DocumentosVinculadosEffects {
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                 ]
             };
-
-            return this._documentoService.query(
-                JSON.stringify({
-                    ...params.filter
-                }),
-                params.limit,
-                params.offset,
-                JSON.stringify(params.sort),
-                JSON.stringify(params.populate));
-        }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
-                loaded: {
-                    id: 'documentoHandle',
-                    value: this.routerState.params.documentoHandle
-                },
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new DocumentosVinculadosActions.GetDocumentosVinculadosFailed(err));
+            this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados(params));
         })
-    ));
+    ), {dispatch: false});
     /**
      * Delete Documento Vinculado
      *
@@ -168,7 +175,7 @@ export class DocumentosVinculadosEffects {
                 ifrm.style.height = '0';
                 ifrm.style.border = '0';
                 document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 2000);
+                setTimeout(() => document.body.removeChild(ifrm), 20000);
             }
         })
     ), {dispatch: false});
@@ -302,8 +309,7 @@ export class DocumentosVinculadosEffects {
         mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
             mergeMap((response: Documento) => [
                 new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
-                new AddData<Documento>({data: [response], schema: documentoSchema}),
-                new DocumentosVinculadosActions.GetDocumentosVinculados()
+                new AddData<Documento>({data: [response], schema: documentoSchema})
             ]),
             catchError((err) => {
                 console.log(err);

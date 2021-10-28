@@ -2,6 +2,15 @@ import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.a
 
 export interface DocumentosVinculadosState {
     documentosId: number[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
@@ -15,8 +24,17 @@ export interface DocumentosVinculadosState {
     error: any;
 }
 
-export const DocumentosVinculadosInitialState: DocumentosVinculadosState = {
+export const documentosVinculadosInitialState: DocumentosVinculadosState = {
     documentosId: [],
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: {},
+        total: 0,
+    },
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
@@ -30,10 +48,10 @@ export const DocumentosVinculadosInitialState: DocumentosVinculadosState = {
     error: null,
 };
 
-export function DocumentosVinculadosReducer(
-    state = DocumentosVinculadosInitialState,
+export const documentosVinculadosReducer = (
+    state = documentosVinculadosInitialState,
     action: DocumentosVinculadosActions.DocumentosVinculadosActionsAll
-): DocumentosVinculadosState {
+): DocumentosVinculadosState => {
     switch (action.type) {
 
         case DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS: {
@@ -41,7 +59,15 @@ export function DocumentosVinculadosReducer(
                 ...state,
                 saving: false,
                 loading: true,
-                documentosLoaded: false,
+                pagination: {
+                    limit: action.payload?.filters?.limit,
+                    offset: action.payload?.filters?.offset,
+                    filter: action.payload?.filters?.filter,
+                    listFilter: action.payload?.filters?.listFilter,
+                    populate: action.payload?.filters?.populate,
+                    sort: action.payload?.filters?.sort,
+                    total: state.pagination.total
+                }
             };
         }
 
@@ -49,8 +75,12 @@ export function DocumentosVinculadosReducer(
             return {
                 ...state,
                 loading: false,
-                documentosId: action.payload.entitiesId,
+                documentosId: [...state.documentosId, ...action.payload.entitiesId],
                 documentosLoaded: action.payload.loaded,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                }
             };
         }
 
@@ -186,7 +216,6 @@ export function DocumentosVinculadosReducer(
                 ...state,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload),
                 loaded: true,
                 loading: false,
             };
@@ -225,8 +254,27 @@ export function DocumentosVinculadosReducer(
                 saving: !state.loading
             };
         }
+        case DocumentosVinculadosActions.UNLOAD_DOCUMENTOS_VINCULADOS: {
+            if (action.payload.reset) {
+                return {
+                    ...documentosVinculadosInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    documentosId: [],
+                    documentosLoaded: false,
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
+        }
 
         default:
             return state;
     }
-}
+};
