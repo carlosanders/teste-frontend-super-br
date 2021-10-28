@@ -214,8 +214,10 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     // -----------------------------------------------------------------------------------------------------
 
     aprovar(): void {
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.ApproveComponenteDigital({
-            documentoOrigem: this.documento
+            documentoOrigem: this.documento,
+            operacaoId: operacaoId
         }));
     }
 
