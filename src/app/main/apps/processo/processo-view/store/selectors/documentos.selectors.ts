@@ -1,8 +1,14 @@
 import {createSelector} from '@ngrx/store';
-import {getProcessoViewAppState, ProcessoViewAppState, ProcessoViewDocumentosState} from '../reducers';
+import {
+    ComponenteDigitalState,
+    getProcessoViewAppState,
+    ProcessoViewAppState,
+    ProcessoViewDocumentosState
+} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
+import {getComponenteDigitalState} from "./componentes-digitais.selectors";
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
@@ -99,4 +105,9 @@ export const getLixeiraMinutas = createSelector(
 export const getBufferingDelete = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.bufferingDelete
+);
+
+export const getErrorsDocumentos = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.error
 );
