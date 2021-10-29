@@ -181,7 +181,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 
-    fecharSidebar() {
+    fecharSidebar(): void {
         if (!this._cdkSidebarService.getSidebar('admin-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('admin-main-sidebar').close();
         }
