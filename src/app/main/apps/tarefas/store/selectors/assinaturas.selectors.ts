@@ -8,42 +8,42 @@ const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchem
 
 export const getAssinaturasState = createSelector(
     getTarefasAppState,
-    (state: TarefasAppState) => state.assinaturas
+    (state: TarefasAppState) => state?.assinaturas
 );
 
 export const getAssinandoDocumentosId = createSelector(
     getAssinaturasState,
-    (state: AssinaturasState) => state.assinandoDocumentosId
+    (state: AssinaturasState) => state?.assinandoDocumentosId
 );
 
 export const getAssinandoDocumentosEletronicamenteId = createSelector(
     getAssinaturasState,
-    (state: AssinaturasState) => state.assinandoDocumentosEletronicamenteId
+    (state: AssinaturasState) => state?.assinandoDocumentosEletronicamenteId
 );
 
 export const getAssinandoTarefasEletronicamenteId = createSelector(
     getAssinaturasState,
-    (state: AssinaturasState) => state.assinandoTarefasEletronicamenteId
+    (state: AssinaturasState) => state?.assinandoTarefasEletronicamenteId
 );
 
 export const getAssinandoTarefasId = createSelector(
     getAssinaturasState,
-    (state: AssinaturasState) => state.assinandoTarefasId
+    (state: AssinaturasState) => state?.assinandoTarefasId
 );
 
 export const getDocumentosTarefa = createSelector(
     getAssinaturasState,
-    (state: AssinaturasState) => state.documentosTarefa
+    (state: AssinaturasState) => state?.documentosTarefa
 );
 
 export const getAssinaturaErrors = createSelector(
     getAssinaturasState,
-    (state: AssinaturasState) => state.errors
+    (state: AssinaturasState) => state?.errors
 );
 
 export const getDocumentosId = createSelector(
     getAssinaturasState,
-    (state: AssinaturasState) => state.documentosId
+    (state: AssinaturasState) => state?.documentosId
 );
 
 export const getDocumentos = createSelector(

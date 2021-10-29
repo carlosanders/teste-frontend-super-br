@@ -56,9 +56,31 @@ export class ResolveGuard implements CanActivate {
             select(getDocumentosHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetDocumentos({
-                        'documentoAvulsoComplementacaoResposta.id': `eq:${this.routerState.params.documentoAvulsoHandle}`
-                    }));
+                    this._store.dispatch(new fromStore.UnloadDocumentos({reset: true}));
+
+                    let documentoId = null;
+
+                    const routeParams = of('documentoAvulsoHandle');
+                    routeParams.subscribe((param) => {
+                        documentoId = `eq:${this.routerState.params[param]}`;
+                    });
+
+                    const params = {
+                        filter: {
+                            'documentoAvulsoComplementacaoResposta.id': documentoId
+                        },
+                        limit: 10,
+                        offset: 0,
+                        sort: {criadoEm: 'DESC'},
+                        populate: [
+                            'tipoDocumento',
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'componentesDigitais',
+                            'juntadaAtual'
+                        ]
+                    };
+                    this._store.dispatch(new fromStore.GetDocumentos(params));
                 }
             }),
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),

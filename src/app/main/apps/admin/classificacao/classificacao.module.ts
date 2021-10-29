@@ -39,6 +39,10 @@ const routes: Routes = [
                 loadChildren: () => import('./classificacao-tree-list/classificacao-tree-list.module').then(m => m.ClassificacaoTreeListModule),
             },
             {
+                path: ':classificacaoHandle/acessos',
+                loadChildren: () => import('./visibilidades/visibilidades.module').then(m => m.VisibilidadesModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

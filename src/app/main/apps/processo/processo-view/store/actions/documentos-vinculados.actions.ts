@@ -36,6 +36,7 @@ export const DOWNLOAD_DOCUMENTO_VINCULADO_P7S_SUCCESS = '[PROCESSO VIEW] DOWNLOA
 export const DOWNLOAD_DOCUMENTO_VINCULADO_P7S_FAILED = '[PROCESSO VIEW] DOWNLOAD DOCUMENTO VINCULADO P7S FAILED';
 
 export const SET_SAVING = '[PROCESSO VIEW] SET SAVING COMPONENTES DIGITAIS';
+export const UNLOAD_DOCUMENTOS_VINCULADOS = '[PROCESSO VIEW] UNLOAD DOCUMENTOS VINCULADOS';
 
 /**
  * Get Documentos Vinculados
@@ -344,6 +345,15 @@ export class SetSavingComponentesDigitais implements Action
     }
 }
 
+export class UnloadDocumentosVinculados implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS_VINCULADOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosVinculadosActionsAll
     = GetDocumentosVinculados
     | GetDocumentosVinculadosSuccess
@@ -370,4 +380,5 @@ export type DocumentosVinculadosActionsAll
     | DownloadVinculadoP7S
     | DownloadVinculadoP7SFailed
     | DownloadVinculadoP7SSuccess
-    | SetSavingComponentesDigitais;
+    | SetSavingComponentesDigitais
+    | UnloadDocumentosVinculados;

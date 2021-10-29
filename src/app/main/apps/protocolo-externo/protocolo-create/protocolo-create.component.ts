@@ -62,21 +62,24 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     documentos: Documento[] = [];
     documentos$: Observable<Documento[]>;
+    pagination$: Observable<any>;
+    pagination: Pagination;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     deletingDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
-
+    selectedDocumentos$: Observable<Documento[]>;
+    selectedDocumentos: Documento[];
+    isSavingDocumentos$: Observable<boolean>;
+    isLoadingDocumentos$: Observable<boolean>;
+    alterandoDocumentosId$: Observable<number[]>;
     routerState: any;
-
     javaWebStartOK = false;
-
     selectedIndex: number;
-
     titulo: string;
     paramHandle: string;
-
     assinaturaInterval = null;
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
@@ -106,10 +109,16 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.pessoaProcedencia$ = this._store.pipe(select(getPessoa));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
+        this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
+        this.isSavingDocumentos$ = this._store.pipe(select(fromStore.getIsSavingProtocoloDocumento));
+        this.isLoadingDocumentos$ = this._store.pipe(select(fromStore.getIsLoadingProtocoloDocumento));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this._profile = this._loginService.getUserProfile();
 
         this.unidadePagination = new Pagination();
@@ -164,6 +173,18 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
                         break;
                 }
             }
+        });
+
+        this.pagination$.pipe(
+            filter(pagination => !!pagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
+
+        this.selectedDocumentos$.pipe(
+            filter(selectedDocumentos => !!selectedDocumentos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((selectedDocumentos) => {
+            this.selectedDocumentos = selectedDocumentos;
         });
 
         this.processo$.pipe(
@@ -278,6 +299,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         }));
     }
 
+    changedSelectedIds(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
     cancel(): void {
         this._router.navigate([
             '/apps/protocolo-externo/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
@@ -289,11 +314,28 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     onComplete(): void {
+        this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+    }
+
+    onCompleteAllDocumentos(): void {
         this._store.dispatch(new fromStore.UnloadDocumentos());
         this._store.dispatch(new fromStore.GetDocumentos({
             'processoOrigem.id': `eq:${this.processo.id}`,
             'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`
         }));
+    }
+
+    paginaDocumentos(): void {
+        if (this.documentos.length >= this.pagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.pagination,
+            offset: this.pagination.offset + this.pagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetDocumentos(nparams));
     }
 
     onClicked(documento): void {
@@ -307,9 +349,40 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.GetEstados({}));
     }
 
+    doAssinaturaBloco(result): void {
+        if (result.certificadoDigital) {
+            const documentosId = [];
+            result.documentos.forEach((documento) => {
+                documentosId.push(documento.id);
+            });
+            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+        } else {
+            const lote = CdkUtils.makeId();
+            result.documentos.forEach((documento) => {
+                documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        processoId: this.processo.id,
+                        operacaoId: operacaoId,
+                        loteId: lote
+                    }));
+                });
+            });
+        }
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -340,6 +413,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     doConverteHtml(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
+    }
+
+    doAlterarTipoDocumento(values): void {
+        this._store.dispatch(new fromStore.UpdateDocumento(values));
     }
 
     doDownloadP7S(documento: Documento): void {

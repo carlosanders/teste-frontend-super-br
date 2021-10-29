@@ -2,6 +2,15 @@ import * as DocumentosActions from '../actions/documentos.actions';
 
 export interface DocumentosState {
     documentosId: number[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
@@ -17,8 +26,17 @@ export interface DocumentosState {
     error: any;
 }
 
-export const DocumentosInitialState: DocumentosState = {
+export const documentosInitialState: DocumentosState = {
     documentosId: [],
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: {},
+        total: 0,
+    },
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
@@ -34,17 +52,25 @@ export const DocumentosInitialState: DocumentosState = {
     error: null,
 };
 
-export function DocumentosReducer(
-    state = DocumentosInitialState,
+export const documentosReducer = (
+    state = documentosInitialState,
     action: DocumentosActions.DocumentosActionsAll
-): DocumentosState {
+): DocumentosState => {
     switch (action.type) {
         case DocumentosActions.GET_DOCUMENTOS: {
             return {
                 ...state,
                 saving: false,
                 loading: true,
-                documentosLoaded: false,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
             };
         }
 
@@ -52,8 +78,12 @@ export function DocumentosReducer(
             return {
                 ...state,
                 loading: false,
-                documentosId: action.payload.entitiesId,
+                documentosId: [...state.documentosId, ...action.payload.entitiesId],
                 documentosLoaded: action.payload.loaded,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                }
             };
         }
 
@@ -169,6 +199,7 @@ export function DocumentosReducer(
             return {
                 ...state,
                 assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                error: false
             };
         }
 
@@ -271,7 +302,27 @@ export function DocumentosReducer(
             };
         }
 
+        case DocumentosActions.UNLOAD_DOCUMENTOS: {
+            if (action.payload.reset) {
+                return {
+                    ...documentosInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    documentosId: [],
+                    documentosLoaded: false,
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
+        }
+
         default:
             return state;
     }
-}
+};

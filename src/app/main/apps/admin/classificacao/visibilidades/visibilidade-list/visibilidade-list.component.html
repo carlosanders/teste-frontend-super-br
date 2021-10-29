@@ -1,0 +1,11 @@
+<cdk-visibilidade-list
+        [loading]="(loading$ | async)"
+        [visibilidades]="(visibilidades$ | async)"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['delete', 'showDeleted']"
+        (reload)="reload($event)"
+        (delete)="delete($event)"
+        (deleteBlocoEmmitter)="deleteBloco($event)">
+</cdk-visibilidade-list>

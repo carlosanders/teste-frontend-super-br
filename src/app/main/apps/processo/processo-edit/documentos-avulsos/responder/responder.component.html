@@ -23,26 +23,56 @@
                 <ng-template #dynamicComponent></ng-template>
             </mat-menu>
 
+            <cdk-documento-card-list [documentos]="resposta"
+                                     [deletingId]="(deletingDocumentosId$ | async)"
+                                     [assinandoId]="(assinandoDocumentosId$ | async)"
+                                     [alterandoId]="(alterandoDocumentosId$ | async)"
+                                     [convertendoId]="(convertendoDocumentosId$ | async)"
+                                     [downloadId] ="(downloadP7SDocumentosId$ | async)"
+                                     [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                                     [saving]="(isSavingDocumentos$ | async)"
+                                     [loading]="(isLoadingDocumentos$ | async)"
+                                     (delete)="doDelete($event)"
+                                     (verResposta)="doVerResposta($event)"
+                                     (assinatura)="doAssinatura($event)"
+                                     (removeAssinatura)="doRemoveAssinatura($event)"
+                                     (converte)="doConverte($event)"
+                                     (converteHtml)="doConverteHtml($event)"
+                                     (clicked)="onClicked($event)"
+                                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                     (downloadP7S)="doDownloadP7S($event)"
+                                     (changedSelectedIds)="changedSelectedIds($event)">
+            </cdk-documento-card-list>
+
             <cdk-componente-digital-card-list #ckdUpload
                                               [uploadMode]="'linear'"
                                               [documentoAvulsoOrigem]="documentoAvulsoOrigem"
-                                              (completed)="onComplete()">
+                                              (completed)="onComplete()"
+                                              (completedAll)="onCompleteAllDocumentos()">
             </cdk-componente-digital-card-list>
 
             <cdk-documento-card-list [documentos]="oficios"
                                      [deletingId]="(deletingDocumentosId$ | async)"
                                      [assinandoId]="(assinandoDocumentosId$ | async)"
+                                     [alterandoId]="(alterandoDocumentosId$ | async)"
                                      [convertendoId]="(convertendoDocumentosId$ | async)"
+                                     [downloadId] ="(downloadP7SDocumentosId$ | async)"
                                      [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                                     [loading]="(isLoadingDocumentos$ | async)"
+                                     [documentosPagination]="pagination"
                                      (delete)="doDelete($event)"
+                                     (deleteBlocoEmmitter)="deleteBloco($event)"
                                      (verResposta)="doVerResposta($event)"
                                      (assinatura)="doAssinatura($event)"
                                      (assinaturaBloco)="doAssinaturaBloco($event)"
+                                     (removeAssinatura)="doRemoveAssinatura($event)"
                                      (converte)="doConverte($event)"
                                      (converteHtml)="doConverteHtml($event)"
                                      (clicked)="onClicked($event)"
-                                     (changedSelectedIds)="changedSelectedIds($event)"
-                                     (removeAssinatura)="doRemoveAssinatura($event)">
+                                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                     (downloadP7S)="doDownloadP7S($event)"
+                                     (getMore)="paginaDocumentos()"
+                                     (changedSelectedIds)="changedSelectedIds($event)">
             </cdk-documento-card-list>
         </div>
 

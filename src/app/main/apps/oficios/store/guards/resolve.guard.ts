@@ -17,12 +17,10 @@ import {Usuario, VinculacaoPessoaUsuario} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
-
+    routerState: any;
+    loading: boolean = false;
     private _profile: Usuario;
     private pessoasConveniadas: VinculacaoPessoaUsuario[];
-    routerState: any;
-
-    loading: boolean = false;
 
     /**
      *
@@ -156,7 +154,7 @@ export class ResolveGuard implements CanActivate {
 
     getRouterDefault(): boolean {
         if (!this.routerState.params['pessoaHandle'] && this.pessoasConveniadas) {
-            this._router.navigate(['apps/oficios/entrada/' + this.pessoasConveniadas[0].pessoa.id]);
+            this._router.navigate(['apps/oficios/entrada/' + this.pessoasConveniadas[0].pessoa.id]).then();
             return false;
         }
 

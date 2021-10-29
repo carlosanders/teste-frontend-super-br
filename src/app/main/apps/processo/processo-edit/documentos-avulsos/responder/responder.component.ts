@@ -12,20 +12,19 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-
-import {Assinatura, Documento, DocumentoAvulso, Usuario} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso, Pagination, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {LoginService} from '../../../../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {DynamicService} from '../../../../../../../modules/dynamic.service';
-import {getMercureState, getRouterState} from '../../../../../../store';
+import {DynamicService} from 'modules/dynamic.service';
+import {getMercureState, getRouterState} from 'app/store';
 import {getDocumentoAvulso, getDocumentosComplementares} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {modulesConfig} from '../../../../../../../modules/modules-config';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {modulesConfig} from 'modules/modules-config';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'responder',
@@ -47,29 +46,34 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
     documentoAvulso: DocumentoAvulso;
     documentos$: Observable<Documento[]>;
     documentosComplementares$: Observable<Documento[]>;
+    pagination$: Observable<any>;
+    pagination: Pagination;
 
     selectedDocumentos$: Observable<Documento[]>;
+    resposta: Documento[] = [];
     oficios: Documento[] = [];
     selectedOficios: Documento[] = [];
 
-    documentoAvulsoOrigem: any;
+    documentoAvulsoOrigem: DocumentoAvulso;
 
     mode: string;
     chaveAcesso: any;
 
     routerState: any;
-    routerState$: Observable<any>;
 
+    javaWebStartOK = false;
+    isSavingDocumentos$: Observable<boolean>;
+    isLoadingDocumentos$: Observable<boolean>;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
-    removendoAssinaturaDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
-    javaWebStartOK = false;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
+    assinaturaInterval = null;
 
     errors$: Observable<any>;
-
-    assinaturaInterval = null;
     lote: string;
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
@@ -91,7 +95,6 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
-        this.routerState$ = this._store.pipe(select(getRouterState));
         this.documentosComplementares$ = this._store.pipe(select(getDocumentosComplementares));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
 
@@ -99,7 +102,12 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
+        this.isSavingDocumentos$ = this._store.pipe(select(fromStore.getIsSavingDocumentos));
+        this.isLoadingDocumentos$ = this._store.pipe(select(fromStore.getIsLoadingDocumentos));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -125,7 +133,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
             this.documentoAvulso = documentoAvulso;
 
             if (this.documentoAvulso.documentoResposta && this.oficios.length < 1) {
-                this.oficios.push(this.documentoAvulso.documentoResposta);
+                this.resposta = [this.documentoAvulso.documentoResposta];
             }
 
             this._changeDetectorRef.markForCheck();
@@ -134,7 +142,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.documentosComplementares$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((documentosComplementares) => {
-            this.oficios = this.oficios.concat(documentosComplementares);
+            this.oficios = documentosComplementares;
             this._changeDetectorRef.detectChanges();
         });
 
@@ -167,6 +175,11 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             }
         });
+
+        this.pagination$.pipe(
+            filter(pagination => !!pagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
@@ -241,6 +254,11 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
     }
 
+    deleteBloco(ids: number[]): void {
+        this.lote = CdkUtils.makeId();
+        ids.forEach((id: number) => this.doDelete(id, this.lote));
+    }
+
     doVerResposta(documento): void {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
@@ -307,11 +325,35 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
+    doAlterarTipoDocumento(values): void {
+        this._store.dispatch(new fromStore.UpdateDocumento(values));
+    }
+
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadP7S(componenteDigital));
+        });
+    }
+
     onComplete(): void {
+        this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+    }
+
+    onCompleteAllDocumentos(): void {
         this._store.dispatch(new fromStore.GetDocumentoResposta({id: `eq:${this.documentoAvulso.id}`}));
-        this._store.dispatch(new fromStore.GetDocumentosComplementares({
-            'documentoAvulsoComplementacaoResposta.id': 'eq:' + this.documentoAvulso.id
-        }));
+    }
+
+    paginaDocumentos(): void {
+        if (this.oficios.length >= this.pagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.pagination,
+            offset: this.pagination.offset + this.pagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetDocumentosComplementares(nparams));
     }
 
     doConverte(documentoId): void {

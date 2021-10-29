@@ -39,6 +39,7 @@
                                      [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                      [saving]="(isSavingDocumentos$ | async)"
                                      [loading]="(isLoadingDocumentos$ | async)"
+                                     [documentosPagination]="pagination"
                                      (delete)="doDelete($event)"
                                      (deleteBlocoEmmitter)="deleteBloco($event)"
                                      (verResposta)="doVerResposta($event)"
@@ -50,6 +51,7 @@
                                      (clicked)="onClicked($event)"
                                      (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                      (downloadP7S)="doDownloadP7S($event)"
+                                     (getMore)="paginaDocumentos()"
                                      (changedSelectedIds)="changedSelectedIds($event)">
             </cdk-documento-card-list>
         </div>

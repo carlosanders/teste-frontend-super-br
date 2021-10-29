@@ -58,13 +58,19 @@ export class ResolveGuard implements CanActivate {
      */
     getProcesso(): any {
         return this._store.pipe(
-            select(fromStore.getProcessoId),
-            tap((processoId: number) => {
-                if (this.processoId !== processoId) {
-                    this._store.dispatch(new fromStore.GetProcesso(this.processoId));
+            select(fromStore.getProcessoLoaded),
+            tap((loaded: any) => {
+                if (loaded.acessoNegado) {
+                    this._router.navigate([
+                        this.routerState.url.split('/anexar-copia')[0] + '/anexar-copia/' + this.routerState.params.processoCopiaHandle + '/acesso-negado'
+                    ]).then();
+                } else {
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                        this._store.dispatch(new fromStore.GetProcesso({id: this.processoId}));
+                    }
                 }
             }),
-            filter((processoId: number) => this.processoId === processoId),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

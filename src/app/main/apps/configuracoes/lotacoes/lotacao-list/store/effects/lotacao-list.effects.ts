@@ -27,7 +27,7 @@ export class LotacaoListEffect {
     getLotacoes: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<LotacaoListActions.GetLotacoes>(LotacaoListActions.GET_LOTACOES),
         switchMap(action => this._lotacaoService.query(
-            JSON.stringify({}),
+            JSON.stringify(action.payload.filter),
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),

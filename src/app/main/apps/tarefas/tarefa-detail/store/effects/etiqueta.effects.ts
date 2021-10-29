@@ -60,8 +60,9 @@ export class EtiquetaEffect {
                 mergeMap((response: Etiqueta) => [
                     new AddData<Etiqueta>({data: [response], schema: etiquetaSchema}),
                     new TarefaDetailActions.CreateVinculacaoEtiqueta({
+                        operacaoId: action.payload.operacaoId,
                         tarefa: tarefa,
-                        etiqueta: Object.values(action.payload.entities.etiqueta)[0]
+                        etiqueta: response
                     })
                 ]),
                 catchError(err => of(new EtiquetaActions.SaveEtiquetaFailed(err)))

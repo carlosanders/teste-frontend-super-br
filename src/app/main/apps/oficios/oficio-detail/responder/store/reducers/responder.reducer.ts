@@ -5,12 +5,12 @@ export interface ResponderState {
     errors: any;
 }
 
-export const ResponderInitialState: ResponderState = {
+export const responderInitialState: ResponderState = {
     saving: false,
     errors: false
 };
 
-export function ResponderReducer(state = ResponderInitialState, action: ResponderActions.ResponderActionsAll): ResponderState {
+export const responderReducer = (state = responderInitialState, action: ResponderActions.ResponderActionsAll): ResponderState => {
     switch (action.type) {
 
         case ResponderActions.SAVE_RESPOSTA: {
@@ -39,4 +39,4 @@ export function ResponderReducer(state = ResponderInitialState, action: Responde
         default:
             return state;
     }
-}
+};

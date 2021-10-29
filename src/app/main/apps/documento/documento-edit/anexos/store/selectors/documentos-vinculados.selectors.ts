@@ -67,6 +67,11 @@ export const getDownloadDocumentosP7SId = createSelector(
     (state: DocumentosVinculadosState) => state.downloadDocumentosP7SIds
 );
 
+export const getDocumentosVinculadosPagination = createSelector(
+    getDocumentosVinculadosState,
+    (state: DocumentosVinculadosState) => state.pagination
+);
+
 export const getSelectedDocumentosVinculados = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentosVinculadosIds,

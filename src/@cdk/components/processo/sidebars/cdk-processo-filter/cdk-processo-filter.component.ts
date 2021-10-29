@@ -47,6 +47,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     filterCriadoEm = [];
     filterAtualizadoEm = [];
     filterDataHoraAbertura = [];
+    filterDataHoraProximaTransicao = [];
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
@@ -89,7 +90,8 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             setorAtual: [null],
             unidade: [null],
             nome: [null],
-            cpfCnpj: [null]
+            cpfCnpj: [null],
+            lembreteArquivista: [null]
         });
 
         this.unidadePagination = new Pagination();
@@ -151,10 +153,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         }
 
         if (this.form.get('NUP').value) {
-            this.form.get('NUP').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                andXFilter.push({'NUP': `like:%${bit}%`});
-            });
+            andXFilter.push({'id': `eq:${this.form.get('NUP').value.id}`});
         }
 
         if (this.form.get('titulo').value) {
@@ -207,6 +206,12 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             andXFilter.push({'especieProcesso.id': `eq:${this.form.get('especieProcesso').value.id}`});
         }
 
+        if (this.form.get('lembreteArquivista').value) {
+            this.form.get('lembreteArquivista').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                andXFilter.push({'lembreteArquivista': `like:%${bit}%`});
+            });
+        }
+
         if (this.filterDataHoraAbertura?.length) {
             this.filterDataHoraAbertura.forEach((filter) => {
                 andXFilter.push(filter);
@@ -221,6 +226,12 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
 
         if (this.filterAtualizadoEm?.length) {
             this.filterAtualizadoEm.forEach((filter) => {
+                andXFilter.push(filter);
+            });
+        }
+
+        if (this.filterDataHoraProximaTransicao?.length) {
+            this.filterDataHoraProximaTransicao.forEach((filter) => {
                 andXFilter.push(filter);
             });
         }
@@ -249,6 +260,9 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         if (Object.keys(andXFilter).length) {
             request['filters']['andX'] = andXFilter;
             this.selected.emit(request);
+            if (this._router.url.indexOf('/apps/arquivista/') > -1) {
+                this._cdkSidebarService?.getSidebar('cdk-processo-list-filter').close();
+            }
         } else {
             this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
                 data: {
@@ -277,6 +291,11 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         this.limparFormFiltroDatas$.next(false);
     }
 
+    filtraDataHoraProximaTransicao(value: any): void {
+        this.filterDataHoraProximaTransicao = value;
+        this.limparFormFiltroDatas$.next(false);
+    }
+
     verificarValor(objeto): void {
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
@@ -292,6 +311,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
         this._cdkProcessoFilterService.clear.next();
+        const request = {
+            filters: {},
+        };
+        this.selected.emit(request);
+        if (this._router.url.indexOf('/apps/arquivista/') > -1) {
+            this._cdkSidebarService?.getSidebar('cdk-processo-list-filter').close();
+        }
     }
 
     showClassificacao(): boolean {
@@ -299,6 +325,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             return false;
         }
         return !(this._router.url.indexOf('pronto-eliminacao') > -1 || this._router.url.indexOf('pronto-recolhimento') > -1);
+    }
+
+    showDataTransicao(): boolean {
+        if (!this._loginService.isGranted('ROLE_ARQUIVISTA')) {
+            return false;
+        }
+        return (this._router.url.indexOf('/apps/arquivista/') > -1);
     }
 
     showModalidadeFase(): boolean {
@@ -313,5 +346,12 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             return false;
         }
         return !(this._router.url.indexOf('/apps/arquivista/') > -1);
+    }
+
+    showLembrete(): boolean {
+        if (!this._loginService.isGranted('ROLE_ARQUIVISTA')) {
+            return false;
+        }
+        return (this._router.url.indexOf('/apps/arquivista/') > -1);
     }
 }

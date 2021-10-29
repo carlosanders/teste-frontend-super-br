@@ -28,8 +28,37 @@ export class DocumentosVinculadosEffects {
      */
     getDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
-        switchMap(() => {
-
+        switchMap(action => this._documentoService.query(
+            JSON.stringify({
+                ...action.payload.filter
+            }),
+            action.payload.limit,
+            action.payload.offset,
+            JSON.stringify(action.payload.sort),
+            JSON.stringify(action.payload.populate))),
+        mergeMap(response => [
+            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+            new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
+                loaded: {
+                    id: 'documentoHandle',
+                    value: this.routerState.params.documentoHandle
+                },
+                entitiesId: response['entities'].map(documento => documento.id),
+                total: response['total']
+            })
+        ]),
+        catchError((err) => {
+            console.log(err);
+            return of(new DocumentosVinculadosActions.GetDocumentosVinculadosFailed(err));
+        })
+    ));
+    /**
+     * Reload Documentos Vinculados
+     */
+    reloadDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.ReloadDocumentosVinculados>(DocumentosVinculadosActions.RELOAD_DOCUMENTOS_VINCULADOS),
+        map(() => {
+            this._store.dispatch(new DocumentosVinculadosActions.UnloadDocumentosVinculados({reset: false}));
             let documentoId = null;
 
             const routeParams = of('documentoHandle');
@@ -58,31 +87,9 @@ export class DocumentosVinculadosEffects {
                     'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                 ]
             };
-
-            return this._documentoService.query(
-                JSON.stringify({
-                    ...params.filter
-                }),
-                params.limit,
-                params.offset,
-                JSON.stringify(params.sort),
-                JSON.stringify(params.populate));
-        }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
-                loaded: {
-                    id: 'documentoHandle',
-                    value: this.routerState.params.documentoHandle
-                },
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new DocumentosVinculadosActions.GetDocumentosVinculadosFailed(err));
+            this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculados(params));
         })
-    ));
+    ), {dispatch: false});
     /**
      * Delete Documento Vinculado
      *
@@ -185,14 +192,12 @@ export class DocumentosVinculadosEffects {
             status: 0, // carregando
         }))),
         mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response =>
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                    status: 1, // sucesso
-                }))
-            ),
+            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
+                id: action.payload.operacaoId,
+                type: 'assinatura',
+                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
+                status: 1, // sucesso
+            }))),
             mergeMap((response: Assinatura) => [
                 new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(action.payload.documento.id),
                 new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -258,6 +263,7 @@ export class DocumentosVinculadosEffects {
             if (action.payload.vinculacaoDocumentoPrincipal) {
                 sidebar = 'editar/dados-basicos';
             }
+            this._componenteDigitalService.trocandoDocumento.next(true);
             this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {
                     outlets: {
                         primary: primary,
@@ -276,17 +282,26 @@ export class DocumentosVinculadosEffects {
      */
     updateDocumento: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.UpdateDocumento>(DocumentosVinculadosActions.UPDATE_DOCUMENTO),
-        mergeMap(action => this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
-            mergeMap((response: Documento) => [
-                new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
-                new AddData<Documento>({data: [response], schema: documentoSchema}),
-                new DocumentosVinculadosActions.GetDocumentosVinculados()
-            ]),
-            catchError((err) => {
-                console.log(err);
-                return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
-            })
-        ), 25)
+        mergeMap((action) => {
+            const populate = JSON.stringify([
+                'tipoDocumento',
+                'atualizadoPor'
+            ]);
+            return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}, populate).pipe(
+                mergeMap((response: Documento) => [
+                    new DocumentosVinculadosActions.UpdateDocumentoSuccess(response.id),
+                    new UpdateData<Documento>({
+                        id: response.id,
+                        schema: documentoSchema,
+                        changes: {atualizadoEm: response.atualizadoEm, atualizadoPor: response.atualizadoPor, tipoDocumento: response.tipoDocumento}
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new DocumentosVinculadosActions.UpdateDocumentoFailed(err));
+                })
+            );
+        }, 25)
     ));
     /**
      * Download P7S

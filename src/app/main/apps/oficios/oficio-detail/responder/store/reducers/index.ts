@@ -1,11 +1,13 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {DocumentosReducer, DocumentosState} from './documentos.reducer';
-import {ResponderReducer, ResponderState} from './responder.reducer';
+import {documentosReducer, DocumentosState} from './documentos.reducer';
+import {responderReducer, ResponderState} from './responder.reducer';
+import {complementaresReducer, ComplementaresState} from './complementares.reducer';
 
 export interface ResponderAppState
 {
     responder: ResponderState;
     documentos: DocumentosState;
+    complementares: ComplementaresState;
 }
 
 export const getResponderAppState = createFeatureSelector<ResponderAppState>(
@@ -18,9 +20,11 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ResponderAppState> = {
-    documentos: DocumentosReducer,
-    responder: ResponderReducer
+    documentos: documentosReducer,
+    responder: responderReducer,
+    complementares: complementaresReducer
 };
 
 export * from './documentos.reducer';
 export * from './responder.reducer';
+export * from './complementares.reducer';
