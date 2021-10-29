@@ -9,14 +9,23 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content" cdkPerfectScrollbar>
     <div class="nav material2">
-        <div *ngFor="let module of links | keyvalue">
-            <div class="nav-item" *ngFor="let link of links[module.key]">
-                <a *showIfRole="link.role" class="nav-link" matRipple [routerLink]="'/apps/admin/' + link.link"
-                   [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
-                    <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                    <span>{{link.nome}}</span>
-                </a>
-            </div>
+
+        <div *ngFor="let module of links | keyvalue; let i = index;">
+            <mat-expansion-panel *showIfRole="module.value[0]?.role"  class="mat-elevation-z0" expanded="i <= 0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{module.key.toUpperCase()}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="nav-item" *ngFor="let link of links[module.key]">
+                    <a *showIfRole="link.role" class="nav-link" matRipple [routerLink]="'/apps/admin/' + link.link"
+                       [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span>{{link.nome}}</span>
+                    </a>
+                </div>
+            </mat-expansion-panel>
+
         </div>
     </div>
 </div>
