@@ -13,7 +13,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -50,6 +50,9 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     documento: Documento;
 
     documentosVinculados$: Observable<Documento[]>;
+    documentosVinculados: Documento[];
+    pagination$: Observable<any>;
+    pagination: Pagination;
 
     isSavingDocumentosVinculados$: Observable<boolean>;
     isLoadingDocumentosVinculados$: Observable<boolean>;
@@ -98,6 +101,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
 
         this._store.pipe(
             select(getMercureState),
@@ -150,6 +154,16 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             takeUntil(this._unsubscribeAll)
         ).subscribe(documento => this.documento = documento);
 
+        this.pagination$.pipe(
+            filter(pagination => !!pagination),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.pagination = pagination);
+
+        this.documentosVinculados$.pipe(
+            filter(documentos => !!documentos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documentos => this.documentosVinculados = documentos);
+
         this.assinandoDocumentosVinculadosId$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((assinandoDocumentosVinculadosId) => {
@@ -200,8 +214,10 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     // -----------------------------------------------------------------------------------------------------
 
     aprovar(): void {
+        const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.ApproveComponenteDigital({
-            documentoOrigem: this.documento
+            documentoOrigem: this.documento,
+            operacaoId: operacaoId
         }));
     }
 
@@ -258,6 +274,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             });
             this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentosId));
         } else {
+            const lote = CdkUtils.makeId();
             result.documentos.forEach((documento) => {
                 documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -272,7 +289,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                     this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
-                        operacaoId: operacaoId
+                        operacaoId: operacaoId,
+                        loteId: lote
                     }));
                 });
             });
@@ -337,7 +355,20 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     }
 
     onCompleteAllDocumentosVinculados(): void {
-        this._store.dispatch(new fromStore.GetDocumentosVinculados());
+        this._store.dispatch(new fromStore.ReloadDocumentosVinculados());
+    }
+
+    paginaDocumentosVinculados(): void {
+        if (this.documentosVinculados.length >= this.pagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.pagination,
+            offset: this.pagination.offset + this.pagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetDocumentosVinculados(nparams));
     }
 
     doRemoveAssinatura(documentoId: number): void {
@@ -366,6 +397,5 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                     {relativeTo: this._activatedRoute.parent}).then();
             }
         });
-
     }
 }

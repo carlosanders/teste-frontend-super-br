@@ -6,6 +6,19 @@ processo-view-main-sidebar {
     flex-direction: column;
     overflow-y: hidden;
 
+    .badge {
+        display: flex;
+        align-items: center;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 7px;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 20px;
+        transition: opacity 0.2s ease-in-out 0.1s;
+        margin-left: 8px;
+    }
+
     > .header {
 
         flex: 0 1 auto;
@@ -139,6 +152,7 @@ processo-view-main-sidebar {
 
         .minutas {
             max-height: 155px;
+            overflow-y: auto;
 
             .loading {
                 flex: 1 0 auto;
@@ -159,6 +173,7 @@ processo-view-main-sidebar {
             flex-direction: column;
             flex: 1 1 auto;
             height: 0;
+            overflow-y: auto;
 
             [dndDropzone] {
                 transition: all 300ms ease;

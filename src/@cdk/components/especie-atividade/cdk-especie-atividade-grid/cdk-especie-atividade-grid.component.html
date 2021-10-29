@@ -166,7 +166,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
-                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -189,7 +189,7 @@
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
-                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -209,7 +209,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1 ||
-                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                                    (isWorkflow && !especieAtividade.valida), 'error': getProp(deletingErrors, especieAtividade.id)}"> {{especieAtividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

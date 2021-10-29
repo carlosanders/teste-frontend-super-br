@@ -130,6 +130,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService) {
+        this.listFilter = {};
     }
 
     // -----------------------------------------------------------------------------------------------------

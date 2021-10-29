@@ -1,20 +1,22 @@
 modelo-edit-anexos {
-    flex: 1 0 100%;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
 
-    > .documentos-vinculados {
+    .documentos-vinculados {
         display: flex;
         flex-direction: column;
-        flex: 1 0 auto;
-        padding: 8px;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        height: 0;
 
-        > .content {
+        .responsive-grid .content {
+            height: 0 !important;
+        }
+
+        ng-template {
             display: flex;
-            flex-direction: column;
             flex: 1 1 auto;
-            overflow-y: auto;
-            height: 0;
         }
     }
 }

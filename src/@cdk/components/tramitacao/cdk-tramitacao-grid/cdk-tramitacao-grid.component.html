@@ -193,7 +193,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1, 'error': getProp(deletingErrors, tramitacao.id)}"> {{tramitacao.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1, 'error': getProp(deletingErrors, tramitacao.id)}"> {{tramitacao.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -212,7 +212,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1, 'error': getProp(deletingErrors, tramitacao.id)}"> {{tramitacao.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1, 'error': getProp(deletingErrors, tramitacao.id)}"> {{tramitacao.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -230,7 +230,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1, 'error': getProp(deletingErrors, tramitacao.id)}"> {{tramitacao.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1, 'error': getProp(deletingErrors, tramitacao.id)}"> {{tramitacao.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

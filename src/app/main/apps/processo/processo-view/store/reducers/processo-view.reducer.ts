@@ -26,7 +26,7 @@ export interface ProcessoViewState {
     expandir: boolean;
 }
 
-export const ProcessoViewInitialState: ProcessoViewState = {
+export const processoViewInitialState: ProcessoViewState = {
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -52,7 +52,7 @@ export const ProcessoViewInitialState: ProcessoViewState = {
     expandir: false
 };
 
-export function ProcessoViewReducer(state = ProcessoViewInitialState, action: ProcessoViewActions.ProcessoViewActionsAll): ProcessoViewState {
+export const processoViewReducer = (state = processoViewInitialState, action: ProcessoViewActions.ProcessoViewActionsAll): ProcessoViewState => {
     switch (action.type) {
 
         case ProcessoViewActions.EXPANDIR_PROCESSO: {
@@ -107,7 +107,7 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
 
             if (action.payload.reset) {
                 return {
-                    ...ProcessoViewInitialState
+                    ...processoViewInitialState
                 };
             } else {
                 return {
@@ -181,7 +181,18 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.RETIRA_JUNTADA: {
+            return {
+                ...state,
+                entitiesId: state.entitiesId.filter(juntadaId => juntadaId !== action.payload),
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
+                }
+            }
+        }
+
         default:
             return state;
     }
-}
+};

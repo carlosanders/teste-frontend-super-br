@@ -12,7 +12,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex, getPagination} from '../selectors';
+import {getCurrentStep, getIndex, getJuntadas, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
@@ -20,6 +20,78 @@ import * as fromStore from '../index';
 @Injectable()
 export class ProcessoViewEffect {
     routerState: any;
+    index: any;
+    /**
+     * Get Juntada
+     *
+     * @type {Observable<any>}
+     */
+    getJuntada: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.GetJuntada>(ProcessoViewActions.GET_JUNTADA),
+        withLatestFrom(this._store.pipe(select(getJuntadas))),
+        switchMap(([action, juntadas]) => {
+            const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                chaveAcesso: this.routerState.params.chaveAcessoHandle
+            } : {};
+            const populate = [
+                'volume',
+                'documento',
+                'documento.origemDados',
+                'documento.juntadaAtual',
+                'documento.tipoDocumento',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.vinculacoesEtiquetas',
+                'documento.vinculacoesEtiquetas.etiqueta',
+                'documento.criadoPor',
+                'documento.setorOrigem',
+                'documento.setorOrigem.unidade'
+            ];
+            return this._juntadaService.get(
+                action.payload,
+                JSON.stringify(populate),
+                JSON.stringify(chaveAcesso)
+            ).pipe(
+                tap((response) => {
+                    this.index = juntadas.map(
+                        (juntada) => {
+                            if (!juntada.ativo) {
+                                return [];
+                            }
+                            let componentesDigitaisIds = [];
+                            if (juntada.documento.componentesDigitais) {
+                                componentesDigitaisIds = juntada.documento.componentesDigitais.map(
+                                    cd => cd.id
+                                );
+                            }
+                            if (juntada.documento.vinculacoesDocumentos) {
+                                juntada.documento.vinculacoesDocumentos.map(
+                                    (vinculacaoDocumento) => {
+                                        vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
+                                            cd => componentesDigitaisIds.push(cd.id)
+                                        );
+                                    }
+                                );
+                            }
+                            return componentesDigitaisIds;
+                        }
+                    );
+                }),
+                concatMap(response => [
+                    new AddData<Juntada>({data: [response], schema: juntadaSchema}),
+                    new ProcessoViewActions.GetJuntadaSuccess(response),
+                    new ProcessoViewActions.UpdateIndex(this.index)
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoViewActions.GetJuntadaFailed(err));
+                })
+            );
+        })
+    ));
     /**
      * Get Juntadas with router parameters
      *
@@ -136,8 +208,8 @@ export class ProcessoViewEffect {
      */
     setCurrentStep: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
-        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
-        switchMap(([, index, currentStep]) => {
+        withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep)), this._store.pipe(select(getJuntadas))),
+        switchMap(([, index, currentStep, juntadas]) => {
             if (this.routerState.params.stepHandle !== 'capa' && index[currentStep.step] === undefined) {
                 // não tem documentos, vamos para capa
                 this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
@@ -146,19 +218,43 @@ export class ProcessoViewEffect {
                 // temos documento sem componente digital
                 return of(null);
             } else {
+                const juntada = juntadas.find((junt) => {
+                    if (junt.documento.vinculacoesDocumentos?.length > 0) {
+                        const indexJuntada = junt.documento.vinculacoesDocumentos
+                            .findIndex(vd => vd.documentoVinculado.componentesDigitais.findIndex(cd => cd.id === index[currentStep.step][currentStep.subStep]) !== -1);
+                        if (indexJuntada !== -1) {
+                            return junt;
+                        }
+                    }
+                    if (junt.documento?.componentesDigitais?.findIndex(cd => cd.id === index[currentStep.step][currentStep.subStep]) !== -1) {
+                        return junt;
+                    }
+                });
+                if (!juntada || juntada.documento.acessoNegado) {
+                    // temos documento com acesso negado
+                    return of(null);
+                }
                 // temos componente digital, vamos pega-lo
                 const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
                     {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
                 const context = JSON.stringify(chaveAcesso);
 
-                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
+                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
+                    map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+                        binary: response,
+                        loaded: this.routerState.params.stepHandle
+                    })),
+                    catchError((err) => {
+                        console.log(err);
+                        return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+                    })
+                );
             }
         }),
-        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-            binary: response,
-            loaded: this.routerState.params.stepHandle
-        })),
-        catchError(err => of(new ProcessoViewActions.SetCurrentStepFailed(err)))
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+        })
     ));
     /**
      * Get Juntadas Success
@@ -271,7 +367,8 @@ export class ProcessoViewEffect {
                         url += '/visualizar/' + firstJuntada + '-0';
                         const extras = {
                             queryParams: {
-                                documentoEdit: this.routerState.queryParams.documentoEdit
+                                documentoEdit: this.routerState.queryParams.documentoEdit,
+                                novaAba: this.routerState.queryParams.novaAba
                             }
                         };
                         this._router.navigate([url], extras)
@@ -333,8 +430,13 @@ export class ProcessoViewEffect {
                         url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                     }
                     url += '/visualizar/' + this.routerState.params['stepHandle'];
-
-                    this._router.navigateByUrl(url)
+                    const extras = {
+                        queryParams: {
+                            documentoEdit: this.routerState.queryParams.documentoEdit,
+                            novaAba: this.routerState.queryParams.novaAba
+                        }
+                    };
+                    this._router.navigate([url], extras)
                         .then(() => {
                             const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
@@ -344,8 +446,7 @@ export class ProcessoViewEffect {
                         });
                 }
             }
-        }),
-        catchError(err => of(new ProcessoViewActions.SetCurrentStepFailed(err)))
+        })
     ), {dispatch: false});
     /**
      * Get Capa Processo

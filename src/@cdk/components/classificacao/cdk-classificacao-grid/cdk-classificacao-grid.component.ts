@@ -48,7 +48,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'permissaoUso', 'visibilidadeRestrita', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'permissaoUso', 'actions'];
 
     allColumns: any[] = [
         {
@@ -127,11 +127,6 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
             fixed: false
         },
         {
-            id: 'visibilidadeRestrita',
-            label: 'Visibilidade Restrita',
-            fixed: true
-        },
-        {
             id: 'observacao',
             label: 'Observação',
             fixed: false
@@ -188,7 +183,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'visibility'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -210,6 +205,9 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    visibility = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -352,6 +350,10 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
     editClassificacao(classificacaoId): void {
         this.edit.emit(classificacaoId);
+    }
+
+    listClassificacaoVisibility(classificacaoId): void {
+        this.visibility.emit(classificacaoId);
     }
 
     selectClassificacao(classificacao: Classificacao): void {

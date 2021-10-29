@@ -321,7 +321,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -340,7 +340,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -358,7 +358,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

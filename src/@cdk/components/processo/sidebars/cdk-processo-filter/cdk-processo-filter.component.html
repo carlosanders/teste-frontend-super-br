@@ -15,12 +15,14 @@
             </mat-expansion-panel-header>
 
             <mat-form-field *showIfRole="'ROLE_USER'">
-                <mat-label>Número do Processo</mat-label>
-                <input matInput #NUP
-                       name="NUP"
+                <input matInput placeholder="Processo"
                        formControlName="NUP"
-                       maxlength="255">
-                <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
+                       [matAutocomplete]="processo.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-processo-autocomplete
+                    #processo="processoAutocomplete"
+                    [control]="form.get('NUP')">
+                </cdk-processo-autocomplete>
             </mat-form-field>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
@@ -43,6 +45,20 @@
                 <cdk-date-filter [datetime]="true" campo="dataHoraAbertura"
                                  [limparForm]="this.limparFormFiltroDatas$"
                                  (filtra)="this.filtraDataHoraAbertura($event)">
+                </cdk-date-filter>
+            </mat-menu>
+
+            <div class="filtro-data" *ngIf="showDataTransicao()">
+                <span [ngClass]="{'filtrado': filterDataHoraProximaTransicao?.length}">Data/Hora da Próxima Temporalidade</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraProximaTransicao"
+                        [ngClass]="{'filtrado': filterDataHoraProximaTransicao?.length}">
+                    <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+            <mat-menu #filtroDataHoraProximaTransicao="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+                <cdk-date-filter [datetime]="true" campo="dataHoraProximaTransicao"
+                                 [limparForm]="this.limparFormFiltroDatas$"
+                                 (filtra)="this.filtraDataHoraProximaTransicao($event)">
                 </cdk-date-filter>
             </mat-menu>
 
@@ -172,13 +188,21 @@
 
             <mat-form-field *ngIf="form.get('unidade').value && form.get('unidade').value.id">
                 <input matInput placeholder="Setor Responsável"
-                       formControlName="setorAtual" [extraFilter]="'unidade'"
+                       formControlName="setorAtual"
                        [matAutocomplete]="setor.autocomplete"
                        (change)="verificarValor($event)">
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')"
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')" [extraFilter]="'unidade'"
                                         [pagination]="setorPagination">
                 </cdk-setor-autocomplete>
             </mat-form-field>
+
+            <mat-form-field *ngIf="showLembrete()">
+                <mat-label>Lembrete</mat-label>
+                <input matInput #lembreteArquivista
+                       name="lembreteArquivista"
+                       formControlName="lembreteArquivista">
+            </mat-form-field>
+
         </mat-expansion-panel>
 
     </form>
@@ -190,7 +214,7 @@
     <button mat-raised-button color="accent" (click)="buscar()">
         Buscar
     </button>
-    <button mat-raised-button color="warn" (click)="limpar()">
+    <button mat-raised-button color="warn" type="button" (click)="limpar()">
         Limpar
     </button>
 </div>

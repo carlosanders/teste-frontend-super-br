@@ -77,8 +77,26 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {id: 'DESC'},
                         populate: [
-                            'populateAll',
-                            'especieTarefa.generoTarefa'
+                            'processo',
+                            'colaborador.usuario',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
+                            'setor.parent',
+                            'setor.unidade',
+                            'processo.especieProcesso',
+                            'processo.especieProcesso.generoProcesso',
+                            'processo.modalidadeMeio',
+                            'processo.documentoAvulsoOrigem',
+                            'especieTarefa',
+                            'usuarioResponsavel',
+                            'setorResponsavel',
+                            'setorResponsavel.unidade',
+                            'setorOrigem',
+                            'setorOrigem.unidade',
+                            'especieTarefa.generoTarefa',
+                            'criadoPor',
+                            'atualizadoPor',
+                            'apagadoPor'
                         ]
                     };
 

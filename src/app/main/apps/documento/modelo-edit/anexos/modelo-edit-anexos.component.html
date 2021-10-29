@@ -19,19 +19,23 @@
         <ng-template #dynamicComponent></ng-template>
     </mat-menu>
 
-    <div class="content" cdkPerfectScrollbar>
-        <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
-                                 [deletingId]="(deletingDocumentosVinculadosId$ | async)"
-                                 [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
-                                 (delete)="doDeleteDocumentoVinculado($event)"
-                                 (assinatura)="doAssinaturaDocumentoVinculado($event)"
-                                 (clicked)="onClickedDocumentoVinculado($event)"
-                                 (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
-        </cdk-documento-card-list>
+    <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
+                             [deletingId]="(deletingDocumentosVinculadosId$ | async)"
+                             [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
+                             [saving]="(isSavingDocumentosVinculados$ | async)"
+                             [loading]="(isLoadingDocumentosVinculados$ | async)"
+                             [documentosPagination]="pagination"
+                             (delete)="doDeleteDocumentoVinculado($event)"
+                             (assinatura)="doAssinaturaDocumentoVinculado($event)"
+                             (assinaturaBloco)="doAssinaturaBloco($event)"
+                             (clicked)="onClickedDocumentoVinculado($event)"
+                             (getMore)="paginaDocumentosVinculados()"
+                             (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
+    </cdk-documento-card-list>
 
-        <cdk-componente-digital-card-list #ckdUpload
-                                          [documentoOrigem]="(documento$ | async)"
-                                          (completed)="onCompleteDocumentoVinculado()">
-        </cdk-componente-digital-card-list>
-    </div>
+    <cdk-componente-digital-card-list #ckdUpload
+                                      [documentoOrigem]="(documento$ | async)"
+                                      (completed)="onCompleteDocumentoVinculado()"
+                                      (completedAll)="onCompleteAllDocumentosVinculados()">
+    </cdk-componente-digital-card-list>
 </div>

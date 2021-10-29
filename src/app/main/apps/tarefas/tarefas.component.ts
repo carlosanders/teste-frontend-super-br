@@ -149,6 +149,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+    novaAba = false;
+
     private _unsubscribeAll: Subject<any> = new Subject();
 
     private _profile: Usuario;
@@ -304,8 +306,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             this.routerState = routerState.state;
             // eslint-disable-next-line radix
-            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
+            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 10);
             this.targetHandle = routerState.state.params['targetHandle'];
+            if (this.routerState.queryParams['novaAba']) {
+                this.novaAba = true;
+                this._store.dispatch(new fromStore.ToggleMaximizado(true));
+            }
 
             const path = 'app/main/apps/tarefas';
             modulesConfig.forEach((module) => {
@@ -417,7 +423,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
-                if (this.maximizado) {
+                if (this.maximizado && !this.novaAba) {
                     this._store.dispatch(new ToggleMaximizado(false));
                 }
             } else {
@@ -548,9 +554,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
             }
             if (event.event.ctrlKey) {
+                const extras = {
+                    queryParams: {
+                        novaAba: true
+                    }
+                };
                 const url = this._router.createUrlTree([
-                    'apps/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar'
-                ]);
+                    'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this.routerState.params.typeHandle + '/' +
+                    this.routerState.params.targetHandle + '/tarefa/' + tarefa.id +
+                    '/processo/' + tarefa.processo.id + '/visualizar'
+                ], extras);
                 window.open(url.toString(), '_blank');
             } else {
                 this._store.dispatch(new fromStore.SetCurrentTarefa({

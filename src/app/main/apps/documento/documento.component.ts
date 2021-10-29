@@ -119,6 +119,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         ).subscribe(documento => this.documento = documento);
 
         this.currentComponenteDigital$.pipe(
+            filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             componenteDigital => this.currentComponenteDigital = componenteDigital

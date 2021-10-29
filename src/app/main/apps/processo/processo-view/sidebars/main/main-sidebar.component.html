@@ -11,7 +11,7 @@
             <mat-icon class="secondary-text">attach_file</mat-icon>
         </button>
 
-        <button class="toggle-filter" mat-icon-button *ngIf="!(expandir$ | async)"
+        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async) === false"
                 aria-label="Maximizar Tela"
                 matTooltip="Maximizar Tela"
                 (click)="expandirTela(true)">
@@ -93,7 +93,7 @@
             </form>
         </mat-menu>
 
-        <button mat-mini-fab *ngIf="!(loadingDocumentosExcluidos$ | async) && (lixeiraMinutas$ | async)"
+        <button mat-mini-fab *ngIf="(loadingDocumentosExcluidos$ | async) === false && (lixeiraMinutas$ | async)"
                 class="m-4 active accent" aria-label="Sair da lixeira"
                 (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
             <mat-icon class="secondary-text">exit_to_app</mat-icon>
@@ -133,7 +133,7 @@
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
 
         <div>
-            {{juntadas.length}}/{{pagination.total}}
+            {{juntadas?.length}}/{{pagination.total}}
         </div>
 
     </div>
@@ -157,7 +157,7 @@
                             <mat-spinner class="volumes-loading" diameter="22"></mat-spinner>
                         </div>
                         <div class="index-volume" (click)="paginaVolumes()"
-                             *ngIf="this.volumes && this.volumes.length < this.volumesPagination.total">
+                             *ngIf="this.volumes && this.volumes?.length < this.volumesPagination.total">
                             <span>+</span>
                         </div>
                     </div>
@@ -244,11 +244,11 @@
                              (opened)="onOpenMinutas()">
             <mat-expansion-panel-header class="minutas-tarefa" [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
                 <mat-panel-title>
-                    Minutas da Tarefa
+                    Minutas da Tarefa <span class="warn badge">{{minutas?.length + oficios?.length}}</span>
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="minutas" cdkPerfectScrollbar
-                 *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async) && !(loadingDocumentosExcluidos$ | async)) && tarefa">
+                 *ngIf="((minutasLoading$ | async) === false && (minutasSaving$ | async) === false && (loadingDocumentosExcluidos$ | async) === false) && tarefa">
 
                 <cdk-componente-digital-card-list #ckdUpload
                                                   [mode]="'processo'"
@@ -256,7 +256,7 @@
                                                   (completed)="onComplete()">
                 </cdk-componente-digital-card-list>
 
-                <div class="sem-minutas" *ngIf="(!minutas || !minutas.length) && (!oficios || !oficios.length)">
+                <div class="sem-minutas" *ngIf="(!minutas || !minutas?.length) && (!oficios || !oficios?.length)">
                     <div class="m-16" style="font-style: italic;">Não há minutas<span *ngIf="(lixeiraMinutas$ | async)"> na lixeira</span>.
                     </div>
                 </div>
@@ -387,6 +387,14 @@
                                                 <span>Anexos</span>
                                             </ng-container>
                                         </button>
+                                        <button fxLayout="row" fxLayoutAlign="start center"
+                                                mat-menu-item aria-label="aprovar"
+                                                (click)="aprovar(minuta)">
+                                            <ng-container>
+                                                <mat-icon color="accent">check_circle_outline</mat-icon>
+                                                <span>Aprovar</span>
+                                            </ng-container>
+                                        </button>
                                     </mat-menu>
                                 </div>
                             </div>
@@ -465,25 +473,25 @@
                                 <div class="actions">
                                     <button mat-icon-button [matMenuTriggerFor]="oficiosMenu"
                                             aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                                            *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) &&
-                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)">
+                                            *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async)?.indexOf(oficio.id) > -1) &&
+                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async)?.indexOf(oficio.id) > -1)">
                                         <mat-icon class="secondary-text">more_vert</mat-icon>
                                     </button>
 
-                                    <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
-                            ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) ||
-                            ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) ||
-                            ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)"
+                                    <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||
+                            ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||
+                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
+                            ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||
+                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async)?.indexOf(oficio.id) > -1) ||
+                            ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||
+                            ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async)?.indexOf(oficio.id) > -1)"
                                          class="spinner-container m-8">
                                         <mat-spinner diameter="24"></mat-spinner>
                                     </div>
@@ -645,7 +653,7 @@
             <span class="mat-body">Nova juntada recebida... recarregue a lista!</span>
         </div>
 
-        <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
+        <div class="juntada capa" matRipple *ngIf="(isLoading$ | async) === false && capaProcesso"
              (click)="goToCapaProcesso()"
              [ngClass]="{'current': capa}">
             <div class="index">
@@ -672,11 +680,11 @@
              (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
             {{contador.reset()}}
             <div class="juntada drag-juntada" matRipple
-                 (click)="gotoStep(i, juntada.ativo)"
+                 (click)="gotoStep(i, juntada.documento.acessoNegado)"
                  [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
                  [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"
-                 [dndDisableDragIf]="!juntada.ativo || juntada.documento.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
+                 [dndDisableDragIf]="!juntada.ativo || juntada.documento?.vinculacoesDocumentos?.length > 0 || !!juntada.documento.vinculacaoDocumentoPrincipal?.id"
                  (dndEnd)="onCancelDrag($event)"
                  (dndCopied)="onCopied($event, juntada)"
                  (dndStart)="onStartDrag($event, juntada)">
@@ -687,13 +695,25 @@
                     <div *ngIf="!juntada.ativo">
                         <div class="desentranhado">DESENTRANHADO</div>
                     </div>
+                    <div *ngIf="!!juntada.documento.acessoRestrito">
+                        <mat-icon matTooltip="Acesso restrito!" class="red-fg">block
+                        </mat-icon>
+                    </div>
                     <div fxFlex fxLayout="column" *ngIf="juntada.ativo">
                         <div fxFlex fxLayout="row">
-                            <div class="descricao">{{juntada.descricao.split('/').join(' ')}}</div>
-                            <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-10 ml-4 mr-4">lock
-                            </mat-icon>
-                            <mat-icon class="mt-10 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
+                            <div class="descricao">
+                                {{juntada.descricao.split('/').join(' ')}}
+                                <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                          *ngIf="!isOpen[juntada.id]">keyboard_arrow_down
+                                </mat-icon>
+                                <mat-icon class="mb-4" (click)="doTogglePanel(juntada.id); $event.stopPropagation();"
+                                          *ngIf="isOpen[juntada.id]">keyboard_arrow_up
+                                </mat-icon>
+                            </div>
                             <div class="actions">
+                                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="mt-4 ml-4 mr-4">lock
+                                </mat-icon>
+                                <mat-icon class="mt-4 ml-4 mr-4 place-holder">move_to_inbox</mat-icon>
                                 <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                                         *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
@@ -760,7 +780,7 @@
 
                                     <button mat-menu-item aria-label="remover vinculações"
                                             (click)="doRemoverVinculacoes(juntada)"
-                                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
+                                            *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
                                         <ng-container>
                                             <mat-icon>lock</mat-icon>
                                             <span>Desvincular</span>
@@ -778,8 +798,11 @@
                                 </mat-menu>
                             </div>
                         </div>
+                        <div class="criado-em" *ngIf="juntada.documento?.id && isOpen[juntada.id]">ID {{juntada.documento?.id}}</div>
+                        <div class="criado-em" *ngIf="juntada.criadoPor?.nome && isOpen[juntada.id]" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
+                        <div class="criado-em" *ngIf="juntada.documento?.criadoPor && !juntada.criadoPor?.nome && isOpen[juntada.id]">
+                            {{juntada.documento.criadoPor?.nome.split('/').join(' ')}}</div>
                         <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
-                        <div class="criado-em" *ngIf="juntada.criadoPor?.nome" >{{juntada.criadoPor?.nome.split('/').join(' ')}}</div>
                         <div class="criado-em" *ngIf="juntada.documento?.setorOrigem?.unidade?.sigla && juntada.documento?.setorOrigem?.sigla">
                             {{juntada.documento?.setorOrigem?.unidade?.sigla}}({{juntada.documento?.setorOrigem?.sigla}})
                         </div>
@@ -807,7 +830,7 @@
                              class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                             <mat-icon class="s-14">picture_as_pdf</mat-icon>
                             <a class="ml-4"
-                               (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
+                               (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                 {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                             </a>
@@ -825,7 +848,7 @@
                                 <mat-icon class="ml-16 s-14">attach_file</mat-icon>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
-                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
+                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                    [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                     {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
                                 </a>
@@ -852,7 +875,7 @@
                 </div>
             </div>
             <div class="separador-volume"
-                 *ngIf="juntadasByVolume.get(juntada.volume.numeracaoSequencial)[juntadasByVolume.get(juntada.volume.numeracaoSequencial).length - 1].id === juntada.id">
+                 *ngIf="juntadasByVolume.get(juntada?.volume?.numeracaoSequencial)[juntadasByVolume.get(juntada?.volume?.numeracaoSequencial).length - 1].id === juntada.id">
                 <div class="documentos-juntados-title" fxFlex="0 0 auto"
                      fxLayoutAlign="start center" aria-label="Volume">
                     <div class="ml-24">Volume {{juntada.volume.numeracaoSequencial}}</div>

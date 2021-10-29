@@ -170,11 +170,14 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     alterandoModelo = false;
 
+    trocandoDocumento = false;
+
     src: any;
 
     dragstart_inside = false;
 
     autoSave: any;
+    id: string;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -207,6 +210,12 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         this._componenteDigitalService.alterandoModelo.pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (value) => {
                 this.alterandoModelo = value;
+            }
+        );
+
+        this._componenteDigitalService.trocandoDocumento.pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (value) => {
+                this.trocandoDocumento = value;
             }
         );
     }
@@ -269,6 +278,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this._componenteDigitalService.alterandoModelo.next(false);
             }
 
+            if (this.trocandoDocumento && this.componenteDigital && this.componenteDigital.conteudo) {
+                this.fetch();
+                this._componenteDigitalService.trocandoDocumento.next(false);
+            }
+
             if (this.componenteDigital && this.componenteDigital.conteudo) {
                 this.hashAntigo = this.componenteDigital.hash;
             } else {
@@ -312,6 +326,16 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     fetch(): void {
         if (this.componenteDigital && this.componenteDigital.conteudo) {
             this.src = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
+            const editor = window['CKEDITOR'];
+            if (editor && editor.instances) {
+                for (const editorInstance in editor.instances) {
+                    if (editor.instances.hasOwnProperty(editorInstance) && editor.instances[editorInstance]) {
+                        if (editor.instances[editorInstance].checkDirty()) {
+                            editor.instances[editorInstance].resetDirty();
+                        }
+                    }
+                }
+            }
         } else {
             this.src = null;
         }

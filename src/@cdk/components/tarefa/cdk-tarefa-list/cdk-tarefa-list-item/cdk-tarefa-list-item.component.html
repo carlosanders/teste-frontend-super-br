@@ -92,12 +92,12 @@
             </div>
 
             <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
-                Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
-                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
             </div>
 
             <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
-                Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
+                Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy HH:mm:ss')}}
                 até
                 <mat-icon class="secondary-text" matTooltip="Prazo fechado">
                     lock

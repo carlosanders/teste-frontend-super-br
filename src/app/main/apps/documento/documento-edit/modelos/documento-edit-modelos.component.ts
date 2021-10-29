@@ -10,7 +10,9 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {filter, takeUntil} from 'rxjs/operators';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'documento-edit-modelos',
@@ -45,12 +47,14 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
      * @param _location
      * @param _router
      * @param _modeloService
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditModelosAppState>,
         private _location: Location,
         private _router: Router,
-        private _modeloService: ModeloService
+        private _modeloService: ModeloService,
+        private _matDialog: MatDialog
     ) {
         this.modelos$ = this._store.pipe(select(fromStore.getModelos));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -58,6 +62,7 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
 
         this.pagination$ = this._store.pipe(select(fromStore.getModelosPagination));
         this.loading$ = this._store.pipe(select(fromStore.getModelosIsLoading));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
         this.error$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
             select(getRouterState),
@@ -118,12 +123,29 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
     }
 
     doSelect(modelo: Modelo): void {
-        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.SaveComponenteDigital({
-            componenteDigital: this.currentComponenteDigital,
-            changes: {modelo: modelo.id, hashAntigo: this.currentComponenteDigital.hash},
-            operacaoId: operacaoId
-        }));
+        const confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+                message: 'O novo modelo selecionado substituirá completamente o documento atual, e quaisquer mudanças ' +
+                    'realizadas desde sua criação serão perdidas. Deseja continuar?'
+            },
+            disableClose: false
+        });
+
+        confirmDialogRef.afterClosed().pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((result) => {
+            if (result) {
+                this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+                const operacaoId = CdkUtils.makeId();
+                this._store.dispatch(new fromStore.SaveComponenteDigital({
+                    componenteDigital: this.currentComponenteDigital,
+                    changes: {modelo: modelo.id, hashAntigo: this.currentComponenteDigital.hash},
+                    operacaoId: operacaoId
+                }));
+            }
+        });
     }
 }

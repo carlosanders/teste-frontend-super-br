@@ -1,9 +1,9 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ProcessoViewReducer, ProcessoViewState} from './processo-view.reducer';
-import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
-import {ProcessoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
-import {VolumesReducer, VolumesState} from './volumes.reducer';
-import {DocumentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
+import {processoViewReducer, ProcessoViewState} from './processo-view.reducer';
+import {componenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
+import {processoViewDocumentosReducer, ProcessoViewDocumentosState} from './documentos.reducer';
+import {volumesReducer, VolumesState} from './volumes.reducer';
+import {documentosVinculadosReducer, DocumentosVinculadosState} from './documentos-vinculados.reducer';
 
 export interface ProcessoViewAppState
 {
@@ -11,7 +11,7 @@ export interface ProcessoViewAppState
     componentesDigitais: ComponenteDigitalState;
     documentos: ProcessoViewDocumentosState;
     volumes: VolumesState;
-    documentosVinculados: DocumentosVinculadosState
+    documentosVinculados: DocumentosVinculadosState;
 }
 
 export const getProcessoViewAppState = createFeatureSelector<ProcessoViewAppState>(
@@ -24,11 +24,11 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ProcessoViewAppState> = {
-    processoView: ProcessoViewReducer,
-    componentesDigitais: ComponenteDigitalReducer,
-    documentos: ProcessoViewDocumentosReducer,
-    volumes: VolumesReducer,
-    documentosVinculados: DocumentosVinculadosReducer
+    processoView: processoViewReducer,
+    componentesDigitais: componenteDigitalReducer,
+    documentos: processoViewDocumentosReducer,
+    volumes: volumesReducer,
+    documentosVinculados: documentosVinculadosReducer
 };
 
 export * from './processo-view.reducer';

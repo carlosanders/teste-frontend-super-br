@@ -115,7 +115,7 @@
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
                         data-label='Data da Conclusão: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.dataHoraConclusao?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.dataHoraConclusao?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Observacao Column -->
@@ -214,7 +214,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -233,7 +233,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -251,7 +251,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

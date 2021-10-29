@@ -17,6 +17,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
     public completedEditorSave: Subject<any> = new Subject();
     public revertendo: Subject<boolean> = new Subject();
     public alterandoModelo: Subject<boolean> = new Subject();
+    public trocandoDocumento: Subject<boolean> = new Subject();
 
     constructor(
         protected modelService: ModelService,
@@ -77,9 +78,9 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         );
     }
 
-    aprovar(componenteDigital: ComponenteDigital, context: any = '{}'): Observable<ComponenteDigital> {
+    aprovar(componenteDigital: ComponenteDigital, populate: any = '[]'): Observable<ComponenteDigital> {
         const params = {};
-        params['context'] = context;
+        params['populate'] = populate;
         return this.modelService.post(
             'administrativo/componente_digital/aprovar', classToPlain(componenteDigital), new HttpParams({fromObject: params})
         ).pipe(

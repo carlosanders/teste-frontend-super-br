@@ -661,3 +661,34 @@
 * Correção ao transformar um usuário externo em um usuário interno #652
 * Correção de erro no editor ao clicar em anexo com alterações no conteúdo do editor (loop de confirmação)
 * Correção de erro de inconsistência grave no editor ao salvar
+
+1.6.12
+
+* Correção populateAll tarefa-grid
+* Melhoria inclusão do ID das juntadas no Processo View
+* Correção no editor para não exibir botões de troca de modelo/troca de versão de documentos que já se encontram assinados
+* Correção no editor para exibir alerta ao usuário informando que ele perderá o conteúdo atual do documento ao alterar o seu modelo
+* Correção no editor para exibir alerta ao usuário informando que ele perderá o conteúdo atual do documento ao reverter sua versão
+* Correção em bug onde troca de foco em formulários abria o painel lateral do chat
+* Correção de bug no form de criação de usuários
+* Correção de bug no form criar cópia
+* Correção na criação de Tarefas em Bloco no grid de Tarefas do Processo e no Stepper de Processo
+* Correção de rota do widget de Tarefas para o módulo arquivista
+* Melhoria inclusão do termo encerrado em processos com idades diferentes de "corrente"
+* Correção de bug ao adicionar etiqueta no painel de tarefa já criar vinculação
+* Melhoria inclusão do editar tarefa concluída para checagem do histórico
+* Sistema só está enviando a tarefa de um processo apenas para o último adicionado na lista de 'Bloco de Responsáveis'. #668
+* Sistema não está permitindo concluir um processo utilizando a função de 'Bloco de Responsáveis'. #661
+* Melhoria inserindo paginação no componente cdk-documento-card-list e permitindo requisitar os 10 registros seguintes caso haja mais de 10 no total do paginador
+* Melhoria implementados em todos os locais que utilizam o componente acima as lógicas necessárias para solicitar mais registros paginados de documentos
+* Correção em comportamento do autocomplete de usuário, que em determinadas condições, quebrava e passava a pesquisar somente por username
+* Correção em componente de detalhes de ofício para usuário externo, onde o componente de responder não possuía guarda de rota próprio e quebrava em situações específicas
+* Melhoria inserindo paginação no dialog de documentos vinculados a uma minuta no processo-view
+* Melhoria para exibir a hora nos campos de data dos grids
+* Correção erro ao carregar outro componente digital em editor já aberto
+* Correção removido reload de juntadas ao vincular duas juntadas em visualização de processo
+* Correção erro de estado da aplicação ao desvincular juntadas
+* Melhoria alerta ao usuário quando clica em Desvincular juntadas
+* Melhoria alinhamento dos botões na lista de juntadas
+* Correção ao alterar tipo de documento anexo
+* Correção tarefa aberta em nova aba através do painel de tarefas ou do kanban funciona corretamente #662
