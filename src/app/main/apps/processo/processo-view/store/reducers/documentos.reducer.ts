@@ -346,7 +346,8 @@ export const processoViewDocumentosReducer = (
         case ProcessoViewDocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload.id),
+                error: action.payload.error,
             };
         }
 

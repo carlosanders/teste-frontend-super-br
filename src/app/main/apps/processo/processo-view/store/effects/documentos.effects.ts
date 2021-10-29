@@ -540,7 +540,10 @@ export class ProcessoViewDocumentosEffects {
                 ]),
                 catchError((err) => {
                     console.log(err);
-                    return of(new ProcessoViewDocumentosActions.ConverteToPdfFailed(action.payload));
+                    return of(new ProcessoViewDocumentosActions.ConverteToPdfFailed({
+                        id: action.payload,
+                        error: err
+                    }));
                 })
             ), 25)
     ));
