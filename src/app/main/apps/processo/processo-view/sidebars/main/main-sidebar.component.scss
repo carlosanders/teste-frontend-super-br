@@ -152,6 +152,7 @@ processo-view-main-sidebar {
 
         .minutas {
             max-height: 155px;
+            overflow-y: auto;
 
             .loading {
                 flex: 1 0 auto;
@@ -172,6 +173,7 @@ processo-view-main-sidebar {
             flex-direction: column;
             flex: 1 1 auto;
             height: 0;
+            overflow-y: auto;
 
             [dndDropzone] {
                 transition: all 300ms ease;
