@@ -13,7 +13,7 @@
 
         <mat-form-field appearance="outline">
             <mat-label>{{form.get('tipoLogin').value === 'ldap' ? 'E-mail' : 'CPF'}}</mat-label>
-            <input matInput ui-mask="999.999.999-99" formControlName="username" readonly>
+            <input matInput ui-mask="999.999.999-99" formControlName="username">
             <mat-icon matSuffix class="secondary-text">person</mat-icon>
             <mat-error *ngIf="form.get('username').hasError('required')">
                 {{form.get('tipoLogin').value === 'ldap' ? 'E-mail' : 'CPF'}} é obrigatório

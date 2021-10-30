@@ -13,6 +13,7 @@ export class LoginService {
 
     private _timeout;
     private _userProfileSubject: BehaviorSubject<Usuario> = new BehaviorSubject<Usuario>(null);
+    private _userChangedOtherTab: BehaviorSubject<Usuario> = new BehaviorSubject<Usuario>(null);
 
     constructor(private http: HttpClient, private _store: Store<State>) {
     }
@@ -22,12 +23,27 @@ export class LoginService {
         return this._userProfileSubject.asObservable();
     }
 
+    getUserChangedOtherTab(): Observable<Usuario>
+    {
+        return this._userChangedOtherTab.asObservable();
+    }
+
     checkUserProfileChanges(): void
     {
-        this._userProfileSubject.next(!!this.getUserProfile() ? this.getUserProfile() : null);
+
+        let usuario = JSON.parse(localStorage.getItem('userProfile'));
+        if( !this._userProfileSubject.value && !!usuario ) {
+            this._userProfileSubject.next(!!usuario ? usuario : null);
+        } else if(!!this._userProfileSubject.value?.id && !!usuario?.id && this._userProfileSubject.value?.id !== usuario?.id ) {
+            this._userChangedOtherTab.next(usuario);
+            this._userProfileSubject.next(usuario);
+        }
+
     }
 
     getUserProfile(): Usuario {
+        this.checkUserProfileChanges();
+
         return JSON.parse(localStorage.getItem('userProfile'));
     }
 
