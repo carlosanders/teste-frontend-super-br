@@ -18,7 +18,6 @@ import {CdkModalidadeQualificacaoPessoaAutocompleteModule} from '@cdk/components
 import {CdkPaisAutocompleteModule} from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
@@ -46,7 +45,6 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkModalidadeGeneroPessoaAutocompleteModule,
         CdkMunicipioAutocompleteModule,
         CdkModalidadeQualificacaoPessoaAutocompleteModule,
-        CdkOrigemDadosAutocompleteModule,
         MatMenuModule,
         CdkDateFilterModule,
     ],

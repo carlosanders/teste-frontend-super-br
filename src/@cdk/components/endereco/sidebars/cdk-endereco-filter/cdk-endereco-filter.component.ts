@@ -17,10 +17,10 @@ export class CdkEnderecoFilterComponent {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -41,7 +41,6 @@ export class CdkEnderecoFilterComponent {
             pais: [null],
             observacao: [null],
             pessoa: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -100,20 +99,16 @@ export class CdkEnderecoFilterComponent {
             andXFilter.push({'pais.id': `eq:${this.form.get('pais').value.id}`});
         }
 
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
-        }
-
         if (this.form.get('pessoa').value) {
             andXFilter.push({'pessoa.id': `eq:${this.form.get('pessoa').value.id}`});
         }
 
         if (this.filterCriadoEm.length > 0) {
-            this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
+            this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit);});
         }
 
         if (this.filterAtualizadoEm.length > 0) {
-            this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit)});
+            this.filterAtualizadoEm.forEach((bit) => {andXFilter.push(bit);});
         }
 
         if (this.form.get('criadoPor').value) {

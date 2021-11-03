@@ -29,16 +29,6 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Origem de Dados"
-                   formControlName="origemDados"
-                   [matAutocomplete]="origemDados.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
-                                           [control]="form.get('origemDados')">
-            </cdk-origem-dados-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
                    [matAutocomplete]="usuarioCriadoPor.autocomplete"

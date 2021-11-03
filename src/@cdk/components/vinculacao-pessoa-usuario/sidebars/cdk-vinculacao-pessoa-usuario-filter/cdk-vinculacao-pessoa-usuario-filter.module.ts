@@ -18,7 +18,6 @@ import {CdkPaisAutocompleteModule} from '../../../pais/cdk-pais-autocomplete/cdk
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '../../../modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
 import {CdkMunicipioAutocompleteModule} from '../../../municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkModalidadeQualificacaoPessoaAutocompleteModule} from '../../../modalidade-qualificacao-pessoa/cdk-modalidade-qualificacao-pessoa-autocomplete/cdk-modalidade-qualificacao-pessoa-autocomplete.module';
-import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -43,7 +42,6 @@ import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem
         CdkModalidadeGeneroPessoaAutocompleteModule,
         CdkMunicipioAutocompleteModule,
         CdkModalidadeQualificacaoPessoaAutocompleteModule,
-        CdkOrigemDadosAutocompleteModule,
     ],
     providers: [
         VinculacaoPessoaUsuarioService,

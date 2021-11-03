@@ -4,7 +4,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {Subject} from 'rxjs';
 
-
 @Component({
     selector: 'cdk-interessado-filter',
     templateUrl: './cdk-interessado-filter.component.html',
@@ -18,10 +17,10 @@ export class CdkInteressadoFilterComponent {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -35,7 +34,6 @@ export class CdkInteressadoFilterComponent {
         this.form = this._formBuilder.group({
             pessoa: [null],
             modalidadeInteressado: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -56,10 +54,6 @@ export class CdkInteressadoFilterComponent {
 
         if (this.form.get('modalidadeInteressado').value) {
             andXFilter.push({'modalidadeInteressado.id': `eq:${this.form.get('modalidadeInteressado').value.id}`});
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.filterCriadoEm?.length) {

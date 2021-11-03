@@ -17,10 +17,10 @@ export class CdkNomeFilterComponent {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -33,7 +33,6 @@ export class CdkNomeFilterComponent {
     ) {
         this.form = this._formBuilder.group({
             valor: [null],
-            origemDados: [null],
             pessoa: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -53,10 +52,6 @@ export class CdkNomeFilterComponent {
             this.form.get('valor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'valor': `like:%${bit}%`});
             });
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.form.get('pessoa').value) {
