@@ -45,25 +45,6 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <input matInput placeholder="Origem de Dados"
-               formControlName="origemDados"
-               [matAutocomplete]="origemDados.autocomplete" required
-               (blur)="checkOrigemDados()">
-        <cdk-origem-dados-autocomplete
-            #origemDados="origemDadosAutocomplete"
-            [control]="form.get('origemDados')"
-            [pagination]="origemDadosPagination">
-        </cdk-origem-dados-autocomplete>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showOrigemDadosGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('origemDados').hasError('formError')">
-            {{form.get('origemDados').errors.formError}}
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field *ngIf="!editDescricao">
         <input matInput placeholder="Volume"
                formControlName="volume"
                [matAutocomplete]="volume.autocomplete" required
@@ -159,13 +140,6 @@
     (selected)="selectDocumento($event)"
     (cancel)="cancel()">
 </cdk-documento-gridsearch>
-
-<cdk-origem-dados-gridsearch
-    *ngIf="activeCard === 'origem-dados-gridsearch'"
-    [pagination]="origemDadosPagination"
-    (selected)="selectOrigemDados($event)"
-    (cancel)="cancel()">
-</cdk-origem-dados-gridsearch>
 
 <cdk-volume-gridsearch
     *ngIf="activeCard === 'volume-gridsearch'"

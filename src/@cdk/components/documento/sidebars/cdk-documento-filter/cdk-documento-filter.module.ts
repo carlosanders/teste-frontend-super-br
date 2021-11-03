@@ -23,7 +23,6 @@ import {CdkPessoaAutocompleteModule} from '@cdk/components/pessoa/cdk-pessoa-aut
 import {CdkJuntadaAutocompleteModule} from '@cdk/components/juntada/cdk-juntada-autocomplete/cdk-juntada-autocomplete.module';
 import {CdkDocumentoAutocompleteModule} from '../../cdk-documento-autocomplete/cdk-documento-autocomplete.module';
 import {CdkTarefaAutocompleteModule} from '@cdk/components/tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
-import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatMenuModule} from '@angular/material/menu';
@@ -55,7 +54,6 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkSetorAutocompleteModule,
         CdkTarefaAutocompleteModule,
         CdkJuntadaAutocompleteModule,
-        CdkOrigemDadosAutocompleteModule,
         CdkDocumentoAvulsoAutocompleteModule,
         CdkModeloAutocompleteModule,
         CdkRepositorioAutocompleteModule,

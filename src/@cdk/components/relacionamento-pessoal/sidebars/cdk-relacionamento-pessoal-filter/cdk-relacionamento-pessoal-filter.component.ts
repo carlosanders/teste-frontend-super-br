@@ -17,10 +17,10 @@ export class CdkRelacionamentoPessoalFilterComponent {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -35,7 +35,6 @@ export class CdkRelacionamentoPessoalFilterComponent {
             pessoa: [null],
             pessoaRelacionada: [null],
             modalidadeRelacionamentoPessoal: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -60,10 +59,6 @@ export class CdkRelacionamentoPessoalFilterComponent {
 
         if (this.form.get('modalidadeRelacionamentoPessoal').value) {
             andXFilter.push({'modalidadeRelacionamentoPessoal.id': `eq:${this.form.get('modalidadeRelacionamentoPessoal').value.id}`});
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.filterCriadoEm?.length) {

@@ -17,10 +17,10 @@ export class CdkSigiloFilterComponent {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
+
+    form: FormGroup;
 
     filterCriadoEm = [];
     filterAtualizadoEm = [];
@@ -47,7 +47,6 @@ export class CdkSigiloFilterComponent {
             tipoSigilo: [null],
             processo: [null],
             documento: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -108,10 +107,6 @@ export class CdkSigiloFilterComponent {
             andXFilter.push({'documento.id': `eq:${this.form.get('documento').value.id}`});
         }
 
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
-        }
-
         if (this.filterCriadoEm?.length) {
             this.filterCriadoEm.forEach((filter) => {
                 andXFilter.push(filter);
@@ -135,7 +130,6 @@ export class CdkSigiloFilterComponent {
                 andXFilter.push(filter);
             });
         }
-        
 
         if (this.form.get('criadoPor').value) {
             andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
