@@ -158,7 +158,7 @@ export class LoginInterceptor implements HttpInterceptor {
                 loadingConfig$: this.loadingConfig$,
                 certificadoDigital: this.certificadoDigital,
                 errorMessage$: this.errorMessage$,
-                username: this.loginService.getUserProfile().username
+                username: this.loginService.getUserProfile()?.username
             },
             disableClose: true,
             height: '95%',
@@ -175,7 +175,7 @@ export class LoginInterceptor implements HttpInterceptor {
 
     onSubmitExterno(values): void {
         const payload = {
-            username: this.loginService.getUserProfile().username,
+            username: !!this.loginService.getUserProfile()?.username ? this.loginService.getUserProfile().username : values.username,
             password: values.password,
             redirect: false
         };
