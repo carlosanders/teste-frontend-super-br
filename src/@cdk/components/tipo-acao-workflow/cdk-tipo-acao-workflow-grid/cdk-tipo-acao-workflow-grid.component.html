@@ -227,7 +227,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, tipoAcaoWorkflows.id)">
-                            {{ getProp(deletingErrors, tipoAcaoWorkflows.id) }}
+                            {{ getMessageError(getProp(deletingErrors, tipoAcaoWorkflows.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>

@@ -389,4 +389,8 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

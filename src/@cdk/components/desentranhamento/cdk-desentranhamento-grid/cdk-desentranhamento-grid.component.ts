@@ -344,4 +344,8 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

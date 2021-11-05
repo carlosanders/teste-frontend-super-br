@@ -362,4 +362,8 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }
