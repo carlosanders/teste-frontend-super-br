@@ -73,33 +73,6 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Processo"
-                   formControlName="processoOrigem"
-                   [matAutocomplete]="processo.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processoOrigem')">
-            </cdk-processo-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Origem Documento"
-                   formControlName="documentoOrigem"
-                   [matAutocomplete]="documento.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documentoOrigem')">
-            </cdk-documento-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Procedência"
-                   formControlName="procedencia"
-                   [matAutocomplete]="pessoa.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('procedencia')">
-            </cdk-pessoa-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
             <input matInput placeholder="Tipo de Documento"
                    formControlName="tipoDocumento"
                    [matAutocomplete]="tipoDocumento.autocomplete"
@@ -107,62 +80,6 @@
             <cdk-tipo-documento-autocomplete #tipoDocumento="tipoDocumentoAutocomplete"
                                              [control]="form.get('tipoDocumento')">
             </cdk-tipo-documento-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Setor de Origem"
-                   formControlName="setorOrigem"
-                   [matAutocomplete]="setor.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
-            </cdk-setor-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Tarefa de Origem"
-                   formControlName="tarefaOrigem"
-                   [matAutocomplete]="tarefa.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-tarefa-autocomplete #tarefa="tarefaAutocomplete" [control]="form.get('tarefaOrigem')">
-            </cdk-tarefa-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Juntada Atual"
-                   formControlName="juntadaAtual"
-                   [matAutocomplete]="juntada.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-juntada-autocomplete #juntada="juntadaAutocomplete" [control]="form.get('juntadaAtual')">
-            </cdk-juntada-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Remessa de Documento Avulso"
-                   formControlName="documentoAvulsoRemessa"
-                   [matAutocomplete]="documentoAvulso.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
-                                               [control]="form.get('documentoAvulsoRemessa')">
-            </cdk-documento-avulso-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Modelo"
-                   formControlName="modelo"
-                   [matAutocomplete]="modelo.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-modelo-autocomplete #modelo="modeloAutocomplete" [control]="form.get('modelo')">
-            </cdk-modelo-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Tese"
-                   formControlName="repositorio"
-                   [matAutocomplete]="repositorio.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-repositorio-autocomplete #repositorio="repositorioAutocomplete"
-                                          [control]="form.get('repositorio')">
-            </cdk-repositorio-autocomplete>
         </mat-form-field>
 
         <mat-form-field>
