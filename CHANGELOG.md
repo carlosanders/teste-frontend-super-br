@@ -696,3 +696,7 @@
 1.6.13
 
 * Correção removido filtro por origem dados de todos os locais do sistema, por se tratar de tabela massiva
+* Correção em loading infinito ao cancelar alteração de modelo no editor
+* Correção em css de sidebars de navegação (pessoa e ofício)
+* Correção em erro inesperado ao tentar abrir uma juntada sem documentos/sem componentes digitais no visualizador de processo
+* Corrigido erro ao tentar identificar a juntada selecionada no visualizador de processo
