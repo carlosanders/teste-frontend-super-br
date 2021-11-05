@@ -25,6 +25,7 @@ import {MatDialog} from '@angular/material/dialog';
 export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
 
     loading$: Observable<boolean>;
+    saving$: Observable<boolean>;
     modelos$: Observable<Modelo[]>;
     pagination$: Observable<any>;
     pagination: any;
@@ -62,7 +63,7 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
 
         this.pagination$ = this._store.pipe(select(fromStore.getModelosPagination));
         this.loading$ = this._store.pipe(select(fromStore.getModelosIsLoading));
-        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        this.saving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
         this.error$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
             select(getRouterState),
@@ -134,11 +135,8 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
             disableClose: false
         });
 
-        confirmDialogRef.afterClosed().pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((result) => {
+        confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
                 const operacaoId = CdkUtils.makeId();
                 this._store.dispatch(new fromStore.SaveComponenteDigital({
                     componenteDigital: this.currentComponenteDigital,
