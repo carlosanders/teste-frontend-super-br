@@ -374,4 +374,8 @@ export class CdkModalidadeCategoriaSigiloGridComponent implements AfterViewInit,
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

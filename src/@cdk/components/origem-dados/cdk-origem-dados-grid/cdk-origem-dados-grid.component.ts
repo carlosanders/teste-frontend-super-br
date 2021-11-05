@@ -346,4 +346,8 @@ export class CdkOrigemDadosGridComponent implements AfterViewInit, OnInit, OnCha
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

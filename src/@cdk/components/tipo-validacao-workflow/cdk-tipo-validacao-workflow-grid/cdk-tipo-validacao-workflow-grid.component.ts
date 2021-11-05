@@ -378,4 +378,8 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

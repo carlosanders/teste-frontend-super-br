@@ -219,7 +219,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, generoRelatorio.id)">
-                            {{ getProp(deletingErrors, generoRelatorio.id) }}
+                            {{ getMessageError(getProp(deletingErrors, generoRelatorio.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>

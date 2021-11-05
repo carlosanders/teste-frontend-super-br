@@ -383,4 +383,8 @@ export class CdkModalidadeAcaoEtiquetaGridComponent implements AfterViewInit, On
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

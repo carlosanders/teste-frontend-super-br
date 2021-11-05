@@ -239,7 +239,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, numeroUnicoDocumento.id)">
-                            {{ getProp(deletingErrors, numeroUnicoDocumento.id) }}
+                            {{ getMessageError(getProp(deletingErrors, numeroUnicoDocumento.id)) }}
                         </mat-error>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(numeroUnicoDocumento.id) > -1">

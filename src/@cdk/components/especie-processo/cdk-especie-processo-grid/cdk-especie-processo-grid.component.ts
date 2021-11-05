@@ -372,4 +372,8 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }
