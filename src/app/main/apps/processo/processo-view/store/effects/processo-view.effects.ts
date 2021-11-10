@@ -231,12 +231,10 @@ export class ProcessoViewEffect {
                 return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
             }
         }),
-        map((response: any) => {
-            return new ProcessoViewActions.SetCurrentStepSuccess({
-                binary: response,
-                loaded: this.routerState.params.stepHandle
-            });
-        }),
+        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+            binary: response,
+            loaded: this.routerState.params.stepHandle
+        })),
         catchError((err) => {
             console.log(err);
             return of(new ProcessoViewActions.SetCurrentStepFailed(err));
@@ -247,8 +245,8 @@ export class ProcessoViewEffect {
      */
     getJuntadasSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
-        withLatestFrom(this._store.pipe(select(getPagination))),
-        tap(([action, pagination]) => {
+        withLatestFrom(this._store.pipe(select(getPagination)), this._store.pipe(select(getJuntadas))),
+        tap(([action, pagination, juntadas]) => {
             if (this.routerState.params['stepHandle'] === 'default') {
                 let capa = true;
                 let firstJuntada = 0;
@@ -280,7 +278,7 @@ export class ProcessoViewEffect {
                         this._router.navigate(
                             [
                                 this.routerState.url.split('/documento/')[0] + '/documento/' +
-                                this.routerState.params.documentoHandle,
+                                this.routerState.params.documentoHandle + '/',
                                 {
                                     outlets: {
                                         primary: arrPrimary
@@ -307,24 +305,40 @@ export class ProcessoViewEffect {
                 } else {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
                         if (this.routerState.url.indexOf('sidebar:') === -1) {
+                            let sidebar = '';
                             const arrPrimary = [];
-                            arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                'visualizar-processo' : 'anexar-copia');
-                            arrPrimary.push(this.routerState.params.processoHandle);
-                            if (this.routerState.params.chaveAcessoHandle) {
-                                arrPrimary.push('chave');
-                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                                arrPrimary.push('anexar-copia');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                                arrPrimary.push('visualizar-processo');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else {
+                                sidebar = 'editar/dados-basicos';
                             }
-                            arrPrimary.push('visualizar');
-                            arrPrimary.push(firstJuntada + '-0');
                             // Navegação do processo deve ocorrer por outlet
                             this._router.navigate(
                                 [
                                     this.routerState.url.split('/documento/')[0] + '/documento/' +
-                                    this.routerState.params.documentoHandle,
+                                    this.routerState.params.documentoHandle + '/',
                                     {
                                         outlets: {
-                                            primary: arrPrimary
+                                            primary: arrPrimary,
+                                            sidebar: sidebar
                                         }
                                     }
                                 ],
@@ -370,16 +384,31 @@ export class ProcessoViewEffect {
                 this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                     if (this.routerState.url.indexOf('sidebar:') === -1) {
+                        let sidebar = '';
                         const arrPrimary = [];
-                        arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                            'visualizar-processo' : 'anexar-copia');
-                        arrPrimary.push(this.routerState.params.processoHandle);
-                        if (this.routerState.params.chaveAcessoHandle) {
-                            arrPrimary.push('chave');
-                            arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                            arrPrimary.push('anexar-copia');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(this.routerState.params['stepHandle']);
+                            sidebar = 'empty';
+                        } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                            arrPrimary.push('visualizar-processo');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(this.routerState.params['stepHandle']);
+                            sidebar = 'empty';
+                        } else {
+                            sidebar = 'editar/dados-basicos';
                         }
-                        arrPrimary.push('visualizar');
-                        arrPrimary.push(this.routerState.params['stepHandle']);
 
                         // Navegação do processo deve ocorrer por outlet
                         this._router.navigate(
@@ -388,7 +417,8 @@ export class ProcessoViewEffect {
                                 this.routerState.params.documentoHandle,
                                 {
                                     outlets: {
-                                        primary: arrPrimary
+                                        primary: arrPrimary,
+                                        sidebar: sidebar
                                     }
                                 }
                             ],

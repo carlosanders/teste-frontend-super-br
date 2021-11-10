@@ -483,7 +483,7 @@ export class ProcessoViewDocumentosEffects {
             if (action.payload.documento.componentesDigitais[0]) {
                 componenteDigital = action.payload.documento.componentesDigitais[0];
                 primary += componenteDigital.id;
-            } else if(action.payload.componenteDigital){
+            } else if(action.payload.componenteDigital) {
                 componenteDigital = action.payload.componenteDigital;
                 primary += componenteDigital.id;
             } else {

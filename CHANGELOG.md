@@ -700,3 +700,4 @@
 * Correção em css de sidebars de navegação (pessoa e ofício)
 * Correção em erro inesperado ao tentar abrir uma juntada sem documentos/sem componentes digitais no visualizador de processo
 * Corrigido erro ao tentar identificar a juntada selecionada no visualizador de processo
+* Correção ao acessar url incompleta do editor diretamente 
