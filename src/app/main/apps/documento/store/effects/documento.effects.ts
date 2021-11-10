@@ -231,32 +231,57 @@ export class DocumentoEffect {
         ofType<DocumentoActions.SetCurrentStep>(DocumentoActions.SET_CURRENT_STEP),
         withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
         tap(([action, componenteDigital]) => {
-            let type = '/visualizar';
-            const url = this.routerState.url;
-            let sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
-
-            if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
-                type = '/editor/ckeditor';
-                if (!sidebar) {
-                    sidebar = 'editar/atividade';
+            let sidebar = '';
+            const arrPrimary = [];
+            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                arrPrimary.push('anexar-copia');
+                arrPrimary.push(this.routerState.params.processoHandle);
+                if (this.routerState.params.chaveAcessoHandle) {
+                    arrPrimary.push('chave');
+                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                 }
-            }
+                arrPrimary.push('visualizar');
+                arrPrimary.push(this.routerState.params['stepHandle']);
+                sidebar = 'empty';
+            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                arrPrimary.push('visualizar-processo');
+                arrPrimary.push(this.routerState.params.processoHandle);
+                if (this.routerState.params.chaveAcessoHandle) {
+                    arrPrimary.push('chave');
+                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                }
+                arrPrimary.push('visualizar');
+                arrPrimary.push(this.routerState.params['stepHandle']);
+                sidebar = 'empty';
+            } else {
+                let type = '/visualizar';
+                const url = this.routerState.url;
+                sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
+                if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
+                    type = '/editor/ckeditor';
+                    if (!sidebar) {
+                        sidebar = 'editar/atividade';
+                    }
+                }
+                if (url.indexOf('/assinaturas') > -1) {
+                    type = '/assinaturas';
+                }
 
-            if (url.indexOf('/assinaturas') > -1) {
-                type = '/assinaturas';
-            }
+                if (componenteDigital.apagadoEm) {
+                    sidebar = 'editar/restaurar';
+                }
 
-            if (componenteDigital.apagadoEm) {
-                sidebar = 'editar/restaurar';
+                const componenteDigitalHandle = action.payload.id ?? this.routerState.params['componenteDigitalHandle'];
+                arrPrimary.push('componente-digital');
+                arrPrimary.push(componenteDigitalHandle);
+                arrPrimary.push(type);
             }
-
-            const componenteDigitalHandle = action.payload.id ?? this.routerState.params['componenteDigitalHandle'];
 
             this._router.navigate([
                     this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                     {
                         outlets: {
-                            primary: 'componente-digital/' + componenteDigitalHandle + type,
+                            primary: arrPrimary,
                             sidebar: sidebar
                         }
                     }

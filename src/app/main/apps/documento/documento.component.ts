@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -43,7 +44,7 @@ import {MatTabGroup} from '@angular/material/tabs';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoComponent implements OnInit, OnDestroy {
+export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('matTabGroup') matTabGroup: MatTabGroup;
     documento$: Observable<Documento>;
@@ -134,6 +135,20 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 this.mobileMode = false;
             }
         });
+    }
+
+    ngAfterViewInit(): void {
+        if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+            // Entrou na rota de visualizar processo
+            this.matTabGroup.selectedIndex = 1;
+            const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
+            if (steps) {
+                this._store.dispatch(new SetCurrentStep({
+                    step: steps[0],
+                    subStep: steps[1]
+                }));
+            }
+        }
     }
 
     /**
@@ -359,7 +374,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                         this.modoProcesso = 1;
                         const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
                         const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
-                        const steps = stepHandle ? stepHandle.split('-') : false;
+                        const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
                         const sidebar = 'empty';
                         this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                             {
