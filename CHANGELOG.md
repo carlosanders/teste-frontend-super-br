@@ -700,4 +700,10 @@
 * Correção em css de sidebars de navegação (pessoa e ofício)
 * Correção em erro inesperado ao tentar abrir uma juntada sem documentos/sem componentes digitais no visualizador de processo
 * Corrigido erro ao tentar identificar a juntada selecionada no visualizador de processo
-* Correção ao acessar url incompleta do editor diretamente 
+* Correção ao acessar url incompleta do editor diretamente
+* Correção ocultando botões de ação em anexos de juntadas quando dentro do editor
+* Correção ocultando botão de exclusão de componente digital de juntadas dentro do editor
+* Correção removendo do estado da aplicação anexos de documento ao fechar o editor
+* Correção rota incorreta ao tentar excluir restrição de acesso de documentos no editor
+* Correção em url do editor devido a um bug no escape de caracteres especiais do angular
+* Melhoria iniciando processo de remoção de populate desnecessário de juntadaAtual na visualização de processo

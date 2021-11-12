@@ -232,7 +232,7 @@ export class DocumentoEffect {
         withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
         tap(([action, componenteDigital]) => {
             let sidebar = '';
-            const arrPrimary = [];
+            let arrPrimary = [];
             if (this.routerState.url.indexOf('anexar-copia') !== -1) {
                 arrPrimary.push('anexar-copia');
                 arrPrimary.push(this.routerState.params.processoHandle);
@@ -272,9 +272,8 @@ export class DocumentoEffect {
                 }
 
                 const componenteDigitalHandle = action.payload.id ?? this.routerState.params['componenteDigitalHandle'];
-                arrPrimary.push('componente-digital');
-                arrPrimary.push(componenteDigitalHandle);
-                arrPrimary.push(type);
+                type = 'componente-digital/' + componenteDigitalHandle + type;
+                arrPrimary = type.split('/');
             }
 
             this._router.navigate([
