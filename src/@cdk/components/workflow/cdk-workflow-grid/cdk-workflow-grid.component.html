@@ -244,7 +244,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, workflow.id)">
-                            {{ getProp(deletingErrors, workflow.id) }}
+                            {{ getMessageError(getProp(deletingErrors, workflow.id)) }}
                         </mat-error>
 
                         <button mat-icon-button

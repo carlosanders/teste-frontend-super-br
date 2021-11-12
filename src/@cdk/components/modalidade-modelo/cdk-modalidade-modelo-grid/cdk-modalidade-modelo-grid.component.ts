@@ -373,4 +373,8 @@ export class CdkModalidadeModeloGridComponent implements AfterViewInit, OnInit, 
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

@@ -121,10 +121,10 @@ export function RepositoriosListReducer(
         case RepositoriosListActions.DELETE_REPOSITORIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload.id)[0], 10)),
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id),
                 deletingErrors: {
                     ...state.deletingErrors,
-                    ...action.payload
+                    [action.payload.id]:action.payload
                 }
             };
         }

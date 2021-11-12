@@ -359,4 +359,8 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }
