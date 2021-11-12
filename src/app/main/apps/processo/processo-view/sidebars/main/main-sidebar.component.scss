@@ -5,6 +5,7 @@ processo-view-main-sidebar {
     flex: 1 1 auto;
     flex-direction: column;
     overflow-y: hidden;
+    word-break: break-word;
 
     .badge {
         display: flex;
@@ -315,6 +316,7 @@ processo-view-main-sidebar {
                 .descricao {
                     display: flex;
                     font-weight: bold;
+                    word-break: break-word;
                 }
 
                 .numero {
@@ -400,6 +402,7 @@ processo-view-main-sidebar {
                 display: flex;
                 flex: 1 1 auto;
                 align-items: center;
+                word-break: break-word;
             }
 
             .numero {
@@ -482,6 +485,7 @@ processo-view-main-sidebar {
                 .descricao {
                     display: flex;
                     font-weight: bold;
+                    word-break: break-word;
                 }
 
                 .numero {
@@ -567,6 +571,7 @@ processo-view-main-sidebar {
                 display: flex;
                 flex: 1 1 auto;
                 align-items: center;
+                word-break: break-word;
             }
 
             .numero {
@@ -637,6 +642,7 @@ processo-view-main-sidebar {
                 .descricao {
                     display: flex;
                     font-weight: bold;
+                    word-break: break-word;
                 }
 
                 .numero {
@@ -733,6 +739,7 @@ processo-view-main-sidebar {
 
             .descricao {
                 display: flex;
+                word-break: break-word;
             }
 
             .numero {

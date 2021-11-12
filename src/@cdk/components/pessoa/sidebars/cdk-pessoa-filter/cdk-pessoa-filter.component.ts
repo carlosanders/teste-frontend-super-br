@@ -50,22 +50,16 @@ export class CdkPessoaFilterComponent {
 
         const andXFilter = [];
 
-        if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'nome': `like:%${bit}%`});
-            });
+        if (this.form.get('nome').value && (this.form.get('nome').value.length >= 2)) {
+            andXFilter.push({'nome': `like:%${this.form.get('nome').value}%`});
         }
 
-        if (this.form.get('nomeGenitora').value) {
-            this.form.get('nomeGenitora').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'nomeGenitora': `like:%${bit}%`});
-            });
+        if (this.form.get('nomeGenitora').value && (this.form.get('nomeGenitora').value.length >= 2)) {
+            andXFilter.push({'nomeGenitora': `like:%${this.form.get('nomeGenitora').value}%`});
         }
 
-        if (this.form.get('numeroDocumentoPrincipal').value) {
-            this.form.get('numeroDocumentoPrincipal').value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                andXFilter.push({'numeroDocumentoPrincipal': `like:%${bit}%`});
-            });
+        if (this.form.get('numeroDocumentoPrincipal').value && (this.form.get('numeroDocumentoPrincipal').value.length >= 2)) {
+            andXFilter.push({'numeroDocumentoPrincipal': `like:%${this.form.get('numeroDocumentoPrincipal').value}%`});
         }
 
         if (this.form.get('modalidadeGeneroPessoa').value) {

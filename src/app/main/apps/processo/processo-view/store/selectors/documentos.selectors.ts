@@ -1,6 +1,5 @@
 import {createSelector} from '@ngrx/store';
 import {
-    ComponenteDigitalState,
     getProcessoViewAppState,
     ProcessoViewAppState,
     ProcessoViewDocumentosState
@@ -8,7 +7,6 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {getComponenteDigitalState} from "./componentes-digitais.selectors";
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
