@@ -116,7 +116,7 @@
             </cdk-date-filter>
         </mat-menu>
 
-        <div class="mt-8">Editor de Textos</div>
+        <div class="mt-8" *showIfRole="'ROLE_COLABORADOR'">Editor de Textos</div>
         <mat-button-toggle-group class="mat-button-toggle-group-custom" formControlName="editavel" *showIfRole="'ROLE_COLABORADOR'">
             <mat-button-toggle value="true" class="button-toggle-custom">Sim</mat-button-toggle>
             <mat-button-toggle value="todos" [checked]=true class="button-toggle-custom">Todos</mat-button-toggle>
