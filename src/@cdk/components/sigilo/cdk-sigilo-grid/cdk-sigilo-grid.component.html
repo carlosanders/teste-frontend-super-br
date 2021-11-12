@@ -312,7 +312,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, sigilo.id)">
-                            {{ getProp(deletingErrors, sigilo.id) }}
+                            {{ getMessageError(getProp(deletingErrors, sigilo.id)) }}
                         </mat-error>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(sigilo.id) > -1">

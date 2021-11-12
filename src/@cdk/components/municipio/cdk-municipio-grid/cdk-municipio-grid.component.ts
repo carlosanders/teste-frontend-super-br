@@ -379,4 +379,8 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

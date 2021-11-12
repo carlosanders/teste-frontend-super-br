@@ -372,4 +372,8 @@ export class CdkModalidadeMeioGridComponent implements AfterViewInit, OnInit, On
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

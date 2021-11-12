@@ -462,6 +462,10 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
         return false;
     }
 
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
+
     download(componenteDigital: ComponenteDigital): void {
         this._componenteDigitalService.download(componenteDigital.id).subscribe(
             (response) => {

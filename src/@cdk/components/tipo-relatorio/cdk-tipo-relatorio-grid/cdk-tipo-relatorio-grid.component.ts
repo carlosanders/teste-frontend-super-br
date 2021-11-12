@@ -392,6 +392,10 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
         return false;
     }
 
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
+
     editVisibilidadeTipoRelatorio(tipoRelatorioId): void {
         this.visibilidade.emit(tipoRelatorioId);
     }

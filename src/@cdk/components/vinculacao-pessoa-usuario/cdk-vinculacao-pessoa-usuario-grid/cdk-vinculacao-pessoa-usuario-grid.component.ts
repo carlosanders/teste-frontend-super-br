@@ -306,4 +306,8 @@ export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, O
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }
