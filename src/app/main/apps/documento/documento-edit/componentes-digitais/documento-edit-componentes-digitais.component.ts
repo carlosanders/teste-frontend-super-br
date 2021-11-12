@@ -62,6 +62,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
     paginationComponenteDigital$: Observable<any>;
     componenteDigitalIsSaving$: Observable<boolean>;
     componenteDigitalErrors$: Observable<any>;
+    actions: string[] = ['edit', 'view', 'delete'];
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -123,7 +124,14 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         this.documento$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(documento => !!documento)
-        ).subscribe(documento => this.documento = documento);
+        ).subscribe((documento) => {
+            this.documento = documento;
+            if (!documento.minuta) {
+                this.actions = ['edit', 'view'];
+            } else {
+                this.actions = ['edit', 'view', 'delete'];
+            }
+        });
 
         this.paginationComponenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -179,12 +187,14 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
     }
 
     deleteComponenteDigital(componenteDigitalId: number, loteId: string = null): void {
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.DeleteComponenteDigital({
-            componenteDigitalId: componenteDigitalId,
-            operacaoId: operacaoId,
-            loteId: loteId,
-        }));
+        if (this.documento.minuta) {
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.DeleteComponenteDigital({
+                componenteDigitalId: componenteDigitalId,
+                operacaoId: operacaoId,
+                loteId: loteId,
+            }));
+        }
     }
 
     deleteBloco(ids: number[]): void {
