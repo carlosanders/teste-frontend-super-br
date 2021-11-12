@@ -22,6 +22,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
     GetDocumentos as GetDocumentosProcesso,
+    GetJuntada,
     GetJuntadas,
     SetCurrentStep,
     UnloadDocumentos,
@@ -176,7 +177,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this._store.dispatch(new GetDocumentosProcesso());
         }
         if (this.atualizarJuntadaId !== null) {
-            this._store.dispatch(new fromStore.GetJuntada(this.atualizarJuntadaId));
+            this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
         }
         if (this.deveRecarregarJuntadas) {
             this.reloadJuntadas();
@@ -214,9 +215,10 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
     back(): void {
         // eslint-disable-next-line max-len
         this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
-        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
-        this.destroying = true;
         let url = this.routerState.url.split('/documento/')[0];
+        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') !== -1
+        && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
+        this.destroying = true;
         this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
 
         if (url.indexOf('/capa') !== -1) {
