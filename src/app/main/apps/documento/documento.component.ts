@@ -280,8 +280,6 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 'documento.vinculacoesDocumentos.documentoVinculado',
                 'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                'documento.vinculacoesEtiquetas',
-                'documento.vinculacoesEtiquetas.etiqueta'
             ]
         };
 

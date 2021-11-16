@@ -167,7 +167,7 @@ export function normalized(
                         ...newEntities[parentSchemaKey],
                         [parentId]: {
                             ...newEntities[parentSchemaKey][parentId],
-                            [parentProperty]: [...newEntities[parentSchemaKey][parentId][parentProperty], ...result]
+                            [parentProperty]: [...newEntities[parentSchemaKey][parentId][parentProperty], ...result.filter(id => newEntities[parentSchemaKey][parentId][parentProperty].indexOf(id) === -1)]
                         }
                     }
                 };
