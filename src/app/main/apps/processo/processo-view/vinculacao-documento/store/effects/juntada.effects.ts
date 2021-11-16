@@ -113,8 +113,6 @@ export class JuntadaEffects {
                 'documento.vinculacoesDocumentos.documentoVinculado',
                 'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                'documento.vinculacoesEtiquetas',
-                'documento.vinculacoesEtiquetas.etiqueta',
                 'documento.criadoPor',
                 'documento.setorOrigem',
                 'documento.setorOrigem.unidade'
