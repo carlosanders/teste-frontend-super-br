@@ -1,4 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '../../animations';
 
 @Component({
@@ -48,26 +54,26 @@ export class PathComponent implements OnInit {
                 chave = `${raiz}${caminhoAux}`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 caminhoAnterior = c;
-                this.linkCaminhos.push({link: chave, label: valor});
+                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
             }
             else if (c === 'arvore') { //Entra se for arvore
                 chave = `${raiz}${caminhoAux}/${c}`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
-                this.linkCaminhos.push({link: chave, label: valor});
+                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
             }
             else if (c === 'acoes' || c === 'regras') {
                 caminhoAux += '/' + c;
                 chave = `${raiz}${caminhoAux}` + '/listar';
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 caminhoAnterior = c;
-                this.linkCaminhos.push({link: chave, label: valor});
+                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
             }
             else if(!Number(c) && c !=='editar' && c !=='listar' && c !=='criar') { //Entra se for para listar
                 caminhoAux += '/' + c;
                 chave = `${raiz}${caminhoAux}/listar`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 caminhoAnterior = c;
-                this.linkCaminhos.push({link: chave, label: valor});
+                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
             }
             else if(c !== 'editar' && c !=='listar') { //Entra se for numero ou criar
                 chave = `${raiz}${caminhoAux}/editar/${c}`;
@@ -75,7 +81,7 @@ export class PathComponent implements OnInit {
                 valor = this.mapaNome.has(caminhoAnterior) ? this.mapaNome.get(caminhoAnterior) : caminhoAnterior;
                 valor = this.pluralParaSigular(valor);
                 valor = valor + c;
-                this.linkCaminhos.push({link: chave, label: valor});
+                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
             }
         });
         this.linkCaminhos.shift();
@@ -127,5 +133,15 @@ export class PathComponent implements OnInit {
             }
         });
         return palavraSingular;
+    }
+
+    /**
+     * Remove o fragmet e query parameters da label do breadcrump
+     * @param label
+     * @private
+     */
+    private limparLabel(label: string): string
+    {
+        return label.split('#')[0].split('?')[0];
     }
 }
