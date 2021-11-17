@@ -48,40 +48,41 @@ export class PathComponent implements OnInit {
         this.caminhoAbsoluto = this.caminhoAbsoluto.slice(posicao, this.caminhoAbsoluto.length);
         const arrayCaminho = this.caminhoAbsoluto.split('/');
         arrayCaminho.forEach((c: string) => {
-            if (c === 'dados-basicos' || c === 'default') { } //Não adiciona no link, para resolver despadronizacoes
-            else if (c === 'visualizar') {
-                caminhoAux += '/' + c;
+            let urlLimpa = this.limparUrl(c);
+            if (urlLimpa === 'dados-basicos' || urlLimpa === 'default') { } //Não adiciona no link, para resolver despadronizacoes
+            else if (urlLimpa === 'visualizar') {
+                caminhoAux += '/' + urlLimpa;
                 chave = `${raiz}${caminhoAux}`;
-                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
-                caminhoAnterior = c;
-                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
+                valor = this.mapaNome.has(urlLimpa) ? this.mapaNome.get(urlLimpa) : urlLimpa;
+                caminhoAnterior = urlLimpa;
+                this.linkCaminhos.push({link: chave, label: this.limparUrl(valor)});
             }
-            else if (c === 'arvore') { //Entra se for arvore
-                chave = `${raiz}${caminhoAux}/${c}`;
-                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
-                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
+            else if (urlLimpa === 'arvore') { //Entra se for arvore
+                chave = `${raiz}${caminhoAux}/${urlLimpa}`;
+                valor = this.mapaNome.has(urlLimpa) ? this.mapaNome.get(urlLimpa) : urlLimpa;
+                this.linkCaminhos.push({link: chave, label: this.limparUrl(valor)});
             }
-            else if (c === 'acoes' || c === 'regras') {
-                caminhoAux += '/' + c;
+            else if (urlLimpa === 'acoes' || urlLimpa === 'regras') {
+                caminhoAux += '/' + urlLimpa;
                 chave = `${raiz}${caminhoAux}` + '/listar';
-                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
-                caminhoAnterior = c;
-                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
+                valor = this.mapaNome.has(urlLimpa) ? this.mapaNome.get(urlLimpa) : urlLimpa;
+                caminhoAnterior = urlLimpa;
+                this.linkCaminhos.push({link: chave, label: this.limparUrl(valor)});
             }
-            else if(!Number(c) && c !=='editar' && c !=='listar' && c !=='criar') { //Entra se for para listar
-                caminhoAux += '/' + c;
+            else if(!Number(urlLimpa) && urlLimpa !=='editar' && urlLimpa !=='listar' && urlLimpa !=='criar') { //Entra se for para listar
+                caminhoAux += '/' + urlLimpa;
                 chave = `${raiz}${caminhoAux}/listar`;
-                valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
-                caminhoAnterior = c;
-                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
+                valor = this.mapaNome.has(urlLimpa) ? this.mapaNome.get(urlLimpa) : urlLimpa;
+                caminhoAnterior = urlLimpa;
+                this.linkCaminhos.push({link: chave, label: this.limparUrl(valor)});
             }
-            else if(c !== 'editar' && c !=='listar') { //Entra se for numero ou criar
-                chave = `${raiz}${caminhoAux}/editar/${c}`;
-                caminhoAux += '/editar/' + c;
+            else if(urlLimpa !== 'editar' && urlLimpa !=='listar') { //Entra se for numero ou criar
+                chave = `${raiz}${caminhoAux}/editar/${urlLimpa}`;
+                caminhoAux += '/editar/' + urlLimpa;
                 valor = this.mapaNome.has(caminhoAnterior) ? this.mapaNome.get(caminhoAnterior) : caminhoAnterior;
                 valor = this.pluralParaSigular(valor);
-                valor = valor + c;
-                this.linkCaminhos.push({link: chave, label: this.limparLabel(valor)});
+                valor = valor + urlLimpa;
+                this.linkCaminhos.push({link: chave, label: this.limparUrl(valor)});
             }
         });
         this.linkCaminhos.shift();
@@ -136,12 +137,12 @@ export class PathComponent implements OnInit {
     }
 
     /**
-     * Remove o fragmet e query parameters da label do breadcrump
-     * @param label
+     * Remove o fragmet e query parameters da url
+     * @param url
      * @private
      */
-    private limparLabel(label: string): string
+    private limparUrl(url: string): string
     {
-        return label.split('#')[0].split('?')[0];
+        return url.split('#')[0].split('?')[0];
     }
 }
