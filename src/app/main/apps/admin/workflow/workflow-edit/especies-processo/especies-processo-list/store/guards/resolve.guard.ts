@@ -56,7 +56,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getEspecieProcessoListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!loaded || this.routerState.params['workflowHandle'] !== loaded.value) {
 
                     const params = {
                         filter: {
@@ -77,7 +77,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetEspecieProcesso(params));
                 }
             }),
-            filter((loaded: any) => !!loaded),
+            filter((loaded: any) => loaded.id === 'workflowHandle' && this.routerState.params['workflowHandle'] && this.routerState.params['workflowHandle'] === loaded.value),
             take(1)
         );
     }

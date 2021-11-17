@@ -39,8 +39,8 @@ export class EspeciesProcessoListEffects {
                 new EspeciesProcessoListActions.GetEspecieProcessoSuccess({
                     entitiesId: response['entities'].map(especieProcesso => especieProcesso.id),
                     loaded: {
-                        id: 'especieProcessoHandle',
-                        value: this.routerState.params.especieProcessoHandle
+                        id: 'workflowHandle',
+                        value: this.routerState.params.workflowHandle
                     },
                     total: response['total']
 
