@@ -693,7 +693,7 @@
 * Correção ao alterar tipo de documento anexo
 * Correção tarefa aberta em nova aba através do painel de tarefas ou do kanban funciona corretamente #662
 
-1.6.13
+1.7.0
 
 * Correção removido filtro por origem dados de todos os locais do sistema, por se tratar de tabela massiva
 * Correção em loading infinito ao cancelar alteração de modelo no editor
