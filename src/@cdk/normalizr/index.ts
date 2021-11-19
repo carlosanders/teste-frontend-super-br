@@ -131,6 +131,7 @@ export const statusBarramento = new schema.Entity('status-barramento');
 export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-barramento');
 export const servidorEmail = new schema.Entity('servidor-email');
 export const contaEmail = new schema.Entity('conta-email');
+export const modalidadeCopia = new schema.Entity('modalidade-copia');
 
 acao.define({
     criadoPor: usuario,
@@ -1113,4 +1114,10 @@ contaEmail.define({
     atualizadoPor: usuario,
     setor: setor,
     servidorEmail: servidorEmail
+});
+
+modalidadeCopia.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
 });

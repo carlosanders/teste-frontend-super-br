@@ -130,3 +130,4 @@ export * from './chat-mensagem.model';
 export * from './chat-participante.model';
 export * from './servidor-email.model';
 export * from './conta-email.model';
+export * from './modalidade-copia.model';

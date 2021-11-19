@@ -25,7 +25,10 @@ import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cd
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
-import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {CdkModalidadeCopiaGridModule} from '@cdk/components/modalidade-copia/cdk-modalidade-copia-grid/cdk-modalidade-copia-grid.module';
+import {CdkModalidadeCopiaAutocompleteModule} from "../../modalidade-copia/cdk-modalidade-copia-autocomplete/cdk-modalidade-copia-autocomplete.module";
+import {CdkModalidadeCopiaGridsearchModule} from "../../modalidade-copia/cdk-modalidade-copia-autocomplete/cdk-modalidade-copia-gridsearch/cdk-modalidade-copia-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -56,10 +59,13 @@ import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
         CdkPessoaGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
+        CdkModalidadeCopiaGridModule,
+        CdkModalidadeCopiaAutocompleteModule,
 
         CdkSharedModule,
         CdkLogentryGridsearchModule,
         NgxUpperCaseDirectiveModule,
+        CdkModalidadeCopiaGridsearchModule
     ],
     providers: [
         TipoDocumentoService,

@@ -97,7 +97,8 @@ export class DocumentoEffect {
                     'documentoAvulsoRemessa.pessoaDestino',
                     'documentoAvulsoRemessa.usuarioRemessa',
                     'vinculacoesEtiquetas',
-                    'vinculacoesEtiquetas.etiqueta'
+                    'vinculacoesEtiquetas.etiqueta',
+                    'modalidadeCopia'
                 ]),
                 JSON.stringify(context));
         }),
