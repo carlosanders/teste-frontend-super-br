@@ -9,8 +9,8 @@ import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';
 
 import {modulesConfig} from 'modules/modules-config';
-import {MatCardModule} from "@angular/material/card";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatCardModule} from '@angular/material/card';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const routes: Routes = [
     {
@@ -64,10 +64,6 @@ const routes: Routes = [
             {
                 path: 'tramitacoes',
                 loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
-            },
-            {
-                path: 'garantias',
-                loadChildren: () => import('./garantias/garantias.module').then(m => m.GarantiasModule)
             },
             {
                 path: 'remessas',
