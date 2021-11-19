@@ -356,7 +356,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-list').close();
     }
 
     filtraDataHoraLeitura(value: any): void {

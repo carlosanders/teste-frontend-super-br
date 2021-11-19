@@ -847,6 +847,9 @@
                                 *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); index as z;"
                                 class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="ml-16 s-14">attach_file</mat-icon>
+                                <span class="accent badge" *ngIf="!!vinculacaoDocumento.documentoVinculado.juntadaAtual">
+                                    {{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}
+                                </span>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
                                    (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"

@@ -23,8 +23,8 @@ import * as fromStore from '../index';
 import {
     GetJuntadasEtiquetas,
     GetJuntadasEtiquetasSuccess
-} from "app/main/apps/processo/processo-view/store/actions/processo-view.actions";
-import {VinculacaoEtiquetaService} from "../../../../../../../@cdk/services/vinculacao-etiqueta.service";
+} from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -46,11 +46,11 @@ export class ProcessoViewEffect {
                 'volume',
                 'documento',
                 'documento.origemDados',
-                'documento.juntadaAtual',
                 'documento.tipoDocumento',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
                 'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
                 'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                 'documento.criadoPor',
@@ -195,11 +195,11 @@ export class ProcessoViewEffect {
                     'volume',
                     'documento',
                     'documento.origemDados',
-                    'documento.juntadaAtual',
                     'documento.tipoDocumento',
                     'documento.componentesDigitais',
                     'documento.vinculacoesDocumentos',
                     'documento.vinculacoesDocumentos.documentoVinculado',
+                    'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
                     'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                     'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                     'documento.criadoPor',
@@ -285,8 +285,8 @@ export class ProcessoViewEffect {
      */
     getJuntadasSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
-        withLatestFrom(this._store.pipe(select(getPagination)), this._store.pipe(select(getJuntadas))),
-        tap(([action, pagination, juntadas]) => {
+        withLatestFrom(this._store.pipe(select(getPagination))),
+        tap(([action, pagination]) => {
             action.payload.documentosId.forEach((documentoId) => {
                 this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
             });

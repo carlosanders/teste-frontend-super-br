@@ -10,6 +10,7 @@
         [modalidadeVinculacaoDocumentoPagination]="modalidadeVinculacaoDocumentoPagination"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        (changeDocumentoVinculado)="changeDocumentoVinculado($event)"
         (save)="submit($event)"
         (abort)="doAbort()">
     </cdk-vinculacao-documento-form>
