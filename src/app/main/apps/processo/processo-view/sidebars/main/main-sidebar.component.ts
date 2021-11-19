@@ -398,7 +398,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.errorsDocumento$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(errors => {
+        ).subscribe((errors) => {
             if (errors && errors.status && errors.status === 422) {
                 const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
                 this._snackBar.open(error, null, {
