@@ -2,7 +2,7 @@
 set -e
 
 export NG_CLI_ANALYTICS=ci
-export NODE_OPTIONS=--max_old_space_size=8192
+export NODE_OPTIONS=--max_old_space_size=12192
 export CYPRESS_CACHE_FOLDER=./tmp/Cypress
 
 rm -rf /app/package-lock.json
