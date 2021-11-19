@@ -1,0 +1,9 @@
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayModalidadeCopiaFn">
+    <mat-option *ngFor="let modalidadeCopia of modalidadeCopiaList"
+                [value]="modalidadeCopia">
+        <span [innerHTML]="displayModalidadeCopiaFn(modalidadeCopia) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="modalidadeCopiaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>
