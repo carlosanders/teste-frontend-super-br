@@ -717,7 +717,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
 
             if (diffDays > this.form.get('prazoDias').value
-                || parseInt(diffDays) < (this.form.get('prazoDias').value -1 )) {
+                || parseInt(diffDays) < (this.form.get('prazoDias').value - 1)) {
                 this.form.get('prazoDias').setValue(parseInt(diffDays));
             }
         }
@@ -751,7 +751,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (this.form.get('dataHoraFinalPrazo').value.format('YYYY-MM-DDTHH:mm:ss') !== dataHoraFinalPrazoCalculado.format('YYYY-MM-DDTHH:mm:ss')) {
-this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
+            this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
         }
     }
 
@@ -823,6 +823,10 @@ this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
                 this.form.get('dataHoraInicioPrazo').enable();
                 this.form.get('dataHoraFinalPrazo').enable();
             }
+            if (!!this.tarefa.id) {
+                this.tarefa.distribuicaoAutomatica = false;
+            }
+
             this.form.patchValue({...this.tarefa});
 
             this.inputProcesso = !!this.tarefa.id || this.fromProcesso;
@@ -1383,7 +1387,7 @@ this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
         this.menuTrigger?.closeMenu();
     }
 
-    get desabilitaFavoritoEspecieTarefa(): boolean{
+    get desabilitaFavoritoEspecieTarefa(): boolean {
         return this.desabilitaEspecieTarefa || (
             (
                 !this.form.get('blocoProcessos').value &&

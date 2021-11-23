@@ -707,3 +707,4 @@
 * Correção rota incorreta ao tentar excluir restrição de acesso de documentos no editor
 * Correção em url do editor devido a um bug no escape de caracteres especiais do angular
 * Melhoria iniciando processo de remoção de populate desnecessário de juntadaAtual na visualização de processo
+* Correção ao editar tarefa, distribuição automática virá desmarcada
