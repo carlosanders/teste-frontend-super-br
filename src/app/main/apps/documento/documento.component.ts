@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -21,6 +22,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
     GetDocumentos as GetDocumentosProcesso,
+    GetJuntada,
     GetJuntadas,
     SetCurrentStep,
     UnloadDocumentos,
@@ -43,7 +45,7 @@ import {MatTabGroup} from '@angular/material/tabs';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoComponent implements OnInit, OnDestroy {
+export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('matTabGroup') matTabGroup: MatTabGroup;
     documento$: Observable<Documento>;
@@ -136,6 +138,20 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngAfterViewInit(): void {
+        if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+            // Entrou na rota de visualizar processo
+            this.matTabGroup.selectedIndex = 1;
+            const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
+            if (steps) {
+                this._store.dispatch(new SetCurrentStep({
+                    step: steps[0],
+                    subStep: steps[1]
+                }));
+            }
+        }
+    }
+
     /**
      * On destroy
      */
@@ -161,7 +177,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             this._store.dispatch(new GetDocumentosProcesso());
         }
         if (this.atualizarJuntadaId !== null) {
-            this._store.dispatch(new fromStore.GetJuntada(this.atualizarJuntadaId));
+            this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
         }
         if (this.deveRecarregarJuntadas) {
             this.reloadJuntadas();
@@ -199,9 +215,10 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     back(): void {
         // eslint-disable-next-line max-len
         this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
-        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
-        this.destroying = true;
         let url = this.routerState.url.split('/documento/')[0];
+        this.atualizarJuntadaId = !this.deveRecarregarJuntadas && url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') !== -1
+        && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
+        this.destroying = true;
         this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
 
         if (url.indexOf('/capa') !== -1) {
@@ -263,8 +280,6 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 'documento.vinculacoesDocumentos.documentoVinculado',
                 'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                'documento.vinculacoesEtiquetas',
-                'documento.vinculacoesEtiquetas.etiqueta'
             ]
         };
 
@@ -359,7 +374,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                         this.modoProcesso = 1;
                         const stepHandle = this.routerState.params['stepHandle'] ?? 'default';
                         const primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + stepHandle;
-                        const steps = stepHandle ? stepHandle.split('-') : false;
+                        const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
                         const sidebar = 'empty';
                         this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                             {

@@ -9,6 +9,10 @@ export const GET_JUNTADAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS SUCCESS';
 export const GET_JUNTADAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS FAILED';
 export const EXPANDIR_PROCESSO = '[PROCESSO VIEW] EXPANDIR PROCESSO';
 
+export const GET_JUNTADAS_ETIQUETAS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS';
+export const GET_JUNTADAS_ETIQUETAS_SUCCESS = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS SUCCESS';
+export const GET_JUNTADAS_ETIQUETAS_FAILED = '[PROCESSO VIEW] GET JUNTADAS ETIQUETAS FAILED';
+
 export const SET_CURRENT_STEP = '[JUNTADAS] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[JUNTADAS] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[JUNTADAS] SET CURRENT STEP FAILED';
@@ -108,6 +112,42 @@ export class GetJuntadasFailed implements Action
 }
 
 /**
+ * Get Juntadas Etiquetas
+ */
+export class GetJuntadasEtiquetas implements Action
+{
+    readonly type = GET_JUNTADAS_ETIQUETAS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntadas Etiquetas Success
+ */
+export class GetJuntadasEtiquetasSuccess implements Action
+{
+    readonly type = GET_JUNTADAS_ETIQUETAS_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Juntadas Etiquetas Failed
+ */
+export class GetJuntadasEtiquetasFailed implements Action
+{
+    readonly type = GET_JUNTADAS_ETIQUETAS_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
  * Set Current Step
  */
 export class SetCurrentStep implements Action {
@@ -199,6 +239,9 @@ export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed
+    | GetJuntadasEtiquetas
+    | GetJuntadasEtiquetasSuccess
+    | GetJuntadasEtiquetasFailed
     | GetJuntada
     | GetJuntadaSuccess
     | GetJuntadaFailed

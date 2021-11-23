@@ -30,7 +30,7 @@
     [loading]="(componenteDigitalLoading$ | async)"
     [componentesDigitais]="(componentesDigitais$ | async)"
     [total]="(paginationComponenteDigital$ | async)?.total"
-    [actions]="['edit', 'view', 'delete']"
+    [actions]="actions"
     [mode]="'documento'"
     [displayedColumns]="['id', 'fileName', 'numeracaoSequencial', 'tamanho', 'extensao', 'criadoPor.nome', 'actions']"
     [deletingIds]="(deletingComponenteDigitalIds$ | async)"

@@ -137,6 +137,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     habilitarTipoDocumentoSalvar = false;
 
+    isNotMinutas: boolean = false;
+
 
     /**
      * @param _changeDetectorRef
@@ -155,6 +157,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+        this.isNotMinutas = this.documentos.filter(documento => !documento.minuta).length > 0;
     }
 
     ngOnChanges(): void {

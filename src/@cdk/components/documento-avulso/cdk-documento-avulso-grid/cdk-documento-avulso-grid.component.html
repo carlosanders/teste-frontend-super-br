@@ -505,7 +505,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, documentoAvulso.id)">
-                            {{ getProp(deletingErrors, documentoAvulso.id) }}
+                            {{ getMessageError(getProp(deletingErrors, documentoAvulso.id)) }}
                         </mat-error>
 
                         <button mat-icon-button *ngIf="_cdkConfigService.barramento === '1' &&

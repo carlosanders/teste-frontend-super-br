@@ -70,7 +70,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.filtrarPor = this.pagination.context?.filtrarPor;
+        this.filtrarPor = this.pagination?.context?.filtrarPor;
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),

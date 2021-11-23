@@ -231,6 +231,7 @@ componenteDigital.define({
     documento: documento,
     tarefaOrigem: tarefa,
     origemDados: origemDados,
+    processoOrigem: processo,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -493,6 +494,7 @@ interessado.define({
 
 juntada.define({
     documento: documento,
+    volume: volume,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,

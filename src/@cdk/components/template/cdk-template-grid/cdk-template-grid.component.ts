@@ -389,6 +389,10 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
         return false;
     }
 
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
+
     editConteudoModelo(documento: Documento): void {
         this.editConteudo.emit(documento);
     }

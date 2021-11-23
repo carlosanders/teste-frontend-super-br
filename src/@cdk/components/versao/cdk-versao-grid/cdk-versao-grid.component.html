@@ -130,7 +130,7 @@
                         </div>
 
                         <mat-error *ngIf="getProp(deletingErrors, logEntry.id)">
-                            {{ getProp(deletingErrors, logEntry.id) }}
+                            {{ getMessageError(getProp(deletingErrors, logEntry.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>

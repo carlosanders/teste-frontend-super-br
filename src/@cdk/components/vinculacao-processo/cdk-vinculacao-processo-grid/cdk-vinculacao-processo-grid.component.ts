@@ -369,6 +369,10 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
         return false;
     }
 
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
+
     viewProcesso(vinculacaoProcesso: VinculacaoProcesso): void {
 
         let processo = vinculacaoProcesso.processoVinculado;

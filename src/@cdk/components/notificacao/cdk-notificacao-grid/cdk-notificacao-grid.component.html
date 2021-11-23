@@ -271,7 +271,7 @@
                             {{ getProp(toggleLidaErrors, notificacao.id) }}
                         </mat-error>
                         <mat-error *ngIf="getProp(deletingErrors, notificacao.id)">
-                            {{ getProp(deletingErrors, notificacao.id) }}
+                            {{ getMessageError(getProp(deletingErrors, notificacao.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>

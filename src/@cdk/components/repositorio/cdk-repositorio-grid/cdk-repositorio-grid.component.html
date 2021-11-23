@@ -336,7 +336,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, repositorio.id)">
-                            {{ getProp(deletingErrors, repositorio.id) }}
+                            {{ getMessageError(getProp(deletingErrors, repositorio.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>
