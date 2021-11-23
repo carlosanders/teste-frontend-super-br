@@ -356,6 +356,10 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
         return false;
     }
 
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
+
     viewProcesso(acompanhamento: Compartilhamento): void {
             this.view.emit({id: acompanhamento.processo.id});
     }

@@ -417,6 +417,10 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         return false;
     }
 
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
+
     editRecebimento(tramitacaoId): void {
         this.recebimento.emit(tramitacaoId);
     }

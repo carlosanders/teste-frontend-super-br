@@ -375,4 +375,8 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

@@ -383,6 +383,10 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
         return false;
     }
 
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
+
     doCancel(): void {
         this.cancel.emit();
     }

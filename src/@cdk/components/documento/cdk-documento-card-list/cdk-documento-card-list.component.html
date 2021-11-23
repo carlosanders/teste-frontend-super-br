@@ -17,7 +17,7 @@
 
             <div *ngIf="!lixeiraMinutas">
                 <button
-                    [disabled]="actions.indexOf('delete') === -1"
+                    [disabled]="actions.indexOf('delete') === -1 || isNotMinutas"
                     mat-menu-item aria-label="remover"
                     *showIfRole="'ROLE_COLABORADOR'"
                     (click)="doDeleteDocumentoBloco()">
@@ -37,6 +37,7 @@
 
                 <button mat-menu-item aria-label="remover assinatura"
                         *showIfRole="'ROLE_COLABORADOR'"
+                        [disabled]="isNotMinutas"
                         (click)="doRemoveAssinaturaDocumentoBloco()">
                     <ng-container>
                         <mat-icon>lock_open</mat-icon>
@@ -44,7 +45,8 @@
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="editar tarefa"
+                <button mat-menu-item aria-label="converter em pdf"
+                        [disabled]="isNotMinutas"
                         (click)="doConverteDocumentoBloco()">
                     <ng-container>
                         <mat-icon>picture_as_pdf</mat-icon>
@@ -53,6 +55,7 @@
                 </button>
 
                 <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
+                        [disabled]="isNotMinutas"
                         *showIfRole="'ROLE_COLABORADOR'"
                         [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                     <mat-icon>edit</mat-icon>
@@ -61,7 +64,8 @@
             </div>
 
             <div *ngIf="lixeiraMinutas">
-                <button mat-menu-item aria-label="remover" *showIfRole="'ROLE_COLABORADOR'"
+                <button mat-menu-item aria-label="restaurar minutas" *showIfRole="'ROLE_COLABORADOR'"
+                        [disabled]="isNotMinutas"
                         (click)="doRestaurarBloco()">
                     <ng-container>
                         <mat-icon>undo</mat-icon>

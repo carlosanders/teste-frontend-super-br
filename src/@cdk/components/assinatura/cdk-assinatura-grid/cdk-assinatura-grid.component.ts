@@ -343,4 +343,8 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

@@ -391,4 +391,8 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

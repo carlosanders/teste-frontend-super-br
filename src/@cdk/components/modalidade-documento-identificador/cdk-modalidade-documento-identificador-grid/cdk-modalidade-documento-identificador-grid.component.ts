@@ -375,4 +375,8 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

@@ -65,6 +65,7 @@ cdk-modalidade-destinacao-grid {
 
                 td {
                     flex: 1 1;
+                    word-break: break-word;
                     &.deleted {
                         text-decoration: line-through;
                     }
