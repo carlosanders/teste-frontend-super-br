@@ -15,9 +15,7 @@ import {UnloadDocumento} from '../../../../store';
 import {RemoveTarefa} from '../../../../../tarefas/store';
 import {
     GetDocumentos as GetDocumentosProcesso,
-    GetJuntadas,
-    UnloadDocumentos,
-    UnloadJuntadas
+    UnloadDocumentos
 } from '../../../../../processo/processo-view/store';
 import {GetTarefa} from '../../../../../tarefas/tarefa-detail/store';
 
