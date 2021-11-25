@@ -104,7 +104,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
 
-        if (this._router.url.indexOf('/juntadas') === -1) {
+        if (this._router.url.indexOf('/juntadas') === -1 && this._router.url.indexOf('/tarefa/') !== -1) {
             this.tarefa$ = this._store.pipe(select(getTarefa));
         }
 
@@ -156,7 +156,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * On init
      */
     ngOnInit(): void {
-        if (this._router.url.indexOf('/juntadas') === -1) {
+        if (this._router.url.indexOf('/juntadas') === -1 && this._router.url.indexOf('/tarefa/') !== -1) {
             this.tarefa$.pipe(
                 takeUntil(this._unsubscribeAll)
             ).subscribe((tarefa) => {

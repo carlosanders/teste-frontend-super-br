@@ -118,6 +118,10 @@ const routes: Routes = [
             {
                 path: 'encaminhamento-bloco',
                 loadChildren: () => import('./encaminhamento-bloco/encaminhamento-bloco.module').then(m => m.EncaminhamentoBlocoModule)
+            },
+            {
+                path: 'minutas',
+                loadChildren: () => import('./minutas/minutas.module').then(m => m.MinutasModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

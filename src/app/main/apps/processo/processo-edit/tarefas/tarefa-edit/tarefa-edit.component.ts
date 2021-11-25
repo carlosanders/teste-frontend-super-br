@@ -46,7 +46,6 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     setorOrigemPagination: Pagination;
 
     logEntryPagination: Pagination;
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     operacoes: any[] = [];
     operacoesPendentes: any[] = [];
@@ -54,6 +53,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     lote: string = '';
     isClearForm$: Observable<boolean>;
     isClearForm = false;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * @param _store
