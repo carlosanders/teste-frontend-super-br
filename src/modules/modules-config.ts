@@ -5,10 +5,10 @@
 //import {modulesConfigDivida} from './divida/modules-config';
 
 export const modulesConfig = [
-    modulesConfigJudicial,
-    modulesConfigConsultivo,
-    modulesConfigDisciplinar,
-    modulesConfigEcarta,
+    //modulesConfigJudicial,
+    //modulesConfigConsultivo,
+    //modulesConfigDisciplinar,
+    //modulesConfigEcarta,
     //modulesConfigDivida,
 ];
 
