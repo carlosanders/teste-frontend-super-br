@@ -1,6 +1,6 @@
     <div class="accent">
         <div class="header">
-            <h1 class="m-16">Ajuda</h1>
+            <h1 class="m-8">Ajuda</h1>
         </div>
     </div>
 
@@ -91,14 +91,14 @@
 
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
-            <div class="mt-16" *ngIf="card === 'form'">
+            <div class="mt-8" *ngIf="card === 'form'">
                 <table *ngIf="resultado.length > 0">
                     <tr *ngFor="let topico of resultado">
                         <td>
                             <div class="topico-titulo mb-4" (click)="carregar(topico)">
                                 {{topico.titulo}}
                             </div>
-                            <div class="topico-descricao mb-16">
+                            <div class="topico-descricao mb-8">
                                 {{topico.descricao}}
                             </div>
                         </td>

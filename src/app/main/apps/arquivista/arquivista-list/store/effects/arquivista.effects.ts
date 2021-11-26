@@ -38,7 +38,9 @@ export class ArquivistaEffect {
             action.payload.limit,
             action.payload.offset,
             JSON.stringify(action.payload.sort),
-            JSON.stringify(action.payload.populate))),
+            JSON.stringify(action.payload.populate),
+            JSON.stringify({}),
+            'app/main/apps/arquivista#lista')),
         concatMap(response => [
             new AddData<Processo>({data: response['entities'], schema: processoSchema}),
             new ArquivistaActions.GetProcessosSuccess({

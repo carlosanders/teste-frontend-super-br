@@ -58,7 +58,7 @@
             <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
         </div>
     </form>
-    <form fxLayoutGap="16px" *ngIf="activeCard !== 'form'">
+    <form fxLayoutGap="8px" *ngIf="activeCard !== 'form'">
         <image-cropper
             #imgCapaCropComponent
             [imageChangedEvent]="imagemCapaEvent"

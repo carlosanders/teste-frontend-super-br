@@ -3,7 +3,7 @@
 cdk-documento-avulso-list-item {
     display: block;
     position: relative;
-    padding: 16px 16px 16px 24px;
+    padding: 8px 8px 8px 24px;
     border-bottom: 1px solid;
     text-transform: none;
     cursor: pointer;
@@ -20,7 +20,7 @@ cdk-documento-avulso-list-item {
             font-weight: bold;
         }
 
-        margin: 0 16px 0 8px;
+        margin: 0 8px 0 8px;
 
         .title {
             font-size: 15px;

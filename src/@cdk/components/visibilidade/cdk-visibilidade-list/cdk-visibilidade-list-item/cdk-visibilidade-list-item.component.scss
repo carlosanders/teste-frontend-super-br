@@ -4,7 +4,7 @@ cdk-visibilidade-list-item {
 
     flex: 0 0 auto;
     display: flex;
-    padding: 16px 16px 16px 24px;
+    padding: 8px 8px 8px 24px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     text-transform: none;
     cursor: pointer;
@@ -29,7 +29,7 @@ cdk-visibilidade-list-item {
             display: flex;
             flex: 1 1 auto;
             flex-direction: column;
-            margin: 0 16px 0 8px;
+            margin: 0 8px 0 8px;
 
             &.nao-lido {
                 font-weight: bold;

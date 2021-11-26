@@ -11,7 +11,7 @@ register {
             padding: 32px;
 
             @include media-breakpoint('xs') {
-                padding: 16px;
+                padding: 8px;
             }
 
             #register-form {
@@ -34,7 +34,7 @@ register {
 
                 .title {
                     font-size: 20px;
-                    margin: 16px 0 32px 0;
+                    margin: 8px 0 32px 0;
                 }
 
                 form {
@@ -54,19 +54,19 @@ register {
                         margin-top: 8px;
 
                         .remember-me {
-                            margin-bottom: 16px
+                            margin-bottom: 8px
                         }
 
                         .forgot-password {
                             font-size: 13px;
                             font-weight: 600;
-                            margin-bottom: 16px
+                            margin-bottom: 8px
                         }
                     }
 
                     .submit-button {
                         width: 220px;
-                        margin: 16px auto;
+                        margin: 8px auto;
                         display: block;
 
                         @include media-breakpoint('xs') {
@@ -145,7 +145,7 @@ register {
 
             .sub-title {
                 font-size: 18px;
-                margin: 16px 0 32px 0;
+                margin: 8px 0 32px 0;
             }
         }
     }

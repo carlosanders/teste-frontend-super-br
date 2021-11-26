@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-checkbox formControlName="ativo">
         Ativo
@@ -49,7 +49,7 @@
 
     <mcc-color-picker [overlay]="false" [hideUsedColors]="true"
                       [hideColorPickerSelector]="true" [hideButtons]="true" (selected)="selectColor($event)">
-        <div class="selected-color mb-16" class="cor" [ngStyle]="{background: this.form.get('corHexadecimal').value}"></div>
+        <div class="selected-color mb-8" class="cor" [ngStyle]="{background: this.form.get('corHexadecimal').value}"></div>
         <mcc-color-picker-collection [colors]="colors" [hideEmpty]="true" [label]="'Cores'" required></mcc-color-picker-collection>
     </mcc-color-picker>
 

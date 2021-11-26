@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
     <mat-card *showIfRole="'ROLE_COLABORADOR'">
 
         <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
@@ -137,6 +137,11 @@
                 {{form.get('processoOrigem').errors.formError}}
             </mat-error>
         </mat-form-field>
+
+        <mat-slide-toggle *ngIf="form.value.temProcessoOrigem === true" formControlName="processoOrigemIncluirDocumentos">
+            Incluir os documentos
+        </mat-slide-toggle>
+
     </mat-card>
 
     <ng-template *showIfRole="'ROLE_COLABORADOR'">

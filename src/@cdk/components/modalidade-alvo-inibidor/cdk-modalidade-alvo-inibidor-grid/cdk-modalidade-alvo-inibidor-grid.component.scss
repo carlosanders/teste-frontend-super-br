@@ -134,12 +134,12 @@ cdk-modalidade-alvo-inibidor-grid {
                 .mat-cell {
                     display: block;
                     width: 100%;
-                    padding: 0 16px;
-                    margin: 16px 0;
+                    padding: 0 8px;
+                    margin: 8px 0;
                     border: 0 none;
 
                     &:first-child {
-                        padding: 0 48px 0 16px;
+                        padding: 0 48px 0 8px;
 
                         a {
                             font-size: 20px;
@@ -152,7 +152,7 @@ cdk-modalidade-alvo-inibidor-grid {
 
                     &.m-card-sub-title {
                         margin-top: -8px;
-                        padding: 0 48px 0 16px;
+                        padding: 0 48px 0 8px;
                     }
                 }
 

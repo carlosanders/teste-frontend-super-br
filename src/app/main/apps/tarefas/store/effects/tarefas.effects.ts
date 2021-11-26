@@ -70,7 +70,8 @@ export class TarefasEffect {
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
-            JSON.stringify(action.payload.context)).pipe(
+            JSON.stringify(action.payload.context),
+            'app/main/apps/tarefas#lista').pipe(
                 concatMap(response => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema, populate: action.payload.populate}),
                     new TarefasActions.GetTarefasSuccess({

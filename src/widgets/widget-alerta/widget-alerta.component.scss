@@ -4,7 +4,7 @@ widget-alerta {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    padding: 16px;
+    padding: 8px;
 
 
     .mat-card.scrollable-content {
@@ -18,7 +18,7 @@ widget-alerta {
 
         mat-list {
             mat-list-item {
-                padding: 5px 16px;
+                padding: 5px 8px;
                 .descricao {
                     white-space: pre-wrap
                 }

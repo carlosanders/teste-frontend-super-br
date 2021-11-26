@@ -1,8 +1,8 @@
-<div class="content p-16" fxLayout="column" fxFlex="100">
+<div class="content p-8" fxLayout="column" fxFlex="100">
 
     <h2>Download do {{labelTitle}}</h2>
 
-    <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
+    <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="8px"
           fxLayout="column"
           fxLayoutAlign="start"
           name="form" [formGroup]="form">
@@ -25,7 +25,7 @@
             <div fxLayout="row" *ngIf="parcial">
 
                 <mat-slide-toggle formControlName="parcial"
-                                  class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+                                  class="mt-8 mr-8 mb-8" fxFlex="0 1 auto">
                     Parcial
                 </mat-slide-toggle>
             </div>
@@ -43,7 +43,7 @@
 
         <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
              fxLayoutAlign="center center">
             <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                     [disabled]="form.invalid || !valid">
@@ -54,7 +54,7 @@
             </button>
         </div>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
              fxLayoutAlign="center center">
             <mat-spinner color="accent" diameter="24"></mat-spinner>
         </div>

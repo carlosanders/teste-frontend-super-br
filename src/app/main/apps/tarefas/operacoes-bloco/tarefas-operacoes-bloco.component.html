@@ -1,7 +1,7 @@
 <div class="actions">
 
     <mat-icon class="s-32">schedule</mat-icon>
-    <div class="mat-title mb-16">{{tarefas.length}} tarefas selecionadas</div>
+    <div class="mat-title mb-8">{{tarefas.length}} tarefas selecionadas</div>
 
     <ng-template [ngIf]="this.routerState.params['targetHandle'] !== 'lixeira'">
         <button mat-menu-item [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
@@ -128,7 +128,7 @@
         </button>
     </ng-template>
 
-    <button class="mt-16" mat-raised-button aria-label="cancelar" color="warn"
+    <button class="mt-8" mat-raised-button aria-label="cancelar" color="warn"
             (click)="doAbort()">
         Cancelar
     </button>

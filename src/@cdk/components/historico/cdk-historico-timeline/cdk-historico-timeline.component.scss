@@ -5,7 +5,7 @@ cdk-historico-timeline {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    padding: 16px;
+    padding: 8px;
 
     .historico-timeline {
 
@@ -36,10 +36,10 @@ cdk-historico-timeline {
                     .activities {
 
                         .activity {
-                            padding: 16px 0;
+                            padding: 8px 0;
 
                             .avatar {
-                                margin-right: 16px;
+                                margin-right: 8px;
                             }
 
                             .username {
@@ -60,11 +60,11 @@ cdk-historico-timeline {
     .processo-box {
         border-radius: 4px;
         overflow: hidden;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
         @include mat-elevation(2);
 
         header {
-            padding: 16px;
+            padding: 8px;
 
             .title {
                 font-size: 17px;
@@ -76,7 +76,7 @@ cdk-historico-timeline {
         }
 
         .content {
-            padding: 16px;
+            padding: 8px;
         }
 
         footer {

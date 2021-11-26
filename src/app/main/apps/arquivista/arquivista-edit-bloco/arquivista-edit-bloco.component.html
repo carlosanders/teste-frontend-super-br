@@ -5,19 +5,19 @@
 
     <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s) </h3>
 
-    <div class="bloco-edit p-16 mb-16" fxLayout="column" *ngIf="operacoes.length === 0">
+    <div class="bloco-edit p-8 mb-8" fxLayout="column" *ngIf="operacoes.length === 0">
         <mat-slide-toggle [(ngModel)]="blocoEditClassificacao"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Classificação
         </mat-slide-toggle>
 
         <mat-slide-toggle [(ngModel)]="blocoEditDataHoraProximaTransicao"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Data da próxima temporalidade e destinação
         </mat-slide-toggle>
 
         <mat-slide-toggle [(ngModel)]="blocoEditLembrete"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Lembrete
         </mat-slide-toggle>
     </div>
