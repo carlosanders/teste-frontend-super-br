@@ -19,102 +19,102 @@ const schemaAvisoSelectors = createSchemaSelectors<Aviso>(avisoSchema);
 const schemaOrgaoSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(orgaoSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getAvisoEditState = createSelector(
+export const getAvisoEditState: any = createSelector(
     getAvisoEditAppState,
     (state: AvisoEditAppState) => state.aviso
 );
 
-export const getUnidadesOrgaoCentralState = createSelector(
+export const getUnidadesOrgaoCentralState: any = createSelector(
     getUnidadesOrgaoCentralAppState,
     (state: UnidadesOrgaoCentralAppState) => state.unidades
 );
 
-export const getAvisoId = createSelector(
+export const getAvisoId: any = createSelector(
     getAvisoEditState,
     (state: AvisoEditState) => state.entityId
 );
 
-export const getCoordenadorState = createSelector(
+export const getCoordenadorState: any = createSelector(
     getCoordenadorAppState,
     (state: CoordenadorAppState) => state.coordenador
 );
 
-export const getCoordenadorSetorState = createSelector(
+export const getCoordenadorSetorState: any = createSelector(
     getCoordenadorSetorAppState,
     (state: CoordenadorSetorAppState) => state.setor
 );
 
-export const getSetorId = createSelector(
+export const getSetorId: any = createSelector(
     getCoordenadorState,
     (state: CoordenadorState) => state.loaded && state.setorId ? state.setorId : null
 );
 
-export const getUnidadeId = createSelector(
+export const getUnidadeId: any = createSelector(
     getCoordenadorState,
     (state: CoordenadorState) => state.loaded && state.unidadeId ? state.unidadeId : null
 );
 
-export const getUnidadeHandleId = createSelector(
+export const getUnidadeHandleId: any = createSelector(
     getUnidadesOrgaoCentralState,
     (state: UnidadesOrgaoCentralState) => state.loadedUnidade ? state.loadedUnidade.value : null
 );
 
-export const getSetorHandleId = createSelector(
+export const getSetorHandleId: any = createSelector(
     getCoordenadorSetorState,
     (state: CoordenadorSetorState) => state.loaded ? state.loaded.value : null
 );
 
-export const getModalidadeOrgaoCentralId = createSelector(
+export const getModalidadeOrgaoCentralId: any = createSelector(
     getCoordenadorState,
     (state: CoordenadorState) => state.loaded && state.orgaoId ? state.orgaoId : null
 );
 
-export const getAviso = createSelector(
+export const getAviso: any = createSelector(
     schemaAvisoSelectors.getNormalizedEntities,
     getAvisoId,
     schemaAvisoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getAvisoEditState,
     (state: AvisoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getAvisoEditState,
     (state: AvisoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getAvisoEditState,
     (state: AvisoEditState) => state.errors
 );
 
-export const getModalidadeOrgaoCentral = createSelector(
+export const getModalidadeOrgaoCentral: any = createSelector(
     schemaOrgaoSelectors.getNormalizedEntities,
     getModalidadeOrgaoCentralId,
     schemaOrgaoSelectors.entityProjector
 );
 
-export const getSetor = createSelector(
+export const getSetor: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getUnidade = createSelector(
+export const getUnidade: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getUnidadeHandle = createSelector(
+export const getUnidadeHandle: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeHandleId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getSetorHandle = createSelector(
+export const getSetorHandle: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorHandleId,
     schemaSetorSelectors.entityProjector

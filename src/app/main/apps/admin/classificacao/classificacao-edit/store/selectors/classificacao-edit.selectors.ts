@@ -6,33 +6,33 @@ import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 
 const schemaClassificacaoSelectors = createSchemaSelectors<Classificacao>(classificacaoSchema);
 
-export const getClassificacaoEditState = createSelector(
+export const getClassificacaoEditState: any = createSelector(
     getClassificacaoEditAppState,
     (state: ClassificacaoEditAppState) => state.classificacao
 );
 
-export const getClassificacaoId = createSelector(
+export const getClassificacaoId: any = createSelector(
     getClassificacaoEditState,
     (state: ClassificacaoEditState) => state.entityId
 );
 
-export const getClassificacao = createSelector(
+export const getClassificacao: any = createSelector(
     schemaClassificacaoSelectors.getNormalizedEntities,
     getClassificacaoId,
     schemaClassificacaoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getClassificacaoEditState,
     (state: ClassificacaoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getClassificacaoEditState,
     (state: ClassificacaoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getClassificacaoEditState,
     (state: ClassificacaoEditState) => state.errors
 );

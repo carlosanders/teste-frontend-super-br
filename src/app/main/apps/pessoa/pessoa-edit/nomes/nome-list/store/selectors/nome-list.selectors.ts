@@ -7,48 +7,48 @@ import {Nome} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Nome>(nomeSchema);
 
-export const getNomeListState = createSelector(
+export const getNomeListState: any = createSelector(
     getNomeListAppState,
     (state: NomeListAppState) => state.nomeList
 );
 
-export const getNomeListIds = createSelector(
+export const getNomeListIds: any = createSelector(
     getNomeListState,
     (state: NomeListState) => state.entitiesId
 );
 
-export const getNomeList = createSelector(
+export const getNomeList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getNomeListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getNomeListState,
     (state: NomeListState) => state.pagination
 );
 
-export const getNomeListLoaded = createSelector(
+export const getNomeListLoaded: any = createSelector(
     getNomeListState,
     (state: NomeListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getNomeListState,
     (state: NomeListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getNomeListState,
     (state: NomeListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getNomeListState,
     (state: NomeListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getNomeListState,
     (state: NomeListState) => state.deletingErrors
 );

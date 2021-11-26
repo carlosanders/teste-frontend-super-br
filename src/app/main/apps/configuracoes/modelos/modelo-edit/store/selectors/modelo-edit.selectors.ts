@@ -6,33 +6,33 @@ import {modelo as modeloSchema} from '@cdk/normalizr';
 
 const schemaModeloSelectors = createSchemaSelectors<Modelo>(modeloSchema);
 
-export const getModeloEditState = createSelector(
+export const getModeloEditState: any = createSelector(
     getModeloEditAppState,
     (state: ModeloEditAppState) => state.modelo
 );
 
-export const getModeloId = createSelector(
+export const getModeloId: any = createSelector(
     getModeloEditState,
     (state: ModeloEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getModelo = createSelector(
+export const getModelo: any = createSelector(
     schemaModeloSelectors.getNormalizedEntities,
     getModeloId,
     schemaModeloSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getModeloEditState,
     (state: ModeloEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getModeloEditState,
     (state: ModeloEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getModeloEditState,
     (state: ModeloEditState) => state.errors
 );

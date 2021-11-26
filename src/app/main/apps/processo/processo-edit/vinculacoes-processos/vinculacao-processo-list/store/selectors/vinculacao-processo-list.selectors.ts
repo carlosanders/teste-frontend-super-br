@@ -11,48 +11,48 @@ import {VinculacaoProcesso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoProcesso>(vinculacaoProcessoSchema);
 
-export const getVinculacaoProcessoListState = createSelector(
+export const getVinculacaoProcessoListState: any = createSelector(
     getVinculacaoProcessoListAppState,
     (state: VinculacaoProcessoListAppState) => state.vinculacaoProcessoList
 );
 
-export const getVinculacaoProcessoListIds = createSelector(
+export const getVinculacaoProcessoListIds: any = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.entitiesId
 );
 
-export const getVinculacaoProcessoList = createSelector(
+export const getVinculacaoProcessoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVinculacaoProcessoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.pagination
 );
 
-export const getVinculacaoProcessoListLoaded = createSelector(
+export const getVinculacaoProcessoListLoaded: any = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.deletingErrors
 );

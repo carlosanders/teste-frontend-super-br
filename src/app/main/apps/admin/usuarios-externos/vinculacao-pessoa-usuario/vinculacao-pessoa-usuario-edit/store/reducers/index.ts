@@ -12,7 +12,7 @@ export const getVinculacaoPessoaUsuarioEditAppState = createFeatureSelector<Vinc
     'admin-vinculacao-pessoa-usuario-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVinculacaoPessoaUsuarioEditAppState,
     (state: VinculacaoPessoaUsuarioEditAppState) => state
 );

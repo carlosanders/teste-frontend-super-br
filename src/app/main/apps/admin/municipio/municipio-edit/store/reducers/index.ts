@@ -9,7 +9,7 @@ export const getMunicipioEditAppState = createFeatureSelector<MunicipioEditAppSt
     'municipio-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getMunicipioEditAppState,
     (state: MunicipioEditAppState) => state
 );

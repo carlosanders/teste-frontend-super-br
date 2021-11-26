@@ -9,7 +9,7 @@ export const getEnderecoEditAppState = createFeatureSelector<EnderecoEditAppStat
     'endereco-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEnderecoEditAppState,
     (state: EnderecoEditAppState) => state
 );

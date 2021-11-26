@@ -14,7 +14,7 @@ export const getResponderAppState = createFeatureSelector<ResponderAppState>(
     'responder-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getResponderAppState,
     (state: ResponderAppState) => state
 );

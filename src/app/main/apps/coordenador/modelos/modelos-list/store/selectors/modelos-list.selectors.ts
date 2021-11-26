@@ -7,48 +7,48 @@ import {Modelo} from '@cdk/models/modelo.model';
 
 const schemaSelectors = createSchemaSelectors<Modelo>(modeloSchema);
 
-export const getModelosListState = createSelector(
+export const getModelosListState: any = createSelector(
     getModelosListAppState,
     (state: ModelosListAppState) => state.modelosList
 );
 
-export const getModelosListIds = createSelector(
+export const getModelosListIds: any = createSelector(
     getModelosListState,
     (state: ModelosListState) => state.entitiesId
 );
 
-export const getModelosList = createSelector(
+export const getModelosList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getModelosListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getModelosListState,
     (state: ModelosListState) => state.pagination
 );
 
-export const getModelosListLoaded = createSelector(
+export const getModelosListLoaded: any = createSelector(
     getModelosListState,
     (state: ModelosListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getModelosListState,
     (state: ModelosListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getModelosListState,
     (state: ModelosListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getModelosListState,
     (state: ModelosListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getModelosListState,
     (state: ModelosListState) => state.deletingErrors
 );

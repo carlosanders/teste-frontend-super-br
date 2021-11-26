@@ -9,7 +9,7 @@ export interface TransicaoArquivistaBlocoAppState {
 
 export const getTransicaoArquivistaBlocoAppState = createFeatureSelector<TransicaoArquivistaBlocoAppState>('arquivista-transicao-bloco');
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTransicaoArquivistaBlocoAppState,
     (state: TransicaoArquivistaBlocoAppState) => state
 );

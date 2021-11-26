@@ -12,7 +12,7 @@ export const getDocumentoEditAtividadeAppState = createFeatureSelector<Documento
     'documento-edit-atividade-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoEditAtividadeAppState,
     (state: DocumentoEditAtividadeAppState) => state
 );

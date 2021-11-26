@@ -11,28 +11,28 @@ import {
 
 const schemaSelectors = createSchemaSelectors<ModalidadeTransicao>(modalidadeTransicaoSchema);
 
-export const getModalidadeDesarquivamentoState = createSelector(
+export const getModalidadeDesarquivamentoState: any = createSelector(
     getRealizarDesarquivamentoAppState,
     (state: RealizarDesarquivamentoAppState) => state.modalidadeDesarquivamento
 );
 
-export const getModalidadeTransicaoId = createSelector(
+export const getModalidadeTransicaoId: any = createSelector(
     getModalidadeDesarquivamentoState,
     (state: ModalidadeDesarquivamentoState) => state.modalidadeTransicaoId
 );
 
-export const getModalidadeTransicao = createSelector(
+export const getModalidadeTransicao: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getModalidadeTransicaoId,
     schemaSelectors.entityProjector
 );
 
-export const getModalidadeTransicaoLoaded = createSelector(
+export const getModalidadeTransicaoLoaded: any = createSelector(
     getModalidadeDesarquivamentoState,
     (state: ModalidadeDesarquivamentoState) => state.loaded
 );
 
-export const getIsLoadingModalidadeTransicao = createSelector(
+export const getIsLoadingModalidadeTransicao: any = createSelector(
     getModalidadeDesarquivamentoState,
     (state: ModalidadeDesarquivamentoState) => state.loading
 );

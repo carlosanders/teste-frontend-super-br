@@ -315,7 +315,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         if (this.autoSave) {
             clearInterval(this.autoSave);
         }
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

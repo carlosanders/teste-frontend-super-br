@@ -9,7 +9,7 @@ export const getRootLocalizadoresListAppState = createFeatureSelector<RootLocali
     'admin-localizadores-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRootLocalizadoresListAppState,
     (state: RootLocalizadoresListAppState) => state
 );

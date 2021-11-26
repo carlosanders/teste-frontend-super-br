@@ -6,33 +6,33 @@ import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getProcessoState = createSelector(
+export const getProcessoState: any = createSelector(
     getTarefaCreateAppState,
     (state: TarefaCreateAppState) => state.processo
 );
 
-export const getProcessoId = createSelector(
+export const getProcessoId: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loaded ? state.loaded.value : null
 );
 
-export const getProcesso = createSelector(
+export const getProcesso: any = createSelector(
     schemaProcessoSelectors.getNormalizedEntities,
     getProcessoId,
     schemaProcessoSelectors.entityProjector
 );
 
-export const getProcessoLoaded = createSelector(
+export const getProcessoLoaded: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loaded
 );
 
-export const getProcessoIsLoading = createSelector(
+export const getProcessoIsLoading: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loading
 );
 
-export const getVisibilidadeProcesso = createSelector(
+export const getVisibilidadeProcesso: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.restricaoProcesso
 );

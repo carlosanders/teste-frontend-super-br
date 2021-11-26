@@ -1,17 +1,17 @@
 import {createSelector} from '@ngrx/store';
 import {EtiquetaEditAppState, EtiquetaEditState, getEtiquetaEditAppState} from '../reducers';
 
-export const getEtiquetaEditState = createSelector(
+export const getEtiquetaEditState: any = createSelector(
     getEtiquetaEditAppState,
     (state: EtiquetaEditAppState) => state.etiqueta
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getEtiquetaEditState,
     (state: EtiquetaEditState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getEtiquetaEditState,
     (state: EtiquetaEditState) => state.errors
 );

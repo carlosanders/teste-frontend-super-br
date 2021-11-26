@@ -9,7 +9,7 @@ export const getNomeEditAppState = createFeatureSelector<NomeEditAppState>(
     'nome-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getNomeEditAppState,
     (state: NomeEditAppState) => state
 );

@@ -10,7 +10,7 @@ export const getAnexarCopiaAppState = createFeatureSelector<AnexarCopiaAppState>
     'anexar-copia-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAnexarCopiaAppState,
     (state: AnexarCopiaAppState) => state
 );

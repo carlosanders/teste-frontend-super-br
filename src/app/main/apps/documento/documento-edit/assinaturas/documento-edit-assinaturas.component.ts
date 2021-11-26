@@ -124,7 +124,7 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadAssinaturas());
     }

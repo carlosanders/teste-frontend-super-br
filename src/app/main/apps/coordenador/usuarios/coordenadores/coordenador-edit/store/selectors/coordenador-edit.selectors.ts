@@ -10,43 +10,43 @@ import {Usuario} from '@cdk/models';
 const schemaCoordenadorSelectors = createSchemaSelectors<Coordenador>(coordenadorSchema);
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(schemaUsuario);
 
-export const getCoordenadorEditState = createSelector(
+export const getCoordenadorEditState: any = createSelector(
     getCoordenadorEditAppState,
     (state: CoordenadorEditAppState) => state.coordenador
 );
 
-export const getCoordenadorId = createSelector(
+export const getCoordenadorId: any = createSelector(
     getCoordenadorEditState,
     (state: CoordenadorEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getCoordenador = createSelector(
+export const getCoordenador: any = createSelector(
     schemaCoordenadorSelectors.getNormalizedEntities,
     getCoordenadorId,
     schemaCoordenadorSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getCoordenadorEditState,
     (state: CoordenadorEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getCoordenadorEditState,
     (state: CoordenadorEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getCoordenadorEditState,
     (state: CoordenadorEditState) => state.errors
 );
 
-export const getUsuarioId = createSelector(
+export const getUsuarioId: any = createSelector(
     getCoordenadoresState,
     (state: CoordenadoresState) => (state.loaded && state.loaded.id === 'usuarioHandle') ? state.loaded.value : null
 );
 
-export const getUsuario = createSelector(
+export const getUsuario: any = createSelector(
     schemaUsuarioSelectors.getNormalizedEntities,
     getUsuarioId,
     schemaUsuarioSelectors.entityProjector

@@ -6,33 +6,33 @@ import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';
 
 const schemaEspecieTarefaSelectors = createSchemaSelectors<EspecieTarefa>(especieTarefaSchema);
 
-export const getEspecieTarefaEditState = createSelector(
+export const getEspecieTarefaEditState: any = createSelector(
     getEspecieTarefaEditAppState,
     (state: EspecieTarefaEditAppState) => state.especieTarefa
 );
 
-export const getEspecieTarefaId = createSelector(
+export const getEspecieTarefaId: any = createSelector(
     getEspecieTarefaEditState,
     (state: EspecieTarefaEditState) => state.entityId
 );
 
-export const getEspecieTarefa = createSelector(
+export const getEspecieTarefa: any = createSelector(
     schemaEspecieTarefaSelectors.getNormalizedEntities,
     getEspecieTarefaId,
     schemaEspecieTarefaSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getEspecieTarefaEditState,
     (state: EspecieTarefaEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getEspecieTarefaEditState,
     (state: EspecieTarefaEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getEspecieTarefaEditState,
     (state: EspecieTarefaEditState) => state.errors
 );

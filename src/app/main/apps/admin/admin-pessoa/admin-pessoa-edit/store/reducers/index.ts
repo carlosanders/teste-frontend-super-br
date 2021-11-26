@@ -9,7 +9,7 @@ export const getPessoaEditAppState = createFeatureSelector<PessoaEditAppState>(
     'admin-pessoa-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getPessoaEditAppState,
     (state: PessoaEditAppState) => state
 );

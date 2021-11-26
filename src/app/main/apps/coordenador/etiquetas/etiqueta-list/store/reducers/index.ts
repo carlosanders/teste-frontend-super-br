@@ -10,7 +10,7 @@ export const getEtiquetaListAppState = createFeatureSelector<EtiquetaListAppStat
     'etiqueta-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEtiquetaListAppState,
     (state: EtiquetaListAppState) => state
 );

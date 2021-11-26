@@ -10,7 +10,7 @@ export const getDocumentoAvulsoEditAnexosAppState = createFeatureSelector<Docume
     'documento-avulso-edit-anexos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAvulsoEditAnexosAppState,
     (state: DocumentoAvulsoEditAnexosAppState) => state
 );

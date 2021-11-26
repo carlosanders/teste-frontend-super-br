@@ -220,7 +220,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this.doToggleMaximizado(false);
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

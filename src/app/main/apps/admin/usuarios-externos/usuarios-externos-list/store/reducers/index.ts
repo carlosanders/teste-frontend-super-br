@@ -9,7 +9,7 @@ export const getUsuariosExternosListAppState = createFeatureSelector<UsuariosExt
     'usuarios-externos-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getUsuariosExternosListAppState,
     (state: UsuariosExternosListAppState) => state
 );

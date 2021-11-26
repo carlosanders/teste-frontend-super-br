@@ -11,54 +11,54 @@ const schemaLotacaoSelectors = createSchemaSelectors<Lotacao>(lotacaoSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(schemaSetor);
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(schemaUsuario);
 
-export const getRootLotacaoEditState = createSelector(
+export const getRootLotacaoEditState: any = createSelector(
     getRootLotacaoEditAppState,
     (state: RootLotacaoEditAppState) => state.lotacao
 );
 
-export const getLotacaoId = createSelector(
+export const getLotacaoId: any = createSelector(
     getRootLotacaoEditState,
     (state: RootLotacaoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getLotacao = createSelector(
+export const getLotacao: any = createSelector(
     schemaLotacaoSelectors.getNormalizedEntities,
     getLotacaoId,
     schemaLotacaoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRootLotacaoEditState,
     (state: RootLotacaoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRootLotacaoEditState,
     (state: RootLotacaoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRootLotacaoEditState,
     (state: RootLotacaoEditState) => state.errors
 );
 
-export const getSetorId = createSelector(
+export const getSetorId: any = createSelector(
     getRootLotacoesState,
     (state: RootLotacoesState) => (state.loadedSetor && state.loadedSetor.id === 'setorHandle') ? state.loadedSetor.value : null
 );
 
-export const getSetor = createSelector(
+export const getSetor: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getUsuarioId = createSelector(
+export const getUsuarioId: any = createSelector(
     getRootLotacoesState,
     (state: RootLotacoesState) => (state.loaded && state.loaded.id === 'usuarioHandle') ? state.loaded.value : null
 );
 
-export const getUsuario = createSelector(
+export const getUsuario: any = createSelector(
     schemaUsuarioSelectors.getNormalizedEntities,
     getUsuarioId,
     schemaUsuarioSelectors.entityProjector

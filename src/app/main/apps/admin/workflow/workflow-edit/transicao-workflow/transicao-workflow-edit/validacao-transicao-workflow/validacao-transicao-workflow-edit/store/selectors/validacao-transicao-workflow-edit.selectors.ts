@@ -10,33 +10,33 @@ import {validacaoTransicaoWorkflow as validacaoSchema} from '@cdk/normalizr';
 
 const schemaValidacaoSelectors = createSchemaSelectors<ValidacaoTransicaoWorkflow>(validacaoSchema);
 
-export const getValidacaoEditState = createSelector(
+export const getValidacaoEditState: any = createSelector(
     getValidacaoEditAppState,
     (state: ValidacaoTransicaoWorkflowEditAppState) => state.validacaoTransicaoWorkflow
 );
 
-export const getValidacaoId = createSelector(
+export const getValidacaoId: any = createSelector(
     getValidacaoEditState,
     (state: ValidacaoTransicaoWorkflowEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getValidacao = createSelector(
+export const getValidacao: any = createSelector(
     schemaValidacaoSelectors.getNormalizedEntities,
     getValidacaoId,
     schemaValidacaoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getValidacaoEditState,
     (state: ValidacaoTransicaoWorkflowEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getValidacaoEditState,
     (state: ValidacaoTransicaoWorkflowEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getValidacaoEditState,
     (state: ValidacaoTransicaoWorkflowEditState) => state.errors
 );

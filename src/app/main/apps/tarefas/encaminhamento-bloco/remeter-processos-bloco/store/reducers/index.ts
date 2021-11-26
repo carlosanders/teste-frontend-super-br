@@ -10,7 +10,7 @@ export const getRemessaBlocoAppState = createFeatureSelector<RemessaBlocoAppStat
     'remessa-processos-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRemessaBlocoAppState,
     (state: RemessaBlocoAppState) => state
 );

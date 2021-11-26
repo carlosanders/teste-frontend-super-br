@@ -161,7 +161,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         content.classList.remove('full-screen');
 
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
 
         this._store.dispatch(new UnloadComponenteDigital());

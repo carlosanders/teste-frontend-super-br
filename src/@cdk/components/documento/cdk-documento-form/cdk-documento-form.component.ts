@@ -140,7 +140,7 @@ export class CdkDocumentoFormComponent implements AfterViewInit, OnChanges, OnDe
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

@@ -10,7 +10,7 @@ export const getLotacaoEditAppState = createFeatureSelector<LotacaoEditAppState>
     'coordenador-lotacao-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getLotacaoEditAppState,
     (state: LotacaoEditAppState) => state
 );

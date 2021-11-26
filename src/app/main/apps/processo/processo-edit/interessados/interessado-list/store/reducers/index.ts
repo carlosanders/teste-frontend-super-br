@@ -10,7 +10,7 @@ export const getInteressadoListAppState = createFeatureSelector<InteressadoListA
     'interessado-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getInteressadoListAppState,
     (state: InteressadoListAppState) => state
 );

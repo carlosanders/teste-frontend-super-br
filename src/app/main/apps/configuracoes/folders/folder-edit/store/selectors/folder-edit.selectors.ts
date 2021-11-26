@@ -6,33 +6,33 @@ import {folder as folderSchema} from '@cdk/normalizr';
 
 const schemaFolderSelectors = createSchemaSelectors<Folder>(folderSchema);
 
-export const getFolderEditState = createSelector(
+export const getFolderEditState: any = createSelector(
     getFolderEditAppState,
     (state: FolderEditAppState) => state.folder
 );
 
-export const getFolderId = createSelector(
+export const getFolderId: any = createSelector(
     getFolderEditState,
     (state: FolderEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getFolder = createSelector(
+export const getFolder: any = createSelector(
     schemaFolderSelectors.getNormalizedEntities,
     getFolderId,
     schemaFolderSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getFolderEditState,
     (state: FolderEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getFolderEditState,
     (state: FolderEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getFolderEditState,
     (state: FolderEditState) => state.errors
 );

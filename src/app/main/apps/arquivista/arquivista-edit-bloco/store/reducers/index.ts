@@ -7,7 +7,7 @@ export interface ArquivistaEditBlocoAppState {
 
 export const getArquivistaEditBlocoAppState = createFeatureSelector<ArquivistaEditBlocoAppState>('arquivista-edit-bloco');
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getArquivistaEditBlocoAppState,
     (state: ArquivistaEditBlocoAppState) => state
 );

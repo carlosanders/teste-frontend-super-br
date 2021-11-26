@@ -5,17 +5,17 @@ import {
     VinculacaoEtiquetaCreateBlocoState
 } from '../reducers';
 
-export const getVinculacaoEtiquetaCreateBlocoState = createSelector(
+export const getVinculacaoEtiquetaCreateBlocoState: any = createSelector(
     getVinculacaoEtiquetaCreateBlocoAppState,
     (state: VinculacaoEtiquetaCreateBlocoAppState) => state.vinculacaoEtiquetaCreateBloco
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getVinculacaoEtiquetaCreateBlocoState,
     (state: VinculacaoEtiquetaCreateBlocoState) => state.savingProcessosId.length > 0
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getVinculacaoEtiquetaCreateBlocoState,
     (state: VinculacaoEtiquetaCreateBlocoState) => state.errors
 );

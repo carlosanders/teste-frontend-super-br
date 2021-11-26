@@ -6,22 +6,22 @@ import {AnexarCopiaAppState, AnexarCopiaState, getAnexarCopiaAppState} from '../
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getAnexarCopiaState = createSelector(
+export const getAnexarCopiaState: any = createSelector(
     getAnexarCopiaAppState,
     (state: AnexarCopiaAppState) => state.anexarCopia
 );
 
-export const getProcessoId = createSelector(
+export const getProcessoId: any = createSelector(
     getAnexarCopiaState,
     (state: AnexarCopiaState) => state.processoId
 );
 
-export const getProcessoLoaded = createSelector(
+export const getProcessoLoaded: any = createSelector(
     getAnexarCopiaState,
     (state: AnexarCopiaState) => state.loaded
 );
 
-export const getProcesso = createSelector(
+export const getProcesso: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getProcessoId,
     schemaSelectors.entityProjector

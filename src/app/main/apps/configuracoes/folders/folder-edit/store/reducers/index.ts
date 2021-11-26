@@ -10,7 +10,7 @@ export const getFolderEditAppState = createFeatureSelector<FolderEditAppState>(
     'folder-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getFolderEditAppState,
     (state: FolderEditAppState) => state
 );

@@ -10,33 +10,33 @@ import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normal
 
 const schemaDocumentoIdentificadorelectors = createSchemaSelectors<DocumentoIdentificador>(documentoIdentificadorchema);
 
-export const getDocumentoIdentificadorEditState = createSelector(
+export const getDocumentoIdentificadorEditState: any = createSelector(
     getDocumentoIdentificadorEditAppState,
     (state: DocumentoIdentificadorEditAppState) => state.documentoIdentificador
 );
 
-export const getDocumentoIdentificadorId = createSelector(
+export const getDocumentoIdentificadorId: any = createSelector(
     getDocumentoIdentificadorEditState,
     (state: DocumentoIdentificadorEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getDocumentoIdentificador = createSelector(
+export const getDocumentoIdentificador: any = createSelector(
     schemaDocumentoIdentificadorelectors.getNormalizedEntities,
     getDocumentoIdentificadorId,
     schemaDocumentoIdentificadorelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getDocumentoIdentificadorEditState,
     (state: DocumentoIdentificadorEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getDocumentoIdentificadorEditState,
     (state: DocumentoIdentificadorEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getDocumentoIdentificadorEditState,
     (state: DocumentoIdentificadorEditState) => state.errors
 );

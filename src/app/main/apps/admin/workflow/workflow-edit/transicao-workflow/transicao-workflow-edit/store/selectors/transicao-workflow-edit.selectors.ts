@@ -6,23 +6,23 @@ import {TransicaoWorkflow} from '@cdk/models';
 
 const schemaTransicaoWorkflowSelectors = createSchemaSelectors<TransicaoWorkflow>(transicaoWorkflowSchema);
 
-export const getTransicaoWorkflowEditState = createSelector(
+export const getTransicaoWorkflowEditState: any = createSelector(
     getTransicaoWorkflowEditAppState,
     (state: TransicaoWorkflowEditAppState) => state.transicaoWorkflow
 );
 
-export const getWorkflowId = createSelector(
+export const getWorkflowId: any = createSelector(
     getTransicaoWorkflowEditState,
     (state: TransicaoWorkflowEditState) => state.entityId
 );
 
-export const getTransicaoWorkflow = createSelector(
+export const getTransicaoWorkflow: any = createSelector(
     schemaTransicaoWorkflowSelectors.getNormalizedEntities,
     getWorkflowId,
     schemaTransicaoWorkflowSelectors.entityProjector
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTransicaoWorkflowEditState,
     (state: TransicaoWorkflowEditState) => state.loaded
 );

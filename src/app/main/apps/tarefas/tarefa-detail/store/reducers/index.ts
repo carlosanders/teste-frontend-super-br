@@ -13,7 +13,7 @@ export const getTarefaDetailAppState = createFeatureSelector<TarefaDetailAppStat
     'tarefa-detail-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTarefaDetailAppState,
     (state: TarefaDetailAppState) => state
 );

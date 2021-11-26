@@ -7,154 +7,154 @@ import {Tarefa} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 
-export const getTarefasState = createSelector(
+export const getTarefasState: any = createSelector(
     getTarefasAppState,
     (state: TarefasAppState) => state.tarefas
 );
 
-export const getSelectedTarefaIds = createSelector(
+export const getSelectedTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.selectedTarefaIds
 );
 
-export const getMaximizado = createSelector(
+export const getMaximizado: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.maximizado
 );
 
-export const getTarefasIds = createSelector(
+export const getTarefasIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.entitiesId
 );
 
-export const getTarefas = createSelector(
+export const getTarefas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTarefasIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getSelectedTarefas = createSelector(
+export const getSelectedTarefas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedTarefaIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getDraggedTarefasIds = createSelector(
+export const getDraggedTarefasIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.draggingIds
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.pagination
 );
 
-export const getTarefasLoaded = createSelector(
+export const getTarefasLoaded: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loading
 );
 
-export const getError = createSelector(
+export const getError: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.error
 );
 
-export const getErrorDelete = createSelector(
+export const getErrorDelete: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.errorDelete
 );
 
-export const getErrorDistribuir = createSelector(
+export const getErrorDistribuir: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.errorDistribuir
 );
 
-export const getDeletingTarefaIds = createSelector(
+export const getDeletingTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletingTarefaIds
 );
 
-export const getUnDeletingTarefaIds = createSelector(
+export const getUnDeletingTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.undeletingTarefaIds
 );
 
-export const getChangingFolderTarefaIds = createSelector(
+export const getChangingFolderTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.changingFolderTarefaIds
 );
 
-export const getDeletedTarefaIds = createSelector(
+export const getDeletedTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletedTarefaIds
 );
 
-export const getBufferingDelete = createSelector(
+export const getBufferingDelete: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.bufferingDelete
 );
 
-export const getBufferingCiencia = createSelector(
+export const getBufferingCiencia: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.bufferingCiencia
 );
 
-export const getBufferingRedistribuir = createSelector(
+export const getBufferingRedistribuir: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.bufferingRedistribuir
 );
 
-export const getIsAssuntoLoading = createSelector(
+export const getIsAssuntoLoading: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loadingAssuntosProcessosId
 );
 
-export const getIsInteressadosLoading = createSelector(
+export const getIsInteressadosLoading: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loadingInteressadosProcessosId
 );
 
-export const getTotalInteressadosProcessosId = createSelector(
+export const getTotalInteressadosProcessosId: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.totalInteressadosProcessosId
 );
 
-export const getCienciaTarefaIds = createSelector(
+export const getCienciaTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.cienciaTarefaIds
 );
 
-export const getRedistribuindoTarefaIds = createSelector(
+export const getRedistribuindoTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.redistribuindoTarefaIds
 );
 
-export const getIsTogglingUrgenteIds = createSelector(
+export const getIsTogglingUrgenteIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.togglingUrgenteIds
 );
 
-export const getIsClearForm = createSelector(
+export const getIsClearForm: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.clearForm
 );
 
-export const getBufferingDistribuir = createSelector(
+export const getBufferingDistribuir: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.bufferingDistribuir
 );
 
-export const getDistribuindoTarefaIds = createSelector(
+export const getDistribuindoTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.distribuindoTarefaIds
 );
 
-export const getIsSavingObservacao = createSelector(
+export const getIsSavingObservacao: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.savingObservacao
 );

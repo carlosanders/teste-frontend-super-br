@@ -21,54 +21,54 @@ const schemaVinculacaoRepositorioSelectors = createSchemaSelectors<VinculacaoRep
 const schemaRepositorioSelectors = createSchemaSelectors<Repositorio>(schemaRepositorio);
 const schemaOrgaoCentralSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(schemaOrgaoCentral);
 
-export const getRepositoriosEspecieSetorEditState = createSelector(
+export const getRepositoriosEspecieSetorEditState: any = createSelector(
     getRepositoriosEspecieSetorEditAppState,
     (state: RepositoriosEspecieSetorEditAppState) => state.vinculacaoRepositorio
 );
 
-export const getVinculacaoRepositorioId = createSelector(
+export const getVinculacaoRepositorioId: any = createSelector(
     getRepositoriosEspecieSetorEditState,
     (state: RepositoriosEspecieSetorEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getVinculacaoRepositorio = createSelector(
+export const getVinculacaoRepositorio: any = createSelector(
     schemaVinculacaoRepositorioSelectors.getNormalizedEntities,
     getVinculacaoRepositorioId,
     schemaVinculacaoRepositorioSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRepositoriosEspecieSetorEditState,
     (state: RepositoriosEspecieSetorEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRepositoriosEspecieSetorEditState,
     (state: RepositoriosEspecieSetorEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRepositoriosEspecieSetorEditState,
     (state: RepositoriosEspecieSetorEditState) => state.errors
 );
 
-export const getRepositorioId = createSelector(
+export const getRepositorioId: any = createSelector(
     getRepositoriosEspecieSetorState,
     (state: RepositoriosEspecieSetorState) => (state.loaded && state.loaded.id === 'repositorioHandle') ? state.loaded.value : null
 );
 
-export const getRepositorio = createSelector(
+export const getRepositorio: any = createSelector(
     schemaRepositorioSelectors.getNormalizedEntities,
     getRepositorioId,
     schemaRepositorioSelectors.entityProjector
 );
 
-export const getModalidadeOrgaoCentralId = createSelector(
+export const getModalidadeOrgaoCentralId: any = createSelector(
     getCoordenadorState,
     (state: CoordenadorState) => state.loaded && state.orgaoId ? state.orgaoId : null
 );
 
-export const getModalidadeOrgaoCentral = createSelector(
+export const getModalidadeOrgaoCentral: any = createSelector(
     schemaOrgaoCentralSelectors.getNormalizedEntities,
     getModalidadeOrgaoCentralId,
     schemaOrgaoCentralSelectors.entityProjector

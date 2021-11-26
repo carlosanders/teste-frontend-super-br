@@ -10,7 +10,7 @@ export const getRegraEtiquetaEditAppState = createFeatureSelector<RegraEtiquetaE
     'configuracoes-regra-etiqueta-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRegraEtiquetaEditAppState,
     (state: RegraEtiquetaEditAppState) => state
 );

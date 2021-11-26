@@ -6,23 +6,23 @@ import {Folder} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Folder>(folderSchema);
 
-export const getFoldersState = createSelector(
+export const getFoldersState: any = createSelector(
     getRelatoriosAppState,
     (state: RelatoriosAppState) => state.folders
 );
 
-export const getFoldersIds = createSelector(
+export const getFoldersIds: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.entitiesId
 );
 
-export const getFolders = createSelector(
+export const getFolders: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getFoldersIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getFoldersLoaded = createSelector(
+export const getFoldersLoaded: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.loaded
 );

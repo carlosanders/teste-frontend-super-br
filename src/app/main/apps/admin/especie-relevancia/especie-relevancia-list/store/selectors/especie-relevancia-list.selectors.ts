@@ -7,38 +7,38 @@ import {EspecieRelevancia} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<EspecieRelevancia>(especieRelevanciaSchema);
 
-export const getEspecieRelevanciaListState = createSelector(
+export const getEspecieRelevanciaListState: any = createSelector(
     getEspecieRelevanciaListAppState,
     (state: EspecieRelevanciaListAppState) => state.especieRelevanciaList
 );
 
-export const getEspecieRelevanciaListIds = createSelector(
+export const getEspecieRelevanciaListIds: any = createSelector(
     getEspecieRelevanciaListState,
     (state: EspecieRelevanciaListState) => state.entitiesId
 );
 
-export const getEspecieRelevanciaList = createSelector(
+export const getEspecieRelevanciaList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getEspecieRelevanciaListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getEspecieRelevanciaListState,
     (state: EspecieRelevanciaListState) => state.pagination
 );
 
-export const getEspecieRelevanciaListLoaded = createSelector(
+export const getEspecieRelevanciaListLoaded: any = createSelector(
     getEspecieRelevanciaListState,
     (state: EspecieRelevanciaListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getEspecieRelevanciaListState,
     (state: EspecieRelevanciaListState) => state.loading
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getEspecieRelevanciaListState,
     (state: EspecieRelevanciaListState) => state.deletingErrors
 );

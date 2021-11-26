@@ -11,43 +11,43 @@ import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
 
 const schemaSelectors = createSchemaSelectors<AcaoTransicaoWorkflow>(acaoSchema);
 
-export const getAcaoTransicaoWorkflowListState = createSelector(
+export const getAcaoTransicaoWorkflowListState: any = createSelector(
     getAcaoTransicaoWorkflowListAppState,
     (state: AcaoTransicaoWorkflowListAppState) => state.acaoTransicaoWorkflowList
 );
 
-export const getAcaoListIds = createSelector(
+export const getAcaoListIds: any = createSelector(
     getAcaoTransicaoWorkflowListState,
     (state: AcaoTransicaoWorkflowListState) => state.entitiesId
 );
 
-export const getAcaoList = createSelector(
+export const getAcaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getAcaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getAcaoListLoaded = createSelector(
+export const getAcaoListLoaded: any = createSelector(
     getAcaoTransicaoWorkflowListState,
     (state: AcaoTransicaoWorkflowListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getAcaoTransicaoWorkflowListState,
     (state: AcaoTransicaoWorkflowListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getAcaoTransicaoWorkflowListState,
     (state: AcaoTransicaoWorkflowListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getAcaoTransicaoWorkflowListState,
     (state: AcaoTransicaoWorkflowListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getAcaoTransicaoWorkflowListState,
     (state: AcaoTransicaoWorkflowListState) => state.deletingErrors
 );

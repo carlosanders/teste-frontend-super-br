@@ -132,7 +132,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'atividade' && operacao.lote === this.loteAtividades);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'atividade' && operacao.lote === this.loteAtividades);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -290,7 +290,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadDocumentos());
     }

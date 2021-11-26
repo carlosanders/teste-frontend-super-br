@@ -10,7 +10,7 @@ export const getTransicaoListAppState = createFeatureSelector<TransicaoListAppSt
     'transicao-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTransicaoListAppState,
     (state: TransicaoListAppState) => state
 );

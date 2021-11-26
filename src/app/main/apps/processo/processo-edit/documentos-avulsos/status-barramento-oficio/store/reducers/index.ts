@@ -10,7 +10,7 @@ export const getStatusBarramentoAppState = createFeatureSelector<StatusBarrament
     'status-barramento-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getStatusBarramentoAppState,
     (state: StatusBarramentoAppState) => state
 );

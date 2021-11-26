@@ -6,33 +6,33 @@ import {setor as setorSchema} from '@cdk/normalizr';
 
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getUnidadeEditState = createSelector(
+export const getUnidadeEditState: any = createSelector(
     getUnidadeEditAppState,
     (state: UnidadeEditAppState) => state.unidade
 );
 
-export const getUnidadeId = createSelector(
+export const getUnidadeId: any = createSelector(
     getUnidadeEditState,
     (state: UnidadeEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getUnidade = createSelector(
+export const getUnidade: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getUnidadeEditState,
     (state: UnidadeEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getUnidadeEditState,
     (state: UnidadeEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getUnidadeEditState,
     (state: UnidadeEditState) => state.errors
 );

@@ -10,7 +10,7 @@ export const getRelevanciaEditAppState = createFeatureSelector<RelevanciaEditApp
     'relevancia-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRelevanciaEditAppState,
     (state: RelevanciaEditAppState) => state
 );

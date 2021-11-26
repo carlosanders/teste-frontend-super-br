@@ -18,7 +18,7 @@ export const getProcessoViewAppState = createFeatureSelector<ProcessoViewAppStat
     'processo-view-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessoViewAppState,
     (state: ProcessoViewAppState) => state
 );

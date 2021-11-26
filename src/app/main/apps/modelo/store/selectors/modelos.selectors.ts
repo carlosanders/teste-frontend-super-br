@@ -9,54 +9,54 @@ const schemaModeloSelectors = createSchemaSelectors<Modelo>(schemaModelo);
 const schemaProcessoSelectors = createSchemaSelectors<Modelo>(schemaProcesso);
 const schemaTarefaSelectors = createSchemaSelectors<Modelo>(schemaTarefa);
 
-export const getModelosState = createSelector(
+export const getModelosState: any = createSelector(
     getModelosAppState,
     (state: ModelosAppState) => state.modelos
 );
 
-export const getModelosIds = createSelector(
+export const getModelosIds: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.entitiesId
 );
 
-export const getModelos = createSelector(
+export const getModelos: any = createSelector(
     schemaModeloSelectors.getNormalizedEntities,
     getModelosIds,
     schemaModeloSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.pagination
 );
 
-export const getModelosLoaded = createSelector(
+export const getModelosLoaded: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.loading
 );
 
-export const getProcessoId = createSelector(
+export const getProcessoId: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.loaded && (state.loaded.id === 'processoHandle') ? state.loaded.value : null
 );
 
-export const getTarefaId = createSelector(
+export const getTarefaId: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.loaded && (state.loaded.id === 'tarefaHandle') ? state.loaded.value : null
 );
 
-export const getProcesso = createSelector(
+export const getProcesso: any = createSelector(
     schemaProcessoSelectors.getNormalizedEntities,
     getProcessoId,
     schemaProcessoSelectors.entityProjector
 );
 
-export const getTarefa = createSelector(
+export const getTarefa: any = createSelector(
     schemaTarefaSelectors.getNormalizedEntities,
     getTarefaId,
     schemaTarefaSelectors.entityProjector

@@ -10,7 +10,7 @@ export const getEtiquetaEditAppState = createFeatureSelector<EtiquetaEditAppStat
     'etiqueta-dados-basicos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEtiquetaEditAppState,
     (state: EtiquetaEditAppState) => state
 );

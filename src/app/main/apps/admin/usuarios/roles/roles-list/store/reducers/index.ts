@@ -9,7 +9,7 @@ export const getRolesListAppState = createFeatureSelector<RolesListAppState>(
     'admin-roles-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRolesListAppState,
     (state: RolesListAppState) => state
 );

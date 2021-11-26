@@ -6,27 +6,27 @@ import {
     TransicaoArquivistaBlocoState
 } from '../reducers';
 
-export const getTransicaoArquivistaBlocoState = createSelector(
+export const getTransicaoArquivistaBlocoState: any = createSelector(
     getTransicaoArquivistaBlocoAppState,
     (state: TransicaoArquivistaBlocoAppState) => state.transicaoArquivistaBloco
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTransicaoArquivistaBlocoState,
     (state: TransicaoArquivistaBlocoState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTransicaoArquivistaBlocoState,
     (state: TransicaoArquivistaBlocoState) => state.errors
 );
 
-export const getBufferingTransicao = createSelector(
+export const getBufferingTransicao: any = createSelector(
     getTransicaoArquivistaBlocoState,
     (state: TransicaoArquivistaBlocoState) => state.bufferingTransicao
 );
 
-export const getTransicaoProcessoIds = createSelector(
+export const getTransicaoProcessoIds: any = createSelector(
     getTransicaoArquivistaBlocoState,
     (state: TransicaoArquivistaBlocoState) => state.transicaoProcessoIds
 );

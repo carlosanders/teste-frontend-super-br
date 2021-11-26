@@ -6,33 +6,33 @@ import {grupoContato as grupoContatoSchema} from '@cdk/normalizr';
 
 const schemaGrupoContatoSelectors = createSchemaSelectors<GrupoContato>(grupoContatoSchema);
 
-export const getGrupoContatoEditState = createSelector(
+export const getGrupoContatoEditState: any = createSelector(
     getGrupoContatoEditAppState,
     (state: GrupoContatoEditAppState) => state.grupoContato
 );
 
-export const getGrupoContatoId = createSelector(
+export const getGrupoContatoId: any = createSelector(
     getGrupoContatoEditState,
     (state: GrupoContatoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getGrupoContato = createSelector(
+export const getGrupoContato: any = createSelector(
     schemaGrupoContatoSelectors.getNormalizedEntities,
     getGrupoContatoId,
     schemaGrupoContatoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getGrupoContatoEditState,
     (state: GrupoContatoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getGrupoContatoEditState,
     (state: GrupoContatoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getGrupoContatoEditState,
     (state: GrupoContatoEditState) => state.errors
 );

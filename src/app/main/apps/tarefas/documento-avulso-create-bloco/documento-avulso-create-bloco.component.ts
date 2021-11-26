@@ -136,8 +136,8 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'documento avulso' && operacao.lote === this.lote);
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'documento avulso' && operacao.lote === this.lote && operacao.status === 0);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'documento avulso' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'documento avulso' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -158,7 +158,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

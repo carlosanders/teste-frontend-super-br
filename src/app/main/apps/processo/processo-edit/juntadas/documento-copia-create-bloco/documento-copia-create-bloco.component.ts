@@ -78,8 +78,8 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote);
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'cópia da juntada' && operacao.lote === this.lote && operacao.status === 0);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'cópia da juntada' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'cópia da juntada' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -95,7 +95,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

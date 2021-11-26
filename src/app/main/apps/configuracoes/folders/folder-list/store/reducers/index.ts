@@ -10,7 +10,7 @@ export const getFolderListAppState = createFeatureSelector<FolderListAppState>(
     'folder-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getFolderListAppState,
     (state: FolderListAppState) => state
 );

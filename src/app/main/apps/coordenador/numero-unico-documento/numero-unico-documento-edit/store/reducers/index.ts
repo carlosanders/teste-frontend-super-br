@@ -10,7 +10,7 @@ export const getNumeroUnicoDocumentoEditAppState = createFeatureSelector<NumeroU
     'numero-unico-documento-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getNumeroUnicoDocumentoEditAppState,
     (state: NumeroUnicoDocumentoEditAppState) => state
 );

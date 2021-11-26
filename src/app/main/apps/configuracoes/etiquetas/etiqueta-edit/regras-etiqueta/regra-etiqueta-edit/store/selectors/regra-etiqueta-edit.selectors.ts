@@ -6,33 +6,33 @@ import {regraEtiqueta as regraEtiquetaSchema} from '@cdk/normalizr';
 
 const schemaRegraEtiquetaSelectors = createSchemaSelectors<RegraEtiqueta>(regraEtiquetaSchema);
 
-export const getRegraEtiquetaEditState = createSelector(
+export const getRegraEtiquetaEditState: any = createSelector(
     getRegraEtiquetaEditAppState,
     (state: RegraEtiquetaEditAppState) => state.regraEtiqueta
 );
 
-export const getRegraEtiquetaId = createSelector(
+export const getRegraEtiquetaId: any = createSelector(
     getRegraEtiquetaEditState,
     (state: RegraEtiquetaEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getRegraEtiqueta = createSelector(
+export const getRegraEtiqueta: any = createSelector(
     schemaRegraEtiquetaSelectors.getNormalizedEntities,
     getRegraEtiquetaId,
     schemaRegraEtiquetaSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRegraEtiquetaEditState,
     (state: RegraEtiquetaEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRegraEtiquetaEditState,
     (state: RegraEtiquetaEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRegraEtiquetaEditState,
     (state: RegraEtiquetaEditState) => state.errors
 );

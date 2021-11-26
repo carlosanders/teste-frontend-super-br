@@ -6,33 +6,33 @@ import {acaoTransicaoWorkflow as acaoSchema} from '@cdk/normalizr';
 
 const schemaAcaoSelectors = createSchemaSelectors<AcaoTransicaoWorkflow>(acaoSchema);
 
-export const getAcaoEditState = createSelector(
+export const getAcaoEditState: any = createSelector(
     getAcaoEditAppState,
     (state: AcaoTransicaoWorkflowEditAppState) => state.acaoTransicaoWorkflow
 );
 
-export const getAcaoId = createSelector(
+export const getAcaoId: any = createSelector(
     getAcaoEditState,
     (state: AcaoTransicaoWorkflowEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getAcao = createSelector(
+export const getAcao: any = createSelector(
     schemaAcaoSelectors.getNormalizedEntities,
     getAcaoId,
     schemaAcaoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getAcaoEditState,
     (state: AcaoTransicaoWorkflowEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getAcaoEditState,
     (state: AcaoTransicaoWorkflowEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getAcaoEditState,
     (state: AcaoTransicaoWorkflowEditState) => state.errors
 );

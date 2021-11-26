@@ -10,7 +10,7 @@ export const getCompartilhamentoListAppState = createFeatureSelector<Compartilha
     'compartilhamento-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCompartilhamentoListAppState,
     (state: CompartilhamentoListAppState) => state
 );

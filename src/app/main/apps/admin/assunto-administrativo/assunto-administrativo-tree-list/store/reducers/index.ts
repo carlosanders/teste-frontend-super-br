@@ -12,7 +12,7 @@ export const getAssuntoAdministrativoTreeListAppState = createFeatureSelector<As
     'assunto-administrativo-tree-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAssuntoAdministrativoTreeListAppState,
     (state: AssuntoAdministrativoTreeListAppState) => state
 );

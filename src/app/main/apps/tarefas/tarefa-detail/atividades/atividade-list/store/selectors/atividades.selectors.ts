@@ -11,33 +11,33 @@ import {Atividade} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Atividade>(atividadeSchema);
 
-export const getAtividadeListState = createSelector(
+export const getAtividadeListState: any = createSelector(
     getAtividadeListAppState,
     (state: AtividadeListAppState) => state.atividadeList
 );
 
-export const getAtividadeListIds = createSelector(
+export const getAtividadeListIds: any = createSelector(
     getAtividadeListState,
     (state: AtividadeListState) => state.entitiesId
 );
 
-export const getAtividadeList = createSelector(
+export const getAtividadeList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getAtividadeListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getAtividadeListState,
     (state: AtividadeListState) => state.pagination
 );
 
-export const getAtividadeListLoaded = createSelector(
+export const getAtividadeListLoaded: any = createSelector(
     getAtividadeListState,
     (state: AtividadeListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getAtividadeListState,
     (state: AtividadeListState) => state.loading
 );

@@ -7,24 +7,24 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getDocumentosComplementaresState = createSelector(
+export const getDocumentosComplementaresState: any = createSelector(
     getComplementarAppState,
     (state: ComplementarAppState) => state ? state.documentosComplementares : null
 );
 
-export const getDocumentosComplementaresId = createSelector(
+export const getDocumentosComplementaresId: any = createSelector(
     getDocumentosComplementaresState,
     (state: DocumentosComplementaresState) => state.documentosId
 );
 
 
-export const getDocumentosComplementares = createSelector(
+export const getDocumentosComplementares: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosComplementaresId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getDocumentosComplementaresHasLoaded = createSelector(
+export const getDocumentosComplementaresHasLoaded: any = createSelector(
     getDocumentosComplementaresState,
     (state: DocumentosComplementaresState) => state.documentosLoaded
 );

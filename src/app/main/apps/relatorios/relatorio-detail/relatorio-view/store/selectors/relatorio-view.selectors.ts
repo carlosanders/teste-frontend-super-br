@@ -11,43 +11,43 @@ import {Relatorio} from '@cdk/models/relatorio.model';
 
 const schemaSelectors = createSchemaSelectors<Relatorio>(relatorioSchema);
 
-export const getRelatorioViewState = createSelector(
+export const getRelatorioViewState: any = createSelector(
     getRelatorioViewAppState,
     (state: RelatorioViewAppState) => state.relatorioView
 );
 
-export const getRelatorioId = createSelector(
+export const getRelatorioId: any = createSelector(
     getRelatorioViewState,
     (state: RelatorioViewState) => state.loaded ? state.loaded.value : null
 );
 
-export const getRelatorio = createSelector(
+export const getRelatorio: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRelatorioId,
     schemaSelectors.entityProjector
 );
 
-export const getRelatoriosLoaded = createSelector(
+export const getRelatoriosLoaded: any = createSelector(
     getRelatorioViewState,
     (state: RelatorioViewState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRelatorioViewState,
     (state: RelatorioViewState) => state.loading
 );
 
-export const getBinary = createSelector(
+export const getBinary: any = createSelector(
     getRelatorioViewState,
     (state: RelatorioViewState) => state.binary
 );
 
-export const getIndex = createSelector(
+export const getIndex: any = createSelector(
     getRelatorioViewState,
     (state: RelatorioViewState) => state.index
 );
 
-export const getCurrentStep = createSelector(
+export const getCurrentStep: any = createSelector(
     getRelatorioViewState,
     (state: RelatorioViewState) => state.currentStep
 );

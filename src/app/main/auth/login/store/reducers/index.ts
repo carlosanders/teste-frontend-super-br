@@ -10,7 +10,7 @@ export const getLoginAppState = createFeatureSelector<LoginAppState>(
     'login-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getLoginAppState,
     (state: LoginAppState) => state
 );

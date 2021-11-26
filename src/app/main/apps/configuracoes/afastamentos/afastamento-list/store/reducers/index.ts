@@ -10,7 +10,7 @@ export const getAfastamentoListAppState = createFeatureSelector<AfastamentoListA
     'afastamento-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAfastamentoListAppState,
     (state: AfastamentoListAppState) => state
 );

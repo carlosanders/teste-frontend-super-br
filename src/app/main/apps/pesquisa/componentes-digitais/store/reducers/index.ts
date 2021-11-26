@@ -10,7 +10,7 @@ export const getComponentesDigitaisAppState = createFeatureSelector<ComponentesD
     'pesquisa-componentes-digitais-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getComponentesDigitaisAppState,
     (state: ComponentesDigitaisAppState) => state
 );

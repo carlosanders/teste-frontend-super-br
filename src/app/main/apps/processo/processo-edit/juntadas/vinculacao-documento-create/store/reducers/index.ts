@@ -10,7 +10,7 @@ export const getVinculacaoDocumentoCreateAppState = createFeatureSelector<Vincul
     'vinculacao-documento-create-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVinculacaoDocumentoCreateAppState,
     (state: VinculacaoDocumentoCreateAppState) => state
 );

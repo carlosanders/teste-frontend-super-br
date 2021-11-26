@@ -11,7 +11,7 @@ export const getRegistrarExtravioAppState = createFeatureSelector<RegistrarExtra
     'registrar-extravio'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRegistrarExtravioAppState,
     (state: RegistrarExtravioAppState) => state
 );

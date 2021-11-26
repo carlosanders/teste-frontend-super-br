@@ -6,33 +6,33 @@ import {contato as contatoSchema} from '@cdk/normalizr';
 
 const schemaContatoSelectors = createSchemaSelectors<Contato>(contatoSchema);
 
-export const getContatoEditState = createSelector(
+export const getContatoEditState: any = createSelector(
     getContatoEditAppState,
     (state: ContatoEditAppState) => state.contato
 );
 
-export const getContatoId = createSelector(
+export const getContatoId: any = createSelector(
     getContatoEditState,
     (state: ContatoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getContato = createSelector(
+export const getContato: any = createSelector(
     schemaContatoSelectors.getNormalizedEntities,
     getContatoId,
     schemaContatoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getContatoEditState,
     (state: ContatoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getContatoEditState,
     (state: ContatoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getContatoEditState,
     (state: ContatoEditState) => state.errors
 );

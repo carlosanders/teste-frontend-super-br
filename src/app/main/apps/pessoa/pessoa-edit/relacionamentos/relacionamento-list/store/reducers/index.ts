@@ -10,7 +10,7 @@ export const getRelacionamentoListAppState = createFeatureSelector<Relacionament
     'relacionamento-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRelacionamentoListAppState,
     (state: RelacionamentoListAppState) => state
 );

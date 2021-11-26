@@ -106,7 +106,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this.pagination = null;
         this._store.dispatch(new fromStore.UnloadRepositorios());

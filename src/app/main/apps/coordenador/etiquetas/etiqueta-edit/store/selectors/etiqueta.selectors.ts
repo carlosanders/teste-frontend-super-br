@@ -16,57 +16,57 @@ const schemaOrgaoSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(orgao
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
 
-export const getEtiquetaState = createSelector(
+export const getEtiquetaState: any = createSelector(
     getEtiquetaAppState,
     (state: EtiquetaAppState) => state.etiqueta
 );
 
-export const getEtiquetaId = createSelector(
+export const getEtiquetaId: any = createSelector(
     getEtiquetaState,
     (state: EtiquetaState) => state.loaded && state.loaded.value !== 'criar' ? state.loaded.value : null
 );
 
-export const getEtiqueta = createSelector(
+export const getEtiqueta: any = createSelector(
     schemaEtiquetaSelectors.getNormalizedEntities,
     getEtiquetaId,
     schemaEtiquetaSelectors.entityProjector
 );
 
-export const getEtiquetaLoaded = createSelector(
+export const getEtiquetaLoaded: any = createSelector(
     getEtiquetaState,
     (state: EtiquetaState) => state.loaded
 );
 
-export const getEtiquetaIsLoading = createSelector(
+export const getEtiquetaIsLoading: any = createSelector(
     getEtiquetaState,
     (state: EtiquetaState) => state.loading
 );
 
-export const getModalidadeOrgaoCentral = createSelector(
+export const getModalidadeOrgaoCentral: any = createSelector(
     schemaOrgaoSelectors.getNormalizedEntities,
     getModalidadeOrgaoCentralId,
     schemaOrgaoSelectors.entityProjector
 );
 
-export const getSetor = createSelector(
+export const getSetor: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getUnidade = createSelector(
+export const getUnidade: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getUnidadeHandle = createSelector(
+export const getUnidadeHandle: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeHandleId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getSetorHandle = createSelector(
+export const getSetorHandle: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorHandleId,
     schemaSetorSelectors.entityProjector

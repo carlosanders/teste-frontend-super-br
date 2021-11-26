@@ -5,17 +5,17 @@ import {
     getCompartilhamentoCreateBlocoAppState
 } from '../reducers';
 
-export const getCompartilhamentoCreateBlocoState = createSelector(
+export const getCompartilhamentoCreateBlocoState: any = createSelector(
     getCompartilhamentoCreateBlocoAppState,
     (state: CompartilhamentoCreateBlocoAppState) => state.compartilhamentoCreateBloco
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getCompartilhamentoCreateBlocoState,
     (state: CompartilhamentoCreateBlocoState) => state.savingTarefasId.length > 0
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getCompartilhamentoCreateBlocoState,
     (state: CompartilhamentoCreateBlocoState) => state.errors
 );

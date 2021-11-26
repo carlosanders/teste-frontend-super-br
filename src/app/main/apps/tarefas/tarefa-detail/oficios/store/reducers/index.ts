@@ -12,7 +12,7 @@ export const getTarefaOficiosAppState = createFeatureSelector<TarefaOficiosAppSt
     'oficios-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTarefaOficiosAppState,
     (state: TarefaOficiosAppState) => state
 );

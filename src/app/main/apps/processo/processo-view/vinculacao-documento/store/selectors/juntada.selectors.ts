@@ -11,28 +11,28 @@ import {Juntada} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
-export const getProcessoViewVinculacaoDocumentoState = createSelector(
+export const getProcessoViewVinculacaoDocumentoState: any = createSelector(
     getProcessoViewVinculacaoDocumentoAppState,
     (state: ProcessoViewVinculacaoDocumentoAppState) => state.juntada
 );
 
-export const getJuntadaId = createSelector(
+export const getJuntadaId: any = createSelector(
     getProcessoViewVinculacaoDocumentoState,
     (state: ProcessoViewVinculacaoDocumentoState) => state.loaded ? state.loaded.value : null
 );
 
-export const getJuntadaVinculadaId = createSelector(
+export const getJuntadaVinculadaId: any = createSelector(
     getProcessoViewVinculacaoDocumentoState,
     (state: ProcessoViewVinculacaoDocumentoState) => state.loadedVinculada ? state.loadedVinculada.value : null
 );
 
-export const getJuntadaFromStore = createSelector(
+export const getJuntadaFromStore: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getJuntadaId,
     schemaSelectors.entityProjector
 );
 
-export const getJuntada = createSelector(
+export const getJuntada: any = createSelector(
     getJuntadaFromStore,
     (juntada: Juntada) => {
         const novaJuntada = new Juntada();
@@ -43,13 +43,13 @@ export const getJuntada = createSelector(
     }
 );
 
-export const getJuntadaVinculadaFromStore = createSelector(
+export const getJuntadaVinculadaFromStore: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getJuntadaVinculadaId,
     schemaSelectors.entityProjector
 );
 
-export const getJuntadaVinculada = createSelector(
+export const getJuntadaVinculada: any = createSelector(
     getJuntadaVinculadaFromStore,
     (juntada: Juntada) => {
         const novaJuntada = new Juntada();
@@ -60,7 +60,7 @@ export const getJuntadaVinculada = createSelector(
     }
 );
 
-export const getAllJuntadas = createSelector(
+export const getAllJuntadas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     schemaSelectors.entitiesProjector
 );
@@ -70,22 +70,22 @@ export const getJuntadaByDocumentoVinculadoId = (documentoId: number): MemoizedS
     (juntadas: Juntada[]) => juntadas?.find(juntada => juntada.documento?.id === documentoId)
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getProcessoViewVinculacaoDocumentoState,
     (state: ProcessoViewVinculacaoDocumentoState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getProcessoViewVinculacaoDocumentoState,
     (state: ProcessoViewVinculacaoDocumentoState) => state.loaded
 );
 
-export const getHasLoadedVinculada = createSelector(
+export const getHasLoadedVinculada: any = createSelector(
     getProcessoViewVinculacaoDocumentoState,
     (state: ProcessoViewVinculacaoDocumentoState) => state.loadedVinculada
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProcessoViewVinculacaoDocumentoState,
     (state: ProcessoViewVinculacaoDocumentoState) => state.errors
 );

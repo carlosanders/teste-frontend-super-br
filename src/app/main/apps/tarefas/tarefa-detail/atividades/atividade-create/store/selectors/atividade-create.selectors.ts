@@ -5,17 +5,17 @@ import {
     getAtividadeCreateAppState
 } from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
 
-export const getAtividadeCreateState = createSelector(
+export const getAtividadeCreateState: any = createSelector(
     getAtividadeCreateAppState,
     (state: AtividadeCreateAppState) => state.atividadeCreate
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getAtividadeCreateState,
     (state: AtividadeCreateState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getAtividadeCreateState,
     (state: AtividadeCreateState) => state.errors
 );

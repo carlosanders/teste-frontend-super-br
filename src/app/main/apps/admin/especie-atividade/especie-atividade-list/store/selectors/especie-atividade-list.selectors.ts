@@ -7,38 +7,38 @@ import {EspecieAtividade} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<EspecieAtividade>(especieAtividadeSchema);
 
-export const getEspecieAtividadeListState = createSelector(
+export const getEspecieAtividadeListState: any = createSelector(
     getEspecieAtividadeListAppState,
     (state: EspecieAtividadeListAppState) => state.especieAtividadeList
 );
 
-export const getEspecieAtividadeListIds = createSelector(
+export const getEspecieAtividadeListIds: any = createSelector(
     getEspecieAtividadeListState,
     (state: EspecieAtividadeListState) => state.entitiesId
 );
 
-export const getEspecieAtividadeList = createSelector(
+export const getEspecieAtividadeList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getEspecieAtividadeListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getEspecieAtividadeListState,
     (state: EspecieAtividadeListState) => state.pagination
 );
 
-export const getEspecieAtividadeListLoaded = createSelector(
+export const getEspecieAtividadeListLoaded: any = createSelector(
     getEspecieAtividadeListState,
     (state: EspecieAtividadeListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getEspecieAtividadeListState,
     (state: EspecieAtividadeListState) => state.loading
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getEspecieAtividadeListState,
     (state: EspecieAtividadeListState) => state.deletingErrors
 );

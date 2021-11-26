@@ -13,7 +13,7 @@ export const getDocumentoAvulsoEditDadosBasicosAppState = createFeatureSelector<
     'documento-avulso-edit-dados-basicos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAvulsoEditDadosBasicosAppState,
     (state: DocumentoAvulsoEditDadosBasicosAppState) => state
 );

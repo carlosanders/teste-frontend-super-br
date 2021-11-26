@@ -10,7 +10,7 @@ export const getDocumentoEditAssinaturasAppState = createFeatureSelector<Documen
     'documento-edit-assinaturas-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoEditAssinaturasAppState,
     (state: DocumentoEditAssinaturasAppState) => state
 );

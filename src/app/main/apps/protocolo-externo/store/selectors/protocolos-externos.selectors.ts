@@ -8,69 +8,69 @@ import {processo as processoSchema} from '@cdk/normalizr';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getProcessosState = createSelector(
+export const getProcessosState: any = createSelector(
     getProtocoloExternoAppState,
     (state: ProcessosAppState) => state.processos
 );
 
-export const getSelectedProcessoIds = createSelector(
+export const getSelectedProcessoIds: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.selectedProcessoIds
 );
 
-export const getMaximizado = createSelector(
+export const getMaximizado: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.maximizado
 );
 
-export const getProcessosIds = createSelector(
+export const getProcessosIds: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.entitiesId
 );
 
-export const getProcessos = createSelector(
+export const getProcessos: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getProcessosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getSelectedProcessos = createSelector(
+export const getSelectedProcessos: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedProcessoIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.pagination
 );
 
-export const getProcessosLoaded = createSelector(
+export const getProcessosLoaded: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.loading
 );
 
-export const getDeletingProcessoIds = createSelector(
+export const getDeletingProcessoIds: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.deletingProcessoIds
 );
 
-export const getDeletedProcessoIds = createSelector(
+export const getDeletedProcessoIds: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.deletedProcessoIds
 );
 
-export const getIsAssuntoLoading = createSelector(
+export const getIsAssuntoLoading: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.loadingAssuntosProcessosId
 );
 
-export const getIsInteressadoLoading = createSelector(
+export const getIsInteressadoLoading: any = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.loadingInteressadosProcessosId
 );

@@ -7,48 +7,48 @@ import {Repositorio} from '@cdk/models/repositorio.model';
 
 const schemaSelectors = createSchemaSelectors<Repositorio>(repositorioSchema);
 
-export const getRepositoriosListState = createSelector(
+export const getRepositoriosListState: any = createSelector(
     getRepositoriosListAppState,
     (state: RepositoriosListAppState) => state.repositoriosList
 );
 
-export const getRepositoriosListIds = createSelector(
+export const getRepositoriosListIds: any = createSelector(
     getRepositoriosListState,
     (state: RepositoriosListState) => state.entitiesId
 );
 
-export const getRepositoriosList = createSelector(
+export const getRepositoriosList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRepositoriosListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getRepositoriosListState,
     (state: RepositoriosListState) => state.pagination
 );
 
-export const getRepositoriosListLoaded = createSelector(
+export const getRepositoriosListLoaded: any = createSelector(
     getRepositoriosListState,
     (state: RepositoriosListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRepositoriosListState,
     (state: RepositoriosListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getRepositoriosListState,
     (state: RepositoriosListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getRepositoriosListState,
     (state: RepositoriosListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getRepositoriosListState,
     (state: RepositoriosListState) => state.deletingErrors
 );

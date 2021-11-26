@@ -10,7 +10,7 @@ export const getDocumentoCopiaCreateBlocoAppState = createFeatureSelector<Docume
     'documento-copia-create-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoCopiaCreateBlocoAppState,
     (state: DocumentoCopiaCreateBlocoAppState) => state
 );

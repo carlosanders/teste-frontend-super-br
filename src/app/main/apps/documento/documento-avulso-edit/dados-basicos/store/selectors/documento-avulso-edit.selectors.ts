@@ -5,32 +5,32 @@ import {
     getDocumentoAvulsoEditDadosBasicosAppState
 } from '../reducers';
 
-export const getDocumentoAvulsoEditState = createSelector(
+export const getDocumentoAvulsoEditState: any = createSelector(
     getDocumentoAvulsoEditDadosBasicosAppState,
     (state: DocumentoAvulsoEditDadosBasicosAppState) => state.documentoAvulso
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getDocumentoAvulsoEditState,
     (state: DocumentoAvulsoEditDadosBasicosState) => state.saving
 );
 
-export const getIsRemetendo = createSelector(
+export const getIsRemetendo: any = createSelector(
     getDocumentoAvulsoEditState,
     (state: DocumentoAvulsoEditDadosBasicosState) => state.remetendo
 );
 
-export const getIsEncerrando = createSelector(
+export const getIsEncerrando: any = createSelector(
     getDocumentoAvulsoEditState,
     (state: DocumentoAvulsoEditDadosBasicosState) => state.encerrando
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getDocumentoAvulsoEditState,
     (state: DocumentoAvulsoEditDadosBasicosState) => state.errors
 );
 
-export const getErrorsRemetendo = createSelector(
+export const getErrorsRemetendo: any = createSelector(
     getDocumentoAvulsoEditState,
     (state: DocumentoAvulsoEditDadosBasicosState) => state.errorsRemetendo
 );

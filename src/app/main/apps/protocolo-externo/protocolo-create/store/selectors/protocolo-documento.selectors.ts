@@ -6,53 +6,53 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getProtocoloDocumentoState = createSelector(
+export const getProtocoloDocumentoState: any = createSelector(
     getProtocoloCreateAppState,
     (state: ProtocoloCreateAppState) => state.protocoloDocumento
 );
 
-export const getIsSavingProtocoloDocumento = createSelector(
+export const getIsSavingProtocoloDocumento: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.saving
 );
 
-export const getIsLoadingProtocoloDocumento = createSelector(
+export const getIsLoadingProtocoloDocumento: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.loading
 );
 
-export const getErrorsProtocoloDocumento = createSelector(
+export const getErrorsProtocoloDocumento: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.errors
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getAssinandoDocumentosId = createSelector(
+export const getAssinandoDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.assinandoDocumentoIds
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.documentosLoaded
 );
 
-export const getDeletingDocumentosId = createSelector(
+export const getDeletingDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.deletingDocumentoIds
 );
 
-export const getConvertendoAllDocumentosId = createSelector(
+export const getConvertendoAllDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => [
             ...state.convertendoDocumentoIds,
@@ -60,43 +60,43 @@ export const getConvertendoAllDocumentosId = createSelector(
         ]
 );
 
-export const getConvertendoDocumentosId = createSelector(
+export const getConvertendoDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.convertendoDocumentoIds
 );
 
-export const getConvertendoDocumentosHtmlId = createSelector(
+export const getConvertendoDocumentosHtmlId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.convertendoDocumentoHtmlIds
 );
 
-export const getRemovendoAssinaturaDocumentosId = createSelector(
+export const getRemovendoAssinaturaDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.removendoAssinaturaDocumentoIds
 );
 
-export const getSelectedDocumentosId = createSelector(
+export const getSelectedDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.selectedDocumentosId
 );
 
-export const getSelectedDocumentos = createSelector(
+export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getAlterandoDocumentosId = createSelector(
+export const getAlterandoDocumentosId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.alterandoDocumentoIds
 );
 
-export const getDownloadDocumentosP7SId = createSelector(
+export const getDownloadDocumentosP7SId: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.downloadDocumentosP7SIds
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.pagination
 );

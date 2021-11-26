@@ -10,7 +10,7 @@ export const getProcessoRelatorioViewAppState = createFeatureSelector<ProcessoRe
     'processo-relatorio-view-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessoRelatorioViewAppState,
     (state: ProcessoRelatorioViewAppState) => state
 );

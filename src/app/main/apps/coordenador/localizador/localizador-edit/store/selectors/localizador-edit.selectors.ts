@@ -13,48 +13,48 @@ import {
 const schemaLocalizadorSelectors = createSchemaSelectors<Localizador>(localizadorSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getLocalizadorEditState = createSelector(
+export const getLocalizadorEditState: any = createSelector(
     getLocalizadorEditAppState,
     (state: LocalizadorEditAppState) => state.localizador
 );
 
-export const getLocalizadorId = createSelector(
+export const getLocalizadorId: any = createSelector(
     getLocalizadorEditState,
     (state: LocalizadorEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getLocalizador = createSelector(
+export const getLocalizador: any = createSelector(
     schemaLocalizadorSelectors.getNormalizedEntities,
     getLocalizadorId,
     schemaLocalizadorSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getLocalizadorEditState,
     (state: LocalizadorEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getLocalizadorEditState,
     (state: LocalizadorEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getLocalizadorEditState,
     (state: LocalizadorEditState) => state.errors
 );
 
-export const getCoordenadorSetorState = createSelector(
+export const getCoordenadorSetorState: any = createSelector(
     getCoordenadorSetorAppState,
     (state: CoordenadorSetorAppState) => state.setor
 );
 
-export const getSetorId = createSelector(
+export const getSetorId: any = createSelector(
     getCoordenadorSetorState,
     (state: CoordenadorSetorState) => (state.loaded && state.loaded.id === 'setorHandle') ? state.loaded.value : null
 );
 
-export const getSetor = createSelector(
+export const getSetor: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
     schemaSetorSelectors.entityProjector

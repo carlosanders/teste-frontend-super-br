@@ -6,38 +6,38 @@ import {componenteDigital as componenteDigitalSchema} from "@cdk/normalizr";
 
 const componenteDigitalSchemaSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
 
-export const getProfileState = createSelector(
+export const getProfileState: any = createSelector(
     getProfileAppState,
     (state: ProfileAppState) => state.assunto
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getProfileState,
     (state: ProfileState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProfileState,
     (state: ProfileState) => state.errors
 );
 
-export const getImgPerfilId = createSelector(
+export const getImgPerfilId: any = createSelector(
     getProfileState,
     (state: ProfileState) => state.imgPerfilId
 );
 
-export const getImgPerfil = createSelector(
+export const getImgPerfil: any = createSelector(
     componenteDigitalSchemaSelectors.getNormalizedEntities,
     getImgPerfilId,
     componenteDigitalSchemaSelectors.entityProjector
 );
 
-export const getImgChancelaId = createSelector(
+export const getImgChancelaId: any = createSelector(
     getProfileState,
     (state: ProfileState) => state.imgChancelaId
 );
 
-export const getImgChancela = createSelector(
+export const getImgChancela: any = createSelector(
     componenteDigitalSchemaSelectors.getNormalizedEntities,
     getImgChancelaId,
     componenteDigitalSchemaSelectors.entityProjector

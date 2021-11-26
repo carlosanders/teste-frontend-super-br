@@ -14,7 +14,7 @@ export const getAtividadeCreateAppState = createFeatureSelector<AtividadeCreateA
     'atividade-create-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAtividadeCreateAppState,
     (state: AtividadeCreateAppState) => state
 );

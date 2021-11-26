@@ -7,48 +7,48 @@ import {Favorito} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Favorito>(favoritoSchema);
 
-export const getFavoritoListState = createSelector(
+export const getFavoritoListState: any = createSelector(
     getFavoritoListAppState,
     (state: FavoritoListAppState) => state.favoritoList
 );
 
-export const getFavoritoListIds = createSelector(
+export const getFavoritoListIds: any = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.entitiesId
 );
 
-export const getFavoritoList = createSelector(
+export const getFavoritoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getFavoritoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.pagination
 );
 
-export const getFavoritoListLoaded = createSelector(
+export const getFavoritoListLoaded: any = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getFavoritoListState,
     (state: FavoritoListState) => state.deletingErrors
 );

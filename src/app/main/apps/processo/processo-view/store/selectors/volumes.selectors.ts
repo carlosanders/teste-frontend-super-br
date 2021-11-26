@@ -11,38 +11,38 @@ import {Volume} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Volume>(volumeSchema);
 
-export const getVolumesState = createSelector(
+export const getVolumesState: any = createSelector(
     getProcessoViewAppState,
     (state: ProcessoViewAppState) => state.volumes
 );
 
-export const getVolumesIds = createSelector(
+export const getVolumesIds: any = createSelector(
     getVolumesState,
     (state: VolumesState) => state.entitiesId
 );
 
-export const getVolumes = createSelector(
+export const getVolumes: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVolumesIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getVolumesPagination = createSelector(
+export const getVolumesPagination: any = createSelector(
     getVolumesState,
     (state: VolumesState) => state.pagination
 );
 
-export const getVolumesLoaded = createSelector(
+export const getVolumesLoaded: any = createSelector(
     getVolumesState,
     (state: VolumesState) => state.loaded
 );
 
-export const getIsLoadingVolumes = createSelector(
+export const getIsLoadingVolumes: any = createSelector(
     getVolumesState,
     (state: VolumesState) => state.loading
 );
 
-export const getSelectedVolume = createSelector(
+export const getSelectedVolume: any = createSelector(
     getVolumesState,
     (state: VolumesState) => state.selectedVolume
 );

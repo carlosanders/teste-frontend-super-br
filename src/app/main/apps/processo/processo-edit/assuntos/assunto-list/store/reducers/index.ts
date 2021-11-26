@@ -10,7 +10,7 @@ export const getAssuntoListAppState = createFeatureSelector<AssuntoListAppState>
     'assunto-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAssuntoListAppState,
     (state: AssuntoListAppState) => state
 );

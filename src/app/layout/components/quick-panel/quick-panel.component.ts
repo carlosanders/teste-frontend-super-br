@@ -86,9 +86,9 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             switchMap((value) => {
                 if (value !== 'todas') {
                     if (this.loteAtual) {
-                        this.displayedOperacoes = this.operacoesLoteAtual.filter(operacao => operacao.status == value);
+                        this.displayedOperacoes = this.operacoesLoteAtual.filter((operacao: any) => operacao.status == value);
                     } else {
-                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == value);
+                        this.displayedOperacoes = this.operacoes.filter((operacao: any) => operacao.status == value);
                     }
                 } else {
                     if (this.loteAtual) {
@@ -111,7 +111,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             });
             if (!this.loteAtual) {
                 if (this.filtros.value !== 'todas') {
-                    this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
+                    this.displayedOperacoes = this.operacoes.filter((operacao: any) => operacao.status == this.filtros.value);
                 } else {
                     this.displayedOperacoes = this.operacoes;
                 }
@@ -138,13 +138,13 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             });
             if (this.loteAtual) {
                 if (this.filtros.value !== 'todas') {
-                    this.displayedOperacoes = this.operacoesLoteAtual.filter(operacao => operacao.status == this.filtros.value);
+                    this.displayedOperacoes = this.operacoesLoteAtual.filter((operacao: any) => operacao.status == this.filtros.value);
                 } else {
                     this.displayedOperacoes = this.operacoesLoteAtual;
                 }
             } else {
                 if (this.filtros.value !== 'todas') {
-                    this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
+                    this.displayedOperacoes = this.operacoes.filter((operacao: any) => operacao.status == this.filtros.value);
                 } else {
                     this.displayedOperacoes = this.operacoes;
                 }
@@ -191,7 +191,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
