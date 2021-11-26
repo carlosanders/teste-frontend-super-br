@@ -9,7 +9,7 @@ export const getCoordenadoresListAppState = createFeatureSelector<CoordenadoresL
     'admin-coordenadores-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCoordenadoresListAppState,
     (state: CoordenadoresListAppState) => state
 );

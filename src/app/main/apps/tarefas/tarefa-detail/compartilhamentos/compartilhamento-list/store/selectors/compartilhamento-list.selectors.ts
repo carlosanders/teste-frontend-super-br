@@ -11,53 +11,53 @@ import {Compartilhamento} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Compartilhamento>(compartilhamentoSchema);
 
-export const getCompartilhamentoListState = createSelector(
+export const getCompartilhamentoListState: any = createSelector(
     getCompartilhamentoListAppState,
     (state: CompartilhamentoListAppState) => state.compartilhamentoList
 );
 
-export const getCompartilhamentoListIds = createSelector(
+export const getCompartilhamentoListIds: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.entitiesId
 );
 
-export const getCompartilhamentoList = createSelector(
+export const getCompartilhamentoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getCompartilhamentoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.pagination
 );
 
-export const getCompartilhamentoListLoaded = createSelector(
+export const getCompartilhamentoListLoaded: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.deletedIds
 );
 
-export const getBufferingDelete = createSelector(
+export const getBufferingDelete: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.bufferingDelete
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.deletingErrors
 );

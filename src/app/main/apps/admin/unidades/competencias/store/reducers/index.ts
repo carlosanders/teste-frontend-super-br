@@ -9,7 +9,7 @@ export const getCompetenciasAppState = createFeatureSelector<CompetenciasAppStat
     'competencias-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCompetenciasAppState,
     (state: CompetenciasAppState) => state
 );

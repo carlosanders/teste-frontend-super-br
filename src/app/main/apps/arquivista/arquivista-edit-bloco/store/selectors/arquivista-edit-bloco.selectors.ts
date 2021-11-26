@@ -8,23 +8,23 @@ import {getProcessosIds} from '../../../arquivista-list/store/selectors';
 
 const schemaArquivistaEditBlocoSelectors = createSchemaSelectors<Processo>(processoShema);
 
-export const getArquivistaEditBlocoState = createSelector(
+export const getArquivistaEditBlocoState: any = createSelector(
     getArquivistaEditBlocoAppState,
     (state: ArquivistaEditBlocoAppState) => state.arquivistaEditBloco
 );
 
-export const getProcessos = createSelector(
+export const getProcessos: any = createSelector(
     schemaArquivistaEditBlocoSelectors.getNormalizedEntities,
     getProcessosIds,
     schemaArquivistaEditBlocoSelectors.entitiesProjector
 );
 
-export const getSavingId = createSelector(
+export const getSavingId: any = createSelector(
     getArquivistaEditBlocoState,
     (state: ArquivistaEditBlocoState) => state.savingId
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getArquivistaEditBlocoState,
     (state: ArquivistaEditBlocoState) => state.errors
 );

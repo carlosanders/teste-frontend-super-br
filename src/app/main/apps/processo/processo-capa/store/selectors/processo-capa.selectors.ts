@@ -6,38 +6,38 @@ import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getProcessoCapaState = createSelector(
+export const getProcessoCapaState: any = createSelector(
     getProcessoCapaAppState,
     (state: ProcessoCapaAppState) => state.processo
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProcessoCapaState,
     (state: ProcessoCapaState) => state.errors
 );
 
-export const getProcessoId = createSelector(
+export const getProcessoId: any = createSelector(
     getProcessoCapaState,
     (state: ProcessoCapaState) => state.loaded ? state.loaded.value : null
 );
 
-export const getProcesso = createSelector(
+export const getProcesso: any = createSelector(
     schemaProcessoSelectors.getNormalizedEntities,
     getProcessoId,
     schemaProcessoSelectors.entityProjector
 );
 
-export const getProcessoLoaded = createSelector(
+export const getProcessoLoaded: any = createSelector(
     getProcessoCapaState,
     (state: ProcessoCapaState) => state.loaded
 );
 
-export const getProcessoIsLoading = createSelector(
+export const getProcessoIsLoading: any = createSelector(
     getProcessoCapaState,
     (state: ProcessoCapaState) => state.loading
 );
 
-export const getTogglingAcompanharProcesso = createSelector(
+export const getTogglingAcompanharProcesso: any = createSelector(
     getProcessoCapaState,
     (state: ProcessoCapaState) => state.loadingAcompanhamento
 );

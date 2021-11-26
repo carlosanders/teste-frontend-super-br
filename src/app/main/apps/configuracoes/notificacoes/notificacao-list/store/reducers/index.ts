@@ -10,7 +10,7 @@ export const getNotificacaoListAppState = createFeatureSelector<NotificacaoListA
     'notificacao-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getNotificacaoListAppState,
     (state: NotificacaoListAppState) => state
 );

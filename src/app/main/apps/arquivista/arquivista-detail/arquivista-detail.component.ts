@@ -147,7 +147,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

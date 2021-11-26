@@ -9,7 +9,7 @@ export const getRootLotacaoEditAppState = createFeatureSelector<RootLotacaoEditA
     'admin-lotacao-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRootLotacaoEditAppState,
     (state: RootLotacaoEditAppState) => state
 );

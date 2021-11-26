@@ -7,43 +7,43 @@ import {Acao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Acao>(acaoSchema);
 
-export const getAcaoListState = createSelector(
+export const getAcaoListState: any = createSelector(
     getAcaoListAppState,
     (state: AcaoListAppState) => state.acaoList
 );
 
-export const getAcaoListIds = createSelector(
+export const getAcaoListIds: any = createSelector(
     getAcaoListState,
     (state: AcaoListState) => state.entitiesId
 );
 
-export const getAcaoList = createSelector(
+export const getAcaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getAcaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getAcaoListLoaded = createSelector(
+export const getAcaoListLoaded: any = createSelector(
     getAcaoListState,
     (state: AcaoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getAcaoListState,
     (state: AcaoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getAcaoListState,
     (state: AcaoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getAcaoListState,
     (state: AcaoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getAcaoListState,
     (state: AcaoListState) => state.deletingErrors
 );

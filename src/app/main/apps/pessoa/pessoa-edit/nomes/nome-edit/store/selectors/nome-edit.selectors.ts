@@ -6,33 +6,33 @@ import {nome as nomeSchema} from '@cdk/normalizr';
 
 const schemaNomeSelectors = createSchemaSelectors<Nome>(nomeSchema);
 
-export const getNomeEditState = createSelector(
+export const getNomeEditState: any = createSelector(
     getNomeEditAppState,
     (state: NomeEditAppState) => state.nome
 );
 
-export const getNomeId = createSelector(
+export const getNomeId: any = createSelector(
     getNomeEditState,
     (state: NomeEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getNome = createSelector(
+export const getNome: any = createSelector(
     schemaNomeSelectors.getNormalizedEntities,
     getNomeId,
     schemaNomeSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getNomeEditState,
     (state: NomeEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getNomeEditState,
     (state: NomeEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getNomeEditState,
     (state: NomeEditState) => state.errors
 );

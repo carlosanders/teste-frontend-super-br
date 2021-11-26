@@ -12,7 +12,7 @@ export const getModalidadeOrgaoCentralEditAppState = createFeatureSelector<Modal
     'modalidade-orgao-central-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getModalidadeOrgaoCentralEditAppState,
     (state: ModalidadeOrgaoCentralEditAppState) => state
 );

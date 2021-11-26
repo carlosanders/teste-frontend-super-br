@@ -12,7 +12,7 @@ export const getModelosAppState = createFeatureSelector<ModelosAppState>(
     'modelo-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getModelosAppState,
     (state: ModelosAppState) => state
 );

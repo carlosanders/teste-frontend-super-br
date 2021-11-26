@@ -203,7 +203,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

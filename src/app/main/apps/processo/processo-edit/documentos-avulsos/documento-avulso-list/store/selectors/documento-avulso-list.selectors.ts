@@ -11,59 +11,59 @@ import {DocumentoAvulso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<DocumentoAvulso>(documentoAvulsoSchema);
 
-export const getDocumentoAvulsoListState = createSelector(
+export const getDocumentoAvulsoListState: any = createSelector(
     getDocumentoAvulsoListAppState,
     (state: DocumentoAvulsoListAppState) => state.documentoAvulsoList
 );
 
-export const getDocumentoAvulsoListIds = createSelector(
+export const getDocumentoAvulsoListIds: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.entitiesId
 );
 
-export const getDocumentoAvulsoList = createSelector(
+export const getDocumentoAvulsoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getDocumentoAvulsoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.pagination
 );
 
-export const getDocumentoAvulsoListLoaded = createSelector(
+export const getDocumentoAvulsoListLoaded: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.deletedIds
 );
 
-export const getRespondendoIds = createSelector(
+export const getRespondendoIds: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.respondendoIds
 );
 
-export const getRespodendoDocumentosAvulsos = createSelector(
+export const getRespodendoDocumentosAvulsos: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRespondendoIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.deletingErrors
 );

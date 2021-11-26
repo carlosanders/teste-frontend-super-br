@@ -7,33 +7,33 @@ import {Assinatura} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Assinatura>(assinaturaSchema);
 
-export const getAssinaturaListState = createSelector(
+export const getAssinaturaListState: any = createSelector(
     getAssinaturaListAppState,
     (state: AssinaturaListAppState) => state.assinaturaList
 );
 
-export const getAssinaturaListIds = createSelector(
+export const getAssinaturaListIds: any = createSelector(
     getAssinaturaListState,
     (state: AssinaturaListState) => state.entitiesId
 );
 
-export const getAssinaturaList = createSelector(
+export const getAssinaturaList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getAssinaturaListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getAssinaturaListState,
     (state: AssinaturaListState) => state.pagination
 );
 
-export const getAssinaturaListLoaded = createSelector(
+export const getAssinaturaListLoaded: any = createSelector(
     getAssinaturaListState,
     (state: AssinaturaListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getAssinaturaListState,
     (state: AssinaturaListState) => state.loading
 );

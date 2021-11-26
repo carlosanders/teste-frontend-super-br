@@ -10,33 +10,33 @@ import {tipoValidacaoWorkflow as tipoValidacaoWorkflowSchema} from '@cdk/normali
 
 const schemaTipoValidacaoWorkflowSelectors = createSchemaSelectors<TipoValidacaoWorkflow>(tipoValidacaoWorkflowSchema);
 
-export const getTipoValidacaoWorkflowEditState = createSelector(
+export const getTipoValidacaoWorkflowEditState: any = createSelector(
     getTipoValidacaoWorkflowEditAppState,
     (state: TipoValidacaoWorkflowEditAppState) => state.tipoValidacaoWorkflow
 );
 
-export const getTipoValidacaoWorkflowId = createSelector(
+export const getTipoValidacaoWorkflowId: any = createSelector(
     getTipoValidacaoWorkflowEditState,
     (state: TipoValidacaoWorkflowEditState) => state.entityId
 );
 
-export const getTipoValidacaoWorkflow = createSelector(
+export const getTipoValidacaoWorkflow: any = createSelector(
     schemaTipoValidacaoWorkflowSelectors.getNormalizedEntities,
     getTipoValidacaoWorkflowId,
     schemaTipoValidacaoWorkflowSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTipoValidacaoWorkflowEditState,
     (state: TipoValidacaoWorkflowEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTipoValidacaoWorkflowEditState,
     (state: TipoValidacaoWorkflowEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTipoValidacaoWorkflowEditState,
     (state: TipoValidacaoWorkflowEditState) => state.errors
 );

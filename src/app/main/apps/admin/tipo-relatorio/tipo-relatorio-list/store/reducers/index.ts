@@ -9,7 +9,7 @@ export const getTipoRelatorioListAppState = createFeatureSelector<TipoRelatorioL
     'tipo-relatorio-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTipoRelatorioListAppState,
     (state: TipoRelatorioListAppState) => state
 );

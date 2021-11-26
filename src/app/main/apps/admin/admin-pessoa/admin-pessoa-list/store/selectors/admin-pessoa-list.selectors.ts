@@ -7,38 +7,38 @@ import {Pessoa} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Pessoa>(pessoaSchema);
 
-export const getPessoaListState = createSelector(
+export const getPessoaListState: any = createSelector(
     getPessoaListAppState,
     (state: PessoaListAppState) => state.pessoaList
 );
 
-export const getPessoaListIds = createSelector(
+export const getPessoaListIds: any = createSelector(
     getPessoaListState,
     (state: PessoaListState) => state.entitiesId
 );
 
-export const getPessoaList = createSelector(
+export const getPessoaList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getPessoaListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getPessoaListState,
     (state: PessoaListState) => state.pagination
 );
 
-export const getPessoaListLoaded = createSelector(
+export const getPessoaListLoaded: any = createSelector(
     getPessoaListState,
     (state: PessoaListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getPessoaListState,
     (state: PessoaListState) => state.loading
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getPessoaListState,
     (state: PessoaListState) => state.deletingErrors
 );

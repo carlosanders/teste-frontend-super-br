@@ -7,53 +7,53 @@ import {VinculacaoProcesso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoProcesso>(vinculacaoProcessoSchema);
 
-export const getVinculacaoProcessoState = createSelector(
+export const getVinculacaoProcessoState: any = createSelector(
     getDadosBasicosAppState,
     (state: DadosBasicosAppState) => state.vinculacoesProcessos
 );
 
-export const getVinculacoesProcessosIds = createSelector(
+export const getVinculacoesProcessosIds: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.entitiesId
 );
 
-export const getVinculacoesProcessos = createSelector(
+export const getVinculacoesProcessos: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVinculacoesProcessosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getVinculacoesProcessosPagination = createSelector(
+export const getVinculacoesProcessosPagination: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.pagination
 );
 
-export const getVinculacoesProcessosLoaded = createSelector(
+export const getVinculacoesProcessosLoaded: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.loaded
 );
 
-export const getVinculacoesProcessosIsLoading = createSelector(
+export const getVinculacoesProcessosIsLoading: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.loading
 );
 
-export const getVinculacoesProcessosDeletingIds = createSelector(
+export const getVinculacoesProcessosDeletingIds: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.deletingIds
 );
 
-export const getVinculacoesProcessosDeletedIds = createSelector(
+export const getVinculacoesProcessosDeletedIds: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.deletedIds
 );
 
-export const getVinculacaoProcessoIsSaving = createSelector(
+export const getVinculacaoProcessoIsSaving: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.saving
 );
 
-export const getVinculacaoProcessoErrors = createSelector(
+export const getVinculacaoProcessoErrors: any = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.errors
 );

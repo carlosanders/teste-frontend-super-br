@@ -10,7 +10,7 @@ export const getTramitacaoEditAppState = createFeatureSelector<TramitacaoEditApp
     'tramitacao-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTramitacaoEditAppState,
     (state: TramitacaoEditAppState) => state
 );

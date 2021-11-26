@@ -9,7 +9,7 @@ export const getCargoEditAppState = createFeatureSelector<CargoEditAppState>(
     'cargo-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCargoEditAppState,
     (state: CargoEditAppState) => state
 );

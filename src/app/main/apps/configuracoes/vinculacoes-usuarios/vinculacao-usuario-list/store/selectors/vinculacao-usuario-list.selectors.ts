@@ -7,48 +7,48 @@ import {VinculacaoUsuario} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoUsuario>(vinculacaoUsuarioSchema);
 
-export const getVinculacaoUsuarioListState = createSelector(
+export const getVinculacaoUsuarioListState: any = createSelector(
     getVinculacaoUsuarioListAppState,
     (state: VinculacaoUsuarioListAppState) => state.vinculacaoUsuarioList
 );
 
-export const getVinculacaoUsuarioListIds = createSelector(
+export const getVinculacaoUsuarioListIds: any = createSelector(
     getVinculacaoUsuarioListState,
     (state: VinculacaoUsuarioListState) => state.entitiesId
 );
 
-export const getVinculacaoUsuarioList = createSelector(
+export const getVinculacaoUsuarioList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVinculacaoUsuarioListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getVinculacaoUsuarioListState,
     (state: VinculacaoUsuarioListState) => state.pagination
 );
 
-export const getVinculacaoUsuarioListLoaded = createSelector(
+export const getVinculacaoUsuarioListLoaded: any = createSelector(
     getVinculacaoUsuarioListState,
     (state: VinculacaoUsuarioListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getVinculacaoUsuarioListState,
     (state: VinculacaoUsuarioListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getVinculacaoUsuarioListState,
     (state: VinculacaoUsuarioListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getVinculacaoUsuarioListState,
     (state: VinculacaoUsuarioListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getVinculacaoUsuarioListState,
     (state: VinculacaoUsuarioListState) => state.deletingErrors
 );

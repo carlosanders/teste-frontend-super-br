@@ -10,49 +10,49 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 
 const schemaSelectors = createSchemaSelectors<DocumentoAvulso>(documentoAvulsoSchema);
 
-export const getDocumentosAvulsoState = createSelector(
+export const getDocumentosAvulsoState: any = createSelector(
     getDocumentoAvulsoAppState,
     (state: DocumentoAvulsoAppState) => state.documentosAvulso
 );
 
-export const getSelectedDocumentoAvulsoIds = createSelector(
+export const getSelectedDocumentoAvulsoIds: any = createSelector(
     getDocumentosAvulsoState,
     (state: DocumentosAvulsoState) => state.selectedDocumentoAvulsoIds
 );
 
-export const getMaximizado = createSelector(
+export const getMaximizado: any = createSelector(
     getDocumentosAvulsoState,
     (state: DocumentosAvulsoState) => state.maximizado
 );
 
-export const getDocumentosAvulsoIds = createSelector(
+export const getDocumentosAvulsoIds: any = createSelector(
     getDocumentosAvulsoState,
     (state: DocumentosAvulsoState) => state.entitiesId
 );
 
-export const getDocumentosAvulso = createSelector(
+export const getDocumentosAvulso: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getDocumentosAvulsoIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getSelectedDocumentosAvulso = createSelector(
+export const getSelectedDocumentosAvulso: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedDocumentoAvulsoIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getDocumentosAvulsoState,
     (state: DocumentosAvulsoState) => state.pagination
 );
 
-export const getDocumentosAvulsoLoaded = createSelector(
+export const getDocumentosAvulsoLoaded: any = createSelector(
     getDocumentosAvulsoState,
     (state: DocumentosAvulsoState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getDocumentosAvulsoState,
     (state: DocumentosAvulsoState) => state.loading
 );

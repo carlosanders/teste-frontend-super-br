@@ -128,7 +128,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadModelos());
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

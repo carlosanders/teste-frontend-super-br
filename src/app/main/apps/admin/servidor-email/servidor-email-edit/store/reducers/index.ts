@@ -10,7 +10,7 @@ export const getServidorEmailEditAppState = createFeatureSelector<ServidorEmailE
     'servidor-email-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getServidorEmailEditAppState,
     (state: ServidorEmailEditAppState) => state
 );

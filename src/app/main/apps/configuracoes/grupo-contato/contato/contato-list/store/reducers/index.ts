@@ -10,7 +10,7 @@ export const getContatoListAppState = createFeatureSelector<ContatoListAppState>
     'contato-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getContatoListAppState,
     (state: ContatoListAppState) => state
 );

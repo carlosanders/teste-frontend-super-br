@@ -6,28 +6,28 @@ import {generoRelatorio as generoRelatorioSchema} from '@cdk/normalizr';
 
 const schemaGeneroRelatorioSelectors = createSchemaSelectors<GeneroRelatorio>(generoRelatorioSchema);
 
-export const getGeneroRelatoriosState = createSelector(
+export const getGeneroRelatoriosState: any = createSelector(
     getRelatorioCreateAppState,
     (state: RelatorioCreateAppState) => state.generoRelatorios
 );
 
-export const getErrorsGeneroRelatorios = createSelector(
+export const getErrorsGeneroRelatorios: any = createSelector(
     getGeneroRelatoriosState,
     (state: GeneroRelatorioState) => state.errors
 );
 
-export const getGeneroRelatoriosId = createSelector(
+export const getGeneroRelatoriosId: any = createSelector(
     getGeneroRelatoriosState,
     (state: GeneroRelatorioState) => state.generoRelatoriosId
 );
 
-export const getGeneroRelatorios = createSelector(
+export const getGeneroRelatorios: any = createSelector(
     schemaGeneroRelatorioSelectors.getNormalizedEntities,
     getGeneroRelatoriosId,
     schemaGeneroRelatorioSelectors.entitiesProjector
 );
 
-export const getGeneroRelatoriosHasLoaded = createSelector(
+export const getGeneroRelatoriosHasLoaded: any = createSelector(
     getGeneroRelatoriosState,
     (state: GeneroRelatorioState) => state.generoRelatoriosLoaded
 );

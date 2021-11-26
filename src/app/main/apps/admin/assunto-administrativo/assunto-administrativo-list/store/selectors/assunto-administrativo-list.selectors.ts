@@ -11,33 +11,33 @@ import {AssuntoAdministrativo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<AssuntoAdministrativo>(assuntoAdministrativoSchema);
 
-export const getAssuntoAdministrativoListState = createSelector(
+export const getAssuntoAdministrativoListState: any = createSelector(
     getAssuntoAdministrativoListAppState,
     (state: AssuntoAdministrativoListAppState) => state.assuntoAdministrativoList
 );
 
-export const getAssuntoAdministrativoListIds = createSelector(
+export const getAssuntoAdministrativoListIds: any = createSelector(
     getAssuntoAdministrativoListState,
     (state: AssuntoAdministrativoListState) => state.entitiesId
 );
 
-export const getAssuntoAdministrativoList = createSelector(
+export const getAssuntoAdministrativoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getAssuntoAdministrativoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getAssuntoAdministrativoListState,
     (state: AssuntoAdministrativoListState) => state.pagination
 );
 
-export const getAssuntoAdministrativoListLoaded = createSelector(
+export const getAssuntoAdministrativoListLoaded: any = createSelector(
     getAssuntoAdministrativoListState,
     (state: AssuntoAdministrativoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getAssuntoAdministrativoListState,
     (state: AssuntoAdministrativoListState) => state.loading
 );

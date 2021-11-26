@@ -10,7 +10,7 @@ export const getVisibilidadeListAppState = createFeatureSelector<VisibilidadeLis
     'visibilidade-tipo-relatorio-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVisibilidadeListAppState,
     (state: VisibilidadeListAppState) => state
 );

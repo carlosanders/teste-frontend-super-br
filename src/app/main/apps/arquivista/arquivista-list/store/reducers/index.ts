@@ -12,7 +12,7 @@ export const getArquivistaAppState = createFeatureSelector<ArquivistaAppState>(
     'arquivista-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getArquivistaAppState,
     (state: ArquivistaAppState) => state
 );

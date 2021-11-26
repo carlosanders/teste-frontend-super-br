@@ -9,29 +9,29 @@ import {getProcessosIds} from '../../../arquivista-list/store';
 
 const schemaRealizarTransicaoSelectors = createSchemaSelectors<Processo>(processoShema);
 
-export const getRealizarTransicaoState = createSelector(
+export const getRealizarTransicaoState: any = createSelector(
     getRealizarTransicaoAppState,
     (state: RealizarTransicaoAppState) => state.transicao
 );
 
-export const getProcessos = createSelector(
+export const getProcessos: any = createSelector(
     schemaRealizarTransicaoSelectors.getNormalizedEntities,
     getProcessosIds,
     schemaRealizarTransicaoSelectors.entitiesProjector
 );
 
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRealizarTransicaoState,
     (state: RealizarTransicaoState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRealizarTransicaoState,
     (state: RealizarTransicaoState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRealizarTransicaoState,
     (state: RealizarTransicaoState) => state.errors
 );

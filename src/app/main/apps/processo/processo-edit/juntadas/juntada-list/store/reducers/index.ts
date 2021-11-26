@@ -10,7 +10,7 @@ export const getJuntadaListAppState = createFeatureSelector<JuntadaListAppState>
     'juntada-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getJuntadaListAppState,
     (state: JuntadaListAppState) => state
 );

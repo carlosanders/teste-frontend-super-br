@@ -6,59 +6,59 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getTarefaOficiosDocumentosState = createSelector(
+export const getTarefaOficiosDocumentosState: any = createSelector(
     getTarefaOficiosAppState,
     (state: TarefaOficiosAppState) => state ? state.documentos : null
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.documentosLoaded
 );
 
-export const getDeletingDocumentosId = createSelector(
+export const getDeletingDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.deletingDocumentoIds
 );
 
-export const getAlterandoDocumentosId = createSelector(
+export const getAlterandoDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.alterandoDocumentoIds
 );
 
-export const getAssinandoDocumentosId = createSelector(
+export const getAssinandoDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.assinandoDocumentoIds
 );
 
-export const getRemovendoAssinaturaDocumentosId = createSelector(
+export const getRemovendoAssinaturaDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.removendoAssinaturaDocumentoIds
 );
 
-export const getSelectedDocumentoIds = createSelector(
+export const getSelectedDocumentoIds: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.selectedDocumentosId
 );
 
-export const getSelectedDocumentos = createSelector(
+export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoIds,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getConvertendoAllDocumentosId = createSelector(
+export const getConvertendoAllDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => [
             ...state.convertendoDocumentoIds,
@@ -66,22 +66,22 @@ export const getConvertendoAllDocumentosId = createSelector(
         ]
 );
 
-export const getConvertendoDocumentosId = createSelector(
+export const getConvertendoDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.convertendoDocumentoIds
 );
 
-export const getConvertendoDocumentosHtmlId = createSelector(
+export const getConvertendoDocumentosHtmlId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.convertendoDocumentoHtmlIds
 );
 
-export const getUnDeletingDocumentosId = createSelector(
+export const getUnDeletingDocumentosId: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.undeletingDocumentoIds
 );
 
-export const getBufferingDelete = createSelector(
+export const getBufferingDelete: any = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.bufferingDelete
 );

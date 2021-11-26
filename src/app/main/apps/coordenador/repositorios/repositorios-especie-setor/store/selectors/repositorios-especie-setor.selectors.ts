@@ -10,28 +10,28 @@ import {repositorio as repositorioSchema} from '@cdk/normalizr';
 
 const schemaRepositorioSelectors = createSchemaSelectors<Repositorio>(repositorioSchema);
 
-export const getRepositoriosEspecieSetorState = createSelector(
+export const getRepositoriosEspecieSetorState: any = createSelector(
     getRepositoriosEspecieSetorAppState,
     (state: RepositoriosEspecieSetorAppState) => state.repositorios
 );
 
-export const getRepositorioId = createSelector(
+export const getRepositorioId: any = createSelector(
     getRepositoriosEspecieSetorState,
     (state: RepositoriosEspecieSetorState) => (state.loaded && state.loaded.id === 'repositorioHandle') ? state.loaded.value : null
 );
 
-export const getRepositorio = createSelector(
+export const getRepositorio: any = createSelector(
     schemaRepositorioSelectors.getNormalizedEntities,
     getRepositorioId,
     schemaRepositorioSelectors.entityProjector
 );
 
-export const getHasLoadedRepositorio = createSelector(
+export const getHasLoadedRepositorio: any = createSelector(
     getRepositoriosEspecieSetorState,
     (state: RepositoriosEspecieSetorState) => state.loaded.id === 'repositorioHandle' ? state.loaded : false
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRepositoriosEspecieSetorState,
     (state: RepositoriosEspecieSetorState) => state.errors
 );

@@ -10,7 +10,7 @@ export const getModeloEditAnexosAppState = createFeatureSelector<ModeloEditAnexo
     'documento-modelo-edit-anexos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getModeloEditAnexosAppState,
     (state: ModeloEditAnexosAppState) => state
 );

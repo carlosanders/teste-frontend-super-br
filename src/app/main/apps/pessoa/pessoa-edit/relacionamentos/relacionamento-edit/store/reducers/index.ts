@@ -9,7 +9,7 @@ export const getRelacionamentoEditAppState = createFeatureSelector<Relacionament
     'relacionamento-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRelacionamentoEditAppState,
     (state: RelacionamentoEditAppState) => state
 );

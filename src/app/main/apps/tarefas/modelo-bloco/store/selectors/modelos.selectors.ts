@@ -7,33 +7,33 @@ import {Modelo} from '@cdk/models';
 
 const schemaModeloSelectors = createSchemaSelectors<Modelo>(schemaModelo);
 
-export const getModelosState = createSelector(
+export const getModelosState: any = createSelector(
     getModelosAppState,
     (state: ModelosAppState) => state.modelos
 );
 
-export const getModelosIds = createSelector(
+export const getModelosIds: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.entitiesId
 );
 
-export const getModelos = createSelector(
+export const getModelos: any = createSelector(
     schemaModeloSelectors.getNormalizedEntities,
     getModelosIds,
     schemaModeloSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.pagination
 );
 
-export const getModelosLoaded = createSelector(
+export const getModelosLoaded: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getModelosState,
     (state: ModelosState) => state.loading
 );

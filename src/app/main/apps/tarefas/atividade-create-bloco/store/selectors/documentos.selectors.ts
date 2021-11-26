@@ -10,68 +10,68 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getAtividadeCreateBlocoDocumentosState = createSelector(
+export const getAtividadeCreateBlocoDocumentosState: any = createSelector(
     getAtividadeCreateBlocoAppState,
     (state: AtividadeCreateBlocoAppState) => state ? state.atividadeCreateBlocoDocumentos : null
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.documentosLoaded
 );
 
-export const getDeletingDocumentosId = createSelector(
+export const getDeletingDocumentosId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.deletingDocumentoIds
 );
 
-export const getAssinandoDocumentosId = createSelector(
+export const getAssinandoDocumentosId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.assinandoDocumentoIds
 );
 
-export const getRemovendoAssinaturaDocumentosId = createSelector(
+export const getRemovendoAssinaturaDocumentosId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.removendoAssinaturaDocumentoIds
 );
 
-export const getAlterandoDocumentosId = createSelector(
+export const getAlterandoDocumentosId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.alterandoDocumentoIds
 );
 
-export const getConvertendoDocumentosId = createSelector(
+export const getConvertendoDocumentosId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.convertendoDocumentoIds
 );
 
-export const getConvertendoDocumentosHtmlId = createSelector(
+export const getConvertendoDocumentosHtmlId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.convertendoDocumentoHtmlIds
 );
 
-export const getDownloadDocumentosP7SId = createSelector(
+export const getDownloadDocumentosP7SId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.downloadDocumentosP7SIds
 );
 
-export const getSelectedDocumentoIds = createSelector(
+export const getSelectedDocumentoIds: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.selectedDocumentosId
 );
 
-export const getSelectedDocumentos = createSelector(
+export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoIds,
     schemaDocumentoSelectors.entitiesProjector

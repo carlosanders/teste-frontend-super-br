@@ -117,7 +117,7 @@ export class CaixaEmailFolderSidebarComponent implements OnInit, OnChanges, OnDe
 
     ngOnDestroy(): void
     {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

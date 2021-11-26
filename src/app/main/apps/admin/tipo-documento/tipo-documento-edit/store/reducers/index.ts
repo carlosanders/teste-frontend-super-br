@@ -9,7 +9,7 @@ export const getTipoDocumentoEditAppState = createFeatureSelector<TipoDocumentoE
     'tipo-documento-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTipoDocumentoEditAppState,
     (state: TipoDocumentoEditAppState) => state
 );

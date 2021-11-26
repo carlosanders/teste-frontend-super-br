@@ -7,54 +7,54 @@ import {Sigilo} from '@cdk/models';
 
 const schemaSigiloSelectors = createSchemaSelectors<Sigilo>(schemaSigilo);
 
-export const getSigilosState = createSelector(
+export const getSigilosState: any = createSelector(
     getDocumentoEditSigilosAppState,
     (state: DocumentoEditSigilosAppState) => state.sigilos
 );
 
-export const getSigilosIds = createSelector(
+export const getSigilosIds: any = createSelector(
     getSigilosState,
     (state: SigilosState) => state.entitiesId
 );
 
-export const getSigilos = createSelector(
+export const getSigilos: any = createSelector(
     schemaSigiloSelectors.getNormalizedEntities,
     getSigilosIds,
     schemaSigiloSelectors.entitiesProjector
 );
 
-export const getSigiloId = createSelector(
+export const getSigiloId: any = createSelector(
     getSigilosState,
     (state: SigilosState) => state.loaded ? state.loaded.value : null
 );
 
-export const getSigilo = createSelector(
+export const getSigilo: any = createSelector(
     schemaSigiloSelectors.getNormalizedEntities,
     getSigiloId,
     schemaSigiloSelectors.entityProjector
 );
 
-export const getSigilosLoaded = createSelector(
+export const getSigilosLoaded: any = createSelector(
     getSigilosState,
     (state: SigilosState) => state.loaded
 );
 
-export const getSigilosIsLoading = createSelector(
+export const getSigilosIsLoading: any = createSelector(
     getSigilosState,
     (state: SigilosState) => state.loading
 );
 
-export const getIsSavingSigilos = createSelector(
+export const getIsSavingSigilos: any = createSelector(
     getSigilosState,
     (state: SigilosState) => state.saving
 );
 
-export const getErrorsSigilos = createSelector(
+export const getErrorsSigilos: any = createSelector(
     getSigilosState,
     (state: SigilosState) => state.errors
 );
 
-export const getSigilosPagination = createSelector(
+export const getSigilosPagination: any = createSelector(
     getSigilosState,
     (state: SigilosState) => state.pagination
 );

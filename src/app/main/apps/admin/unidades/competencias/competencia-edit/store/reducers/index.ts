@@ -9,7 +9,7 @@ export const getCompetenciaEditAppState = createFeatureSelector<CompetenciaEditA
     'competencia-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCompetenciaEditAppState,
     (state: CompetenciaEditAppState) => state
 );

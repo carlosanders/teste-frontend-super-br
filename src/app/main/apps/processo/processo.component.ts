@@ -239,7 +239,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.routerState.url.indexOf('/processo') === -1) {
             this._store.dispatch(new fromStore.UnloadProcesso());
         }
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

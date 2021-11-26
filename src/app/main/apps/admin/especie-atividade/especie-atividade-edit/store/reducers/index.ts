@@ -9,7 +9,7 @@ export const getEspecieAtividadeEditAppState = createFeatureSelector<EspecieAtiv
     'especie-atividade-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEspecieAtividadeEditAppState,
     (state: EspecieAtividadeEditAppState) => state
 );

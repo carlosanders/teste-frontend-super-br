@@ -11,48 +11,48 @@ import {DocumentoIdentificador} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<DocumentoIdentificador>(documentoIdentificadorchema);
 
-export const getDocumentoIdentificadorListState = createSelector(
+export const getDocumentoIdentificadorListState: any = createSelector(
     getDocumentoIdentificadorListAppState,
     (state: DocumentoIdentificadorListAppState) => state.documentoIdentificadorList
 );
 
-export const getDocumentoIdentificadorListIds = createSelector(
+export const getDocumentoIdentificadorListIds: any = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.entitiesId
 );
 
-export const getDocumentoIdentificadorList = createSelector(
+export const getDocumentoIdentificadorList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getDocumentoIdentificadorListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.pagination
 );
 
-export const getDocumentoIdentificadorListLoaded = createSelector(
+export const getDocumentoIdentificadorListLoaded: any = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.deletingErrors
 );

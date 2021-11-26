@@ -14,7 +14,7 @@ export const getBoardTarefasAppState = createFeatureSelector<BoardTarefasAppStat
 );
 
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getBoardTarefasAppState,
     (state: BoardTarefasAppState) => state
 );

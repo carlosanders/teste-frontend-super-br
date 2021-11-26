@@ -7,43 +7,43 @@ import {Visibilidade} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Visibilidade>(visibilidadeSchema);
 
-export const getVisibilidadeListState = createSelector(
+export const getVisibilidadeListState: any = createSelector(
     getVisibilidadeListAppState,
     (state: VisibilidadeListAppState) => state.visibilidadeList
 );
 
-export const getVisibilidadeListIds = createSelector(
+export const getVisibilidadeListIds: any = createSelector(
     getVisibilidadeListState,
     (state: VisibilidadeListState) => state.entitiesId
 );
 
-export const getVisibilidadeList = createSelector(
+export const getVisibilidadeList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVisibilidadeListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getVisibilidadeListLoaded = createSelector(
+export const getVisibilidadeListLoaded: any = createSelector(
     getVisibilidadeListState,
     (state: VisibilidadeListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getVisibilidadeListState,
     (state: VisibilidadeListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getVisibilidadeListState,
     (state: VisibilidadeListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getVisibilidadeListState,
     (state: VisibilidadeListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getVisibilidadeListState,
     (state: VisibilidadeListState) => state.deletingErrors
 );

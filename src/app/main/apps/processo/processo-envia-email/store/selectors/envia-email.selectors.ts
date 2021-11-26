@@ -6,32 +6,32 @@ import {juntada as juntadaSchema} from '@cdk/normalizr';
 
 const schemaJuntadaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
-export const getEnviaEmailState = createSelector(
+export const getEnviaEmailState: any = createSelector(
     getEnviaEmailAppState,
     (state: EnviaEmailAppState) => state.enviaemail
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getEnviaEmailState,
     (state: EnviaEmailState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getEnviaEmailState,
     (state: EnviaEmailState) => state.errors
 );
 
-export const getJuntadaLoaded = createSelector(
+export const getJuntadaLoaded: any = createSelector(
     getEnviaEmailState,
     (state: EnviaEmailState) => state.loaded
 );
 
-export const getJuntadaId = createSelector(
+export const getJuntadaId: any = createSelector(
     getEnviaEmailState,
     (state: EnviaEmailState) => state.loaded ? state.loaded.value : null
 );
 
-export const getJuntada = createSelector(
+export const getJuntada: any = createSelector(
     schemaJuntadaSelectors.getNormalizedEntities,
     getJuntadaId,
     schemaJuntadaSelectors.entityProjector

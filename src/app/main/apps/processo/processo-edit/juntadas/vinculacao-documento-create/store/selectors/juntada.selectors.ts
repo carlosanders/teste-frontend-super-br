@@ -11,33 +11,33 @@ import {Juntada} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
-export const getVinculacaoDocumentoCreateState = createSelector(
+export const getVinculacaoDocumentoCreateState: any = createSelector(
     getVinculacaoDocumentoCreateAppState,
     (state: VinculacaoDocumentoCreateAppState) => state.juntada
 );
 
-export const getJuntadaId = createSelector(
+export const getJuntadaId: any = createSelector(
     getVinculacaoDocumentoCreateState,
     (state: VinculacaoDocumentoCreateState) => state.loaded ? state.loaded.value : null
 );
 
-export const getJuntada = createSelector(
+export const getJuntada: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getJuntadaId,
     schemaSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getVinculacaoDocumentoCreateState,
     (state: VinculacaoDocumentoCreateState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getVinculacaoDocumentoCreateState,
     (state: VinculacaoDocumentoCreateState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getVinculacaoDocumentoCreateState,
     (state: VinculacaoDocumentoCreateState) => state.errors
 );

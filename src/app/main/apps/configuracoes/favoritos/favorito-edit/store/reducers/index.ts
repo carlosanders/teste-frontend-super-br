@@ -10,7 +10,7 @@ export const getFavoritoEditAppState = createFeatureSelector<FavoritoEditAppStat
     'favorito-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getFavoritoEditAppState,
     (state: FavoritoEditAppState) => state
 );

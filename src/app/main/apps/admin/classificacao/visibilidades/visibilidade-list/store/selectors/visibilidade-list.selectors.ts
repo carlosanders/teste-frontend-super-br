@@ -7,43 +7,43 @@ import {Visibilidade} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Visibilidade>(visibilidadeSchema);
 
-export const getClassificacaoVisibilidadeListState = createSelector(
+export const getClassificacaoVisibilidadeListState: any = createSelector(
     fromStore.getClassificacaoVisibilidadeListAppState,
     (state: fromStore.ClassificacaoVisibilidadeListAppState) => state.classificacaoVisibilidadeList
 );
 
-export const getClassificacaoVisibilidadeListIds = createSelector(
+export const getClassificacaoVisibilidadeListIds: any = createSelector(
     getClassificacaoVisibilidadeListState,
     (state: fromStore.ClassificacaoVisibilidadeListState) => state.entitiesId
 );
 
-export const getClassificacaoVisibilidadeList = createSelector(
+export const getClassificacaoVisibilidadeList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getClassificacaoVisibilidadeListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getClassificacaoVisibilidadeListLoaded = createSelector(
+export const getClassificacaoVisibilidadeListLoaded: any = createSelector(
     getClassificacaoVisibilidadeListState,
     (state: fromStore.ClassificacaoVisibilidadeListState) => state.loaded
 );
 
-export const getClassificacaoVisibilidadeListIsLoading = createSelector(
+export const getClassificacaoVisibilidadeListIsLoading: any = createSelector(
     getClassificacaoVisibilidadeListState,
     (state: fromStore.ClassificacaoVisibilidadeListState) => state.loading
 );
 
-export const getClassificacaoVisibilidadeListDeletingIds = createSelector(
+export const getClassificacaoVisibilidadeListDeletingIds: any = createSelector(
     getClassificacaoVisibilidadeListState,
     (state: fromStore.ClassificacaoVisibilidadeListState) => state.deletingIds
 );
 
-export const getClassificacaoVisibilidadeListDeletedIds = createSelector(
+export const getClassificacaoVisibilidadeListDeletedIds: any = createSelector(
     getClassificacaoVisibilidadeListState,
     (state: fromStore.ClassificacaoVisibilidadeListState) => state.deletedIds
 );
 
-export const getClassificacaoVisibilidadeListDeletingErrors = createSelector(
+export const getClassificacaoVisibilidadeListDeletingErrors: any = createSelector(
     getClassificacaoVisibilidadeListState,
     (state: fromStore.ClassificacaoVisibilidadeListState) => state.deletingErrors
 );

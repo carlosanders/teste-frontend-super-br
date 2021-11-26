@@ -10,33 +10,33 @@ import {Workflow} from '@cdk/models';
 
 const schemaTransicaoWorkflowSelectors = createSchemaSelectors<Workflow>(transicaoWorkflowSchema);
 
-export const getWorkflowEspeciesProcessoEditState = createSelector(
+export const getWorkflowEspeciesProcessoEditState: any = createSelector(
     getWorkflowEspeciesEditAppState,
     (state: WorkflowEspeciesProcessoEditAppState) => state.especieProcesso
 );
 
-export const getEspecieProcessoId = createSelector(
+export const getEspecieProcessoId: any = createSelector(
     getWorkflowEspeciesProcessoEditState,
     (state: WorkflowEspeciesProcessoEditState) => state.entityId
 );
 
-export const getEspecieProcesso = createSelector(
+export const getEspecieProcesso: any = createSelector(
     schemaTransicaoWorkflowSelectors.getNormalizedEntities,
     getEspecieProcessoId,
     schemaTransicaoWorkflowSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getWorkflowEspeciesProcessoEditState,
     (state: WorkflowEspeciesProcessoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getWorkflowEspeciesProcessoEditState,
     (state: WorkflowEspeciesProcessoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getWorkflowEspeciesProcessoEditState,
     (state: WorkflowEspeciesProcessoEditState) => state.errors
 );

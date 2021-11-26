@@ -6,33 +6,33 @@ import {especieRelevancia as especieRelevanciaSchema} from '@cdk/normalizr';
 
 const schemaEspecieRelevanciaSelectors = createSchemaSelectors<EspecieRelevancia>(especieRelevanciaSchema);
 
-export const getEspecieRelevanciaEditState = createSelector(
+export const getEspecieRelevanciaEditState: any = createSelector(
     getEspecieRelevanciaEditAppState,
     (state: EspecieRelevanciaEditAppState) => state.especieRelevancia
 );
 
-export const getEspecieRelevanciaId = createSelector(
+export const getEspecieRelevanciaId: any = createSelector(
     getEspecieRelevanciaEditState,
     (state: EspecieRelevanciaEditState) => state.entityId
 );
 
-export const getEspecieRelevancia = createSelector(
+export const getEspecieRelevancia: any = createSelector(
     schemaEspecieRelevanciaSelectors.getNormalizedEntities,
     getEspecieRelevanciaId,
     schemaEspecieRelevanciaSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getEspecieRelevanciaEditState,
     (state: EspecieRelevanciaEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getEspecieRelevanciaEditState,
     (state: EspecieRelevanciaEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getEspecieRelevanciaEditState,
     (state: EspecieRelevanciaEditState) => state.errors
 );

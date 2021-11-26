@@ -9,7 +9,7 @@ export const getWorkflowDadosBasicosAppState = createFeatureSelector<WorkflowDad
     'workflow-dados-basicos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getWorkflowDadosBasicosAppState,
     (state: WorkflowDadosBasicosAppState) => state
 );

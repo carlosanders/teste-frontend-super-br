@@ -9,7 +9,7 @@ export const getAssuntoAdministrativoListAppState = createFeatureSelector<Assunt
     'assunto-administrativo-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAssuntoAdministrativoListAppState,
     (state: AssuntoAdministrativoListAppState) => state
 );

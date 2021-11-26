@@ -7,48 +7,48 @@ import {getNotificacoesState} from '../reducers';
 
 const schemaSelectors = createSchemaSelectors<Notificacao>(notificacaoSchema);
 
-export const getNotificacaoListIds = createSelector(
+export const getNotificacaoListIds: any = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.entitiesId
 );
 
-export const getNormalizedNotificacaoEntities = createSelector(
+export const getNormalizedNotificacaoEntities: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     schemaSelectors.entitiesProjector
 );
 
-export const getNotificacaoList = createSelector(
+export const getNotificacaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getNotificacaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.pagination
 );
 
-export const getNotificacaoListLoaded = createSelector(
+export const getNotificacaoListLoaded: any = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.deletedIds
 );
 
-export const getSnackbar = createSelector(
+export const getSnackbar: any = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.snackbar
 );

@@ -91,7 +91,7 @@ export class EncaminhamentoBlocoComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._store.dispatch(new fromStore.UnloadEncaminhamentoBloco());
 
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

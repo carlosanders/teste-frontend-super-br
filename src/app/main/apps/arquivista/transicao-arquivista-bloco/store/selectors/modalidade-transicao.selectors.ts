@@ -11,28 +11,28 @@ import {ModalidadeTransicao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<ModalidadeTransicao>(modalidadeTransicaoSchema);
 
-export const getModalidadeTransicaoState = createSelector(
+export const getModalidadeTransicaoState: any = createSelector(
     getTransicaoArquivistaBlocoAppState,
     (state: TransicaoArquivistaBlocoAppState) => state.modalidadeTransicao
 );
 
-export const getModalidadeTransicaoId = createSelector(
+export const getModalidadeTransicaoId: any = createSelector(
     getModalidadeTransicaoState,
     (state: ModalidadeTransicaoState) => state.modalidadeTransicaoId
 );
 
-export const getModalidadeTransicao = createSelector(
+export const getModalidadeTransicao: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getModalidadeTransicaoId,
     schemaSelectors.entityProjector
 );
 
-export const getModalidadeTransicaoLoaded = createSelector(
+export const getModalidadeTransicaoLoaded: any = createSelector(
     getModalidadeTransicaoState,
     (state: ModalidadeTransicaoState) => state.loaded
 );
 
-export const getIsLoadingModalidadeTransicao = createSelector(
+export const getIsLoadingModalidadeTransicao: any = createSelector(
     getModalidadeTransicaoState,
     (state: ModalidadeTransicaoState) => state.loading
 );

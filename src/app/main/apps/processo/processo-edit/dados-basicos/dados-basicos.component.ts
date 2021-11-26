@@ -138,7 +138,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         if (this.processo?.origemDados) {
             this._mercureService.unsubscribe(this.processo.origemDados['@id']);
         }
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

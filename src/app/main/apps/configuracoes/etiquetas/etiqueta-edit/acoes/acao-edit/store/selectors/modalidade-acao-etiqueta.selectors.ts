@@ -7,28 +7,28 @@ import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<ModalidadeAcaoEtiqueta>(modalidadeAcaoEtiquetaSchema);
 
-export const getModalidadeAcaoEtiquetaListState = createSelector(
+export const getModalidadeAcaoEtiquetaListState: any = createSelector(
     getAcaoEditAppState,
     (state: AcaoEditAppState) => state.modalidadeAcaoEtiquetaList
 );
 
-export const getModalidadeAcaoEtiquetaListIds = createSelector(
+export const getModalidadeAcaoEtiquetaListIds: any = createSelector(
     getModalidadeAcaoEtiquetaListState,
     (state: ModalidadeAcaoEtiquetaState) => state.entitiesId
 );
 
-export const getModalidadeAcaoEtiquetaList = createSelector(
+export const getModalidadeAcaoEtiquetaList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getModalidadeAcaoEtiquetaListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getModalidadeAcaoEtiquetaListLoaded = createSelector(
+export const getModalidadeAcaoEtiquetaListLoaded: any = createSelector(
     getModalidadeAcaoEtiquetaListState,
     (state: ModalidadeAcaoEtiquetaState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getModalidadeAcaoEtiquetaListState,
     (state: ModalidadeAcaoEtiquetaState) => state.loading
 );

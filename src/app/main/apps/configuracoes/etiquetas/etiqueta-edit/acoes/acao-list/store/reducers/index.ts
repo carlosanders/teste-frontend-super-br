@@ -12,7 +12,7 @@ export const getAcaoListAppState = createFeatureSelector<AcaoListAppState>(
     'configuracoes-acao-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAcaoListAppState,
     (state: AcaoListAppState) => state
 );

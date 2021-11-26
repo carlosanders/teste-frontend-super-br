@@ -11,48 +11,48 @@ import {EspecieProcesso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<EspecieProcesso>(especieProcessoSchema);
 
-export const getEspecieProcessoListState = createSelector(
+export const getEspecieProcessoListState: any = createSelector(
     getEspecieProcessoListAppState,
     (state: WorkflowEspecieProcessoListAppState) => state.especieProcessoList
 );
 
-export const getEspecieProcessoListIds = createSelector(
+export const getEspecieProcessoListIds: any = createSelector(
     getEspecieProcessoListState,
     (state: WorkflowEspecieProcessoListState) => state.entitiesId
 );
 
-export const getEspecieProcessoList = createSelector(
+export const getEspecieProcessoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getEspecieProcessoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getEspecieProcessoListState,
     (state: WorkflowEspecieProcessoListState) => state.pagination
 );
 
-export const getEspecieProcessoListLoaded = createSelector(
+export const getEspecieProcessoListLoaded: any = createSelector(
     getEspecieProcessoListState,
     (state: WorkflowEspecieProcessoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getEspecieProcessoListState,
     (state: WorkflowEspecieProcessoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getEspecieProcessoListState,
     (state: WorkflowEspecieProcessoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getEspecieProcessoListState,
     (state: WorkflowEspecieProcessoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getEspecieProcessoListState,
     (state: WorkflowEspecieProcessoListState) => state.deletingErrors
 );

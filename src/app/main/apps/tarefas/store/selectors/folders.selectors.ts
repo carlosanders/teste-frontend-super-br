@@ -6,48 +6,48 @@ import {Folder} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Folder>(folderSchema);
 
-export const getFoldersState = createSelector(
+export const getFoldersState: any = createSelector(
     getTarefasAppState,
     (state: TarefasAppState) => state.folders
 );
 
-export const getFoldersIds = createSelector(
+export const getFoldersIds: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.entitiesId
 );
 
-export const getFolders = createSelector(
+export const getFolders: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getFoldersIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getFoldersLoaded = createSelector(
+export const getFoldersLoaded: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.loaded
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.errors
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.deletedIds
 );
 
-export const getIsLoadingFolder = createSelector(
+export const getIsLoadingFolder: any = createSelector(
     getFoldersState,
     (state: FoldersState) => state.loading
 );

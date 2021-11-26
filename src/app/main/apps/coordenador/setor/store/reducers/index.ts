@@ -10,7 +10,7 @@ export const getCoordenadorSetorAppState = createFeatureSelector<CoordenadorSeto
     'coordenador-setor-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCoordenadorSetorAppState,
     (state: CoordenadorSetorAppState) => state
 );

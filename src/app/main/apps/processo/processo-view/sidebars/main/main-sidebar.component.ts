@@ -507,7 +507,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
             this.documentoEdit.open = false;
             if (value) {
-                this._unsubscribeDocs.next();
+                this._unsubscribeDocs.next(true);
                 this._unsubscribeDocs.complete();
                 this._unsubscribeDocs = new Subject();
                 this._store.pipe(
@@ -601,9 +601,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.detach();
 
         this._store.dispatch(new fromStore.ExpandirProcesso(false));
-        this._unsubscribeDocs.next();
+        this._unsubscribeDocs.next(true);
         this._unsubscribeDocs.complete();
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

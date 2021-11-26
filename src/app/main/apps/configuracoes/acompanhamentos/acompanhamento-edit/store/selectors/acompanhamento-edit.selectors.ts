@@ -6,33 +6,33 @@ import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';
 
 const schemaAcompanhamentoSelectors = createSchemaSelectors<Compartilhamento>(acompanhamentoSchema);
 
-export const getAcompanhamentoEditState = createSelector(
+export const getAcompanhamentoEditState: any = createSelector(
     getAcompanhamentoEditAppState,
     (state: AcompanhamentoEditAppState) => state.acompanhamento
 );
 
-export const getAcompanhamentoId = createSelector(
+export const getAcompanhamentoId: any = createSelector(
     getAcompanhamentoEditState,
     (state: AcompanhamentoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getAcompanhamento = createSelector(
+export const getAcompanhamento: any = createSelector(
     schemaAcompanhamentoSelectors.getNormalizedEntities,
     getAcompanhamentoId,
     schemaAcompanhamentoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getAcompanhamentoEditState,
     (state: AcompanhamentoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getAcompanhamentoEditState,
     (state: AcompanhamentoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getAcompanhamentoEditState,
     (state: AcompanhamentoEditState) => state.errors
 );

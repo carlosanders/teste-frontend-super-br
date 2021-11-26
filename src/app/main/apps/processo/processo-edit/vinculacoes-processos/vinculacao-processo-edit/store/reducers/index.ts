@@ -10,7 +10,7 @@ export const getVinculacaoProcessoEditAppState = createFeatureSelector<Vinculaca
     'vinculacao-processo-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVinculacaoProcessoEditAppState,
     (state: VinculacaoProcessoEditAppState) => state
 );

@@ -10,7 +10,7 @@ export const getRepositorioEditAppState = createFeatureSelector<RepositorioEditA
     'repositorio-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRepositorioEditAppState,
     (state: RepositorioEditAppState) => state
 );

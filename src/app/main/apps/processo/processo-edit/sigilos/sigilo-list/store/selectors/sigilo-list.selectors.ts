@@ -7,48 +7,48 @@ import {Sigilo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Sigilo>(sigiloSchema);
 
-export const getSigiloListState = createSelector(
+export const getSigiloListState: any = createSelector(
     getSigiloListAppState,
     (state: SigiloListAppState) => state.sigiloList
 );
 
-export const getSigiloListIds = createSelector(
+export const getSigiloListIds: any = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.entitiesId
 );
 
-export const getSigiloList = createSelector(
+export const getSigiloList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSigiloListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.pagination
 );
 
-export const getSigiloListLoaded = createSelector(
+export const getSigiloListLoaded: any = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.deletingErrors
 );

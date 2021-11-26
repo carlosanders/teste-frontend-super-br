@@ -7,54 +7,54 @@ import {CoordenadorAppState, CoordenadorState, getCoordenadorAppState} from '../
 
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getSetorEditState = createSelector(
+export const getSetorEditState: any = createSelector(
     getSetorEditAppState,
     (state: SetorEditAppState) => state.setor
 );
 
-export const getCoordenadorState = createSelector(
+export const getCoordenadorState: any = createSelector(
     getCoordenadorAppState,
     (state: CoordenadorAppState) => state.coordenador
 );
 
-export const getSetorId = createSelector(
+export const getSetorId: any = createSelector(
     getSetorEditState,
     (state: SetorEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getUnidadeId = createSelector(
+export const getUnidadeId: any = createSelector(
     getCoordenadorState,
     (state: CoordenadorState) => state.loaded ? state.unidadeId : null
 );
 
-export const getUnidade = createSelector(
+export const getUnidade: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getSetor = createSelector(
+export const getSetor: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getSetorEditState,
     (state: SetorEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getSetorEditState,
     (state: SetorEditState) => state.loaded
 );
 
-export const getHasLoadedUnidade = createSelector(
+export const getHasLoadedUnidade: any = createSelector(
     getCoordenadorState,
     (state: CoordenadorState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getSetorEditState,
     (state: SetorEditState) => state.errors
 );

@@ -18,7 +18,7 @@ export const getDocumentoAppState = createFeatureSelector<DocumentoAppState>(
     'documento-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAppState,
     (state: DocumentoAppState) => state
 );

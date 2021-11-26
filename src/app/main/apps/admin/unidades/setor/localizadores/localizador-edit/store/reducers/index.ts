@@ -9,7 +9,7 @@ export const getRootLocalizadorEditAppState = createFeatureSelector<RootLocaliza
     'admin-localizador-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRootLocalizadorEditAppState,
     (state: RootLocalizadorEditAppState) => state
 );

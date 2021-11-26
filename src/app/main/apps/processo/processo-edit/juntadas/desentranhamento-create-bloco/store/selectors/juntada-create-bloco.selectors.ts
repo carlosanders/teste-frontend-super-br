@@ -12,69 +12,69 @@ import {
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
 
-export const getJuntadaListState = createSelector(
+export const getJuntadaListState: any = createSelector(
     getDesentranhamentoCreateBlocoAppState,
     (state: DesentranhamentoCreateBlocoAppState) => state.juntadaCreateBloco
 );
 
-export const getJuntadaListIds = createSelector(
+export const getJuntadaListIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.entitiesId
 );
 
-export const getDesentranhandoIds = createSelector(
+export const getDesentranhandoIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.desentranhandoIds
 );
 
-export const getJuntadaList = createSelector(
+export const getJuntadaList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getJuntadaListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.pagination
 );
 
-export const getJuntadaListLoaded = createSelector(
+export const getJuntadaListLoaded: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.loading
 );
 
-export const getDesentranhandoJuntadas = createSelector(
+export const getDesentranhandoJuntadas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getDesentranhandoIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.errors
 );
 
-export const getBufferingDesentranhamento = createSelector(
+export const getBufferingDesentranhamento: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.bufferingDesentranhando
 );
 
-export const getSavingIds = createSelector(
+export const getSavingIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.savingJuntadasId
 );
 
-export const getSelectedJuntadasIds = createSelector(
+export const getSelectedJuntadasIds: any = createSelector(
     getJuntadaListState,
     (state: JuntadaCreateBlocoState) => state.selectedJuntadasIds
 );
 
-export const getSelectedJuntadas = createSelector(
+export const getSelectedJuntadas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedJuntadasIds,
     schemaSelectors.entitiesProjector

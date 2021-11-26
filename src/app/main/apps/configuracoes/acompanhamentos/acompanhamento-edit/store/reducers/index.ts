@@ -10,7 +10,7 @@ export const getAcompanhamentoEditAppState = createFeatureSelector<Acompanhament
     'acompanhamento-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAcompanhamentoEditAppState,
     (state: AcompanhamentoEditAppState) => state
 );

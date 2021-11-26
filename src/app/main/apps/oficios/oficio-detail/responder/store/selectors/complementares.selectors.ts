@@ -6,49 +6,49 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getComplementaresState = createSelector(
+export const getComplementaresState: any = createSelector(
     getResponderAppState,
     (state: ResponderAppState) => state ? state.complementares : null
 );
 
-export const getDocumentosComplementaresId = createSelector(
+export const getDocumentosComplementaresId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.documentosId
 );
 
-export const getDocumentosComplementares = createSelector(
+export const getDocumentosComplementares: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosComplementaresId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getIsLoadingDocumentosComplementares = createSelector(
+export const getIsLoadingDocumentosComplementares: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.loading
 );
 
-export const getIsSavingDocumentosComplementares = createSelector(
+export const getIsSavingDocumentosComplementares: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.saving
 );
 
-export const getDocumentosComplementaresHasLoaded = createSelector(
+export const getDocumentosComplementaresHasLoaded: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.documentosLoaded
 );
 
-export const getSelectedDocumentoComplementaresIds = createSelector(
+export const getSelectedDocumentoComplementaresIds: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.selectedDocumentosId
 );
 
-export const getSelectedDocumentosComplementares = createSelector(
+export const getSelectedDocumentosComplementares: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoComplementaresIds,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getConvertendoAllDocumentosComplementaresId = createSelector(
+export const getConvertendoAllDocumentosComplementaresId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => [
             ...state.convertendoDocumentoIds,
@@ -56,42 +56,42 @@ export const getConvertendoAllDocumentosComplementaresId = createSelector(
         ]
 );
 
-export const getConvertendoDocumentosComplementaresId = createSelector(
+export const getConvertendoDocumentosComplementaresId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.convertendoDocumentoIds
 );
 
-export const getConvertendoDocumentosComplementaresHtmlId = createSelector(
+export const getConvertendoDocumentosComplementaresHtmlId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.convertendoDocumentoHtmlIds
 );
 
-export const getDeletingDocumentosComplementaresId = createSelector(
+export const getDeletingDocumentosComplementaresId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.deletingDocumentoIds
 );
 
-export const getAssinandoDocumentosComplementaresId = createSelector(
+export const getAssinandoDocumentosComplementaresId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.assinandoDocumentoIds
 );
 
-export const getRemovendoAssinaturaDocumentosComplementaresId = createSelector(
+export const getRemovendoAssinaturaDocumentosComplementaresId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.removendoAssinaturaDocumentoIds
 );
 
-export const getAlterandoDocumentosComplementaresId = createSelector(
+export const getAlterandoDocumentosComplementaresId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.alterandoDocumentoIds
 );
 
-export const getDownloadDocumentosComplementaresP7SId = createSelector(
+export const getDownloadDocumentosComplementaresP7SId: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.downloadDocumentosP7SIds
 );
 
-export const getDocumentosComplementaresPagination = createSelector(
+export const getDocumentosComplementaresPagination: any = createSelector(
     getComplementaresState,
     (state: ComplementaresState) => state.pagination
 );

@@ -7,48 +7,48 @@ import {Tramitacao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Tramitacao>(tramitacaoSchema);
 
-export const getRemessaListState = createSelector(
+export const getRemessaListState: any = createSelector(
     getRemessaListAppState,
     (state: RemessaListAppState) => state.remessaList
 );
 
-export const getRemessaListIds = createSelector(
+export const getRemessaListIds: any = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.entitiesId
 );
 
-export const getRemessaList = createSelector(
+export const getRemessaList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRemessaListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.pagination
 );
 
-export const getRemessaListLoaded = createSelector(
+export const getRemessaListLoaded: any = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.deletingErrors
 );

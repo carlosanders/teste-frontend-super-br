@@ -22,7 +22,7 @@ export const getDadosBasicosAppState = createFeatureSelector<DadosBasicosAppStat
     'dados-basicos-steps-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDadosBasicosAppState,
     (state: DadosBasicosAppState) => state
 );

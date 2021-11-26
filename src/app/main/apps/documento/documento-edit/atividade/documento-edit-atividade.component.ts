@@ -213,7 +213,7 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadDocumentos());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

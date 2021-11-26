@@ -10,59 +10,59 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getProcessoViewDocumentosState = createSelector(
+export const getProcessoViewDocumentosState: any = createSelector(
     getProcessoViewAppState,
     (state: ProcessoViewAppState) => state ? state.documentos : null
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.documentosLoaded
 );
 
-export const getDeletingDocumentosId = createSelector(
+export const getDeletingDocumentosId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.deletingDocumentoIds
 );
 
-export const getAlterandoDocumentosId = createSelector(
+export const getAlterandoDocumentosId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.alterandoDocumentoIds
 );
 
-export const getAssinandoDocumentosId = createSelector(
+export const getAssinandoDocumentosId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.assinandoDocumentoIds
 );
 
-export const getRemovendoAssinaturaDocumentosId = createSelector(
+export const getRemovendoAssinaturaDocumentosId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.removendoAssinaturaDocumentoIds
 );
 
-export const getSelectedDocumentoIds = createSelector(
+export const getSelectedDocumentoIds: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.selectedDocumentosId
 );
 
-export const getSelectedDocumentos = createSelector(
+export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoIds,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getConvertendoAllDocumentosId = createSelector(
+export const getConvertendoAllDocumentosId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => [
             ...state.convertendoDocumentoIds,
@@ -70,42 +70,42 @@ export const getConvertendoAllDocumentosId = createSelector(
         ]
 );
 
-export const getConvertendoDocumentosId = createSelector(
+export const getConvertendoDocumentosId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.convertendoDocumentoIds
 );
 
-export const getConvertendoDocumentosHtmlId = createSelector(
+export const getConvertendoDocumentosHtmlId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.convertendoDocumentoHtmlIds
 );
 
-export const getDownloadDocumentoP7SId = createSelector(
+export const getDownloadDocumentoP7SId: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.downloadP7SDocumentoIds
 );
 
-export const getLoadingDocumentosExcluidos = createSelector(
+export const getLoadingDocumentosExcluidos: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.loadingDocumentosExcluidos
 );
 
-export const getMinutasLoading = createSelector(
+export const getMinutasLoading: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.loading
 );
 
-export const getLixeiraMinutas = createSelector(
+export const getLixeiraMinutas: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.lixeiraMinutas
 );
 
-export const getBufferingDelete = createSelector(
+export const getBufferingDelete: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.bufferingDelete
 );
 
-export const getErrorsDocumentos = createSelector(
+export const getErrorsDocumentos: any = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.error
 );

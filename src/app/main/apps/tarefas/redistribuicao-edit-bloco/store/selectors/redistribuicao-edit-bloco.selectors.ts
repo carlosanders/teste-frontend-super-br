@@ -5,22 +5,22 @@ import {
     RedistribuicaoEditBlocoState
 } from '../reducers';
 
-export const getRedistribuicaoEditBlocoState = createSelector(
+export const getRedistribuicaoEditBlocoState: any = createSelector(
     getRedistribuicaoEditBlocoAppState,
     (state: RedistribuicaoEditBlocoAppState) => state.tarefaEditBloco
 );
 
-export const getTarefasProcessoRestritoValidadas = createSelector(
+export const getTarefasProcessoRestritoValidadas: any = createSelector(
     getRedistribuicaoEditBlocoState,
     (state: RedistribuicaoEditBlocoState) => state.tarefasProcessoRestritosValidadas
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRedistribuicaoEditBlocoState,
     (state: RedistribuicaoEditBlocoState) => state.savingId.length > 0
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRedistribuicaoEditBlocoState,
     (state: RedistribuicaoEditBlocoState) => state.errors
 );

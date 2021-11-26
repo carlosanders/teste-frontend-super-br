@@ -10,7 +10,7 @@ export const getDadosPessoaEditAppState = createFeatureSelector<DadosPessoaEditA
     'dados-pessoa-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDadosPessoaEditAppState,
     (state: DadosPessoaEditAppState) => state
 );

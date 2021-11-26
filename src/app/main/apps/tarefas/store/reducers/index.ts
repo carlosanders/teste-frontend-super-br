@@ -26,7 +26,7 @@ export const getRootLotacaoListAppState = createFeatureSelector<TarefasAppState>
     'admin-lotacao-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTarefasAppState,
     getRootLotacaoListAppState,
     (state: TarefasAppState) => state

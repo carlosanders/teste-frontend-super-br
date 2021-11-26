@@ -7,48 +7,48 @@ import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 
 const schemaSelectors = createSchemaSelectors<TipoRelatorio>(tipoRelatorioSchema);
 
-export const getTipoRelatorioListState = createSelector(
+export const getTipoRelatorioListState: any = createSelector(
     getTipoRelatorioListAppState,
     (state: TipoRelatorioListAppState) => state.tipoRelatorioList
 );
 
-export const getTipoRelatorioListIds = createSelector(
+export const getTipoRelatorioListIds: any = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.entitiesId
 );
 
-export const getTipoRelatorioList = createSelector(
+export const getTipoRelatorioList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTipoRelatorioListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.pagination
 );
 
-export const getTipoRelatorioListLoaded = createSelector(
+export const getTipoRelatorioListLoaded: any = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.deletingErrors
 );

@@ -9,7 +9,7 @@ export const getServidorEmailListAppState = createFeatureSelector<ServidorEmailL
     'servidor-email-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getServidorEmailListAppState,
     (state: ServidorEmailListAppState) => state
 );

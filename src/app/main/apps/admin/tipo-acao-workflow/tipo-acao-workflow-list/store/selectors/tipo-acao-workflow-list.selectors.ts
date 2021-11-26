@@ -7,48 +7,48 @@ import {TipoAcaoWorkflow} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<TipoAcaoWorkflow>(tipoAcaoWorkflowSchema);
 
-export const getTipoAcaoWorkflowListState = createSelector(
+export const getTipoAcaoWorkflowListState: any = createSelector(
     getTipoAcaoWorkflowListAppState,
     (state: TipoAcaoWorkflowListAppState) => state.tipoAcaoWorkflowList
 );
 
-export const getTipoAcaoWorkflowListIds = createSelector(
+export const getTipoAcaoWorkflowListIds: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.entitiesId
 );
 
-export const getTipoAcaoWorkflowList = createSelector(
+export const getTipoAcaoWorkflowList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTipoAcaoWorkflowListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.pagination
 );
 
-export const getTipoAcaoWorkflowListLoaded = createSelector(
+export const getTipoAcaoWorkflowListLoaded: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.deletingErrors
 );

@@ -6,47 +6,47 @@ import {documento as documentoSchema} from '../../../../../../@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getAssinaturasState = createSelector(
+export const getAssinaturasState: any = createSelector(
     getTarefasAppState,
     (state: TarefasAppState) => state?.assinaturas
 );
 
-export const getAssinandoDocumentosId = createSelector(
+export const getAssinandoDocumentosId: any = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state?.assinandoDocumentosId
 );
 
-export const getAssinandoDocumentosEletronicamenteId = createSelector(
+export const getAssinandoDocumentosEletronicamenteId: any = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state?.assinandoDocumentosEletronicamenteId
 );
 
-export const getAssinandoTarefasEletronicamenteId = createSelector(
+export const getAssinandoTarefasEletronicamenteId: any = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state?.assinandoTarefasEletronicamenteId
 );
 
-export const getAssinandoTarefasId = createSelector(
+export const getAssinandoTarefasId: any = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state?.assinandoTarefasId
 );
 
-export const getDocumentosTarefa = createSelector(
+export const getDocumentosTarefa: any = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state?.documentosTarefa
 );
 
-export const getAssinaturaErrors = createSelector(
+export const getAssinaturaErrors: any = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state?.errors
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state?.documentosId
 );
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector

@@ -260,7 +260,7 @@ export class CdkSidebarComponent implements OnInit, OnDestroy
         this._cdkSidebarService.unregister(this.name);
 
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

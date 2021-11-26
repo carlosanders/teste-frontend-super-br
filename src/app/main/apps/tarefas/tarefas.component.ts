@@ -472,7 +472,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

@@ -10,7 +10,7 @@ export const getProcessosAppState = createFeatureSelector<ProcessosAppState>(
     'pesquisa-processos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessosAppState,
     (state: ProcessosAppState) => state
 );

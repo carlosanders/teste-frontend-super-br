@@ -10,7 +10,7 @@ export const getVinculacaoPessoaBarramentoEditAppState = createFeatureSelector<V
     'vinculacaoPessoaBarramento-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVinculacaoPessoaBarramentoEditAppState,
     (state: VinculacaoPessoaBarramentoEditAppState) => state
 );

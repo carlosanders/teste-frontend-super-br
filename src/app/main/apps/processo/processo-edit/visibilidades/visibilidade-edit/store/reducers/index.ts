@@ -10,7 +10,7 @@ export const getVisibilidadeEditAppState = createFeatureSelector<VisibilidadeEdi
     'visibilidade-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVisibilidadeEditAppState,
     (state: VisibilidadeEditAppState) => state
 );

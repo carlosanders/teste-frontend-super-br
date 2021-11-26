@@ -15,7 +15,7 @@ export const getCaixaEmailAppState = createFeatureSelector<CaixaEmailAppState>(
     'caixa-email-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCaixaEmailAppState,
     (state: CaixaEmailAppState) => state
 );

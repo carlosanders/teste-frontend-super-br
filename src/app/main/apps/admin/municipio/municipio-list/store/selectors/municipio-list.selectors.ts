@@ -7,38 +7,38 @@ import {Municipio} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Municipio>(municipioSchema);
 
-export const getMunicipioListState = createSelector(
+export const getMunicipioListState: any = createSelector(
     getMunicipioListAppState,
     (state: MunicipioListAppState) => state.municipioList
 );
 
-export const getMunicipioListIds = createSelector(
+export const getMunicipioListIds: any = createSelector(
     getMunicipioListState,
     (state: MunicipioListState) => state.entitiesId
 );
 
-export const getMunicipioList = createSelector(
+export const getMunicipioList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getMunicipioListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getMunicipioListState,
     (state: MunicipioListState) => state.pagination
 );
 
-export const getMunicipioListLoaded = createSelector(
+export const getMunicipioListLoaded: any = createSelector(
     getMunicipioListState,
     (state: MunicipioListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getMunicipioListState,
     (state: MunicipioListState) => state.loading
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getMunicipioListState,
     (state: MunicipioListState) => state.deletingErrors
 );

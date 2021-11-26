@@ -6,33 +6,33 @@ import {VinculacaoPessoaBarramento} from "@cdk/models/vinculacao-pessoa-barramen
 
 const schemaVinculacaoPessoaBarramentoSelectors = createSchemaSelectors<VinculacaoPessoaBarramento>(vinculacaoPessoaBarramentoSchema);
 
-export const getVinculacaoPessoaBarramentoEditState = createSelector(
+export const getVinculacaoPessoaBarramentoEditState: any = createSelector(
     getVinculacaoPessoaBarramentoEditAppState,
     (state: VinculacaoPessoaBarramentoEditAppState) => state.vinculacaoPessoaBarramento
 );
 
-export const getVinculacaoPessoaBarramentoId = createSelector(
+export const getVinculacaoPessoaBarramentoId: any = createSelector(
     getVinculacaoPessoaBarramentoEditState,
     (state: VinculacaoPessoaBarramentoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getVinculacaoPessoaBarramento = createSelector(
+export const getVinculacaoPessoaBarramento: any = createSelector(
     schemaVinculacaoPessoaBarramentoSelectors.getNormalizedEntities,
     getVinculacaoPessoaBarramentoId,
     schemaVinculacaoPessoaBarramentoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getVinculacaoPessoaBarramentoEditState,
     (state: VinculacaoPessoaBarramentoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getVinculacaoPessoaBarramentoEditState,
     (state: VinculacaoPessoaBarramentoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getVinculacaoPessoaBarramentoEditState,
     (state: VinculacaoPessoaBarramentoEditState) => state.errors
 );

@@ -9,7 +9,7 @@ export const getEspecieProcessoListAppState = createFeatureSelector<EspecieProce
     'especie-processo-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEspecieProcessoListAppState,
     (state: EspecieProcessoListAppState) => state
 );

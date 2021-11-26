@@ -9,7 +9,7 @@ export const getUnidadesListAppState = createFeatureSelector<UnidadesListAppStat
     'unidades-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getUnidadesListAppState,
     (state: UnidadesListAppState) => state
 );

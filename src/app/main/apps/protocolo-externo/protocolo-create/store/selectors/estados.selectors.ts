@@ -6,28 +6,28 @@ import {estado as estadoSchema} from '@cdk/normalizr';
 
 const schemaEstadoSelectors = createSchemaSelectors<Estado>(estadoSchema);
 
-export const getEstadosState = createSelector(
+export const getEstadosState: any = createSelector(
     getProtocoloCreateAppState,
     (state: ProtocoloCreateAppState) => state.estados
 );
 
-export const getErrorsEstados = createSelector(
+export const getErrorsEstados: any = createSelector(
     getEstadosState,
     (state: EstadoState) => state.errors
 );
 
-export const getEstadosId = createSelector(
+export const getEstadosId: any = createSelector(
     getEstadosState,
     (state: EstadoState) => state.estadosId
 );
 
-export const getEstados = createSelector(
+export const getEstados: any = createSelector(
     schemaEstadoSelectors.getNormalizedEntities,
     getEstadosId,
     schemaEstadoSelectors.entitiesProjector
 );
 
-export const getEstadosHasLoaded = createSelector(
+export const getEstadosHasLoaded: any = createSelector(
     getEstadosState,
     (state: EstadoState) => state.estadosLoaded
 );
