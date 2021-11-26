@@ -8,7 +8,7 @@ cdk-login-dialog {
     flex-direction: column;
 
     @include media-breakpoint('xs') {
-        padding: 16px;
+        padding: 8px;
     }
 
     .login-form {
@@ -30,7 +30,7 @@ cdk-login-dialog {
 
         .title {
             font-size: 20px;
-            margin: 16px 0 32px 0;
+            margin: 8px 0 32px 0;
         }
 
         form {
@@ -50,20 +50,20 @@ cdk-login-dialog {
                 margin-top: 8px;
 
                 .remember-me {
-                    margin-bottom: 16px
+                    margin-bottom: 8px
                 }
 
                 .forgot-password {
                     font-size: 13px;
                     font-weight: 600;
-                    margin-bottom: 16px
+                    margin-bottom: 8px
                 }
             }
 
             mat-radio-group {
                 display: flex;
                 flex-direction: row;
-                padding: 16px;
+                padding: 8px;
 
                 mat-radio-button {
                     margin-right: 8px;
@@ -72,7 +72,7 @@ cdk-login-dialog {
 
             .submit-button {
                 width: 220px;
-                margin: 16px auto;
+                margin: 8px auto;
                 display: block;
 
                 @include media-breakpoint('xs') {
@@ -86,7 +86,7 @@ cdk-login-dialog {
                 border-style: solid;
                 strong{
                     vertical-align: top;
-                    font-size: 16px;
+                    font-size: 13px;
                 }
             }
         }

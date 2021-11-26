@@ -7,8 +7,8 @@
       "start": "ng serve --open",
       "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --dev",
       "build-stats": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --dev --stats-json",
-      "build-prod": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --prod",
-      "build-prod-stats": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --prod --stats-json",
+      "build-prod": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production",
+      "build-prod-stats": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production --stats-json",
       "test": "ng test",
       "lint": "ng lint",
       "e2e": "ng e2e",
@@ -83,7 +83,8 @@
         "text-mask-addons": "3.8.0",
         "tinycolor2": "1.4.2",
         "web-animations-js": "2.3.2",
-        "zone.js": "0.11.4"
+        "zone.js": "0.11.4",
+        "crypto-js": "4.1.1"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "13.0.3",

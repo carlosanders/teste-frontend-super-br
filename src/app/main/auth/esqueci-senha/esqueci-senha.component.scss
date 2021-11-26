@@ -11,7 +11,7 @@ esqueci-senha {
             padding: 32px;
 
             @include media-breakpoint('xs') {
-                padding: 16px;
+                padding: 8px;
             }
 
             #esqueci-senha-form {
@@ -35,7 +35,7 @@ esqueci-senha {
 
                 .title {
                     font-size: 20px;
-                    margin: 16px 0 32px 0;
+                    margin: 8px 0 32px 0;
                 }
 
                 form {
@@ -48,7 +48,7 @@ esqueci-senha {
 
                     .submit-button {
                         width: 220px;
-                        margin: 16px auto;
+                        margin: 8px auto;
                         display: block;
 
                         @include media-breakpoint('xs') {

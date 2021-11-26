@@ -7,7 +7,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
         <mat-form-field>
             <mat-label>Nome</mat-label>
             <input matInput #nome
@@ -22,7 +22,7 @@
             <input matInput placeholder="Modalidade de Destinação"
                    formControlName="modalidadeDestinacao"
                    [matAutocomplete]="modalidadeDestinacao.autocomplete"
-                   minlength="2" 
+                   minlength="2"
                    (change)="verificarValor($event)">
             <cdk-modalidade-destinacao-autocomplete #modalidadeDestinacao="modalidadeDestinacaoAutocomplete"
                                                     [control]="form.get('modalidadeDestinacao')">
@@ -32,7 +32,7 @@
         <mat-form-field>
             <mat-label>Prazo da Guarda da Idade Corrente do Evento</mat-label>
             <input matInput #prazoGuardaFaseCorrenteEvento
-                   minlength="2" 
+                   minlength="2"
                    name="prazoGuardaFaseCorrenteEvento"
                    formControlName="prazoGuardaFaseCorrenteEvento">
         </mat-form-field>

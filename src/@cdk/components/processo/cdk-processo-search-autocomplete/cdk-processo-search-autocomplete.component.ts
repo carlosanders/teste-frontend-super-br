@@ -74,23 +74,29 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             tap(() => this.processoSearchList = []),
             debounceTime(300),
             distinctUntilChanged(),
-            filter(term => !!term && term.length >= 2),
+            filter(term => !!term && term.length >= 4),
             switchMap((value: string) => {
                     const termFilter = [];
+                    const filters = {};
 
                     if (this.searchField === 'outroNumero') {
-                        value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                            const filters = {};
-                            filters[this.searchField] = `like:%${bit}%`;
-                            termFilter.push(filters);
-                        });
+                        filters[this.searchField] = `like:${value}%`;
+                        termFilter.push(filters);
+                        // value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                        //     const filters = {};
+                        //     filters[this.searchField] = `like:${bit}%`;
+                        //     termFilter.push(filters);
+                        // });
                     } else {
                         value = value.split('.').join('').split('/').join('').replace('-', '');
-                        value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
-                            const filters = {};
-                            filters[this.searchField] = `like:%${bit}%`;
-                            termFilter.push(filters);
-                        });
+                        filters[this.searchField] = `like:${value}%`;
+                        termFilter.push(filters);
+                        // value = value.split('.').join('').split('/').join('').replace('-', '');
+                        // value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                        //     const filters = {};
+                        //     filters[this.searchField] = `like:${bit}%`;
+                        //     termFilter.push(filters);
+                        // });
                     }
 
                     if (typeof value === 'string' && (termFilter.length)) {
@@ -100,7 +106,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                             ...this.pagination.filter,
                             andX: termFilter
                         };
-                        return this._processoService.search(
+                        return this._processoService.query(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,

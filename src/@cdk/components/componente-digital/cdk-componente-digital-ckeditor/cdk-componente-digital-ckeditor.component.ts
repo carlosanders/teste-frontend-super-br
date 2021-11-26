@@ -228,9 +228,20 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On init
      */
     ngOnInit(): void {
+        if (this.mode === 'documento') {
+            this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+        } else {
+            this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
+        }
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (this.mode === 'documento') {
+            this.config['contentsCss'] = '/assets/ckeditor/contents.css';
+        } else {
+            this.config['contentsCss'] = '/assets/ckeditor/contents-fields.css';
+        }
+
         if (changes['repositorio']) {
             if (this.editor) {
                 if (this.repositorio) {

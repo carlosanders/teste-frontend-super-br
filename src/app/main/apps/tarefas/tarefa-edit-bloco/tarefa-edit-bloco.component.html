@@ -5,34 +5,34 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
-    <div class="bloco-edit p-16 mb-16" fxLayout="column" *ngIf="operacoes.length === 0">
+    <div class="bloco-edit p-8 mb-8" fxLayout="column" *ngIf="operacoes.length === 0">
         <mat-slide-toggle [(ngModel)]="blocoEditEspecie"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Espécie de Tarefa
         </mat-slide-toggle>
 
         <mat-slide-toggle [(ngModel)]="blocoEditDistribuicao"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Distribuição
         </mat-slide-toggle>
 
         <mat-slide-toggle [(ngModel)]="blocoEditUrgente"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Urgência
         </mat-slide-toggle>
 
         <mat-slide-toggle [(ngModel)]="blocoEditInicioPrazo" [disabled]="prazoDesabilitado"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Início do Prazo
         </mat-slide-toggle>
 
         <mat-slide-toggle [(ngModel)]="blocoEditFinalPrazo" [disabled]="prazoDesabilitado"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Final do Prazo
         </mat-slide-toggle>
 
         <mat-slide-toggle [(ngModel)]="blocoEditObservacao"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-8 mb-8" fxFlex="0 1 auto">
             Observação
         </mat-slide-toggle>
 
