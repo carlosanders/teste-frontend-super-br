@@ -112,6 +112,9 @@
                     </ng-container>
                 </button>
                 <mat-menu fxHide #selectMenuMinutas="matMenu">
+                    <button mat-menu-item (click)="doMinutas()">
+                        Gerenciar
+                    </button>
                     <button mat-menu-item (click)="doUploadBloco()">
                         Upload
                     </button>

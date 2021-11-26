@@ -314,6 +314,13 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         ]).then();
     }
 
+    doMinutas(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/minutas'
+        ]).then();
+    }
+
     doEditTarefaBloco(): void {
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'

@@ -834,6 +834,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
+    doMinutas(): void {
+        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/minutas']).then();
+    }
+
     doMovimentarBloco(): void {
         // tslint:disable-next-line:max-line-length
         // eslint-disable-next-line max-len

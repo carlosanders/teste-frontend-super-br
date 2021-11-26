@@ -94,6 +94,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     delete = new EventEmitter<Tarefa>();
 
     @Output()
+    gerenciarMinutas = new EventEmitter<any>();
+
+    @Output()
     restauraTarefa = new EventEmitter<Tarefa>();
 
     @Output()
@@ -559,6 +562,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doEtiquetarBloco(): void {
         this.etiquetarBloco.emit();
+    }
+
+    doMinutas(): void {
+        this.gerenciarMinutas.emit();
     }
 
     doUploadBloco(): void {

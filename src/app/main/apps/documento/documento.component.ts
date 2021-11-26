@@ -130,11 +130,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((screen) => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 
@@ -142,8 +138,8 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
             // Entrou na rota de visualizar processo
             this.matTabGroup.selectedIndex = 1;
-            const steps = this.routerState.params['stepHandle'] ? this.routerState.params['stepHandle'].split('-') : false;
-            if (steps) {
+            if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
+                const steps = this.routerState.params['stepHandle'].split('-');
                 this._store.dispatch(new SetCurrentStep({
                     step: steps[0],
                     subStep: steps[1]
@@ -183,7 +179,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this.reloadJuntadas();
             return;
         }
-        if (this.routerState.params.stepHandle) {
+        if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                 step: steps[0],
@@ -219,7 +215,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.atualizarJuntadaId = !this.deveRecarregarJuntadas && url.indexOf('/processo/' + this.routerState.params['processoHandle'] + '/visualizar') !== -1
         && !!this.documento.juntadaAtual ? this.documento.juntadaAtual.id : null;
         this.destroying = true;
-        this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
+        this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1;
 
         if (url.indexOf('/capa') !== -1) {
             url += '/mostrar';
@@ -228,7 +224,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this.getDocumentosAtividades = true;
         } else if (url.indexOf('/oficios') !== -1) {
             this.getDocumentosAvulsos = true;
-        } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
+        } else if (url.indexOf('/processo') !== -1 && url.indexOf('/tarefa/') !== -1) {
             this.getDocumentosProcesso = true;
         }
 
@@ -401,6 +397,9 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
                 primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
                 if (this.documento.vinculacaoDocumentoPrincipal) {
                     sidebar = 'editar/dados-basicos';
+                }
+                if (!!this.documento.documentoAvulsoRemessa) {
+                    sidebar = 'oficio/dados-basicos';
                 }
                 this._router.navigate([{outlets: {primary: primary, sidebar: sidebar}}],
                     {
