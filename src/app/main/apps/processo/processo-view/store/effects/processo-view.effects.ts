@@ -122,7 +122,8 @@ export class ProcessoViewEffect {
                 action.payload.offset,
                 JSON.stringify(action.payload.sort),
                 JSON.stringify(action.payload.populate),
-                JSON.stringify(chaveAcesso));
+                JSON.stringify(chaveAcesso),
+                'app/main/apps/processo/processo-view#juntadas');
         }),
         concatMap(response => [
             new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
