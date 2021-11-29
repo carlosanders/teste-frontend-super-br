@@ -1,9 +1,12 @@
 import {HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ModelService} from '@cdk/services/model.service';
 import {classToPlain, plainToClass} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {map} from 'rxjs/operators';
+import * as _ from 'lodash';
+import md5 from 'crypto-js/md5';
+import moment from 'moment';
 
 export class ParentGenericService<T> {
 
@@ -24,7 +27,7 @@ export class ParentGenericService<T> {
             );
     }
 
-    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}', preload: any = null): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -33,9 +36,54 @@ export class ParentGenericService<T> {
         params['populate'] = populate;
         params['context'] = context;
 
+        const cachedResponse = JSON.parse(localStorage.getItem(preload));
+        // depois retorna o response cacheado
+        if (cachedResponse &&
+            (cachedResponse['hash'] === md5(JSON.stringify(params)).toString()) &&
+            (parseInt(moment().format('YYYYMMDDHmmss'), 10) < parseInt(cachedResponse['expire'], 10))) {
+            // primeiro dá o próximo preload
+            if (preload && cachedResponse['fetched'] < cachedResponse['response']['total']) {
+                const newParams = _.cloneDeep(params);
+                newParams['offset'] = params['offset'] + params['limit'];
+                const o = this.modelService.get(this.path, new HttpParams({fromObject: newParams}))
+                    .pipe(
+                        map((newResponse: any) => {
+                                localStorage.setItem(preload, JSON.stringify({
+                                    expire: moment().add(1, 'minutes').format('YYYYMMDDHmmss'),
+                                    signature: md5(JSON.stringify(newParams['where'])).toString(),
+                                    hash: md5(JSON.stringify(newParams)).toString(),
+                                    response: newResponse,
+                                    fetched: cachedResponse['fetched'] + newResponse['entities'].length
+                                }));
+                            }
+                        )).subscribe();
+            }
+            return of(new PaginatedResponse(plainToClass(this.clz, cachedResponse['response']['entities']), cachedResponse['response']['total']));
+        }
+
         return this.modelService.get(this.path, new HttpParams({fromObject: params}))
             .pipe(
-                map(response => new PaginatedResponse(plainToClass(this.clz, response['entities']), response['total']))
+                map((response: any) => {
+                    // temos preload a fazer?
+                    if (preload) {
+                        const newParams = _.cloneDeep(params);
+                        newParams['offset'] = params['offset'] + params['limit'];
+                        this.modelService.get(this.path, new HttpParams({fromObject: newParams}))
+                            .pipe(
+                                map((newResponse: any) => {
+                                        localStorage.setItem(preload, JSON.stringify({
+                                            expire: moment().add(1, 'minutes').format('YYYYMMDDHmmss'),
+                                            signature: md5(JSON.stringify(newParams['where'])).toString(),
+                                            hash: md5(JSON.stringify(newParams)).toString(),
+                                            response: newResponse,
+                                            fetched: response['entities'].length + newResponse['entities'].length
+                                        }));
+                                    }
+                                )).subscribe();
+                    }
+                    // retorna o response do server
+                    return new PaginatedResponse(plainToClass(this.clz, response['entities']), response['total']);
+                })
             );
     }
 
@@ -93,6 +141,4 @@ export class ParentGenericService<T> {
         params['context'] = context;
         return this.modelService.delete(this.path, id, new HttpParams({fromObject: params}));
     }
-
-
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Tarefa, Usuario} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
@@ -58,7 +58,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         return this.http.patch(
             `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'undelete'}` + environment.xdebug,
             null,
-            { params }
+            {params}
         ).pipe(
             map((response) => {
                 response = plainToClass(Tarefa, response);
@@ -94,10 +94,8 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         return this.http.get(
             `${environment.api_url}${'administrativo/tarefa'}/contar_tarefa_pasta_usuario/${tarefa.usuarioResponsavel.id}` + environment.xdebug,
             {params}
-        ).
-        pipe(
+        ).pipe(
             map(response => plainToClass(Tarefa, response))
         );
     }
-
 }
