@@ -42,15 +42,14 @@ export class ParentGenericService<T> {
             (cachedResponse['hash'] === md5(JSON.stringify(params)).toString()) &&
             (parseInt(moment().format('YYYYMMDDHmmss'), 10) < parseInt(cachedResponse['expire'], 10))) {
             // primeiro dá o próximo preload
-            if (preload && cachedResponse['fetched'] < cachedResponse['response']['total']) {
+            if (preload && (cachedResponse['fetched'] < cachedResponse['response']['total'])) {
                 const newParams = _.cloneDeep(params);
                 newParams['offset'] = params['offset'] + params['limit'];
                 const o = this.modelService.get(this.path, new HttpParams({fromObject: newParams}))
                     .pipe(
                         map((newResponse: any) => {
                                 localStorage.setItem(preload, JSON.stringify({
-                                    expire: moment().add(1, 'minutes').format('YYYYMMDDHmmss'),
-                                    signature: md5(JSON.stringify(newParams['where'])).toString(),
+                                    expire: moment().add(2, 'minutes').format('YYYYMMDDHmmss'),
                                     hash: md5(JSON.stringify(newParams)).toString(),
                                     response: newResponse,
                                     fetched: cachedResponse['fetched'] + newResponse['entities'].length
@@ -65,15 +64,14 @@ export class ParentGenericService<T> {
             .pipe(
                 map((response: any) => {
                     // temos preload a fazer?
-                    if (preload) {
+                    if (preload && (response['entities'].length < response['total'])) {
                         const newParams = _.cloneDeep(params);
                         newParams['offset'] = params['offset'] + params['limit'];
                         this.modelService.get(this.path, new HttpParams({fromObject: newParams}))
                             .pipe(
                                 map((newResponse: any) => {
                                         localStorage.setItem(preload, JSON.stringify({
-                                            expire: moment().add(1, 'minutes').format('YYYYMMDDHmmss'),
-                                            signature: md5(JSON.stringify(newParams['where'])).toString(),
+                                            expire: moment().add(2, 'minutes').format('YYYYMMDDHmmss'),
                                             hash: md5(JSON.stringify(newParams)).toString(),
                                             response: newResponse,
                                             fetched: response['entities'].length + newResponse['entities'].length
