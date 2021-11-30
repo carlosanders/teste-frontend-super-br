@@ -27,6 +27,7 @@ export class ParentGenericService<T> {
             );
     }
 
+    // eslint-disable-next-line max-len
     query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}', preload: any = null): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
@@ -36,7 +37,12 @@ export class ParentGenericService<T> {
         params['populate'] = populate;
         params['context'] = context;
 
+        if (preload) {
+            preload = 'preload_' + preload;
+        }
+
         const cachedResponse = JSON.parse(localStorage.getItem(preload));
+
         // depois retorna o response cacheado
         if (cachedResponse &&
             (cachedResponse['hash'] === md5(JSON.stringify(params)).toString()) &&
