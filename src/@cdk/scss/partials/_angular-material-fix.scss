@@ -41,11 +41,11 @@ button {
 
 // Fix: "Inconsistent font sizes across elements"
 .mat-checkbox {
-    font-size: 8px;
+    font-size: 14px;
 }
 
 .mat-radio-button {
-    font-size: 8px;
+    font-size: 14px;
 }
 
 // Fix: "Input underlines has wrong color opacity value"
@@ -88,8 +88,8 @@ mat-vertical-stepper {
     mat-step-header {
 
         mat-icon {
-            height: 8px !important;
-            width: 8px !important;
+            height: 16px !important;
+            width: 16px !important;
             min-width: 0 !important;
             min-height: 0 !important;
             color: inherit !important;
@@ -98,7 +98,7 @@ mat-vertical-stepper {
 }
 
 mat-vertical-stepper {
-    padding: 8px 0;
+    padding: 16px 0;
 }
 
 // Fix: Chip remove icon is broken due to Cdk's icon helpers
