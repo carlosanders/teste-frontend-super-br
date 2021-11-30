@@ -15,7 +15,7 @@ folder-list-column {
         .list-header {
             height: 64px;
             min-height: 64px;
-            padding: 0 8px 0 16px;
+            padding: 0 8px 0 8px;
             border-bottom: 1px solid;
 
             display: flex;
@@ -85,7 +85,7 @@ folder-list-column {
             .list-cards {
                 position: relative;
                 min-height: 300px;
-                padding: 0 16px;
+                padding: 0 8px;
                 display: flex;
                 flex-direction: column;
                 flex: 1 0 auto;

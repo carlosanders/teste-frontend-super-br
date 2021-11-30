@@ -1,4 +1,4 @@
-<div class="dados-basicos mb-16" *ngIf="(documento$ | async)">
+<div class="dados-basicos mb-8" *ngIf="(documento$ | async)">
     <div class="actions mb-8">
         <button mat-raised-button color="accent" class="mr-sm-12"
                 mat-icon-button (click)="remeterDocumentoAvulso()"
@@ -27,7 +27,7 @@
         <div>
             <mat-slide-toggle [checked]="!!!(documento$ | async).documentoAvulsoRemessa.dataHoraEncerramento"
                               (change)="toggleEncerramento()"
-                              class="mt-16 mr-16 mb-16">
+                              class="mt-8 mr-8 mb-8">
                 Acompanhar a resposta
             </mat-slide-toggle>
         </div>

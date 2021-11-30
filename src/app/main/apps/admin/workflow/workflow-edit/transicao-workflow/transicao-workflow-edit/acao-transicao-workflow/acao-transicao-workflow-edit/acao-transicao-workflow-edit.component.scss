@@ -17,13 +17,13 @@ acao-transicao-workflow-edit {
         flex: 0 1 auto;
         flex-direction: column;
         display: flex;
-        margin-top: 16px;
-        padding: 16px;
+        margin-top: 8px;
+        padding: 8px;
 
         > .trigger-acao-item {
             display: flex;
             flex: 1 1 auto;
-            padding: 16px 16px 16px 24px;
+            padding: 8px 8px 8px 24px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
             text-transform: none;
             cursor: pointer;
@@ -46,7 +46,7 @@ acao-transicao-workflow-edit {
         display: flex;
         flex-direction: column;
         flex: 1 1 auto;
-        padding: 0 16px 16px;
+        padding: 0 8px 8px;
 
         .responsive-grid .content {
             height: 0 !important;

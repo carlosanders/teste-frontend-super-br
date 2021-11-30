@@ -2,7 +2,7 @@
     <h3 style="font-weight: bold">Anexos</h3>
 
     <button mat-mini-fab *ngIf="(documento$ | async)?.minuta"
-            class="ml-8 mb-16 active accent add-file-button"
+            class="ml-8 mb-8 active accent add-file-button"
             [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
             (click)="$event.stopPropagation()">
         <mat-icon class="secondary-text">attach_file</mat-icon>

@@ -7,7 +7,7 @@ tarefa-edit-bloco {
         flex: 1 1 auto;
         flex-direction: column;
         display: flex;
-        padding: 16px;
+        padding: 8px;
         overflow-y: auto;
         .bloco-edit {
             @include mat-elevation(1);
@@ -22,7 +22,7 @@ tarefa-edit-bloco {
         }
 
         > div.actions {
-            margin-top: 16px;
+            margin-top: 8px;
             display: flex;
             flex-direction: row;
             flex: 0 0 auto;

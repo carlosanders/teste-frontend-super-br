@@ -10,7 +10,7 @@
                         (create)="addEtiqueta($event)"
                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
 
-    <div *ngIf="(isSaving$ | async) === false" fxLayout="row" class="mr-sm-12 mt-8 mb-16" fxFlex
+    <div *ngIf="(isSaving$ | async) === false" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
         <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                 [disabled]="!(relatorios$ | async)?.length || !etiquetas.length">
@@ -18,7 +18,7 @@
         </button>
     </div>
 
-    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>

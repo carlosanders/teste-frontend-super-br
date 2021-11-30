@@ -2,7 +2,7 @@ cdk-tarefa-list-item {
 
     flex: 0 1 auto;
     display: flex;
-    padding: 16px 16px 16px 24px;
+    padding: 8px 8px 8px 24px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     text-transform: none;
     cursor: pointer;
@@ -52,13 +52,13 @@ cdk-tarefa-list-item {
                 font-weight: bold;
             }
 
-            margin: 0 16px 0 8px;
+            margin: 0 8px 0 8px;
 
             .title {
                 flex: 1 1 auto;
                 display: flex;
                 flex-direction: row;
-                font-size: 15px;
+                font-size: 14px;
                 font-weight: 600;
             }
 
@@ -166,7 +166,7 @@ cdk-tarefa-list-item {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-                margin-top: 8px;
+                margin-top: 6px;
 
                 .etiqueta {
                     font-size: 11px;

@@ -677,7 +677,7 @@ $carded-header-height-without-toolbar: $carded-header-height - $carded-toolbar-h
             &.fullwidth {
 
                 > .center {
-                    padding: 0 16px;
+                    padding: 0 8px;
                 }
             }
 
@@ -685,7 +685,7 @@ $carded-header-height-without-toolbar: $carded-header-height - $carded-toolbar-h
             &.right-sidebar {
 
                 > .center {
-                    margin: 0 16px;
+                    margin: 0 8px;
                 }
             }
         }
