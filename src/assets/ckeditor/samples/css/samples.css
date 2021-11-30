@@ -25,7 +25,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  font: 8px / 1.8 Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font: 16px / 1.8 Arial, 'Helvetica Neue', Helvetica, sans-serif;
   font-weight: 300;
   color: #575757;
 }
@@ -406,7 +406,7 @@ html {
 @-webkit-keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }}
 @-moz-keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }}
 @-o-keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }}
-@keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }
+@keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 };
 }
 .content h1:target a,
 .content h2:target a,
@@ -452,7 +452,7 @@ html {
 .content blockquote {
   font-style: italic;
   font-family: Georgia, Times, "Times New Roman", serif;
-  font-size: 8px;
+  font-size: 16px;
   font-size: 1rem;
   line-height: 28.8px;
   line-height: 1.8rem;
