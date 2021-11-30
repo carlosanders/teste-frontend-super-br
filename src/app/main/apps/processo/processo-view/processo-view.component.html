@@ -12,7 +12,7 @@
         <!-- HEADER -->
         <div class="header" *ngIf="routerState?.url?.indexOf('/capa') === -1 && !vinculacao && !desentranhamento && !documentoAvulso && !modelos">
 
-            <button mat-icon-button class="sidebar-toggle mr-16 cdk-black-fg" fxHide.gt-md
+            <button mat-icon-button class="sidebar-toggle mr-8 cdk-black-fg" fxHide.gt-md
                     (click)="toggleSidebar(this.sidebarName)">
                 <mat-icon>menu</mat-icon>
             </button>
@@ -27,7 +27,7 @@
                 </div>
 
                 <div>
-                    <h3 [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">{{fileName}}</h3>
+                    <span [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">{{fileName}}</span>
                 </div>
 
                 <div class="right">
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="m-16" *ngIf="capa && this.processo?.id && this.processo?.origemDados">
+        <div class="m-8" *ngIf="capa && this.processo?.id && this.processo?.origemDados">
             <mat-card *showIfRole="'ROLE_COLABORADOR'">
                 <mat-card-subtitle>Integração</mat-card-subtitle>
                 <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>

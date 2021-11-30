@@ -32,7 +32,7 @@ chat-mensagem-list {
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
-        padding: 0 16px 0px 45px;
+        padding: 0 8px 0px 45px;
         margin-top: 5px;
 
         chat-imagem {
@@ -100,7 +100,7 @@ chat-mensagem-list {
 
             .avatar {
                 order: 2;
-                margin: 0 0 0 16px;
+                margin: 0 0 0 8px;
             }
 
             .bubble {

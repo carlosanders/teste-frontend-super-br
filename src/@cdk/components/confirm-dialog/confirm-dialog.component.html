@@ -3,8 +3,8 @@
     <section class="p-8" *ngIf="data.message">{{data.message}}</section>
     <section class="p-8" *ngIf="!data.message"><b>Deseja confirmar a ação?</b></section>
 </div>
-<div mat-dialog-actions class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
-    <button mat-raised-button class="mat-accent mr-16" color="accent" (click)="dialogRef.close(true)">
+<div mat-dialog-actions class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
+    <button mat-raised-button class="mat-accent mr-8" color="accent" (click)="dialogRef.close(true)">
         {{data?.confirmLabel ? data.confirmLabel : 'Confirmar'}}
     </button>
     <button mat-button mat-dialog-close *ngIf="showCancel" (click)="dialogRef.close(false)">{{data?.cancelLabel ? data.cancelLabel : 'Cancelar'}}</button>

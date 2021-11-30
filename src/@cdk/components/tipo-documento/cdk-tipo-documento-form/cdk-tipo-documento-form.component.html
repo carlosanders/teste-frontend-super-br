@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="8px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <mat-label>Nome</mat-label>
@@ -24,7 +24,7 @@
                   matInput #descricao
                   cdkTextareaAutosize
                   #autosize="cdkTextareaAutosize"
-                  maxlength="255" 
+                  maxlength="255"
                   cdkAutosizeMinRows="4"
                   cdkAutosizeMaxRows="10" upperCase required></textarea>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>

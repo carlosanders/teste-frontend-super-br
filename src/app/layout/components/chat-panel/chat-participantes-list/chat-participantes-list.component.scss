@@ -7,7 +7,7 @@ chat-participantes-list {
         .chat-toolbar {
             mat-toolbar-row {
                 form {
-                    padding: 0 16px;
+                    padding: 0 8px;
                     flex-direction: row;
                     box-sizing: border-box;
                     display: flex;
@@ -96,7 +96,7 @@ chat-participantes-list {
 
             .chat-participantes-actions {
                 display: flex;
-                margin-right: 16px;
+                margin-right: 8px;
             }
         }
 

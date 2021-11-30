@@ -97,6 +97,24 @@ mat-option.mat-option {
     max-width: 400px !important;
 }
 
+.mat-icon-button {
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+}
+
+.mat-chip-list {
+    zoom: 0.7;
+}
+
+.mat-card-title {
+    font-size: 20px !important;
+}
+
+.mat-toolbar {
+    height: 48px;
+}
+
 mat-cell, .mat-cell,
 mat-footer-cell, .mat-footer-cell,
 mat-header-cell, .mat-header-cell {

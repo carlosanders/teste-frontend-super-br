@@ -64,7 +64,7 @@ chat-panel {
                                     }
                                 }
                                 .chat-profile-name {
-                                    font-size: 16px;
+                                    font-size: 8px;
                                     box-sizing: border-box;
                                     white-space: nowrap;
                                     overflow: hidden;
@@ -131,7 +131,7 @@ chat-panel {
 
                                         textarea {
                                             overflow: hidden;
-                                            margin: 16px 48px 16px 16px;
+                                            margin: 8px 48px 8px 8px;
                                             width: calc(100% - 64px);
                                             padding: 0;
                                             font-size: 14px;
@@ -145,7 +145,7 @@ chat-panel {
                         }
                         .send-message-button {
                             position: absolute;
-                            right: 16px;
+                            right: 8px;
                         }
                     }
                 }

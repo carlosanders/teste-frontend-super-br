@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Assinatura Eletrônica</h1>
-<form class="p-24 mr-24" fxLayoutGap="16px"
+<form class="p-24 mr-24" fxLayoutGap="8px"
       fxLayout="column"
       fxLayoutAlign="start"
       name="form" [formGroup]="form" (keyup.enter)="close()">
@@ -22,11 +22,11 @@
                 Campo deve ter no máximo 16 dígitos!
             </mat-error>
         </mat-form-field>
-        <mat-slide-toggle class="mt-16" formControlName="certificadoDigital">
+        <mat-slide-toggle class="mt-8" formControlName="certificadoDigital">
             Usar Certificado Digital
         </mat-slide-toggle>
     </div>
-    <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+    <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
         <button mat-raised-button color="accent" [disabled]="form.invalid" [mat-dialog-close]="{
                 certificadoDigital: this.form.get('certificadoDigital').value,
@@ -34,6 +34,6 @@
             }">
             Assinar
         </button>
-        <button mat-raised-button class="warn ml-16" mat-dialog-close>Cancelar</button>
+        <button mat-raised-button class="warn ml-8" mat-dialog-close>Cancelar</button>
     </div>
 </form>

@@ -12,7 +12,7 @@
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && !rightNavbar" fxHide.gt-md></div>
 
             <div fxLayout="row" fxLayoutAlign="start center" *ngIf="horizontalNavbar">
-                <div class="logo ml-16">
+                <div class="logo ml-8">
                     <img class="logo-icon" [src]="_cdkConfigService.logo">
                 </div>
             </div>
@@ -24,9 +24,9 @@
                 <button mat-button [matMenuTriggerFor]="userMenu"
                         class="user-button">
                     <div fxLayout="row" fxLayoutAlign="center center">
-                        <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/User.png"
+                        <img class="avatar mr-0 mr-sm-8" src="assets/images/avatars/User.png"
                              *ngIf="!!userProfile?.imgPerfil?.conteudo === false">
-                        <img class="avatar mr-0 mr-sm-16" [src]="userProfile.imgPerfil.conteudo|safeResourceUrl"
+                        <img class="avatar mr-0 mr-sm-8" [src]="userProfile.imgPerfil.conteudo|safeResourceUrl"
                              *ngIf="!!userProfile?.imgPerfil?.conteudo === true">
                         <span class="username mr-12" fxHide fxShow.gt-sm>{{userProfile?.nome.split(' ')[0]}}</span>
                         <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
@@ -50,14 +50,14 @@
 
             <div class="toolbar-separator"></div>
 
-            <cdk-search-bar class="pesquisa-rapida" (inputText)="search($event)" *showIfRole="'ROLE_COLABORADOR'"></cdk-search-bar>
+            <cdk-search-bar class="mr-8 ml-8 pesquisa-rapida" (inputText)="search($event)" *showIfRole="'ROLE_COLABORADOR'"></cdk-search-bar>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
 
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button"
+                    class="mr-8 ml-8 quick-panel-toggle-button"
                     aria-label="Notificações"
                     [matMenuTriggerFor]="menuNoticacoes">
                 <mat-icon *ngIf="carregandoNotificacao">
@@ -128,7 +128,7 @@
 
             <button mat-icon-button
                     id="help"
-                    class="quick-panel-toggle-button2"
+                    class="mr-8 ml-8 quick-panel-toggle-button2"
                     (click)="toggleSidebarOpen('ajudaPanel')"
                     aria-label="Ajuda">
                 <mat-icon class="secondary-text">live_help</mat-icon>
@@ -137,7 +137,7 @@
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button2"
+                    class="mr-8 ml-8 quick-panel-toggle-button2"
                     (click)="toggleChatPanel()"
                     aria-label="Mensagem">
                 <mat-icon *ngIf="carregandoChat">
@@ -155,7 +155,7 @@
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button3"
+                    class="mr-8 ml-8 quick-panel-toggle-button3"
                     *ngIf="(!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen || this._cdkSidebarService.getSidebar('quickPanel').folded)
                      && operacoesProcessando === 0"
                     (click)="toggleQuickPanel()"

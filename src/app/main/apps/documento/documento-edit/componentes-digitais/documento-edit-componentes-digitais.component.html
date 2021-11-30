@@ -1,7 +1,7 @@
 <h3 style="font-weight: bold">Componentes Digitais</h3>
 
 <button mat-mini-fab *ngIf="(documento$ | async)?.minuta && !formComponentesDigitais"
-        class="ml-8 mb-16 active accent add-file-button"
+        class="ml-8 mb-8 active accent add-file-button"
         matTooltip="Novo Componente Digital" aria-label="novo componente digital"
         (click)="uploadComponenteDigital()">
     <mat-icon class="secondary-text">attach_file</mat-icon>

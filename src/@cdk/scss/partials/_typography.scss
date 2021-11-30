@@ -47,7 +47,7 @@ html {
 }
 
 body {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 html, body {
@@ -62,11 +62,11 @@ h1, h2, h3, h4, h5, h6,
 }
 
 h1, .h1 {
-    font-size: 24px;
+    font-size: 22px;
 }
 
 h2, .h2 {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 h3, .h3 {
@@ -74,15 +74,15 @@ h3, .h3 {
 }
 
 h4, .h4 {
-    font-size: 15px;
-}
-
-h5, .h5 {
     font-size: 13px;
 }
 
+h5, .h5 {
+    font-size: 11px;
+}
+
 h6, .h6 {
-    font-size: 12px;
+    font-size: 10px;
 }
 
 // Links
@@ -108,7 +108,7 @@ blockquote {
     border-left: 3px solid rgba(0, 0, 0, 0.12);
     font-style: italic;
     margin: 1em 0;
-    padding-left: 16px;
+    padding-left: 8px;
 
     footer {
         font-style: normal;
@@ -123,7 +123,7 @@ blockquote {
         border-right: 3px solid rgba(0, 0, 0, 0.12);
         text-align: right;
         padding-left: 0;
-        padding-right: 16px;
+        padding-right: 8px;
 
         footer {
 
@@ -158,7 +158,7 @@ dl {
     }
 
     dd {
-        margin: 4px 0 16px 0;
+        margin: 4px 0 8px 0;
     }
 }
 
@@ -170,7 +170,7 @@ mark {
 // Pre
 pre {
     line-height: 1.6;
-    margin: 8px 16px;
+    margin: 8px 8px;
     white-space: pre-wrap;
 }
 
@@ -411,7 +411,7 @@ strong {
 
 // Message boxes
 .message-box {
-    padding: 16px;
+    padding: 8px;
     background: #607D8B;
     border-left: 6px solid #37474F;
     color: rgba(255, 255, 255, 1);

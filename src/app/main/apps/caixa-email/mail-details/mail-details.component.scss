@@ -55,7 +55,7 @@ mail-details {
         }
 
         .mail-header {
-            padding-bottom: 16px;
+            padding-bottom: 8px;
             border-bottom: 1px solid;
             flex-direction: row;
             box-sizing: border-box;
@@ -105,7 +105,7 @@ mail-details {
             }
 
             .info {
-                padding-bottom: 16px;
+                padding-bottom: 8px;
                 flex-direction: row;
                 box-sizing: border-box;
                 display: flex;
@@ -122,7 +122,7 @@ mail-details {
                 }
 
                 .avatar {
-                    margin-right: 16px;
+                    margin-right: 8px;
                 }
 
                 .name {
@@ -133,7 +133,7 @@ mail-details {
                 .toggle-details {
                     user-select: none;
                     text-decoration: underline;
-                    padding-top: 16px;
+                    padding-top: 8px;
                     cursor: pointer;
                     font-weight: 600;
                 }
@@ -166,7 +166,7 @@ mail-details {
             border-top: 1px solid;
 
             .title {
-                margin-bottom: 16px;
+                margin-bottom: 8px;
                 font-weight: 600;
             }
 
@@ -196,7 +196,7 @@ mail-details {
 
                 .preview {
                     width: 100px;
-                    margin: 0 16px 8px 0;
+                    margin: 0 8px 8px 0;
                     border-radius: 4px;
                 }
 
