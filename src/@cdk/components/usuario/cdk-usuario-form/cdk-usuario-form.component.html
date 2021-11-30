@@ -5,9 +5,7 @@
                formControlName="username"
                [readonly]="!!usuario"
                [matAutocomplete]="usuarioAutocomplete.autocomplete"
-               required
-               maxlength="11"
-               minlength="11">
+               oninput="this.value=this.value.replace(/\D/g,'')">
         <cdk-usuario-autocomplete
             #usuarioAutocomplete="usuarioAutocomplete"
             [control]="form.get('username')"
@@ -20,9 +18,14 @@
                 (click)="showUsuarioGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
-        <mat-error *ngIf="form.get('username').hasError('formError')">
-            {{form.get('username').errors.formError}}
-        </mat-error>
+        <mat-error *ngIf="form.get('username').invalid && (form.get('username').dirty || form.get('username').touched )">
+            <div *ngIf="form.get('username').errors?.['required']">
+             CPF é Obrigatório
+           </div>
+           <div *ngIf="form.get('username').errors?.['minlength'] || form.get('username').errors?.['maxlength']">
+             CPF deve ter 11 caracteres
+           </div>
+         </mat-error>
     </mat-form-field>
 
     <ng-template
