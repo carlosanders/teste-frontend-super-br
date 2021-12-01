@@ -171,9 +171,3 @@ section.footnotes {
 	margin-top: 4.2mm;
 	padding-top: 2.2mm;
 }
-
-span[data-service] {
-	/* Styles */
-	background-color: yellow;
-	font-family: "Courier";
-}
