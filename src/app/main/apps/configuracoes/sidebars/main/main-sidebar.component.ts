@@ -87,6 +87,11 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                     icon: 'contacts',
                     link: 'grupo-contato'
                 },
+                {
+                    nome: 'Histórico',
+                    icon: 'history',
+                    link: 'historico'
+                },
                 // {
                 //    nome: 'Favoritos',
                 //    icon: 'star_border',
