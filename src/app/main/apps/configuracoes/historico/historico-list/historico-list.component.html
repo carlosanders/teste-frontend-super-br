@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="file_copy"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="historico">
+    </path>
+</div>
+<cdk-historico-grid
+        [loading]="(loading$ | async)"
+        [historicos]="(historicosConfig$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="[]"
+        [displayedColumns]="['id', 'descricao', 'processo', 'criadoEm']"
+        (reload)="reload($event)">
+</cdk-historico-grid>
+
+<router-outlet></router-outlet>
