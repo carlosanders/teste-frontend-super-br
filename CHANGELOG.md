@@ -716,3 +716,5 @@
 * Correção de erro ao fechar editor de minutas em uma determinada rota da aplicação
 * Melhoria para realizar preloading nas listas de tarefas e juntadas
 * Melhoria para consta primeira e ultima paginas nas paginacoes
+* Correção Sistema está permitindo selecionar e salvar um usuário com nível de acesso negativo #690
+* Melhoria inclusão do menu histórico nas Configurações do usuário
