@@ -137,6 +137,11 @@
                 {{form.get('processoOrigem').errors.formError}}
             </mat-error>
         </mat-form-field>
+
+        <mat-slide-toggle *ngIf="form.value.temProcessoOrigem === true" formControlName="processoOrigemIncluirDocumentos">
+            Incluir os documentos
+        </mat-slide-toggle>
+
     </mat-card>
 
     <ng-template *showIfRole="'ROLE_COLABORADOR'">
