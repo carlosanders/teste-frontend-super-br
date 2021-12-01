@@ -62,6 +62,9 @@
                    type="number"
                    max="4"
                    maxlength="2">
+            <mat-error *ngIf="form.get('nivelAcesso').hasError('formError')">
+                {{form.get('nivelAcesso').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
         <mat-checkbox formControlName="enabled"

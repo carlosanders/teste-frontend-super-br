@@ -69,6 +69,10 @@ const routes: Routes = [
                 path       : 'grupo-contato',
                 loadChildren: () => import('./grupo-contato/grupo-contato.module').then(m => m.GrupoContatoModule)
             },
+            {
+                path       : 'historico',
+                loadChildren: () => import('./historico/historico.module').then(m => m.HistoricoModule)
+            },
         ]
     },
     {
