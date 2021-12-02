@@ -163,12 +163,12 @@
                 <mat-icon class="secondary-text">format_list_bulleted</mat-icon>
             </button>
 
-            <div fxLayoutAlign="center center" class="quick-panel-toggle-button3 mat-icon-button"
+            <div style="min-width: 48px;" fxLayoutAlign="center center" class="quick-panel-toggle-button3 mat-icon-button"
                  matTooltip="Processando {{operacoesPendentes}}/{{operacoesProcessando}} item(s)..."
                  *ngIf="(!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen || this._cdkSidebarService.getSidebar('quickPanel').folded)
                   && operacoesProcessando > 0"
                  (click)="toggleQuickPanel()">
-                <mat-spinner diameter="36"></mat-spinner>
+                <mat-spinner diameter="24"></mat-spinner>
             </div>
         </div>
 
