@@ -60,7 +60,7 @@ node {
     stage('Docker build') {
         if (workbench.check.isDevelopOrStagingOrMasterBranch()){
             timeout(time: compileTimeout) {
-                customImg = pipelineWrapper.docker.buildApp(params.IMAGE_NAME, "-f docker/prod/DockerFile .")
+                customImg = pipelineWrapper.docker.buildApp(params.DOCKER_IMAGE_NAME, "-f docker/prod/DockerFile .")
             }
         }else{
             workbench.pipelineUtils.skipCurrentStage();
