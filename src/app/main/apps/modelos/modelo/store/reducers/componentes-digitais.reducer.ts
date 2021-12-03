@@ -1,4 +1,4 @@
-import * as ComponenteDigitalActions from 'app/main/apps/modelo/store/actions/componentes-digitais.actions';
+import * as ComponenteDigitalActions from 'app/main/apps/modelos/modelo/store/actions/componentes-digitais.actions';
 
 export interface ComponenteDigitalState {
     saving: boolean;

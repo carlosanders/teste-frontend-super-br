@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkSharedModule} from '@cdk/shared.module';
-
 import {TranslateModule} from '@ngx-translate/core';
 import {ModeloComponent} from './modelo.component';
 import {DocumentoModeloStoreModule} from './store/store.module';
@@ -10,6 +9,9 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const routes: Routes = [
     {
@@ -19,7 +21,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/modelo';
+const path = 'app/main/apps/modelos/modelo';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -33,14 +35,14 @@ modulesConfig.forEach((module) => {
     ],
     imports: [
         RouterModule.forChild(routes),
-
         CdkModeloGridModule,
-
         DocumentoModeloStoreModule,
-
         TranslateModule,
         CdkSharedModule,
         MatFormFieldModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatIconModule,
     ],
     providers: [
         DocumentoService,

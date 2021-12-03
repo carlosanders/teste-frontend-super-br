@@ -44,6 +44,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     @Input()
     mode = 'list';
 
+    @Input()
+    saving = false;
+
     @Output()
     create = new EventEmitter<any>();
 
