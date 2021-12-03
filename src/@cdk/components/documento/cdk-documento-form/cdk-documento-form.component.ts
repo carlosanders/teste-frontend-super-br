@@ -91,6 +91,8 @@ export class CdkDocumentoFormComponent implements AfterViewInit, OnChanges, OnDe
             dataHoraProducao: [null],
             setorOrigem: [null],
             observacao: [null, [Validators.maxLength(255)]],
+            dependenciaSoftware: [null, [Validators.maxLength(255)]],
+            dependenciaHardware: [null, [Validators.maxLength(255)]],
         });
         this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();

@@ -63,6 +63,10 @@ export class Documento {
 
     copia?: boolean;
 
+    dependenciaSoftware?: string;
+
+    dependenciaHardware?: string;
+
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraProducao?: moment.Moment;
@@ -221,5 +225,7 @@ export class Documento {
         this.modalidadeCopia = null;
         this.acessoRestrito = null;
         this.acessoNegado = null;
+        this.dependenciaSoftware = null;
+        this.dependenciaHardware = null;
     }
 }

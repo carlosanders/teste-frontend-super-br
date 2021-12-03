@@ -63,6 +63,9 @@ export class ComponenteDigital {
 
     failUpload?: boolean;
 
+    @Exclude({toPlainOnly: true})
+    statusVerificacaoVirus?: number;
+
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraSoftwareCriacao?: moment.Moment;
@@ -218,5 +221,6 @@ export class ComponenteDigital {
         this.sub = null;
         this.complete = null;
         this.tipoDocumento = null;
+        this.statusVerificacaoVirus = null;
     }
 }
