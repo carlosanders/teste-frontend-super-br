@@ -146,6 +146,22 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-form-field>
+        <mat-label>Dependências de Software</mat-label>
+        <input matInput #dependenciaSoftware
+               name="dependenciaSoftware"
+               formControlName="dependenciaSoftware"
+               maxlength="255" upperCase>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Dependências de Hardware</mat-label>
+        <input matInput #dependenciaHardware
+               name="dependenciaHardware"
+               formControlName="dependenciaHardware"
+               maxlength="255" upperCase>
+    </mat-form-field>
+
     <!-- Observacao Column -->
     <ng-container matColumnDef="observacao">
         <th mat-header-cell *matHeaderCellDef mat-sort-header
