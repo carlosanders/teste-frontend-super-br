@@ -413,6 +413,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectComponenteDigital(componenteDigital)"
+                                [disabled]="saving"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
                             <mat-icon>keyboard_return</mat-icon>
