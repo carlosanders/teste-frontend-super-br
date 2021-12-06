@@ -147,6 +147,7 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                             break;
                         case 'U':
                             this.form.get('unidade').enable();
+                            this.form.get('unidade').setValue(null);
                             this.form.get('modalidadeOrgaoCentral').setValue(null);
                             this.form.get('modalidadeOrgaoCentral').disable();
                             this.form.get('setor').setValue(null);
@@ -155,6 +156,7 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                         case 'S':
                             this.form.get('modalidadeOrgaoCentral').setValue(null);
                             this.form.get('modalidadeOrgaoCentral').disable();
+                            this.form.get('unidade').setValue(null);
                             this.form.get('unidade').enable();
                             if (this.form.get('unidade').value && typeof this.form.get('unidade').value === 'object') {
                                 this.form.get('setor').enable();
@@ -210,32 +212,32 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                 descricao: this.aviso.descricao,
                 ativo: this.aviso.ativo
             });
-        }
 
-        this.aviso?.vinculacoesAvisos?.forEach((vinculo) => {
-            if(vinculo.setor?.id)
+            this.aviso?.vinculacoesAvisos?.forEach((vinculo) => {
+                if(vinculo.setor?.id)
+                {
+                    this.form.get('tipo').setValue('S');
+                    this.form.get('setor').setValue(vinculo.setor);
+                    this.form.get('unidade').setValue(vinculo.setor.unidade);
+                }
+
+                if(vinculo.unidade?.id)
+                {
+                    this.form.get('tipo').setValue('U');
+                    this.form.get('unidade').setValue(vinculo.unidade);
+                }
+
+                if(vinculo.modalidadeOrgaoCentral?.id)
+                {
+                    this.form.get('tipo').setValue('M');
+                    this.form.get('modalidadeOrgaoCentral').setValue(vinculo.modalidadeOrgaoCentral);
+                }
+            });
+
+            if(this.aviso?.sistema)
             {
-                this.form.get('tipo').setValue('S');
-                this.form.get('setor').setValue(vinculo.setor);
-                this.form.get('unidade').setValue(vinculo.setor.unidade);
+                this.form.get('tipo').setValue('SIS');
             }
-
-            if(vinculo.unidade?.id)
-            {
-                this.form.get('tipo').setValue('U');
-                this.form.get('unidade').setValue(vinculo.unidade);
-            }
-
-            if(vinculo.modalidadeOrgaoCentral?.id)
-            {
-                this.form.get('tipo').setValue('M');
-                this.form.get('modalidadeOrgaoCentral').setValue(vinculo.modalidadeOrgaoCentral);
-            }
-        });
-
-        if(this.aviso?.sistema)
-        {
-            this.form.get('tipo').setValue('SIS');
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

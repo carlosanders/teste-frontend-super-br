@@ -82,6 +82,10 @@ export class ComponenteDigital {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     modalidadeTipoInibidor?: ModalidadeTipoInibidor;
 
+    @Type(() => ComponenteDigital)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    componenteDigitalOrigem?: ComponenteDigital;
+
     @Type(() => Modelo)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     modelo?: Modelo;
@@ -201,6 +205,7 @@ export class ComponenteDigital {
         this.unsafe = null;
         this.modalidadeAlvoInibidor = null;
         this.modalidadeTipoInibidor = null;
+        this.componenteDigitalOrigem = null;
         this.modelo = null;
         this.documento = null;
         this.origemDados = null;

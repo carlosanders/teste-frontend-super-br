@@ -1,0 +1,19 @@
+<div class="header">
+    <div class="actions">
+        <button mat-icon-button aria-label="pesquisar modelo" matTooltip="Pesquisar Modelo"
+                [routerLink]="'modelo'"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">file_copy</mat-icon>
+        </button>
+
+        <button mat-icon-button aria-label="pesquisar acervo" matTooltip="Pesquisar Acervo"
+                [routerLink]="['componente-digital']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">manage_search</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div class="content">
+    <router-outlet></router-outlet>
+</div>

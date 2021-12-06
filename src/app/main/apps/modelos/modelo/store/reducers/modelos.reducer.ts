@@ -1,4 +1,4 @@
-import * as ModelosActions from 'app/main/apps/modelo/store/actions/modelos.actions';
+import * as ModelosActions from 'app/main/apps/modelos/modelo/store/actions/modelos.actions';
 
 export interface ModelosState {
     entitiesId: number[];
