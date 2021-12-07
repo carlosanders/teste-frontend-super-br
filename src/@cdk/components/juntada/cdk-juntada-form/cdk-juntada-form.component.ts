@@ -14,7 +14,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Atividade, Documento, DocumentoAvulso, Juntada, OrigemDados, Pagination, Tarefa, Volume} from '@cdk/models';
+import {Atividade, Documento, DocumentoAvulso, Juntada, Pagination, Tarefa, Volume} from '@cdk/models';
 
 @Component({
     selector: 'cdk-juntada-form',
@@ -49,9 +49,6 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
 
     @Input()
     documentoPagination: Pagination;
-
-    @Input()
-    origemDadosPagination: Pagination;
 
     @Input()
     volumePagination: Pagination;
@@ -92,7 +89,6 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
             numeracaoSequencial: [null],
             documento: [null, [Validators.required]],
             descricao: [null, [Validators.required , Validators.minLength(3), Validators.maxLength(4000)]],
-            origemDados: [null, [Validators.required]],
             volume: [null, [Validators.required]],
             documentoAvulso: [null, [Validators.required]],
             atividade: [null, [Validators.required]],
@@ -100,7 +96,6 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
         });
 
         this.documentoPagination = new Pagination();
-        this.origemDadosPagination = new Pagination();
         this.volumePagination = new Pagination();
         this.documentoAvulsoPagination = new Pagination();
         this.atividadePagination = new Pagination();
@@ -186,24 +181,6 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
 
     showDocumentoGrid(): void {
         this.activeCard = 'documento-gridsearch';
-    }
-
-    checkOrigemDados(): void {
-        const value = this.form.get('origemDados').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('origemDados').setValue(null);
-        }
-    }
-
-    selectOrigemDados(origemDados: OrigemDados): void {
-        if (origemDados) {
-            this.form.get('origemDados').setValue(origemDados);
-        }
-        this.activeCard = 'form';
-    }
-
-    showOrigemDadosGrid(): void {
-        this.activeCard = 'origemDados-gridsearch';
     }
 
     checkVolume(): void {

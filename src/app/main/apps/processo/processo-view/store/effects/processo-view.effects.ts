@@ -3,19 +3,28 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, concatMap, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, concatMap, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
-import {Juntada} from '@cdk/models';
-import {juntada as juntadaSchema} from '@cdk/normalizr';
+import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
+import {Juntada, VinculacaoEtiqueta} from '@cdk/models';
+import {
+    documento as documentoSchema,
+    juntada as juntadaSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {getCurrentStep, getIndex, getJuntadas, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as fromStore from '../index';
+import {
+    GetJuntadasEtiquetas,
+    GetJuntadasEtiquetasSuccess
+} from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -37,15 +46,13 @@ export class ProcessoViewEffect {
                 'volume',
                 'documento',
                 'documento.origemDados',
-                'documento.juntadaAtual',
                 'documento.tipoDocumento',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
                 'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
                 'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                'documento.vinculacoesEtiquetas',
-                'documento.vinculacoesEtiquetas.etiqueta',
                 'documento.criadoPor',
                 'documento.setorOrigem',
                 'documento.setorOrigem.unidade'
@@ -115,7 +122,8 @@ export class ProcessoViewEffect {
                 action.payload.offset,
                 JSON.stringify(action.payload.sort),
                 JSON.stringify(action.payload.populate),
-                JSON.stringify(chaveAcesso));
+                JSON.stringify(chaveAcesso),
+                'app/main/apps/processo/processo-view#juntadas');
         }),
         concatMap(response => [
             new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
@@ -144,6 +152,7 @@ export class ProcessoViewEffect {
                     }
                 ),
                 entitiesId: response['entities'].map(juntada => juntada.id),
+                documentosId: response['entities'].map(juntada => juntada.documento.id),
                 loaded: {
                     id: this.routerState.params['processoCopiaHandle'] ?
                         'processoCopiaHandle' : 'processoHandle',
@@ -158,6 +167,7 @@ export class ProcessoViewEffect {
             return of(new ProcessoViewActions.GetJuntadasFailed(err));
         })
     ));
+
     /**
      * Reload Juntadas with router parameters
      *
@@ -186,15 +196,13 @@ export class ProcessoViewEffect {
                     'volume',
                     'documento',
                     'documento.origemDados',
-                    'documento.juntadaAtual',
                     'documento.tipoDocumento',
                     'documento.componentesDigitais',
                     'documento.vinculacoesDocumentos',
                     'documento.vinculacoesDocumentos.documentoVinculado',
+                    'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
                     'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                     'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                    'documento.vinculacoesEtiquetas',
-                    'documento.vinculacoesEtiquetas.etiqueta',
                     'documento.criadoPor',
                     'documento.setorOrigem',
                     'documento.setorOrigem.unidade'
@@ -218,19 +226,8 @@ export class ProcessoViewEffect {
                 // temos documento sem componente digital
                 return of(null);
             } else {
-                const juntada = juntadas.find((junt) => {
-                    if (junt.documento.vinculacoesDocumentos?.length > 0) {
-                        const indexJuntada = junt.documento.vinculacoesDocumentos
-                            .findIndex(vd => vd.documentoVinculado.componentesDigitais.findIndex(cd => cd.id === index[currentStep.step][currentStep.subStep]) !== -1);
-                        if (indexJuntada !== -1) {
-                            return junt;
-                        }
-                    }
-                    if (junt.documento?.componentesDigitais?.findIndex(cd => cd.id === index[currentStep.step][currentStep.subStep]) !== -1) {
-                        return junt;
-                    }
-                });
-                if (!juntada || juntada.documento.acessoNegado) {
+                const juntada = juntadas[currentStep.step];
+                if (juntada.documento.acessoNegado) {
                     // temos documento com acesso negado
                     return of(null);
                 }
@@ -239,23 +236,51 @@ export class ProcessoViewEffect {
                     {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
                 const context = JSON.stringify(chaveAcesso);
 
-                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context).pipe(
-                    map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
-                        binary: response,
-                        loaded: this.routerState.params.stepHandle
-                    })),
-                    catchError((err) => {
-                        console.log(err);
-                        return of(new ProcessoViewActions.SetCurrentStepFailed(err));
-                    })
-                );
+                return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
             }
         }),
+        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+            binary: response,
+            loaded: this.routerState.params.stepHandle
+        })),
         catchError((err) => {
             console.log(err);
             return of(new ProcessoViewActions.SetCurrentStepFailed(err));
         })
     ));
+
+    /**
+     * Reload Juntadas with router parameters
+     *
+     * @type {any}
+     */
+    getJuntadasEtiquetas: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.GetJuntadasEtiquetas>(ProcessoViewActions.GET_JUNTADAS_ETIQUETAS),
+        mergeMap(action => this._vinculacaoEtiquetaService.query(
+                JSON.stringify({
+                    'documento.id': 'eq:' + action.payload,
+                }),
+                25,
+                0,
+                JSON.stringify({}),
+                JSON.stringify(['etiqueta'])).pipe(
+                mergeMap(response => [
+                    new GetJuntadasEtiquetasSuccess(response),
+                    new AddChildData<VinculacaoEtiqueta>({
+                        data: response['entities'],
+                        childSchema: vinculacaoEtiquetaSchema,
+                        parentSchema: documentoSchema,
+                        parentId: action.payload
+                    })
+                ]),
+            ), 25
+        ),
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoViewActions.GetJuntadasEtiquetasFailed(err));
+        })
+    ));
+
     /**
      * Get Juntadas Success
      */
@@ -263,6 +288,10 @@ export class ProcessoViewEffect {
         ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
         withLatestFrom(this._store.pipe(select(getPagination))),
         tap(([action, pagination]) => {
+            action.payload.documentosId.forEach((documentoId) => {
+                this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
+            });
+
             if (this.routerState.params['stepHandle'] === 'default') {
                 let capa = true;
                 let firstJuntada = 0;
@@ -294,7 +323,7 @@ export class ProcessoViewEffect {
                         this._router.navigate(
                             [
                                 this.routerState.url.split('/documento/')[0] + '/documento/' +
-                                this.routerState.params.documentoHandle,
+                                this.routerState.params.documentoHandle + '/',
                                 {
                                     outlets: {
                                         primary: arrPrimary
@@ -321,24 +350,40 @@ export class ProcessoViewEffect {
                 } else {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
                         if (this.routerState.url.indexOf('sidebar:') === -1) {
+                            let sidebar = '';
                             const arrPrimary = [];
-                            arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                'visualizar-processo' : 'anexar-copia');
-                            arrPrimary.push(this.routerState.params.processoHandle);
-                            if (this.routerState.params.chaveAcessoHandle) {
-                                arrPrimary.push('chave');
-                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                                arrPrimary.push('anexar-copia');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                                arrPrimary.push('visualizar-processo');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push(firstJuntada + '-0');
+                                sidebar = 'empty';
+                            } else {
+                                sidebar = 'editar/dados-basicos';
                             }
-                            arrPrimary.push('visualizar');
-                            arrPrimary.push(firstJuntada + '-0');
                             // Navegação do processo deve ocorrer por outlet
                             this._router.navigate(
                                 [
                                     this.routerState.url.split('/documento/')[0] + '/documento/' +
-                                    this.routerState.params.documentoHandle,
+                                    this.routerState.params.documentoHandle + '/',
                                     {
                                         outlets: {
-                                            primary: arrPrimary
+                                            primary: arrPrimary,
+                                            sidebar: sidebar
                                         }
                                     }
                                 ],
@@ -367,7 +412,8 @@ export class ProcessoViewEffect {
                         url += '/visualizar/' + firstJuntada + '-0';
                         const extras = {
                             queryParams: {
-                                documentoEdit: this.routerState.queryParams.documentoEdit
+                                documentoEdit: this.routerState.queryParams.documentoEdit,
+                                novaAba: this.routerState.queryParams.novaAba
                             }
                         };
                         this._router.navigate([url], extras)
@@ -383,16 +429,31 @@ export class ProcessoViewEffect {
                 this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                     if (this.routerState.url.indexOf('sidebar:') === -1) {
+                        let sidebar = '';
                         const arrPrimary = [];
-                        arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                            'visualizar-processo' : 'anexar-copia');
-                        arrPrimary.push(this.routerState.params.processoHandle);
-                        if (this.routerState.params.chaveAcessoHandle) {
-                            arrPrimary.push('chave');
-                            arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                            arrPrimary.push('anexar-copia');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(this.routerState.params['stepHandle']);
+                            sidebar = 'empty';
+                        } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                            arrPrimary.push('visualizar-processo');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(this.routerState.params['stepHandle']);
+                            sidebar = 'empty';
+                        } else {
+                            sidebar = 'editar/dados-basicos';
                         }
-                        arrPrimary.push('visualizar');
-                        arrPrimary.push(this.routerState.params['stepHandle']);
 
                         // Navegação do processo deve ocorrer por outlet
                         this._router.navigate(
@@ -401,7 +462,8 @@ export class ProcessoViewEffect {
                                 this.routerState.params.documentoHandle,
                                 {
                                     outlets: {
-                                        primary: arrPrimary
+                                        primary: arrPrimary,
+                                        sidebar: sidebar
                                     }
                                 }
                             ],
@@ -429,8 +491,13 @@ export class ProcessoViewEffect {
                         url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                     }
                     url += '/visualizar/' + this.routerState.params['stepHandle'];
-
-                    this._router.navigateByUrl(url)
+                    const extras = {
+                        queryParams: {
+                            documentoEdit: this.routerState.queryParams.documentoEdit,
+                            novaAba: this.routerState.queryParams.novaAba
+                        }
+                    };
+                    this._router.navigate([url], extras)
                         .then(() => {
                             const steps = this.routerState.params['stepHandle'].split('-');
                             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
@@ -499,7 +566,8 @@ export class ProcessoViewEffect {
         private _componenteDigitalService: ComponenteDigitalService,
         private _store: Store<State>,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
     ) {
         this._store.pipe(
             select(getRouterState),

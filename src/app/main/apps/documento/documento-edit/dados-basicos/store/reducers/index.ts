@@ -10,7 +10,7 @@ export const getDocumentoEditDadosBasicosAppState = createFeatureSelector<Docume
     'documento-edit-dados-basicos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoEditDadosBasicosAppState,
     (state: DocumentoEditDadosBasicosAppState) => state
 );

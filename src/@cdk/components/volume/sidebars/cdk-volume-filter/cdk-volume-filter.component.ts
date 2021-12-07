@@ -35,7 +35,6 @@ export class CdkVolumeFilterComponent {
             numeracaoSequencial: [null],
             modalidadeMeio: [null],
             encerrado: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -58,10 +57,6 @@ export class CdkVolumeFilterComponent {
 
         if (this.form.get('modalidadeMeio').value) {
             andXFilter.push({'modalidadeMeio': `eq:${this.form.get('modalidadeMeio').value.id}`});
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.filterCriadoEm?.length) {

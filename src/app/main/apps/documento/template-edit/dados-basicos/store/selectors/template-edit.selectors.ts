@@ -10,33 +10,33 @@ import {template as templateSchema} from '@cdk/normalizr';
 
 const schemaTemplateSelectors = createSchemaSelectors<Template>(templateSchema);
 
-export const getTemplateEditState = createSelector(
+export const getTemplateEditState: any = createSelector(
     getTemplateEditDadosBasicosAppState,
     (state: TemplateEditDadosBasicosAppState) => state.template
 );
 
-export const getTemplateId = createSelector(
+export const getTemplateId: any = createSelector(
     getTemplateEditState,
     (state: TemplateEditDadosBasicosState) => state.templateId
 );
 
-export const getTemplate = createSelector(
+export const getTemplate: any = createSelector(
     schemaTemplateSelectors.getNormalizedEntities,
     getTemplateId,
     schemaTemplateSelectors.entityProjector
 );
 
-export const getTemplateLoaded = createSelector(
+export const getTemplateLoaded: any = createSelector(
     getTemplateEditState,
     (state: TemplateEditDadosBasicosState) => state.loaded
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTemplateEditState,
     (state: TemplateEditDadosBasicosState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTemplateEditState,
     (state: TemplateEditDadosBasicosState) => state.errors
 );

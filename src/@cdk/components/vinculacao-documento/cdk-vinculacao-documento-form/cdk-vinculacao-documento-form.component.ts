@@ -64,6 +64,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     @Input()
     modalidadeVinculacaoDocumentoPagination: Pagination;
 
+    @Output()
+    changeDocumentoVinculado = new EventEmitter<number>();
+
     // eslint-disable-next-line @angular-eslint/no-output-native
     @Output() abort = new EventEmitter<any>();
 
@@ -128,6 +131,16 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
                         'juntadaAtual.volume.processo.id': 'eq:' + this.processo.id
                     };
                     this._changeDetectorRef.markForCheck();
+                }
+                return of([]);
+            })
+        ).subscribe();
+        this.form.get('documentoVinculado').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (value && typeof value === 'object') {
+                    this.changeDocumentoVinculado.emit(value.id);
                 }
                 return of([]);
             })

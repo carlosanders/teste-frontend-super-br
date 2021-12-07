@@ -205,7 +205,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

@@ -7,64 +7,64 @@ import {Relatorio} from '@cdk/models/relatorio.model';
 
 const schemaSelectors = createSchemaSelectors<Relatorio>(relatorioSchema);
 
-export const getRelatoriosState = createSelector(
+export const getRelatoriosState: any = createSelector(
     getRelatoriosAppState,
     (state: RelatoriosAppState) => state.relatorios
 );
 
-export const getSelectedRelatorioIds = createSelector(
+export const getSelectedRelatorioIds: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.selectedRelatorioIds
 );
 
-export const getMaximizado = createSelector(
+export const getMaximizado: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.maximizado
 );
 
-export const getRelatoriosIds = createSelector(
+export const getRelatoriosIds: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.entitiesId
 );
 
-export const getRelatorios = createSelector(
+export const getRelatorios: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRelatoriosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getSelectedRelatorios = createSelector(
+export const getSelectedRelatorios: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedRelatorioIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.pagination
 );
 
-export const getRelatoriosLoaded = createSelector(
+export const getRelatoriosLoaded: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.loading
 );
 
-export const getDeletingRelatorioIds = createSelector(
+export const getDeletingRelatorioIds: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.deletingRelatorioIds
 );
 
-export const getDeletedRelatorioIds = createSelector(
+export const getDeletedRelatorioIds: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.deletedRelatorioIds
 );
 
-export const getLoadedRelatorioIds = createSelector(
+export const getLoadedRelatorioIds: any = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.loadedRelatorioIds
 );

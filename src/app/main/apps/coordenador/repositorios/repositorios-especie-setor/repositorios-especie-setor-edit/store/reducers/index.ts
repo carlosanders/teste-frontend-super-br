@@ -13,7 +13,7 @@ export const getRepositoriosEspecieSetorEditAppState = createFeatureSelector<Rep
     'repositorios-especie-setor-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRepositoriosEspecieSetorEditAppState,
     (state: RepositoriosEspecieSetorEditAppState) => state
 );

@@ -1,0 +1,17 @@
+<div class="content">
+    <h2 class="ml-8">Pesquisa de Modelos</h2>
+    <cdk-modelo-grid
+        [loading]="(loading$ | async)"
+        [modelos]="(modelos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="['select', 'visualizar']"
+        [mode]="'search'"
+        (selected)="doSelect($event)"
+        (view)="doVisualizar($event)"
+        [saving]="(saving$ | async)"
+        (reload)="reload($event)">
+    </cdk-modelo-grid>
+</div>
+<div class="footer">
+    <mat-error *ngIf="erro">{{erro}}</mat-error>
+</div>

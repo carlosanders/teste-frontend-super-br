@@ -10,7 +10,7 @@ export const getUnidadesOrgaoCentralAppState = createFeatureSelector<UnidadesOrg
     'unidades-orgao-central-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getUnidadesOrgaoCentralAppState,
     (state: UnidadesOrgaoCentralAppState) => state
 );

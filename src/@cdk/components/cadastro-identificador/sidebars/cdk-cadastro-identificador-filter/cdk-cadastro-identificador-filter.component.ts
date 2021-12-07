@@ -33,7 +33,6 @@ export class CdkCadastroIdentificadorFilterComponent {
     ) {
         this.form = this._formBuilder.group({
             numero: [null],
-            origemDados: [null],
             pessoa: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -53,10 +52,6 @@ export class CdkCadastroIdentificadorFilterComponent {
             this.form.get('numero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'numero': `like:%${bit}%`});
             });
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.form.get('pessoa').value) {

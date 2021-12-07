@@ -7,48 +7,48 @@ import {Localizador} from '@cdk/models/localizador.model';
 
 const schemaSelectors = createSchemaSelectors<Localizador>(localizadorSchema);
 
-export const getRootLocalizadoresListState = createSelector(
+export const getRootLocalizadoresListState: any = createSelector(
     getRootLocalizadoresListAppState,
     (state: RootLocalizadoresListAppState) => state.localizadoresList
 );
 
-export const getLocalizadorListIds = createSelector(
+export const getLocalizadorListIds: any = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.entitiesId
 );
 
-export const getLocalizadorList = createSelector(
+export const getLocalizadorList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getLocalizadorListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.pagination
 );
 
-export const getLocalizadorListLoaded = createSelector(
+export const getLocalizadorListLoaded: any = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.deletingErrors
 );

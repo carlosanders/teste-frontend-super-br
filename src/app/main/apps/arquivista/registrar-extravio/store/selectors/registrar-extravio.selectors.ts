@@ -9,29 +9,29 @@ import {getProcessosIds} from '../../../arquivista-list/store';
 
 const schemaRegistrarExtravioSelectors = createSchemaSelectors<Processo>(processoShema);
 
-export const getRegistrarExtravioState = createSelector(
+export const getRegistrarExtravioState: any = createSelector(
     getRegistrarExtravioAppState,
     (state: RegistrarExtravioAppState) => state.transicao
 );
 
-export const getProcessos = createSelector(
+export const getProcessos: any = createSelector(
     schemaRegistrarExtravioSelectors.getNormalizedEntities,
     getProcessosIds,
     schemaRegistrarExtravioSelectors.entitiesProjector
 );
 
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRegistrarExtravioState,
     (state: RegistrarExtravioState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRegistrarExtravioState,
     (state: RegistrarExtravioState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRegistrarExtravioState,
     (state: RegistrarExtravioState) => state.errors
 );

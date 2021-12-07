@@ -10,43 +10,43 @@ import {Usuario} from '@cdk/models';
 const schemaRoleSelectors = createSchemaSelectors<VinculacaoRole>(roleSchema);
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(schemaUsuario);
 
-export const getRoleEditState = createSelector(
+export const getRoleEditState: any = createSelector(
     getRoleEditAppState,
     (state: RoleEditAppState) => state.role
 );
 
-export const getRoleId = createSelector(
+export const getRoleId: any = createSelector(
     getRoleEditState,
     (state: RoleEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getRole = createSelector(
+export const getRole: any = createSelector(
     schemaRoleSelectors.getNormalizedEntities,
     getRoleId,
     schemaRoleSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRoleEditState,
     (state: RoleEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRoleEditState,
     (state: RoleEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRoleEditState,
     (state: RoleEditState) => state.errors
 );
 
-export const getUsuarioId = createSelector(
+export const getUsuarioId: any = createSelector(
     getRolesState,
     (state: RolesState) => (state.loaded && state.loaded.id === 'usuarioHandle') ? state.loaded.value : null
 );
 
-export const getUsuario = createSelector(
+export const getUsuario: any = createSelector(
     schemaUsuarioSelectors.getNormalizedEntities,
     getUsuarioId,
     schemaUsuarioSelectors.entityProjector

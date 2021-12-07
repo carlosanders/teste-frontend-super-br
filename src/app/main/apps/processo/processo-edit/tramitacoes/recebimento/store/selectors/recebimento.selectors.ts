@@ -6,33 +6,33 @@ import {tramitacao as tramitacaoSchema} from '@cdk/normalizr';
 
 const schemaTramitacaoSelectors = createSchemaSelectors<Tramitacao>(tramitacaoSchema);
 
-export const getRecebimentoTramitacaoState = createSelector(
+export const getRecebimentoTramitacaoState: any = createSelector(
     getRecebimentoAppState,
     (state: RecebimentoAppState) => state.recebimento
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getRecebimentoTramitacaoState,
     (state: RecebimentoTramitacaoState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getRecebimentoTramitacaoState,
     (state: RecebimentoTramitacaoState) => state.errors
 );
 
-export const getTramitacaoId = createSelector(
+export const getTramitacaoId: any = createSelector(
     getRecebimentoTramitacaoState,
     (state: RecebimentoTramitacaoState) => state.loaded ? state.loaded.value : null
 );
 
-export const getTramitacao = createSelector(
+export const getTramitacao: any = createSelector(
     schemaTramitacaoSelectors.getNormalizedEntities,
     getTramitacaoId,
     schemaTramitacaoSelectors.entityProjector
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getRecebimentoTramitacaoState,
     (state: RecebimentoTramitacaoState) => state.loaded
 );

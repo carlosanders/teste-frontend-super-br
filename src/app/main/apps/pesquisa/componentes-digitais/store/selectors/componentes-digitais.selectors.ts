@@ -11,28 +11,28 @@ import {ComponenteDigital} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
 
-export const getComponentesDigitaisState = createSelector(
+export const getComponentesDigitaisState: any = createSelector(
     getComponentesDigitaisAppState,
     (state: ComponentesDigitaisAppState) => state.componentesDigitais
 );
 
-export const getComponentesDigitaisIds = createSelector(
+export const getComponentesDigitaisIds: any = createSelector(
     getComponentesDigitaisState,
     (state: ComponentesDigitaisState) => state.entitiesId
 );
 
-export const getComponentesDigitais = createSelector(
+export const getComponentesDigitais: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getComponentesDigitaisIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getComponentesDigitaisState,
     (state: ComponentesDigitaisState) => state.pagination
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getComponentesDigitaisState,
     (state: ComponentesDigitaisState) => state.loading
 );

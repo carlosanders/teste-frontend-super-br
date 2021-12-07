@@ -10,7 +10,7 @@ export const getProcessoEtiquetaViewAppState = createFeatureSelector<ProcessoEti
     'processo-etiqueta-view-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessoEtiquetaViewAppState,
     (state: ProcessoEtiquetaViewAppState) => state
 );

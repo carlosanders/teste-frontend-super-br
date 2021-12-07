@@ -52,7 +52,7 @@
             <ng-template [ngIf]="!documento.apagadoEm">
                 <button
                     [disabled]="!podeDeletar"
-                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa)
+                    *ngIf="documento.minuta && (!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa)
                     && this._loginService.isGranted('ROLE_COLABORADOR') && actions.indexOf('delete') > -1"
                     fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
                     <mat-icon color="accent">delete</mat-icon>
@@ -64,27 +64,27 @@
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)"
                         mat-menu-item
-                        *ngIf="documento.assinado && _loginService.isGranted('ROLE_COLABORADOR')">
+                        *ngIf="documento.minuta && documento.assinado && _loginService.isGranted('ROLE_COLABORADOR')">
                     <mat-icon color="accent">lock_open</mat-icon>
                     <span>Remover Assinatura</span>
                 </button>
 
                 <button fxLayout="row" fxLayoutAlign="start center"
                         (click)="doConverte(documento.id)"
-                        *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.extensao === 'html' && actions.indexOf('converterPDF') > -1"
+                        *ngIf="documento.minuta && documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.extensao === 'html' && actions.indexOf('converterPDF') > -1"
                         mat-menu-item>
                     <mat-icon color="accent">picture_as_pdf</mat-icon>
                     <span>Converter em PDF</span>
                 </button>
 
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverteHtml(documento.id)"
-                        *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.convertidoPdf && actions.indexOf('converterHTML') > -1"
+                        *ngIf="documento.minuta && documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.convertidoPdf && actions.indexOf('converterHTML') > -1"
                         mat-menu-item>
                     <mat-icon color="accent">restore_page</mat-icon>
                     <span>Converter em HTML</span>
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento)" mat-menu-item
-                    *ngIf="documento.assinado && actions.indexOf('downloadP7S') > -1">
+                    *ngIf="documento.minuta && documento.assinado && actions.indexOf('downloadP7S') > -1">
                     <mat-icon color="accent">get_app</mat-icon>
                     <span>Download em P7S</span>
                 </button>
@@ -102,7 +102,7 @@
                     <span>Alterar Tipo de Documento</span>
                 </button>
             </ng-template>
-            <ng-template [ngIf]="documento.apagadoEm">
+            <ng-template [ngIf]="documento.minuta && documento.apagadoEm">
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(documento.id)" mat-menu-item>
                     <mat-icon color="accent">undo</mat-icon>
                     <span>Restaurar</span>
@@ -113,7 +113,7 @@
     </div>
 
     <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento" id="testeMenu">
-        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+        <form class="p-8 mb-8" fxLayoutGap="8px" fxLayout="column" fxLayoutAlign="start"
               fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()">
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">

@@ -9,7 +9,7 @@ export const getAdminAppState = createFeatureSelector<AdminAppState>(
     'admin-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAdminAppState,
     (state: AdminAppState) => state
 );

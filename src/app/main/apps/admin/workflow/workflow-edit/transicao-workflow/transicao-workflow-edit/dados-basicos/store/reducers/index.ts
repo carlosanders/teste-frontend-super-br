@@ -9,7 +9,7 @@ export const getTransicaoWorkflowDadosBasicosAppState = createFeatureSelector<Tr
     'transicao-workflow-dados-basicos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTransicaoWorkflowDadosBasicosAppState,
     (state: TransicaoWorkflowDadosBasicosAppState) => state
 );

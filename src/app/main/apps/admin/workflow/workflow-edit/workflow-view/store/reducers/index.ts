@@ -9,7 +9,7 @@ export const getWorkflowViewAppState = createFeatureSelector<WorkflowViewAppStat
     'workflow-view-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getWorkflowViewAppState,
     (state: WorkflowViewAppState) => state
 );

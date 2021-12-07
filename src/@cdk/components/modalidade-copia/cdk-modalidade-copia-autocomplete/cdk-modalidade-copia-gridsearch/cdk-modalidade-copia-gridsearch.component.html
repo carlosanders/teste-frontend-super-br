@@ -1,0 +1,10 @@
+<cdk-modalidade-copia-grid
+        [loading]="loading"
+        [modalidadeCopiaList]="modalidadeCopiaList"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-copia-grid>

@@ -11,7 +11,7 @@ export const getRealizarDesarquivamentoAppState = createFeatureSelector<Realizar
     'realizar-desarquivamento'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRealizarDesarquivamentoAppState,
     (state: RealizarDesarquivamentoAppState) => state
 );

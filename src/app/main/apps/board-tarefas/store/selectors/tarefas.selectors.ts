@@ -12,63 +12,63 @@ import {Tarefa} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 
-export const getTarefasState = createSelector(
+export const getTarefasState: any = createSelector(
     getBoardTarefasAppState,
     (state: BoardTarefasAppState) => state.tarefas
 );
 
-export const getSelectedTarefaIds = createSelector(
+export const getSelectedTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.selectedTarefaIds
 );
 
-export const getSelectedTarefas = createSelector(
+export const getSelectedTarefas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedTarefaIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getFolderTarefas = createSelector(
+export const getFolderTarefas: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.folderTarefas
 );
 
-export const getTarefasLoaded = createSelector(
+export const getTarefasLoaded: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loaded
 );
 
-export const getTarefasIsLoading = createSelector(
+export const getTarefasIsLoading: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loading
 );
 
-export const getTarefasError = createSelector(
+export const getTarefasError: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.error
 );
 
-export const getDeletingTarefaIds = createSelector(
+export const getDeletingTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletingTarefaIds
 );
 
-export const getUnDeletingTarefaIds = createSelector(
+export const getUnDeletingTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.undeletingTarefaIds
 );
 
-export const getChangingFolderTarefaIds = createSelector(
+export const getChangingFolderTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.changingFolderTarefaIds
 );
 
-export const getIsTogglingUrgenteIds = createSelector(
+export const getIsTogglingUrgenteIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.togglingUrgenteIds
 );
 
-export const getTarefasIds = createSelector(
+export const getTarefasIds: any = createSelector(
     getFolderTarefas,
     (folderTarefaStareList: FolderTarefaState[]) => {
         const tarefasIds = [];
@@ -84,7 +84,7 @@ export const getTarefasIds = createSelector(
     }
 );
 
-export const getFolderTarefasIsLoading = createSelector(
+export const getFolderTarefasIsLoading: any = createSelector(
     getFolderTarefas,
     (states: FolderTarefaState[]) => {
         let isLoading = false;
@@ -99,34 +99,34 @@ export const getFolderTarefasIsLoading = createSelector(
     }
 );
 
-export const getTarefas = createSelector(
+export const getTarefas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTarefasIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getTarefasProcessoLoadingId = createSelector(
+export const getTarefasProcessoLoadingId: any = createSelector(
     getTarefasState,
     (state:TarefasState) => state.processoLoadingId
 );
 
-export const getTarefasProcessoInteressados = createSelector(
+export const getTarefasProcessoInteressados: any = createSelector(
     getTarefasState,
     (state:TarefasState) => state.interessados
 );
 
-export const getTarefasSavingIds = createSelector(
+export const getTarefasSavingIds: any = createSelector(
     getTarefasState,
     (state:TarefasState) => state.savingIds
 );
 
-export const getTarefasSelected = createSelector(
+export const getTarefasSelected: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedTarefaIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getTarefasExpandedIds = createSelector(
+export const getTarefasExpandedIds: any = createSelector(
     getTarefasState,
     (state:TarefasState) => state.tarefasExpandedIds
 );

@@ -6,33 +6,33 @@ import {pessoa as pessoaSchema} from '@cdk/normalizr';
 
 const schemaPessoaSelectors = createSchemaSelectors<Pessoa>(pessoaSchema);
 
-export const getPessoaEditState = createSelector(
+export const getPessoaEditState: any = createSelector(
     getPessoaEditAppState,
     (state: PessoaEditAppState) => state.pessoa
 );
 
-export const getPessoaId = createSelector(
+export const getPessoaId: any = createSelector(
     getPessoaEditState,
     (state: PessoaEditState) => state.entityId
 );
 
-export const getPessoa = createSelector(
+export const getPessoa: any = createSelector(
     schemaPessoaSelectors.getNormalizedEntities,
     getPessoaId,
     schemaPessoaSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getPessoaEditState,
     (state: PessoaEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getPessoaEditState,
     (state: PessoaEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getPessoaEditState,
     (state: PessoaEditState) => state.errors
 );

@@ -100,7 +100,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'vinculação etiqueta' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'vinculação etiqueta' && operacao.lote === this.lote);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -116,7 +116,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

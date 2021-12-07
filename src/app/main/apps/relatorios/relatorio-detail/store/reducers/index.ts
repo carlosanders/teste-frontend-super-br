@@ -10,7 +10,7 @@ export const getRelatorioDetailAppState = createFeatureSelector<RelatorioDetailA
     'relatorio-detail-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRelatorioDetailAppState,
     (state: RelatorioDetailAppState) => state
 );

@@ -18,7 +18,6 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkModalidadeCategoriaSigiloAutocompleteModule} from '@cdk/components/modalidade-categoria-sigilo/cdk-modalidade-categoria-sigilo-autocomplete/cdk-modalidade-categoria-sigilo-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkDocumentoAutocompleteModule} from '@cdk/components/documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
-import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkTipoSigiloAutocompleteModule} from '@cdk/components/tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
@@ -47,7 +46,6 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
         CdkTipoSigiloAutocompleteModule,
         CdkProcessoAutocompleteModule,
         CdkDocumentoAutocompleteModule,
-        CdkOrigemDadosAutocompleteModule,
         MatButtonToggleModule,
         MatMenuModule,
         CdkDateFilterModule,

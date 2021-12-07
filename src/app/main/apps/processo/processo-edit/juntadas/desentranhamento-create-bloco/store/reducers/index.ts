@@ -9,7 +9,7 @@ export const getDesentranhamentoCreateBlocoAppState = createFeatureSelector<Dese
     'desentranhamento-create-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDesentranhamentoCreateBlocoAppState,
     (state: DesentranhamentoCreateBlocoAppState) => state
 );

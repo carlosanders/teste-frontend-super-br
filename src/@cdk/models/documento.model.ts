@@ -4,7 +4,7 @@ import {Exclude, Transform, Type} from 'class-transformer';
 import {
     ComponenteDigital,
     DocumentoAvulso,
-    Juntada,
+    Juntada, ModalidadeCopia,
     Modelo,
     OrigemDados,
     Pessoa,
@@ -62,6 +62,10 @@ export class Documento {
     observacao?: string;
 
     copia?: boolean;
+
+    dependenciaSoftware?: string;
+
+    dependenciaHardware?: string;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -166,6 +170,10 @@ export class Documento {
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
 
+    @Type(() => ModalidadeCopia)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    modalidadeCopia?: ModalidadeCopia;
+
     acessoRestrito?: boolean;
 
     acessoNegado?: boolean;
@@ -214,7 +222,10 @@ export class Documento {
         this.vinculacaoDocumentoPrincipal = null;
         this.vinculacoesEtiquetas = [];
         this.sigilos = [];
+        this.modalidadeCopia = null;
         this.acessoRestrito = null;
         this.acessoNegado = null;
+        this.dependenciaSoftware = null;
+        this.dependenciaHardware = null;
     }
 }

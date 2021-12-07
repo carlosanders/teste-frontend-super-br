@@ -333,7 +333,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded && classificacao.immutable !== true"
+                        *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded && classificacao.immutable !== true"
                                 [disabled]="deletedIds?.indexOf(classificacao.id) > -1 && !hasExcluded || classificacao.immutable === true"
                                 (click)="editClassificacao(classificacao.id)"
                                 aria-label="editar"
@@ -363,7 +363,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, classificacao.id)">
-                            {{ getProp(deletingErrors, classificacao.id) }}
+                            {{ getMessageError(getProp(deletingErrors, classificacao.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>
@@ -375,7 +375,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

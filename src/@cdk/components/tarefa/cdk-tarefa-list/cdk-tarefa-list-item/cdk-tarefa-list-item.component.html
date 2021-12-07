@@ -21,13 +21,13 @@
                 <span>
                     NUP {{tarefa.processo?.NUP | formatNup}}
                 </span>
-                <mat-icon class="mb-4" (click)="doTogglePanel(); $event.stopPropagation();"
+                <mat-icon class="s-18" (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
                 </mat-icon>
-                <mat-icon class="mb-4" (click)="doTogglePanel(); $event.stopPropagation();"
+                <mat-icon class="s-18" (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
                 </mat-icon>
-                <mat-icon class="s-14 mt-4" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
+                <mat-icon class="s-12 mt-4" [matTooltip]="'Copiar NUP para o clipboard'" (click)="copiarParaAreaTrabalho(tarefa.processo?.NUP); $event.stopPropagation();">file_copy
                 </mat-icon>
             </div>
 

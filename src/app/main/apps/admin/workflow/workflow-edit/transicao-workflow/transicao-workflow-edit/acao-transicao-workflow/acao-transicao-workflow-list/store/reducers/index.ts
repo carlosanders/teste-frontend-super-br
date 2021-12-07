@@ -9,7 +9,7 @@ export const getAcaoTransicaoWorkflowListAppState = createFeatureSelector<AcaoTr
     'admin-acao-transicao-workflow-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAcaoTransicaoWorkflowListAppState,
     (state: AcaoTransicaoWorkflowListAppState) => state
 );

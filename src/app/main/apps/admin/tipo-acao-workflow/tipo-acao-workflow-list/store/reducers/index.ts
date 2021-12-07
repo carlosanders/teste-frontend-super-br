@@ -9,7 +9,7 @@ export const getTipoAcaoWorkflowListAppState = createFeatureSelector<TipoAcaoWor
     'tipo-acao-workflow-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTipoAcaoWorkflowListAppState,
     (state: TipoAcaoWorkflowListAppState) => state
 );

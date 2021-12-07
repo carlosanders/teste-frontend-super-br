@@ -357,7 +357,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, usuario.id)">
-                            {{ getProp(deletingErrors, usuario.id) }}
+                            {{ getMessageError(getProp(deletingErrors, usuarioid)) }}
                         </mat-error>
 
                         <button mat-icon-button
@@ -387,7 +387,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

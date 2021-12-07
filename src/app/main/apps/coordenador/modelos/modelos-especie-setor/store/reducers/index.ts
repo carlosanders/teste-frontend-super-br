@@ -10,7 +10,7 @@ export const getModelosEspecieSetorAppState = createFeatureSelector<ModelosEspec
     'modelos-especie-setor-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getModelosEspecieSetorAppState,
     (state: ModelosEspecieSetorAppState) => state
 );

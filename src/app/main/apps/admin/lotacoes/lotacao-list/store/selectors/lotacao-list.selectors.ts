@@ -7,48 +7,48 @@ import {Lotacao} from '@cdk/models/lotacao.model';
 
 const schemaSelectors = createSchemaSelectors<Lotacao>(lotacaoSchema);
 
-export const getRootLotacaoListState = createSelector(
+export const getRootLotacaoListState: any = createSelector(
     getRootLotacaoListAppState,
     (state: RootLotacaoListAppState) => state.lotacaoList
 );
 
-export const getLotacaoListIds = createSelector(
+export const getLotacaoListIds: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.entitiesId
 );
 
-export const getLotacaoList = createSelector(
+export const getLotacaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getLotacaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.pagination
 );
 
-export const getLotacaoListLoaded = createSelector(
+export const getLotacaoListLoaded: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.deletingErrors
 );

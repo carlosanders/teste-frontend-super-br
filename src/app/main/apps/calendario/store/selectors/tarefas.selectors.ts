@@ -8,23 +8,23 @@ import {CalendarEventModel} from '../../event.model';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 
-export const getCalendarioState = createSelector(
+export const getCalendarioState: any = createSelector(
     getCalendarioAppState,
     (state: CalendarioAppState) => state.tarefas
 );
 
-export const getTarefasIds = createSelector(
+export const getTarefasIds: any = createSelector(
     getCalendarioState,
     (state: CalendarioState) => state.entitiesId
 );
 
-export const getTarefas = createSelector(
+export const getTarefas: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTarefasIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getEvents = createSelector(
+export const getEvents: any = createSelector(
     getTarefas,
     (tarefas: Tarefa[]): CalendarEventModel[] => {
         if (tarefas) {
@@ -60,22 +60,22 @@ export const getEvents = createSelector(
 );
 
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getCalendarioState,
     (state: CalendarioState) => state.pagination
 );
 
-export const getTarefasLoaded = createSelector(
+export const getTarefasLoaded: any = createSelector(
     getCalendarioState,
     (state: CalendarioState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getCalendarioState,
     (state: CalendarioState) => state.loading
 );
 
-export const getDeletingTarefaIds = createSelector(
+export const getDeletingTarefaIds: any = createSelector(
     getCalendarioState,
     (state: CalendarioState) => state.deletingTarefaIds
 );

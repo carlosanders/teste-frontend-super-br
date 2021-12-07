@@ -10,33 +10,33 @@ import {modalidadeOrgaoCentral as modalidadeOrgaoCentralSchema} from '@cdk/norma
 
 const schemaModalidadeOrgaoCentralSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(modalidadeOrgaoCentralSchema);
 
-export const getModalidadeOrgaoCentralEditState = createSelector(
+export const getModalidadeOrgaoCentralEditState: any = createSelector(
     getModalidadeOrgaoCentralEditAppState,
     (state: ModalidadeOrgaoCentralEditAppState) => state.modalidadeOrgaoCentral
 );
 
-export const getModalidadeOrgaoCentralId = createSelector(
+export const getModalidadeOrgaoCentralId: any = createSelector(
     getModalidadeOrgaoCentralEditState,
     (state: ModalidadeOrgaoCentralEditState) => state.entityId
 );
 
-export const getModalidadeOrgaoCentral = createSelector(
+export const getModalidadeOrgaoCentral: any = createSelector(
     schemaModalidadeOrgaoCentralSelectors.getNormalizedEntities,
     getModalidadeOrgaoCentralId,
     schemaModalidadeOrgaoCentralSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getModalidadeOrgaoCentralEditState,
     (state: ModalidadeOrgaoCentralEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getModalidadeOrgaoCentralEditState,
     (state: ModalidadeOrgaoCentralEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getModalidadeOrgaoCentralEditState,
     (state: ModalidadeOrgaoCentralEditState) => state.errors
 );

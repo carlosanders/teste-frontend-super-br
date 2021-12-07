@@ -47,7 +47,7 @@ export class ChatMensagemListComponent implements OnDestroy, OnChanges
         this._store.pipe(
             select(getChatMensagemIsSaving),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(saving => {
+        ).subscribe((saving: any) => {
             this.saving = saving;
         });
     }
@@ -99,7 +99,7 @@ export class ChatMensagemListComponent implements OnDestroy, OnChanges
     ngOnDestroy(): void
     {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

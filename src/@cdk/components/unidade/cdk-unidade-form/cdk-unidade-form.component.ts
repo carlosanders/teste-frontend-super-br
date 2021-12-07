@@ -112,11 +112,18 @@ export class CdkUnidadeFormComponent implements OnChanges, OnDestroy {
                     control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                const data = JSON.parse(this.errors.error.message);
-                const message = data ? data[0].message : this.errors.error.message;
-                this.form.setErrors({rulesError: message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
+
+        if (!this.errors) {
+            Object.keys(this.form.controls).forEach((key) => {
+                this.form.get(key).setErrors(null);
+            });
+
+            this.form.setErrors(null);
+        }
+
         this._changeDetectorRef.markForCheck();
     }
 

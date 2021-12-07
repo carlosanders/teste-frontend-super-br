@@ -1,7 +1,9 @@
 # pulled from ubuntu
-FROM node:14.15.5-alpine as base
+FROM node:16.13.0-alpine as base
 
 RUN apk add tzdata
+
+RUN apk add python3 make g++
 
 ENV TZ America/Sao_Paulo
 

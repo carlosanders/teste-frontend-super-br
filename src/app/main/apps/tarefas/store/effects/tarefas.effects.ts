@@ -70,7 +70,8 @@ export class TarefasEffect {
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
-            JSON.stringify(action.payload.context)).pipe(
+            JSON.stringify(action.payload.context),
+            'app/main/apps/tarefas#lista').pipe(
                 concatMap(response => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema, populate: action.payload.populate}),
                     new TarefasActions.GetTarefasSuccess({
@@ -621,7 +622,7 @@ export class TarefasEffect {
                     this.routerState.params.targetHandle,
                     'operacoes-bloco'
                 ]).then();
-            } else if (this.routerState.url.indexOf('bloco') > 0) {
+            } else if (this.routerState.url.indexOf('bloco') > 0 || this.routerState.url.indexOf('minutas') > 0) {
                 this._router.navigate([
                     'apps',
                     'tarefas',
@@ -639,7 +640,7 @@ export class TarefasEffect {
      */
     doGerarRelatorioTarefaExcel: any = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.GerarRelatorioTarefaExcel>(TarefasActions.GERAR_RELATORIO_TAREFA_EXCEL),
-        mergeMap(() => this._tarefaService.gerarRelatorioTarefaExcel().pipe(
+        mergeMap(action => this._tarefaService.gerarRelatorioTarefaExcel(action.payload).pipe(
             mergeMap(response => [
                 new TarefasActions.GerarRelatorioTarefaExcelSuccess(response.id),
             ]),

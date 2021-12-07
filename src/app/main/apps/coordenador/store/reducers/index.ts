@@ -10,7 +10,7 @@ export const getCoordenadorAppState = createFeatureSelector<CoordenadorAppState>
     'coordenador-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCoordenadorAppState,
     (state: CoordenadorAppState) => state
 );

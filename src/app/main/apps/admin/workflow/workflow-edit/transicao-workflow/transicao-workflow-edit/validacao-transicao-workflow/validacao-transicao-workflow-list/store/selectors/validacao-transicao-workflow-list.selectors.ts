@@ -11,43 +11,43 @@ import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workfl
 
 const schemaSelectors = createSchemaSelectors<ValidacaoTransicaoWorkflow>(validacaoSchema);
 
-export const getValidacaoTransicaoWorkflowListState = createSelector(
+export const getValidacaoTransicaoWorkflowListState: any = createSelector(
     getValidacaoTransicaoWorkflowListAppState,
     (state: ValidacaoTransicaoWorkflowListAppState) => state.validacaoTransicaoWorkflowList
 );
 
-export const getValidacaoListIds = createSelector(
+export const getValidacaoListIds: any = createSelector(
     getValidacaoTransicaoWorkflowListState,
     (state: ValidacaoTransicaoWorkflowListState) => state.entitiesId
 );
 
-export const getValidacaoList = createSelector(
+export const getValidacaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getValidacaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getValidacaoListLoaded = createSelector(
+export const getValidacaoListLoaded: any = createSelector(
     getValidacaoTransicaoWorkflowListState,
     (state: ValidacaoTransicaoWorkflowListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getValidacaoTransicaoWorkflowListState,
     (state: ValidacaoTransicaoWorkflowListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getValidacaoTransicaoWorkflowListState,
     (state: ValidacaoTransicaoWorkflowListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getValidacaoTransicaoWorkflowListState,
     (state: ValidacaoTransicaoWorkflowListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getValidacaoTransicaoWorkflowListState,
     (state: ValidacaoTransicaoWorkflowListState) => state.deletingErrors
 );

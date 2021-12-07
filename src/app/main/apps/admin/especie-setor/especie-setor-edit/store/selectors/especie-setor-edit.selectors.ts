@@ -6,33 +6,33 @@ import {especieSetor as especieSetorSchema} from '@cdk/normalizr';
 
 const schemaEspecieSetorSelectors = createSchemaSelectors<EspecieSetor>(especieSetorSchema);
 
-export const getEspecieSetorEditState = createSelector(
+export const getEspecieSetorEditState: any = createSelector(
     getEspecieSetorEditAppState,
     (state: EspecieSetorEditAppState) => state.especieSetor
 );
 
-export const getEspecieSetorId = createSelector(
+export const getEspecieSetorId: any = createSelector(
     getEspecieSetorEditState,
     (state: EspecieSetorEditState) => state.entityId
 );
 
-export const getEspecieSetor = createSelector(
+export const getEspecieSetor: any = createSelector(
     schemaEspecieSetorSelectors.getNormalizedEntities,
     getEspecieSetorId,
     schemaEspecieSetorSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getEspecieSetorEditState,
     (state: EspecieSetorEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getEspecieSetorEditState,
     (state: EspecieSetorEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getEspecieSetorEditState,
     (state: EspecieSetorEditState) => state.errors
 );

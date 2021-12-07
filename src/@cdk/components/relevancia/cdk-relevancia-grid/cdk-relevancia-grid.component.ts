@@ -195,6 +195,8 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
+        this.paginator._intl.firstPageLabel = 'Primeiro';
+        this.paginator._intl.lastPageLabel = 'Último';
 
         this.paginator.pageSize = this.pageSize;
 
@@ -350,4 +352,8 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

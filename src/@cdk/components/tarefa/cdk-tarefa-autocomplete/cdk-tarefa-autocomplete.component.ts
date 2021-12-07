@@ -63,7 +63,7 @@ export class CdkTarefaAutocompleteComponent implements OnInit {
                     const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
-                            'processo.nup': `like:%${bit}%`});
+                            'processo.NUP': `like:%${bit}%`});
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.tarefaListIsLoading = true;
@@ -94,6 +94,6 @@ export class CdkTarefaAutocompleteComponent implements OnInit {
     }
 
     displayTarefaFn(tarefa): string {
-        return tarefa ? tarefa.processo.nup : null;
+        return tarefa ? tarefa.processo.NUP : null;
     }
 }

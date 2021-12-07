@@ -7,48 +7,48 @@ import {VinculacaoRole} from '@cdk/models/vinculacao-role.model';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoRole>(roleschema);
 
-export const getRolesListState = createSelector(
+export const getRolesListState: any = createSelector(
     getRolesListAppState,
     (state: RolesListAppState) => state.rolesList
 );
 
-export const getRolesListIds = createSelector(
+export const getRolesListIds: any = createSelector(
     getRolesListState,
     (state: RolesListState) => state.entitiesId
 );
 
-export const getRolesList = createSelector(
+export const getRolesList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getRolesListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getRolesListState,
     (state: RolesListState) => state.pagination
 );
 
-export const getRolesListLoaded = createSelector(
+export const getRolesListLoaded: any = createSelector(
     getRolesListState,
     (state: RolesListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getRolesListState,
     (state: RolesListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getRolesListState,
     (state: RolesListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getRolesListState,
     (state: RolesListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getRolesListState,
     (state: RolesListState) => state.deletingErrors
 );

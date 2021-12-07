@@ -1,5 +1,5 @@
 <!-- SIDEBAR HEADER -->
-<div class="header p-8">
+<div class="header p-4">
     <div class="actions">
         <button mat-mini-fab
                 [matTooltip]="'Criar Minuta'"
@@ -61,7 +61,7 @@
 
         <mat-menu #modeloMenu="matMenu">
             <h4 class="p-8">Modelos Individuais e em Branco (Outros na Lupa)</h4>
-            <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="16px" fxLayout="column"
+            <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="8px" fxLayout="column"
                   fxLayoutAlign="start"
                   (submit)="doEditor()"
                   fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
@@ -257,7 +257,7 @@
                 </cdk-componente-digital-card-list>
 
                 <div class="sem-minutas" *ngIf="(!minutas || !minutas?.length) && (!oficios || !oficios?.length)">
-                    <div class="m-16" style="font-style: italic;">Não há minutas<span *ngIf="(lixeiraMinutas$ | async)"> na lixeira</span>.
+                    <div class="m-8" style="font-style: italic;">Não há minutas<span *ngIf="(lixeiraMinutas$ | async)"> na lixeira</span>.
                     </div>
                 </div>
 
@@ -392,7 +392,7 @@
                                                 (click)="aprovar(minuta)">
                                             <ng-container>
                                                 <mat-icon color="accent">check_circle_outline</mat-icon>
-                                                <span>Aprovar</span>
+                                                <span>Anexar Aprovação</span>
                                             </ng-container>
                                         </button>
                                     </mat-menu>
@@ -428,7 +428,7 @@
                         </div>
                     </div>
                     <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento" id="testeMenu">
-                        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+                        <form class="p-8 mb-8" fxLayoutGap="8px" fxLayout="column" fxLayoutAlign="start"
                               fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()">
                             <mat-form-field fxFlex="100">
                                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -600,7 +600,7 @@
                     </div>
 
                     <mat-menu #tipoDocumentoMenu2="matMenu" class="menuTipoDocumento" id="testeMenu2">
-                        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+                        <form class="p-8 mb-8" fxLayoutGap="8px" fxLayout="column" fxLayoutAlign="start"
                               fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()">
                             <mat-form-field fxFlex="100">
                                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -645,7 +645,7 @@
 
     <div class="juntadas" cdkPerfectScrollbar infiniteScroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="5"
+         [infiniteScrollDistance]="3"
          [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
 
@@ -663,7 +663,7 @@
             </div>
             <div [ngClass]="{'current-tipo-documento': capa}" fxFlex fxLayout="column">
                 <div class="descricao">CAPA</div>
-                <div class="criado-em">{{processo?.dataHoraAbertura?.toDate() | date: 'dd/MM/yyyy'}}</div>
+                <div class="criado-em">{{processo ? (processo.dataHoraAbertura.toDate() | date: 'dd/MM/yyyy') : ''}}</div>
                 <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
                     <span class="ml-4"
@@ -737,7 +737,7 @@
                                     </button>
 
                                     <button mat-menu-item aria-label="editar"
-                                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                            *ngIf="!juntada.documento.acessoNegado && !_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
                                             (click)="onClickedMinuta(juntada.documento)">
                                         <ng-container>
                                             <mat-icon>edit</mat-icon>
@@ -754,6 +754,7 @@
                                     </button>
 
                                     <button mat-menu-item aria-label="abrir em outra aba"
+                                            *ngIf="!juntada.documento.acessoNegado"
                                             (click)="doJuntadaOutraAba(juntada.documento)">
                                         <ng-container>
                                             <mat-icon>open_in_new</mat-icon>
@@ -762,7 +763,7 @@
                                     </button>
 
                                     <button fxLayout="row" fxLayoutAlign="start center"
-                                            *ngIf="juntada.documento.assinado"
+                                            *ngIf="juntada.documento.assinado && !juntada.documento.acessoNegado"
                                             (click)="doDownloadP7S(juntada.documento)"
                                             mat-menu-item>
                                         <mat-icon color="accent">get_app</mat-icon>
@@ -780,7 +781,7 @@
 
                                     <button mat-menu-item aria-label="remover vinculações"
                                             (click)="doRemoverVinculacoes(juntada)"
-                                            *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
+                                            *ngIf="juntada.documento?.vinculacoesDocumentos?.length > 0 && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
                                         <ng-container>
                                             <mat-icon>lock</mat-icon>
                                             <span>Desvincular</span>
@@ -789,7 +790,7 @@
 
                                     <button mat-menu-item aria-label="desentranhar"
                                             (click)="doDesentranharSimples(juntada.id)"
-                                            *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR')">
+                                            *ngIf="juntada.ativo && _loginService.isGranted('ROLE_COLABORADOR') && !juntada.documento.acessoNegado">
                                         <ng-container>
                                             <mat-icon>low_priority</mat-icon>
                                             <span>Desentranhar</span>
@@ -845,7 +846,10 @@
                             <div
                                 *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); index as z;"
                                 class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon class="ml-16 s-14">attach_file</mat-icon>
+                                <mat-icon class="ml-8 s-14">attach_file</mat-icon>
+                                <span class="accent badge" *ngIf="!!vinculacaoDocumento.documentoVinculado.juntadaAtual">
+                                    {{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}
+                                </span>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
                                    (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"

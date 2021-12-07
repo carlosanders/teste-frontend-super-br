@@ -8,15 +8,15 @@ form {
         display: flex !important;
         flex-direction: column;
         padding: 8px !important;
-        margin-bottom: 16px !important;
+        margin-bottom: 8px !important;
 
         > mat-form-field {
             flex: 1 1 auto;
         }
 
         > mat-slide-toggle {
-            margin-right: 16px;
-            margin-bottom: 16px;
+            margin-right: 8px;
+            margin-bottom: 8px;
         }
     }
 
@@ -25,13 +25,13 @@ form {
     }
 
     > mat-checkbox {
-        margin-bottom: 16px;
-        margin-right: 16px;
+        margin-bottom: 8px;
+        margin-right: 8px;
     }
 
     > mat-slide-toggle {
-        margin-right: 16px;
-        margin-bottom: 16px;
+        margin-right: 8px;
+        margin-bottom: 8px;
     }
 
     > .responsive-group {
@@ -39,10 +39,10 @@ form {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
 
         > mat-radio-group {
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             mat-radio-button {
                 margin-right: 24px;
             }

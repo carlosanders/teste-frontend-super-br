@@ -12,7 +12,7 @@ export const getDocumentoAvulsoEditInteligenciaAppState = createFeatureSelector<
     'documento-avulso-edit-inteligencia-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAvulsoEditInteligenciaAppState,
     (state: DocumentoAvulsoEditInteligenciaAppState) => state
 );

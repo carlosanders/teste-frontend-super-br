@@ -10,7 +10,7 @@ export const getRepositoriosListAppState = createFeatureSelector<RepositoriosLis
     'repositorios-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRepositoriosListAppState,
     (state: RepositoriosListAppState) => state
 );

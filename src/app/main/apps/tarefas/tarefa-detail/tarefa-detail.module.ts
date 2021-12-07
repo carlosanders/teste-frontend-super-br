@@ -57,7 +57,7 @@ const routes: Routes = [
             },
             {
                 path: 'modelo',
-                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
+                loadChildren: () => import('app/main/apps/modelos/modelos.module').then(m => m.ModelosModule),
             },
             {
                 path: 'oficios',

@@ -7,44 +7,44 @@ import {modalidadeOrgaoCentral as orgaoCentralSchema, setor as setorSchema} from
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 const schemaOrgaoCentralSelectors = createSchemaSelectors<Setor>(orgaoCentralSchema);
 
-export const getUnidadesOrgaoCentralState = createSelector(
+export const getUnidadesOrgaoCentralState: any = createSelector(
     getUnidadesOrgaoCentralAppState,
     (state: UnidadesOrgaoCentralAppState) => state.unidades
 );
 
-export const getUnidadeId = createSelector(
+export const getUnidadeId: any = createSelector(
     getUnidadesOrgaoCentralState,
     (state: UnidadesOrgaoCentralState) => state.loadedUnidade ? state.loadedUnidade.value : null
 );
 
-export const getUnidade = createSelector(
+export const getUnidade: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getOrgaoCentralId = createSelector(
+export const getOrgaoCentralId: any = createSelector(
     getUnidadesOrgaoCentralState,
     (state: UnidadesOrgaoCentralState) => state.loaded ? state.loaded.value : null
 );
 
-export const getOrgaoCentral = createSelector(
+export const getOrgaoCentral: any = createSelector(
     schemaOrgaoCentralSelectors.getNormalizedEntities,
     getOrgaoCentralId,
     schemaOrgaoCentralSelectors.entityProjector
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getUnidadesOrgaoCentralState,
     (state: UnidadesOrgaoCentralState) => state.loaded
 );
 
-export const getHasLoadedUnidade = createSelector(
+export const getHasLoadedUnidade: any = createSelector(
     getUnidadesOrgaoCentralState,
     (state: UnidadesOrgaoCentralState) => state.loadedUnidade
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getUnidadesOrgaoCentralState,
     (state: UnidadesOrgaoCentralState) => state.errors
 );

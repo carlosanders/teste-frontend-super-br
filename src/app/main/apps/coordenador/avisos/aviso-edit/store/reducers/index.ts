@@ -10,7 +10,7 @@ export const getAvisoEditAppState = createFeatureSelector<AvisoEditAppState>(
     'aviso-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAvisoEditAppState,
     (state: AvisoEditAppState) => state
 );

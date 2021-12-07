@@ -82,8 +82,8 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote);
-            this.operacoesPendentes = Object.values(operacoes).filter(operacao => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'tarefa' && operacao.lote === this.lote);
+            this.operacoesPendentes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'tarefa' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -105,7 +105,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

@@ -146,7 +146,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -311,6 +311,13 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
             + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco
+        ]).then();
+    }
+
+    doMinutas(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/minutas'
         ]).then();
     }
 

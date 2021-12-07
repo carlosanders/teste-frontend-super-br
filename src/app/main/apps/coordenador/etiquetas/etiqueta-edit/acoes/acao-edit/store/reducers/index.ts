@@ -12,7 +12,7 @@ export const getAcaoEditAppState = createFeatureSelector<AcaoEditAppState>(
     'coordenador-acao-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAcaoEditAppState,
     (state: AcaoEditAppState) => state
 );

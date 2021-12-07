@@ -10,7 +10,7 @@ export const getContaEmailEditAppState = createFeatureSelector<ContaEmailEditApp
     'contas-email-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getContaEmailEditAppState,
     (state: ContaEmailEditAppState) => state
 );

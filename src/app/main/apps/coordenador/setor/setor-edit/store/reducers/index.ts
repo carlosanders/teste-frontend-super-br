@@ -10,7 +10,7 @@ export const getSetorEditAppState = createFeatureSelector<SetorEditAppState>(
     'setor-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getSetorEditAppState,
     (state: SetorEditAppState) => state
 );

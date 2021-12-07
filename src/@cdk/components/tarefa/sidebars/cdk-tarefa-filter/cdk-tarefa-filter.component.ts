@@ -178,7 +178,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
         this._cdkTarefaFilterService.filters = [];
 
-        this._cdkTarefaFilterService.emite.next();
+        this._cdkTarefaFilterService.emite.next(true);
 
         if (!this._cdkTarefaFilterService.isValid) {
             return;
@@ -356,7 +356,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-list').close();
     }
 
     filtraDataHoraLeitura(value: any): void {
@@ -406,7 +406,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
     limpar(): void {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
-        this._cdkTarefaFilterService.clear.next();
+        this._cdkTarefaFilterService.clear.next(true);
         this.emite();
     }
 }

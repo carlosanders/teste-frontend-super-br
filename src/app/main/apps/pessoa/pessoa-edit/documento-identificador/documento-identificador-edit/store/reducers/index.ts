@@ -13,7 +13,7 @@ export const getDocumentoIdentificadorEditAppState = createFeatureSelector<Docum
     'documento-identificador-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoIdentificadorEditAppState,
     (state: DocumentoIdentificadorEditAppState) => state
 );

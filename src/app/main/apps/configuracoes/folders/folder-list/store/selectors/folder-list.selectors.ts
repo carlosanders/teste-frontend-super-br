@@ -7,48 +7,48 @@ import {Folder} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Folder>(folderSchema);
 
-export const getFolderListState = createSelector(
+export const getFolderListState: any = createSelector(
     getFolderListAppState,
     (state: FolderListAppState) => state.folderList
 );
 
-export const getFolderListIds = createSelector(
+export const getFolderListIds: any = createSelector(
     getFolderListState,
     (state: FolderListState) => state.entitiesId
 );
 
-export const getFolderList = createSelector(
+export const getFolderList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getFolderListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getFolderListState,
     (state: FolderListState) => state.pagination
 );
 
-export const getFolderListLoaded = createSelector(
+export const getFolderListLoaded: any = createSelector(
     getFolderListState,
     (state: FolderListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getFolderListState,
     (state: FolderListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getFolderListState,
     (state: FolderListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getFolderListState,
     (state: FolderListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getFolderListState,
     (state: FolderListState) => state.deletingErrors
 );

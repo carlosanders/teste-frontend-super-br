@@ -7,38 +7,38 @@ import {ContaEmail} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<ContaEmail>(contaEmailSchema);
 
-export const getContaEmailListState = createSelector(
+export const getContaEmailListState: any = createSelector(
     getContaEmailListAppState,
     (state: ContaEmailListAppState) => state.contaEmailList
 );
 
-export const getContaEmailListIds = createSelector(
+export const getContaEmailListIds: any = createSelector(
     getContaEmailListState,
     (state: ContaEmailListState) => state.entitiesId
 );
 
-export const getContaEmailList = createSelector(
+export const getContaEmailList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getContaEmailListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getContaEmailListState,
     (state: ContaEmailListState) => state.pagination
 );
 
-export const getContaEmailListLoaded = createSelector(
+export const getContaEmailListLoaded: any = createSelector(
     getContaEmailListState,
     (state: ContaEmailListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getContaEmailListState,
     (state: ContaEmailListState) => state.loading
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getContaEmailListState,
     (state: ContaEmailListState) => state.deletingErrors
 );

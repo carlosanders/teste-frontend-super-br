@@ -90,7 +90,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -149,7 +149,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             }
         }
         this.selectedDay = day;
-        this.refresh.next();
+        this.refresh.next(true);
     }
 
     /**

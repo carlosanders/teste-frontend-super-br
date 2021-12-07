@@ -26,7 +26,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
+import {getDocumentosHasLoaded, getErrorsDocumentos, getSelectedVolume, getVolumes} from '../../store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -40,7 +40,12 @@ import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
-import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarRef,
+    MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
@@ -114,6 +119,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     selectedVolume: number = null;
 
     errors$: Observable<any>;
+    errorsDocumento$: Observable<any>;
 
     isLoading$: Observable<boolean>;
 
@@ -213,6 +219,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     contador: Contador = new Contador();
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
 
@@ -276,6 +285,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.selectedVolume$ = this._store.pipe(select(getSelectedVolume));
 
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.errorsDocumento$ = this._store.pipe(select(fromStore.getErrorsDocumentos));
 
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
@@ -385,6 +395,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
         this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
+
+        this.errorsDocumento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((errors) => {
+            if (errors && errors.status && errors.status === 422) {
+                const error = 'Erro! ' + (errors?.error?.message || errors?.statusText);
+                this._snackBar.open(error, null, {
+                    duration: 5000,
+                    horizontalPosition: this.horizontalPosition,
+                    verticalPosition: this.verticalPosition,
+                    panelClass: ['danger-snackbar']
+                });
+            }
+        }
+        );
+
     }
 
     /**
@@ -481,7 +507,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
             this.documentoEdit.open = false;
             if (value) {
-                this._unsubscribeDocs.next();
+                this._unsubscribeDocs.next(true);
                 this._unsubscribeDocs.complete();
                 this._unsubscribeDocs = new Subject();
                 this._store.pipe(
@@ -575,9 +601,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.detach();
 
         this._store.dispatch(new fromStore.ExpandirProcesso(false));
-        this._unsubscribeDocs.next();
+        this._unsubscribeDocs.next(true);
         this._unsubscribeDocs.complete();
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -889,7 +915,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
         this._router.navigate([
             this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
-            '/visualizar/' + this.routerState.params.stepHandle + '/modelos'
+            '/visualizar/' + this.routerState.params.stepHandle + '/modelos/modelo'
         ]).then(() => {
             this.closeAutocomplete();
         });

@@ -7,33 +7,33 @@ import {Setor} from '@cdk/models/setor.model';
 
 const schemaSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getRootSetorState = createSelector(
+export const getRootSetorState: any = createSelector(
     getTarefasAppState,
     (state: TarefasAppState) => state.setores
 );
 
-export const getSetoresIds = createSelector(
+export const getSetoresIds: any = createSelector(
     getRootSetorState,
     (state: RootSetorState) => state.entitiesId
 );
 
-export const getSetores = createSelector(
+export const getSetores: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSetoresIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPaginationSetores = createSelector(
+export const getPaginationSetores: any = createSelector(
     getRootSetorState,
     (state: RootSetorState) => state.pagination
 );
 
-export const getUnidadeId = createSelector(
+export const getUnidadeId: any = createSelector(
     getRootSetorState,
     (state: RootSetorState) => state.unidadeId
 );
 
-export const getUnidadeIsLoading = createSelector(
+export const getUnidadeIsLoading: any = createSelector(
     getRootSetorState,
     (state: RootSetorState) => state.loading
 );

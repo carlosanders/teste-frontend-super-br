@@ -14,46 +14,46 @@ import {
 const schemaOrgaoSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(orgaoSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getEtiquetaEditState = createSelector(
+export const getEtiquetaEditState: any = createSelector(
     getEtiquetaEditAppState,
     (state: EtiquetaEditAppState) => state.etiqueta
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getEtiquetaEditState,
     (state: EtiquetaEditState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getEtiquetaEditState,
     (state: EtiquetaEditState) => state.errors
 );
 
-export const getModalidadeOrgaoCentral = createSelector(
+export const getModalidadeOrgaoCentral: any = createSelector(
     schemaOrgaoSelectors.getNormalizedEntities,
     getModalidadeOrgaoCentralId,
     schemaOrgaoSelectors.entityProjector
 );
 
-export const getSetor = createSelector(
+export const getSetor: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getUnidade = createSelector(
+export const getUnidade: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getUnidadeHandle = createSelector(
+export const getUnidadeHandle: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeHandleId,
     schemaSetorSelectors.entityProjector
 );
 
-export const getSetorHandle = createSelector(
+export const getSetorHandle: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorHandleId,
     schemaSetorSelectors.entityProjector

@@ -33,6 +33,7 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
     vinculacaoDocumento: VinculacaoDocumento;
 
     juntada$: Observable<Juntada>;
+    juntadaByDocumentoId: Juntada;
     juntada: Juntada;
     juntadaVinculada$: Observable<Juntada>;
     juntadaVinculada: Juntada;
@@ -128,13 +129,23 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    changeDocumentoVinculado(documentoVinculadoId: number): void {
+        this._store.pipe(
+            select(fromStore.getJuntadaByDocumentoVinculadoId(documentoVinculadoId)),
+            filter(juntada => !!juntada),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((juntada) => {
+            this.juntadaByDocumentoId = juntada;
+        });
+    }
 
     doAbort(): void {
         this._router.navigate([this.routerState.url.split('vincular/' + this.routerState.params.juntadaHandle)[0]]).then();
@@ -149,7 +160,7 @@ export class VinculacaoDocumentoComponent implements OnInit, OnDestroy {
             }
         );
 
-        let juntadaVinculadaId = vinculacaoDocumento.documentoVinculado.juntadaAtual.id;
+        let juntadaVinculadaId = this.juntadaByDocumentoId?.id;
 
         vinculacaoDocumento.documento = this.juntada.documento;
         if (this.juntadaVinculada) {

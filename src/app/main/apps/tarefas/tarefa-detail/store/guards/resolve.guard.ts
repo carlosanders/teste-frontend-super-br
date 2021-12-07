@@ -152,18 +152,16 @@ export class ResolveGuard implements CanActivate {
                             'volume',
                             'documento',
                             'documento.origemDados',
-                            'documento.juntadaAtual',
                             'documento.tipoDocumento',
                             'documento.componentesDigitais',
                             'documento.vinculacoesDocumentos',
                             'documento.vinculacoesDocumentos.documentoVinculado',
+                            'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
                             'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                             'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                            'documento.vinculacoesEtiquetas',
-                            'documento.vinculacoesEtiquetas.etiqueta',
                             'documento.criadoPor',
-                            "documento.setorOrigem",
-                            "documento.setorOrigem.unidade"
+                            'documento.setorOrigem',
+                            'documento.setorOrigem.unidade',
                         ]
                     };
 

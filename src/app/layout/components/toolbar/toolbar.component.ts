@@ -18,6 +18,8 @@ import {Notificacao} from '@cdk/models';
 import {getIsLoading, getNotificacaoList, getOperacoesEmProcessamento} from '../../../store';
 import {getChatIsLoading} from '../chat-panel/store';
 import {ComponenteDigitalService} from "../../../../@cdk/services/componente-digital.service";
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'toolbar',
@@ -72,6 +74,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _componenteDigitalService: ComponenteDigitalService,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _dialog: MatDialog
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -212,6 +215,27 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 filter(userProfile => !!userProfile)
             )
             .subscribe(userProfile => this.userProfile = userProfile);
+
+        this._loginService.getUserChangedOtherTab().pipe(
+            filter(changed => !!changed)
+        ).subscribe((loggedUserChanged) => {
+                const dialogRef = this._dialog.open(CdkConfirmDialogComponent, {
+                    data: {
+                        title: 'Mudança de usuário logado detectada',
+                        confirmLabel: 'Recarregar',
+                        hideCancel: true,
+                        message: 'Foi detectada a mudança do usuário autenticado em outra aba do navegador. O sistema precisa ser recarregado.'
+                    },
+                    disableClose: true
+                });
+
+                dialogRef.afterClosed().subscribe((result) => {
+                    if (result) {
+                        window.location.reload();
+                    }
+                });
+        });
+
     }
 
     /**
@@ -219,7 +243,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

@@ -77,12 +77,12 @@
 
         </div>
 
-        <div class="loading" *ngIf="loading">
+        <div class="loading" *ngIf="loading || loadingSaving">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
         <div class="content" cdkPerfectScrollbar>
-            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="loading ? {'display': 'none'} : {}">
+            <table mat-table [dataSource]="dataSource" matSort [ngStyle]="(loading || loadingSaving) ? {'display': 'none'} : {}">
 
                 <!-- Selection Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('select') > -1" matColumnDef="select">
@@ -320,7 +320,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, modelo.id)">
-                            {{ getProp(deletingErrors, modelo.id) }}
+                            {{ getMessageError(getProp(deletingErrors, modelo.id)) }}
                         </mat-error>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(modelo.id) > -1">
@@ -336,7 +336,7 @@
             </table>
         </div>
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[2, 10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="(loading || loadingSaving)" [pageSizeOptions]="[2, 10, 25]"></mat-paginator>
         </div>
 
     </div>

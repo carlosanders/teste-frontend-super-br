@@ -81,7 +81,7 @@ export class VinculacaoPessoaBarramentoEditComponent implements OnInit, OnDestro
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

@@ -10,7 +10,7 @@ export const getRegisterAppState = createFeatureSelector<RegisterAppState>(
     'register-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRegisterAppState,
     (state: RegisterAppState) => state
 );

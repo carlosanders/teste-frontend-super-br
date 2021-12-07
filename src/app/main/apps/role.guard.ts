@@ -27,6 +27,8 @@ export class RoleGuard implements CanActivate {
         const roles = route.data['roles'] as Array<string>;
         if (this.checkRole(roles)) {
             return of(true);
+        } else if(!this._loginService.getUserProfile()) {
+            this._router.navigate(['/']).then();
         } else {
             this._router.navigate(['/apps/painel']).then();
         }
@@ -40,7 +42,7 @@ export class RoleGuard implements CanActivate {
 
         roles.forEach((role) => {
             const roleExp = RegExp(role.replace('*', '.*'), 'i');
-            if (this._loginService.getUserProfile().roles.length > 0) {
+            if (this._loginService.getUserProfile()?.roles.length > 0) {
                 accessRoles.push(...this._loginService.getUserProfile().roles.filter((value) => value.match(roleExp)));
             }
         });

@@ -18,10 +18,10 @@ export class CdkDocumentoFilterComponent {
     @Output()
     selected = new EventEmitter<any>();
 
-    form: FormGroup;
-
     @Input()
     mode = 'list';
+
+    form: FormGroup;
     pagination: Pagination;
 
     filterCriadoEm = [];
@@ -53,7 +53,6 @@ export class CdkDocumentoFilterComponent {
             copia: [null],
             setorOrigem: [null],
             tarefaOrigem: [null],
-            origemDados: [null],
             modelo: [null],
             juntadaAtual: [null],
             repositorio: [null],
@@ -153,10 +152,6 @@ export class CdkDocumentoFilterComponent {
 
         if (this.form.get('juntadaAtual').value) {
             andXFilter.push({'juntadaAtual.id': `eq:${this.form.get('juntadaAtual').value.id}`});
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.form.get('documentoAvulsoRemessa').value) {

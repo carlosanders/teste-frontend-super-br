@@ -6,33 +6,33 @@ import {transicao as transicaoSchema} from '@cdk/normalizr';
 
 const schemaTransicaoSelectors = createSchemaSelectors<Transicao>(transicaoSchema);
 
-export const getTransicaoEditState = createSelector(
+export const getTransicaoEditState: any = createSelector(
     getTransicaoEditAppState,
     (state: TransicaoEditAppState) => state.transicao
 );
 
-export const getTransicaoId = createSelector(
+export const getTransicaoId: any = createSelector(
     getTransicaoEditState,
     (state: TransicaoEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getTransicao = createSelector(
+export const getTransicao: any = createSelector(
     schemaTransicaoSelectors.getNormalizedEntities,
     getTransicaoId,
     schemaTransicaoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTransicaoEditState,
     (state: TransicaoEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTransicaoEditState,
     (state: TransicaoEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTransicaoEditState,
     (state: TransicaoEditState) => state.errors
 );

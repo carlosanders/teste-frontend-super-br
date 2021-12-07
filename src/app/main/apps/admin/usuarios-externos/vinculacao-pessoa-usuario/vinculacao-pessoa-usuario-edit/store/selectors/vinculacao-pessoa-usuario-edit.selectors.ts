@@ -11,38 +11,38 @@ import {getVinculacaoPessoaUsuarioAppState, VinculacaoPessoaUsuarioAppState} fro
 
 const schemaVinculacaoPessoaUsuarioSelectors = createSchemaSelectors<VinculacaoPessoaUsuario>(vinculacaoPessoaUsuarioSchema);
 
-export const getVinculacaoPessoaUsuarioEditState = createSelector(
+export const getVinculacaoPessoaUsuarioEditState: any = createSelector(
     getVinculacaoPessoaUsuarioEditAppState,
     (state: VinculacaoPessoaUsuarioEditAppState) => state.vinculacaoPessoaUsuario
 );
 
-export const getVinculacaoPessoaUsuarioState = createSelector(
+export const getVinculacaoPessoaUsuarioState: any = createSelector(
     getVinculacaoPessoaUsuarioAppState,
     (state: VinculacaoPessoaUsuarioAppState) => state.vinculacoesPessoaUsuario
 );
 
-export const getVinculacaoPessoaUsuarioId = createSelector(
+export const getVinculacaoPessoaUsuarioId: any = createSelector(
     getVinculacaoPessoaUsuarioEditState,
     (state: VinculacaoPessoaUsuarioEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getVinculacaoPessoaUsuario = createSelector(
+export const getVinculacaoPessoaUsuario: any = createSelector(
     schemaVinculacaoPessoaUsuarioSelectors.getNormalizedEntities,
     getVinculacaoPessoaUsuarioId,
     schemaVinculacaoPessoaUsuarioSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getVinculacaoPessoaUsuarioEditState,
     (state: VinculacaoPessoaUsuarioEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getVinculacaoPessoaUsuarioEditState,
     (state: VinculacaoPessoaUsuarioEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getVinculacaoPessoaUsuarioEditState,
     (state: VinculacaoPessoaUsuarioEditState) => state.errors
 );

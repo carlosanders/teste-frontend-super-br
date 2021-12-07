@@ -10,7 +10,7 @@ export const getDocumentoEditComponentesDigitaisAppState = createFeatureSelector
     'documento-edit-componentes-digitais-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoEditComponentesDigitaisAppState,
     (state: DocumentoEditComponentesDigitaisAppState) => state
 );

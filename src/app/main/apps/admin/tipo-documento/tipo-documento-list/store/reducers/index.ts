@@ -9,7 +9,7 @@ export const getTipoDocumentoListAppState = createFeatureSelector<TipoDocumentoL
     'tipo-documento-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTipoDocumentoListAppState,
     (state: TipoDocumentoListAppState) => state
 );

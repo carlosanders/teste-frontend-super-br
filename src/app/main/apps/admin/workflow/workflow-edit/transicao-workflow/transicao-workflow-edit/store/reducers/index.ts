@@ -9,7 +9,7 @@ export const getTransicaoWorkflowEditAppState = createFeatureSelector<TransicaoW
     'transicao-workflow-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTransicaoWorkflowEditAppState,
     (state: TransicaoWorkflowEditAppState) => state
 );

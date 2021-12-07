@@ -9,7 +9,7 @@ export const getDocumentoAvulsoEditAppState = createFeatureSelector<DocumentoAvu
     'documento-avulso-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAvulsoEditAppState,
     (state: DocumentoAvulsoEditAppState) => state
 );

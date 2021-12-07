@@ -10,7 +10,7 @@ export const getTemplateEditDadosBasicosAppState = createFeatureSelector<Templat
     'documento-template-edit-dados-basicos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTemplateEditDadosBasicosAppState,
     (state: TemplateEditDadosBasicosAppState) => state
 );

@@ -37,7 +37,6 @@ export class CdkAssuntoFilterComponent {
     ) {
         this.form = this._formBuilder.group({
             assuntoAdministrativo: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -58,10 +57,6 @@ export class CdkAssuntoFilterComponent {
             andXFilter.push({'assuntoAdministrativo.id': `eq:${this.form.get('assuntoAdministrativo').value.id}`});
         }
 
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
-        }
-
         if (this.filterCriadoEm.length > 0) {
             this.filterCriadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
@@ -72,7 +67,7 @@ export class CdkAssuntoFilterComponent {
         if (this.filterApagadoEm.length > 0) {
             this.filterApagadoEm.forEach((bit) => {andXFilter.push(bit)});
         }
-        
+
         if (this.form.get('apagadoPor').value) {
             andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }

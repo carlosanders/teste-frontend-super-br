@@ -226,6 +226,8 @@ export class CdkServidorEmailGridComponent implements AfterViewInit, OnInit, OnC
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
+        this.paginator._intl.firstPageLabel = 'Primeiro';
+        this.paginator._intl.lastPageLabel = 'Último';
 
         this.paginator.pageSize = this.pageSize;
 
@@ -399,4 +401,8 @@ export class CdkServidorEmailGridComponent implements AfterViewInit, OnInit, OnC
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

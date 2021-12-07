@@ -120,7 +120,9 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
                 this.unidades.push(lotacao.setor);
             }
         });
-
+        if (this.unidades.length === 0) {
+            this._router.navigate(['apps/painel']).then();
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -163,7 +165,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

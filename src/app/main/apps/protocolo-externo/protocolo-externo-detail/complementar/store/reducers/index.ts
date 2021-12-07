@@ -12,7 +12,7 @@ export const getComplementarAppState = createFeatureSelector<ComplementarAppStat
     'complementar-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getComplementarAppState,
     (state: ComplementarAppState) => state
 );

@@ -34,7 +34,6 @@ export const etiqueta = new schema.Entity('etiqueta');
 export const favorito = new schema.Entity('favorito');
 export const feriado = new schema.Entity('feriado');
 export const folder = new schema.Entity('folder');
-export const garantia = new schema.Entity('garantia');
 export const generoAtividade = new schema.Entity('genero-atividade');
 export const generoDocumentoAvulso = new schema.Entity('genero-documento-avulso');
 export const generoDocumento = new schema.Entity('genero-documento');
@@ -58,7 +57,6 @@ export const modalidadeDocumentoIdentificador = new schema.Entity('modalidade-do
 export const modalidadeEtiqueta = new schema.Entity('modalidade-etiqueta');
 export const modalidadeFase = new schema.Entity('modalidade-fase');
 export const modalidadeFolder = new schema.Entity('modalidade-folder');
-export const modalidadeGarantia = new schema.Entity('modalidade-garantia');
 export const modalidadeGeneroPessoa = new schema.Entity('modalidade-genero-pessoa');
 export const modalidadeInteressado = new schema.Entity('modalidade-interessado');
 export const modalidadeMeio = new schema.Entity('modalidade-meio');
@@ -131,6 +129,7 @@ export const statusBarramento = new schema.Entity('status-barramento');
 export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-barramento');
 export const servidorEmail = new schema.Entity('servidor-email');
 export const contaEmail = new schema.Entity('conta-email');
+export const modalidadeCopia = new schema.Entity('modalidade-copia');
 
 acao.define({
     criadoPor: usuario,
@@ -231,6 +230,7 @@ componenteDigital.define({
     documento: documento,
     tarefaOrigem: tarefa,
     origemDados: origemDados,
+    processoOrigem: processo,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -418,14 +418,6 @@ folder.define({
     apagadoPor: usuario
 });
 
-garantia.define( {
-    processo: processo,
-    modalidadeGarantia: modalidadeGarantia,
-    criadoPor: usuario,
-    atualizadoPor: usuario,
-    apagadoPor: usuario
-});
-
 generoAtividade.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
@@ -493,6 +485,7 @@ interessado.define({
 
 juntada.define({
     documento: documento,
+    volume: volume,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,
@@ -563,12 +556,6 @@ modalidadeEtiqueta.define({
 });
 
 modalidadeFolder.define({
-    criadoPor: usuario,
-    atualizadoPor: usuario,
-    apagadoPor: usuario
-});
-
-modalidadeGarantia.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -1111,4 +1098,10 @@ contaEmail.define({
     atualizadoPor: usuario,
     setor: setor,
     servidorEmail: servidorEmail
+});
+
+modalidadeCopia.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
 });

@@ -235,7 +235,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, modalidadevinculacaoDocumento.id)">
-                            {{ getProp(deletingErrors, modalidadevinculacaoDocumento.id) }}
+                            {{ getMessageError(getProp(deletingErrors, modalidadevinculacaoDocumento.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>
@@ -247,7 +247,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

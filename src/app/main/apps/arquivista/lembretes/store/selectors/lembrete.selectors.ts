@@ -10,39 +10,39 @@ import {getProcessosIds} from '../../../arquivista-list/store/selectors';
 const schemaLembreteSelectors = createSchemaSelectors<Lembrete>(lembreteSchema);
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getLembreteState = createSelector(
+export const getLembreteState: any = createSelector(
     getLembreteAppState,
     (state: LembreteAppState) => state.lembrete
 );
 
-export const getLembreteId = createSelector(
+export const getLembreteId: any = createSelector(
     getLembreteState,
     (state: LembreteState) => state.loaded ? state.loaded.value : null
 );
 
-export const getLembreteList = createSelector(
+export const getLembreteList: any = createSelector(
     schemaLembreteSelectors.getNormalizedEntities,
     getLembreteId,
     schemaLembreteSelectors.entityProjector
 );
 
-export const getProcessos = createSelector(
+export const getProcessos: any = createSelector(
     schemaProcessoSelectors.getNormalizedEntities,
     getProcessosIds,
     schemaProcessoSelectors.entitiesProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getLembreteState,
     (state: LembreteState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getLembreteState,
     (state: LembreteState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getLembreteState,
     (state: LembreteState) => state.errors
 );

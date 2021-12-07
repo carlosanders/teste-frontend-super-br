@@ -7,33 +7,33 @@ import {Lotacao} from '@cdk/models/lotacao.model';
 
 const schemaSelectors = createSchemaSelectors<Lotacao>(lotacaoSchema);
 
-export const getRootLotacaoListState = createSelector(
+export const getRootLotacaoListState: any = createSelector(
     getTarefasAppState,
     (state: TarefasAppState) => state.lotacaoList
 );
 
-export const getLotacaoListIds = createSelector(
+export const getLotacaoListIds: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.entitiesId
 );
 
-export const getLotacaoList = createSelector(
+export const getLotacaoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getLotacaoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPaginationLotacao = createSelector(
+export const getPaginationLotacao: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.pagination
 );
 
-export const getSetorId = createSelector(
+export const getSetorId: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.setorId
 );
 
-export const getLotacaoIsLoading = createSelector(
+export const getLotacaoIsLoading: any = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.loading
 );

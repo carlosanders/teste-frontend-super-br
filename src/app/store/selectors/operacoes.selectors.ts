@@ -2,22 +2,22 @@ import {createSelector} from '@ngrx/store';
 import {OperacoesState} from '../reducers/operacoes.reducer';
 import {getOperacoesState} from '../reducers';
 
-export const getOperacoes = createSelector(
+export const getOperacoes: any = createSelector(
     getOperacoesState,
     (state: OperacoesState) => state.operacoes
 );
 
-export const getLotes = createSelector(
+export const getLotes: any = createSelector(
     getOperacoesState,
     (state: OperacoesState) => state.lotes
 );
 
-export const getCurrentLote = createSelector(
+export const getCurrentLote: any = createSelector(
     getOperacoesState,
     (state: OperacoesState) => state.currentLote
 );
 
-export const getOperacoesEmProcessamento = createSelector(
+export const getOperacoesEmProcessamento: any = createSelector(
     getOperacoes,
     (operacoes) => {
         const operacoesEmProcessamento = {};
@@ -30,11 +30,11 @@ export const getOperacoesEmProcessamento = createSelector(
     }
 );
 
-export const getOperacoesLoteAtual = createSelector(
+export const getOperacoesLoteAtual: any = createSelector(
     getLotes,
     getOperacoes,
     getCurrentLote,
-    (lotes, operacoes, loteAtual) => {
+    (lotes, operacoes, loteAtual: any) => {
         const operacoesLoteAtual = {};
         if (loteAtual) {
             lotes[loteAtual].operacoesId.forEach((operacaoId) => {
@@ -45,11 +45,11 @@ export const getOperacoesLoteAtual = createSelector(
     }
 );
 
-export const getOperacoesEmProcessamentoLoteAtual = createSelector(
+export const getOperacoesEmProcessamentoLoteAtual: any = createSelector(
     getLotes,
     getOperacoes,
     getCurrentLote,
-    (lotes, operacoes, loteAtual) => {
+    (lotes, operacoes, loteAtual: any) => {
         const operacoesEmProcessamentoLoteAtual = {};
         if (loteAtual) {
             lotes[loteAtual].operacoesId.forEach((operacaoId) => {
@@ -62,11 +62,11 @@ export const getOperacoesEmProcessamentoLoteAtual = createSelector(
     }
 );
 
-export const getOperacoesRefazerLoteAtual = createSelector(
+export const getOperacoesRefazerLoteAtual: any = createSelector(
     getLotes,
     getOperacoes,
     getCurrentLote,
-    (lotes, operacoes, loteAtual) => {
+    (lotes, operacoes, loteAtual: any) => {
         const operacoesRefazerLoteAtual = {};
         if (loteAtual) {
             lotes[loteAtual].operacoesId.forEach((operacaoId) => {
@@ -79,11 +79,11 @@ export const getOperacoesRefazerLoteAtual = createSelector(
     }
 );
 
-export const getOperacoesDesfazerLoteAtual = createSelector(
+export const getOperacoesDesfazerLoteAtual: any = createSelector(
     getLotes,
     getOperacoes,
     getCurrentLote,
-    (lotes, operacoes, loteAtual) => {
+    (lotes, operacoes, loteAtual: any) => {
         const operacoesDesfazerLoteAtual = {};
         if (loteAtual) {
             lotes[loteAtual].operacoesId.forEach((operacaoId) => {
@@ -96,7 +96,7 @@ export const getOperacoesDesfazerLoteAtual = createSelector(
     }
 );
 
-export const getLotesEmProcessamento = createSelector(
+export const getLotesEmProcessamento: any = createSelector(
     getLotes,
     getOperacoesEmProcessamento,
     (lotes, operacoesEmProcessamento) => {

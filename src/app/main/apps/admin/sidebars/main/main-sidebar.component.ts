@@ -159,7 +159,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 let modulesLink = [];
                 module.sidebars[path].forEach((s => modulesLink.push(s)));
                 modulesLink = CdkUtils.sortArraySideBar(modulesLink);
-                this.links[module.name] = modulesLink;
+                this.links[module['label'] ?? module['name']] = modulesLink;
             }
         });
     }
@@ -181,7 +181,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 
-    fecharSidebar() {
+    fecharSidebar(): void {
         if (!this._cdkSidebarService.getSidebar('admin-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('admin-main-sidebar').close();
         }

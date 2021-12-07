@@ -107,7 +107,7 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadCopia());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

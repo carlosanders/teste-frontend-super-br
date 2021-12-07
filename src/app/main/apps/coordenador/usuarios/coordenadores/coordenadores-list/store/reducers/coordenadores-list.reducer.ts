@@ -118,10 +118,10 @@ export function CoordenadoresListReducer(
         case CoordenadoresListActions.DELETE_COORDENADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== parseInt(action.payload.id)),
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id),
                 deletingErrors: {
                     ...state.deletingErrors,
-                    ...action.payload
+                    [action.payload.id]:action.payload
                 },
                 errors: action.payload.error,
             };

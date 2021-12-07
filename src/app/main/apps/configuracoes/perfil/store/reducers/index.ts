@@ -10,7 +10,7 @@ export const getProfileAppState = createFeatureSelector<ProfileAppState>(
     'perfil-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProfileAppState,
     (state: ProfileAppState) => state
 );

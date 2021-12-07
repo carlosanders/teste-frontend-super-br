@@ -10,7 +10,7 @@ export const getHistoricoListAppState = createFeatureSelector<HistoricoListAppSt
     'historico-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getHistoricoListAppState,
     (state: HistoricoListAppState) => state
 );

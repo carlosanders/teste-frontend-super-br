@@ -95,7 +95,7 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadCompartilhamentos());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

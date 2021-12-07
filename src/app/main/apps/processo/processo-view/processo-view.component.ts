@@ -71,6 +71,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     sidebarName = 'juntadas-left-sidebar-1';
 
     src: any;
+    srcMessage: string;
     loading = false;
 
     loading$: Observable<boolean>;
@@ -153,14 +154,16 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentStep) => {
             this.currentStep = currentStep;
-            if (this.index && this.index[currentStep.step] !== undefined && this.index[currentStep.step][currentStep.subStep] !== undefined) {
-                this.currentJuntada = this.juntadas.find(junt => junt.documento.id === this.index[currentStep.step][currentStep.subStep]);
+            if (this.index && this.index[currentStep.step]) {
+                this.currentJuntada = this.juntadas[currentStep.step];
             }
         });
 
         this.index$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(index => this.index = index);
+        ).subscribe((index) => {
+            this.index = index;
+        });
 
         this.binary$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -192,6 +195,15 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             } else {
                 this.fileName = '';
                 this.src = false;
+                if (this.currentJuntada && !this.currentJuntada.documento) {
+                    this.srcMessage = 'Não há documento';
+                }
+                if (this.currentJuntada && this.currentJuntada.documento.acessoNegado) {
+                    this.srcMessage = 'Acesso negado';
+                }
+                if (this.currentJuntada && this.currentJuntada.documento.componentesDigitais.length === 0) {
+                    this.srcMessage = 'Não há componentes digitais';
+                }
             }
             this.loading = binary.loading;
             this._changeDetectorRef.markForCheck();
@@ -284,7 +296,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
         if (this.routerState.url.indexOf('anexar-copia') === -1 &&

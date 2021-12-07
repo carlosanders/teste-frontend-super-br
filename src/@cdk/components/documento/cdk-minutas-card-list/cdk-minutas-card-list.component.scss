@@ -1,0 +1,42 @@
+cdk-minutas-card-list {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex: 0 1 auto;
+
+    > .toolbar {
+        flex: 0 1 auto;
+        display: flex;
+        min-height: 72px;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+
+        > .loading {
+            margin-left: 8px;
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+
+            > .anexos-loading {
+                display: flex;
+            }
+        }
+
+        > .multiple-choices {
+            display: flex;
+            flex-direction: row;
+            min-height: 46px;
+            max-height: 46px;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    }
+}

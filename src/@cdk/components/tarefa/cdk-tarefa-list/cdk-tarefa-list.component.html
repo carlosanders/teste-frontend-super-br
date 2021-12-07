@@ -112,6 +112,9 @@
                     </ng-container>
                 </button>
                 <mat-menu fxHide #selectMenuMinutas="matMenu">
+                    <button mat-menu-item (click)="doMinutas()">
+                        Gerenciar
+                    </button>
                     <button mat-menu-item (click)="doUploadBloco()">
                         Upload
                     </button>
@@ -222,7 +225,7 @@
          cdkPerfectScrollbar
          infiniteScroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="5"
+         [infiniteScrollDistance]="3"
          [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
 

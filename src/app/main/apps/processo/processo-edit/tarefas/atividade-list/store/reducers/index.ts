@@ -10,7 +10,7 @@ export const getAtividadeListAppState = createFeatureSelector<AtividadeListAppSt
     'atividade-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAtividadeListAppState,
     (state: AtividadeListAppState) => state
 );

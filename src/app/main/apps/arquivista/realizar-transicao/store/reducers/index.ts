@@ -9,7 +9,7 @@ export const getRealizarTransicaoAppState = createFeatureSelector<RealizarTransi
     'realizar-transicao'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRealizarTransicaoAppState,
     (state: RealizarTransicaoAppState) => state
 );

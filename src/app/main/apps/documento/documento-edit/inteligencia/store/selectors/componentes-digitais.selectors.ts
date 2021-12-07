@@ -10,53 +10,53 @@ import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
 
-export const getComponenteDigitalState = createSelector(
+export const getComponenteDigitalState: any = createSelector(
     getDocumentoEditInteligenciaAppState,
     (state: DocumentoEditInteligenciaAppState) => state.componentesDigitais
 );
 
-export const getComponenteDigitalIsSaving = createSelector(
+export const getComponenteDigitalIsSaving: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.saving
 );
 
-export const getComponenteDigitalErrors = createSelector(
+export const getComponenteDigitalErrors: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.errors
 );
 
-export const getComponenteDigitalLoading = createSelector(
+export const getComponenteDigitalLoading: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.loading
 );
 
-export const getComponenteDigitalLoaded = createSelector(
+export const getComponenteDigitalLoaded: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.loaded
 );
 
-export const getRepositorioComponenteDigital = createSelector(
+export const getRepositorioComponenteDigital: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.repositorio
 );
 
-export const getComponenteDigitalId = createSelector(
+export const getComponenteDigitalId: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.componenteDigitalId
 );
 
-export const getComponenteDigital = createSelector(
+export const getComponenteDigital: any = createSelector(
     schemaComponenteDigitalSelectors.getNormalizedEntities,
     getComponenteDigitalId,
     schemaComponenteDigitalSelectors.entityProjector
 );
 
-export const getComponenteDigitalIds = createSelector(
+export const getComponenteDigitalIds: any = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.entitiesId
 );
 
-export const getComponentesDigitais = createSelector(
+export const getComponentesDigitais: any = createSelector(
     schemaComponenteDigitalSelectors.getNormalizedEntities,
     getComponenteDigitalIds,
     schemaComponenteDigitalSelectors.entitiesProjector

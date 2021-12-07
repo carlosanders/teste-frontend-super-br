@@ -66,7 +66,6 @@ export class JuntadaEffects {
             JSON.stringify([
                 'volume',
                 'documento',
-                'documento.juntadaAtual',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
                 'documento.tipoDocumento',
@@ -106,15 +105,13 @@ export class JuntadaEffects {
             const populate = JSON.stringify([
                 'documento',
                 'documento.origemDados',
-                'documento.juntadaAtual',
                 'documento.tipoDocumento',
                 'documento.componentesDigitais',
                 'documento.vinculacoesDocumentos',
                 'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.juntadaAtual',
                 'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                 'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                'documento.vinculacoesEtiquetas',
-                'documento.vinculacoesEtiquetas.etiqueta',
                 'documento.criadoPor',
                 'documento.setorOrigem',
                 'documento.setorOrigem.unidade'

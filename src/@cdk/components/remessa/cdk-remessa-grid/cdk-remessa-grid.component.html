@@ -286,7 +286,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, remessa.id)">
-                            {{ getProp(deletingErrors, remessa.id) }}
+                            {{ getMessageError(getProp(deletingErrors, remessa.id)) }}
                         </mat-error>
 
                         <ng-template #buttonModule></ng-template>
@@ -301,7 +301,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

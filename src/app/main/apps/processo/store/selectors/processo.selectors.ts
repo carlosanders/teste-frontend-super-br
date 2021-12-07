@@ -8,94 +8,94 @@ import {AcompanhamentoState} from '../../processo-capa/store';
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 const schemaAcompanhamentoSelectors = createSchemaSelectors<Compartilhamento>(acompanhamentoSchema);
 
-export const getProcessoState = createSelector(
+export const getProcessoState: any = createSelector(
     getProcessoAppState,
     (state: ProcessoAppState) => state.processo
 );
 
-export const getSavingVinculacaoEtiquetaId = createSelector(
+export const getSavingVinculacaoEtiquetaId: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.savingVinculacaoEtiquetaId
 );
 
-export const getExpandirTela = createSelector(
+export const getExpandirTela: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.expandir
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.errors
 );
 
-export const getProcessoId = createSelector(
+export const getProcessoId: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loaded && state.loaded.value !== 'criar' ? state.loaded.value : null
 );
 
-export const getProcesso = createSelector(
+export const getProcesso: any = createSelector(
     schemaProcessoSelectors.getNormalizedEntities,
     getProcessoId,
     schemaProcessoSelectors.entityProjector
 );
 
-export const getProcessoLoaded = createSelector(
+export const getProcessoLoaded: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loaded
 );
 
-export const getProcessoIsLoading = createSelector(
+export const getProcessoIsLoading: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loading
 );
 
-export const getPluginLoadingProcesso = createSelector(
+export const getPluginLoadingProcesso: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.pluginLoading
 );
 
-export const getSteps = createSelector(
+export const getSteps: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.steps
 );
 
-export const getAcompanhamentoId = createSelector(
+export const getAcompanhamentoId: any = createSelector(
     getProcessoState,
     (state: AcompanhamentoState) => state.entitiesId
 );
 
-export const getAcompanhamento = createSelector(
+export const getAcompanhamento: any = createSelector(
     schemaAcompanhamentoSelectors.getNormalizedEntities,
     getAcompanhamentoId,
     schemaAcompanhamentoSelectors.entitiesProjector
 );
 
-export const getSaveAcompanhamentoId = createSelector(
+export const getSaveAcompanhamentoId: any = createSelector(
     getProcessoState,
     (state: AcompanhamentoState) => state.entityId
 );
 
-export const getAcompanhamentoProcessoLoaded = createSelector(
+export const getAcompanhamentoProcessoLoaded: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loaded
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.saving
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.deletedIds
 );
 
-export const getIsAcompanhamentoLoading = createSelector(
+export const getIsAcompanhamentoLoading: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loading
 );
 
-export const getTogglingAcompanharProcesso = createSelector(
+export const getTogglingAcompanharProcesso: any = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loadingAcompanhamento
 );

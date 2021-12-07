@@ -6,33 +6,33 @@ import {tarefa as tarefaSchema} from '@cdk/normalizr';
 
 const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 
-export const getTarefaEditState = createSelector(
+export const getTarefaEditState: any = createSelector(
     getTarefaEditAppState,
     (state: TarefaEditAppState) => state.tarefa
 );
 
-export const getTarefaId = createSelector(
+export const getTarefaId: any = createSelector(
     getTarefaEditState,
     (state: TarefaEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getTarefa = createSelector(
+export const getTarefa: any = createSelector(
     schemaTarefaSelectors.getNormalizedEntities,
     getTarefaId,
     schemaTarefaSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getTarefaEditState,
     (state: TarefaEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTarefaEditState,
     (state: TarefaEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getTarefaEditState,
     (state: TarefaEditState) => state.errors
 );

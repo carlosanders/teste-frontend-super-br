@@ -4,7 +4,7 @@ widget-historico {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    padding: 16px;
+    padding: 8px;
 
     .refresh {
         margin-left: auto;
@@ -28,9 +28,9 @@ widget-historico {
 
             .activities {
                 .activity {
-                    padding: 16px 0;
+                    padding: 8px 0;
                     .avatar {
-                        margin-right: 16px;
+                        margin-right: 8px;
                     }
                     .username {
                         font-weight: 600;

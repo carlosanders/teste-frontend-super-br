@@ -10,7 +10,7 @@ export const getProcessoViewDesentranhamentoAppState = createFeatureSelector<Pro
     'processo-view-desentranhamento-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessoViewDesentranhamentoAppState,
     (state: ProcessoViewDesentranhamentoAppState) => state
 );

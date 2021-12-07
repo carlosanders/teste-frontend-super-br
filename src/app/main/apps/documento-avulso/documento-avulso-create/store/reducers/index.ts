@@ -10,7 +10,7 @@ export const getDocumentoAvulsoCreateAppState = createFeatureSelector<DocumentoA
     'documento-avulso-create-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getDocumentoAvulsoCreateAppState,
     (state: DocumentoAvulsoCreateAppState) => state
 );

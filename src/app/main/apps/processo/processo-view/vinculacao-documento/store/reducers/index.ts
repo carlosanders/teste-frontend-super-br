@@ -10,7 +10,7 @@ export const getProcessoViewVinculacaoDocumentoAppState = createFeatureSelector<
     'processo-view-vinculacao-documento-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessoViewVinculacaoDocumentoAppState,
     (state: ProcessoViewVinculacaoDocumentoAppState) => state
 );

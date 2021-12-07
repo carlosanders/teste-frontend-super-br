@@ -62,7 +62,7 @@ export class AvisoEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 
@@ -123,6 +123,7 @@ export class AvisoEditComponent implements OnInit, OnDestroy {
     }
 
     doAbort(): void {
+        this._store.dispatch(new fromStore.ReloadAviso());
         this._store.dispatch(new Back());
     }
 }

@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <div class="documentos-vinculados mb-4">
         <button mat-mini-fab *ngIf="documento?.minuta"
-                class="ml-8 mb-16 active accent add-file-button"
+                class="ml-8 mb-8 active accent add-file-button"
                 [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
                 (click)="$event.stopPropagation()">
             <mat-icon class="secondary-text">attach_file</mat-icon>
@@ -21,7 +21,7 @@
                     (click)="aprovar()">
                 <ng-container>
                     <mat-icon>file_copy</mat-icon>
-                    <span>Aprovar</span>
+                    <span>Anexação Aprovação</span>
                 </ng-container>
             </button>
 

@@ -10,7 +10,7 @@ export const getLocalizadorListAppState = createFeatureSelector<LocalizadorListA
     'localizador-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getLocalizadorListAppState,
     (state: LocalizadorListAppState) => state
 );

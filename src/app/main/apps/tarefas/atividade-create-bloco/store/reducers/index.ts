@@ -12,7 +12,7 @@ export const getAtividadeCreateBlocoAppState = createFeatureSelector<AtividadeCr
     'atividade-create-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAtividadeCreateBlocoAppState,
     (state: AtividadeCreateBlocoAppState) => state
 );

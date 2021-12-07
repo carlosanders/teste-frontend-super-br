@@ -1,6 +1,6 @@
 <!-- SIDEBAR HEADER -->
 <div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header p-16">
+     class="header p-8">
     <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
         <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             search
@@ -13,7 +13,7 @@
 <!-- SIDEBAR CONTENT -->
 <div class="py-16" cdkPerfectScrollbar>
 
-    <form class="p-16 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+    <form class="p-8 mb-8" fxLayoutGap="8px" fxLayout="column" fxLayoutAlign="start"
           name="form" [formGroup]="form">
 
         <div fxFlex="1 0 auto" fxLayout="column">
@@ -52,7 +52,7 @@
 
         </div>
 
-        <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+        <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
              fxLayoutAlign="center center">
             <button mat-raised-button color="accent" class="mr-sm-12"
                     [disabled]="(filters | json) === '{}'" (click)="pesquisar()">

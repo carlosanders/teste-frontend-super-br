@@ -6,28 +6,28 @@ import {Pessoa} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Pessoa>(pessoaSchema);
 
-export const getPessoaState = createSelector(
+export const getPessoaState: any = createSelector(
     getProtocoloExternoAppState,
     (state: ProcessosAppState) => state.pessoa
 );
 
-export const getPessoaId = createSelector(
+export const getPessoaId: any = createSelector(
     getPessoaState,
     (state: PessoaState) => state.pessoaId
 );
 
-export const getPessoa = createSelector(
+export const getPessoa: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getPessoaId,
     schemaSelectors.entityProjector
 );
 
-export const getPessoaLoaded = createSelector(
+export const getPessoaLoaded: any = createSelector(
     getPessoaState,
     (state: PessoaState) => state.loaded
 );
 
-export const getPessoaLoading = createSelector(
+export const getPessoaLoading: any = createSelector(
     getPessoaState,
     (state: PessoaState) => state.loading
 );

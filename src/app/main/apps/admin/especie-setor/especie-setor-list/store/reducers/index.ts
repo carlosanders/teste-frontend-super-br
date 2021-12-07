@@ -9,7 +9,7 @@ export const getEspecieSetorListAppState = createFeatureSelector<EspecieSetorLis
     'especie-setor-list'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getEspecieSetorListAppState,
     (state: EspecieSetorListAppState) => state
 );

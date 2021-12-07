@@ -11,86 +11,86 @@ import {documento as documentoSchema, documentoAvulso as documentoAvulsoSchema} 
 const schemaDocumentoAvulsoSelectors = createSchemaSelectors<DocumentoAvulso>(documentoAvulsoSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getDocumentoAvulsoResponderState = createSelector(
+export const getDocumentoAvulsoResponderState: any = createSelector(
     getDocumentoAvulsoResponderAppState,
     (state: DocumentoAvulsoResponderAppState) => state.documentoAvulso
 );
 
-export const getDocumentoAvulsoId = createSelector(
+export const getDocumentoAvulsoId: any = createSelector(
     getDocumentoAvulsoResponderState,
     (state: DocumentoAvulsoResponderState) => state.loaded ? state.loaded.value : null
 );
 
-export const getDocumentoAvulso = createSelector(
+export const getDocumentoAvulso: any = createSelector(
     schemaDocumentoAvulsoSelectors.getNormalizedEntities,
     getDocumentoAvulsoId,
     schemaDocumentoAvulsoSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getDocumentoAvulsoResponderState,
     (state: DocumentoAvulsoResponderState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getDocumentoAvulsoResponderState,
     (state: DocumentoAvulsoResponderState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getDocumentoAvulsoResponderState,
     (state: DocumentoAvulsoResponderState) => state.errors
 );
 
-export const getDocumentosState = createSelector(
+export const getDocumentosState: any = createSelector(
     getDocumentoAvulsoResponderAppState,
     (state: DocumentoAvulsoResponderAppState) => state ? state.documentoAvulso : null
 );
 
-export const getDocumentosId = createSelector(
+export const getDocumentosId: any = createSelector(
     getDocumentoAvulsoResponderState,
     (state: DocumentoAvulsoResponderState) => state.documentosId
 );
 
 
-export const getDocumentos = createSelector(
+export const getDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getDocumentosHasLoaded = createSelector(
+export const getDocumentosHasLoaded: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.documentosLoaded
 );
 
-export const getSelectedDocumentoIds = createSelector(
+export const getSelectedDocumentoIds: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.selectedDocumentosId
 );
 
-export const getRemovendoAssinaturaDocumentosId = createSelector(
+export const getRemovendoAssinaturaDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.removendoAssinaturaDocumentoIds
 );
 
-export const getSelectedDocumentos = createSelector(
+export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getSelectedDocumentoIds,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getIsLoadingDocumentos = createSelector(
+export const getIsLoadingDocumentos: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.loading
 );
 
-export const getIsSavingDocumentos = createSelector(
+export const getIsSavingDocumentos: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.saving
 );
 
-export const getConvertendoAllDocumentosId = createSelector(
+export const getConvertendoAllDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => [
             ...state.convertendoDocumentoIds,
@@ -98,54 +98,54 @@ export const getConvertendoAllDocumentosId = createSelector(
         ]
 );
 
-export const getConvertendoDocumentosId = createSelector(
+export const getConvertendoDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.convertendoDocumentoIds
 );
 
-export const getConvertendoDocumentosHtmlId = createSelector(
+export const getConvertendoDocumentosHtmlId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.convertendoDocumentoHtmlIds
 );
 
 
-export const getDeletingDocumentosId = createSelector(
+export const getDeletingDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.deletingDocumentoIds
 );
 
-export const getAssinandoDocumentosId = createSelector(
+export const getAssinandoDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.assinandoDocumentoIds
 );
 
-export const getDocumentosComplementaresHasLoaded = createSelector(
+export const getDocumentosComplementaresHasLoaded: any = createSelector(
     getDocumentoAvulsoResponderState,
     (state: DocumentoAvulsoResponderState) => state.documentosLoaded
 );
 
-export const getDocumentosComplementaresId = createSelector(
+export const getDocumentosComplementaresId: any = createSelector(
     getDocumentoAvulsoResponderState,
     (state: DocumentoAvulsoResponderState) => state.documentosId
 );
 
-export const getDocumentosComplementares = createSelector(
+export const getDocumentosComplementares: any = createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
     getDocumentosComplementaresId,
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getAlterandoDocumentosId = createSelector(
+export const getAlterandoDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.alterandoDocumentoIds
 );
 
-export const getDownloadDocumentosP7SId = createSelector(
+export const getDownloadDocumentosP7SId: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.downloadDocumentosP7SIds
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getDocumentosState,
     (state: DocumentoAvulsoResponderState) => state.pagination
 );

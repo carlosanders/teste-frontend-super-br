@@ -6,33 +6,33 @@ import {municipio as municipioSchema} from '@cdk/normalizr';
 
 const schemaMunicipioSelectors = createSchemaSelectors<Municipio>(municipioSchema);
 
-export const getMunicipioEditState = createSelector(
+export const getMunicipioEditState: any = createSelector(
     getMunicipioEditAppState,
     (state: MunicipioEditAppState) => state.municipio
 );
 
-export const getMunicipioId = createSelector(
+export const getMunicipioId: any = createSelector(
     getMunicipioEditState,
     (state: MunicipioEditState) => state.entityId
 );
 
-export const getMunicipio = createSelector(
+export const getMunicipio: any = createSelector(
     schemaMunicipioSelectors.getNormalizedEntities,
     getMunicipioId,
     schemaMunicipioSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getMunicipioEditState,
     (state: MunicipioEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getMunicipioEditState,
     (state: MunicipioEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getMunicipioEditState,
     (state: MunicipioEditState) => state.errors
 );

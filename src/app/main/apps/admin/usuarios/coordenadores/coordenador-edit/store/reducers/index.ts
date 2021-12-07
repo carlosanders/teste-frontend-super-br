@@ -9,7 +9,7 @@ export const getCoordenadorEditAppState = createFeatureSelector<CoordenadorEditA
     'admin-coordenador-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getCoordenadorEditAppState,
     (state: CoordenadorEditAppState) => state
 );

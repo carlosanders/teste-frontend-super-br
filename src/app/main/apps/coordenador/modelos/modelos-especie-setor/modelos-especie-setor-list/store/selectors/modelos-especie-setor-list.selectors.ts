@@ -11,48 +11,48 @@ import {VinculacaoModelo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoModelo>(vinculacaoModeloSchema);
 
-export const getModelosEspecieSetorListState = createSelector(
+export const getModelosEspecieSetorListState: any = createSelector(
     getModelosEspecieSetorListAppState,
     (state: ModelosEspecieSetorListAppState) => state.modelosEspecieSetorList
 );
 
-export const getModelosEspecieSetorListIds = createSelector(
+export const getModelosEspecieSetorListIds: any = createSelector(
     getModelosEspecieSetorListState,
     (state: ModelosEspecieSetorListState) => state.entitiesId
 );
 
-export const getModelosEspecieSetorList = createSelector(
+export const getModelosEspecieSetorList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getModelosEspecieSetorListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getModelosEspecieSetorListState,
     (state: ModelosEspecieSetorListState) => state.pagination
 );
 
-export const getModelosEspecieSetorListLoaded = createSelector(
+export const getModelosEspecieSetorListLoaded: any = createSelector(
     getModelosEspecieSetorListState,
     (state: ModelosEspecieSetorListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getModelosEspecieSetorListState,
     (state: ModelosEspecieSetorListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getModelosEspecieSetorListState,
     (state: ModelosEspecieSetorListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getModelosEspecieSetorListState,
     (state: ModelosEspecieSetorListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getModelosEspecieSetorListState,
     (state: ModelosEspecieSetorListState) => state.deletingErrors
 );

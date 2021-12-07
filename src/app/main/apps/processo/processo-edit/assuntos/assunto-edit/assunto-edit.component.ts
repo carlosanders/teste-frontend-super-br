@@ -79,7 +79,7 @@ export class AssuntoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadStore());
     }

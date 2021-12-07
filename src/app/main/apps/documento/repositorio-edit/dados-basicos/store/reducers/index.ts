@@ -10,7 +10,7 @@ export const getRepositorioEditDadosBasicosAppState = createFeatureSelector<Repo
     'documento-repositorio-edit-dados-basicos-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getRepositorioEditDadosBasicosAppState,
     (state: RepositorioEditDadosBasicosAppState) => state
 );

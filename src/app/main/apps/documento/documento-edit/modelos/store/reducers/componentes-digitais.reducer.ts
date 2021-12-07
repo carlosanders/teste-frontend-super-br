@@ -7,14 +7,14 @@ export interface ComponenteDigitalState {
     loaded: any;
 }
 
-export const ComponenteDigitalInitialState: ComponenteDigitalState = {
+export const componenteDigitalInitialState: ComponenteDigitalState = {
     saving: false,
     errors: false,
     loading: false,
     loaded: false
 };
 
-export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, action: ComponenteDigitalActions.ComponenteDigitalActionsAll): ComponenteDigitalState {
+export const componenteDigitalReducer = (state = componenteDigitalInitialState, action: ComponenteDigitalActions.ComponenteDigitalActionsAll): ComponenteDigitalState => {
     switch (action.type) {
 
         case ComponenteDigitalActions.CREATE_COMPONENTE_DIGITAL: {
@@ -58,4 +58,4 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         default:
             return state;
     }
-}
+};

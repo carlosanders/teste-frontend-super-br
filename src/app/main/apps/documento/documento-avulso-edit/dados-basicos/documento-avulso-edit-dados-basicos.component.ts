@@ -129,7 +129,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     ngOnDestroy(): void {
         this.remeterDocAvulso = false;
         this._store.dispatch(new fromStore.UnloadDocumentoAvulso());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

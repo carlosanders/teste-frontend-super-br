@@ -252,6 +252,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             id: [null],
             temProcessoOrigem: [null],
             processoOrigem: [null],
+            processoOrigemIncluirDocumentos: [null],
             // eslint-disable-next-line @typescript-eslint/naming-convention
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             tipoProtocolo: [null, [Validators.required]],
@@ -566,7 +567,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadTarefa());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

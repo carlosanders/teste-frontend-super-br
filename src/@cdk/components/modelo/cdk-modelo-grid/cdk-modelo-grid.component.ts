@@ -37,6 +37,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     loading = false;
 
     @Input()
+    loadingSaving = false;
+
+    @Input()
     modelos: Modelo[];
 
     @Input()
@@ -56,6 +59,69 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'ativo', 'highlights', 'actions'];
+
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input()
+    actions: string[] = ['edit', 'editConteudo', 'especie', 'delete', 'select'];
+
+    @Input()
+    checkboxSelection = true;
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @ViewChild(CdkModeloFilterComponent)
+    cdkModeloFilterComponent: CdkModeloFilterComponent;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    inatived = new EventEmitter<any>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    especie = new EventEmitter<number>();
+
+    @Output()
+    editConteudo = new EventEmitter<Documento>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
+    selected = new EventEmitter<Modelo>();
+
+    @Output()
+    view = new EventEmitter<number>();
+
+    @Output()
+    selectedIds: number[] = [];
 
     allColumns: any[] = [
         {
@@ -195,69 +261,6 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     columns = new FormControl();
 
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input()
-    actions: string[] = ['edit', 'editConteudo', 'especie', 'delete', 'select'];
-
-    @Input()
-    checkboxSelection = true;
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @ViewChild(CdkModeloFilterComponent)
-    cdkModeloFilterComponent: CdkModeloFilterComponent;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    inatived = new EventEmitter<any>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<number>();
-
-    @Output()
-    especie = new EventEmitter<number>();
-
-    @Output()
-    editConteudo = new EventEmitter<Documento>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
-
-    @Output()
-    selected = new EventEmitter<Modelo>();
-
-    @Output()
-    view = new EventEmitter<number>();
-
-    @Output()
-    selectedIds: number[] = [];
-
     dataSource: ModeloDataSource;
 
     showFilter = false;
@@ -294,6 +297,8 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
+        this.paginator._intl.firstPageLabel = 'Primeiro';
+        this.paginator._intl.lastPageLabel = 'Último';
 
         this.paginator.pageSize = this.pageSize;
 
@@ -411,7 +416,6 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     selectModelo(modelo: Modelo): void {
-        this.loading = true;
         this.selected.emit(modelo);
     }
 
@@ -495,4 +499,8 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
         }
         return false;
     }
+
+    getMessageError(obj): any {
+        return obj?.error?.error?.message;
+   }
 }

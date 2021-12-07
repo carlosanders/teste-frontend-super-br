@@ -79,7 +79,7 @@ export class RegraEtiquetaListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadRegrasEtiqueta());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

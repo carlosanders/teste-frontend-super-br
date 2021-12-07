@@ -8,38 +8,38 @@ import {ConfiguracaoNupState} from '../reducers/configuracao-nup.reducer';
 
 const schemaSelectors = createSchemaSelectors<ConfiguracaoNup>(configuracaoNupSchema);
 
-export const getConfiguracaoNupState = createSelector(
+export const getConfiguracaoNupState: any = createSelector(
     getDadosBasicosAppState,
     (state: DadosBasicosAppState) => state.configuracaoNup
 );
 
-export const getConfiguracaoNupIds = createSelector(
+export const getConfiguracaoNupIds: any = createSelector(
     getConfiguracaoNupState,
     (state: ConfiguracaoNupState) => state.entitiesId
 );
 
-export const getConfiguracaoNup = createSelector(
+export const getConfiguracaoNup: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getConfiguracaoNupIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getConfiguracaoNupPagination = createSelector(
+export const getConfiguracaoNupPagination: any = createSelector(
     getConfiguracaoNupState,
     (state: ConfiguracaoNupState) => state.pagination
 );
 
-export const getConfiguracaoNupLoaded = createSelector(
+export const getConfiguracaoNupLoaded: any = createSelector(
     getConfiguracaoNupState,
     (state: ConfiguracaoNupState) => state.loaded
 );
 
-export const getConfiguracaoNupIsLoading = createSelector(
+export const getConfiguracaoNupIsLoading: any = createSelector(
     getConfiguracaoNupState,
     (state: ConfiguracaoNupState) => state.loading
 );
 
-export const getConfiguracaoNupErrors = createSelector(
+export const getConfiguracaoNupErrors: any = createSelector(
     getConfiguracaoNupState,
     (state: ConfiguracaoNupState) => state.errors
 );

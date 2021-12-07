@@ -5,17 +5,17 @@ import {
     ModeloEditDadosBasicosState
 } from '../reducers';
 
-export const getModeloEditState = createSelector(
+export const getModeloEditState: any = createSelector(
     getModeloEditDadosBasicosAppState,
     (state: ModeloEditDadosBasicosAppState) => state.modelo
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getModeloEditState,
     (state: ModeloEditDadosBasicosState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getModeloEditState,
     (state: ModeloEditDadosBasicosState) => state.errors
 );

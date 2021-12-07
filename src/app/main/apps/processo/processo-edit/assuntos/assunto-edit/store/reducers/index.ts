@@ -10,7 +10,7 @@ export const getAssuntoEditAppState = createFeatureSelector<AssuntoEditAppState>
     'assunto-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAssuntoEditAppState,
     (state: AssuntoEditAppState) => state
 );

@@ -36,7 +36,6 @@ export class CdkRepresentanteFilterComponent {
             inscricao: [null],
             modalidadeRepresentante: [null],
             interessado: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -69,10 +68,6 @@ export class CdkRepresentanteFilterComponent {
 
         if (this.form.get('interessado').value) {
             andXFilter.push({'interessado.id': `eq:${this.form.get('interessado').value.id}`});
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.filterCriadoEm?.length) {

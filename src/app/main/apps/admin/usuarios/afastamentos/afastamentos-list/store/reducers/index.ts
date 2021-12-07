@@ -9,7 +9,7 @@ export const getAfastamentosListAppState = createFeatureSelector<AfastamentosLis
     'admin-afastamentos-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getAfastamentosListAppState,
     (state: AfastamentosListAppState) => state
 );

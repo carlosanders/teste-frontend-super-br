@@ -6,33 +6,33 @@ import {contaEmail as contaEmailSchema} from '@cdk/normalizr';
 
 const schemaContaEmailSelectors = createSchemaSelectors<ContaEmail>(contaEmailSchema);
 
-export const getContaEmailEditState = createSelector(
+export const getContaEmailEditState: any = createSelector(
     getContaEmailEditAppState,
     (state: ContaEmailEditAppState) => state.contaEmail
 );
 
-export const getContaEmailId = createSelector(
+export const getContaEmailId: any = createSelector(
     getContaEmailEditState,
     (state: ContaEmailEditState) => state.entityId
 );
 
-export const getContaEmail = createSelector(
+export const getContaEmail: any = createSelector(
     schemaContaEmailSelectors.getNormalizedEntities,
     getContaEmailId,
     schemaContaEmailSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getContaEmailEditState,
     (state: ContaEmailEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getContaEmailEditState,
     (state: ContaEmailEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getContaEmailEditState,
     (state: ContaEmailEditState) => state.errors
 );

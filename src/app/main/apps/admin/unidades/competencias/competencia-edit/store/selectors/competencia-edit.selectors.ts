@@ -10,43 +10,43 @@ import {CompetenciasState} from '../../../store/reducers';
 const schemaCompetenciaSelectors = createSchemaSelectors<VinculacaoSetorMunicipio>(vinculacaoSetorMunicipioSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
-export const getCompetenciaEditState = createSelector(
+export const getCompetenciaEditState: any = createSelector(
     getCompetenciaEditAppState,
     (state: CompetenciaEditAppState) => state.competencia
 );
 
-export const getCompetenciaId = createSelector(
+export const getCompetenciaId: any = createSelector(
     getCompetenciaEditState,
     (state: CompetenciaEditState) => state.loaded ? state.loaded.value : null
 );
 
-export const getCompetencia = createSelector(
+export const getCompetencia: any = createSelector(
     schemaCompetenciaSelectors.getNormalizedEntities,
     getCompetenciaId,
     schemaCompetenciaSelectors.entityProjector
 );
 
-export const getIsSaving = createSelector(
+export const getIsSaving: any = createSelector(
     getCompetenciaEditState,
     (state: CompetenciaEditState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getCompetenciaEditState,
     (state: CompetenciaEditState) => state.loaded
 );
 
-export const getErrors = createSelector(
+export const getErrors: any = createSelector(
     getCompetenciaEditState,
     (state: CompetenciaEditState) => state.errors
 );
 
-export const getUnidadeId = createSelector(
+export const getUnidadeId: any = createSelector(
     getCompetenciasState,
     (state: CompetenciasState) => (state.loaded && state.loaded.id === 'unidadeHandle') ? state.loaded.value : null
 );
 
-export const getUnidade = createSelector(
+export const getUnidade: any = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getUnidadeId,
     schemaSetorSelectors.entityProjector

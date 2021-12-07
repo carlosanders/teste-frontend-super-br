@@ -91,12 +91,6 @@ const routes = [
         data: {roles: ['ROLE_COLABORADOR']}
     },
     {
-        path        : 'tarefa',
-        loadChildren: () => import('./tarefas/tarefa-detail/tarefa-detail.module').then(m => m.TarefaDetailModule),
-        canActivate: [RoleGuard],
-        data: {roles: ['ROLE_COLABORADOR']}
-    },
-    {
         path        : 'board-tarefas',
         loadChildren: () => import('./board-tarefas/board-tarefas.module').then(m => m.BoardTarefasModule),
         canActivate: [RoleGuard],

@@ -68,7 +68,7 @@ export class EspecieProcessoListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadEspecieProcesso());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

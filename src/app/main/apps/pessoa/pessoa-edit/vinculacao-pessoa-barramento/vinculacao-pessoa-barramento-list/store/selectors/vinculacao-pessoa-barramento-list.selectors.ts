@@ -11,43 +11,43 @@ import {VinculacaoPessoaBarramento} from "@cdk/models/vinculacao-pessoa-barramen
 
 const schemaSelectors = createSchemaSelectors<VinculacaoPessoaBarramento>(vinculacaoPessoaBarramentoSchema);
 
-export const getVinculacaoPessoaBarramentoListState = createSelector(
+export const getVinculacaoPessoaBarramentoListState: any = createSelector(
     getVinculacaoPessoaBarramentoListAppState,
     (state: VinculacaoPessoaBarramentoListAppState) => state.vinculacaoPessoaBarramentoList
 );
 
-export const getVinculacaoPessoaBarramentoListIds = createSelector(
+export const getVinculacaoPessoaBarramentoListIds: any = createSelector(
     getVinculacaoPessoaBarramentoListState,
     (state: VinculacaoPessoaBarramentoListState) => state.entitiesId
 );
 
-export const getVinculacaoPessoaBarramentoList = createSelector(
+export const getVinculacaoPessoaBarramentoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVinculacaoPessoaBarramentoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getVinculacaoPessoaBarramentoListState,
     (state: VinculacaoPessoaBarramentoListState) => state.pagination
 );
 
-export const getVinculacaoPessoaBarramentoListLoaded = createSelector(
+export const getVinculacaoPessoaBarramentoListLoaded: any = createSelector(
     getVinculacaoPessoaBarramentoListState,
     (state: VinculacaoPessoaBarramentoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getVinculacaoPessoaBarramentoListState,
     (state: VinculacaoPessoaBarramentoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getVinculacaoPessoaBarramentoListState,
     (state: VinculacaoPessoaBarramentoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getVinculacaoPessoaBarramentoListState,
     (state: VinculacaoPessoaBarramentoListState) => state.deletedIds
 );

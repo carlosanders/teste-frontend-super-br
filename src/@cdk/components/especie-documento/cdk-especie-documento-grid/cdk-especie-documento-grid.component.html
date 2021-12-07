@@ -239,7 +239,7 @@
                         </button>
 
                         <mat-error *ngIf="getProp(deletingErrors, especieDocumento.id)">
-                            {{ getProp(deletingErrors, especieDocumento.id) }}
+                            {{ getMessageError(getProp(deletingErrors, especieDocumento.id)) }}
                         </mat-error>
                     </td>
                 </ng-container>
@@ -251,7 +251,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]" showFirstLastButtons="true"></mat-paginator>
         </div>
 
     </div>

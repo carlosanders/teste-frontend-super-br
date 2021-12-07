@@ -84,7 +84,7 @@ export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy 
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadRepositoriosEspecieSetor());
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

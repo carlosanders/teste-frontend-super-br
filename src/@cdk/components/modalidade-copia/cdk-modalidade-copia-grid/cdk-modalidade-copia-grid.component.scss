@@ -1,0 +1,170 @@
+@import "../../../scss/cdk";
+
+cdk-modalidade-copia-grid {
+    display: flex;
+    flex: 1 1 auto;
+
+    > .page-layout {
+        display: flex;
+        flex: 1 1 auto;
+
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+
+            .back {
+                margin-right: auto;
+            }
+
+            .colunas {
+                width: 20px !important;
+                .mat-select-value {
+                    display: none !important;
+                }
+            }
+        }
+
+        .loading {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content {
+
+            flex: 1 1 auto;
+            display: flex;
+            overflow-y: auto;
+            padding: 8px;
+
+            .mat-column-select {
+                overflow: initial;
+            }
+
+            table {
+                display: block;
+                width: 100%;
+                height: 100%;
+
+                thead, tbody {
+                    display: block;
+                }
+
+                tr {
+                    display: flex;
+                    flex-direction: row;
+                }
+
+                th {
+                    flex: 1 1;
+                }
+
+                td {
+                    flex: 1 1;
+                    word-break: break-word;
+                    &.deleted {
+                        text-decoration: line-through;
+                    }
+                    &.error {
+                        color: red;
+                    }
+                }
+            }
+        }
+
+        .footer {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .responsive-grid {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            width: 10vw;
+        }
+
+        .responsive-grid[max-width~="600px"] {
+
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            .mat-elevation-z8 {
+                box-shadow: none;
+            }
+
+            .mat-header-row {
+                display: none;
+            }
+
+            tbody {
+                display: block;
+                width: 100%;
+            }
+
+            .mat-table {
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                .mat-row {
+                    display: block;
+                    overflow: hidden;
+                    height: auto;
+                    position: relative;
+                    clear: both;
+                    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+                    border-radius: 3px;
+
+                    + .mat-row {
+                        margin-top: 24px;
+                    }
+                }
+
+                .mat-cell {
+                    display: block;
+                    width: 100%;
+                    padding: 0 8px;
+                    margin: 8px 0;
+                    border: 0 none;
+
+                    &:first-child {
+                        padding: 0 48px 0 8px;
+
+                        a {
+                            font-size: 20px;
+                        }
+
+                        &:before {
+                            display: none;
+                        }
+                    }
+
+                    &.m-card-sub-title {
+                        margin-top: -8px;
+                        padding: 0 48px 0 8px;
+                    }
+                }
+
+                .has_label_on_mobile {
+                    &:before {
+                        content: attr(data-label);
+                        display: inline;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}
+

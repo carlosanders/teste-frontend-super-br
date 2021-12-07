@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form">
+<form fxLayoutGap="8px" name="form" [formGroup]="form">
 
     <mat-checkbox formControlName="ativo">
         Ativo
@@ -9,9 +9,17 @@
         <input matInput #nome
                name="nome"
                formControlName="nome"
+               minlength="3"
                maxlength="255"
+               required
                upperCase>
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
+        <mat-error *ngIf="form.get('nome').hasError('minlength')">
+            Tamanho mínimo de 3 caracteres
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -20,8 +28,12 @@
                name="descricao"
                formControlName="descricao"
                maxlength="255"
+               required
                upperCase>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('descricao').hasError('formError')">
+            {{form.get('descricao').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

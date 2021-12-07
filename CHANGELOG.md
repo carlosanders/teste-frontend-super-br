@@ -691,3 +691,30 @@
 * Melhoria alerta ao usuário quando clica em Desvincular juntadas
 * Melhoria alinhamento dos botões na lista de juntadas
 * Correção ao alterar tipo de documento anexo
+* Correção tarefa aberta em nova aba através do painel de tarefas ou do kanban funciona corretamente #662
+
+1.7.0
+
+* Correção removido filtro por origem dados de todos os locais do sistema, por se tratar de tabela massiva
+* Correção em loading infinito ao cancelar alteração de modelo no editor
+* Correção em css de sidebars de navegação (pessoa e ofício)
+* Correção em erro inesperado ao tentar abrir uma juntada sem documentos/sem componentes digitais no visualizador de processo
+* Corrigido erro ao tentar identificar a juntada selecionada no visualizador de processo
+* Correção ao acessar url incompleta do editor diretamente
+* Correção ocultando botões de ação em anexos de juntadas quando dentro do editor
+* Correção ocultando botão de exclusão de componente digital de juntadas dentro do editor
+* Correção removendo do estado da aplicação anexos de documento ao fechar o editor
+* Correção rota incorreta ao tentar excluir restrição de acesso de documentos no editor
+* Correção em url do editor devido a um bug no escape de caracteres especiais do angular
+* Melhoria iniciando processo de remoção de populate desnecessário de juntadaAtual na visualização de processo
+* Correção ao editar tarefa, distribuição automática virá desmarcada
+
+1.8.0
+
+* Melhoria implementado painel para gerenciar minutas de tarefas selecionadas
+* Correção em erro ao alterar visualização do editor de documentos avulsos para processo, e depois retornar para visualização do conteúdo do documento avulso
+* Correção de erro ao fechar editor de minutas em uma determinada rota da aplicação
+* Melhoria para realizar preloading nas listas de tarefas e juntadas
+* Melhoria para consta primeira e ultima paginas nas paginacoes
+* Correção Sistema está permitindo selecionar e salvar um usuário com nível de acesso negativo #690
+* Melhoria inclusão do menu histórico nas Configurações do usuário

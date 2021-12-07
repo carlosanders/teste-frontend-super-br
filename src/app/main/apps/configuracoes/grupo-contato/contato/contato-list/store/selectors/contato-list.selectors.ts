@@ -7,48 +7,48 @@ import {Contato} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Contato>(contatoSchema);
 
-export const getContatoListState = createSelector(
+export const getContatoListState: any = createSelector(
     getContatoListAppState,
     (state: ContatoListAppState) => state.contatoList
 );
 
-export const getContatoListIds = createSelector(
+export const getContatoListIds: any = createSelector(
     getContatoListState,
     (state: ContatoListState) => state.entitiesId
 );
 
-export const getContatoList = createSelector(
+export const getContatoList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getContatoListIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getPagination = createSelector(
+export const getPagination: any = createSelector(
     getContatoListState,
     (state: ContatoListState) => state.pagination
 );
 
-export const getContatoListLoaded = createSelector(
+export const getContatoListLoaded: any = createSelector(
     getContatoListState,
     (state: ContatoListState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoading: any = createSelector(
     getContatoListState,
     (state: ContatoListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDeletingIds: any = createSelector(
     getContatoListState,
     (state: ContatoListState) => state.deletingIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDeletedIds: any = createSelector(
     getContatoListState,
     (state: ContatoListState) => state.deletedIds
 );
 
-export const getDeletingErrors = createSelector(
+export const getDeletingErrors: any = createSelector(
     getContatoListState,
     (state: ContatoListState) => state.deletingErrors
 );

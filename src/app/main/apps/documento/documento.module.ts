@@ -18,7 +18,6 @@ import {RepositorioService} from '@cdk/services/repositorio.service';
 import {MatTabsModule} from '@angular/material/tabs';
 import {modulesConfig} from 'modules/modules-config';
 import {DocumentoModeloEditModule} from './modelo-edit/documento-modelo-edit.module';
-import {ComponenteDigitalModule} from './componente-digital/componente-digital.module';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {JuntadaService} from '@cdk/services/juntada.service';
 
@@ -26,6 +25,8 @@ const routes: Routes = [
     {
         path: ':documentoHandle',
         component: DocumentoComponent,
+        canActivate: [fromGuards.ResolveGuard],
+        canDeactivate: [fromGuards.DeactivateGuard],
         children: [
             {
                 path       : 'editar',
@@ -69,9 +70,7 @@ const routes: Routes = [
                 path       : 'visualizar-processo',
                 loadChildren: () => import('./visualizar-processo/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
             }
-        ],
-        canActivate: [fromGuards.ResolveGuard],
-        canDeactivate: [fromGuards.DeactivateGuard]
+        ]
     }
 ];
 
@@ -96,7 +95,6 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         DocumentoEditModule,
         DocumentoStoreModule,
-        ComponenteDigitalModule,
 
         CdkDocumentoCardListModule,
 

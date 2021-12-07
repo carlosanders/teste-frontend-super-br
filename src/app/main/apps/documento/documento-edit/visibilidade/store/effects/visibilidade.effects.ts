@@ -56,7 +56,7 @@ export class VisibilidadeEffects {
             status: 0, // carregando
             lote: action.payload.loteId
         }))),
-        mergeMap(action => this._documentoService.destroy(action.payload.visibilidadeId).pipe(
+        mergeMap(action => this._documentoService.destroyVisibilidade(action.payload.documentoId, action.payload.visibilidadeId).pipe(
             map((response) => {
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,

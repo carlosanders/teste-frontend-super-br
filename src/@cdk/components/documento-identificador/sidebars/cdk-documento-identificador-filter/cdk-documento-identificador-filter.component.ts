@@ -39,7 +39,6 @@ export class CdkDocumentoIdentificadorFilterComponent {
             emissorDocumento: [null],
             dataEmissao: [null],
             modalidadeDocumentoIdentificador: [null],
-            origemDados: [null],
             pessoa: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -69,10 +68,6 @@ export class CdkDocumentoIdentificadorFilterComponent {
 
         if (this.form.get('modalidadeDocumentoIdentificador').value) {
             andXFilter.push({'modalidadeDocumentoIdentificador.id': `eq:${this.form.get('modalidadeDocumentoIdentificador').value.id}`});
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.form.get('pessoa').value) {

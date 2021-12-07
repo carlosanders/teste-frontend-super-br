@@ -10,7 +10,7 @@ export const getVinculacaoUsuarioListAppState = createFeatureSelector<Vinculacao
     'vinculacao-usuario-list-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getVinculacaoUsuarioListAppState,
     (state: VinculacaoUsuarioListAppState) => state
 );

@@ -7,59 +7,59 @@ import {Visibilidade} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Visibilidade>(visibilidadeSchema);
 
-export const getVisibilidadeState = createSelector(
+export const getVisibilidadeState: any = createSelector(
     getVisibilidadeAppState,
     (state: VisibilidadeAppState) => state.visibilidades
 );
 
-export const getVisibilidadeIds = createSelector(
+export const getVisibilidadeIds: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.entitiesId
 );
 
-export const getVisibilidadeId = createSelector(
+export const getVisibilidadeId: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.loaded ? state.loaded.value : null
 );
 
-export const getVisibilidadeListLoaded = createSelector(
+export const getVisibilidadeListLoaded: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.loaded
 );
 
-export const getVisibilidadeList = createSelector(
+export const getVisibilidadeList: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVisibilidadeIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getVisibilidade = createSelector(
+export const getVisibilidade: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getVisibilidadeId,
     schemaSelectors.entityProjector
 );
 
-export const getDeletingVisibilidadeIds = createSelector(
+export const getDeletingVisibilidadeIds: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.deletingIds
 );
 
-export const getDeletedVisibilidadeIds = createSelector(
+export const getDeletedVisibilidadeIds: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.deletedIds
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.loaded
 );
 
-export const getVisibilidadeIsLoading = createSelector(
+export const getVisibilidadeIsLoading: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.loading
 );
 
-export const getIsSavingVisibilidade = createSelector(
+export const getIsSavingVisibilidade: any = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.saving
 );

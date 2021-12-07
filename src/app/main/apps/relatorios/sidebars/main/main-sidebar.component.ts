@@ -82,7 +82,7 @@ export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         this._changeDetectorRef.detach();
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

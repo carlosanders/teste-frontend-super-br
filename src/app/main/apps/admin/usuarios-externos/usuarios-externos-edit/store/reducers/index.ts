@@ -9,7 +9,7 @@ export const getUsuariosExternosEditAppState = createFeatureSelector<UsuariosExt
     'usuarios-externos-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getUsuariosExternosEditAppState,
     (state: UsuariosExternosEditAppState) => state
 );

@@ -10,7 +10,7 @@ export const getClassificacaoVisibilidadeEditAppState = createFeatureSelector<Cl
     'classificacao-visibilidade-edit-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getClassificacaoVisibilidadeEditAppState,
     (state: ClassificacaoVisibilidadeEditAppState) => state
 );

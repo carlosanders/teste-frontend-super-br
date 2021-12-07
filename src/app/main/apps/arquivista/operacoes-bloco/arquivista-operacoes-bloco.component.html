@@ -1,7 +1,7 @@
 <div class="actions" *ngIf="processos">
 
     <mat-icon class="s-32">schedule</mat-icon>
-    <div class="mat-title mb-16">{{processos.length}} processos selecionados
+    <div class="mat-title mb-8">{{processos.length}} processos selecionados
         <mat-icon style="cursor: pointer;"
                   matTooltip="Visualizar processos"
                   *ngIf="!displayProcessos" (click)="exibeProcessos()">grid_on</mat-icon>
@@ -67,7 +67,7 @@
         </ng-template>
     </ng-template>
 
-    <button class="mt-16" mat-raised-button aria-label="cancelar" color="warn"
+    <button class="mt-8" mat-raised-button aria-label="cancelar" color="warn"
             (click)="doAbort()">
         Cancelar
     </button>

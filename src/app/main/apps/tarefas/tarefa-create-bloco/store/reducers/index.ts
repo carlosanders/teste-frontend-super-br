@@ -13,7 +13,7 @@ export const getTarefaCreateBlocoAppState = createFeatureSelector<TarefaCreateBl
     'tarefa-create-bloco-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getTarefaCreateBlocoAppState,
     (state: TarefaCreateBlocoAppState) => state
 );

@@ -11,7 +11,7 @@ atividade-create {
 
         > .mensagem-erro {
             color: red;
-            font-size: 16px;
+            font-size: 13px;
             margin-bottom: 8px;
         }
 
@@ -21,11 +21,11 @@ atividade-create {
             flex: 0 0 auto;
             justify-content: flex-start;
             align-items: center;
-            margin-top: 16px;
+            margin-top: 8px;
         }
 
         > .upload {
-            padding-bottom: 16px;
+            padding-bottom: 8px;
             display: flex;
             flex: 0 1 auto;
             flex-direction: row;
@@ -33,7 +33,7 @@ atividade-create {
 
             > .componente-digital-card {
                 padding-left: 10px;
-                padding-bottom: 16px;
+                padding-bottom: 8px;
                 margin-top: 8px;
             }
         }

@@ -6,23 +6,23 @@ import {tipoValidacaoWorkflow as schema} from '@cdk/normalizr';
 
 const schemaTipoValidacaoWorkflowSelectors = createSchemaSelectors<TipoValidacaoWorkflow>(schema);
 
-export const getTipoValidacaoWorkflowState = createSelector(
+export const getTipoValidacaoWorkflowState: any = createSelector(
     getValidacaoFormAppState,
     (state: TipoValidacaoWorkflowAppState) => state.tipoValidacaoWorkflow
 );
 
-export const getTipoValidacaoWorkflowId = createSelector(
+export const getTipoValidacaoWorkflowId: any = createSelector(
     getTipoValidacaoWorkflowState,
     (state: TipoValidacaoWorkflowState) => state.loaded ? state.entityId : null
 );
 
-export const getTipoValidacaoWorkflow = createSelector(
+export const getTipoValidacaoWorkflow: any = createSelector(
     schemaTipoValidacaoWorkflowSelectors.getNormalizedEntities,
     getTipoValidacaoWorkflowId,
     schemaTipoValidacaoWorkflowSelectors.entityProjector
 );
 
-export const getHasLoaded = createSelector(
+export const getHasLoaded: any = createSelector(
     getTipoValidacaoWorkflowState,
     (state: TipoValidacaoWorkflowState) => state.loaded
 );

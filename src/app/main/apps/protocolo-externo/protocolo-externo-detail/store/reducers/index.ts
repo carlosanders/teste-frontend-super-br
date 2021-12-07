@@ -12,7 +12,7 @@ export const getProcessoDetailAppState = createFeatureSelector<ProcessoDetailApp
     'protocolo-externo-detail-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getProcessoDetailAppState,
     (state: ProcessoDetailAppState) => state
 );

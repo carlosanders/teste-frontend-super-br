@@ -89,9 +89,9 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
             select(getOperacoes),
             takeUntil(this._unsubscribeAll)
         ).subscribe((operacoes) => {
-            this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote);
+            this.operacoes = Object.values(operacoes).filter((operacao: any) => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote);
             this.operacoesPendentes = Object.values(operacoes)
-                .filter(operacao => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote && operacao.status === 0);
+                .filter((operacao: any) => operacao.type === 'temporalidade e destinação' && operacao.lote === this.lote && operacao.status === 0);
             this._changeDetectorRef.markForCheck();
         });
 
@@ -131,7 +131,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit,
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next();
+        this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
     }
 

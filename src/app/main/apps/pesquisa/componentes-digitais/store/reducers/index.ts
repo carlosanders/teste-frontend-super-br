@@ -7,10 +7,10 @@ export interface ComponentesDigitaisAppState
 }
 
 export const getComponentesDigitaisAppState = createFeatureSelector<ComponentesDigitaisAppState>(
-    'pesquisa-componentes-digitais-app'
+    'modelo-componentes-digitais-app'
 );
 
-export const getAppState = createSelector(
+export const getAppState: any = createSelector(
     getComponentesDigitaisAppState,
     (state: ComponentesDigitaisAppState) => state
 );

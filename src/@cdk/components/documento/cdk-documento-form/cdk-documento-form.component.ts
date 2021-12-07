@@ -1,18 +1,21 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
     OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output,
     SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Documento, Pagination, Pessoa, Setor, TipoDocumento} from '@cdk/models';
+import {Documento, ModalidadeCopia, Pagination, Pessoa, Setor, TipoDocumento} from '@cdk/models';
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'cdk-documento-form',
@@ -22,7 +25,7 @@ import {Documento, Pagination, Pessoa, Setor, TipoDocumento} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
+export class CdkDocumentoFormComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     @Input()
     documento: Documento;
@@ -46,6 +49,9 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     procedenciaPagination: Pagination;
 
     @Input()
+    modalidadeCopiaPagination: Pagination;
+
+    @Input()
     logEntryPagination: Pagination;
 
     @Input()
@@ -60,6 +66,8 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     form: FormGroup;
 
     activeCard = 'form';
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * Constructor
@@ -78,16 +86,20 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
             redator: [null, [Validators.maxLength(255)]],
             destinatario: [null, [Validators.maxLength(255)]],
             procedencia: [null],
+            modalidadeCopia: [null],
             localizadorOriginal: [null, [Validators.maxLength(255)]],
             dataHoraProducao: [null],
             setorOrigem: [null],
             observacao: [null, [Validators.maxLength(255)]],
+            dependenciaSoftware: [null, [Validators.maxLength(255)]],
+            dependenciaHardware: [null, [Validators.maxLength(255)]],
         });
         this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.procedenciaPagination = new Pagination();
         this.logEntryPagination = new Pagination();
+        this.modalidadeCopiaPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -130,6 +142,21 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next(true);
+        this._unsubscribeAll.complete();
+    }
+
+    ngAfterViewInit(): void {
+        this.form.get('copia').valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+            )
+            .subscribe((value) => {
+            if (!value) {
+                this.form.get('localizadorOriginal').setValue(null);
+                this.form.get('modalidadeCopia').setValue(null);
+            }
+        })
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -174,13 +201,29 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    checkModalidadeCopia(): void {
+        const value = this.form.get('modalidadeCopia').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('modalidadeCopia').setValue(null);
+        }
+    }
+
     selectProcedencia(procedencia: Pessoa): void {
         this.form.get('procedencia').setValue(procedencia);
         this.activeCard = 'form';
     }
 
+    selectModalidadeCopia(modalidadeCopia: ModalidadeCopia): void {
+        this.form.get('modalidadeCopia').setValue(modalidadeCopia);
+        this.activeCard = 'form';
+    }
+
     showProcedenciaGrid(): void {
         this.activeCard = 'procedencia-gridsearch';
+    }
+
+    showModalidadeCopiaGrid(): void {
+        this.activeCard = 'modalidade-copia-gridsearch';
     }
 
     checkSetorOrigem(): void {
