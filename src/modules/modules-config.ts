@@ -4,7 +4,7 @@
 //import {modulesConfigEcarta} from './ecarta/modules-config';
 //import {modulesConfigDivida} from './divida/modules-config';
 
-export const modulesConfig = [
+export const modulesConfig: any = [
     //modulesConfigJudicial,
     //modulesConfigConsultivo,
     //modulesConfigDisciplinar,
