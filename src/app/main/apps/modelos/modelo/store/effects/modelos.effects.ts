@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
-import * as ModelosActions from 'app/main/apps/modelo/store/actions/modelos.actions';
+import * as ModelosActions from 'app/main/apps/modelos/modelo/store/actions/modelos.actions';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Modelo} from '@cdk/models';

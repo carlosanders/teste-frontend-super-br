@@ -12,7 +12,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Injectable()

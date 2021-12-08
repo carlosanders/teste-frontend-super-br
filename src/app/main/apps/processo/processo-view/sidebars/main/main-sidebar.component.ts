@@ -915,7 +915,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
         this._router.navigate([
             this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
-            '/visualizar/' + this.routerState.params.stepHandle + '/modelos'
+            '/visualizar/' + this.routerState.params.stepHandle + '/modelos/modelo'
         ]).then(() => {
             this.closeAutocomplete();
         });

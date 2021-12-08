@@ -12,7 +12,7 @@ node {
             properties([
                 parameters([
                     text(name: 'DOCKER_IMAGE_NAME',
-                        defaultValue: 'docker-registry.agu.gov.br/govbr/app/supp-administrativo-frontend', 
+                        defaultValue: params.ENVIRONMENT ?:'docker-registry.agu.gov.br/govbr/app/supp-administrativo-frontend', 
                         description: 'Nome da imagem docker (sem tag) do Super frontend',
                         trim: true)                      
                     ])
@@ -60,7 +60,7 @@ node {
     stage('Docker build') {
         if (workbench.check.isDevelopOrStagingOrMasterBranch()){
             timeout(time: compileTimeout) {
-                customImg = pipelineWrapper.docker.buildApp(params.IMAGE_NAME, "-f docker/prod/DockerFile .")
+                customImg = pipelineWrapper.docker.buildApp(params.DOCKER_IMAGE_NAME, "-f docker/prod/DockerFile .")
             }
         }else{
             workbench.pipelineUtils.skipCurrentStage();

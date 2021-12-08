@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {ComponenteDigitalState, getModelosAppState, ModelosAppState} from 'app/main/apps/modelo/store/reducers';
+import {ComponenteDigitalState, getModelosAppState, ModelosAppState} from 'app/main/apps/modelos/modelo/store/reducers';
 
 export const getComponenteDigitalState: any = createSelector(
     getModelosAppState,

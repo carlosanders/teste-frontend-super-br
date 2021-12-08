@@ -86,6 +86,13 @@ export function AvisoEditReducer(
                 errors: action.payload
             };
         }
+               case AvisoEditActions.RELOAD_AVISO: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
 
         default:
             return state;

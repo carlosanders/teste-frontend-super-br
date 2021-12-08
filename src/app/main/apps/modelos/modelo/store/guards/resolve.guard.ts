@@ -5,10 +5,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
-import {ModelosAppState} from 'app/main/apps/modelo/store/reducers';
-import * as fromStore from 'app/main/apps/modelo/store';
+import {ModelosAppState} from 'app/main/apps/modelos/modelo/store/reducers';
+import * as fromStore from 'app/main/apps/modelos/modelo/store/index';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from '../../../../auth/login/login.service';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
