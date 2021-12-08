@@ -6,6 +6,7 @@ import {
     Input,
     OnChanges,
     OnDestroy,
+    OnInit,
     Output,
     SimpleChange,
     ViewEncapsulation
@@ -28,7 +29,7 @@ import {Router} from '@angular/router';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
+export class CdkAvisoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     aviso: Aviso;
@@ -103,8 +104,8 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
             descricao: [null],
             modalidadeOrgaoCentral: [null],
             notificacao: [null],
-            unidade:[null],
-            setor:[null],
+            unidade: [null],
+            setor: [null],
             tipo: [null],
             sistema: [null]
         });

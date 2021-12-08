@@ -755,6 +755,27 @@ processo-view-main-sidebar {
                 font-style: italic;
                 font-size: 10px;
             }
+
+            .tipo-documento {
+                .index-vinculado {
+                    display: flex;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 20px;
+                        min-width: 20px;
+                        max-width: 20px;
+                        height: 20px;
+                        border-radius: 100%;
+                        font-size: 11px;
+                        border: 1px solid;
+                        font-weight: bold;
+                        z-index: 10;
+                    }
+                }
+            }
         }
 
         .volume {

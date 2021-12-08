@@ -73,13 +73,6 @@ export class CdkComponenteDigitalCardListComponent {
     @Output()
     erroUpload = new EventEmitter<string>();
 
-
-    selectedIds: number[] = [];
-
-    hasSelected = false;
-
-    isIndeterminate = false;
-
     /** Target URL for file uploading. */
     @Input()
     target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
@@ -102,17 +95,29 @@ export class CdkComponenteDigitalCardListComponent {
     @Output()
     completedAll = new EventEmitter<any>();
 
-    private files: Array<FileUploadModel> = [];
+    /**
+     * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
+     */
+    @Output()
+    startedUpload = new EventEmitter<any>();
 
-    private currentFile: FileUploadModel = null;
+    selectedIds: number[] = [];
 
-    private arquivoSubscription: Subscription;
+    hasSelected = false;
+
+    isIndeterminate = false;
 
     uploading: boolean = false;
 
     pending: Array<FileUploadModel> = [];
 
     lastOrder = 0;
+
+    private files: Array<FileUploadModel> = [];
+
+    private currentFile: FileUploadModel = null;
+
+    private arquivoSubscription: Subscription;
 
     /**
      * @param _http
@@ -217,6 +222,7 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     start(): void {
+        this.startedUpload.emit(true);
         this.uploading = true;
         if (this.uploadMode !== 'linear') {
             this.files.forEach((file) => {
