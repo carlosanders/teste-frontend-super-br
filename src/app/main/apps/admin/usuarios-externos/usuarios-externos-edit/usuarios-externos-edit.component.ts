@@ -56,7 +56,7 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
 
         this.formUsuario = this._formBuilder.group({
             id: [null],
-            username: [null, [Validators.required, Validators.maxLength(255)]],
+            username: [null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
