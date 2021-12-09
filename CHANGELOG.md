@@ -727,3 +727,4 @@
 * Correção adicionada paginação individual por NUP ao painel de minutas
 * Correção na aparência do badge que exibe a numeração original de uma juntada anexada a outra no processo-view 
 * Correção no Compartilhamento de Tarefas em Bloco
+* Correção validação do Form Alterar Tipo de Documento Minuta antes de habilitar o salvamento

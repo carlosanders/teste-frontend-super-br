@@ -446,7 +446,7 @@
                                     {{form.get('tipoDocumentoMinuta').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="accent" (click)="salvarTipoDocumento(minuta)">
+                            <button mat-raised-button color="accent"  [disabled]="!formTipoDocumentoValid" (click)="salvarTipoDocumento(minuta)">
                                 SALVAR
                             </button>
                         </form>
