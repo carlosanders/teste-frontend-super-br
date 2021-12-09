@@ -726,3 +726,4 @@
 * Correção adicionar minutas em bloco (por upload ou por modelo) atualiza as etiquetas das tarefas relacionadas na listagem
 * Correção adicionada paginação individual por NUP ao painel de minutas
 * Correção na aparência do badge que exibe a numeração original de uma juntada anexada a outra no processo-view 
+* Correção no Compartilhamento de Tarefas em Bloco
