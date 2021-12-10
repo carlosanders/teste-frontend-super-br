@@ -43,7 +43,7 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds?.length > 1 && draggingIds.length === 0">
+                *ngIf="selectedIds?.length > 100000 && draggingIds.length === 0">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 

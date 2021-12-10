@@ -11,10 +11,12 @@ import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
 import {getSelectedTarefas} from '../../../store';
+import {Processo, Tarefa} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
     routerState: any;
+    processos: Processo[];
 
     /**
      * Constructor
@@ -58,10 +60,44 @@ export class ResolveGuard implements CanActivate {
     getDocumentos(): any {
         return this._store.pipe(
             select(getDocumentosHasLoaded),
-            withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-            tap(([loaded, tarefas]) => {
-                if (!loaded && tarefas?.length) {
-                    this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
+            withLatestFrom(this._store.pipe(select(getSelectedTarefas)), this._store.pipe(select(fromStore.isLoadingAny))),
+            tap(([loaded, tarefas, loadingAny]) => {
+                if (!loaded && tarefas?.length && !loadingAny) {
+                    this.processos = [];
+                    this._store.dispatch(new fromStore.UnloadDocumentos());
+
+                    tarefas.forEach((tarefa: Tarefa) => {
+                        if (this.processos.indexOf(tarefa.processo) === -1) {
+                            this.processos.push(tarefa.processo);
+                        }
+                    });
+                    this.processos.sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+                    this.processos.forEach((processo) => {
+                        const processoHandle = `eq:${processo.id}`;
+
+                        const params = {
+                            filter: {
+                                'tarefaOrigem.processo.id': processoHandle,
+                                'documentoAvulsoRemessa.id': 'isNull',
+                                'juntadaAtual': 'isNull'
+                            },
+                            limit: 10,
+                            offset: 0,
+                            sort: {
+                                criadoEm: 'DESC'
+                            },
+                            populate: [
+                                'tipoDocumento',
+                                'tarefaOrigem',
+                                'tarefaOrigem.vinculacoesEtiquetas',
+                                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+                                'componentesDigitais'
+                            ],
+                            processoId: processo.id,
+                            nupFormatado: processo.NUPFormatado
+                        };
+                        this._store.dispatch(new fromStore.GetDocumentos(params));
+                    });
                 }
             }),
             filter((loaded: any) => (loaded[0] === true) && loaded[1].length),

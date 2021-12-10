@@ -1,6 +1,10 @@
 // Import Cdk core library
 @import "@cdk/scss/core";
 
+// Ag-Grid Component
+@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css";
+
 // Import app.theme.scss
 @import "app/app.theme";
 
@@ -196,5 +200,9 @@ div.menu-sort {
 }
 
 .mat-checkbox {
+    margin-bottom: 8px;
+}
+
+.mat-slide-toggle {
     margin-bottom: 8px;
 }

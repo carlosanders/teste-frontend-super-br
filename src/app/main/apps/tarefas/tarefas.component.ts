@@ -67,7 +67,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     currentTarefa: Tarefa;
     tarefas: Tarefa[] = [];
 
-    savingVinculacaoEtiquetaId$: Observable<number[]>;
+    savingVinculacaoEtiquetaId$: Observable<number>;
 
     loaded: any;
 
@@ -131,6 +131,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changingFolderIds$: Observable<number[]>;
 
+    typeHandle: string;
     targetHandle: string;
 
     routeAtividade = 'atividades/criar';
@@ -312,6 +313,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             // eslint-disable-next-line radix
             this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 10);
             this.targetHandle = routerState.state.params['targetHandle'];
+            this.typeHandle = routerState.state.params['typeHandle'];
             if (this.routerState.queryParams['novaAba']) {
                 this.novaAba = true;
                 this._store.dispatch(new fromStore.ToggleMaximizado(true));

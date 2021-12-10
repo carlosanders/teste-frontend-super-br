@@ -41,7 +41,7 @@ export class CompartilhamentoCreateBlocoEffect {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: Compartilhamento) => [
-                new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(action.payload.compartilhamento),
+                new CompartilhamentoCreateBlocoActions.SaveCompartilhamentoSuccess(action.payload),
                 new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema})
             ]),
             catchError((err) => {

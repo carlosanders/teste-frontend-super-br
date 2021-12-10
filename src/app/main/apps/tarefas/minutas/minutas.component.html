@@ -1,11 +1,13 @@
 <!-- CONTENT -->
 <div class="content">
 
-    <h2>Minutas da(s) tarefa(s)</h2>
+    <h2>Gerenciar Minutas</h2>
 
     <div class="upload">
         <cdk-minutas-card-list *ngIf="operacoes.length === 0"
                                [documentos]="minutas"
+                               [processos]="processos"
+                               [minutasPorProcesso]="documentos"
                                [selectedIds]="(selectedIds$ | async)"
                                [deletingId]="(deletingDocumentosId$ | async)"
                                [assinandoId]="(assinandoDocumentosId$ | async)"
@@ -22,6 +24,7 @@
                                (converteHtml)="doConverteHtml($event)"
                                (downloadP7S)="doDownloadP7S($event)"
                                (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                               (getMore)="paginaDocumentos($event)"
                                (clicked)="onClicked($event)"
                                (changedSelectedIds)="changedSelectedIds($event)">
         </cdk-minutas-card-list>
