@@ -64,7 +64,6 @@ export class ResolveGuard implements CanActivate {
     getTarefas(): any {
         return this._store.pipe(
             select(getTarefasLoaded),
-            tap(getTarefasLoaded =>console.log(getTarefasLoaded)),
             tap((loaded: any) => {
                 if (!this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
