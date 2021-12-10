@@ -64,7 +64,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     folders$: Observable<Folder[]>;
     currentTarefaId: number;
+    currentTarefa: Tarefa;
     tarefas: Tarefa[] = [];
+
+    savingVinculacaoEtiquetaId$: Observable<number[]>;
 
     loaded: any;
 
@@ -192,6 +195,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
         this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
         this.assinandoTarefasEletronicamenteIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasEletronicamenteId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -549,6 +553,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setCurrentTarefa(event: { tarefa: Tarefa; event: any }): void {
         const tarefa = event.tarefa;
+        this.currentTarefa = event.tarefa;
         if (!tarefa.apagadoEm) {
             if (!tarefa.dataHoraLeitura) {
                 this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
@@ -948,6 +953,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     retornar(): void {
         this.mostraCriar = false;
         this.currentTarefaId = null;
+        this.currentTarefa = null;
     }
 
     doSalvarObservacao(params: any): void {
@@ -997,5 +1003,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 documentoUuidEdit: vinculacaoEtiqueta.objectUuid
             }));
         }
+    }
+
+    doVinculacaoEtiquetaCreate(params): void {
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta(params));
+    }
+
+    doVinculacaoEtiquetaDelete(params): void {
+        this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta(params));
+    }
+
+    doVinculacaoEtiquetaEdit(params): void {
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta(params));
     }
 }

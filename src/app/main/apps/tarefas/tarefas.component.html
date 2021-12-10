@@ -13,6 +13,59 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
+            <mat-toolbar *ngIf="currentTarefa">
+                <button mat-button aria-label="movimentar"
+                        (click)="doMovimentar(currentTarefa.id)">
+                    <mat-icon>autorenew</mat-icon>
+                    <span>Movimentar</span>
+                </button>
+                <button mat-button aria-label="assinar minutas"
+                        (click)="doAssinaturaMinutas(currentTarefa)">
+                    <mat-icon>lock</mat-icon>
+                    <span>Assinar Minutas</span>
+                </button>
+                <button mat-button aria-label="editar tarefa"
+                        (click)="doEditTarefa(currentTarefa.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar Tarefa</span>
+                </button>
+                <button mat-button aria-label="redistribuir tarefa"
+                        (click)="doRedistribuirTarefa(currentTarefa.id)">
+                    <mat-icon>forward</mat-icon>
+                    <span>Redistribuir</span>
+                </button>
+                <button mat-button aria-label="compartilhar"
+                        (click)="doCompartilhar(currentTarefa.id)">
+                    <mat-icon>share</mat-icon>
+                    <span>Compartilhar</span>
+                </button>
+                <button mat-button aria-label="dar ciencia"
+                        (click)="doCienciaTarefa(currentTarefa.id)">
+                    <mat-icon>check</mat-icon>
+                    <span>Dar Ciência</span>
+                </button>
+                <button mat-button aria-label="criar tarefa"
+                        (click)="doCreateTarefa({processoId: currentTarefa.processo.id})">
+                    <mat-icon>check_box</mat-icon>
+                    <span>Criar Tarefa</span>
+                </button>
+                <button mat-button aria-label="enviar ofício"
+                        (click)="doCreateDocumentoAvulso(currentTarefa.id)">
+                    <mat-icon>mail</mat-icon>
+                    <span>Criar Ofício</span>
+                </button>
+                <button mat-button aria-label="editar processo"
+                        (click)="doEditProcesso(currentTarefa)">
+                    <mat-icon>book</mat-icon>
+                    <span>Editar Processo</span>
+                </button>
+                <button mat-button aria-label="apagar"
+                        (click)="deleteTarefa(currentTarefa)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Apagar</span>
+                </button>
+            </mat-toolbar>
+
             <div class="search-wrapper">
 
                 <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
@@ -58,6 +111,7 @@
                         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                     </div>
                     <cdk-tarefa-list (scrolled)="onScroll()"
+                                     [arraySearchTypes]="arrayFiltrosEtiquetas"
                                      [loading]="(loading$ | async)"
                                      [togglingUrgenteIds]="(togglingUrgenteIds$ | async)"
                                      [tarefas]="tarefas"
@@ -70,6 +124,7 @@
                                      [deletedIds]="(deletedIds$ | async)"
                                      [assinandoTarefasIds]="(assinandoTarefasIds$ | async)"
                                      [assinandoTarefasEletronicamenteIds]="(assinandoTarefasEletronicamenteIds$ | async)"
+                                     [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                                      [folders]="(folders$ | async)"
                                      [usuarioAtual]="usuarioAtual"
                                      [currentTarefaId]="currentTarefaId"
@@ -110,6 +165,9 @@
                                      (loadInteressados)="doLoadInteressados($event)"
                                      (salvarObservacao)="doSalvarObservacao($event)"
                                      (assinaMinutas)="doAssinaturaMinutas($event)"
+                                     (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
+                                     (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
+                                     (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
                                      [savingObservacao]="savingObservacao$ | async"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)"

@@ -1,9 +1,9 @@
-import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
     assunto as assuntoSchema,
     interessado as interessadoSchema,
     processo as processoSchema,
-    tarefa as tarefaSchema
+    tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -28,7 +28,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Tarefa} from '@cdk/models';
+import {Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -47,6 +47,7 @@ import {
 } from '../selectors';
 import * as fromStore from '../index';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -690,6 +691,102 @@ export class TarefasEffect {
         ))
     ));
 
+    /**
+     * Create Vinculacao Etiqueta
+     *
+     * @type {Observable<any>}
+     */
+    createVinculacaoEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.CreateVinculacaoEtiqueta>(TarefasActions.CREATE_VINCULACAO_ETIQUETA),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'tarefa',
+            content: 'Salvando etiqueta para a tarefa ...',
+            status: 0, // carregando
+        }))),
+        mergeMap((action) => {
+            const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+            vinculacaoEtiqueta.tarefa = action.payload.tarefa;
+            vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
+            return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
+                tap((response) => {
+                    response.tarefa = null;
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Etiqueta id ' + response.id + ' salva com sucesso.',
+                        status: 1, // sucesso
+                    }));
+                }),
+                mergeMap((response: VinculacaoEtiqueta) => [
+                    new AddChildData<VinculacaoEtiqueta>({
+                        data: [response],
+                        childSchema: vinculacaoEtiquetaSchema,
+                        parentSchema: tarefaSchema,
+                        parentId: action.payload.tarefa.id
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Erro ao etiquetar a tarefa!',
+                        status: 2, // erro
+                    }));
+                    return of(new TarefasActions.CreateVinculacaoEtiquetaFailed(err));
+                })
+            );
+        }, 25)
+    ));
+
+    /**
+     * Delete Vinculacao Etiqueta
+     *
+     * @type {Observable<any>}
+     */
+    deleteVinculacaoEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.DeleteVinculacaoEtiqueta>(TarefasActions.DELETE_VINCULACAO_ETIQUETA),
+        mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                mergeMap(() => [
+                    new RemoveChildData({
+                        id: action.payload.vinculacaoEtiquetaId,
+                        childSchema: vinculacaoEtiquetaSchema,
+                        parentSchema: tarefaSchema,
+                        parentId: action.payload.tarefaId
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new TarefasActions.DeleteVinculacaoEtiquetaFailed(action.payload));
+                })
+            )
+        )
+    ));
+
+    /**
+     * Save conteúdo vinculação etiqueta na tarefa
+     *
+     * @type {Observable<any>}
+     */
+    saveConteudoVinculacaoEtiqueta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.SaveConteudoVinculacaoEtiqueta>(TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+        mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+            mergeMap(response => [
+                new TarefasActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                new UpdateData<VinculacaoEtiqueta>({
+                    id: response.id,
+                    schema: vinculacaoEtiquetaSchema,
+                    changes: {conteudo: response.conteudo, privada: response.privada}
+                })
+            ]),
+            catchError((err) => {
+                console.log(err);
+                return of(new TarefasActions.SaveConteudoVinculacaoEtiquetaFailed(err));
+            })
+        ))
+    ));
+
     constructor(
         private _actions: Actions,
         private _tarefaService: TarefaService,
@@ -697,6 +794,7 @@ export class TarefasEffect {
         private _store: Store<State>,
         private _router: Router,
         private _assuntoService: AssuntoService,
+        private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _interessadoService: InteressadoService
     ) {
         this._store.pipe(

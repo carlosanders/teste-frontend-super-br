@@ -2,7 +2,8 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-tarefa-filter" position="left">
-        <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"></cdk-tarefa-filter>
+        <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
+                           [arrayFiltrosEtiquetas]="arraySearchTypes"></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -281,6 +282,9 @@
                     }"
                     (loadAssuntos)="doLoadAssuntos($event)"
                     (loadInteressados)="doLoadInteressados($event)"
+                    (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
+                    (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
+                    (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
                     [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
                     [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"

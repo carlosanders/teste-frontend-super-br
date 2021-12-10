@@ -104,6 +104,17 @@
                 </mat-icon>
             </div>
 
+            <div (click)="$event.stopPropagation();">
+                <cdk-vinculacao-etiqueta-chips
+                    [vinculacoesEtiquetas]="tarefa.vinculacoesEtiquetas"
+                    (create)="doVinculacaoEtiquetaCreate($event)"
+                    (delete)="doVinculacaoEtiquetaDelete($event)"
+                    (edit)="doVinculacaoEtiquetaEdit($event)"
+                    [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
+                >
+                </cdk-vinculacao-etiqueta-chips>
+            </div>
+
             <div class="etiquetas">
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
                      fxLayout="row" fxLayoutAlign="start center"
@@ -178,7 +189,7 @@
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
+        <button *ngIf="1 === 2 && !deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
                 [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
                 (click)="$event.stopPropagation()">

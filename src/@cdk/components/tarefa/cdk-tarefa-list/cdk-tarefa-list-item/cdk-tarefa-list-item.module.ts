@@ -23,6 +23,9 @@ import {CdkEspecieTarefaAutocompleteModule} from "../../../especie-tarefa/cdk-es
 import {CdkProcessoAutocompleteModule} from "../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module";
 import {CdkTarefaFilterModule} from "../../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module";
 import {DndModule} from "ngx-drag-drop";
+import {
+    CdkVinculacaoEtiquetaChipsModule
+} from "../../../vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module";
 
 @NgModule({
     declarations: [
@@ -52,7 +55,8 @@ import {DndModule} from "ngx-drag-drop";
         NgxUpperCaseDirectiveModule,
         MatSelectModule,
         RouterModule,
-        DndModule
+        DndModule,
+        CdkVinculacaoEtiquetaChipsModule
     ],
     providers: [
     ],

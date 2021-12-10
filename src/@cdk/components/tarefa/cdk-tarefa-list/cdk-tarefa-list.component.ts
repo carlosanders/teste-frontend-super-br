@@ -24,6 +24,7 @@ import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
+import {SearchBarEtiquetasFiltro} from "../../search-bar-etiquetas/search-bar-etiquetas-filtro";
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -47,6 +48,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     assinandoTarefasEletronicamenteIds: number[] = [];
+
+    @Input()
+    savingVinculacaoEtiquetaId: number[] = [];
+
+    @Input()
+    arraySearchTypes: SearchBarEtiquetasFiltro[] = [];
 
     @Input()
     tarefas: Tarefa[] = [];
@@ -191,6 +198,15 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     assinaMinutas = new EventEmitter<Tarefa>();
+
+    @Output()
+    vinculacaoEtiquetaCreate = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaDelete = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaEdit = new EventEmitter<any>();
 
     @Input()
     loadingAssuntosProcessosId: number[];
@@ -618,5 +634,17 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doClickEtiqueta(event): void {
         this.etiquetaClickHandler.emit(event);
+    }
+
+    doVinculacaoEtiquetaCreate(params): void {
+        this.vinculacaoEtiquetaCreate.emit(params);
+    }
+
+    doVinculacaoEtiquetaDelete(params): void {
+        this.vinculacaoEtiquetaDelete.emit(params);
+    }
+
+    doVinculacaoEtiquetaEdit(params): void {
+        this.vinculacaoEtiquetaEdit.emit(params);
     }
 }

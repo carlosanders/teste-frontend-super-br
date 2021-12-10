@@ -79,6 +79,11 @@ export const getDeletingTarefaIds: any = createSelector(
     (state: TarefasState) => state.deletingTarefaIds
 );
 
+export const getSavingVinculacaoEtiquetaId: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.savingVinculacaoEtiquetaId
+);
+
 export const getUnDeletingTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.undeletingTarefaIds

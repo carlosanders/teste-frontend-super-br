@@ -19,8 +19,14 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {Etiqueta, Usuario, VinculacaoEtiqueta} from '../../../../models';
 import {HasTarefa} from './has-tarefa';
+import {CdkUtils} from "../../../../utils";
+import * as fromStore from "../../../../../app/main/apps/tarefas/tarefa-detail/store";
+import {
+    DeleteVinculacaoEtiqueta,
+    SaveConteudoVinculacaoEtiqueta
+} from "../../../../../app/main/apps/tarefas/tarefa-detail/store";
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -125,6 +131,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     dragging: boolean;
 
     @Input()
+    savingVinculacaoEtiquetaId: boolean;
+
+    @Input()
     assinando: boolean;
 
     @Input()
@@ -132,6 +141,15 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Input()
     savingObservacao: boolean = false;
+
+    @Output()
+    vinculacaoEtiquetaCreate = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaDelete = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaEdit = new EventEmitter<any>();
 
     isOpen: boolean;
     loadedAssuntos: boolean;
@@ -320,5 +338,30 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             document.removeEventListener('copy', null);
         });
         document.execCommand('copy');
+    }
+
+    doVinculacaoEtiquetaCreate(etiqueta: Etiqueta): void {
+        const operacaoId = CdkUtils.makeId();
+        this.vinculacaoEtiquetaCreate.emit({
+            tarefa: this.tarefa,
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        });
+    }
+
+    doVinculacaoEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.vinculacaoEtiquetaDelete.emit({
+            tarefaId: this.tarefa.id,
+            vinculacaoEtiquetaId: vinculacaoEtiqueta.id
+        });
+    }
+
+    doVinculacaoEtiquetaEdit(values): void {
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this.vinculacaoEtiquetaEdit.emit({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo, privada: values.privada}
+        });
     }
 }
