@@ -26,6 +26,9 @@ import {DndModule} from "ngx-drag-drop";
 import {
     CdkVinculacaoEtiquetaChipsModule
 } from "../../../vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module";
+import {
+    CdkComponenteDigitalCardListModule
+} from "../../../componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module";
 
 @NgModule({
     declarations: [
@@ -56,7 +59,8 @@ import {
         MatSelectModule,
         RouterModule,
         DndModule,
-        CdkVinculacaoEtiquetaChipsModule
+        CdkVinculacaoEtiquetaChipsModule,
+        CdkComponenteDigitalCardListModule
     ],
     providers: [
     ],

@@ -184,6 +184,28 @@ cdk-tarefa-list-item {
                     }
                 }
             }
+
+            .etiquetas-minutas {
+                flex: 1 1 auto;
+                display: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-top: 6px;
+
+                .etiqueta {
+                    font-size: 11px;
+                    margin-right: 4px;
+                    padding: 3px 8px;
+                    cursor: pointer;
+
+                    .etiqueta-color {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 8px;
+                        border-radius: 50%;
+                    }
+                }
+            }
         }
 
         .actions {

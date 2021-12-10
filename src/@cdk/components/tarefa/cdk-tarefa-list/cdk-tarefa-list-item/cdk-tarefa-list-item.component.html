@@ -115,16 +115,23 @@
                 </cdk-vinculacao-etiqueta-chips>
             </div>
 
-            <div class="etiquetas">
-                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
+            <div class="etiquetas-minutas">
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
                      fxLayout="row" fxLayoutAlign="start center"
                      (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
-                     [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
+                     [matTooltip]="'Clique para abrir o documento'">
+                    <mat-icon class="ml-4 mr-4">insert_drive_file</mat-icon>
                     <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div
-                        class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
+                <cdk-componente-digital-card-list class="componente-digital-card"
+                                                  #cdkUpload
+                                                  [tarefaOrigem]="tarefa"
+                                                  (completed)="onComplete()"
+                                                  (completedAll)="onCompleteAll()"
+                                                  (erroUpload)="erroUpload($event)">
+                </cdk-componente-digital-card-list>
             </div>
 
             <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao"

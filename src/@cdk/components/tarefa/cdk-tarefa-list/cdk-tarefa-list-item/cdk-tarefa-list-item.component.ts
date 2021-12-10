@@ -151,12 +151,6 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Output()
     vinculacaoEtiquetaEdit = new EventEmitter<any>();
 
-    isOpen: boolean;
-    loadedAssuntos: boolean;
-    loadedInteressados: boolean;
-
-    pluginLoading = false;
-
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
 
@@ -175,7 +169,14 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         'observacao'
     ];
 
+    isOpen: boolean;
+    loadedAssuntos: boolean;
+    loadedInteressados: boolean;
+
+    pluginLoading = false;
+
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
+    vinculacoesEtiquetasMinutas: VinculacaoEtiqueta[] = [];
 
     constructor(
         private _dynamicService: DynamicService,
@@ -216,6 +217,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
             vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         );
+
+        this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+        );
     }
 
     ngAfterViewInit(): void {
@@ -251,6 +256,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['tarefa']) {
             this._cdkTarefaListItemService.tarefa = this.tarefa;
+            this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            );
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             );
