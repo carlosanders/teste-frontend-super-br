@@ -12,7 +12,6 @@
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
 
         <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon *ngIf="documento.tarefaOrigem" class="ml-8 mr-0" [matTooltip]="'NUP ' + documento.tarefaOrigem.processo.NUPFormatado">book</mat-icon>
             <mat-icon *ngIf="documento.tarefaOrigem" class="ml-8 mr-0" [matTooltip]="'Minuta vinculada à tarefa ' + documento.tarefaOrigem.id">assignment</mat-icon>
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
@@ -54,7 +53,7 @@
                     [disabled]="!podeDeletar"
                     *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa)
                     && this._loginService.isGranted('ROLE_COLABORADOR') && actions.indexOf('delete') > -1"
-                    fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
+                    fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento)" mat-menu-item>
                     <mat-icon color="accent">delete</mat-icon>
                     <span>Apagar</span>
                 </button>

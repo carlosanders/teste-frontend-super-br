@@ -13,7 +13,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
-import {Assinatura, ComponenteDigital, Documento, Pagination} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Pagination, VinculacaoDocumento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -53,6 +53,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     documentosVinculados: Documento[];
     pagination$: Observable<any>;
     pagination: Pagination;
+    actions = ['delete', 'alterarTipo', 'removerAssinatura', 'converterPDF', 'converterHTML', 'downloadP7S', 'verResposta', 'select'];
 
     isSavingDocumentosVinculados$: Observable<boolean>;
     isLoadingDocumentosVinculados$: Observable<boolean>;
@@ -152,7 +153,13 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this.documento$.pipe(
             filter(documento => !!documento),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(documento => this.documento = documento);
+        ).subscribe((documento) => {
+            this.documento = documento;
+            if (!documento.minuta && documento.vinculacoesDocumentos?.length > 0) {
+                // permitir desvincular
+                this.actions = ['delete', 'desvincular', 'alterarTipo', 'removerAssinatura', 'converterPDF', 'converterHTML', 'downloadP7S', 'verResposta', 'select'];
+            }
+        });
 
         this.pagination$.pipe(
             filter(pagination => !!pagination),
@@ -374,6 +381,20 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
     doRemoveAssinatura(documentoId: number): void {
         this._store.dispatch(new fromStore.RemoveAssinaturaDocumentoVinculado(documentoId));
+    }
+
+    doDesvincularBloco(vinculacoesDocumento: VinculacaoDocumento[]): void {
+        this.lote = CdkUtils.makeId();
+        vinculacoesDocumento.forEach((vinculacaoDocumento: VinculacaoDocumento) => this.doDesvincular(vinculacaoDocumento, this.lote));
+    }
+
+    doDesvincular(vinculacaoDocumento: VinculacaoDocumento, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento({
+            vinculacaoDocumento: vinculacaoDocumento,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
     }
 
     anexarCopia(): void {

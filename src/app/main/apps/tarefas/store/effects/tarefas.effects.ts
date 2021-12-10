@@ -46,7 +46,11 @@ import {
     getDistribuindoTarefaIds
 } from '../selectors';
 import * as fromStore from '../index';
+import * as UploadBlocoActions from '../../upload-bloco/store/actions';
+import * as MinutasActions from '../../minutas/store/actions';
+import * as ComponenteDigitalActions from '../../modelo-bloco/store/actions/componentes-digitais.actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
+import {navigationConverter} from '../../../../../navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @Injectable()
@@ -90,6 +94,67 @@ export class TarefasEffect {
             console.log(err);
             return of(new TarefasActions.GetTarefasFailed(err));
         })
+    ));
+    /**
+     * Get Tarefa
+     *
+     * @type {Observable<any>}
+     */
+    getTarefa: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetTarefa>(TarefasActions.GET_TAREFA),
+        mergeMap((action) => {
+            const populate = [
+                'processo',
+                'colaborador.usuario',
+                'setor.especieSetor',
+                'setor.generoSetor',
+                'setor.parent',
+                'setor.unidade',
+                'processo.especieProcesso',
+                'processo.especieProcesso.generoProcesso',
+                'processo.modalidadeMeio',
+                'processo.documentoAvulsoOrigem',
+                'especieTarefa',
+                'usuarioResponsavel',
+                'setorResponsavel',
+                'setorResponsavel.unidade',
+                'setorOrigem',
+                'setorOrigem.unidade',
+                'especieTarefa.generoTarefa',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta',
+                'processo.especieProcesso.workflow',
+                'workflow'
+            ];
+            let context = {};
+            const paramUrl = this.routerState.params['targetHandle'];
+            let generoParam = this.routerState.params['generoHandle'];
+            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                generoParam = navigationConverter[this.routerState.params['generoHandle']];
+            }
+            if (paramUrl !== 'lixeira') {
+               context = {modulo: generoParam};
+            } else {
+                context = {
+                    modulo: generoParam,
+                    mostrarApagadas: true
+                };
+            }
+            return this._tarefaService.get(
+                action.payload,
+                JSON.stringify(populate),
+                JSON.stringify(context)
+            ).pipe(
+                map((response) => {
+                    this._store.dispatch(new AddData<Tarefa>({data: [response], schema: tarefaSchema, populate: populate}));
+                    return new TarefasActions.GetTarefaSuccess(response);
+                }),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new TarefasActions.GetTarefaFailed(err));
+                })
+            );
+        }, 25)
     ));
     /**
      * Update Tarefa
@@ -583,10 +648,10 @@ export class TarefasEffect {
                         lote: action.payload.loteId,
                         redo: 'inherent'
                     }));
-                    new AddData<Tarefa>({
+                    this._store.dispatch(new AddData<Tarefa>({
                         data: [response],
                         schema: tarefaSchema
-                    });
+                    }));
                     return new TarefasActions.DarCienciaTarefaSuccess(response.id);
                 }),
                 catchError((err) => {
@@ -669,7 +734,7 @@ export class TarefasEffect {
                 id: action.payload.operacaoId,
                 type: 'tarefa',
                 content: 'Observação da tarefa id ' + action.payload.tarefa.id + ' alterada com sucesso.',
-                status: 1, // carregando
+                status: 1, // sucesso
             }))),
             mergeMap((response: Tarefa) => [
                 new TarefasActions.SaveObservacaoSuccess(),
@@ -690,6 +755,33 @@ export class TarefasEffect {
             })
         ))
     ));
+    /* Ações referentes ao upload em bloco de minutas, que a listagem de tarefas escutará e atualizará as informações das
+     * tarefas à medida que os uploads são concluídos
+     */
+    uploadConcluido: any = createEffect(() => this._actions.pipe(
+        ofType<UploadBlocoActions.UploadConcluido>(UploadBlocoActions.UPLOAD_CONCLUIDO),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetTarefa(action.payload));
+        })
+    ), {dispatch: false});
+    /* Ações referentes ao painel de minutas, que a listagem de tarefas escutará e atualizará as informações das
+     * tarefas à medida que os uploads são concluídos
+     */
+    deleteDocumentoBloco: any = createEffect(() => this._actions.pipe(
+        ofType<MinutasActions.DeleteDocumentoSuccess>(MinutasActions.DELETE_DOCUMENTO_BLOCO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetTarefa(action.payload.tarefaId));
+        })
+    ), {dispatch: false});
+    /* Ações referentes ao editor de modelos de minutas em bloco,
+     * que o painel de tarefas fica observando
+     */
+    createModeloBloco: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.SaveComponenteDigitalSuccess>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetTarefa(action.payload.tarefaId));
+        })
+    ), {dispatch: false});
 
     /**
      * Create Vinculacao Etiqueta

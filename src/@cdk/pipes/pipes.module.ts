@@ -11,9 +11,9 @@ import {CamelCaseToDashPipe} from './camelCaseToDash.pipe';
 import {BooleanoPipe} from './booleano.pipe';
 import {TitleCasePipe} from './title-case.pipe';
 import {FormatInteressadosPipe} from './format-interessados.pipe';
-import {SortByDatePipe} from "./sort-by-date.pipe";
-import {SafeResourceUrlPipe} from "./safe-resource-url.pipe";
-import {StatusBarramentoPipe} from "./status-barramento.pipe";
+import {SortByDatePipe} from './sort-by-date.pipe';
+import {SafeResourceUrlPipe} from './safe-resource-url.pipe';
+import {StatusBarramentoPipe} from './status-barramento.pipe';
 
 @NgModule({
     declarations: [

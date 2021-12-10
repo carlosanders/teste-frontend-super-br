@@ -14,32 +14,32 @@
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
             <mat-toolbar *ngIf="currentTarefa">
-                <button mat-button aria-label="movimentar"
+                <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doMovimentar(currentTarefa.id)">
                     <mat-icon>autorenew</mat-icon>
                     <span>Movimentar</span>
                 </button>
-                <button mat-button aria-label="assinar minutas"
+                <button mat-button aria-label="assinar minutas" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doAssinaturaMinutas(currentTarefa)">
                     <mat-icon>lock</mat-icon>
                     <span>Assinar Minutas</span>
                 </button>
-                <button mat-button aria-label="editar tarefa"
+                <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doEditTarefa(currentTarefa.id)">
                     <mat-icon>edit</mat-icon>
                     <span>Editar Tarefa</span>
                 </button>
-                <button mat-button aria-label="redistribuir tarefa"
+                <button mat-button aria-label="redistribuir tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doRedistribuirTarefa(currentTarefa.id)">
                     <mat-icon>forward</mat-icon>
                     <span>Redistribuir</span>
                 </button>
-                <button mat-button aria-label="compartilhar"
+                <button mat-button aria-label="compartilhar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doCompartilhar(currentTarefa.id)">
                     <mat-icon>share</mat-icon>
                     <span>Compartilhar</span>
                 </button>
-                <button mat-button aria-label="dar ciencia"
+                <button mat-button aria-label="dar ciencia" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doCienciaTarefa(currentTarefa.id)">
                     <mat-icon>check</mat-icon>
                     <span>Dar Ciência</span>
@@ -59,7 +59,7 @@
                     <mat-icon>book</mat-icon>
                     <span>Editar Processo</span>
                 </button>
-                <button mat-button aria-label="apagar"
+                <button mat-button aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="deleteTarefa(currentTarefa)">
                     <mat-icon>delete</mat-icon>
                     <span>Apagar</span>

@@ -167,7 +167,7 @@ export class ResolveGuard implements CanActivate {
                             };
                         }
 
-                        if (this.routerState.params[typeParam] === 'saida') {
+                        if (this.routerState.params[typeParam] === 'enviadas') {
                             tarefaFilter = {
                                 'criadoPor.id': 'eq:' + this._profile.id,
                                 'usuarioResponsavel.id': 'neq:' + this._profile.id,

@@ -110,7 +110,7 @@ export class GetDocumentosFailed implements Action
 {
     readonly type = GET_DOCUMENTOS_BLOCO_FAILED;
 
-    constructor(public payload: string)
+    constructor(public payload: any)
     {
     }
 }

@@ -38,6 +38,10 @@ export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[DOCUMENTO EDIT] DOWNLOAD DOCUMENT
 
 export const SET_SAVING = '[DOCUMENTO EDIT] SET SAVING COMPONENTES DIGITAIS';
 
+export const REMOVE_VINCULACAO_DOCUMENTO = '[DOCUMENTO EDIT] REMOVE VINCULACAO DOCUMENTO';
+export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT] REMOVE VINCULACAO DOCUMENTO SUCCESS';
+export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[DOCUMENTO EDIT] REMOVE VINCULACAO DOCUMENTO FAILED';
+
 export const RELOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT ANEXOS] RELOAD DOCUMENTOS VINCULADOS';
 export const UNLOAD_DOCUMENTOS_VINCULADOS = '[DOCUMENTO EDIT ANEXOS] UNLOAD DOCUMENTOS VINCULADOS';
 
@@ -354,6 +358,33 @@ export class SetSavingComponentesDigitais implements Action
     }
 }
 
+export class RemoveVinculacaoDocumento implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class RemoveVinculacaoDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class RemoveVinculacaoDocumentoFailed implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export class ReloadDocumentosVinculados implements Action
 {
     readonly type = RELOAD_DOCUMENTOS_VINCULADOS;
@@ -400,5 +431,8 @@ export type DocumentosVinculadosActionsAll
     | DownloadP7SFailed
     | DownloadP7SSuccess
     | SetSavingComponentesDigitais
+    | RemoveVinculacaoDocumento
+    | RemoveVinculacaoDocumentoSuccess
+    | RemoveVinculacaoDocumentoFailed
     | ReloadDocumentosVinculados
     | UnloadDocumentosVinculados;

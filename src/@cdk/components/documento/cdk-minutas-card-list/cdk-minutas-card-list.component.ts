@@ -6,7 +6,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, SimpleChange,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -18,6 +18,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {filter} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
+import {AgrupadorProcesso} from '../../../../app/main/apps/tarefas/minutas/store';
 
 @Component({
     selector: 'cdk-minutas-card-list',
@@ -36,22 +37,19 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
     tiposDocumentosNaoEditaveis = [];
 
     @Input()
-    documentos: Documento[];
+    disabledSelects: number[] = [];
 
     @Input()
-    disabledSelects: number[] = [];
+    documentos: Documento[];
 
     @Input()
     mode = 'atividade';
 
     @Output()
-    delete = new EventEmitter<number>();
+    delete = new EventEmitter<Documento>();
 
     @Output()
-    deleteBloco = new EventEmitter<Documento[]>();
-
-    @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
+    deleteBlocoEmmitter = new EventEmitter<Documento[]>();
 
     @Output()
     assinatura = new EventEmitter<number>();
@@ -85,6 +83,9 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
 
     @Output()
     alterarTipoDocumento = new EventEmitter<Documento>();
+
+    @Output()
+    getMore = new EventEmitter<number>();
 
     @Input()
     deletingId: number[] = [];
@@ -130,14 +131,26 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
     @Input()
     selectedIds: number[] = [];
 
-    hasSelected = false;
-
     @Input()
     isIndeterminate = false;
+
+    @Input()
+    processos: {
+        [id: number]: AgrupadorProcesso;
+    } = {};
+
+    @Input()
+    minutasPorProcesso: {
+        [id: number]: Documento[];
+    };
+
+    hasSelected = false;
 
     form: FormGroup;
 
     habilitarTipoDocumentoSalvar = false;
+
+    objectKeys = Object.keys;
 
 
     /**
@@ -159,11 +172,7 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
     ngOnInit(): void {
     }
 
-    ngOnChanges(): void {
-    }
-
-    deleteDocumento(documentoId): void {
-        this.delete.emit(documentoId);
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
     }
 
     toggleInSelected(documentoId): void {
@@ -178,8 +187,8 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
     }
 
-    doDelete(documentoId): void {
-        this.delete.emit(documentoId);
+    doDelete(documento: Documento): void {
+        this.delete.emit(documento);
     }
 
     doAssinatura(result): void {
@@ -217,7 +226,7 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
         const documentosBloco = [];
         this.documentos.forEach((documento: Documento) => {
             if (this.selectedIds.indexOf(documento.id) > -1) {
-                documentosBloco.push(documento.id);
+                documentosBloco.push(documento);
             }
         });
         this.deleteBlocoEmmitter.emit(documentosBloco);
@@ -323,5 +332,9 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
     doRestaurarBloco(): void {
         this.selectedIds.forEach(documentoId => this.doRestaurar(documentoId));
         this.deselectAll();
+    }
+
+    doGetMore(processoId: number): void {
+        this.getMore.emit(processoId);
     }
 }

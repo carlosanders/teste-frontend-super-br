@@ -54,6 +54,15 @@
                     </ng-container>
                 </button>
 
+                <button mat-menu-item aria-label="desvincular bloco"
+                        *ngIf="!isNotMinutas"
+                        (click)="doDesvincularBloco()">
+                    <ng-container>
+                        <mat-icon>unlink</mat-icon>
+                        <span>Desvincular Juntadas</span>
+                    </ng-container>
+                </button>
+
                 <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
                         [disabled]="isNotMinutas"
                         *showIfRole="'ROLE_COLABORADOR'"
@@ -132,6 +141,7 @@
                         (converteHtml)="doConverteHtml($event)"
                         (downloadP7s)="doDownloadP7S($event)"
                         (restaurar)="doRestaurar($event)"
+                        (desvincular)="doDesvincular($event)"
                         (clicked)="onClick($event)"
                         (changedSelected)="toggleInSelected($event)">
     </cdk-documento-card>

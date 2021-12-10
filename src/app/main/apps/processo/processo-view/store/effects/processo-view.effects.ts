@@ -89,6 +89,7 @@ export class ProcessoViewEffect {
                 }),
                 concatMap(response => [
                     new AddData<Juntada>({data: [response], schema: juntadaSchema}),
+                    new ProcessoViewActions.GetJuntadasEtiquetas(response.documento.id),
                     new ProcessoViewActions.GetJuntadaSuccess(response),
                     new ProcessoViewActions.UpdateIndex(this.index)
                 ]),
