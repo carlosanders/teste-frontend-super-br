@@ -50,7 +50,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     assinandoTarefasEletronicamenteIds: number[] = [];
 
     @Input()
-    savingVinculacaoEtiquetaId: number[] = [];
+    savingVinculacaoEtiquetaId: number;
 
     @Input()
     arraySearchTypes: SearchBarEtiquetasFiltro[] = [];

@@ -106,7 +106,7 @@
 
             <div (click)="$event.stopPropagation();">
                 <cdk-vinculacao-etiqueta-chips
-                    [vinculacoesEtiquetas]="tarefa.vinculacoesEtiquetas"
+                    [vinculacoesEtiquetas]="vinculacoesEtiquetas"
                     (create)="doVinculacaoEtiquetaCreate($event)"
                     (delete)="doVinculacaoEtiquetaDelete($event)"
                     (edit)="doVinculacaoEtiquetaEdit($event)"

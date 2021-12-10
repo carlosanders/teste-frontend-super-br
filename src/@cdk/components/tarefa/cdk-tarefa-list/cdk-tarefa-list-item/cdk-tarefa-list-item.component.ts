@@ -131,7 +131,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     dragging: boolean;
 
     @Input()
-    savingVinculacaoEtiquetaId: boolean;
+    savingVinculacaoEtiquetaId: number;
 
     @Input()
     assinando: boolean;
@@ -175,6 +175,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         'observacao'
     ];
 
+    vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
+
     constructor(
         private _dynamicService: DynamicService,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -210,6 +212,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this._cdkTarefaListItemService.remove.subscribe((tarefa: Tarefa) => {
             this.removeTarefa.emit(tarefa);
         });
+
+        this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+        );
     }
 
     ngAfterViewInit(): void {
@@ -218,8 +224,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
-                            let componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                        .then((componentFactory) => {
+                            const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
                             componente.instance.setTarefa(this.tarefa);
                             this._changeDetectorRef.detectChanges();
                         });
@@ -233,7 +239,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
                 module.components[pathItemText].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then((componentFactory) => {
-                            let componente: ComponentRef<HasTarefa> = this.containerText.createComponent(componentFactory);
+                            const componente: ComponentRef<HasTarefa> = this.containerText.createComponent(componentFactory);
                             componente.instance.setTarefa(this.tarefa);
                             this._changeDetectorRef.detectChanges();
                         });
@@ -245,6 +251,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['tarefa']) {
             this._cdkTarefaListItemService.tarefa = this.tarefa;
+            this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            );
         }
     }
 

@@ -40,7 +40,7 @@ export interface TarefasState {
     cienciaTarefaIds: number[];
     redistribuindoTarefaIds: number[];
     distribuindoTarefaIds: number[];
-    savingVinculacaoEtiquetaId: number[];
+    savingVinculacaoEtiquetaId: number;
     error: any;
     errorDelete: number[];
     errorCiencia: number[];
@@ -77,7 +77,7 @@ export const TarefasInitialState: TarefasState = {
     bufferingRedistribuir: 0,
     bufferingDistribuir: 0,
     deletedTarefaIds: [],
-    savingVinculacaoEtiquetaId: [],
+    savingVinculacaoEtiquetaId: null,
     selectedTarefaIds: [],
     draggingIds: [],
     currentTarefaId: null,
@@ -144,21 +144,21 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
-                savingVinculacaoEtiquetaId: [...state.savingVinculacaoEtiquetaId, action.payload.vinculacaoEtiqueta.id]
+                savingVinculacaoEtiquetaId: action.payload.vinculacaoEtiqueta.id
             };
         }
 
         case TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
-                savingVinculacaoEtiquetaId: state.savingVinculacaoEtiquetaId.filter(id => id !== action.payload)
+                savingVinculacaoEtiquetaId: null
             };
         }
 
         case TarefasActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                savingVinculacaoEtiquetaId: state.savingVinculacaoEtiquetaId.filter(id => id !== action.payload)
+                savingVinculacaoEtiquetaId: null
             };
         }
 
