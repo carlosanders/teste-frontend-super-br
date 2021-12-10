@@ -14,15 +14,27 @@
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
             <mat-toolbar *ngIf="currentTarefa">
+                <button mat-button aria-label="minutas" [matMenuTriggerFor]="selectMenuMinutas" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'">
+                    <ng-container>
+                        <mat-icon>attach_file</mat-icon>
+                        <span>Minutas</span>
+                    </ng-container>
+                </button>
+                <mat-menu #selectMenuMinutas="matMenu">
+                    <button mat-menu-item (click)="doMinutas()">
+                        Gerenciar
+                    </button>
+                    <button mat-menu-item (click)="doUploadBloco()">
+                        Upload
+                    </button>
+                    <button mat-menu-item (click)="doEditorBloco()">
+                        Editor
+                    </button>
+                </mat-menu>
                 <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doMovimentar(currentTarefa.id)">
                     <mat-icon>autorenew</mat-icon>
                     <span>Movimentar</span>
-                </button>
-                <button mat-button aria-label="assinar minutas" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doAssinaturaMinutas(currentTarefa)">
-                    <mat-icon>lock</mat-icon>
-                    <span>Assinar Minutas</span>
                 </button>
                 <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doEditTarefa(currentTarefa.id)">
@@ -54,11 +66,20 @@
                     <mat-icon>mail</mat-icon>
                     <span>Criar Ofício</span>
                 </button>
-                <button mat-button aria-label="editar processo"
-                        (click)="doEditProcesso(currentTarefa)">
-                    <mat-icon>book</mat-icon>
-                    <span>Editar Processo</span>
+                <button mat-button aria-label="processo" [matMenuTriggerFor]="selectMenuProcesso">
+                    <ng-container>
+                        <mat-icon>book</mat-icon>
+                        <span>Processo</span>
+                    </ng-container>
                 </button>
+                <mat-menu #selectMenuProcesso="matMenu">
+                    <button mat-menu-item (click)="doVisualizarProcesso(currentTarefa)">
+                        Visualizar
+                    </button>
+                    <button mat-menu-item (click)="doEditProcesso(currentTarefa)">
+                        Editar
+                    </button>
+                </mat-menu>
                 <button mat-button aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="deleteTarefa(currentTarefa)">
                     <mat-icon>delete</mat-icon>
