@@ -728,3 +728,5 @@
 * Correção na aparência do badge que exibe a numeração original de uma juntada anexada a outra no processo-view 
 * Correção no Compartilhamento de Tarefas em Bloco
 * Correção validação do Form Alterar Tipo de Documento Minuta antes de habilitar o salvamento
+* Correção nas rotas das ações no Painel de Tarefas
+* Correção na Edição de Usuário inativos por parte de Coordenadores de Unidade
