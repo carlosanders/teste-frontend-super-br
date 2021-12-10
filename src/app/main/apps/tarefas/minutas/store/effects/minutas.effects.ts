@@ -31,50 +31,35 @@ export class MinutasEffects {
      */
     getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<MinutasActions.GetDocumentos>(MinutasActions.GET_DOCUMENTOS_BLOCO),
-        switchMap((action) => {
-
-            const tarefaIds = `in:${action.payload}`;
-
-            const params = {
-                filter: {
-                    'tarefaOrigem.id': tarefaIds,
-                    'documentoAvulsoRemessa.id': 'isNull',
-                    'juntadaAtual': 'isNull'
-                },
-                limit: 10,
-                offset: 0,
-                sort: {
-                    criadoEm: 'DESC'
-                },
-                populate: [
-                    'tipoDocumento',
-                    'tarefaOrigem',
-                    'tarefaOrigem.vinculacoesEtiquetas',
-                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                    'componentesDigitais'
-                ]
-            };
-
-            return this._documentoService.query(
+        mergeMap(action => this._documentoService.query(
                 JSON.stringify({
-                    ...params.filter
+                    ...action.payload.filter
                 }),
-                params.limit,
-                params.offset,
-                JSON.stringify(params.sort),
-                JSON.stringify(params.populate));
-        }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new MinutasActions.GetDocumentosSuccess({
-                loaded: true,
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new MinutasActions.GetDocumentosFailed(err));
-        })
+                action.payload.limit,
+                action.payload.offset,
+                JSON.stringify(action.payload.sort),
+                JSON.stringify(action.payload.populate)
+            ).pipe(
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new MinutasActions.GetDocumentosSuccess({
+                        processoId: action.payload.processoId,
+                        nupFormatado: action.payload.NUPFormatado,
+                        loaded: true,
+                        entitiesId: response['entities'].map(documento => documento.id),
+                        total: response['total']
+                    })
+                ]),
+                catchError((err) => {
+                    const payload = {
+                        processoId: action.payload.processoId,
+                        error: err
+                    };
+                    console.log(err);
+                    return of(new MinutasActions.GetDocumentosFailed(payload));
+                })
+            )
+        ),
     ));
     /**
      * Delete Documento
@@ -104,7 +89,10 @@ export class MinutasEffects {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
-                return new MinutasActions.DeleteDocumentoSuccess(response.id);
+                return new MinutasActions.DeleteDocumentoSuccess({
+                    documentoId: action.payload.documentoId,
+                    tarefaId: action.payload.tarefaId
+                });
             }),
             catchError((err) => {
                 const payload = {

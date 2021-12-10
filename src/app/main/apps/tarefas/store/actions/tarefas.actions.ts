@@ -6,6 +6,10 @@ export const GET_TAREFAS = '[TAREFAS] GET TAREFAS';
 export const GET_TAREFAS_SUCCESS = '[TAREFAS] GET TAREFAS SUCCESS';
 export const GET_TAREFAS_FAILED = '[TAREFAS] GET TAREFAS FAILED';
 
+export const GET_TAREFA = '[TAREFA] GET TAREFA';
+export const GET_TAREFA_SUCCESS = '[TAREFA] GET TAREFA SUCCESS';
+export const GET_TAREFA_FAILED = '[TAREFA] GET TAREFA FAILED';
+
 export const SET_CURRENT_TAREFA = '[TAREFAS] SET CURRENT TAREFA';
 export const SET_CURRENT_TAREFA_SUCCESS = '[TAREFAS] SET CURRENT TAREFA SUCCESS';
 
@@ -144,6 +148,36 @@ export class GetTarefasSuccess implements Action {
  */
 export class GetTarefasFailed implements Action {
     readonly type = GET_TAREFAS_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * Get Tarefa
+ */
+export class GetTarefa implements Action {
+    readonly type = GET_TAREFA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Tarefa Success
+ */
+export class GetTarefaSuccess implements Action {
+    readonly type = GET_TAREFA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Tarefa Failed
+ */
+export class GetTarefaFailed implements Action {
+    readonly type = GET_TAREFA_FAILED;
 
     constructor(public payload: string) {
     }
@@ -952,6 +986,9 @@ export type TarefasActionsAll
     | GetTarefas
     | GetTarefasSuccess
     | GetTarefasFailed
+    | GetTarefa
+    | GetTarefaSuccess
+    | GetTarefaFailed
     | CreateTarefa
     | CreateTarefaSuccess
     | SetCurrentTarefa

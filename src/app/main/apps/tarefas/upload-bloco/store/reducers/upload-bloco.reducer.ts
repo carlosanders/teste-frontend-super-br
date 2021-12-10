@@ -1,50 +1,35 @@
-import * as AtividadeCreateBlocoActions from '../actions/upload-bloco.actions';
+import * as UploadBlocoActions from '../actions/upload-bloco.actions';
 
-export interface AtividadeCreateBlocoState {
+export interface UploadBlocoState {
     savingTarefasId: number[];
     errors: any;
 }
 
-export const AtividadeCreateInitialState: AtividadeCreateBlocoState = {
+export const uploadBlocoInitialState: UploadBlocoState = {
     savingTarefasId: [],
     errors: false
 };
 
-export function UploadBlocoReducer(
-    state = AtividadeCreateInitialState, action: AtividadeCreateBlocoActions.AtividadeCreateBlocoActionsAll
-): AtividadeCreateBlocoState {
+export const uploadBlocoReducer = (
+    state = uploadBlocoInitialState, action: UploadBlocoActions.UploadBlocoActionsAll
+): UploadBlocoState => {
     switch (action.type) {
 
-        case AtividadeCreateBlocoActions.CREATE_ATIVIDADE: {
+        case UploadBlocoActions.UPLOAD_INICIADO: {
             return {
-                savingTarefasId: [],
+                savingTarefasId: [...action.payload],
                 errors: false
             };
         }
 
-        case AtividadeCreateBlocoActions.SAVE_ATIVIDADE: {
+        case UploadBlocoActions.UPLOAD_CONCLUIDO: {
             return {
-                ...state,
-                savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
-            };
-        }
-
-        case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_SUCCESS: {
-            return {
-                ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
-            };
-        }
-
-        case AtividadeCreateBlocoActions.SAVE_ATIVIDADE_FAILED: {
-            return {
-                ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),
-                errors: action.payload
+                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload),
+                errors: false
             };
         }
 
         default:
             return state;
     }
-}
+};

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento, Pagination} from '@cdk/models';
+import {Documento, Pagination, VinculacaoDocumento} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
@@ -67,6 +67,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Output()
     restaurar = new EventEmitter<number>();
+
+    @Output()
+    desvincular = new EventEmitter<VinculacaoDocumento>();
+
+    @Output()
+    desvincularBloco = new EventEmitter<VinculacaoDocumento[]>();
 
     @Output()
     sairLixeira = new EventEmitter<boolean>();
@@ -184,6 +190,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.delete.emit(documentoId);
     }
 
+    doDesvincular(vinculacaoDocumento: VinculacaoDocumento): void {
+        this.desvincular.emit(vinculacaoDocumento);
+    }
+
     doAssinatura(result): void {
         this.assinatura.emit(result);
     }
@@ -223,6 +233,16 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
             }
         });
         this.deleteBlocoEmmitter.emit(documentosBloco);
+    }
+
+    doDesvincularBloco(): void {
+        const vinculacoesBloco = [];
+        this.documentos.forEach((documento: Documento) => {
+            if (this.selectedIds.indexOf(documento.id) > -1 && !!documento.vinculacaoDocumentoPrincipal) {
+                vinculacoesBloco.push(documento.vinculacaoDocumentoPrincipal);
+            }
+        });
+        this.desvincularBloco.emit(vinculacoesBloco);
     }
 
     doAssinaturaDocumentoBloco(): void {
@@ -325,6 +345,6 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     doGetMore(): void {
-        this.getMore.emit();
+        this.getMore.emit(true);
     }
 }

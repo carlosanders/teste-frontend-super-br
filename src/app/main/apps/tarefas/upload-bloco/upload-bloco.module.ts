@@ -21,9 +21,9 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
 import {UploadBlocoComponent} from './upload-bloco.component';
+import {UploadBlocoStoreModule} from './store/store.module';
 import {RouterModule, Routes} from '@angular/router';
 import {AtividadeService} from '@cdk/services/atividade.service';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
 
@@ -64,6 +64,7 @@ modulesConfig.forEach((module) => {
         MatDatepickerModule,
         MatTooltipModule,
         MatListModule,
+        UploadBlocoStoreModule,
 
         CdkComponenteDigitalCardListModule,
 

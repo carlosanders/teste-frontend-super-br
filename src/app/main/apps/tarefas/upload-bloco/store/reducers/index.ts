@@ -1,22 +1,22 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {AtividadeCreateBlocoState, UploadBlocoReducer} from './upload-bloco.reducer';
+import {UploadBlocoState, uploadBlocoReducer} from './upload-bloco.reducer';
 
-export interface AtividadeCreateBlocoAppState
+export interface UploadBlocoAppState
 {
-    atividadeCreateBloco: AtividadeCreateBlocoState;
+    uploadBloco: UploadBlocoState;
 }
 
-export const getAtividadeCreateBlocoAppState = createFeatureSelector<AtividadeCreateBlocoAppState>(
+export const getUploadBlocoAppState = createFeatureSelector<UploadBlocoAppState>(
     'upload-bloco-app'
 );
 
 export const getAppState: any = createSelector(
-    getAtividadeCreateBlocoAppState,
-    (state: AtividadeCreateBlocoAppState) => state
+    getUploadBlocoAppState,
+    (state: UploadBlocoAppState) => state
 );
 
-export const reducers: ActionReducerMap<AtividadeCreateBlocoAppState> = {
-    atividadeCreateBloco: UploadBlocoReducer
+export const reducers: ActionReducerMap<UploadBlocoAppState> = {
+    uploadBloco: uploadBlocoReducer
 };
 
 export * from './upload-bloco.reducer';

@@ -16,7 +16,7 @@ import {Assinatura, Colaborador, ComponenteDigital, Documento, Tarefa} from '@cd
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, take, takeUntil, tap} from 'rxjs/operators';
 import {getMercureState, getOperacoes, getRouterState} from 'app/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
@@ -26,6 +26,7 @@ import {getSelectedTarefas} from '../store';
 import {CdkUtils} from '@cdk/utils';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {DynamicService} from 'modules/dynamic.service';
+import {AgrupadorProcesso, getDocumentosByProcessoId} from './store';
 
 @Component({
     selector: 'minutas',
@@ -49,6 +50,12 @@ export class MinutasComponent implements OnInit, OnDestroy {
     tarefas: Tarefa[];
 
     operacoes: any[] = [];
+    processos: {
+        [id: number]: AgrupadorProcesso;
+    } = {};
+    documentos: {
+        [id: number]: Documento[];
+    } = {};
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -57,7 +64,6 @@ export class MinutasComponent implements OnInit, OnDestroy {
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
-    oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
     selectedMinutas: Documento[] = [];
     selectedOficios: Documento[] = [];
@@ -130,9 +136,20 @@ export class MinutasComponent implements OnInit, OnDestroy {
 
         this._store.pipe(
             select(getRouterState),
-            filter(routerState => !!routerState)
+            filter(routerState => !!routerState),
+            takeUntil(this._unsubscribeAll)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
+        });
+
+        this._store.pipe(
+            select(fromStore.getProcessos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((processos) => {
+            this.processos = {
+                ...processos
+            };
+            this._changeDetectorRef.markForCheck();
         });
 
         this.tarefas$.pipe(
@@ -177,17 +194,26 @@ export class MinutasComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((selectedDocumentos) => {
             this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
-            this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 
         this.documentos$.pipe(
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe((documentos) => {
+            const novoDocumentos = {};
             this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
-            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
-
-            this.changedSelectedIds(this.minutas.map(minuta => minuta.id));
+            Object.keys(this.processos).forEach((processo) => {
+                if (this.processos[processo]?.documentosId?.length) {
+                    const documentosProcesso = this.minutas.filter(documento => documento.tarefaOrigem.processo.id === parseInt(processo, 10));
+                    novoDocumentos[processo] = documentosProcesso;
+                }
+            });
+            Object.keys(novoDocumentos).forEach((processoId) => {
+                this.documentos = {
+                    ...this.documentos,
+                    [processoId]: novoDocumentos[processoId]
+                };
+            });
             this._changeDetectorRef.markForCheck();
         });
 
@@ -218,9 +244,9 @@ export class MinutasComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
+        this._store.dispatch(new fromStore.UnloadDocumentos());
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.UnloadDocumentos());
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -251,18 +277,19 @@ export class MinutasComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.UpdateDocumentoBloco(values));
     }
 
-    doDelete(documentoId, loteId: string = null): void {
+    doDelete(documento: Documento, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumento({
-            documentoId: documentoId,
+            documentoId: documento.id,
+            tarefaId: documento.tarefaOrigem.id,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
     }
 
-    doDeleteBloco(ids): void {
+    doDeleteBloco(documentos: Documento[]): void {
         this.lote = CdkUtils.makeId();
-        ids.forEach((id: number) => this.doDelete(id, this.lote));
+        documentos.forEach((documento: Documento) => this.doDelete(documento, this.lote));
     }
 
     doVerResposta(documento): void {
@@ -351,6 +378,23 @@ export class MinutasComponent implements OnInit, OnDestroy {
                 relativeTo: this._activatedRoute.parent,
                 queryParams: {lixeira: documento.apagadoEm ? true : null}
             }).then();
+    }
+
+    paginaDocumentos(processoId: number): void {
+        const pagination = this.processos[processoId].pagination;
+        const documentosId = this.processos[processoId].documentosId;
+        if (documentosId.length >= pagination.total) {
+            return;
+        }
+        if (!this.processos[processoId].loading) {
+            const nparams = {
+                ...pagination,
+                offset: pagination.offset + pagination.limit,
+                processoId: processoId,
+                nupFormatado: this.processos[processoId].nupFormatado
+            };
+            this._store.dispatch(new fromStore.GetDocumentos(nparams));
+        }
     }
 
     doConverte(documentoId): void {

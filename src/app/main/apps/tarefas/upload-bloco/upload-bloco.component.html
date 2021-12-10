@@ -14,7 +14,10 @@
 
     <cdk-componente-digital-card-list #ckdUpload
                                       [tarefaOrigem]="tarefaPrincipal"
+                                      [uploadMode]="'linear'"
                                       [tarefaOrigemBloco]="tarefasBloco"
+                                      (startedUpload)="onStartedUpload()"
+                                      (completedAll)="onCompleteAll()"
                                       (completed)="onComplete($event)">
     </cdk-componente-digital-card-list>
 
