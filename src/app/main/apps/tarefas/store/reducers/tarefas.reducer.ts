@@ -1,6 +1,5 @@
 import * as TarefasActions from 'app/main/apps/tarefas/store/actions/tarefas.actions';
 import {Etiqueta} from '@cdk/models';
-import * as TarefaDetailActions from "../../tarefa-detail/store/actions/tarefa-detail.actions";
 
 export interface TarefasState {
     entitiesId: number[];
@@ -29,7 +28,7 @@ export interface TarefasState {
     bufferingDistribuir: number;
     changingFolderTarefaIds: number[];
     togglingLidaTarefaIds: number[];
-    currentTarefaId: number;
+    currentTarefaId: any;
     deletedTarefaIds: number[];
     selectedTarefaIds: number[];
     draggingIds: number[];
@@ -463,7 +462,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.SET_CURRENT_TAREFA: {
             return {
                 ...state,
-                currentTarefaId: action.payload
+                currentTarefaId: action.payload,
+                selectedTarefaIds: [action.payload.tarefaId]
             };
         }
 
@@ -477,7 +477,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA: {
             return {
                 ...state,
-                // tslint:disable-next-line:max-line-length
+                // eslint-disable-next-line max-len
                 loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1 ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
             };
         }

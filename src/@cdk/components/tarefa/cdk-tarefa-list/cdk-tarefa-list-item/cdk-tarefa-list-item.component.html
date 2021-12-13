@@ -104,7 +104,8 @@
                 </mat-icon>
             </div>
 
-            <div (click)="$event.stopPropagation();">
+            <div class="search-wrapper" (click)="$event.stopPropagation();">
+                <mat-icon class="secondary-text mr-8">label</mat-icon>
                 <cdk-vinculacao-etiqueta-chips
                     [vinculacoesEtiquetas]="vinculacoesEtiquetas"
                     (create)="doVinculacaoEtiquetaCreate($event)"

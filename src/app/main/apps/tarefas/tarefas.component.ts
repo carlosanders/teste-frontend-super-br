@@ -25,7 +25,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -63,8 +63,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     searchInput: FormControl;
 
     folders$: Observable<Folder[]>;
+
     currentTarefaId: number;
+
     currentTarefa: Tarefa;
+    currentTarefa$: Observable<any>;
+
     tarefas: Tarefa[] = [];
 
     savingVinculacaoEtiquetaId$: Observable<number>;
@@ -191,6 +195,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.togglingUrgenteIds$ = this._store.pipe(select(fromStore.getIsTogglingUrgenteIds));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
+        this.currentTarefa$ = this._store.pipe(select(fromStore.getCurrentTarefa));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
         this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
@@ -394,6 +399,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.tarefas = tarefas;
         });
 
+        this.currentTarefa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((currentTarefa: any) => {
+            this.currentTarefa = currentTarefa;
+        });
+
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((pagination) => {
@@ -555,7 +566,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setCurrentTarefa(event: { tarefa: Tarefa; event: any }): void {
         const tarefa = event.tarefa;
-        this.currentTarefa = event.tarefa;
         if (!tarefa.apagadoEm) {
             if (!tarefa.dataHoraLeitura) {
                 this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
@@ -960,7 +970,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     retornar(): void {
         this.mostraCriar = false;
         this.currentTarefaId = null;
-        this.currentTarefa = null;
     }
 
     doSalvarObservacao(params: any): void {

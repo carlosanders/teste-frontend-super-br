@@ -85,6 +85,14 @@ cdk-tarefa-list-item {
             .body {
                 margin-top: 6px;
 
+                > .search-wrapper {
+                    flex: 0 1 auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
+
                 .observacao {
                     margin-left: 10px;
                     display: flex;
