@@ -2,7 +2,8 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-tarefa-filter" position="left">
-        <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"></cdk-tarefa-filter>
+        <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"
+                           [arrayFiltrosEtiquetas]="arraySearchTypes"></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -42,7 +43,7 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds?.length > 1 && draggingIds.length === 0">
+                *ngIf="selectedIds?.length > 100000 && draggingIds.length === 0">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 
@@ -249,7 +250,7 @@
                  (dndEnd)="onCancelDrag($event)"
                  (dndCopied)="onCopied($event, tarefa)"
                  (dndStart)="onStartDrag($event, tarefa)">
-                <cdk-tarefa-list-item
+                <cdk-tarefa-list-item #tarefaListItems
                     [tarefa]="tarefa"
                     [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
                     [usuarioAtual]="usuarioAtual"
@@ -258,6 +259,7 @@
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
                     [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
+                    [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
                     [assinando]="assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1 || assinandoTarefasEletronicamenteIds.length > 0 && assinandoTarefasEletronicamenteIds.indexOf(tarefa.id) > -1"
                     [countSelected]="selectedIds.length"
                     [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
@@ -281,6 +283,9 @@
                     }"
                     (loadAssuntos)="doLoadAssuntos($event)"
                     (loadInteressados)="doLoadInteressados($event)"
+                    (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
+                    (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
+                    (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
                     [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
                     [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
@@ -289,6 +294,9 @@
                     [savingObservacao]="savingObservacao"
                     (salvarObservacao)="doSalvarObservacao($event)"
                     (etiquetaClickHandler)="doClickEtiqueta($event)"
+                    (erroUpload)="onErroUpload($event)"
+                    (completed)="onComplete($event)"
+                    (completedAll)="onCompleteAll($event)"
                 >
                 </cdk-tarefa-list-item>
             </div>

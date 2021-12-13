@@ -78,6 +78,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
+    label = 'Protocolo';
+    nup = '';
+    generoProcesso = '';
 
     private _profile: Usuario;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -165,6 +168,28 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             distinctUntilKeyChanged('id')
         ).subscribe((processo) => {
             this.processo = processo;
+            this.label = 'Protocolo';
+            switch (this.processo?.unidadeArquivistica) {
+                case 1:
+                    this.label = 'Processo';
+                    this.nup = this.processo?.NUPFormatado;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
+                    break;
+                case 2:
+                    this.label = 'Documento Avulso';
+                    this.nup = this.processo?.NUPFormatado;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
+                    break;
+                case 3:
+                    this.label = 'Pasta';
+                    this.nup = this.processo?.outroNumero;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
+                    break;
+                default:
+                    this.label = 'Protocolo';
+                    this.nup = '';
+                    this.generoProcesso = '';
+            }
             this.iniciaModulos();
             this.refresh();
         });

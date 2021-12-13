@@ -43,6 +43,7 @@ import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
+import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 
 @Component({
     selector: 'tarefas',
@@ -55,6 +56,7 @@ import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/sea
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
+    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: true}) tarefasList: CdkTarefaListComponent;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
@@ -63,8 +65,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     searchInput: FormControl;
 
     folders$: Observable<Folder[]>;
+
     currentTarefaId: number;
+
+    currentTarefa: Tarefa;
+    currentTarefa$: Observable<any>;
+
     tarefas: Tarefa[] = [];
+
+    savingVinculacaoEtiquetaId$: Observable<number>;
 
     loaded: any;
 
@@ -128,6 +137,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changingFolderIds$: Observable<number[]>;
 
+    typeHandle: string;
     targetHandle: string;
 
     routeAtividade = 'atividades/criar';
@@ -187,11 +197,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.togglingUrgenteIds$ = this._store.pipe(select(fromStore.getIsTogglingUrgenteIds));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
+        this.currentTarefa$ = this._store.pipe(select(fromStore.getCurrentTarefa));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
         this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
         this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
         this.assinandoTarefasEletronicamenteIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasEletronicamenteId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -308,6 +320,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             // eslint-disable-next-line radix
             this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 10);
             this.targetHandle = routerState.state.params['targetHandle'];
+            this.typeHandle = routerState.state.params['typeHandle'];
             if (this.routerState.queryParams['novaAba']) {
                 this.novaAba = true;
                 this._store.dispatch(new fromStore.ToggleMaximizado(true));
@@ -386,6 +399,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(tarefas => !!tarefas)
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
+        });
+
+        this.currentTarefa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((currentTarefa: any) => {
+            this.currentTarefa = currentTarefa;
         });
 
         this.pagination$.pipe(
@@ -754,6 +773,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/editar/dados-basicos']).then();
     }
 
+    doVisualizarProcesso(params): void {
+        // eslint-disable-next-line max-len
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar']).then();
+    }
+
     doRedistribuirTarefa(tarefaId): void {
         // eslint-disable-next-line max-len
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
@@ -861,9 +885,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
     }
 
-    doUploadBloco(): void {
-        // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
+    doUpload(): void {
+        const selectedTarefa = this.tarefasList.tarefaListItems.find(tarefaListItem => tarefaListItem.tarefa.id === this.currentTarefaId);
+        selectedTarefa.upload();
     }
 
     doEditorBloco(): void {
@@ -997,5 +1021,21 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 documentoUuidEdit: vinculacaoEtiqueta.objectUuid
             }));
         }
+    }
+
+    doVinculacaoEtiquetaCreate(params): void {
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta(params));
+    }
+
+    doVinculacaoEtiquetaDelete(params): void {
+        this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta(params));
+    }
+
+    doVinculacaoEtiquetaEdit(params): void {
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta(params));
+    }
+
+    onCompleteAll(tarefaId: number): void {
+        this._store.dispatch(new fromStore.GetEtiquetasTarefas(tarefaId));
     }
 }

@@ -19,8 +19,9 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {ComponenteDigital, Etiqueta, Usuario, VinculacaoEtiqueta} from '../../../../models';
 import {HasTarefa} from './has-tarefa';
+import {CdkUtils} from '../../../../utils';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -30,6 +31,8 @@ import {HasTarefa} from './has-tarefa';
     encapsulation: ViewEncapsulation.None
 })
 export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChanges {
+
+    @ViewChild('cdkUpload', {static: false}) cdkUpload;
 
     @Input()
     tarefa: Tarefa;
@@ -125,6 +128,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     dragging: boolean;
 
     @Input()
+    savingVinculacaoEtiquetaId: number;
+
+    @Input()
     assinando: boolean;
 
     @Input()
@@ -133,11 +139,26 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     savingObservacao: boolean = false;
 
-    isOpen: boolean;
-    loadedAssuntos: boolean;
-    loadedInteressados: boolean;
+    @Output()
+    vinculacaoEtiquetaCreate = new EventEmitter<any>();
 
-    pluginLoading = false;
+    @Output()
+    vinculacaoEtiquetaDelete = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaEdit = new EventEmitter<any>();
+
+    @Output()
+    completed = new EventEmitter<ComponenteDigital>();
+
+    /**
+     * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
+     */
+    @Output()
+    completedAll = new EventEmitter<number>();
+
+    @Output()
+    erroUpload = new EventEmitter<string>();
 
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
@@ -156,6 +177,16 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         'dataHoraPrazo',
         'observacao'
     ];
+
+    isOpen: boolean;
+    loadedAssuntos: boolean;
+    loadedInteressados: boolean;
+
+    pluginLoading = false;
+
+    vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
+    vinculacoesEtiquetasMinutas: VinculacaoEtiqueta[] = [];
+    vinculacoesEtiquetasOficios: VinculacaoEtiqueta[] = [];
 
     constructor(
         private _dynamicService: DynamicService,
@@ -192,6 +223,18 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this._cdkTarefaListItemService.remove.subscribe((tarefa: Tarefa) => {
             this.removeTarefa.emit(tarefa);
         });
+
+        this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+        );
+
+        this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+        );
+
+        this.vinculacoesEtiquetasOficios = this.tarefa.vinculacoesEtiquetas.filter(
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso'
+        );
     }
 
     ngAfterViewInit(): void {
@@ -200,8 +243,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => {
-                            let componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                        .then((componentFactory) => {
+                            const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
                             componente.instance.setTarefa(this.tarefa);
                             this._changeDetectorRef.detectChanges();
                         });
@@ -215,7 +258,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
                 module.components[pathItemText].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then((componentFactory) => {
-                            let componente: ComponentRef<HasTarefa> = this.containerText.createComponent(componentFactory);
+                            const componente: ComponentRef<HasTarefa> = this.containerText.createComponent(componentFactory);
                             componente.instance.setTarefa(this.tarefa);
                             this._changeDetectorRef.detectChanges();
                         });
@@ -227,6 +270,15 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['tarefa']) {
             this._cdkTarefaListItemService.tarefa = this.tarefa;
+            this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            );
+            this.vinculacoesEtiquetasOficios = this.tarefa.vinculacoesEtiquetas.filter(
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso'
+            );
+            this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            );
         }
     }
 
@@ -320,5 +372,46 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             document.removeEventListener('copy', null);
         });
         document.execCommand('copy');
+    }
+
+    doVinculacaoEtiquetaCreate(etiqueta: Etiqueta): void {
+        const operacaoId = CdkUtils.makeId();
+        this.vinculacaoEtiquetaCreate.emit({
+            tarefa: this.tarefa,
+            etiqueta: etiqueta,
+            operacaoId: operacaoId
+        });
+    }
+
+    doVinculacaoEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.vinculacaoEtiquetaDelete.emit({
+            tarefaId: this.tarefa.id,
+            vinculacaoEtiquetaId: vinculacaoEtiqueta.id
+        });
+    }
+
+    doVinculacaoEtiquetaEdit(values): void {
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this.vinculacaoEtiquetaEdit.emit({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo, privada: values.privada}
+        });
+    }
+
+    upload(): void {
+        this.cdkUpload.upload();
+    }
+
+    onComplete(componenteDigital: ComponenteDigital): void {
+        this.completed.emit(componenteDigital);
+    }
+
+    onCompleteAll(): void {
+        this.completedAll.emit(this.tarefa.id);
+    }
+
+    onErroUpload(mensagem: string): void {
+        this.erroUpload.emit(mensagem);
     }
 }

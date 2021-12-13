@@ -7,9 +7,9 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, QueryList,
     SimpleChange,
-    ViewChild,
+    ViewChild, ViewChildren,
     ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
@@ -19,11 +19,13 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {Usuario, VinculacaoEtiqueta} from '../../../models';
+import {ComponenteDigital, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
+import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
+import {CdkTarefaListItemComponent} from './cdk-tarefa-list-item/cdk-tarefa-list-item.component';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -36,6 +38,8 @@ import {DndDragImageOffsetFunction} from 'ngx-drag-drop';
 })
 export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges {
 
+    @ViewChildren('tarefaListItems', {read: CdkTarefaListItemComponent}) tarefaListItems: QueryList<CdkTarefaListItemComponent>;
+
     @Input()
     loading: boolean;
 
@@ -47,6 +51,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     assinandoTarefasEletronicamenteIds: number[] = [];
+
+    @Input()
+    savingVinculacaoEtiquetaId: number;
+
+    @Input()
+    arraySearchTypes: SearchBarEtiquetasFiltro[] = [];
 
     @Input()
     tarefas: Tarefa[] = [];
@@ -191,6 +201,27 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     assinaMinutas = new EventEmitter<Tarefa>();
+
+    @Output()
+    vinculacaoEtiquetaCreate = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaDelete = new EventEmitter<any>();
+
+    @Output()
+    vinculacaoEtiquetaEdit = new EventEmitter<any>();
+
+    @Output()
+    completed = new EventEmitter<ComponenteDigital>();
+
+    /**
+     * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
+     */
+    @Output()
+    completedAll = new EventEmitter<number>();
+
+    @Output()
+    erroUpload = new EventEmitter<string>();
 
     @Input()
     loadingAssuntosProcessosId: number[];
@@ -618,5 +649,29 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doClickEtiqueta(event): void {
         this.etiquetaClickHandler.emit(event);
+    }
+
+    doVinculacaoEtiquetaCreate(params): void {
+        this.vinculacaoEtiquetaCreate.emit(params);
+    }
+
+    doVinculacaoEtiquetaDelete(params): void {
+        this.vinculacaoEtiquetaDelete.emit(params);
+    }
+
+    doVinculacaoEtiquetaEdit(params): void {
+        this.vinculacaoEtiquetaEdit.emit(params);
+    }
+
+    onComplete(componenteDigital: ComponenteDigital): void {
+        this.completed.emit(componenteDigital);
+    }
+
+    onCompleteAll(tarefaId: number): void {
+        this.completedAll.emit(tarefaId);
+    }
+
+    onErroUpload(mensagem: string): void {
+        this.erroUpload.emit(mensagem);
     }
 }

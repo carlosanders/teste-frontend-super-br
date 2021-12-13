@@ -151,6 +151,10 @@ processo-view-main-sidebar {
         display: flex;
         flex-direction: column;
 
+        mat-expansion-panel.minutas-tarefa {
+            display: none;
+        }
+
         .minutas {
             max-height: 155px;
             overflow-y: auto;

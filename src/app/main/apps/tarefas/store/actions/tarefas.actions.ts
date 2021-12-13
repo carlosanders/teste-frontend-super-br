@@ -10,6 +10,10 @@ export const GET_TAREFA = '[TAREFA] GET TAREFA';
 export const GET_TAREFA_SUCCESS = '[TAREFA] GET TAREFA SUCCESS';
 export const GET_TAREFA_FAILED = '[TAREFA] GET TAREFA FAILED';
 
+export const GET_ETIQUETAS_TAREFAS = '[TAREFA] GET ETIQUETAS TAREFAS';
+export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFA] GET ETIQUETAS TAREFAS SUCCESS';
+export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFA] GET ETIQUETAS TAREFAS FAILED';
+
 export const SET_CURRENT_TAREFA = '[TAREFAS] SET CURRENT TAREFA';
 export const SET_CURRENT_TAREFA_SUCCESS = '[TAREFAS] SET CURRENT TAREFA SUCCESS';
 
@@ -65,6 +69,10 @@ export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] CREATE VINCULACAO ETI
 export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
+
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA = '[TAREFA] SAVE CONTEUDO VINCULACAO ETIQUETA';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] SAVE CONTEUDO VINCULACAO ETIQUETA SUCCESS';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] SAVE CONTEUDO VINCULACAO ETIQUETA FAILED';
 
 export const GET_ASSUNTOS_PROCESSO_TAREFA = '[TAREFA] GET ASSUNTOS PROCESSO';
 export const GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET ASSUNTOS PROCESSO SUCCESS';
@@ -148,6 +156,36 @@ export class GetTarefasSuccess implements Action {
  */
 export class GetTarefasFailed implements Action {
     readonly type = GET_TAREFAS_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas
+ */
+export class GetEtiquetasTarefas implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas Success
+ */
+export class GetEtiquetasTarefasSuccess implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas Failed
+ */
+export class GetEtiquetasTarefasFailed implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_FAILED;
 
     constructor(public payload: string) {
     }
@@ -574,6 +612,42 @@ export class CreateVinculacaoEtiquetaFailed implements Action {
 }
 
 /**
+ * Save Conteudo Vinculacao Etiqueta
+ */
+export class SaveConteudoVinculacaoEtiqueta implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Success
+ */
+export class SaveConteudoVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Failed
+ */
+export class SaveConteudoVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Toggle Maximizado
  */
 export class ToggleMaximizado implements Action {
@@ -989,6 +1063,9 @@ export type TarefasActionsAll
     | GetTarefa
     | GetTarefaSuccess
     | GetTarefaFailed
+    | GetEtiquetasTarefas
+    | GetEtiquetasTarefasSuccess
+    | GetEtiquetasTarefasFailed
     | CreateTarefa
     | CreateTarefaSuccess
     | SetCurrentTarefa
@@ -1028,6 +1105,9 @@ export type TarefasActionsAll
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
+    | SaveConteudoVinculacaoEtiqueta
+    | SaveConteudoVinculacaoEtiquetaSuccess
+    | SaveConteudoVinculacaoEtiquetaFailed
     | ToggleMaximizado
     | GetAssuntosProcessoTarefa
     | GetAssuntosProcessoTarefaSuccess

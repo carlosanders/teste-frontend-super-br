@@ -160,6 +160,20 @@ export class ResolveGuard implements CanActivate {
                             };
                         }
 
+                        if (this.routerState.params[typeParam] === 'concluidas') {
+                            tarefaFilter = {
+                                'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                'dataHoraConclusaoPrazo': 'isNotNull'
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'enviadas') {
+                            tarefaFilter = {
+                                'criadoPor.id': 'eq:' + this._profile.id,
+                                'usuarioResponsavel.id': 'neq:' + this._profile.id,
+                            };
+                        }
+
                         if (this.routerState.params[typeParam] === 'coordenacao') {
                             tarefaFilter = {
                                 dataHoraConclusaoPrazo: 'isNull'
