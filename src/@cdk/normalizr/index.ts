@@ -8,6 +8,7 @@ export const assuntoAdministrativo = new schema.Entity('assunto-administrativo')
 export const assunto = new schema.Entity('assunto');
 export const atividade = new schema.Entity('atividade');
 export const aviso = new schema.Entity('aviso');
+export const bookmark = new schema.Entity('bookmark');
 export const cadastroIdentificador = new schema.Entity('cadastro-identificador');
 export const cargo = new schema.Entity('cargo');
 export const classificacao = new schema.Entity('classificacao');
@@ -193,6 +194,16 @@ cadastroIdentificador.define({
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+bookmark.define({
+    usuario: usuario,
+    processo: processo,
+    juntada: juntada,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
 
 cargo.define({
     criadoPor: usuario,
