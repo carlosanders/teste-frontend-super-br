@@ -121,8 +121,6 @@ export class TarefasEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                'vinculacoesEtiquetas',
-                'vinculacoesEtiquetas.etiqueta',
                 'processo.especieProcesso.workflow',
                 'workflow'
             ];
@@ -147,6 +145,7 @@ export class TarefasEffect {
             ).pipe(
                 map((response) => {
                     this._store.dispatch(new AddData<Tarefa>({data: [response], schema: tarefaSchema, populate: populate}));
+                    this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(response.id));
                     return new TarefasActions.GetTarefaSuccess(response);
                 }),
                 catchError((err) => {
@@ -155,6 +154,31 @@ export class TarefasEffect {
                 })
             );
         }, 25)
+    ));
+    getEtiquetasTarefas: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.GetEtiquetasTarefas>(TarefasActions.GET_ETIQUETAS_TAREFAS),
+        mergeMap(action => this._vinculacaoEtiquetaService.query(
+            JSON.stringify({
+                'tarefa.id': 'eq:' + action.payload,
+            }),
+            25,
+            0,
+            JSON.stringify({}),
+            JSON.stringify(['etiqueta'])).pipe(
+                mergeMap(response => [
+                    new TarefasActions.GetEtiquetasTarefasSuccess(response),
+                    new AddChildData<VinculacaoEtiqueta>({
+                        data: response['entities'],
+                        childSchema: vinculacaoEtiquetaSchema,
+                        parentSchema: tarefaSchema,
+                        parentId: action.payload
+                    })
+                ])
+        ), 25),
+        catchError((err) => {
+            console.log(err);
+            return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
+        })
     ));
     /**
      * Update Tarefa
@@ -765,7 +789,7 @@ export class TarefasEffect {
         })
     ), {dispatch: false});
     /* Ações referentes ao painel de minutas, que a listagem de tarefas escutará e atualizará as informações das
-     * tarefas à medida que os uploads são concluídos
+     * tarefas à medida que as exclusões são concluídas
      */
     deleteDocumentoBloco: any = createEffect(() => this._actions.pipe(
         ofType<MinutasActions.DeleteDocumentoSuccess>(MinutasActions.DELETE_DOCUMENTO_BLOCO_SUCCESS),

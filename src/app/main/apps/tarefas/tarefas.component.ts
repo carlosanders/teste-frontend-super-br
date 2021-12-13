@@ -25,7 +25,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -43,6 +43,7 @@ import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
+import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 
 @Component({
     selector: 'tarefas',
@@ -55,6 +56,7 @@ import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/sea
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
+    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: true}) tarefasList: CdkTarefaListComponent;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
@@ -883,9 +885,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
     }
 
-    doUploadBloco(): void {
-        // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
+    doUpload(): void {
+        const selectedTarefa = this.tarefasList.tarefaListItems.find(tarefaListItem => tarefaListItem.tarefa.id === this.currentTarefaId);
+        selectedTarefa.upload();
     }
 
     doEditorBloco(): void {
@@ -1031,5 +1033,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doVinculacaoEtiquetaEdit(params): void {
         this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta(params));
+    }
+
+    onCompleteAll(tarefaId: number): void {
+        this._store.dispatch(new fromStore.GetEtiquetasTarefas(tarefaId));
     }
 }

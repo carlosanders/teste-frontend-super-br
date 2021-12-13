@@ -116,16 +116,27 @@
                 </cdk-vinculacao-etiqueta-chips>
             </div>
 
-            <div class="etiquetas">
-                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                     fxLayout="row" fxLayoutAlign="start center"
+            <div class="etiquetas-minutas">
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
                      (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
-                     [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
-                    <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
-                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div
-                        class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                     [matTooltip]="'Clique para abrir o documento'">
+                    <mat-icon class="mr-2 small">picture_as_pdf</mat-icon>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasOficios"
+                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                     [matTooltip]="'Clique para abrir o ofício'">
+                    <mat-icon class="mr-2 small">edit</mat-icon>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                </div>
+                <cdk-componente-digital-card-list class="componente-digital-card"
+                                                  #cdkUpload
+                                                  [tarefaOrigem]="tarefa"
+                                                  [mode]="'tarefas-list'"
+                                                  (completed)="onComplete($event)"
+                                                  (completedAll)="onCompleteAll()"
+                                                  (erroUpload)="onErroUpload($event)">
+                </cdk-componente-digital-card-list>
             </div>
 
             <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao"
