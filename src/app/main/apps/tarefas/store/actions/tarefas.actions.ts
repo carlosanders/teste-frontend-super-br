@@ -10,6 +10,10 @@ export const GET_TAREFA = '[TAREFA] GET TAREFA';
 export const GET_TAREFA_SUCCESS = '[TAREFA] GET TAREFA SUCCESS';
 export const GET_TAREFA_FAILED = '[TAREFA] GET TAREFA FAILED';
 
+export const GET_ETIQUETAS_TAREFAS = '[TAREFA] GET ETIQUETAS TAREFAS';
+export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFA] GET ETIQUETAS TAREFAS SUCCESS';
+export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFA] GET ETIQUETAS TAREFAS FAILED';
+
 export const SET_CURRENT_TAREFA = '[TAREFAS] SET CURRENT TAREFA';
 export const SET_CURRENT_TAREFA_SUCCESS = '[TAREFAS] SET CURRENT TAREFA SUCCESS';
 
@@ -152,6 +156,36 @@ export class GetTarefasSuccess implements Action {
  */
 export class GetTarefasFailed implements Action {
     readonly type = GET_TAREFAS_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas
+ */
+export class GetEtiquetasTarefas implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas Success
+ */
+export class GetEtiquetasTarefasSuccess implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas Failed
+ */
+export class GetEtiquetasTarefasFailed implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_FAILED;
 
     constructor(public payload: string) {
     }
@@ -1029,6 +1063,9 @@ export type TarefasActionsAll
     | GetTarefa
     | GetTarefaSuccess
     | GetTarefaFailed
+    | GetEtiquetasTarefas
+    | GetEtiquetasTarefasSuccess
+    | GetEtiquetasTarefasFailed
     | CreateTarefa
     | CreateTarefaSuccess
     | SetCurrentTarefa

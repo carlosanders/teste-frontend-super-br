@@ -118,20 +118,24 @@
 
             <div class="etiquetas-minutas">
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
-                     fxLayout="row" fxLayoutAlign="start center"
                      (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
                      [matTooltip]="'Clique para abrir o documento'">
-                    <mat-icon class="ml-4 mr-4">insert_drive_file</mat-icon>
-                    <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
-                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                    <mat-icon class="mr-2 small">picture_as_pdf</mat-icon>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                </div>
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasOficios"
+                     (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                     [matTooltip]="'Clique para abrir o ofício'">
+                    <mat-icon class="mr-2 small">edit</mat-icon>
                     <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
                 <cdk-componente-digital-card-list class="componente-digital-card"
                                                   #cdkUpload
                                                   [tarefaOrigem]="tarefa"
-                                                  (completed)="onComplete()"
+                                                  [mode]="'tarefas-list'"
+                                                  (completed)="onComplete($event)"
                                                   (completedAll)="onCompleteAll()"
-                                                  (erroUpload)="erroUpload($event)">
+                                                  (erroUpload)="onErroUpload($event)">
                 </cdk-componente-digital-card-list>
             </div>
 

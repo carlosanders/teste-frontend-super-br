@@ -19,14 +19,9 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {Etiqueta, Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {ComponenteDigital, Etiqueta, Usuario, VinculacaoEtiqueta} from '../../../../models';
 import {HasTarefa} from './has-tarefa';
-import {CdkUtils} from "../../../../utils";
-import * as fromStore from "../../../../../app/main/apps/tarefas/tarefa-detail/store";
-import {
-    DeleteVinculacaoEtiqueta,
-    SaveConteudoVinculacaoEtiqueta
-} from "../../../../../app/main/apps/tarefas/tarefa-detail/store";
+import {CdkUtils} from '../../../../utils';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -36,6 +31,8 @@ import {
     encapsulation: ViewEncapsulation.None
 })
 export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChanges {
+
+    @ViewChild('cdkUpload', {static: false}) cdkUpload;
 
     @Input()
     tarefa: Tarefa;
@@ -151,6 +148,18 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Output()
     vinculacaoEtiquetaEdit = new EventEmitter<any>();
 
+    @Output()
+    completed = new EventEmitter<ComponenteDigital>();
+
+    /**
+     * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
+     */
+    @Output()
+    completedAll = new EventEmitter<number>();
+
+    @Output()
+    erroUpload = new EventEmitter<string>();
+
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
 
@@ -177,6 +186,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
     vinculacoesEtiquetasMinutas: VinculacaoEtiqueta[] = [];
+    vinculacoesEtiquetasOficios: VinculacaoEtiqueta[] = [];
 
     constructor(
         private _dynamicService: DynamicService,
@@ -221,6 +231,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
             vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         );
+
+        this.vinculacoesEtiquetasOficios = this.tarefa.vinculacoesEtiquetas.filter(
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso'
+        );
     }
 
     ngAfterViewInit(): void {
@@ -258,6 +272,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this._cdkTarefaListItemService.tarefa = this.tarefa;
             this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
+            );
+            this.vinculacoesEtiquetasOficios = this.tarefa.vinculacoesEtiquetas.filter(
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso'
             );
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
@@ -380,5 +397,21 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             vinculacaoEtiqueta: vinculacaoEtiqueta,
             changes: {conteudo: values.conteudo, privada: values.privada}
         });
+    }
+
+    upload(): void {
+        this.cdkUpload.upload();
+    }
+
+    onComplete(componenteDigital: ComponenteDigital): void {
+        this.completed.emit(componenteDigital);
+    }
+
+    onCompleteAll(): void {
+        this.completedAll.emit(this.tarefa.id);
+    }
+
+    onErroUpload(mensagem: string): void {
+        this.erroUpload.emit(mensagem);
     }
 }

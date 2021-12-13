@@ -195,16 +195,30 @@ cdk-tarefa-list-item {
 
             .etiquetas-minutas {
                 flex: 1 1 auto;
-                display: none;
+                display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-                margin-top: 6px;
+                margin-top: 2px;
 
                 .etiqueta {
+                    display: flex;
+                    align-items: center;
                     font-size: 11px;
-                    margin-right: 4px;
+                    border: 1px solid;
+                    border-radius: 0;
+                    margin-right: 2px;
                     padding: 3px 8px;
                     cursor: pointer;
+                    max-height: 32px;
+                    align-self: center;
+                    margin-bottom: 2px;
+
+                    > mat-icon.small {
+                        font-size: 16px;
+                        height: 16px;
+                        width: 16px;
+                        line-height: 22px;
+                    }
 
                     .etiqueta-color {
                         width: 8px;
@@ -212,6 +226,12 @@ cdk-tarefa-list-item {
                         margin-right: 8px;
                         border-radius: 50%;
                     }
+                }
+
+                .componente-digital-card {
+                    padding-left: 2px;
+                    padding-bottom: 0;
+                    margin-top: 0;
                 }
             }
         }

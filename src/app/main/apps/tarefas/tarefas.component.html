@@ -24,7 +24,7 @@
                     <button mat-menu-item (click)="doMinutas()">
                         Gerenciar
                     </button>
-                    <button mat-menu-item (click)="doUploadBloco()">
+                    <button mat-menu-item (click)="doUpload()">
                         Upload
                     </button>
                     <button mat-menu-item (click)="doEditorBloco()">
@@ -122,7 +122,8 @@
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
                         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                     </div>
-                    <cdk-tarefa-list (scrolled)="onScroll()"
+                    <cdk-tarefa-list #tarefasList
+                                     (scrolled)="onScroll()"
                                      [arraySearchTypes]="arrayFiltrosEtiquetas"
                                      [loading]="(loading$ | async)"
                                      [togglingUrgenteIds]="(togglingUrgenteIds$ | async)"
@@ -167,7 +168,6 @@
                                      (createTarefaBloco)="doCreateTarefaBloco()"
                                      (movimentarBloco)="doMovimentarBloco()"
                                      (etiquetarBloco)="doEtiquetarBloco()"
-                                     (uploadBloco)="doUploadBloco()"
                                      (editorBloco)="doEditorBloco()"
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (editRedistribuirBloco)="doRedistribuiTarefaBloco()"
@@ -188,7 +188,8 @@
                                      [cienciaIds]="(cienciaIds$ | async)"
                                      [mobileMode]="mobileMode"
                                      (criaRelatorio)="criarRelatorio()"
-                                     (etiquetaClickHandler)="doEditarDocumentoEtiqueta($event)">
+                                     (etiquetaClickHandler)="doEditarDocumentoEtiqueta($event)"
+                                     (completedAll)="onCompleteAll($event)">
                     </cdk-tarefa-list>
                 </div>
 

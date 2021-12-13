@@ -19,16 +19,16 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {MatSelectModule} from '@angular/material/select';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {RouterModule} from '@angular/router';
-import {CdkEspecieTarefaAutocompleteModule} from "../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module";
-import {CdkProcessoAutocompleteModule} from "../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module";
-import {CdkTarefaFilterModule} from "../../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module";
-import {DndModule} from "ngx-drag-drop";
+import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
+import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import {CdkTarefaFilterModule} from '../../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module';
+import {DndModule} from 'ngx-drag-drop';
 import {
     CdkVinculacaoEtiquetaChipsModule
-} from "../../../vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module";
+} from '../../../vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
 import {
     CdkComponenteDigitalCardListModule
-} from "../../../componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module";
+} from '../../../componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 
 @NgModule({
     declarations: [
