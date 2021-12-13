@@ -446,7 +446,7 @@
                                     {{form.get('tipoDocumentoMinuta').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="accent" (click)="salvarTipoDocumento(minuta)">
+                            <button mat-raised-button color="accent"  [disabled]="!formTipoDocumentoValid" (click)="salvarTipoDocumento(minuta)">
                                 SALVAR
                             </button>
                         </form>
@@ -563,6 +563,7 @@
                                             <span>Alterar Tipo de Documento</span>
                                         </button>
                                         <button fxLayout="row" fxLayoutAlign="start center"
+                                                *ngIf="!oficio.apagadoEm"
                                                 mat-menu-item aria-label="upload anexo"
                                                 (click)="uploadAnexo(oficio)">
                                             <ng-container>
@@ -746,7 +747,7 @@
                                     </button>
 
                                     <button mat-menu-item aria-label="assinar juntada"
-                                            (click)="doAssinaturaJuntada(juntada.documento)">
+                                            (click)="doAssinaturaJuntada(juntada.documento, i)">
                                         <ng-container>
                                             <mat-icon>lock</mat-icon>
                                             <span>Assinar</span>
@@ -847,8 +848,8 @@
                                 *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); index as z;"
                                 class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="ml-8 s-14">attach_file</mat-icon>
-                                <span class="accent badge" *ngIf="!!vinculacaoDocumento.documentoVinculado.juntadaAtual">
-                                    {{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}
+                                <span class="index-vinculado" *ngIf="!!vinculacaoDocumento.documentoVinculado.juntadaAtual">
+                                    <span>{{vinculacaoDocumento.documentoVinculado.juntadaAtual.numeracaoSequencial}}</span>
                                 </span>
                                 <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"

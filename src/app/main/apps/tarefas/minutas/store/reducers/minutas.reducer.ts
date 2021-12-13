@@ -1,8 +1,29 @@
 import * as MinutasActions from '../actions/minutas.actions';
+import {Documento} from '@cdk/models';
+
+export interface AgrupadorProcesso {
+    id: number;
+    nupFormatado?: string;
+    documentosId: number[];
+    documentos?: Documento[];
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        populate: any;
+        sort: any;
+        total: number;
+    };
+    loaded: any;
+    saving: boolean;
+    loading: boolean;
+    error?: any;
+}
 
 export interface MinutasState {
-    documentosId: number[];
-    documentosLoaded: any;
+    processos: { [id: number]: AgrupadorProcesso };
+    documentos: number[];
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
@@ -11,11 +32,14 @@ export interface MinutasState {
     convertendoDocumentoHtmlIds: number[];
     downloadDocumentosP7SIds: number[];
     alterandoDocumentoIds: number[];
+    saving: boolean;
+    loading: boolean;
+    loaded: boolean;
 }
 
 export const minutasInitialState: MinutasState = {
-    documentosId: [],
-    documentosLoaded: false,
+    processos: {},
+    documentos: [],
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
@@ -24,6 +48,9 @@ export const minutasInitialState: MinutasState = {
     convertendoDocumentoHtmlIds: [],
     downloadDocumentosP7SIds: [],
     alterandoDocumentoIds: [],
+    saving: false,
+    loading: false,
+    loaded: false
 };
 
 export const minutasReducer = (
@@ -33,23 +60,82 @@ export const minutasReducer = (
     switch (action.type) {
 
         case MinutasActions.GET_DOCUMENTOS_BLOCO: {
+            const total = state.processos[action.payload.processoId]?.pagination?.total ?? 0;
+            const processos = {
+                ...state.processos,
+                [action.payload.processoId]: {
+                    ...state.processos[action.payload.processoId],
+                    id: action.payload.processoId,
+                    nupFormatado: action.payload.nupFormatado,
+                    saving: false,
+                    loading: true,
+                    loaded: false,
+                    pagination: {
+                        limit: action.payload.limit,
+                        offset: action.payload.offset,
+                        filter: action.payload.filter,
+                        listFilter: action.payload.listFilter,
+                        populate: action.payload.populate,
+                        sort: action.payload.sort,
+                        total: total
+                    }
+                }
+            };
             return {
-                ...minutasInitialState
+                ...state,
+                saving: false,
+                loading: true,
+                processos: processos
             };
         }
 
         case MinutasActions.GET_DOCUMENTOS_BLOCO_SUCCESS: {
+            let documentosId = [];
+            if (state.processos[action.payload.processoId].documentosId) {
+                documentosId = state.processos[action.payload.processoId].documentosId;
+            }
+            const processos = {
+                ...state.processos,
+                [action.payload.processoId]: {
+                    ...state.processos[action.payload.processoId],
+                    loading: false,
+                    documentosId: [...documentosId, ...action.payload.entitiesId],
+                    pagination: {
+                        ...state.processos[action.payload.processoId].pagination,
+                        total: action.payload.total
+                    },
+                    loaded: action.payload.loaded
+                }
+            };
             return {
                 ...state,
-                documentosId: action.payload.entitiesId,
-                documentosLoaded: action.payload.loaded,
+                loading: false,
+                loaded: action.payload.loaded,
+                documentos: [...state.documentos, ...action.payload.entitiesId],
+                processos: processos
+            };
+        }
+
+        case MinutasActions.GET_DOCUMENTOS_BLOCO_FAILED: {
+            const processos = {
+                ...state.processos,
+                [action.payload.processoId]: {
+                    ...state.processos[action.payload.processoId],
+                    loading: false,
+                    error: action.payload.error
+                }
+            };
+            return {
+                ...state,
+                processos: processos,
+                loading: false
             };
         }
 
         case MinutasActions.COMPLETE_DOCUMENTO_BLOCO: {
             return {
                 ...state,
-                documentosId: [...state.documentosId, action.payload.id],
+                documentos: [...state.documentos, action.payload.id],
             };
         }
 
@@ -69,9 +155,9 @@ export const minutasReducer = (
         case MinutasActions.DELETE_DOCUMENTO_BLOCO_SUCCESS: {
             return {
                 ...state,
-                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.documentoId),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.documentoId),
+                documentos: state.documentos.filter(id => id !== action.payload.documentoId)
             };
         }
 
@@ -222,7 +308,7 @@ export const minutasReducer = (
                 ...state,
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                documentos: state.documentos.filter(id => id !== action.payload)
             };
         }
 

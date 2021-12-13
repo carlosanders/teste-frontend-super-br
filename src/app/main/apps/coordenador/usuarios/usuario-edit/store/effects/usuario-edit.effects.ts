@@ -37,7 +37,9 @@ export class UsuarioEditEffects {
                 'populateAll',
                 'colaborador.cargo',
                 'colaborador.modalidadeColaborador'
-            ]))),
+            ]),
+            JSON.stringify({isAdmin: true})
+        )),
         switchMap(response => [
             new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
             new UsuarioEditActions.GetUsuarioSuccess({
@@ -45,7 +47,7 @@ export class UsuarioEditEffects {
                     id: 'usuarioHandle',
                     value: this.routerState.params.usuarioHandle
                 },
-                usuarioId: response['entities'][0].id
+                usuarioId: response['entities'][0]?.id
             })
         ]),
         catchError((err) => {

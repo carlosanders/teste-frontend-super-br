@@ -123,6 +123,7 @@ export class AvisoEditComponent implements OnInit, OnDestroy {
     }
 
     doAbort(): void {
+        this._store.dispatch(new fromStore.ReloadAviso());
         this._store.dispatch(new Back());
     }
 }

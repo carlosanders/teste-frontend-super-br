@@ -718,3 +718,15 @@
 * Melhoria para consta primeira e ultima paginas nas paginacoes
 * Correção Sistema está permitindo selecionar e salvar um usuário com nível de acesso negativo #690
 * Melhoria inclusão do menu histórico nas Configurações do usuário
+* Correção adicionada importação de OnInit ao cdk-aviso-form
+* Melhoria adicionado evento StartedUpload que é disparado quando componente de upload inicia o envio dos arquivos
+* Melhoria botão "Desvincular" dentro de anexos do editor quando for juntada com vinculação
+* Melhoria na ux do painel de minutas, agora agrupado por NUPs
+* Correção excluir documento(s) de dentro do painel de minutas atualiza as etiquetas da(s) tarefa(s) relacionada(s) na listagem
+* Correção adicionar minutas em bloco (por upload ou por modelo) atualiza as etiquetas das tarefas relacionadas na listagem
+* Correção adicionada paginação individual por NUP ao painel de minutas
+* Correção na aparência do badge que exibe a numeração original de uma juntada anexada a outra no processo-view 
+* Correção no Compartilhamento de Tarefas em Bloco
+* Correção validação do Form Alterar Tipo de Documento Minuta antes de habilitar o salvamento
+* Correção nas rotas das ações no Painel de Tarefas
+* Correção na Edição de Usuário inativos por parte de Coordenadores de Unidade

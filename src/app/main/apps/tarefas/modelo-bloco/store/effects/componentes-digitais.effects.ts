@@ -64,7 +64,10 @@ export class ComponenteDigitalEffect {
                 lote: action.payload.loteId
             }))),
             mergeMap((response: ComponenteDigital) => [
-                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
+                new ComponenteDigitalActions.SaveComponenteDigitalSuccess({
+                    componenteDigital: response,
+                    tarefaId: action.payload.componenteDigital.tarefaOrigem.id
+                }),
                 new AddData<ComponenteDigital>({
                     data: [{...action.payload, ...response}],
                     schema: componenteDigitalSchema

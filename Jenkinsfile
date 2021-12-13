@@ -12,7 +12,7 @@ node {
             properties([
                 parameters([
                     text(name: 'DOCKER_IMAGE_NAME',
-                        defaultValue: 'docker-registry.agu.gov.br/govbr/app/supp-administrativo-frontend', 
+                        defaultValue: params.ENVIRONMENT ?:'docker-registry.agu.gov.br/govbr/app/supp-administrativo-frontend', 
                         description: 'Nome da imagem docker (sem tag) do Super frontend',
                         trim: true)                      
                     ])

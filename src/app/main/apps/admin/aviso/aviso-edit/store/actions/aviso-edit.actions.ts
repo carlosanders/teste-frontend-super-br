@@ -15,6 +15,8 @@ export const GET_AVISO = '[ADMIN AVISO EDIT] GET AVISO';
 export const GET_AVISO_SUCCESS = '[ADMIN AVISO EDIT] GET AVISO SUCCESS';
 export const GET_AVISO_FAILED = '[ADMIN AVISO EDIT] GET AVISO FAILED';
 
+export const RELOAD_AVISO = '[ADMIN AVISO EDIT] RELOAD AVISO';
+
 /**
  * Get Aviso
  */
@@ -125,6 +127,15 @@ export class CreateAvisoSuccess implements Action {
     }
 }
 
+/**
+ * Reload Aviso
+ */
+ export class ReloadAviso implements Action {
+    readonly type = RELOAD_AVISO;
+
+    constructor() {
+    }
+}
 export type AvisoEditActionsAll
     = CreateAviso
     | CreateAvisoSuccess
@@ -136,4 +147,5 @@ export type AvisoEditActionsAll
     | SaveAvisoFailed
     | UpdateAviso
     | UpdateAvisoSuccess
-    | UpdateAvisoFailed;
+    | UpdateAvisoFailed
+    | ReloadAviso;

@@ -1,17 +1,17 @@
 import {createSelector} from '@ngrx/store';
-import {AtividadeCreateBlocoAppState, AtividadeCreateBlocoState, getAtividadeCreateBlocoAppState} from '../reducers';
+import {UploadBlocoAppState, UploadBlocoState, getUploadBlocoAppState} from '../reducers';
 
-export const getAtividadeCreateBlocoState: any = createSelector(
-    getAtividadeCreateBlocoAppState,
-    (state: AtividadeCreateBlocoAppState) => state.atividadeCreateBloco
+export const getUploadBlocoState: any = createSelector(
+    getUploadBlocoAppState,
+    (state: UploadBlocoAppState) => state.uploadBloco
 );
 
 export const getIsSaving: any = createSelector(
-    getAtividadeCreateBlocoState,
-    (state: AtividadeCreateBlocoState) => state.savingTarefasId.length > 0
+    getUploadBlocoState,
+    (state: UploadBlocoState) => state.savingTarefasId.length > 0
 );
 
 export const getErrors: any = createSelector(
-    getAtividadeCreateBlocoState,
-    (state: AtividadeCreateBlocoState) => state.errors
+    getUploadBlocoState,
+    (state: UploadBlocoState) => state.errors
 );
