@@ -13,7 +13,7 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
-            <mat-toolbar *ngIf="currentTarefa">
+            <mat-toolbar *ngIf="currentTarefaId">
                 <button mat-button aria-label="minutas" [matMenuTriggerFor]="selectMenuMinutas" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'">
                     <ng-container>
                         <mat-icon>attach_file</mat-icon>
@@ -32,27 +32,27 @@
                     </button>
                 </mat-menu>
                 <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doMovimentar(currentTarefa.id)">
+                        (click)="doMovimentar(currentTarefaId)">
                     <mat-icon>autorenew</mat-icon>
                     <span>Movimentar</span>
                 </button>
                 <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doEditTarefa(currentTarefa.id)">
+                        (click)="doEditTarefa(currentTarefaId)">
                     <mat-icon>edit</mat-icon>
                     <span>Editar Tarefa</span>
                 </button>
                 <button mat-button aria-label="redistribuir tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doRedistribuirTarefa(currentTarefa.id)">
+                        (click)="doRedistribuirTarefa(currentTarefaId)">
                     <mat-icon>forward</mat-icon>
                     <span>Redistribuir</span>
                 </button>
                 <button mat-button aria-label="compartilhar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doCompartilhar(currentTarefa.id)">
+                        (click)="doCompartilhar(currentTarefaId)">
                     <mat-icon>share</mat-icon>
                     <span>Compartilhar</span>
                 </button>
                 <button mat-button aria-label="dar ciencia" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doCienciaTarefa(currentTarefa.id)">
+                        (click)="doCienciaTarefa(currentTarefaId)">
                     <mat-icon>check</mat-icon>
                     <span>Dar Ciência</span>
                 </button>
@@ -62,24 +62,15 @@
                     <span>Criar Tarefa</span>
                 </button>
                 <button mat-button aria-label="enviar ofício"
-                        (click)="doCreateDocumentoAvulso(currentTarefa.id)">
+                        (click)="doCreateDocumentoAvulso(currentTarefaId)">
                     <mat-icon>mail</mat-icon>
                     <span>Criar Ofício</span>
                 </button>
-                <button mat-button aria-label="processo" [matMenuTriggerFor]="selectMenuProcesso">
-                    <ng-container>
+                <button mat-button aria-label="processo"
+                        (click)="doEditProcesso(currentTarefa)">
                         <mat-icon>book</mat-icon>
                         <span>Processo</span>
-                    </ng-container>
                 </button>
-                <mat-menu #selectMenuProcesso="matMenu">
-                    <button mat-menu-item (click)="doVisualizarProcesso(currentTarefa)">
-                        Visualizar
-                    </button>
-                    <button mat-menu-item (click)="doEditProcesso(currentTarefa)">
-                        Editar
-                    </button>
-                </mat-menu>
                 <button mat-button aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="deleteTarefa(currentTarefa)">
                     <mat-icon>delete</mat-icon>

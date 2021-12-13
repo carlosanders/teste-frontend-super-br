@@ -4,8 +4,20 @@ import {getTarefasAppState, TarefasAppState, TarefasState} from 'app/main/apps/t
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {Tarefa} from '@cdk/models';
+import {getRouterState} from '../../../../../store';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
+
+export const getTarefaHandle: any = createSelector(
+    getRouterState,
+    router => router.state.params['tarefaHandle']
+);
+
+export const getCurrentTarefa: any = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getTarefaHandle,
+    schemaSelectors.entityProjector
+);
 
 export const getTarefasState: any = createSelector(
     getTarefasAppState,
@@ -157,6 +169,11 @@ export const getBufferingDistribuir: any = createSelector(
 export const getDistribuindoTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.distribuindoTarefaIds
+);
+
+export const getCurrentTarefaId: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.currentTarefaId
 );
 
 export const getIsSavingObservacao: any = createSelector(
