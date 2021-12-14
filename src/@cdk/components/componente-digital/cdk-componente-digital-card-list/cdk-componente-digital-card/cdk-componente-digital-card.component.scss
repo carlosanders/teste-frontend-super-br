@@ -95,6 +95,8 @@ cdk-componente-digital-card {
         align-items: center;
         margin-right: 2px;
         border: 1px solid;
+        max-height: 32px;
+        margin-top: 6px;
 
         > .content-img {
             display: flex;
@@ -145,12 +147,6 @@ cdk-componente-digital-card.processo {
     height: 60px;
     max-height: 60px;
     flex-grow: 1;
-}
-
-cdk-componente-digital-card.tarefas-list {
-    height: 32px;
-    max-height: 32px;
-    align-self: center;
 }
 
 cdk-componente-digital-card.documento-edit-card {

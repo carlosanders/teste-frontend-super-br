@@ -409,7 +409,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentTarefa: any) => {
             this.currentTarefa = currentTarefa;
-            console.log (currentTarefa);
             if (currentTarefa) {
                 this.currentTarefaId = currentTarefa.id;
             } else {
