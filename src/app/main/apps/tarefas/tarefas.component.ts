@@ -318,7 +318,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             this.routerState = routerState.state;
             // eslint-disable-next-line radix
-            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 10);
+            const currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 10);
+            if (currentTarefaId) {
+                this._store.dispatch(new fromStore.ChangeSelectedTarefas([currentTarefaId]));
+            }
+
             this.targetHandle = routerState.state.params['targetHandle'];
             this.typeHandle = routerState.state.params['typeHandle'];
             if (this.routerState.queryParams['novaAba']) {
@@ -405,6 +409,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentTarefa: any) => {
             this.currentTarefa = currentTarefa;
+            console.log (currentTarefa);
+            if (currentTarefa) {
+                this.currentTarefaId = currentTarefa.id;
+            } else {
+                this.currentTarefaId = null;
+            }
         });
 
         this.pagination$.pipe(
@@ -700,6 +710,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changeSelectedIds(ids: number[]): void {
         this._store.dispatch(new fromStore.ChangeSelectedTarefas(ids));
+        if (!ids || (ids.length === 0)) {
+            this._router.navigate([
+                'apps',
+                'tarefas',
+                this.routerState.params.generoHandle,
+                this.routerState.params.typeHandle,
+                this.routerState.params.targetHandle
+            ]).then();
+        }
     }
 
     changeDraggedIds(ids: number[]): void {
@@ -971,7 +990,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     retornar(): void {
         this.mostraCriar = false;
-        this.currentTarefaId = null;
+        //this.currentTarefaId = null;
     }
 
     doSalvarObservacao(params: any): void {

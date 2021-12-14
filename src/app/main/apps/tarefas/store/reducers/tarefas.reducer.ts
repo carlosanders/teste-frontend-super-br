@@ -463,7 +463,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 currentTarefaId: action.payload,
-                selectedTarefaIds: [action.payload.tarefaId]
+                selectedTarefaIds: action.payload.tarefaId ? [action.payload.tarefaId] : []
             };
         }
 
