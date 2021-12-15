@@ -12,5 +12,5 @@ import {effects} from './effects';
     ],
     providers: []
 })
-export class AtividadeCreateBlocoStoreModule {
+export class UploadBlocoStoreModule {
 }

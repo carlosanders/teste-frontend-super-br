@@ -194,6 +194,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     documentoEdit: any = {uuid: null, open: false};
 
     formEditorValid = false;
+    formTipoDocumentoValid = false;
 
     novaJuntada = false;
 
@@ -358,6 +359,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.formEditor.get('modelo').valueChanges.subscribe((value) => {
             this.formEditorValid = value && typeof value === 'object';
+        });
+
+        this.form.get('tipoDocumentoMinutas').valueChanges.subscribe((value) => {
+            this.formTipoDocumentoValid = value && typeof value === 'object';
         });
 
         const path = 'app/main/apps/processo/processo-view/sidebars/main';
@@ -966,7 +971,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     }
 
-    doAssinaturaJuntada(documento: Documento): void {
+    doAssinaturaJuntada(documento: Documento, step: number): void {
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
@@ -994,6 +999,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         });
+        setTimeout(() => {
+            this.gotoStep(step, null);
+        }, 10000);
     }
 
     doAdicionarVinculacao(juntadaId: number): void {

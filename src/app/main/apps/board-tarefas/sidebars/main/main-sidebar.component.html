@@ -4,6 +4,7 @@
         <span class="logo-text ml-8 s-24"
               [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Quadro de Tarefas</span>
     </div>
+    <div class="modulo">{{generoHandle | titlecase}}</div>
 </div>
 <!-- / SIDEBAR HEADER -->
 
@@ -15,7 +16,7 @@
         <div class="nav-subheader">MINHAS TAREFAS</div>
 
         <div class="nav-item">
-            <a class="nav-link" matRipple [routerLink]="'/apps/board-tarefas/administrativo'"
+            <a class="nav-link" matRipple [routerLink]="'/apps/board-tarefas/'+ generoHandle"
                [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
                 <span>Minhas Tarefas</span>
@@ -31,7 +32,7 @@
     <div class="actions">
         <mat-toolbar>
             <button mat-icon-button class="secondary-text"
-                    routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent"
+                    [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'" routerLinkActive="mat-accent"
                     matTooltip="Tarefas">
                 <mat-icon>check_box</mat-icon>
             </button>
@@ -39,7 +40,7 @@
                     routerLinkActive="mat-accent" matTooltip="Calendário">
                 <mat-icon>calendar_today</mat-icon>
             </button>
-            <button disabled mat-icon-button class="secondary-text" routerLink="/apps/board-tarefas/administrativo"
+            <button disabled mat-icon-button class="secondary-text" [routerLink]="'/apps/board-tarefas/' + generoHandle"
                     routerLinkActive="mat-accent" matTooltip="Quadro de Tarefas">
                 <mat-icon>assessment</mat-icon>
             </button>
