@@ -304,9 +304,7 @@ export class ProcessoViewDocumentosEffects {
         ofType<ProcessoViewDocumentosActions.AssinaJuntada>(ProcessoViewDocumentosActions.ASSINA_JUNTADA),
         mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
             .pipe(
-                mergeMap(response => [
-                    new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response),
-                ]),
+                mergeMap(response => [new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response)]),
                 catchError((err) => {
                     const payload = {
                         id: action.payload,
@@ -336,27 +334,7 @@ export class ProcessoViewDocumentosEffects {
                 })
             ), 25)
     ));
-    /**
-     * Prepara Assinatura Success
-     *
-     * @type {Observable<any>}
-     */
-    preparaAssinaturaSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.PreparaAssinaturaSuccess>(ProcessoViewDocumentosActions.PREPARA_ASSINATURA_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
     /**
      * Assina Juntada Success
      *

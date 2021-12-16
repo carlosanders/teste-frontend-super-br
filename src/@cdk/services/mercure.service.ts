@@ -93,11 +93,43 @@ export class MercureService
         };
 
         this.es.onmessage = (e) => {
-            const message = JSON.parse(e.data);
-            this._store.dispatch(new fromStore.Message({
-                type: Object.keys(message)[0],
-                content: Object.values(message)[0]
-            }));
+            let message = JSON.parse(e.data);
+            if (message.hasOwnProperty('uuid')) {
+                // novo assinador
+                if (message.action === 'SIGN_START') {
+                    message = {
+                        action: 'assinatura_iniciada',
+                        ...message.payload,
+                    };
+                }
+                if (message.action === 'SIGN_FINISHED') {
+                    message = {
+                        action: 'assinatura_finalizada',
+                        ...message.payload,
+                    };
+                }
+                if (message.action === 'SIGN_CANCEL') {
+                    message = {
+                        action: 'assinatura_cancelada',
+                        ...message.payload,
+                    };
+                }
+                if (message.action === 'SIGN_ERROR') {
+                    message = {
+                        action: 'assinatura_erro',
+                        ...message.payload,
+                    };
+                }
+                this._store.dispatch(new fromStore.Message({
+                    type: 'assinatura',
+                    content: message
+                }));
+            } else {
+                this._store.dispatch(new fromStore.Message({
+                    type: Object.keys(message)[0],
+                    content: Object.values(message)[0]
+                }));
+            }
         };
     }
 }

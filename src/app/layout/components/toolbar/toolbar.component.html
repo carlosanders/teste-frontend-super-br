@@ -59,6 +59,43 @@
             <button mat-icon-button
                     class="mr-8 ml-8 quick-panel-toggle-button"
                     aria-label="Notificações"
+                    [matMenuTriggerFor]="menuAssinadores">
+                <mat-icon [matBadge]="assinadores.length" matBadgePosition="above after"
+                          [matBadgeColor]="assinadores.length ? 'accent' : 'warn'" class="secondary-text">
+                    lock
+                </mat-icon>
+            </button>
+            <mat-menu #menuAssinadores="matMenu" class="menuNotificacao" [overlapTrigger]="false" xPosition="before">
+                <div class="notification-header" *ngIf="assinadores.length">
+                    <div>
+                        <span class="title">Assinadores</span>
+                    </div>
+                </div>
+                <mat-list *ngIf="assinadores.length; else vazioAss">
+                    <ng-container *ngFor="let assinador of assinadores; let i = index; let len = count">
+                        <mat-list-item>
+                            <div class="notification-item" (click)="$event.stopPropagation(); setAssinadorSelecionado(assinador)">
+                                <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: initial;"
+                                   [innerHTML]="assinador.hostName">
+                                </p>
+                                <div *ngIf="assinador.selecionado" class="actions">
+                                    <mat-icon class="mat-18" title="Selecionado" (click)="$event.stopPropagation()">done</mat-icon>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                        <mat-divider *ngIf="i !== len-1"></mat-divider>
+                    </ng-container>
+                </mat-list>
+                <ng-template #vazioAss>
+                    <p class="textoMenu">Não há assinadores</p>
+                </ng-template>
+            </mat-menu>
+
+            <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
+
+            <button mat-icon-button
+                    class="mr-8 ml-8 quick-panel-toggle-button"
+                    aria-label="Notificações"
                     [matMenuTriggerFor]="menuNoticacoes">
                 <mat-icon *ngIf="carregandoNotificacao">
                     <mat-spinner diameter="20"></mat-spinner>
@@ -81,12 +118,12 @@
                                 <mat-list>
                                     <mat-list-item>
                                          <button mat-menu-item (click)="marcarSelecionadosComoLido()">
-                                            <span>MARCAR COMO LIDO</span>
+                                            <span>Marcar como lido</span>
                                          </button>
                                     </mat-list-item>
                                     <mat-list-item>
                                          <button mat-menu-item (click)="removerSelecionados()">
-                                            <span>REMOVER</span>
+                                            <span>Remover</span>
                                          </button>
                                     </mat-list-item>
                                 </mat-list>
