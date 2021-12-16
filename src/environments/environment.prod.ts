@@ -9,7 +9,6 @@ export const environment = {
     production: true,
     base_url: protocol + '//' + basenameNamespaceSafe + 'backend' + url + '/',
     base_url_x509: protocol + '//' + basenameNamespaceSafe + 'backendsecure' + url + '/',
-    jnlp: 'jnlps://' + basenameNamespaceSafe + 'backend' + url + '/',
     api_url: protocol + '//' + basenameNamespaceSafe + 'backend' + url + '/v1/',
     mercure_hub: protocol + '//' + basenameNamespaceSafe + 'mercure' + url + '/.well-known/mercure',
     xdebug: '',
