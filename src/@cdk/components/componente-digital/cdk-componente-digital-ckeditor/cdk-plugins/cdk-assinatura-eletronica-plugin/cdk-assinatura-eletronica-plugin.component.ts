@@ -17,6 +17,7 @@ import {of} from 'rxjs';
 export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
 
     form: FormGroup;
+    temAssinador: boolean = false;
 
     /**
      * @param _changeDetectorRef
@@ -44,6 +45,7 @@ export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.temAssinador = !!localStorage.getItem('assinador');
         this.form.get('certificadoDigital').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),

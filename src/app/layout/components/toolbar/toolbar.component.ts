@@ -269,28 +269,47 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                             ...message.content.subscriberInfo
                         });
                         break;
+                    case 'DISCONNECTED_NOW':
+                        this.assinadores = this.assinadores.filter(info => info.processUUID !== message.content.processUUID);
+                        if (this.assinadores.length > 0) {
+                            let temSelecionado = false;
+                            this.assinadores.forEach((ass) => {
+                                if (ass.selecionado) {
+                                    temSelecionado = true;
+                                    localStorage.setItem('assinador', this.assinadores[0].processUUID);
+                                }
+                            });
+                            if (!temSelecionado) {
+                                this.assinadores[0].selecionado = true;
+                                localStorage.setItem('assinador', this.assinadores[0].processUUID);
+                            }
+                        } else {
+                            localStorage.removeItem('assinador');
+                        }
+                        break;
                 }
             }
         });
 
         this.assinadorTime = setInterval(() => {
             const timestamp = moment().unix();
-            this.assinadores = this.assinadores.filter((info) => {
-                return (timestamp - info.timestamp) < 15;
-            });
+            this.assinadores = this.assinadores.filter(info => (timestamp - info.timestamp) < 15);
             if (this.assinadores.length > 0) {
                 let temSelecionado = false;
                 this.assinadores.forEach((ass) => {
                     if (ass.selecionado) {
                         temSelecionado = true;
+                        localStorage.setItem('assinador', this.assinadores[0].processUUID);
                     }
                 });
                 if (!temSelecionado) {
                     this.assinadores[0].selecionado = true;
                     localStorage.setItem('assinador', this.assinadores[0].processUUID);
                 }
+            } else {
+                localStorage.removeItem('assinador');
             }
-        }, 5000);
+        }, 10000);
     }
 
     setAssinadorSelecionado(assinador): void {

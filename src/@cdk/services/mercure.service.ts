@@ -19,16 +19,16 @@ export class MercureService
     es: any;
 
     /**
-     * Constructor
-     *
+     * @param _store
+     * @param _loginService
+     * @param http
      */
     constructor(
         private _store: Store<State>,
         private _loginService: LoginService,
         private http: HttpClient
     )
-    {
-    }
+    {}
 
     subscribe(topics: string|string[]): void {
         if (!Array.isArray(topics)) {

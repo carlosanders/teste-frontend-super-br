@@ -13,7 +13,6 @@ import {
     documento as documentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from 'environments/environment';
 import * as MinutasActions from '../actions/minutas.actions';
 import {getSelectedTarefas} from '../../../store';
 import * as fromStore from '../index';
