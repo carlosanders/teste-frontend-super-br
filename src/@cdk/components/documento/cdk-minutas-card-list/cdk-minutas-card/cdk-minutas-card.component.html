@@ -12,7 +12,6 @@
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
 
         <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon *ngIf="documento.tarefaOrigem" class="ml-8 mr-0" [matTooltip]="'Minuta vinculada à tarefa ' + documento.tarefaOrigem.id">assignment</mat-icon>
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
             <div class="mr-8">{{documento.tipoDocumento?.nome || 'OUT'}}</div>

@@ -14,8 +14,11 @@ export const GET_ETIQUETAS_TAREFAS = '[TAREFA] GET ETIQUETAS TAREFAS';
 export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFA] GET ETIQUETAS TAREFAS SUCCESS';
 export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFA] GET ETIQUETAS TAREFAS FAILED';
 
+export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFA] REMOVE ETIQUETA MINUTA TAREFA';
+
 export const SET_CURRENT_TAREFA = '[TAREFAS] SET CURRENT TAREFA';
 export const SET_CURRENT_TAREFA_SUCCESS = '[TAREFAS] SET CURRENT TAREFA SUCCESS';
+export const SYNC_CURRENT_TAREFA_ID = '[TAREFAS] SYNC CURRENT TAREFA ID';
 
 export const CREATE_TAREFA = '[TAREFAS] CREATE TAREFA';
 export const CREATE_TAREFA_SUCCESS = '[TAREFAS] CREATE TAREFA SUCCESS';
@@ -121,6 +124,8 @@ export const SAVE_OBSERVACAO = '[TAREFAS] SAVE OBSERVACAO';
 export const SAVE_OBSERVACAO_SUCCESS = '[TAREFAS] SAVE OBSERVACAO SUCCESS';
 export const SAVE_OBSERVACAO_FAILED = '[TAREFAS] SAVE OBSERVACAO FAILED';
 
+export const UPLOAD_CONCLUIDO = '[TAREFAS] UPLOAD CONCLUIDO';
+
 /**
  * Unload Tarefas
  */
@@ -192,6 +197,17 @@ export class GetEtiquetasTarefasFailed implements Action {
 }
 
 /**
+ * Remove Etiqueta Minuta Tarefa
+ */
+export class RemoveEtiquetaMinutaTarefa implements Action {
+    readonly type = REMOVE_ETIQUETA_MINUTA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Get Tarefa
  */
 export class GetTarefa implements Action {
@@ -238,6 +254,17 @@ export class SetCurrentTarefaSuccess implements Action {
     readonly type = SET_CURRENT_TAREFA_SUCCESS;
 
     constructor() {
+    }
+}
+
+/**
+ * Sync Current Tarefa Id
+ */
+export class SyncCurrentTarefaId implements Action {
+    readonly type = SYNC_CURRENT_TAREFA_ID;
+
+    constructor(public payload: any)
+    {
     }
 }
 
@@ -1055,6 +1082,18 @@ export class SaveObservacaoFailed implements Action
     }
 }
 
+/**
+ * Upload Concluído
+ */
+export class UploadConcluido implements Action
+{
+    readonly type = UPLOAD_CONCLUIDO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefasActionsAll
     = UnloadTarefas
     | GetTarefas
@@ -1066,10 +1105,12 @@ export type TarefasActionsAll
     | GetEtiquetasTarefas
     | GetEtiquetasTarefasSuccess
     | GetEtiquetasTarefasFailed
+    | RemoveEtiquetaMinutaTarefa
     | CreateTarefa
     | CreateTarefaSuccess
     | SetCurrentTarefa
     | SetCurrentTarefaSuccess
+    | SyncCurrentTarefaId
     | ChangeSelectedTarefas
     | ChangeDraggedTarefas
     | SetFolderOnSelectedTarefas
@@ -1144,4 +1185,5 @@ export type TarefasActionsAll
     | GerarRelatorioTarefaExcelSuccess
     | SaveObservacao
     | SaveObservacaoSuccess
-    | SaveObservacaoFailed;
+    | SaveObservacaoFailed
+    | UploadConcluido;

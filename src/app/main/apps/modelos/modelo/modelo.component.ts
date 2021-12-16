@@ -14,7 +14,7 @@ import {Modelo, Processo, Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
     erro: any;
     pagination$: Observable<any>;
     pagination: any;
-
+    mobileMode: boolean;
     processo$: Observable<any>;
     processo: Processo;
 
@@ -51,6 +51,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
     routeAtividadeTarefa = 'atividades/criar';
     routeAtividadeDocumento = 'atividade';
     private _unsubscribeAll: Subject<any> = new Subject();
+    private screen$: Observable<any>;
 
     /**
      *
@@ -70,6 +71,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.error$ = this._store.pipe(select(fromStore.getErrors));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.screen$ = this._store.pipe(select(getScreenState));
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
@@ -122,6 +124,11 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy {
             filter(erro => !!erro)
         ).subscribe((erro) => {
             this.erro = erro.error.message;
+        });
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((screen) => {
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 

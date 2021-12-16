@@ -467,6 +467,14 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.SYNC_CURRENT_TAREFA_ID: {
+            return {
+                ...state,
+                currentTarefaId: action.payload,
+                selectedTarefaIds: action.payload.tarefaId ? [action.payload.tarefaId] : state.selectedTarefaIds
+            };
+        }
+
         case TarefasActions.TOGGLE_MAXIMIZADO: {
             return {
                 ...state,

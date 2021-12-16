@@ -186,7 +186,11 @@ export class AtividadeCreateDocumentosEffect {
                         changes: {apagadoEm: response.apagadoEm}
                     }));
                     this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
-                    return new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(response.id);
+                    return new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess({
+                        documentoId: response.id,
+                        uuid: response.uuid,
+                        tarefaId: this.routerState.params['tarefaHandle']
+                    });
                 }),
                 catchError((err) => {
                     const payload = {

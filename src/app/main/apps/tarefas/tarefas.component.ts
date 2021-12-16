@@ -9,7 +9,7 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
@@ -44,6 +44,8 @@ import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
 import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 @Component({
     selector: 'tarefas',
@@ -57,6 +59,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
     @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: true}) tarefasList: CdkTarefaListComponent;
+    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
+    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger})
+    autoCompleteModelos: MatAutocompleteTrigger;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
@@ -161,8 +168,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     novaAba = false;
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    formEditor: FormGroup;
+    habilitarEditorSalvar = false;
+    modeloPagination: Pagination;
+    formEditorValid = false;
 
+    routeAtividadeDocumento = 'atividade';
+    routeOficioDocumento = 'oficio';
+
+    private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
 
     /**
@@ -171,6 +185,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
      * @param _tarefaService
+     * @param _formBuilder
      * @param _router
      * @param _store
      * @param _loginService
@@ -183,6 +198,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _tarefaService: TarefaService,
+        private _formBuilder: FormBuilder,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
         private _loginService: LoginService,
@@ -191,6 +207,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _matDialog: MatDialog
     ) {
         // Set the defaults
+        this.formEditor = this._formBuilder.group({
+            modelo: [null]
+        });
         this.searchInput = new FormControl('');
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -293,6 +312,26 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.totalInteressadosProcessosId$ = this._store.pipe(select(fromStore.getTotalInteressadosProcessosId));
         this.cienciaIds$ = this._store.pipe(select(fromStore.getCienciaTarefaIds));
         this.usuarioAtual = this._loginService.getUserProfile();
+        this.formEditor.get('modelo').valueChanges.subscribe((value) => {
+            this.formEditorValid = value && typeof value === 'object';
+        });
+        this.modeloPagination = new Pagination();
+        this.modeloPagination.populate = [
+            'documento',
+            'documento.componentesDigitais'
+        ];
+        this.modeloPagination.filter = {
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -318,10 +357,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             this.routerState = routerState.state;
             // eslint-disable-next-line radix
-            const currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 10);
-            if (currentTarefaId) {
-                this._store.dispatch(new fromStore.ChangeSelectedTarefas([currentTarefaId]));
-            }
 
             this.targetHandle = routerState.state.params['targetHandle'];
             this.typeHandle = routerState.state.params['typeHandle'];
@@ -344,6 +379,26 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
                 }
             });
+            const pathDocumento = 'app/main/apps/documento/documento-edit';
+            modulesConfig.forEach((module) => {
+                if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                    module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
+                    module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
+                }
+                if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                    module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
+                    module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
+                }
+            });
+        });
+
+        this._store.pipe(
+            select(fromStore.getCurrentTarefaId),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((currentTarefaId) => {
+            this.currentTarefaId = currentTarefaId?.tarefaId ?? null;
         });
 
         this._store.pipe(
@@ -408,12 +463,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentTarefa$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentTarefa: any) => {
-            this.currentTarefa = currentTarefa;
             if (currentTarefa) {
-                this.currentTarefaId = currentTarefa.id;
+                if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId)) {
+                    this._store.dispatch(new fromStore.SyncCurrentTarefaId({
+                        tarefaId: currentTarefa.id,
+                        processoId: currentTarefa.processo.id,
+                        acessoNegado: currentTarefa.processo.acessoNegado
+                    }));
+                }
             } else {
-                this.currentTarefaId = null;
+                this._store.dispatch(new fromStore.SyncCurrentTarefaId({}));
             }
+            this.currentTarefa = currentTarefa;
         });
 
         this.pagination$.pipe(
@@ -879,7 +940,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     doMinutas(): void {
         // tslint:disable-next-line:max-line-length
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/minutas']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + this.currentTarefa.id + '/minutas'
+        ]).then();
     }
 
     doMovimentarBloco(): void {
@@ -1054,6 +1118,61 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onCompleteAll(tarefaId: number): void {
+        this._store.dispatch(new fromStore.UploadConcluido(tarefaId));
         this._store.dispatch(new fromStore.GetEtiquetasTarefas(tarefaId));
+    }
+
+    checkModelo(): void {
+        const value = this.formEditor.get('modelo').value;
+        if (!value || typeof value !== 'object') {
+            this.habilitarEditorSalvar = false;
+            this.formEditor.get('modelo').setValue(null);
+        } else {
+            this.habilitarEditorSalvar = true;
+        }
+    }
+
+    doEditor(): void {
+        const modelo = this.formEditor.get('modelo').value;
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateComponenteDigital({
+            modelo: modelo,
+            tarefaOrigem: this.currentTarefa,
+            processoOrigem: this.currentTarefa.processo,
+            routeAtividadeDocumento: this.routeAtividadeDocumento,
+            operacaoId: operacaoId
+        }));
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
+    }
+
+    criarOficio(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + this.currentTarefa.id + '/oficio'
+        ]).then();
+    }
+
+    showModelosGrid(): void {
+        this.autoCompleteModelos.closePanel();
+        this._changeDetectorRef.markForCheck();
+        this.menuTriggerList.closeMenu();
+        this._changeDetectorRef.markForCheck();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + this.currentTarefa.id + '/modelos/modelo'
+        ]).then(() => {
+            this.closeAutocomplete();
+        });
+    }
+
+    doVisualizarModelo(): void {
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.documento.componentesDigitais[0].id));
+    }
+
+    closeAutocomplete(): void {
+        this.autoCompleteModelos.closePanel();
+        this.formEditor.get('modelo').setValue(null);
+        this._changeDetectorRef.markForCheck();
     }
 }

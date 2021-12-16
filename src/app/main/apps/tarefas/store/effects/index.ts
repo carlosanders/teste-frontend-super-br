@@ -4,6 +4,7 @@ import {LotacaoListEffect} from './lotacao.effects';
 import {SetorEffects} from './setor.effects';
 import {UnidadeEffects} from './unidade.effects';
 import {AssinaturasEffects} from './assinaturas.effects';
+import {ComponentesDigitaisEffects} from './componentes-digitais.effects';
 
 
 export const effects = [
@@ -12,7 +13,8 @@ export const effects = [
     LotacaoListEffect,
     SetorEffects,
     UnidadeEffects,
-    AssinaturasEffects
+    AssinaturasEffects,
+    ComponentesDigitaisEffects
 ];
 
 export * from './tarefas.effects';
@@ -21,3 +23,4 @@ export * from './lotacao.effects';
 export * from './setor.effects';
 export * from './unidade.effects';
 export * from './assinaturas.effects';
+export * from './componentes-digitais.effects';

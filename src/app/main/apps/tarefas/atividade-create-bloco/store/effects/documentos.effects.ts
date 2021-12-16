@@ -104,7 +104,11 @@ export class AtividadeCreateBlocoDocumentosEffect {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
-                return new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess(response.id);
+                return new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess({
+                    documentoId: response.id,
+                    uuid: response.uuid,
+                    tarefaId: action.payload.tarefaId
+                });
             }),
             catchError((err) => {
                 const payload = {

@@ -8,6 +8,28 @@ cdk-modelo-grid {
         display: flex;
         flex: 1 1 auto;
 
+        > .mobile-modelo-pesquisa-off {
+            display: none !important;
+        }
+
+        > .mobile-modelo-pesquisa-on {
+            flex: 1 1 auto;
+            display: flex;
+            width: 100% !important;
+            max-width: none !important;
+            transform: translateX(0%) !important;
+        }
+
+        > .mobile-modelo-lista-off {
+            display: none !important;
+        }
+
+        > .mobile-modelo-lista-on {
+            flex: 1 1 auto;
+            display: flex;
+            width: 100% !important;
+        }
+
         .actions {
             flex: 0 1 auto;
             display: flex;
@@ -73,6 +95,10 @@ cdk-modelo-grid {
                     &.error {
                         color: red;
                     }
+                }
+
+                .spinner-container .mat-progress-spinner {
+                    display: inline !important;
                 }
             }
         }
