@@ -357,7 +357,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     doEditorBloco(): void {
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-            + this.routerState.params.targetHandle + '/modelo-bloco'
+            + this.routerState.params.targetHandle + '/modelo-bloco/modelo'
         ]).then();
     }
 

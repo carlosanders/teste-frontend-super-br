@@ -212,7 +212,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     vinculacaoEtiquetaEdit = new EventEmitter<any>();
 
     @Output()
-    completed = new EventEmitter<ComponenteDigital>();
+    completed = new EventEmitter<number>();
 
     /**
      * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
@@ -663,8 +663,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.vinculacaoEtiquetaEdit.emit(params);
     }
 
-    onComplete(componenteDigital: ComponenteDigital): void {
-        this.completed.emit(componenteDigital);
+    onComplete(tarefaId: number): void {
+        this.completed.emit(tarefaId);
     }
 
     onCompleteAll(tarefaId: number): void {

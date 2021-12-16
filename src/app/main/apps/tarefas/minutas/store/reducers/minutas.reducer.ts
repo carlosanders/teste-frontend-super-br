@@ -1,11 +1,10 @@
 import * as MinutasActions from '../actions/minutas.actions';
-import {Documento} from '@cdk/models';
 
-export interface AgrupadorProcesso {
+export interface AgrupadorTarefa {
     id: number;
+    processoId: number;
     nupFormatado?: string;
     documentosId: number[];
-    documentos?: Documento[];
     pagination: {
         limit: number;
         offset: number;
@@ -14,6 +13,9 @@ export interface AgrupadorProcesso {
         populate: any;
         sort: any;
         total: number;
+        tarefaId: number;
+        processoId: number;
+        nupFormatado: string;
     };
     loaded: any;
     saving: boolean;
@@ -22,7 +24,7 @@ export interface AgrupadorProcesso {
 }
 
 export interface MinutasState {
-    processos: { [id: number]: AgrupadorProcesso };
+    tarefas: { [id: number]: AgrupadorTarefa };
     documentos: number[];
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
@@ -38,7 +40,7 @@ export interface MinutasState {
 }
 
 export const minutasInitialState: MinutasState = {
-    processos: {},
+    tarefas: {},
     documentos: [],
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
@@ -53,6 +55,29 @@ export const minutasInitialState: MinutasState = {
     loaded: false
 };
 
+export const agrupadorTarefaInitialState: AgrupadorTarefa = {
+    id: null,
+    processoId: null,
+    nupFormatado: '',
+    documentosId: [],
+    pagination: {
+        limit: 10,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        populate: [],
+        sort: '',
+        total: 0,
+        tarefaId: 0,
+        processoId: 0,
+        nupFormatado: ''
+    },
+    loaded: false,
+    saving: false,
+    loading: false,
+    error: null
+}
+
 export const minutasReducer = (
     state = minutasInitialState,
     action: MinutasActions.MinutasActionsAll
@@ -60,12 +85,13 @@ export const minutasReducer = (
     switch (action.type) {
 
         case MinutasActions.GET_DOCUMENTOS_BLOCO: {
-            const total = state.processos[action.payload.processoId]?.pagination?.total ?? 0;
-            const processos = {
-                ...state.processos,
-                [action.payload.processoId]: {
-                    ...state.processos[action.payload.processoId],
-                    id: action.payload.processoId,
+            const total = state.tarefas[action.payload.tarefaId]?.pagination?.total ?? 0;
+            const tarefas = {
+                ...state.tarefas,
+                [action.payload.tarefaId]: {
+                    ...state.tarefas[action.payload.tarefaId],
+                    id: action.payload.tarefaId,
+                    processoId: action.payload.processoId,
                     nupFormatado: action.payload.nupFormatado,
                     saving: false,
                     loading: true,
@@ -77,6 +103,9 @@ export const minutasReducer = (
                         listFilter: action.payload.listFilter,
                         populate: action.payload.populate,
                         sort: action.payload.sort,
+                        tarefaId: action.payload.tarefaId,
+                        processoId: action.payload.processoId,
+                        nupFormatado: action.payload.nupFormatado,
                         total: total
                     }
                 }
@@ -85,23 +114,23 @@ export const minutasReducer = (
                 ...state,
                 saving: false,
                 loading: true,
-                processos: processos
+                tarefas: tarefas
             };
         }
 
         case MinutasActions.GET_DOCUMENTOS_BLOCO_SUCCESS: {
             let documentosId = [];
-            if (state.processos[action.payload.processoId].documentosId) {
-                documentosId = state.processos[action.payload.processoId].documentosId;
+            if (state.tarefas[action.payload.tarefaId].documentosId) {
+                documentosId = state.tarefas[action.payload.tarefaId].documentosId;
             }
-            const processos = {
-                ...state.processos,
-                [action.payload.processoId]: {
-                    ...state.processos[action.payload.processoId],
+            const tarefas = {
+                ...state.tarefas,
+                [action.payload.tarefaId]: {
+                    ...state.tarefas[action.payload.tarefaId],
                     loading: false,
                     documentosId: [...documentosId, ...action.payload.entitiesId],
                     pagination: {
-                        ...state.processos[action.payload.processoId].pagination,
+                        ...state.tarefas[action.payload.tarefaId].pagination,
                         total: action.payload.total
                     },
                     loaded: action.payload.loaded
@@ -112,23 +141,36 @@ export const minutasReducer = (
                 loading: false,
                 loaded: action.payload.loaded,
                 documentos: [...state.documentos, ...action.payload.entitiesId],
-                processos: processos
+                tarefas: tarefas
             };
         }
 
         case MinutasActions.GET_DOCUMENTOS_BLOCO_FAILED: {
-            const processos = {
-                ...state.processos,
-                [action.payload.processoId]: {
-                    ...state.processos[action.payload.processoId],
+            const tarefas = {
+                ...state.tarefas,
+                [action.payload.tarefaId]: {
+                    ...state.tarefas[action.payload.tarefaId],
                     loading: false,
                     error: action.payload.error
                 }
             };
             return {
                 ...state,
-                processos: processos,
+                tarefas: tarefas,
                 loading: false
+            };
+        }
+
+        case MinutasActions.UNLOAD_DOCUMENTOS_TAREFA: {
+            const tarefas = {
+                ...state.tarefas,
+                [action.payload]: {
+                    ...agrupadorTarefaInitialState
+                }
+            };
+            return {
+                ...state,
+                tarefas: tarefas
             };
         }
 

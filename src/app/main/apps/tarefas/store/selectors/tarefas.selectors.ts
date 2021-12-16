@@ -1,15 +1,16 @@
 import {createSelector} from '@ngrx/store';
 import {getTarefasAppState, TarefasAppState, TarefasState} from 'app/main/apps/tarefas/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr';
-import {Tarefa} from '@cdk/models';
+import {tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
+import {Tarefa, VinculacaoEtiqueta} from '@cdk/models';
 import {getRouterState} from '../../../../../store';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
+const schemaSelectorsVinculacoesEtiqueta = createSchemaSelectors<VinculacaoEtiqueta>(vinculacaoEtiquetaSchema);
 
 export const getTarefaHandle: any = createSelector(
     getRouterState,
-    router => router.state.params['tarefaHandle']
+    router => router?.state.params['tarefaHandle']
 );
 
 export const getCurrentTarefa: any = createSelector(
@@ -178,4 +179,29 @@ export const getCurrentTarefaId: any = createSelector(
 export const getIsSavingObservacao: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.savingObservacao
+);
+
+export const getTarefaById = (tarefaId: number): any => createSelector(
+    schemaSelectors.getNormalizedEntities,
+    ((tarefas) => {
+        console.log(tarefaId);
+        console.log(tarefas);
+        return tarefaId;
+    }),
+    schemaSelectors.entityProjector
+);
+
+export const getVinculacoesEtiquetaIdsByTarefaId = (tarefaId: number): any => createSelector(
+    getTarefaById(tarefaId),
+    ((tarefa: Tarefa) => tarefa.vinculacoesEtiquetas)
+);
+
+export const getAllVinculacoesEtiqueta: any = createSelector(
+    schemaSelectorsVinculacoesEtiqueta.getNormalizedEntities,
+    schemaSelectorsVinculacoesEtiqueta.entitiesProjector
+);
+
+export const getVinculacaoEtiquetaByUuid = (uuid: string): any => createSelector(
+    getAllVinculacoesEtiqueta,
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta.find(vinculacao => vinculacao.objectUuid === uuid))
 );

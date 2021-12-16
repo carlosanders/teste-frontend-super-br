@@ -52,6 +52,9 @@ import {AssinaturaService} from '../../../../@cdk/services/assinatura.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
 import {CdkSearchBarEtiquetasModule} from '../../../../@cdk/components/search-bar-etiquetas/search-bar-etiquetas.module';
+import {
+    CdkModeloAutocompleteModule
+} from '../../../../@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 
 const routes: Routes = [
     {
@@ -178,6 +181,7 @@ modulesConfig.forEach((module) => {
         MatBadgeModule,
         CdkAssinaturaEletronicaPluginModule,
         CdkSearchBarEtiquetasModule,
+        CdkModeloAutocompleteModule,
     ],
     providers: [
         TarefaService,

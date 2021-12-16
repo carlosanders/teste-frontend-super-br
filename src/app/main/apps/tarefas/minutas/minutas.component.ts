@@ -16,7 +16,7 @@ import {Assinatura, Colaborador, ComponenteDigital, Documento, Tarefa} from '@cd
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {distinctUntilChanged, filter, take, takeUntil, tap} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {getMercureState, getOperacoes, getRouterState} from 'app/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
@@ -26,7 +26,7 @@ import {getSelectedTarefas} from '../store';
 import {CdkUtils} from '@cdk/utils';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {DynamicService} from 'modules/dynamic.service';
-import {AgrupadorProcesso, getDocumentosByProcessoId} from './store';
+import {AgrupadorTarefa} from './store';
 
 @Component({
     selector: 'minutas',
@@ -50,8 +50,14 @@ export class MinutasComponent implements OnInit, OnDestroy {
     tarefas: Tarefa[];
 
     operacoes: any[] = [];
+    tarefasAgrupadas: {
+        [id: number]: AgrupadorTarefa;
+    } = {};
     processos: {
-        [id: number]: AgrupadorProcesso;
+        [id: number]: {
+            nupFormatado: string;
+            tarefas: number[];
+        };
     } = {};
     documentos: {
         [id: number]: Documento[];
@@ -143,12 +149,25 @@ export class MinutasComponent implements OnInit, OnDestroy {
         });
 
         this._store.pipe(
-            select(fromStore.getProcessos),
+            select(fromStore.getTarefas),
             takeUntil(this._unsubscribeAll)
-        ).subscribe((processos) => {
-            this.processos = {
-                ...processos
+        ).subscribe((tarefas) => {
+            this.tarefasAgrupadas = {
+                ...tarefas
             };
+            Object.keys(tarefas).forEach((tarefa) => {
+                const tarefasPorProcesso = this.processos[this.tarefasAgrupadas[tarefa].processoId]?.tarefas ?? [];
+                if (tarefasPorProcesso.indexOf(this.tarefasAgrupadas[tarefa].id) === -1) {
+                    tarefasPorProcesso.push(this.tarefasAgrupadas[tarefa].id);
+                }
+                this.processos = {
+                    ...this.processos,
+                    [this.tarefasAgrupadas[tarefa].processoId]: {
+                        nupFormatado: this.tarefasAgrupadas[tarefa].nupFormatado,
+                        tarefas: tarefasPorProcesso
+                    }
+                };
+            });
             this._changeDetectorRef.markForCheck();
         });
 
@@ -202,16 +221,16 @@ export class MinutasComponent implements OnInit, OnDestroy {
         ).subscribe((documentos) => {
             const novoDocumentos = {};
             this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
-            Object.keys(this.processos).forEach((processo) => {
-                if (this.processos[processo]?.documentosId?.length) {
-                    const documentosProcesso = this.minutas.filter(documento => documento.tarefaOrigem.processo.id === parseInt(processo, 10));
-                    novoDocumentos[processo] = documentosProcesso;
+            Object.keys(this.tarefasAgrupadas).forEach((tarefa) => {
+                if (this.tarefasAgrupadas[tarefa]?.documentosId?.length) {
+                    const documentosTarefa = this.minutas.filter(documento => documento.tarefaOrigem.id === parseInt(tarefa, 10));
+                    novoDocumentos[tarefa] = documentosTarefa;
                 }
             });
-            Object.keys(novoDocumentos).forEach((processoId) => {
+            Object.keys(novoDocumentos).forEach((tarefaId) => {
                 this.documentos = {
                     ...this.documentos,
-                    [processoId]: novoDocumentos[processoId]
+                    [tarefaId]: novoDocumentos[tarefaId]
                 };
             });
             this._changeDetectorRef.markForCheck();
@@ -282,6 +301,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documento.id,
             tarefaId: documento.tarefaOrigem.id,
+            uuid: documento.uuid,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
@@ -380,18 +400,19 @@ export class MinutasComponent implements OnInit, OnDestroy {
             }).then();
     }
 
-    paginaDocumentos(processoId: number): void {
-        const pagination = this.processos[processoId].pagination;
-        const documentosId = this.processos[processoId].documentosId;
+    paginaDocumentos(tarefaId: number): void {
+        const pagination = this.tarefasAgrupadas[tarefaId].pagination;
+        const documentosId = this.tarefasAgrupadas[tarefaId].documentosId;
         if (documentosId.length >= pagination.total) {
             return;
         }
-        if (!this.processos[processoId].loading) {
+        if (!this.tarefasAgrupadas[tarefaId].loading) {
             const nparams = {
                 ...pagination,
                 offset: pagination.offset + pagination.limit,
-                processoId: processoId,
-                nupFormatado: this.processos[processoId].nupFormatado
+                tarefaId: tarefaId,
+                processoId: this.tarefasAgrupadas[tarefaId].processoId,
+                nupFormatado: this.tarefasAgrupadas[tarefaId].nupFormatado
             };
             this._store.dispatch(new fromStore.GetDocumentos(nparams));
         }
