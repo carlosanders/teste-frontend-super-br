@@ -1021,7 +1021,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     }
 
-    doAssinaturaJuntada(documento: Documento): void {
+    doAssinaturaJuntada(documento: Documento, step: number): void {
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
@@ -1049,6 +1049,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         });
+        setTimeout(() => {
+            this.gotoStep(step, null);
+        }, 10000);
     }
 
     doAdicionarVinculacao(juntadaId: number): void {
