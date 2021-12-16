@@ -69,9 +69,9 @@ export function AtividadeBlocoCreateDocumentosReducer(
         case AtividadeBlocoCreateDocumentosActionsAll.DELETE_DOCUMENTO_BLOCO_SUCCESS: {
             return {
                 ...state,
-                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.documentoId),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.documentoId),
+                documentosId: state.documentosId.filter(id => id !== action.payload.documentoId)
             };
         }
 

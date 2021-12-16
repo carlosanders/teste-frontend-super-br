@@ -25,8 +25,6 @@ export class CdkLoginDialogComponent implements OnInit {
     config$: Observable<any>;
     config: any;
 
-    certificadoDigital = '';
-
     errorMessage$: Observable<any>;
     errorMessage: any;
 
@@ -51,7 +49,6 @@ export class CdkLoginDialogComponent implements OnInit {
     ) {
         this.loading$ = data.loading$;
         this.config$ = data.config$;
-        this.certificadoDigital = data.certificadoDigital;
         this.loadingConfig$ = data.loadingConfig$;
         this.errorMessage$ = data.errorMessage$;
 

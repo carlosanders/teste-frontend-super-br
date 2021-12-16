@@ -144,16 +144,17 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         const sidebar = 'empty';
 
         this._router.navigate([
-                'apps/processo/' +
-                $event.componenteDigital.documento?.juntadaAtual?.volume?.processo.id +
-                '/editar/juntadas/listar/documento/' +
-                $event.componenteDigital.documento.id,
+                this._router.url.replace(
+                    '/modelos/componente-digital',
+                    '/modelos/componente-digital/documento/' + $event.componenteDigital.documento.id
+                ),
                 {
                     outlets: {
                         primary: primary,
                         sidebar: sidebar
                     }
-                }],
+                }
+            ],
             {
                 queryParams: {pesquisa: true}
             }).then();

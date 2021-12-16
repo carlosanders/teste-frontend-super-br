@@ -295,38 +295,7 @@ export class DocumentoEffect {
                 }).then();
         })
     ), {dispatch: false});
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<DocumentoActions.AssinaDocumento>(DocumentoActions.ASSINA_DOCUMENTO),
-        withLatestFrom(this._store.pipe(select(DocumentoSelectors.getDocumentoId))),
-        mergeMap(([action, documentoId]) => this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 10)]))
-            .pipe(
-                tap((response: any) => {
-                    if (response.secret) {
-                        const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.secret + '/get_jnlp';
-                        const ifrm = document.createElement('iframe');
-                        ifrm.setAttribute('src', url);
-                        ifrm.style.width = '0';
-                        ifrm.style.height = '0';
-                        ifrm.style.border = '0';
-                        document.body.appendChild(ifrm);
-                        setTimeout(() => document.body.removeChild(ifrm), 20000);
-                    }
-                }),
-                catchError((err) => {
-                    const payload = {
-                        id: parseInt(documentoId, 10),
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new DocumentoActions.AssinaDocumentoFailed(payload));
-                })
-            ))
-    ), {dispatch: false});
+
     /**
      * Assina Documento Success
      *

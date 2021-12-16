@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
     errorMessage$: Observable<any>;
     loadingConfig$: Observable<boolean>;
     loading$: Subject<boolean> = new Subject<boolean>();
-    certificadoDigital = '';
     routerState: any;
 
     config$: Observable<any>;
@@ -134,10 +133,6 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('barramento', config.barramento);
             this.cdkConfigService.email = config.email;
         });
-
-        if (environment.base_url_x509) {
-            this.certificadoDigital = environment.base_url_x509;
-        }
 
         if (this.routerState.queryParams['token'] &&
             this.routerState.queryParams['exp'] &&

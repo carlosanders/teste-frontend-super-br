@@ -11,12 +11,11 @@ import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
 import {getSelectedTarefas} from '../../../store';
-import {Processo, Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
     routerState: any;
-    processos: Processo[];
 
     /**
      * Constructor
@@ -63,21 +62,15 @@ export class ResolveGuard implements CanActivate {
             withLatestFrom(this._store.pipe(select(getSelectedTarefas)), this._store.pipe(select(fromStore.isLoadingAny))),
             tap(([loaded, tarefas, loadingAny]) => {
                 if (!loaded && tarefas?.length && !loadingAny) {
-                    this.processos = [];
                     this._store.dispatch(new fromStore.UnloadDocumentos());
 
-                    tarefas.forEach((tarefa: Tarefa) => {
-                        if (this.processos.indexOf(tarefa.processo) === -1) {
-                            this.processos.push(tarefa.processo);
-                        }
-                    });
-                    this.processos.sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
-                    this.processos.forEach((processo) => {
-                        const processoHandle = `eq:${processo.id}`;
+                    tarefas.sort((a, b) => a.processo.id < b.processo.id ? -1 : a.processo.id > b.processo.id ? 1 : 0);
+                    tarefas.forEach((tarefa) => {
+                        const tarefaHandle = `eq:${tarefa.id}`;
 
                         const params = {
                             filter: {
-                                'tarefaOrigem.processo.id': processoHandle,
+                                'tarefaOrigem.id': tarefaHandle,
                                 'documentoAvulsoRemessa.id': 'isNull',
                                 'juntadaAtual': 'isNull'
                             },
@@ -93,8 +86,9 @@ export class ResolveGuard implements CanActivate {
                                 'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                                 'componentesDigitais'
                             ],
-                            processoId: processo.id,
-                            nupFormatado: processo.NUPFormatado
+                            tarefaId: tarefa.id,
+                            processoId: tarefa.processo.id,
+                            nupFormatado: tarefa.processo.NUPFormatado
                         };
                         this._store.dispatch(new fromStore.GetDocumentos(params));
                     });

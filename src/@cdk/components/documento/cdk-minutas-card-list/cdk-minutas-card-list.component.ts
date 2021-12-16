@@ -18,7 +18,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {filter} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
-import {AgrupadorProcesso} from '../../../../app/main/apps/tarefas/minutas/store';
+import {AgrupadorTarefa} from '../../../../app/main/apps/tarefas/minutas/store';
 
 @Component({
     selector: 'cdk-minutas-card-list',
@@ -135,12 +135,20 @@ export class CdkMinutasCardListComponent implements OnInit, OnChanges {
     isIndeterminate = false;
 
     @Input()
-    processos: {
-        [id: number]: AgrupadorProcesso;
+    tarefasAgrupadas: {
+        [id: number]: AgrupadorTarefa;
     } = {};
 
     @Input()
-    minutasPorProcesso: {
+    processos: {
+        [id: number]: {
+            nupFormatado: string;
+            tarefas: number[];
+        };
+    } = {};
+
+    @Input()
+    minutasPorTarefa: {
         [id: number]: Documento[];
     };
 

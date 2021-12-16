@@ -56,7 +56,7 @@ const routes: Routes = [
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
             {
-                path: 'modelo',
+                path: 'modelos',
                 loadChildren: () => import('app/main/apps/modelos/modelos.module').then(m => m.ModelosModule),
             },
             {
@@ -74,6 +74,10 @@ const routes: Routes = [
             {
                 path: 'redistribuicao',
                 loadChildren: () => import('./redistribuicao-edit/redistribuicao-edit.module').then(m => m.RedistribuicaoEditModule),
+            },
+            {
+                path: 'minutas',
+                loadChildren: () => import('../minutas/minutas.module').then(m => m.MinutasModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

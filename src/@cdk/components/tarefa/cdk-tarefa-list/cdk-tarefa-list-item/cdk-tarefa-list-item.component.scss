@@ -178,11 +178,12 @@ cdk-tarefa-list-item {
 
                 .etiqueta {
                     font-size: 11px;
-                    border-radius: 4px;
                     margin-bottom: 4px;
                     margin-right: 4px;
                     padding: 3px 8px;
                     cursor: pointer;
+                    min-width: 90px;
+                    border-radius: 3px;
 
                     .etiqueta-color {
                         width: 8px;
@@ -205,13 +206,14 @@ cdk-tarefa-list-item {
                     align-items: center;
                     font-size: 11px;
                     border: 1px solid;
-                    border-radius: 0;
                     margin-right: 2px;
                     padding: 3px 8px;
                     cursor: pointer;
                     max-height: 32px;
                     align-self: center;
                     margin-bottom: 2px;
+                    min-width: 90px;
+                    border-radius: 3px;
 
                     > mat-icon.small {
                         font-size: 16px;
@@ -226,12 +228,6 @@ cdk-tarefa-list-item {
                         margin-right: 8px;
                         border-radius: 50%;
                     }
-                }
-
-                .componente-digital-card {
-                    padding-left: 2px;
-                    padding-bottom: 0;
-                    margin-top: 0;
                 }
             }
         }

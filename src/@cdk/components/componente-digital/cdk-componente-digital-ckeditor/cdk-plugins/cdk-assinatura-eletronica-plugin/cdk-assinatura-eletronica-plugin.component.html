@@ -22,7 +22,7 @@
                 Campo deve ter no máximo 16 dígitos!
             </mat-error>
         </mat-form-field>
-        <mat-slide-toggle class="mt-8" formControlName="certificadoDigital">
+        <mat-slide-toggle class="mt-8" formControlName="certificadoDigital" [disabled]="!temAssinador">
             Usar Certificado Digital
         </mat-slide-toggle>
     </div>

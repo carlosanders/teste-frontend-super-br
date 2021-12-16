@@ -5,6 +5,7 @@ export const GET_DOCUMENTOS_BLOCO_SUCCESS = '[MINUTAS TAREFAS] GET DOCUMENTOS SU
 export const GET_DOCUMENTOS_BLOCO_FAILED = '[MINUTAS TAREFAS] GET DOCUMENTOS FAILED';
 
 export const UNLOAD_DOCUMENTOS_BLOCO = '[MINUTAS TAREFAS] UNLOAD DOCUMENTOS';
+export const UNLOAD_DOCUMENTOS_TAREFA = '[MINUTAS TAREFAS] UNLOAD DOCUMENTOS TAREFA';
 
 export const DELETE_DOCUMENTO_BLOCO = '[MINUTAS TAREFAS] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_BLOCO_SUCCESS = '[MINUTAS TAREFAS] DELETE DOCUMENTO SUCCESS';
@@ -123,6 +124,18 @@ export class UnloadDocumentos implements Action
     readonly type = UNLOAD_DOCUMENTOS_BLOCO;
 
     constructor()
+    {
+    }
+}
+
+/**
+ * Unload Documentos Tarefa
+ */
+export class UnloadDocumentosTarefa implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS_TAREFA;
+
+    constructor(public payload: any)
     {
     }
 }
@@ -403,6 +416,7 @@ export type MinutasActionsAll
     | UpdateDocumentoBlocoSuccess
     | UpdateDocumentoBlocoFailed
     | UnloadDocumentos
+    | UnloadDocumentosTarefa
     | ClickedDocumento
     | ConverteToPdf
     | ConverteToPdfSucess

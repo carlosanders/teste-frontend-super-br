@@ -1,7 +1,7 @@
 <div fxLayout="row">
 
     <div fxFlex fxLayoutAlign="center center"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+         lg>
         <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
                       (change)="toggleInSelected(documento.id)"
                       (click)="$event.stopPropagation();">
@@ -9,10 +9,9 @@
     </div>
 
     <div fxFlex class="p-8 file" fxLayout="column" (click)="onClick(documento)"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+         lg>
 
         <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon *ngIf="documento.tarefaOrigem" class="ml-8 mr-0" [matTooltip]="'Minuta vinculada à tarefa ' + documento.tarefaOrigem.id">assignment</mat-icon>
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
             <div class="mr-8">{{documento.tipoDocumento?.nome || 'OUT'}}</div>
@@ -34,7 +33,7 @@
 
     <div class="more-vert"
          *ngIf="mode !== 'editor'"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+         lg>
         <button
             *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !undeleting"
             mat-icon-button

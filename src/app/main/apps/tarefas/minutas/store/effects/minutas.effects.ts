@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
+import {concatMap, Observable, of} from 'rxjs';
 import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
@@ -13,11 +13,11 @@ import {
     documento as documentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from 'environments/environment';
 import * as MinutasActions from '../actions/minutas.actions';
 import {getSelectedTarefas} from '../../../store';
 import * as fromStore from '../index';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as TarefasActions from '../../../store/actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
@@ -31,7 +31,7 @@ export class MinutasEffects {
      */
     getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<MinutasActions.GetDocumentos>(MinutasActions.GET_DOCUMENTOS_BLOCO),
-        mergeMap(action => this._documentoService.query(
+        concatMap(action => this._documentoService.query(
                 JSON.stringify({
                     ...action.payload.filter
                 }),
@@ -43,6 +43,7 @@ export class MinutasEffects {
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new MinutasActions.GetDocumentosSuccess({
+                        tarefaId: action.payload.tarefaId,
                         processoId: action.payload.processoId,
                         nupFormatado: action.payload.NUPFormatado,
                         loaded: true,
@@ -91,6 +92,7 @@ export class MinutasEffects {
                 }));
                 return new MinutasActions.DeleteDocumentoSuccess({
                     documentoId: action.payload.documentoId,
+                    uuid: action.payload.uuid,
                     tarefaId: action.payload.tarefaId
                 });
             }),
@@ -265,26 +267,7 @@ export class MinutasEffects {
             this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
         }),
     ), {dispatch: false});
-    /**
-     * Assina Documento Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<MinutasActions.AssinaDocumentoSuccess>(MinutasActions.ASSINA_DOCUMENTO_BLOCO_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
+
     /**
      * Save Documento Assinatura Eletronica
      *
@@ -372,9 +355,80 @@ export class MinutasEffects {
     updateDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<MinutasActions.UpdateDocumentoBlocoSuccess>(MinutasActions.UPDATE_DOCUMENTO_BLOCO_SUCCESS),
         withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
+        tap(([, tarefas]) => {
             this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
         }),
+    ), {dispatch: false});
+    /**
+     * Ação disparada pelo store de tarefas informando da conclusão do upload de uma minuta em uma tarefa específica
+     */
+    uploadDocumentosTarefas: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.UploadConcluido>(TarefasActions.UPLOAD_CONCLUIDO),
+        mergeMap(action => of(action.payload).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getPaginationTarefaId(action.payload))).pipe(
+                map(pagination => pagination)
+            ))
+        )),
+        switchMap(([, pagination]) => {
+            let nparams;
+            const offsetDiff = ((pagination.offset + pagination.limit) - pagination.total);
+            if (offsetDiff > 0 && offsetDiff < 10) {
+                nparams = {
+                    ...pagination,
+                    offset: pagination.total,
+                    limit: offsetDiff
+                };
+            } else if (pagination.limit === 10) {
+                nparams = {
+                    ...pagination,
+                    offset: pagination.offset + pagination.limit
+                };
+            } else {
+                nparams = {
+                    ...pagination,
+                    offset: pagination.offset + pagination.limit,
+                    limit: 10
+                };
+            }
+            this._store.dispatch(new fromStore.GetDocumentos(nparams));
+            return of(null);
+        })
+    ), {dispatch: false});
+    /**
+     * Ação disparada pelo store de tarefas informando da conclusão da criação de uma minuta através de um modelo
+     * em uma tarefa específica
+     */
+    saveComponenteDigitalTarefas: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.SaveComponenteDigitalSuccess>(TarefasActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
+        mergeMap(action => of(action.payload.tarefa.id).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getPaginationTarefaId(action.payload.tarefa.id))).pipe(
+                map(pagination => pagination)
+            ))
+        )),
+        switchMap(([, pagination]) => {
+            let nparams;
+            const offsetDiff = ((pagination.offset + pagination.limit) - pagination.total);
+            if (offsetDiff > 0 && offsetDiff < 10) {
+                nparams = {
+                    ...pagination,
+                    offset: pagination.total,
+                    limit: offsetDiff
+                };
+            } else if (pagination.limit === 10) {
+                nparams = {
+                    ...pagination,
+                    offset: pagination.offset + pagination.limit
+                };
+            } else {
+                nparams = {
+                    ...pagination,
+                    offset: pagination.offset + pagination.limit,
+                    limit: 10
+                };
+            }
+            this._store.dispatch(new fromStore.GetDocumentos(nparams));
+            return of(null);
+        })
     ), {dispatch: false});
 
     constructor(
