@@ -12,7 +12,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 
-import {Pagination} from '@cdk/models';
+import {ComponenteDigital, Pagination} from '@cdk/models';
 
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
@@ -61,10 +61,14 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.data);
     }
 
     submit(): void {
+
+        if (this.form.value.pagina > this.data.totalPaginas) {
+            this.form.setErrors({rulesError: 'Página não encontrada no documento.'});
+        }
+
         if (this.form.valid) {
             this.loading = true;
             this.edit.emit({
@@ -73,8 +77,8 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
                 pagina: this.form.value.pagina,
                 descricao: this.form.value.descricao
             });
+            this.onCloseClick();
         }
-        this.onCloseClick();
     }
 
     onCloseClick(): void {

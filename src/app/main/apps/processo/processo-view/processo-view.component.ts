@@ -36,6 +36,7 @@ import {
 } from "../../../../../@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component";
 import {Bookmark} from "../../../../../@cdk/models/bookmark.model";
 import {CdkUtils} from "../../../../../@cdk/utils";
+import {SharedBookmarkService} from "../../../../../@cdk/services/shared-bookmark.service";
 
 @Component({
     selector: 'processo-view',
@@ -74,10 +75,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     animationDirection: 'left' | 'right' | 'none';
 
     fileName = '';
-    extensao: string;
     zoomSetting = 'auto';
     page = 1;
     spreadMode: 'off' | 'even' | 'odd' = 'off';
+    componenteDigital: ComponenteDigital;
 
     sidebarName = 'juntadas-left-sidebar-1';
 
@@ -188,7 +189,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((binary) => {
             if (binary.src && binary.src.conteudo) {
-                this.extensao = binary.src.extensao;
+                this.componenteDigital = binary.src;
+                this.page = 1;
                 const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                 const byteNumbers = new Array(byteCharacters.length);
                 for (let i = 0; i < byteCharacters.length; i++) {
@@ -231,6 +233,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this.srcMessage = 'Não há componentes digitais';
                 }
             }
+
+            if (this.routerState && this.routerState?.queryParams?.pagina &&
+                    this.page !== this.routerState?.queryParams?.pagina) {
+                this.page = this.routerState?.queryParams?.pagina;
+            }
+
             this.loading = binary.loading;
             this._changeDetectorRef.markForCheck();
         });
@@ -532,14 +540,15 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.downloadUrl = null;
     }
 
-    criarBookmark(): void {
+    criarBookmark(componenteDigitalId): void {
         this.bookmarkDialogRef = this._matDialog.open(CdkBookmarkEditDialogComponent, {
             data: {
+                componenteDigital: componenteDigitalId,
                 fileName: this.fileName,
-                juntadaAtual: this.currentJuntada,
                 nome: '',
                 pagina: this.page,
-                descricao: ''
+                descricao: '',
+                totalPaginas: this.pdfViewerService.numberOfPages()
             },
             width: '600px',
             height: '350px',
@@ -554,7 +563,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 }
             );
 
-            // bookmark.usuario = '';
+            const componenteDigital = new ComponenteDigital();
+            componenteDigital.id = componenteDigitalId;
+            bookmark.processo = this.processo;
+            bookmark.componenteDigital = componenteDigital;
+            bookmark.juntada = SharedBookmarkService.juntadaAtualSelect;
 
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveBookmark({

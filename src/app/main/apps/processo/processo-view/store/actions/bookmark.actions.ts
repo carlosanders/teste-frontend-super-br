@@ -4,16 +4,20 @@ export const SAVE_BOOKMARK = '[PROCESSO VIEW] SAVE BOOKMARK';
 export const SAVE_BOOKMARK_SUCCESS = '[PROCESSO VIEW] SAVE BOOKMARK SUCCESS';
 export const SAVE_BOOKMARK_FAILED = '[PROCESSO VIEW] SAVE BOOKMARK FAILED';
 
-export const GET_BOOKMARK = '[PROCESSO VIEW] GET BOOKMARK';
-export const GET_BOOKMARK_SUCCESS = '[PROCESSO VIEW] GET BOOKMARK SUCCESS';
-export const GET_BOOKMARK_FAILED = '[PROCESSO VIEW] GET BOOKMARK FAILED';
+export const GET_BOOKMARKS = '[PROCESSO VIEW] GET BOOKMARKS';
+export const GET_BOOKMARKS_SUCCESS = '[PROCESSO VIEW] GET BOOKMARKS SUCCESS';
+export const GET_BOOKMARKS_FAILED = '[PROCESSO VIEW] GET BOOKMARKS FAILED';
+
+export const DELETE_BOOKMARK = '[PROCESSO VIEW] DELETE BOOKMARK';
+export const DELETE_BOOKMARK_SUCCESS = '[PROCESSO VIEW] DELETE BOOKMARK SUCCESS';
+export const DELETE_BOOKMARK_FAILED = '[PROCESSO VIEW] DELETE BOOKMARK FAILED';
 
 /**
  * Get Bookmarks
  */
 export class GetBookmarks implements Action
 {
-    readonly type = GET_BOOKMARK;
+    readonly type = GET_BOOKMARKS;
 
     constructor(public payload: any)
     {
@@ -25,7 +29,7 @@ export class GetBookmarks implements Action
  */
 export class GetBookmarksSuccess implements Action
 {
-    readonly type = GET_BOOKMARK_SUCCESS;
+    readonly type = GET_BOOKMARKS_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -37,7 +41,7 @@ export class GetBookmarksSuccess implements Action
  */
 export class GetBookmarksFailed implements Action
 {
-    readonly type = GET_BOOKMARK_FAILED;
+    readonly type = GET_BOOKMARKS_FAILED;
 
     constructor(public payload: string)
     {
@@ -63,7 +67,7 @@ export class SaveBookmarkSuccess implements Action
 {
     readonly type = SAVE_BOOKMARK_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
@@ -80,10 +84,50 @@ export class SaveBookmarkFailed implements Action
     }
 }
 
+
+/**
+ * Delete Bookmark
+ */
+export class DeleteBookmark implements Action
+{
+    readonly type = DELETE_BOOKMARK;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Bookmark Success
+ */
+export class DeleteBookmarkSuccess implements Action
+{
+    readonly type = DELETE_BOOKMARK_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Bookmark Failed
+ */
+export class DeleteBookmarkFailed implements Action
+{
+    readonly type = DELETE_BOOKMARK_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type BookmarksActionsAll
     = GetBookmarks
     | GetBookmarksSuccess
     | GetBookmarksFailed
     | SaveBookmark
     | SaveBookmarkSuccess
-    | SaveBookmarkFailed;
+    | SaveBookmarkFailed
+    | DeleteBookmark
+    | DeleteBookmarkSuccess
+    | DeleteBookmarkFailed;

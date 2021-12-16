@@ -198,7 +198,7 @@ cadastroIdentificador.define({
 bookmark.define({
     usuario: usuario,
     processo: processo,
-    juntada: juntada,
+    componenteDigital: componenteDigital,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

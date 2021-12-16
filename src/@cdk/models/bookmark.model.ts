@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Juntada, Processo, Usuario} from '@cdk/models';
+import {ComponenteDigital, Juntada, Processo, Usuario} from '@cdk/models';
 
 export class Bookmark {
 
@@ -21,13 +21,17 @@ export class Bookmark {
 
     descricao?: string;
 
-    @Type(() => Juntada)
+    @Type(() => ComponenteDigital)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    juntada?: Juntada;
+    componenteDigital?: ComponenteDigital;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     processo?: Processo;
+
+    @Type(() => Juntada)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    juntada?: Juntada;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -65,8 +69,9 @@ export class Bookmark {
         this.nome = null;
         this.descricao = null;
         this.pagina = null;
-        this.juntada = null;
+        this.componenteDigital = null;
         this.processo = null;
+        this.juntada = null;
         this.usuario = null;
         this.criadoPor = null;
         this.criadoEm = null;

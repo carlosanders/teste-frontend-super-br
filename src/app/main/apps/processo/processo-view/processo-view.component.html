@@ -24,15 +24,22 @@
                             [disabled]="disabledBack()">
                         <mat-icon>chevron_left</mat-icon>
                     </button>
-                    <button mat-mini-fab class="previous accent cdk-white-fg ml-8"
-                            *ngIf="src && extensao === 'pdf'"
-                            (click)="criarBookmark()">
+                    <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
+                            class="previous accent cdk-white-fg ml-8"
+                            *ngIf="src && this.componenteDigital.mimetype === 'application/pdf'"
+                            (click)="criarBookmark(this.componenteDigital.id)">
                         <mat-icon>bookmark</mat-icon>
                     </button>
                 </div>
 
                 <div>
-                    <span [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">{{fileName}}</span>
+                    <span [matTooltip]="fileName"
+                          [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">
+                        {{ (fileName.length > 40) ?
+                            (fileName | slice:0:40)+'...' :
+                            (fileName)
+                        }}
+                    </span>
                 </div>
 
                 <div class="right">
@@ -84,10 +91,10 @@
 
                 <div *ngIf="(loading$ | async) === false && (juntadas)?.length > 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
-                    <iframe id="iframe-juntadas" *ngIf="src && extensao !== 'pdf'"
+                    <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital.extensao !== 'pdf'"
                             [src]="src">
                     </iframe>
-                    <ngx-extended-pdf-viewer *ngIf="src && extensao === 'pdf'"
+                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital.extensao === 'pdf'"
                                              [src]="src"
                                              [useBrowserLocale]="true"
                                              [textLayer]="true"

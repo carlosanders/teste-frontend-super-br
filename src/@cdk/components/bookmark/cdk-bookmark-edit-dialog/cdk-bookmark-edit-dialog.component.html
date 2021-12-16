@@ -1,6 +1,10 @@
 <h1 mat-dialog-title>
     <span>
-        <mat-icon>bookmark</mat-icon> Marcação de página para juntada {{data.juntadaAtual.numeracaoSequencial}}
+        <mat-icon>bookmark</mat-icon> Marcação de página para
+        {{ (data.fileName.length > 40) ?
+        (data.fileName | slice:0:40)+'...' :
+        (data.fileName)
+        }}
     </span>
 </h1>
 
@@ -41,7 +45,7 @@
         </mat-form-field>
     </div>
 
-   <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+   <mat-error style="font-size: small;" *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
    <div mat-dialog-actions align="end">
         <button *ngIf="!loading" mat-button mat-dialog-close (click)="onCloseClick()">Fechar</button>

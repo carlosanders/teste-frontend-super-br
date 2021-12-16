@@ -44,6 +44,7 @@ import {NgxExtendedPdfViewerModule, NgxExtendedPdfViewerService} from 'ngx-exten
 import {
     CdkBookmarkEditDialogModule
 } from "../../../../../@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module";
+import {BookmarkService} from "../../../../../@cdk/services/bookmark.service";
 
 const routes: Routes = [
     {
@@ -141,7 +142,8 @@ modulesConfig.forEach((module) => {
         JuntadaService,
         VinculacaoDocumentoService,
         fromGuards.ResolveGuard,
-        NgxExtendedPdfViewerService
+        NgxExtendedPdfViewerService,
+        BookmarkService
     ],
     entryComponents: [
         CdkAssinaturaEletronicaPluginComponent

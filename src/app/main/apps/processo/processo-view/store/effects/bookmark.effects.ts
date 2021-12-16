@@ -7,8 +7,8 @@ import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators'
 import * as BookmarkActions from '../actions/bookmark.actions';
 
 import {BookmarkService} from '@cdk/services/bookmark.service';
-import {AddData} from '@cdk/ngrx-normalizr';
-import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {bookmark as bookmarkSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -17,9 +17,8 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {Bookmark} from "../../../../../../../@cdk/models/bookmark.model";
 
 @Injectable()
-export class ComponentesDigitaisEffects {
+export class BookmarkEffects {
     routerState: any;
-    bookmarkId: number;
 
     /**
      * Save Bookmark
@@ -34,7 +33,12 @@ export class ComponentesDigitaisEffects {
             content: 'Criando bookmark ...',
             status: 0, // carregando
         }))),
-        switchMap(action => this._bookmarkService.save(action.payload.componenteDigital).pipe(
+        switchMap(action => {
+            const populate = JSON.stringify([
+                'componenteDigital',
+                'juntada'
+            ]);
+            return this._bookmarkService.save(action.payload.bookmark, '{}', populate).pipe(
             tap(response => this._store.dispatch(new OperacoesActions.Operacao({
                 id: action.payload.operacaoId,
                 type: 'bookmark',
@@ -42,10 +46,12 @@ export class ComponentesDigitaisEffects {
                 status: 1, // sucesso
             }))),
             mergeMap((response: any) => [
-                new BookmarkActions.SaveBookmarkSuccess(),
+                new BookmarkActions.SaveBookmarkSuccess({
+                    entitiesId: [response.id]
+                }),
                 new AddData<Bookmark>({
                     data: [{...action.payload.bookmark, ...response}],
-                    schema: componenteDigitalSchema
+                    schema: bookmarkSchema
                 })
             ]),
             catchError((err) => {
@@ -58,7 +64,8 @@ export class ComponentesDigitaisEffects {
                 }));
                 return of(new BookmarkActions.SaveBookmarkFailed(err));
             })
-        ))
+        )}
+        )
     ));
 
     /**
@@ -67,21 +74,15 @@ export class ComponentesDigitaisEffects {
      * @type {Observable<any>}
      */
     getBookmark: any = createEffect(() => this._actions.pipe(
-        ofType<BookmarkActions.GetBookmarks>(BookmarkActions.GET_BOOKMARK),
-        tap((action) => {
-                this.bookmarkId = action.payload.bookmarkId;
-            }
-        ),
+        ofType<BookmarkActions.GetBookmarks>(BookmarkActions.GET_BOOKMARKS),
         switchMap(action => this._bookmarkService.query(
-            `{"componentesDigitais.id": "eq:${action.payload.bookmarkId}"}`,
-            1,
-            0,
-            '{}',
-            '[]')),
+            `{"processo.id": "eq:${action.payload.processoId}"}`,25,0,
+            '{}', JSON.stringify(['componenteDigital','juntada']))),
         switchMap(response => [
-            new AddData<Bookmark>({data: response['entities'], schema: documentoSchema}),
+            new AddData<Bookmark>({data: response['entities'], schema: bookmarkSchema}),
             new BookmarkActions.GetBookmarksSuccess({
-                documentoId: response['entities'][0].id
+                entitiesId: response['entities'].map(bookmark => bookmark.id),
+                total: response['total']
             }),
         ]),
         catchError((err) => {
@@ -90,27 +91,51 @@ export class ComponentesDigitaisEffects {
         })
     ));
 
-    getDocumentoSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<BookmarkActions.GetBookmarksSuccess>(BookmarkActions.GET_BOOKMARK_SUCCESS),
-        tap((action) => {
-            const primary = 'bookmark/' + action.payload.componenteDigitalId;
-            const sidebar = 'editar/' + action.payload.routeDocumento;
-
-            this._router.navigate([
-                    this.routerState.url.split('processo/')[0] + 'processo/' + this.routerState.params.processoHandle
-                    + '/visualizar/' + this.routerState.params.stepHandle + '/documento/' + action.payload.documentoId,
-                    {
-                        outlets: {
-                            primary: primary,
-                            sidebar: sidebar
-                        }
-                    }
-                ],
-                {
-                    relativeTo: this._activatedRoute.parent
-                }).then();
-        })
-    ), {dispatch: false});
+    /**
+     * Delete Bookmark
+     *
+     * @type {Observable<any>}
+     */
+    deleteBookmark: Observable<BookmarkActions.BookmarksActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<BookmarkActions.DeleteBookmark>(BookmarkActions.DELETE_BOOKMARK),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'bookmark',
+            content: 'Apagando o bookmark id ' + action.payload.bookmarkId + '...',
+            status: 0
+        }))),
+        mergeMap(action => this._bookmarkService.destroy(action.payload.bookmarkId).pipe(
+            map((response) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'bookmark',
+                    content: 'Bookmark id ' + action.payload.bookmarkId + ' deletado com sucesso.',
+                    status: 1
+                }));
+                this._store.dispatch(new UpdateData<Bookmark>({
+                    id: response.id,
+                    schema: bookmarkSchema,
+                    changes: {apagadoEm: response.apagadoEm}
+                }));
+                return new BookmarkActions.DeleteBookmarkSuccess(response.id);
+            }),
+            catchError((err) => {
+                const payload = {
+                    id: action.payload.bookmarkId,
+                    error: err
+                };
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento',
+                    content: 'Erro ao apagar o documento anexo de id ' + action.payload.bookmarkId + '!',
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                console.log(err);
+                return of(new BookmarkActions.DeleteBookmarkFailed(payload));
+            })
+        ), 25)
+    ));
 
     constructor(
         private _actions: Actions,
