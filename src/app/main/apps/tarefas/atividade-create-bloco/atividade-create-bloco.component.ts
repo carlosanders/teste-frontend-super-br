@@ -65,6 +65,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     routerState: any;
 
     documentos$: Observable<Documento[]>;
+    documentos: Documento[] = [];
     minutas: Documento[] = [];
     oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
@@ -252,6 +253,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe((documentos) => {
+            this.documentos = documentos;
             this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
             this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
 
@@ -360,9 +362,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     doDelete(documentoId, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
+        const documento = this.documentos.find(doc => doc.id === documentoId);
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documentoId,
             operacaoId: operacaoId,
+            tarefaId: documento.tarefaOrigem.id,
             loteId: loteId,
         }));
     }
