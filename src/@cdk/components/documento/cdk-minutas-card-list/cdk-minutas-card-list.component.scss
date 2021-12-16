@@ -1,10 +1,16 @@
+@import "../../../scss/cdk";
+
 cdk-minutas-card-list {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
     flex-wrap: wrap;
-    flex: 0 1 auto;
+    flex: 1 1 auto;
+
+    .mat-checkbox {
+        margin-bottom: 0 !important;
+    }
 
     > .toolbar {
         flex: 1 1 auto;
@@ -26,6 +32,9 @@ cdk-minutas-card-list {
                 display: flex;
                 flex-direction: column;
                 flex-wrap: wrap;
+                @include mat-elevation(1);
+                margin: 8px;
+                padding: 8px;
 
                 > span.nup {
                     display: flex;
@@ -38,12 +47,14 @@ cdk-minutas-card-list {
                     display: flex;
                     flex-direction: column;
                     flex-wrap: wrap;
+                    margin-left: 24px;
 
                     > span.tarefa {
                         display: flex;
                         font-weight: bold;
                         align-items: center;
-                        margin-bottom: 8px;
+                        margin-bottom: 4px;
+                        margin-left: 8px;
                     }
 
                     > .minutas {

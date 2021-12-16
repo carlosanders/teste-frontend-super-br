@@ -12,7 +12,7 @@ cdk-componente-digital-card {
         flex: 1 1 auto;
         align-items: center;
         margin-right: 8px;
-        border-radius: 6px;
+        border-radius: 3px;
         border: 1px solid rgba(0, 0, 0, 0.12);
 
         > .content-img {
@@ -26,7 +26,7 @@ cdk-componente-digital-card {
             display: flex;
             flex: 1 1 auto;
             flex-direction: column;
-            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            border-right: 1px solid;
             justify-content: center;
 
             > .content-card-item {
@@ -67,7 +67,7 @@ cdk-componente-digital-card {
             display: flex;
             flex: 1 1 auto;
             flex-direction: column;
-            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            border-right: 1px solid;
             justify-content: center;
 
             > .content-card-item {
