@@ -254,6 +254,7 @@
                     [tarefa]="tarefa"
                     [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
                     [usuarioAtual]="usuarioAtual"
+                    [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
                     [displayedCampos]="displayedCampos"
                     (click)="selectTarefa($event, tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"

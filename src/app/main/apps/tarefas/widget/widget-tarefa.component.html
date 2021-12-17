@@ -8,7 +8,7 @@
         </mat-icon>
     </mat-card-header>
     <mat-card-content>
-        <div class="p-12" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
+        <div class="p-24" fxLayout="column" fxLayoutAlign="center center" *ngIf="isContadorPrincipal">
             <mat-spinner *ngIf="this.tarefasCount === false" diameter="64"></mat-spinner>
             <div *ngIf="this.tarefasCount !== false" class="light-blue-fg font-size-64 line-height-64">
                 {{this.tarefasCount}}
@@ -29,7 +29,7 @@
         </div>
     </mat-card-content>
     <mat-card-footer *ngIf="isContadorPrincipal">
-        <div class="p-12 border-top" fxLayout="row" fxLayoutAlign="start center">
+        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
             <span class="h4 text-truncate">
                 Vencidas:
             </span>

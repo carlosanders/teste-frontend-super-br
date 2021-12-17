@@ -7,12 +7,19 @@ cdk-tarefa-list-item {
     text-transform: none;
     cursor: pointer;
 
+
     > .content {
         flex: 1 1 auto;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
+
+        &.show-actions {
+            button.ferramentas {
+                display: block !important;
+            }
+        }
 
         .check {
             flex: 0 1 auto;
@@ -235,7 +242,7 @@ cdk-tarefa-list-item {
         .actions {
             flex: 0 1 auto;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
             align-items: center;
         }

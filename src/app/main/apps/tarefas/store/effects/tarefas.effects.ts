@@ -217,14 +217,16 @@ export class TarefasEffect {
     setCurrentTarefa: Observable<TarefasActions.TarefasActionsAll> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.SetCurrentTarefa>(TarefasActions.SET_CURRENT_TAREFA),
         map((action) => {
-            if (action.payload.acessoNegado) {
+            if (!action.payload.static && action.payload.acessoNegado) {
                 this._router.navigate([
                     'apps/tarefas/' + this.routerState.params.generoHandle + '/'
                     + this.routerState.params.typeHandle + '/'
                     + this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
                     '/processo/' + action.payload.processoId + '/acesso-negado']
                 ).then();
-            } else {
+            }
+
+            if (!action.payload.static && !action.payload.acessoNegado) {
                 this._store.dispatch(new UnloadJuntadas({reset: true}));
                 this._store.dispatch(new UnloadDocumentos());
 

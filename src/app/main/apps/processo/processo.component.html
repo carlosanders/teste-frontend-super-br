@@ -34,7 +34,7 @@
                         <mat-spinner diameter="20"></mat-spinner>
                     </div>
 
-                    <div class="actions" *ngIf="processo !== null">
+                    <div class="actions" *ngIf="processo !== null && !((togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length)">
 
                         <button mat-icon-button aria-label="arquivar processo" matTooltip="Arquivar Processo" fxHide.xs
                                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"
@@ -57,7 +57,8 @@
                                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo"
                                 (click)="acompanharProcesso(processo)">
                             <ng-container>
-                                <mat-icon>done</mat-icon>
+                                <mat-icon *ngIf="!processo.compartilhamentoUsuario">done</mat-icon>
+                                <mat-icon *ngIf="!!processo.compartilhamentoUsuario">done_all</mat-icon>
                             </ng-container>
                         </button>
 

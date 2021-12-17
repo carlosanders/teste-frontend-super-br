@@ -19,7 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {ComponenteDigital, Usuario, VinculacaoEtiqueta} from '../../../models';
+import {ComponenteDigital, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -57,6 +57,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     arraySearchTypes: SearchBarEtiquetasFiltro[] = [];
+
+    @Input()
+    vinculacaoEtiquetaPagination: Pagination;
 
     @Input()
     tarefas: Tarefa[] = [];
@@ -131,16 +134,16 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     createTarefa = new EventEmitter<any>();
 
     @Output()
-    movimentar = new EventEmitter<number>();
+    movimentar = new EventEmitter<Tarefa>();
 
     @Output()
     editProcesso = new EventEmitter<any>();
 
     @Output()
-    editTarefa = new EventEmitter<number>();
+    editTarefa = new EventEmitter<Tarefa>();
 
     @Output()
-    redistribuirTarefa = new EventEmitter<number>();
+    redistribuirTarefa = new EventEmitter<Tarefa>();
 
     @Output()
     cienciaTarefa = new EventEmitter<any>();

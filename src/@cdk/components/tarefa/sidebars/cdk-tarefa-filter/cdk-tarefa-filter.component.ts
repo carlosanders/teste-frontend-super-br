@@ -67,12 +67,11 @@ export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
 
     etiquetas: Etiqueta[] = [];
     filtroEtiquetas: SearchBarEtiquetasFiltro;
+    etiquetaFilter: any;
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     form: FormGroup;
-
-    etiquetaFilter: any;
 
     constructor(
         private _formBuilder: FormBuilder,

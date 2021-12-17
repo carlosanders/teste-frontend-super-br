@@ -1,4 +1,4 @@
-<div class="content" *ngIf="tarefa">
+<div class="content" cdkHoverClass="show-actions" *ngIf="tarefa">
 
     <div class="check">
         <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
@@ -107,6 +107,7 @@
             <div class="search-wrapper" (click)="$event.stopPropagation();">
                 <mat-icon class="secondary-text mr-8">label</mat-icon>
                 <cdk-vinculacao-etiqueta-chips
+                    [pagination]="vinculacaoEtiquetaPagination"
                     [vinculacoesEtiquetas]="vinculacoesEtiquetas"
                     (create)="doVinculacaoEtiquetaCreate($event)"
                     (delete)="doVinculacaoEtiquetaDelete($event)"
@@ -139,7 +140,7 @@
                 </cdk-componente-digital-card-list>
             </div>
 
-            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao"
+            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="mt-8 observacao"
                  (click)="$event.stopPropagation()">
                 <span *ngIf="editandoObservacao === false">{{tarefa.observacao}}</span>
                 <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Editar observação"
@@ -147,7 +148,7 @@
                     edit
                 </mat-icon>
             </div>
-            <div *ngIf="editandoObservacao === true" class="edit-observacao">
+            <div *ngIf="editandoObservacao === true" class="mt-8 edit-observacao">
                 <mat-form-field (click)="$event.stopPropagation()">
                     <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
                               (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
@@ -180,6 +181,24 @@
 
     <div class="actions">
 
+        <button style="display: none;" class="ferramentas" *ngIf="tarefa.apagadoEm && !undeleting" matTooltip="Restaurar tarefa"
+                mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
+                aria-label="Restaurar tarefa" fxHide.xs>
+            <mat-icon class="secondary-text">undo</mat-icon>
+        </button>
+
+        <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm" matTooltip="Movimentar tarefa"
+                mat-icon-button (click)="doMovimentar(); $event.stopPropagation();"
+                aria-label="Movimentar tarefa" fxHide.xs>
+            <mat-icon class="secondary-text">autorenew</mat-icon>
+        </button>
+
+        <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm" matTooltip="Editar tarefa"
+                mat-icon-button (click)="doEditTarefa(); $event.stopPropagation();"
+                aria-label="Editar tarefa" fxHide.xs>
+            <mat-icon class="secondary-text">edit</mat-icon>
+        </button>
+
         <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
                 (click)="doToggleUrgente(); $event.stopPropagation();"
                 aria-label="Toggle important" fxHide.xs>
@@ -191,17 +210,23 @@
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="tarefa.apagadoEm && !undeleting" matTooltip="Restaurar tarefa"
-                mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
-                aria-label="Restaurar tarefa" fxHide.xs>
-            <mat-icon class="secondary-text">undo</mat-icon>
+        <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm" matTooltip="Redistribuir tarefa"
+                mat-icon-button (click)="doRedistribuirTarefa(); $event.stopPropagation();"
+                aria-label="Redistribuir tarefa" fxHide.xs>
+            <mat-icon class="secondary-text">forward</mat-icon>
+        </button>
+
+        <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm && !tarefa.observacao" matTooltip="Editar observação"
+                mat-icon-button (click)="doEditarObservacao(); $event.stopPropagation();"
+                aria-label="Editar observação" fxHide.xs>
+            <mat-icon class="secondary-text">sticky_note_2</mat-icon>
         </button>
 
         <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting || assinando">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="1 === 2 && !deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
+        <button style="display: none;" *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
                 [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
                 (click)="$event.stopPropagation()">

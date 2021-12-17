@@ -13,6 +13,11 @@ export const getTarefaHandle: any = createSelector(
     router => router?.state.params['tarefaHandle']
 );
 
+export const getProcessoHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['processoHandle']
+);
+
 export const getCurrentTarefa: any = createSelector(
     schemaSelectors.getNormalizedEntities,
     getTarefaHandle,

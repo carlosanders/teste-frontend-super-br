@@ -138,6 +138,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     totalInteressadosProcessosId$: Observable<any[]>;
 
+    processoHandle$: Observable<any>;
+
     cienciaIds$: Observable<number[]>;
 
     pesquisaTarefa: string;
@@ -162,6 +164,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
     filtroEtiquetas: SearchBarEtiquetasFiltro;
+    vinculacaoEtiquetaPagination: Pagination;
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -223,6 +226,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
         this.assinandoTarefasEletronicamenteIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasEletronicamenteId));
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
+        this.processoHandle$ = this._store.pipe(select(fromStore.getProcessoHandle));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -268,6 +272,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             ]
         };
+        this.vinculacaoEtiquetaPagination = vinculacaoEtiquetaPagination;
         this.arrayFiltrosEtiquetas.push({
             label: 'etiquetas',
             pagination: vinculacaoEtiquetaPagination,
@@ -837,14 +842,26 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
     }
 
-    doMovimentar(tarefaId): void {
+    doMovimentar(tarefa: Tarefa): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/' + this.routeAtividade]).then();
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado,
+            static: true
+        }));
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/' + this.routeAtividade]).then();
     }
 
-    doEditTarefa(tarefaId): void {
+    doEditTarefa(tarefa: Tarefa): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado,
+            static: true
+        }));
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/editar']).then();
     }
 
     doEditProcesso(params): void {
@@ -857,9 +874,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar']).then();
     }
 
-    doRedistribuirTarefa(tarefaId): void {
+    doRedistribuirTarefa(tarefa: Tarefa): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado,
+            static: true
+        }));
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/redistribuicao']).then();
     }
 
     doCienciaTarefa(tarefaId, loteId: string = null): void {

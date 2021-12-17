@@ -19,7 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {ComponenteDigital, Etiqueta, Usuario, VinculacaoEtiqueta} from '../../../../models';
+import {ComponenteDigital, Etiqueta, Pagination, Usuario, VinculacaoEtiqueta} from '../../../../models';
 import {HasTarefa} from './has-tarefa';
 import {CdkUtils} from '../../../../utils';
 
@@ -71,19 +71,19 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     createTarefa = new EventEmitter<any>();
 
     @Output()
-    movimentar = new EventEmitter<number>();
+    movimentar = new EventEmitter<Tarefa>();
 
     @Output()
     editProcesso = new EventEmitter<any>();
 
     @Output()
-    editTarefa = new EventEmitter<number>();
+    editTarefa = new EventEmitter<Tarefa>();
 
     @Output()
     assinaMinutas = new EventEmitter<Tarefa>();
 
     @Output()
-    redistribuirTarefa = new EventEmitter<number>();
+    redistribuirTarefa = new EventEmitter<Tarefa>();
 
     @Output()
     cienciaTarefa = new EventEmitter<any>();
@@ -129,6 +129,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Input()
     savingVinculacaoEtiquetaId: number;
+
+    @Input()
+    vinculacaoEtiquetaPagination: Pagination;
 
     @Input()
     assinando: boolean;
@@ -287,7 +290,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     }
 
     doMovimentar(): void {
-        this.movimentar.emit(this.tarefa.id);
+        this.movimentar.emit(this.tarefa);
     }
 
     doCompartilhar(): void {
@@ -303,7 +306,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     }
 
     doEditTarefa(): void {
-        this.editTarefa.emit(this.tarefa.id);
+        this.editTarefa.emit(this.tarefa);
     }
 
     canAssinarMinutas(tarefa: Tarefa): boolean {
@@ -319,7 +322,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     }
 
     doRedistribuirTarefa(): void {
-        this.redistribuirTarefa.emit(this.tarefa.id);
+        this.redistribuirTarefa.emit(this.tarefa);
     }
 
     doCienciaTarefa(): void {

@@ -13,7 +13,7 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
-            <mat-toolbar *ngIf="currentTarefaId">
+            <mat-toolbar *ngIf="currentTarefa">
                 <button mat-button aria-label="minutas"
                         [matMenuTriggerFor]="selectMenuMinutas"
                         #menuTriggerList="matMenuTrigger"
@@ -35,27 +35,27 @@
                     </button>
                 </mat-menu>
                 <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doMovimentar(currentTarefaId)">
+                        (click)="doMovimentar(currentTarefa)">
                     <mat-icon>autorenew</mat-icon>
                     <span>Movimentar</span>
                 </button>
                 <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doEditTarefa(currentTarefaId)" fxHide.xs>
+                        (click)="doEditTarefa(currentTarefa)" fxHide.xs>
                     <mat-icon>edit</mat-icon>
                     <span>Editar Tarefa</span>
                 </button>
                 <button mat-button aria-label="redistribuir tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doRedistribuirTarefa(currentTarefaId)" fxHide.xs>
+                        (click)="doRedistribuirTarefa(currentTarefa)" fxHide.xs>
                     <mat-icon>forward</mat-icon>
                     <span>Redistribuir</span>
                 </button>
                 <button mat-button aria-label="compartilhar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doCompartilhar(currentTarefaId)" fxHide.xs>
+                        (click)="doCompartilhar(currentTarefa.id)" fxHide.xs>
                     <mat-icon>share</mat-icon>
                     <span>Compartilhar</span>
                 </button>
                 <button mat-button aria-label="dar ciencia" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="doCienciaTarefa(currentTarefaId)" fxHide.lt-lg>
+                        (click)="doCienciaTarefa(currentTarefa.id)" fxHide.lt-lg>
                     <mat-icon>check</mat-icon>
                     <span>Dar Ciência</span>
                 </button>
@@ -69,17 +69,16 @@
                     <mat-icon>mail</mat-icon>
                     <span>Criar Ofício</span>
                 </button>
-                <button mat-button aria-label="processo"
-                        (click)="doEditProcesso(currentTarefa)" fxHide.lt-lg>
-                        <mat-icon>book</mat-icon>
-                        <span>Processo</span>
-                </button>
                 <button mat-button aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="deleteTarefa(currentTarefa)" fxHide.lt-lg>
                     <mat-icon>delete</mat-icon>
                     <span>Apagar</span>
                 </button>
-
+                <button mat-button aria-label="processo" *ngIf="!(processoHandle$ | async)"
+                        (click)="doEditProcesso(currentTarefa)" fxHide.lt-lg>
+                    <mat-icon>book</mat-icon>
+                    <span>Processo</span>
+                </button>
                 <button mat-icon-button [matMenuTriggerFor]="moreMenuMainTarefa" aria-label="Mais Ferramentas"
                         (click)="$event.stopPropagation()" fxHide.lg fxShow.lt-lg>
                     <mat-icon class="secondary-text">more_vert</mat-icon>
@@ -87,12 +86,12 @@
 
                 <mat-menu #moreMenuMainTarefa="matMenu">
                     <button mat-menu-item aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                            (click)="doEditTarefa(currentTarefaId)" fxHide.lt-lg fxShow.xs>
+                            (click)="doEditTarefa(currentTarefa)" fxHide.lt-lg fxShow.xs>
                         <mat-icon>edit</mat-icon>
                         <span>Editar Tarefa</span>
                     </button>
                     <button mat-menu-item aria-label="redistribuir tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                            (click)="doRedistribuirTarefa(currentTarefaId)" fxHide.lt-lg fxShow.xs>
+                            (click)="doRedistribuirTarefa(currentTarefa)" fxHide.lt-lg fxShow.xs>
                         <mat-icon>forward</mat-icon>
                         <span>Redistribuir</span>
                     </button>
@@ -210,6 +209,7 @@
                     <cdk-tarefa-list #tarefasList
                                      (scrolled)="onScroll()"
                                      [arraySearchTypes]="arrayFiltrosEtiquetas"
+                                     [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
                                      [loading]="(loading$ | async)"
                                      [togglingUrgenteIds]="(togglingUrgenteIds$ | async)"
                                      [tarefas]="tarefas"
