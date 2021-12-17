@@ -44,15 +44,14 @@ export const bookmarkReducer = (state = bookmarkInitialState, action: BookmarksA
         case BookmarksActions.GET_BOOKMARKS: {
             return {
                 ...state,
-                entitiesId: [],
                 loading: true,
                 pagination: {
-                    limit: action.payload.limit,
-                    offset: action.payload.offset,
-                    filter: action.payload.filter,
-                    listFilter: action.payload.listFilter,
-                    populate: action.payload.populate,
-                    sort: action.payload.sort,
+                    limit: action.payload.params.limit,
+                    offset: action.payload.params.offset,
+                    filter: action.payload.params.filter,
+                    listFilter: action.payload.params.listFilter,
+                    populate: action.payload.params.populate,
+                    sort: action.payload.params.sort,
                     total: state.pagination.total
                 }
             };
@@ -131,6 +130,19 @@ export const bookmarkReducer = (state = bookmarkInitialState, action: BookmarksA
             return {
                 ...state,
                 deletingBookmarksIds: state.deletingBookmarksIds.filter(id => id !== action.payload.id),
+            };
+        }
+
+        case BookmarksActions.RELOAD_BOOKMARKS: {
+            return {
+                ...state,
+                entitiesId: [],
+                pagination: {
+                    ...state.pagination,
+                    limit: 25,
+                    offset: 0,
+                    total: 0
+                }
             };
         }
 

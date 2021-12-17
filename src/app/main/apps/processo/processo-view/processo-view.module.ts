@@ -41,10 +41,8 @@ import {CdkUsuarioAutocompleteModule} from '../../../../../@cdk/components/usuar
 import {CdkSetorAutocompleteModule} from '../../../../../@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatSelectModule} from '@angular/material/select';
 import {NgxExtendedPdfViewerModule, NgxExtendedPdfViewerService} from 'ngx-extended-pdf-viewer';
-import {
-    CdkBookmarkEditDialogModule
-} from "../../../../../@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module";
-import {BookmarkService} from "../../../../../@cdk/services/bookmark.service";
+import {CdkBookmarkEditDialogModule} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module';
+import {BookmarkService} from '@cdk/services/bookmark.service';
 
 const routes: Routes = [
     {

@@ -73,7 +73,7 @@ export class CdkBookmarkEditDialogComponent implements OnInit {
             this.loading = true;
             this.edit.emit({
                 id: this.form.value.id,
-                nome: this.form.value.nome,
+                nome: this.form.value.nome.toUpperCase(),
                 pagina: this.form.value.pagina,
                 descricao: this.form.value.descricao
             });

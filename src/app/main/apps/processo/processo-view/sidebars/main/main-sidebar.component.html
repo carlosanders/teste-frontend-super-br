@@ -1,7 +1,7 @@
 <!-- SIDEBAR HEADER -->
 <div class="header p-4">
     <div class="actions">
-        <button mat-mini-fab
+        <button mat-mini-fab style="display: none;"
                 [matTooltip]="'Criar Minuta'"
                 *ngIf="tarefa"
                 class="m-8 active accent"
@@ -93,64 +93,68 @@
             </form>
         </mat-menu>
 
-        <button mat-mini-fab *ngIf="(loadingDocumentosExcluidos$ | async) === false && (lixeiraMinutas$ | async)"
-                class="m-4 active accent" aria-label="Sair da lixeira"
-                (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
-            <mat-icon class="secondary-text">exit_to_app</mat-icon>
-        </button>
-
-        <button class="refresh" mat-icon-button *ngIf="this.isJuntadas"
-                (click)="reloadJuntadas()"
-                aria-label="recarregar juntadas"
-                matTooltip="Recarregar Juntadas">
-            <mat-icon>refresh</mat-icon>
-        </button>
-
-        <button class="refresh" mat-icon-button *ngIf="!this.isJuntadas"
-                (click)="getBookmark(processo.id)"
-                aria-label="recarregar marcadores"
-                matTooltip="Recarregar marcadores">
-            <mat-icon>refresh</mat-icon>
-        </button>
-
-        <button class="toggle-filter" *ngIf="this.isJuntadas"
-                [ngClass]="{'warn': (listFilter | json) !== '{}'}" mat-icon-button
-                (click)="toggleFilter()"
-                aria-label="filtrar"
-                matTooltip="Filtrar">
-            <mat-icon>filter_list</mat-icon>
-        </button>
-
-        <button mat-icon-button [matMenuTriggerFor]="selectMenu" *ngIf="this.isJuntadas">
-            <mat-icon *ngIf="sort === 'DESC'">sort</mat-icon>
-            <mat-icon class="sort-asc" *ngIf="sort === 'ASC'">sort</mat-icon>
-        </button>
-        <mat-menu fxHide #selectMenu="matMenu">
-            <button mat-menu-item class="sort-menu-button"
-                    (click)="doSort('DESC')">
-                <mat-icon>{{sort === 'DESC' ? 'check' : ''}}</mat-icon>
-                <span>Decrescente</span>
+        <ng-container *ngIf="this.isJuntadas">
+            <button mat-mini-fab *ngIf="(loadingDocumentosExcluidos$ | async) === false && (lixeiraMinutas$ | async)"
+                    class="m-4 active accent" aria-label="Sair da lixeira"
+                    (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
+                <mat-icon class="secondary-text">exit_to_app</mat-icon>
             </button>
-            <button mat-menu-item class="sort-menu-button"
-                    (click)="doSort('ASC')">
-                <mat-icon>{{sort === 'ASC' ? 'check' : ''}}</mat-icon>
-                <span>Crescente</span>
+
+            <button class="refresh" mat-icon-button
+                    (click)="reloadJuntadas()"
+                    aria-label="recarregar juntadas"
+                    matTooltip="Recarregar Juntadas">
+                <mat-icon>refresh</mat-icon>
             </button>
-        </mat-menu>
 
-        <button mat-icon-button *ngIf="this.isJuntadas"
-                (click)="getBookmark(processo.id)"
-                aria-label="abrir marcadores de página"
-                matTooltip="Marcadores de páginas">
-            <mat-icon>bookmarks</mat-icon>
-        </button>
+            <button class="toggle-filter"
+                    [ngClass]="{'warn': (listFilter | json) !== '{}'}" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
 
-        <button mat-icon-button *ngIf="!this.isJuntadas"
-                (click)="abreJuntadas()"
-                aria-label="abrir juntadas"
-                matTooltip="Juntadas do processo">
-            <mat-icon>arrow_back</mat-icon>
-        </button>
+            <button mat-icon-button [matMenuTriggerFor]="selectMenu">
+                <mat-icon *ngIf="sort === 'DESC'">sort</mat-icon>
+                <mat-icon class="sort-asc" *ngIf="sort === 'ASC'">sort</mat-icon>
+            </button>
+            <mat-menu fxHide #selectMenu="matMenu">
+                <button mat-menu-item class="sort-menu-button"
+                        (click)="doSort('DESC')">
+                    <mat-icon>{{sort === 'DESC' ? 'check' : ''}}</mat-icon>
+                    <span>Decrescente</span>
+                </button>
+                <button mat-menu-item class="sort-menu-button"
+                        (click)="doSort('ASC')">
+                    <mat-icon>{{sort === 'ASC' ? 'check' : ''}}</mat-icon>
+                    <span>Crescente</span>
+                </button>
+            </mat-menu>
+
+            <button mat-icon-button
+                    (click)="getBookmark()"
+                    aria-label="abrir marcadores de página"
+                    matTooltip="Marcadores de páginas">
+                <mat-icon>bookmarks</mat-icon>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="!this.isJuntadas">
+            <button class="refresh" mat-icon-button
+                    (click)="reloadBookmarks()"
+                    aria-label="recarregar marcadores"
+                    matTooltip="Recarregar marcadores">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    (click)="abreJuntadas()"
+                    aria-label="abrir juntadas"
+                    matTooltip="Juntadas do processo">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </ng-container>
 
         <div class="toolbar-separator" *ngIf="pagination.total"></div>
 
@@ -266,7 +270,7 @@
     </div>
 
     <div *ngIf="tarefa">
-        <mat-expansion-panel class="mat-elevation-z0" expanded="true" (closed)="onCloseMinutas()"
+        <mat-expansion-panel class="mat-elevation-z0 minutas-tarefa" expanded="true" (closed)="onCloseMinutas()"
                              (opened)="onOpenMinutas()">
             <mat-expansion-panel-header class="minutas-tarefa" [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
                 <mat-panel-title>
@@ -707,7 +711,7 @@
                  (dndDrop)="onDrop([$event, juntada], dropEnabledJuntada($event, juntada))">
                 {{contador.reset()}}
                 <div class="juntada drag-juntada" matRipple
-                     (click)="gotoStep(i, juntada.documento.acessoNegado, null, juntada)"
+                     (click)="gotoStep(i, juntada.documento.acessoNegado, null)"
                      [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}"
                      [dndDraggable]="juntada.id" [dndEffectAllowed]="'copy'"
                      [dndDragImageOffsetFunction]="this.offsetFunction"
@@ -858,7 +862,7 @@
                                  class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="s-14">picture_as_pdf</mat-icon>
                                 <a class="ml-4"
-                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, juntada)"
+                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                    [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                     {{juntada.documento.tipoDocumento.nome}}{{ contador.inc() }}
                                 </a>
@@ -885,7 +889,7 @@
                                     </span>
                                     <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                                     <a class="ml-4"
-                                       (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id, vinculacaoDocumento?.documentoVinculado?.juntadaAtual)"
+                                       (click)="$event.stopPropagation(); gotoStep(i, juntada.documento.acessoNegado, componenteDigital.id)"
                                        [ngClass]="{'current-tipo-documento': !capa && !!index && index[currentStep.step] && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
                                         {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}{{ contador.inc() }}
                                     </a>
@@ -938,14 +942,15 @@
             <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
         </div>
 
-        <div class="juntadas" *ngIf="bookmarks" cdkPerfectScrollbar infiniteScroll
+        <div class="bookmarks" *ngIf="bookmarks && (isSavingBookmark$ | async) === false"
+             cdkPerfectScrollbar infiniteScroll
              [scrollWindow]="false"
              [infiniteScrollDistance]="3"
              [infiniteScrollThrottle]="150"
-             (scrolled)="onScroll()">
+             (scrolled)="onScrollBookmark()">
 
             <div *ngFor="let bookmark of bookmarksBySequencial">
-                <div class="juntada drag-juntada" matRipple *ngIf="bookmark"
+                <div class="juntada" matRipple *ngIf="bookmark"
                      [ngClass]="{'current': bookMarkJuntadaselected === bookmark.key}">
                     <div class="index">
                         <span>{{bookmark.key}}</span>
@@ -955,7 +960,7 @@
                             <div fxFlex="1 1 auto"
                                  *ngFor="let book of bookmark.value"
                                  class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                                <div fxFlex="1 1 auto" fxLayoutAlign="start center">
+                                <div fxFlex="1 1 auto" fxLayoutAlign="start center" [matTooltip]="book.descricao">
                                     <mat-icon class="ml-4 s-14">bookmark</mat-icon>
                                     <a class="ml-4"
                                        (click)="viewBookmark(book, book.pagina, bookmark.key)" >
@@ -967,7 +972,7 @@
                                     </mat-icon>
                                 </div>
                                 <div class="actions">
-                                    <mat-icon class="ml-4 s-18"
+                                    <mat-icon class="ml-4 mr-4 s-18"
                                               *ngIf="((deletingBookmarkId$ | async) === undefined ||
                                                 (deletingBookmarkId$ | async).indexOf(book.id) === -1)"
                                               (click)="deleteBookmark(book.id)">

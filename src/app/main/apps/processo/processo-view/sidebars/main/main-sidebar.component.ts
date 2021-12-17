@@ -62,7 +62,7 @@ import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dia
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {Contador} from '@cdk/models/contador';
 import {Bookmark} from '@cdk/models/bookmark.model';
-import {SharedBookmarkService} from '@cdk/services/shared-bookmark.service';
+import {SharedBookmarkService} from "../../../../../../../@cdk/services/shared-bookmark.service";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -342,6 +342,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             (currentStep) => {
                 this.currentStep = currentStep;
                 this.isJuntadas = true;
+                SharedBookmarkService.modeBookmark = false;
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -449,6 +450,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     this.bookmarks = bookmarks;
                     this.bookmarksBySequencial = CdkUtils.groupArrayByFunction(bookmarks, book => book?.juntada?.numeracaoSequencial);
                     this.bookmarksBySequencial = Array.from(this.bookmarksBySequencial, ([key, value]) => ({ key, value })).sort((a,b) => b.key-a.key);
+                    this._changeDetectorRef.markForCheck();
                 }
             }
         );
@@ -665,9 +667,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      * @param step
      * @param restrito
      * @param componenteDigitalId
-     * @param juntadaSelect
      */
-    gotoStep(step, restrito, componenteDigitalId = null, juntadaSelect = null): void {
+    gotoStep(step, restrito, componenteDigitalId = null): void {
         let substep = 0;
 
         if (this.juntadas[step] === undefined) {
@@ -677,10 +678,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         if (componenteDigitalId) {
             substep = this.index[step].indexOf(componenteDigitalId);
-        }
-
-        if (juntadaSelect) {
-            SharedBookmarkService.juntadaAtualSelect = juntadaSelect;
         }
 
         // Decide the animation direction
@@ -1431,25 +1428,48 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.isOpen[id] = !this.isOpen[id];
     }
 
+    onScrollBookmark(): void {
+        if (this.bookmarks.length >= this.paginationBookmark.total) {
+            return;
+        }
+        console.log(this.paginationBookmark);
+        const nparams = {
+            filter: this.paginationBookmark.filter,
+            sort: this.paginationBookmark.sort,
+            limit: this.paginationBookmark.limit,
+            offset: this.paginationBookmark.offset + this.paginationBookmark.limit,
+            populate: this.paginationBookmark.populate
+        };
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.GetBookmarks({
+            params: nparams,
+            operacaoId: operacaoId
+        }));
+    }
+
     abreJuntadas(): void {
         this.isJuntadas = true;
         this.reloadJuntadas();
     }
 
-    getBookmark(processoId: number): void {
+    reloadBookmarks(): void {
+        this._store.dispatch(new fromStore.ReloadBookmarks());
+    }
+
+    getBookmark(): void {
         this.isJuntadas = false;
         this.bookMarkselected = 0;
-        const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromStore.GetBookmarks({
-            processoId: processoId,
-            operacaoId: operacaoId
-        }));
+        SharedBookmarkService.modeBookmark = true;
+
+        this._store.dispatch(new fromStore.ReloadBookmarks());
     }
 
     viewBookmark(bookmark: any, pagina: any, key: any): void {
         this.bookMarkselected = bookmark.id;
         this.bookMarkJuntadaselected = key;
         SharedBookmarkService.juntadaAtualSelect = bookmark.juntada;
+        SharedBookmarkService.modeBookmark = true;
 
         this._router.navigate([
             this.routerState.url.split('/processo/')[0] +

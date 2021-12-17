@@ -28,15 +28,15 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getProcesso} from '../store';
-import {MercureService} from '../../../../../@cdk/services/mercure.service';
+import {MercureService} from '@cdk/services/mercure.service';
 import {NgxExtendedPdfViewerService, pdfDefaultOptions} from 'ngx-extended-pdf-viewer';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {
     CdkBookmarkEditDialogComponent
-} from '../../../../../@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
-import {Bookmark} from '../../../../../@cdk/models/bookmark.model';
-import {CdkUtils} from '../../../../../@cdk/utils';
-import {SharedBookmarkService} from '../../../../../@cdk/services/shared-bookmark.service';
+} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
+import {Bookmark} from '@cdk/models/bookmark.model';
+import {CdkUtils} from '@cdk/utils';
+import {SharedBookmarkService} from "../../../../../@cdk/services/shared-bookmark.service";
 
 @Component({
     selector: 'processo-view',
@@ -119,6 +119,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     bookmarkDialogRef: MatDialogRef<CdkBookmarkEditDialogComponent>;
 
     private _unsubscribeAll: Subject<any> = new Subject();
+    isBookmark = false;
 
     /**
      * @param _juntadaService
@@ -238,6 +239,22 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this.page !== this.routerState?.queryParams?.pagina) {
                 this.page = this.routerState?.queryParams?.pagina;
             }
+
+            if (this.componenteDigital &&
+                !(this.currentJuntada?.documento?.componentesDigitais.some(i => i.id === this.componenteDigital.id)) &&
+                this.currentJuntada?.documento?.vinculacoesDocumentos.length > 0) {
+                  this.currentJuntada?.documento?.vinculacoesDocumentos.map((d) => {
+                      (d?.documentoVinculado?.componentesDigitais.map(c => {
+                          if (c.id === this.componenteDigital.id) {
+                              SharedBookmarkService.juntadaAtualSelect = d.documentoVinculado.juntadaAtual;
+                          }
+                      }))
+                    });
+            } else {
+                SharedBookmarkService.juntadaAtualSelect = this.currentJuntada;
+            }
+
+            this.isBookmark = SharedBookmarkService.modeBookmark;
 
             this.loading = binary.loading;
             this._changeDetectorRef.markForCheck();
@@ -567,8 +584,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             componenteDigital.id = componenteDigitalId;
             bookmark.processo = this.processo;
             bookmark.componenteDigital = componenteDigital;
-            bookmark.juntada = SharedBookmarkService.juntadaAtualSelect ?
-                SharedBookmarkService.juntadaAtualSelect : this.currentJuntada;
+            bookmark.juntada = SharedBookmarkService.juntadaAtualSelect;
 
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveBookmark({

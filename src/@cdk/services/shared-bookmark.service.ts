@@ -6,6 +6,6 @@ import {Injectable} from '@angular/core';
 export class SharedBookmarkService
 {
     static juntadaAtualSelect: any;
-
+    static modeBookmark = false;
 }
 

@@ -12,6 +12,8 @@ export const DELETE_BOOKMARK = '[PROCESSO VIEW] DELETE BOOKMARK';
 export const DELETE_BOOKMARK_SUCCESS = '[PROCESSO VIEW] DELETE BOOKMARK SUCCESS';
 export const DELETE_BOOKMARK_FAILED = '[PROCESSO VIEW] DELETE BOOKMARK FAILED';
 
+export const RELOAD_BOOKMARKS = '[PROCESSO VIEW] RELOAD BOOKMARKS';
+
 /**
  * Get Bookmarks
  */
@@ -121,6 +123,18 @@ export class DeleteBookmarkFailed implements Action
     }
 }
 
+/**
+ * Reload Bookmarks
+ */
+export class ReloadBookmarks implements Action
+{
+    readonly type = RELOAD_BOOKMARKS;
+
+    constructor()
+    {
+    }
+}
+
 export type BookmarksActionsAll
     = GetBookmarks
     | GetBookmarksSuccess
@@ -130,4 +144,5 @@ export type BookmarksActionsAll
     | SaveBookmarkFailed
     | DeleteBookmark
     | DeleteBookmarkSuccess
-    | DeleteBookmarkFailed;
+    | DeleteBookmarkFailed
+    | ReloadBookmarks;

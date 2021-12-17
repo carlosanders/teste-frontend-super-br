@@ -14,7 +14,9 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Bookmark} from "../../../../../../../@cdk/models/bookmark.model";
+import {Bookmark} from '@cdk/models/bookmark.model';
+import {CdkUtils} from '@cdk/utils';
+import * as fromStore from '../index';
 
 @Injectable()
 export class BookmarkEffects {
@@ -76,8 +78,15 @@ export class BookmarkEffects {
     getBookmark: any = createEffect(() => this._actions.pipe(
         ofType<BookmarkActions.GetBookmarks>(BookmarkActions.GET_BOOKMARKS),
         switchMap(action => this._bookmarkService.query(
-            `{"processo.id": "eq:${action.payload.processoId}"}`,25,0,
-            '{}', JSON.stringify(['componenteDigital','juntada']))),
+            JSON.stringify({
+                ...action.payload.params.filter,
+                ...action.payload.params.gridFilter,
+            }),
+            action.payload.params.limit,
+            action.payload.params.offset,
+            JSON.stringify(action.payload.params.sort),
+            JSON.stringify(action.payload.params.populate)
+        )),
         switchMap(response => [
             new AddData<Bookmark>({data: response['entities'], schema: bookmarkSchema}),
             new BookmarkActions.GetBookmarksSuccess({
@@ -136,6 +145,36 @@ export class BookmarkEffects {
             })
         ), 25)
     ));
+
+    /**
+     * Reload Bookmarks with router parameters
+     *
+     * @type {any}
+     */
+    reloadBookmarks: any = createEffect(() => this._actions.pipe(
+        ofType<BookmarkActions.ReloadBookmarks>(BookmarkActions.RELOAD_BOOKMARKS),
+        map(() => {
+            const params = {
+                filter: {
+                    'processo.id': 'eq:' + this.routerState.params.processoHandle
+                },
+                listFilter: {},
+                limit: 25,
+                offset: 0,
+                sort: {'juntada.numeracaoSequencial': 'DESC'},
+                populate: [
+                    'juntada',
+                    'componenteDigital'
+                ]
+            };
+
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.GetBookmarks({
+                params: params,
+                operacaoId: operacaoId
+            }));
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,
