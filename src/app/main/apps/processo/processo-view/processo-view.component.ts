@@ -251,7 +251,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                       }))
                     });
             } else {
-                SharedBookmarkService.juntadaAtualSelect = this.currentJuntada;
+                SharedBookmarkService.juntadaAtualSelect = SharedBookmarkService.modeBookmark ?
+                    SharedBookmarkService.juntadaAtualSelect : this.currentJuntada;
             }
 
             this.isBookmark = SharedBookmarkService.modeBookmark;
@@ -597,7 +598,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.bookmarkDialogRef.afterClosed().subscribe(() => {
             this.bookmarkDialogRef = null;
-            SharedBookmarkService.juntadaAtualSelect = null;
         });
     }
 
