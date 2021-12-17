@@ -34,6 +34,9 @@ export class ComponenteDigital {
     @Exclude({toPlainOnly: true})
     unsafe?: boolean;
 
+    @Exclude({toPlainOnly: true})
+    hasBookmark?: boolean;
+
     fileName?: string;
 
     @Exclude({toPlainOnly: true})
@@ -203,6 +206,7 @@ export class ComponenteDigital {
         this.convertidoPdf = null;
         this.assinado = null;
         this.unsafe = null;
+        this.hasBookmark = null;
         this.modalidadeAlvoInibidor = null;
         this.modalidadeTipoInibidor = null;
         this.componenteDigitalOrigem = null;

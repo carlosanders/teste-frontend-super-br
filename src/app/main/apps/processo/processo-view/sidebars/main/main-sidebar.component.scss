@@ -218,6 +218,18 @@ processo-view-main-sidebar {
             }
         }
 
+        > .bookmarks {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            height: 0;
+            overflow-y: auto;
+
+            .place-holder {
+                display: none;
+            }
+        }
+
         > .loading-minutas {
             flex: 0 0 auto;
             display: flex;

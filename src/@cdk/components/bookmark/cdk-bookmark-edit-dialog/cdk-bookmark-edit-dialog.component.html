@@ -1,0 +1,58 @@
+<h1 mat-dialog-title>
+    <span>
+        <mat-icon>bookmark</mat-icon> Marcação de página para
+        {{ (data.fileName.length > 40) ?
+        (data.fileName | slice:0:40)+'...' :
+        (data.fileName)
+        }}
+    </span>
+</h1>
+
+<form name="form" [formGroup]="form" (submit)="submit()">
+    <div mat-dialog-content fxLayout="column">
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome"
+                   maxlength="255"
+                   required>
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            <mat-error *ngIf="form.get('nome').hasError('formError')">
+                {{form.get('nome').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Página</mat-label>
+            <input matInput #pagina
+                   name="pagina"
+                   formControlName="pagina"
+                   required>
+            <mat-error *ngIf="form.get('pagina').hasError('formError')">
+                {{form.get('pagina').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <input matInput #descricao
+                   name="descricao"
+                   formControlName="descricao"
+                   maxlength="255">
+            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+            <mat-error *ngIf="form.get('descricao').hasError('formError')">
+                {{form.get('descricao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+   <mat-error style="font-size: small;" *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+   <div mat-dialog-actions align="end">
+        <button *ngIf="!loading" mat-button mat-dialog-close (click)="onCloseClick()">Fechar</button>
+        <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+        <button *ngIf="!loading" mat-raised-button color="accent">Salvar</button>
+    </div>
+</form>
+
+
+

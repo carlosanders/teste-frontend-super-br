@@ -212,6 +212,7 @@ export class ProcessoViewEffect {
             this._store.dispatch(new fromStore.GetJuntadas(params));
         })
     ), {dispatch: false});
+
     /**
      * @type {Observable<any>}
      */
@@ -560,6 +561,23 @@ export class ProcessoViewEffect {
             }
         })
     ), {dispatch: false});
+
+    /**
+     * @type {Observable<any>}
+     */
+    setBinaryView: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.SetBinaryView>(ProcessoViewActions.SET_BINARY_VIEW),
+        switchMap((action) => {
+            return this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}');
+        }),
+        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+            binary: response
+        })),
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+        })
+    ));
 
     constructor(
         private _actions: Actions,

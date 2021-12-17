@@ -26,7 +26,12 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-import {getDocumentosHasLoaded, getErrorsDocumentos, getSelectedVolume, getVolumes} from '../../store';
+import {
+    getDeletingBookmarkId,
+    getDocumentosHasLoaded,
+    getSelectedVolume,
+    getVolumes
+} from '../../store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -56,6 +61,8 @@ import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {Contador} from '@cdk/models/contador';
+import {Bookmark} from '@cdk/models/bookmark.model';
+import {SharedBookmarkService} from "../../../../../../../@cdk/services/shared-bookmark.service";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -226,6 +233,18 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
 
+    bookMarkselected: any;
+    bookMarkJuntadaselected: any;
+    isSavingBookmark$: Observable<boolean>;
+    isLoadingBookmarks$: Observable<boolean>;
+    bookmarks$: Observable<Bookmark[]>;
+    bookmarks: any;
+    bookmarksBySequencial: any;
+    paginationBookmark$: any;
+    paginationBookmark: any;
+    deletingBookmarkId$: Observable<number[]>;
+    isJuntadas = true;
+
     /**
      *
      * @param _juntadaService
@@ -298,6 +317,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
         this.loadingDocumentosExcluidos$ = this._store.pipe(select(fromStore.getLoadingDocumentosExcluidos));
         this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
+        this.isSavingBookmark$ = this._store.pipe(select(fromStore.getIsSavingBookmark));
+        this.isLoadingBookmarks$ = this._store.pipe(select(fromStore.getIsLoadingBookmark));
+        this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
+        this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
+        this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -317,6 +341,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(
             (currentStep) => {
                 this.currentStep = currentStep;
+                this.isJuntadas = true;
+                SharedBookmarkService.modeBookmark = false;
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -416,6 +442,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         }
         );
 
+        this.bookmarks$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            (bookmarks) => {
+                if (bookmarks) {
+                    this.bookmarks = bookmarks;
+                    this.bookmarksBySequencial = CdkUtils.groupArrayByFunction(bookmarks, book => book?.juntada?.numeracaoSequencial);
+                    this.bookmarksBySequencial = Array.from(this.bookmarksBySequencial, ([key, value]) => ({ key, value })).sort((a,b) => b.key-a.key);
+                    this._changeDetectorRef.markForCheck();
+                }
+            }
+        );
+
+        this.paginationBookmark$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            pagination => this.paginationBookmark = pagination
+        );
+
     }
 
     /**
@@ -511,6 +556,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.tarefa = value;
             this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
             this.documentoEdit.open = false;
+
             if (value) {
                 this._unsubscribeDocs.next(true);
                 this._unsubscribeDocs.complete();
@@ -1380,5 +1426,66 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     doTogglePanel(id): void {
         this.isOpen[id] = !this.isOpen[id];
+    }
+
+    onScrollBookmark(): void {
+        if (this.bookmarks.length >= this.paginationBookmark.total) {
+            return;
+        }
+        console.log(this.paginationBookmark);
+        const nparams = {
+            filter: this.paginationBookmark.filter,
+            sort: this.paginationBookmark.sort,
+            limit: this.paginationBookmark.limit,
+            offset: this.paginationBookmark.offset + this.paginationBookmark.limit,
+            populate: this.paginationBookmark.populate
+        };
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.GetBookmarks({
+            params: nparams,
+            operacaoId: operacaoId
+        }));
+    }
+
+    abreJuntadas(): void {
+        this.isJuntadas = true;
+        this.reloadJuntadas();
+    }
+
+    reloadBookmarks(): void {
+        this._store.dispatch(new fromStore.ReloadBookmarks());
+    }
+
+    getBookmark(): void {
+        this.isJuntadas = false;
+        this.bookMarkselected = 0;
+        SharedBookmarkService.modeBookmark = true;
+
+        this._store.dispatch(new fromStore.ReloadBookmarks());
+    }
+
+    viewBookmark(bookmark: any, pagina: any, key: any): void {
+        this.bookMarkselected = bookmark.id;
+        this.bookMarkJuntadaselected = key;
+        SharedBookmarkService.juntadaAtualSelect = bookmark.juntada;
+        SharedBookmarkService.modeBookmark = true;
+
+        this._router.navigate([
+            this.routerState.url.split('/processo/')[0] +
+            '/processo/' +
+            this.routerState.params.processoHandle + '/visualizar/' + bookmark.componenteDigital.id
+            ], { queryParams: { pagina: pagina } }
+        ).then(() => {
+            this._store.dispatch(new fromStore.SetBinaryView({componenteDigitalId: bookmark.componenteDigital.id}));
+        });
+    }
+
+    deleteBookmark(bookmarkId: any): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteBookmark({
+            bookmarkId: bookmarkId,
+            operacaoId: operacaoId,
+        }));
     }
 }
