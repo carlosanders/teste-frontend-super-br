@@ -152,6 +152,17 @@
                 {{ processo.chaveAcesso }}
             </div>
         </div>
+        <div class="linha">
+            <div class="titulo">
+                Consulta Pública ao Cidadão:
+            </div>
+            <div class="valor" *ngIf="processo.visibilidadeExterna">
+                Habilitado
+            </div>
+            <div class="valor" *ngIf="!processo.visibilidadeExterna">
+                Não habilitado
+            </div>
+        </div>
         <div class="linha" *ngIf="processo.criadoPor">
             <div class="titulo">
                 Criado Por:

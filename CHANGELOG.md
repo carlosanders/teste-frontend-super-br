@@ -731,6 +731,7 @@
 * Correção nas rotas das ações no Painel de Tarefas
 * Correção na Edição de Usuário inativos por parte de Coordenadores de Unidade
 * Correção erro de inconsistência grave detectada ao tentar restaurar um ofício apagado #717
+* Melhoria inclusão do botão para Habilitar a Consulta Público de Processos ao Cidadão
 * Correção componentes digitais grid para utilizar a classe correta de css nos métodos que utilizavam um seletor
 * Melhoria painel de minutas corrigido agrupamento, agora agrupando por tarefas dentro do agrupamento por processo
 * Melhoria grid de modelos agora também utiliza corretamente o modo search, que deixa a sidebar lockedOpen
