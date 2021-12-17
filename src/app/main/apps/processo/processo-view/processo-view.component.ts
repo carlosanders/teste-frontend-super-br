@@ -29,14 +29,14 @@ import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getProcesso} from '../store';
 import {MercureService} from '../../../../../@cdk/services/mercure.service';
-import {NgxExtendedPdfViewerService, pdfDefaultOptions} from "ngx-extended-pdf-viewer";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {NgxExtendedPdfViewerService, pdfDefaultOptions} from 'ngx-extended-pdf-viewer';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {
     CdkBookmarkEditDialogComponent
-} from "../../../../../@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component";
-import {Bookmark} from "../../../../../@cdk/models/bookmark.model";
-import {CdkUtils} from "../../../../../@cdk/utils";
-import {SharedBookmarkService} from "../../../../../@cdk/services/shared-bookmark.service";
+} from '../../../../../@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
+import {Bookmark} from '../../../../../@cdk/models/bookmark.model';
+import {CdkUtils} from '../../../../../@cdk/utils';
+import {SharedBookmarkService} from '../../../../../@cdk/services/shared-bookmark.service';
 
 @Component({
     selector: 'processo-view',
@@ -567,7 +567,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             componenteDigital.id = componenteDigitalId;
             bookmark.processo = this.processo;
             bookmark.componenteDigital = componenteDigital;
-            bookmark.juntada = SharedBookmarkService.juntadaAtualSelect;
+            bookmark.juntada = SharedBookmarkService.juntadaAtualSelect ?
+                SharedBookmarkService.juntadaAtualSelect : this.currentJuntada;
 
             const operacaoId = CdkUtils.makeId();
             this._store.dispatch(new fromStore.SaveBookmark({
@@ -580,6 +581,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.bookmarkDialogRef.afterClosed().subscribe(() => {
             this.bookmarkDialogRef = null;
+            SharedBookmarkService.juntadaAtualSelect = null;
         });
     }
 
@@ -590,8 +592,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         }
         const pagesBefore = this.spreadMode === 'off' ? 2 : 2;
         const pagesAfter = this.spreadMode === 'off' ? 2 : 5;
-        let startPage = Math.max(this.page - pagesBefore, 1);
-        let endPage = Math.min(this.page + pagesAfter, this.pdfViewerService.numberOfPages());
+        const startPage = Math.max(this.page - pagesBefore, 1);
+        const endPage = Math.min(this.page + pagesAfter, this.pdfViewerService.numberOfPages());
 
         const renderedPages = this.pdfViewerService.currentlyRenderedPages();
 

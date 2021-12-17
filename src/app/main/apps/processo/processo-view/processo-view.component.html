@@ -91,10 +91,10 @@
 
                 <div *ngIf="(loading$ | async) === false && (juntadas)?.length > 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
-                    <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital.extensao !== 'pdf'"
+                    <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
-                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital.extensao === 'pdf'"
+                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital.mimetype === 'application/pdf'"
                                              [src]="src"
                                              [useBrowserLocale]="true"
                                              [textLayer]="true"

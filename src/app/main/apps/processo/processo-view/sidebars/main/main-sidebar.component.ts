@@ -239,6 +239,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     isLoadingBookmarks$: Observable<boolean>;
     bookmarks$: Observable<Bookmark[]>;
     bookmarks: any;
+    bookmarksBySequencial: any;
     paginationBookmark$: any;
     paginationBookmark: any;
     deletingBookmarkId$: Observable<number[]>;
@@ -341,9 +342,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             (currentStep) => {
                 this.currentStep = currentStep;
                 this.isJuntadas = true;
-                if (!SharedBookmarkService.juntadaAtualSelect) {
-                    SharedBookmarkService.juntadaAtualSelect = this.juntadas[currentStep.step];
-                }
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -446,10 +444,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.bookmarks$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            bookmarks => {
+            (bookmarks) => {
                 if (bookmarks) {
-                    this.bookmarks = CdkUtils.groupArrayByFunction(bookmarks, book => book?.juntada?.numeracaoSequencial);
-                    console.log(this.bookmarks);
+                    this.bookmarks = bookmarks;
+                    this.bookmarksBySequencial = CdkUtils.groupArrayByFunction(bookmarks, book => book?.juntada?.numeracaoSequencial);
+                    this.bookmarksBySequencial = Array.from(this.bookmarksBySequencial, ([key, value]) => ({ key, value })).sort((a,b) => b.key-a.key);
                 }
             }
         );
@@ -1433,6 +1432,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     abreJuntadas(): void {
+        this.isJuntadas = true;
         this.reloadJuntadas();
     }
 
@@ -1449,6 +1449,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     viewBookmark(bookmark: any, pagina: any, key: any): void {
         this.bookMarkselected = bookmark.id;
         this.bookMarkJuntadaselected = key;
+        SharedBookmarkService.juntadaAtualSelect = bookmark.juntada;
+
         this._router.navigate([
             this.routerState.url.split('/processo/')[0] +
             '/processo/' +

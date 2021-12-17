@@ -33,7 +33,7 @@ export class BookmarkEffects {
             content: 'Criando bookmark ...',
             status: 0, // carregando
         }))),
-        switchMap(action => {
+        switchMap((action) => {
             const populate = JSON.stringify([
                 'componenteDigital',
                 'juntada'
