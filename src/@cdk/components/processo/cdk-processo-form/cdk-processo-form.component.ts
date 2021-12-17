@@ -347,6 +347,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
+        this.form.get('visibilidadeExterna').valueChanges.subscribe((value) => {
+            this.form.get('visibilidadeExterna').setValue(value);
+            }
+        )
+
         this.form.get('modalidadeFase').disable();
     }
 
