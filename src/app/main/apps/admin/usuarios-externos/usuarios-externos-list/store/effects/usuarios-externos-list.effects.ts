@@ -34,7 +34,7 @@ export class UsuariosExternosListEffects {
             action.payload.offset,
             JSON.stringify(action.payload.sort),
             JSON.stringify(action.payload.populate),
-            JSON.stringify(action.payload.context)).pipe(
+            JSON.stringify({isAdmin: true})).pipe(
             mergeMap(response => [
                 new AddData<Usuario>({data: response['entities'], schema: usuariosExternosSchema}),
                 new UsuariosExternosListActions.GetUsuariosExternosListSuccess({

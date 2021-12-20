@@ -731,3 +731,4 @@
 * Correção nas rotas das ações no Painel de Tarefas
 * Correção na Edição de Usuário inativos por parte de Coordenadores de Unidade
 * Correção erro de inconsistência grave detectada ao tentar restaurar um ofício apagado #717
+* Melhoria inclusão do botão para Habilitar a Consulta Público de Processos ao Cidadão
