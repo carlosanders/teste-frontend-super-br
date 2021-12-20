@@ -130,6 +130,8 @@ export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-b
 export const servidorEmail = new schema.Entity('servidor-email');
 export const contaEmail = new schema.Entity('conta-email');
 export const modalidadeCopia = new schema.Entity('modalidade-copia');
+export const dossie = new schema.Entity('dossie');
+export const tipoDossie = new schema.Entity('tipo-dossie');
 
 acao.define({
     criadoPor: usuario,
@@ -706,6 +708,7 @@ pessoa.define({
     naturalidade: municipio,
     modalidadeQualificacaoPessoa: modalidadeQualificacaoPessoa,
     origemDados: origemDados,
+    dossies: [dossie],
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -1101,6 +1104,23 @@ contaEmail.define({
 });
 
 modalidadeCopia.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+dossie.define({
+    pessoa: pessoa,
+    processo: processo,
+    origemDados: origemDados,
+    documento: documento,
+    tipoDossie: tipoDossie,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+tipoDossie.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
