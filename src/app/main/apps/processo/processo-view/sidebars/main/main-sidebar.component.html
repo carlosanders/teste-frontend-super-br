@@ -962,6 +962,9 @@
                                  class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                                 <div fxFlex="1 1 auto" fxLayoutAlign="start center" [matTooltip]="book.descricao">
                                     <mat-icon class="ml-4 s-14">bookmark</mat-icon>
+                                    <div class="index-vinculado">
+                                        <span>{{book.pagina}}</span>
+                                    </div>
                                     <a class="ml-4"
                                        (click)="viewBookmark(book, book.pagina, bookmark.key)" >
                                         {{book.nome}}

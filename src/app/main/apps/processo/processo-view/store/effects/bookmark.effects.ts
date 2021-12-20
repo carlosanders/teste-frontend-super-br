@@ -161,7 +161,7 @@ export class BookmarkEffects {
                 listFilter: {},
                 limit: 25,
                 offset: 0,
-                sort: {'juntada.numeracaoSequencial': 'DESC'},
+                sort: {'juntada.numeracaoSequencial': 'DESC', 'pagina': 'ASC'},
                 populate: [
                     'juntada',
                     'componenteDigital'

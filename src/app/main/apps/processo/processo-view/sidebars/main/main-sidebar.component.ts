@@ -745,8 +745,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     reloadJuntadas(): void {
         this.novaJuntada = false;
-        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
-        this._store.dispatch(new fromStore.ReloadJuntadas());
+        // this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        // this._store.dispatch(new fromStore.ReloadJuntadas());
     }
 
     reloadDocumentos(): void {
@@ -1432,7 +1432,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         if (this.bookmarks.length >= this.paginationBookmark.total) {
             return;
         }
-        console.log(this.paginationBookmark);
+
         const nparams = {
             filter: this.paginationBookmark.filter,
             sort: this.paginationBookmark.sort,
