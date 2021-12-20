@@ -745,8 +745,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     reloadJuntadas(): void {
         this.novaJuntada = false;
-        // this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
-        // this._store.dispatch(new fromStore.ReloadJuntadas());
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        this._store.dispatch(new fromStore.ReloadJuntadas());
     }
 
     reloadDocumentos(): void {
@@ -1450,7 +1450,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     abreJuntadas(): void {
         this.isJuntadas = true;
-        this.reloadJuntadas();
+       // this.reloadJuntadas();
     }
 
     reloadBookmarks(): void {
