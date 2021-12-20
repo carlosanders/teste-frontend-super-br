@@ -65,6 +65,7 @@ export class EspecieProcessoEditComponent implements OnInit {
             descricao: [null, [Validators.required]],
             classificacao: [null],
             modalidadeMeio: [null],
+            workflow: [null],
             titulo: [null],
             ativo: [null],
             evento: [null]
