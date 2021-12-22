@@ -9,7 +9,7 @@ import * as fromStoreProcessoView from 'app/main/apps/processo/processo-view/sto
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
 import {getHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded, getJuntadasLoaded} from '../../../../processo/processo-view/store';
+import {getJuntadasLoaded} from '../../../../processo/processo-view/store';
 import {getProcessoLoaded} from '../../../../processo/store';
 
 @Injectable()
@@ -64,8 +64,7 @@ export class ResolveGuard implements CanActivate {
             return forkJoin([
                 this.getTarefa(),
                 this.getProcesso(),
-                this.getJuntadas(),
-                this.getDocumentos()
+                this.getJuntadas()
             ]).pipe(
                 take(1),
             );
@@ -171,36 +170,5 @@ export class ResolveGuard implements CanActivate {
             filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
-    }
-
-    /**
-     * Get Documentos
-     *
-     * @returns
-     */
-    getDocumentos(): any {
-        if (this.routerState.params['tarefaHandle']) {
-            return this._store.pipe(
-                select(getDocumentosHasLoaded),
-                tap((loaded: any) => {
-                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                        this._store.dispatch(new fromStoreProcessoView.GetDocumentos());
-                    }
-                }),
-                filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
-                take(1)
-            );
-        } else {
-            return this._store.pipe(
-                select(getDocumentosHasLoaded),
-                tap((loaded: any) => {
-                    if (loaded) {
-                        this._store.dispatch(new fromStoreProcessoView.UnloadDocumentos());
-                    }
-                }),
-                filter((loaded: any) => !loaded),
-                take(1)
-            );
-        }
     }
 }

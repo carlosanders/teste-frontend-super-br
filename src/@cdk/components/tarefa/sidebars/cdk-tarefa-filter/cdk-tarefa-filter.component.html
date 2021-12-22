@@ -5,6 +5,18 @@
     <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Filtro</span>
 </div>
 
+<div class="search-wrapper">
+    <div class="search">
+        <cdk-search-bar-etiquetas [etiquetas]="etiquetas"
+                                  [entidades]="''"
+                                  [arraySearchTypes]="arrayFiltrosEtiquetas"
+                                  (create)="addEtiqueta($event)"
+                                  (changeFilter)="changeEtiquetaFilter($event)"
+                                  (delete)="deleteEtiqueta($event)">
+        </cdk-search-bar-etiquetas>
+    </div>
+</div>
+
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="8px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 

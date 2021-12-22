@@ -236,6 +236,79 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 });
         });
 
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((message) => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'ALIVE':
+                        if (message.content.subscriberInfo.version === this._cdkConfigService.assinador) {
+                            this.assinadores = this.assinadores.filter(info => info.processUUID !== message.content.subscriberInfo.processUUID);
+                            let selecionado = false;
+                            if (this.assinadores.length === 0) {
+                                selecionado = true;
+                                localStorage.setItem('assinador', message.content.subscriberInfo.processUUID);
+                            }
+                            this.assinadores.push({
+                                timestamp: moment().unix(),
+                                selecionado: selecionado,
+                                ...message.content.subscriberInfo
+                            });
+                        }
+                        break;
+                    case 'DISCONNECTED_NOW':
+                        this.assinadores = this.assinadores.filter(info => info.processUUID === message.content.processUUID);
+                        if (this.assinadores.length > 0) {
+                            let temSelecionado = false;
+                            this.assinadores.forEach((ass) => {
+                                if (ass.selecionado) {
+                                    temSelecionado = true;
+                                    localStorage.setItem('assinador', this.assinadores[0].processUUID);
+                                }
+                            });
+                            if (!temSelecionado) {
+                                this.assinadores[0].selecionado = true;
+                                localStorage.setItem('assinador', this.assinadores[0].processUUID);
+                            }
+                        } else {
+                            localStorage.removeItem('assinador');
+                        }
+                        break;
+                }
+            }
+        });
+
+        this.assinadorTime = setInterval(() => {
+            const timestamp = moment().unix();
+            this.assinadores = this.assinadores.filter(info => (timestamp - info.timestamp) < 15);
+            if (this.assinadores.length > 0) {
+                let temSelecionado = false;
+                this.assinadores.forEach((ass) => {
+                    if (ass.selecionado) {
+                        temSelecionado = true;
+                        localStorage.setItem('assinador', this.assinadores[0].processUUID);
+                    }
+                });
+                if (!temSelecionado) {
+                    this.assinadores[0].selecionado = true;
+                    localStorage.setItem('assinador', this.assinadores[0].processUUID);
+                }
+            } else {
+                localStorage.removeItem('assinador');
+            }
+        }, 10000);
+    }
+
+    setAssinadorSelecionado(assinador): void {
+        this.assinadores.forEach((ass) => {
+            ass.selecionado = assinador.processUUID === ass.processUUID;
+            if (ass.selecionado) {
+                if (this.assinadores.length === 0) {
+                    localStorage.setItem('assinador', ass.processUUID);
+                }
+            }
+        });
     }
 
     /**

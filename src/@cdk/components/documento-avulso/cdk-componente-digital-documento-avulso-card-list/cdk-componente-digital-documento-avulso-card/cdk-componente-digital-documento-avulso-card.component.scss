@@ -2,7 +2,7 @@
 
 cdk-componente-digital-documento-avulso-card {
 
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid;
 
   .more-vert {
     height: 44px;
@@ -10,7 +10,7 @@ cdk-componente-digital-documento-avulso-card {
 
   .file {
     cursor: pointer;
-    border-right: 1px solid rgba(0, 0, 0, 0.12);;
+    border-right: 1px solid;
   }
 
   .space {

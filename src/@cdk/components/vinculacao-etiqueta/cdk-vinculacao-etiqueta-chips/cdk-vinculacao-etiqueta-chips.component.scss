@@ -8,8 +8,28 @@ cdk-vinculacao-etiqueta-chips {
         flex-direction: row;
         flex: 1 1 auto;
 
-        .icon {
-            margin-right: 6px;
+        .mat-standard-chip {
+            min-height: auto !important;
+        }
+
+        .mat-chip {
+            height: 24px !important;
+
+            .icon {
+                margin-right: 6px !important;
+                height: 18px !important;
+                width: 18px !important;
+                font-size: 18px !important;
+            }
+        }
+
+        .mat-form-field-wrapper {
+            padding-bottom: 0 !important;
+
+            .mat-form-field-infix {
+                padding-top: 0 !important;
+                border-top: 0.5em solid transparent;
+            }
         }
 
         mat-form-field {
@@ -19,6 +39,8 @@ cdk-vinculacao-etiqueta-chips {
         .mat-focused .placeholder {
             color: transparent;
         }
+
+
     }
 
     > div.add-etiqueta-error {

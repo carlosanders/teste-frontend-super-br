@@ -12,7 +12,6 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Injectable()
@@ -65,11 +64,11 @@ export class ComponenteDigitalEffect {
                 content: `Componente digital id ${response.id} criado com sucesso!`,
                 status: 1, // sucesso
             }))),
-            tap(() => {
-                this._store.dispatch(new GetDocumentos());
-            }),
             mergeMap((response: ComponenteDigital) => [
-                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
+                new ComponenteDigitalActions.SaveComponenteDigitalSuccess({
+                    componenteDigital: response,
+                    tarefaId: action.payload.componenteDigital.tarefaOrigem.id
+                }),
                 new ComponenteDigitalActions.GetDocumento({
                     componenteDigitalId: response.id,
                     routeTarefa: action.payload.routeTarefa,
@@ -140,7 +139,7 @@ export class ComponenteDigitalEffect {
                     }).then();
             } else {
                 this._router.navigate([
-                        this.routerState.url.replace('modelo', action.payload.routeTarefa + '/documento') + '/' + action.payload.documentoId,
+                        this.routerState.url.replace('modelos/modelo', action.payload.routeTarefa + '/documento') + '/' + action.payload.documentoId,
                         {
                             outlets: {
                                 primary: primary,

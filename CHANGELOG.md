@@ -728,3 +728,18 @@
 * Correção na aparência do badge que exibe a numeração original de uma juntada anexada a outra no processo-view 
 * Correção no Compartilhamento de Tarefas em Bloco
 * Correção validação do Form Alterar Tipo de Documento Minuta antes de habilitar o salvamento
+* Correção nas rotas das ações no Painel de Tarefas
+* Correção na Edição de Usuário inativos por parte de Coordenadores de Unidade
+* Correção erro de inconsistência grave detectada ao tentar restaurar um ofício apagado #717
+* Melhoria inclusão do botão para Habilitar a Consulta Público de Processos ao Cidadão
+* Correção componentes digitais grid para utilizar a classe correta de css nos métodos que utilizavam um seletor
+* Melhoria painel de minutas corrigido agrupamento, agora agrupando por tarefas dentro do agrupamento por processo
+* Melhoria grid de modelos agora também utiliza corretamente o modo search, que deixa a sidebar lockedOpen
+* Correção componente de editor de minuta com base em modelo agora é aberto no contexto da edição de tarefa, e não da visualização do processo
+* Correção na rota utilizada para abrir o editor de minutas de dentro do componente de modelos
+* Melhoria alterada forma utilizada para atualizar as etiquetas das tarefas após exclusão de minuta(s)
+* Melhoria criação de minutas em bloco com base em modelos agora também permite pesquisar modelos ou componentes digitais, seguindo o que já ocorria para tarefa individual
+* Correção na rota de abertura de editor após criação de minuta com base em modelo
+* Melhoria assinatura, assinatura eletrônica e remover assinatura passam a ocorrer através de um evento global e único no sistema
+* Melhoria implementadas ações sobre minutas diretamente do painel de tarefas
+* Refatoramento em todo o sistema e módulos para padronização e utilização dos eventos globais de assinaturas

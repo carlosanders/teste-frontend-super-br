@@ -192,6 +192,36 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
             }
         }
 
+        case ProcessoViewActions.SET_BINARY_VIEW: {
+            return {
+                ...state,
+                binary: {
+                    src: null,
+                    loading: true
+                }
+            };
+        }
+
+        case ProcessoViewActions.SET_BINARY_VIEW_SUCCESS: {
+            return {
+                ...state,
+                binary: {
+                    src: action.payload.binary,
+                    loading: false
+                }
+            };
+        }
+
+        case ProcessoViewActions.SET_BINARY_VIEW_FAILED: {
+            return {
+                ...state,
+                binary: {
+                    src: null,
+                    loading: false
+                }
+            };
+        }
+
         default:
             return state;
     }

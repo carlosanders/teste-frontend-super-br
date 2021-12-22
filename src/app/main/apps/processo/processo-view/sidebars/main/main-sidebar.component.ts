@@ -26,7 +26,13 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-import {getDocumentosHasLoaded, getErrorsDocumentos, getSelectedVolume, getVolumes} from '../../store';
+import * as AssinaturaStore from 'app/store';
+import {
+    getDeletingBookmarkId,
+    getDocumentosHasLoaded,
+    getSelectedVolume,
+    getVolumes
+} from '../../store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -36,8 +42,6 @@ import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {
@@ -50,12 +54,13 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
-import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {Contador} from '@cdk/models/contador';
+import {Bookmark} from '@cdk/models/bookmark.model';
+import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -143,17 +148,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
 
-    assinaturaInterval = null;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
-    assinandoTarefaDocumentosId$: Observable<number[]>;
-    assinandoTarefaEletronicamenteDocumentosId$: Observable<number[]>;
-    alterandoDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentoIds$: Observable<number[]>;
-    javaWebStartOK = false;
     lixeiraMinutas$: Observable<boolean>;
     loadingDocumentosExcluidos$: Observable<boolean>;
 
@@ -210,8 +210,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     documentosVinculados: Documento[];
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
-    assinandoDocumentosVinculadosId$: Observable<number[]>;
-    removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
     documentosVinculadosPagination$: Observable<any>;
@@ -222,6 +220,18 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+    bookMarkselected: any;
+    bookMarkJuntadaselected: any;
+    isSavingBookmark$: Observable<boolean>;
+    isLoadingBookmarks$: Observable<boolean>;
+    bookmarks$: Observable<Bookmark[]>;
+    bookmarks: any;
+    bookmarksBySequencial: any;
+    paginationBookmark$: any;
+    paginationBookmark: any;
+    deletingBookmarkId$: Observable<number[]>;
+    isJuntadas = true;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
@@ -290,14 +300,17 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
-        this.assinandoTarefaDocumentosId$ = this._store.pipe(select(getAssinandoDocumentosId));
-        this.assinandoTarefaEletronicamenteDocumentosId$ = this._store.pipe(select(getAssinandoDocumentosEletronicamenteId));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
         this.loadingDocumentosExcluidos$ = this._store.pipe(select(fromStore.getLoadingDocumentosExcluidos));
         this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
+        this.isSavingBookmark$ = this._store.pipe(select(fromStore.getIsSavingBookmark));
+        this.isLoadingBookmarks$ = this._store.pipe(select(fromStore.getIsLoadingBookmark));
+        this.bookmarks$ = this._store.pipe(select(fromStore.getBookmarks));
+        this.paginationBookmark$ = this._store.pipe(select(fromStore.getPaginationBookmark));
+        this.deletingBookmarkId$ = this._store.pipe(select(fromStore.getDeletingBookmarkId));
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -317,6 +330,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(
             (currentStep) => {
                 this.currentStep = currentStep;
+                this.isJuntadas = true;
+                SharedBookmarkService.modeBookmark = false;
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -395,8 +410,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
-        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
-        this.removendoAssinaturaDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosVinculadosId));
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
         this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
@@ -414,6 +427,25 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         }
+        );
+
+        this.bookmarks$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            (bookmarks) => {
+                if (bookmarks) {
+                    this.bookmarks = bookmarks;
+                    this.bookmarksBySequencial = CdkUtils.groupArrayByFunction(bookmarks, book => book?.juntada?.numeracaoSequencial);
+                    this.bookmarksBySequencial = Array.from(this.bookmarksBySequencial, ([key, value]) => ({ key, value })).sort((a,b) => b.key-a.key);
+                    this._changeDetectorRef.markForCheck();
+                }
+            }
+        );
+
+        this.paginationBookmark$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            pagination => this.paginationBookmark = pagination
         );
 
     }
@@ -456,52 +488,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.detectChanges();
                 this._store.dispatch(new LimpaMercure());
             }
-
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeDocs)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
         this.tarefa$.pipe(
@@ -511,6 +497,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this.tarefa = value;
             this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
             this.documentoEdit.open = false;
+
             if (value) {
                 this._unsubscribeDocs.next(true);
                 this._unsubscribeDocs.complete();
@@ -949,7 +936,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     assinaDocumento(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -961,7 +948,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -971,7 +958,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     }
 
-    doAssinaturaJuntada(documento: Documento): void {
+    doAssinaturaJuntada(documento: Documento, step: number): void {
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
@@ -979,7 +966,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             result.documento = documento;
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.AssinaJuntada(result.documento.id));
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
             } else {
                 result.documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -991,7 +978,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: result.documento,
                         operacaoId: operacaoId
@@ -999,6 +986,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         });
+        setTimeout(() => {
+            this.gotoStep(step, null);
+        }, 10000);
     }
 
     doAdicionarVinculacao(juntadaId: number): void {
@@ -1112,7 +1102,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doRemoveAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     doConverte(documentoId): void {
@@ -1259,8 +1249,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 result.documentos.forEach((aDocumento) => {
                     documentosId.push(aDocumento.id);
                 });
-                this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
             } else {
+                const loteId = CdkUtils.makeId();
                 result.documentos.forEach((aDocumento) => {
                     aDocumento.componentesDigitais.forEach((componenteDigital) => {
                         const assinatura = new Assinatura();
@@ -1272,10 +1263,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         assinatura.plainPassword = result.plainPassword;
 
                         const operacaoId = CdkUtils.makeId();
-                        this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                             assinatura: assinatura,
                             documento: aDocumento,
-                            operacaoId: operacaoId
+                            operacaoId: operacaoId,
+                            loteId: loteId
                         }));
                     });
                 });
@@ -1283,7 +1275,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
         const assinaSub = dialogRef.componentInstance.assina.subscribe((result) => {
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
             } else {
                 result.documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -1295,7 +1287,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: result.documento,
                         operacaoId: operacaoId
@@ -1338,7 +1330,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: nparams, documento: documento}));
         });
         const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((docId: number) => {
-            this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(docId));
+            this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(docId));
         });
         // Unsubscribe em todas as assinaturas de eventos
         dialogRef.afterClosed().subscribe(() => {
@@ -1377,5 +1369,66 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     doTogglePanel(id): void {
         this.isOpen[id] = !this.isOpen[id];
+    }
+
+    onScrollBookmark(): void {
+        if (this.bookmarks.length >= this.paginationBookmark.total) {
+            return;
+        }
+
+        const nparams = {
+            filter: this.paginationBookmark.filter,
+            sort: this.paginationBookmark.sort,
+            limit: this.paginationBookmark.limit,
+            offset: this.paginationBookmark.offset + this.paginationBookmark.limit,
+            populate: this.paginationBookmark.populate
+        };
+
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.GetBookmarks({
+            params: nparams,
+            operacaoId: operacaoId
+        }));
+    }
+
+    abreJuntadas(): void {
+        this.isJuntadas = true;
+       // this.reloadJuntadas();
+    }
+
+    reloadBookmarks(): void {
+        this._store.dispatch(new fromStore.ReloadBookmarks());
+    }
+
+    getBookmark(): void {
+        this.isJuntadas = false;
+        this.bookMarkselected = 0;
+        SharedBookmarkService.modeBookmark = true;
+
+        this._store.dispatch(new fromStore.ReloadBookmarks());
+    }
+
+    viewBookmark(bookmark: any, pagina: any, key: any): void {
+        this.bookMarkselected = bookmark.id;
+        this.bookMarkJuntadaselected = key;
+        SharedBookmarkService.juntadaAtualSelect = bookmark.juntada;
+        SharedBookmarkService.modeBookmark = true;
+
+        this._router.navigate([
+            this.routerState.url.split('/processo/')[0] +
+            '/processo/' +
+            this.routerState.params.processoHandle + '/visualizar/' + bookmark.componenteDigital.id
+            ], { queryParams: { pagina: pagina } }
+        ).then(() => {
+            this._store.dispatch(new fromStore.SetBinaryView({componenteDigitalId: bookmark.componenteDigital.id}));
+        });
+    }
+
+    deleteBookmark(bookmarkId: any): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteBookmark({
+            bookmarkId: bookmarkId,
+            operacaoId: operacaoId,
+        }));
     }
 }

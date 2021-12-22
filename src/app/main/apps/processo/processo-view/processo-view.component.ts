@@ -28,7 +28,15 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getProcesso} from '../store';
-import {MercureService} from '../../../../../@cdk/services/mercure.service';
+import {MercureService} from '@cdk/services/mercure.service';
+import {NgxExtendedPdfViewerService, pdfDefaultOptions} from 'ngx-extended-pdf-viewer';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {
+    CdkBookmarkEditDialogComponent
+} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
+import {Bookmark} from '@cdk/models/bookmark.model';
+import {CdkUtils} from '@cdk/utils';
+import {SharedBookmarkService} from "../../../../../@cdk/services/shared-bookmark.service";
 
 @Component({
     selector: 'processo-view',
@@ -67,6 +75,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     animationDirection: 'left' | 'right' | 'none';
 
     fileName = '';
+    zoomSetting = 'auto';
+    page = 1;
+    spreadMode: 'off' | 'even' | 'odd' = 'off';
+    componenteDigital: ComponenteDigital;
 
     sidebarName = 'juntadas-left-sidebar-1';
 
@@ -104,7 +116,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     downloadUrl = null;
     unsafe = false;
 
+    bookmarkDialogRef: MatDialogRef<CdkBookmarkEditDialogComponent>;
+
     private _unsubscribeAll: Subject<any> = new Subject();
+    isBookmark = false;
 
     /**
      * @param _juntadaService
@@ -116,6 +131,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param _router
      * @param _activatedRoute
      * @param _mercureService
+     * @param _matDialog
+     * @param pdfViewerService
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -126,8 +143,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.ProcessoViewAppState>,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _mercureService: MercureService
+        private _mercureService: MercureService,
+        private _matDialog: MatDialog,
+        private pdfViewerService: NgxExtendedPdfViewerService
     ) {
+        pdfDefaultOptions.ignoreDestinationZoom = true;
+
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
         }
@@ -169,6 +190,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((binary) => {
             if (binary.src && binary.src.conteudo) {
+                this.componenteDigital = binary.src;
+                this.page = 1;
                 const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                 const byteNumbers = new Array(byteCharacters.length);
                 for (let i = 0; i < byteCharacters.length; i++) {
@@ -177,11 +200,17 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 const byteArray = new Uint8Array(byteNumbers);
                 const blob = new Blob([byteArray], {type: binary.src.mimetype});
                 const URL = window.URL;
-                if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
-                    this.downloadUrl = null;
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-                } else {
-                    this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+
+                switch (binary.src.mimetype) {
+                    case 'text/html':
+                        this.downloadUrl = null;
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                        break;
+                    case 'application/pdf':
+                        this.src = blob;
+                        break;
+                    default:
+                        this.downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                 }
 
                 if (binary.src.unsafe) {
@@ -205,6 +234,29 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this.srcMessage = 'Não há componentes digitais';
                 }
             }
+
+            if (this.routerState && this.routerState?.queryParams?.pagina &&
+                    this.page !== this.routerState?.queryParams?.pagina) {
+                this.page = this.routerState?.queryParams?.pagina;
+            }
+
+            if (this.componenteDigital &&
+                !(this.currentJuntada?.documento?.componentesDigitais.some(i => i.id === this.componenteDigital.id)) &&
+                this.currentJuntada?.documento?.vinculacoesDocumentos.length > 0) {
+                  this.currentJuntada?.documento?.vinculacoesDocumentos.map((d) => {
+                      (d?.documentoVinculado?.componentesDigitais.map(c => {
+                          if (c.id === this.componenteDigital.id) {
+                              SharedBookmarkService.juntadaAtualSelect = d.documentoVinculado.juntadaAtual;
+                          }
+                      }))
+                    });
+            } else {
+                SharedBookmarkService.juntadaAtualSelect = SharedBookmarkService.modeBookmark ?
+                    SharedBookmarkService.juntadaAtualSelect : this.currentJuntada;
+            }
+
+            this.isBookmark = SharedBookmarkService.modeBookmark;
+
             this.loading = binary.loading;
             this._changeDetectorRef.markForCheck();
         });
@@ -504,5 +556,73 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             }
         });
         this.downloadUrl = null;
+    }
+
+    criarBookmark(componenteDigitalId): void {
+        this.bookmarkDialogRef = this._matDialog.open(CdkBookmarkEditDialogComponent, {
+            data: {
+                componenteDigital: componenteDigitalId,
+                fileName: this.fileName,
+                nome: '',
+                pagina: this.page,
+                descricao: '',
+                totalPaginas: this.pdfViewerService.numberOfPages()
+            },
+            width: '600px',
+            height: '350px',
+        });
+
+        this.bookmarkDialogRef.componentInstance.edit.subscribe((result) => {
+            const bookmark = new Bookmark();
+
+            Object.entries(result).forEach(
+                ([key, value]) => {
+                    bookmark[key] = value;
+                }
+            );
+
+            const componenteDigital = new ComponenteDigital();
+            componenteDigital.id = componenteDigitalId;
+            bookmark.processo = this.processo;
+            bookmark.componenteDigital = componenteDigital;
+            bookmark.juntada = SharedBookmarkService.juntadaAtualSelect;
+
+            const operacaoId = CdkUtils.makeId();
+            this._store.dispatch(new fromStore.SaveBookmark({
+                bookmark: bookmark,
+                operacaoId: operacaoId
+            }));
+            this.page = result.pagina;
+            this._changeDetectorRef.detectChanges();
+        });
+
+        this.bookmarkDialogRef.afterClosed().subscribe(() => {
+            this.bookmarkDialogRef = null;
+        });
+    }
+
+    public onPageRendered(): void {
+        if (!this.pdfViewerService.isRenderQueueEmpty()) {
+            // try again later when the pages requested by the pdf.js core or the user have been rendered
+            setTimeout(() => this.onPageRendered(), 100);
+        }
+        const pagesBefore = this.spreadMode === 'off' ? 2 : 2;
+        const pagesAfter = this.spreadMode === 'off' ? 2 : 5;
+        const startPage = Math.max(this.page - pagesBefore, 1);
+        const endPage = Math.min(this.page + pagesAfter, this.pdfViewerService.numberOfPages());
+
+        const renderedPages = this.pdfViewerService.currentlyRenderedPages();
+
+        for (let page = startPage; page <= endPage; page++) {
+            const pageIndex = page - 1;
+            if (this.pdfViewerService.hasPageBeenRendered(pageIndex)) {
+                this.pdfViewerService.addPageToRenderQueue(pageIndex);
+                break; // break because you can request only one page at a time
+            }
+        }
+    }
+
+    public onPagesLoaded(s, event): void {
+        this.page = event;
     }
 }

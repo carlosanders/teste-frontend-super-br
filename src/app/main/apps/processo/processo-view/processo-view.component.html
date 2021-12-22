@@ -20,14 +20,27 @@
             <div *ngIf="!capa && !vinculacao && !desentranhamento && !documentoAvulso" class="juntada-navigation">
                 <div>
                     <button mat-mini-fab class="previous accent cdk-white-fg"
+                            *ngIf="!isBookmark"
                             (click)="gotoPreviousStep()"
                             [disabled]="disabledBack()">
                         <mat-icon>chevron_left</mat-icon>
                     </button>
+                    <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
+                            class="previous accent cdk-white-fg ml-8"
+                            *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf'"
+                            (click)="criarBookmark(this.componenteDigital.id)">
+                        <mat-icon>bookmark</mat-icon>
+                    </button>
                 </div>
 
                 <div>
-                    <span [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">{{fileName}}</span>
+                    <span [matTooltip]="fileName"
+                          [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">
+                        {{ (fileName.length > 40) ?
+                            (fileName | slice:0:40)+'...' :
+                            (fileName)
+                        }}
+                    </span>
                 </div>
 
                 <div class="right">
@@ -40,6 +53,7 @@
                     </button>
                     &nbsp;
                     <button mat-mini-fab class="next accent cdk-white-fg"
+                            *ngIf="!isBookmark"
                             (click)="gotoNextStep()"
                             [disabled]="disabledNext()">
                         <mat-icon>chevron_right</mat-icon>
@@ -79,9 +93,19 @@
 
                 <div *ngIf="(loading$ | async) === false && (juntadas)?.length > 0"
                      class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
-                    <iframe id="iframe-juntadas" *ngIf="src"
+                    <iframe id="iframe-juntadas" *ngIf="src && this.componenteDigital?.mimetype !== 'application/pdf'"
                             [src]="src">
                     </iframe>
+                    <ngx-extended-pdf-viewer *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf'"
+                                             [src]="src"
+                                             [useBrowserLocale]="true"
+                                             [textLayer]="true"
+                                             [(zoom)]="zoomSetting"
+                                             [showOpenFileButton]="false"
+                                             [page]="page"
+                                             (pageRendered)="onPageRendered()"
+                                             (pageChange)="onPagesLoaded('pageChange', $event)">
+                    </ngx-extended-pdf-viewer>
                     <div class="div-about-blank" *ngIf="!src && !downloadUrl">
                         <span class="no-juntadas-text">{{this.srcMessage}}</span>
                         <mat-card class="no-componentes" *ngIf="this.currentJuntada && this.currentJuntada.documento?.componentesDigitais.length === 0">

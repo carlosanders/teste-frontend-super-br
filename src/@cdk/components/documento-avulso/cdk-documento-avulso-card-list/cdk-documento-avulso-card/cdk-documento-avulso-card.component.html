@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="start center">
 
     <div class="p-8 file" fxLayout="column" (click)="onClick(documento)"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+         >
 
         <div fxLayout="row" fxLayoutAlign="start center">
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">picture_as_pdf</mat-icon>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="more-vert"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+         >
         <button *ngIf="!deleting && !assinando && !convertendo" mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>

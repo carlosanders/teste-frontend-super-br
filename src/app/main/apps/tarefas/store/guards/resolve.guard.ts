@@ -19,11 +19,9 @@ import * as moment from 'moment';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
-    private _profile: Usuario;
     routerState: any;
-
     loadingTarefas: boolean = false;
-
+    private _profile: Usuario;
     /**
      *
      * @param _store
@@ -157,6 +155,20 @@ export class ResolveGuard implements CanActivate {
                             tarefaFilter = {
                                 'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
                                 'dataHoraConclusaoPrazo': 'isNull'
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'concluidas') {
+                            tarefaFilter = {
+                                'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                'dataHoraConclusaoPrazo': 'isNotNull'
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'enviadas') {
+                            tarefaFilter = {
+                                'criadoPor.id': 'eq:' + this._profile.id,
+                                'usuarioResponsavel.id': 'neq:' + this._profile.id,
                             };
                         }
 

@@ -35,7 +35,6 @@
 
     <cdk-login-form *ngIf="!this.routerState.queryParams['code']"
                     (save)="this.onSubmit($event)"
-                    [certificadoDigital]="certificadoDigital"
                     [config]="(config$ | async)"
                     [version]="version"
                     [errorMessage]="errorMessage$ | async"

@@ -186,7 +186,11 @@ export class AtividadeCreateDocumentosEffect {
                         changes: {apagadoEm: response.apagadoEm}
                     }));
                     this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
-                    return new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(response.id);
+                    return new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess({
+                        documentoId: response.id,
+                        uuid: response.uuid,
+                        tarefaId: this.routerState.params['tarefaHandle']
+                    });
                 }),
                 catchError((err) => {
                     const payload = {
@@ -224,28 +228,6 @@ export class AtividadeCreateDocumentosEffect {
             )
         )
     ));
-
-    /**
-     * Assina Documento Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
-        ofType<AtividadeCreateDocumentosActions.AssinaDocumentoSuccess>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
 
     /**
      * Save Documento Assinatura Eletronica
@@ -310,7 +292,7 @@ export class AtividadeCreateDocumentosEffect {
             if (action.payload.componentesDigitais[0]) {
                 primary += action.payload.componentesDigitais[0].id;
             } else {
-                primary += '0';
+                primary += 'default';
             }
             if (action.payload.apagadoEm) {
                 primary += '/visualizar';

@@ -1,10 +1,10 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ElementRef,
     EventEmitter,
     Input,
-    Output,
+    Output, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -27,6 +27,8 @@ import {CdkUtils} from '../../../utils';
     animations: cdkAnimations
 })
 export class CdkComponenteDigitalCardListComponent {
+
+    @ViewChild('file', {static: false}) file: ElementRef<HTMLInputElement>;
 
     @Input()
     componentesDigitais: ComponenteDigital[] = [];
@@ -96,7 +98,7 @@ export class CdkComponenteDigitalCardListComponent {
     completedAll = new EventEmitter<any>();
 
     /**
-     * Disparado quando o upload de todos os componentes digitais for concluído, ou quando restarem apenas uploads com erro na fila
+     * Disparado quando o upload for iniciado
      */
     @Output()
     startedUpload = new EventEmitter<any>();
@@ -175,11 +177,11 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     upload(): void {
-        const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-        fileUpload.onchange = () => {
-            for (let index = 0; index < fileUpload.files.length; index++) {
+        // const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
+        this.file.nativeElement.onchange = () => {
+            for (let index = 0; index < this.file.nativeElement.files.length; index++) {
                 this.lastOrder++;
-                const tmpFile = fileUpload.files[index];
+                const tmpFile = this.file.nativeElement.files[index];
                 const file = {
                     data: tmpFile,
                     state: 'in',
@@ -212,13 +214,13 @@ export class CdkComponenteDigitalCardListComponent {
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
             }
-            fileUpload.value = '';
+            this.file.nativeElement.value = '';
 
             if (this.uploadMode !== 'linear') {
                 this.start();
             }
         };
-        fileUpload.click();
+        this.file.nativeElement.click();
     }
 
     start(): void {
@@ -271,7 +273,7 @@ export class CdkComponenteDigitalCardListComponent {
 
         this.getBase64(file.data).then(
             (conteudo) => {
-                const componenteDigital = this.componentesDigitais.find(componenteDigital => componenteDigital.file === file);
+                const componenteDigital = this.componentesDigitais.find(cd => cd.file === file);
                 componenteDigital.conteudo = conteudo;
                 this._changeDetectorRef.markForCheck();
 

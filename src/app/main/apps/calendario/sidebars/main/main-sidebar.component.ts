@@ -17,6 +17,7 @@ import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
+import {Back} from "../../../../../store";
 
 @Component({
     selector: 'calendario-main-sidebar',
@@ -63,6 +64,7 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
             this.typeHandle = routerState.state.params['typeHandle'];
+            this.generoHandle = routerState.state.params['generoHandle'];
         });
 
         this.setoresCoordenacao = [];
@@ -104,5 +106,8 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
         if (!this._cdkSidebarService.getSidebar('calendario-main-sidebar').isLockedOpen) {
             this._cdkSidebarService.getSidebar('calendario-main-sidebar').close();
         }
+    }
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 }

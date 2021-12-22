@@ -13,16 +13,15 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
+import * as AssinaturaStore from 'app/store';
 import {Assinatura, ComponenteDigital, Documento, Pagination, VinculacaoDocumento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {getMercureState, getRouterState} from 'app/store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CdkUtils} from '@cdk/utils';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -63,13 +62,10 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     assinandoDocumentosVinculadosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
-    assinandoDocumentosVinculadosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
-    javaWebStartOK = false;
     lote: string;
 
     routerState: any;
-    assinaturaInterval = null;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -96,43 +92,13 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
-        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
         this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
-
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
 
         this._store.pipe(
             select(getRouterState),
@@ -170,27 +136,6 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             filter(documentos => !!documentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(documentos => this.documentosVinculados = documentos);
-
-        this.assinandoDocumentosVinculadosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosVinculadosId) => {
-            if (assinandoDocumentosVinculadosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosVinculadosId.length > 0)) {
-                        assinandoDocumentosVinculadosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
-        });
     }
 
     ngAfterViewInit(): void {
@@ -253,7 +198,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
     doAssinaturaDocumentoVinculado(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumentoVinculado([result.documento.id]));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -265,7 +210,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -280,7 +225,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
             result.documentos.forEach((documento) => {
                 documentosId.push(documento.id);
             });
-            this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentosId));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
         } else {
             const lote = CdkUtils.makeId();
             result.documentos.forEach((documento) => {
@@ -294,7 +239,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
                         operacaoId: operacaoId,
@@ -380,7 +325,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     }
 
     doRemoveAssinatura(documentoId: number): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumentoVinculado(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     doDesvincularBloco(vinculacoesDocumento: VinculacaoDocumento[]): void {

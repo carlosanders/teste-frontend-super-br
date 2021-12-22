@@ -119,7 +119,7 @@ export function AtividadeCreateDocumentosReducer(
         case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
-                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.documentoId),
                 errorDelete: [],
                 error: null
             };

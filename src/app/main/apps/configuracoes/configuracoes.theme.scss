@@ -128,4 +128,15 @@
             }
         }
     }
+
+    cdk-acompanhamento-filter {
+        background: map-get($background, card);
+        .search-wrapper {
+            background: map-get($background, card);
+            .search {
+                background: map-get($background, card);
+            }
+        }
+
+    }
 }

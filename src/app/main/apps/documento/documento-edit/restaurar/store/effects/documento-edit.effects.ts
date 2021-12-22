@@ -70,7 +70,6 @@ export class DocumentoEditEffects {
             if (componenteDigital.editavel && !componenteDigital.assinado) {
                 type = '/editor/ckeditor';
             }
-            this._store.dispatch(new UnloadDocumento());
             let sidebar = 'oficio/dados-basicos';
             if (!action.payload.documentoAvulsoRemessa) {
                 sidebar = 'editar/atividade';

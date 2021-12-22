@@ -56,6 +56,59 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     @Input()
     mobileMode = false;
 
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    isColaborador = false;
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: any = {};
+
+    @Input()
+    pageSize = 10;
+
+    @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
+
+    @Input()
+    actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry'];
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<any>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    deleteBlocoEmmitter = new EventEmitter<number[]>();
+
+    @Output()
+    view = new EventEmitter<ComponenteDigital>();
+
+    @Output()
+    selected = new EventEmitter<ComponenteDigital>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    selectedIds: number[] = [];
+
     allColumns: any[] = [
         {
             id: 'select',
@@ -263,59 +316,6 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     ];
 
     columns = new FormControl();
-
-    @Input()
-    deletingIds: number[] = [];
-
-    @Input()
-    isColaborador = false;
-
-    @Input()
-    deletedIds: number[] = [];
-
-    @Input()
-    deletingErrors: any = {};
-
-    @Input()
-    pageSize = 10;
-
-    @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
-
-    @Input()
-    actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry'];
-
-    @ViewChild(MatPaginator, {static: true})
-    paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Output()
-    reload = new EventEmitter<any>();
-
-    @Output()
-    excluded = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<any>();
-
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    deleteBlocoEmmitter = new EventEmitter<number[]>();
-
-    @Output()
-    view = new EventEmitter<ComponenteDigital>();
-
-    @Output()
-    selected = new EventEmitter<ComponenteDigital>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    @Output()
-    selectedIds: number[] = [];
 
     dataSource: ComponenteDigitalDataSource;
 
@@ -526,10 +526,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
     setFilter(gridFilter): void {
         if(this.mobileMode && this.componentesDigitais) {
-            (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-processo-pesquisa-on');
-            (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-processo-pesquisa-off');
-            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-processo-lista-off');
-            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-processo-lista-on');
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-componente-pesquisa-on');
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-componente-pesquisa-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-componente-lista-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-componente-lista-on');
         }
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
@@ -551,10 +551,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         return false;
     }
 
-    cssPesquisaOn() {
-        (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-processo-pesquisa-off');
-        (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-processo-pesquisa-on');
-        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-processo-lista-on');
-        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-processo-lista-off');
+    cssPesquisaOn(): void {
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-componente-pesquisa-off');
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-componente-pesquisa-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-componente-lista-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-componente-lista-off');
     }
 }

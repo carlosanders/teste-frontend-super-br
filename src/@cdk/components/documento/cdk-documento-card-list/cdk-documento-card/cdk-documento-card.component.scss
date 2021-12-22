@@ -2,8 +2,8 @@
 
 cdk-documento-card {
 
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 6px;
+    border: 1px solid;
+    border-radius: 3px;
 
     .more-vert {
         height: 44px;
@@ -11,7 +11,7 @@ cdk-documento-card {
 
     .file {
         cursor: pointer;
-        border-right: 1px solid rgba(0, 0, 0, 0.12);;
+        border-right: 1px solid;
     }
 
     .space {

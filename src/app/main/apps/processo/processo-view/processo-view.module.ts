@@ -40,6 +40,9 @@ import {CdkUploadDialogModule} from '@cdk/components/documento/cdk-upload-dialog
 import {CdkUsuarioAutocompleteModule} from '../../../../../@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../../../@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatSelectModule} from '@angular/material/select';
+import {NgxExtendedPdfViewerModule, NgxExtendedPdfViewerService} from 'ngx-extended-pdf-viewer';
+import {CdkBookmarkEditDialogModule} from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.module';
+import {BookmarkService} from '@cdk/services/bookmark.service';
 
 const routes: Routes = [
     {
@@ -129,12 +132,16 @@ modulesConfig.forEach((module) => {
         MatCardModule,
         CdkUsuarioAutocompleteModule,
         CdkSetorAutocompleteModule,
-        MatSelectModule
+        MatSelectModule,
+        NgxExtendedPdfViewerModule,
+        CdkBookmarkEditDialogModule
     ],
     providers: [
         JuntadaService,
         VinculacaoDocumentoService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        NgxExtendedPdfViewerService,
+        BookmarkService
     ],
     entryComponents: [
         CdkAssinaturaEletronicaPluginComponent

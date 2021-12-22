@@ -22,6 +22,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
     preparaAssinatura(documentosId: any = '[]', context: any = '{}'): Observable<any> {
         const p = {};
         p['documentosId'] = documentosId;
+        p['processUUID'] = localStorage.getItem('assinador');
         const params = new HttpParams({fromObject: p});
         params['context'] = context;
         return this.http.get(`${environment.api_url}administrativo/${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
