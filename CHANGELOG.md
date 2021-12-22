@@ -740,3 +740,6 @@
 * Melhoria alterada forma utilizada para atualizar as etiquetas das tarefas após exclusão de minuta(s)
 * Melhoria criação de minutas em bloco com base em modelos agora também permite pesquisar modelos ou componentes digitais, seguindo o que já ocorria para tarefa individual
 * Correção na rota de abertura de editor após criação de minuta com base em modelo
+* Melhoria assinatura, assinatura eletrônica e remover assinatura passam a ocorrer através de um evento global e único no sistema
+* Melhoria implementadas ações sobre minutas diretamente do painel de tarefas
+* Refatoramento em todo o sistema e módulos para padronização e utilização dos eventos globais de assinaturas

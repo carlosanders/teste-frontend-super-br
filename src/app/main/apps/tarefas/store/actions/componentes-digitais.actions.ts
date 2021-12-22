@@ -18,6 +18,10 @@ export const GET_DOCUMENTO_FAILED = '[TAREFAS] GET DOCUMENTO FAILED';
 export const VISUALIZAR_MODELO = '[TAREFAS] VISUALIZAR MODELO';
 export const VISUALIZAR_MODELO_FAILED = '[TAREFAS] VISUALIZAR MODELO FAILED';
 
+export const APROVAR_DOCUMENTO = '[TAREFAS] APROVAR DOCUMENTO';
+export const APROVAR_DOCUMENTO_SUCCESS = '[TAREFAS] APROVAR DOCUMENTO SUCCESS';
+export const APROVAR_DOCUMENTO_FAILED = '[TAREFAS] APROVAR DOCUMENTO FAILED';
+
 /**
  * Save Componente Digital
  */
@@ -168,6 +172,37 @@ export class DownloadComponenteDigitalFailed implements Action {
     }
 }
 
+/**
+ * Aprovar Documento
+ */
+
+export class AprovarDocumento implements Action
+{
+    readonly type = APROVAR_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarDocumentoSuccess implements Action
+{
+    readonly type = APROVAR_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class AprovarDocumentoFailed implements Action
+{
+    readonly type = APROVAR_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = CreateComponenteDigital
     | CreateComponenteDigitalSuccess
@@ -181,4 +216,7 @@ export type ComponenteDigitalActionsAll
     | VisualizarModeloFailed
     | DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
-    | DownloadComponenteDigitalFailed;
+    | DownloadComponenteDigitalFailed
+    | AprovarDocumento
+    | AprovarDocumentoSuccess
+    | AprovarDocumentoFailed;

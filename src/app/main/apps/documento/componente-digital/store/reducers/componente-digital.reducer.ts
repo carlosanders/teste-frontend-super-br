@@ -1,14 +1,14 @@
 import * as ComponenteDigitalActions from '../actions/componente-digital.actions';
 
 export interface ComponenteDigitalState {
-    loaded: boolean;
+    loaded: any;
     loading: boolean;
-    componenteDigitalId: number;
+    componenteDigitalId: string;
     saving: boolean;
     errors: any;
 }
 
-export const ComponenteDigitalInitialState: ComponenteDigitalState = {
+export const componenteDigitalInitialState: ComponenteDigitalState = {
     loaded: false,
     loading: false,
     componenteDigitalId: null,
@@ -16,7 +16,10 @@ export const ComponenteDigitalInitialState: ComponenteDigitalState = {
     errors: false
 };
 
-export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, action: ComponenteDigitalActions.ComponenteDigitalActionsAll): ComponenteDigitalState {
+export const componenteDigitalReducer = (
+    state = componenteDigitalInitialState,
+    action: ComponenteDigitalActions.ComponenteDigitalActionsAll
+): ComponenteDigitalState => {
     switch (action.type) {
         case ComponenteDigitalActions.UNLOAD_COMPONENTE_DIGITAL: {
             return {
@@ -40,11 +43,18 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
 
         case ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL_SUCCESS: {
             return {
-                loaded: action.payload.loaded,
+                ...state,
                 componenteDigitalId: action.payload.componenteDigitalId,
                 loading: false,
                 saving: false,
                 errors: false
+            };
+        }
+
+        case ComponenteDigitalActions.COMPONENTE_DIGITAL_EXIBIDO: {
+            return {
+                ...state,
+                loaded: action.payload
             };
         }
 
@@ -85,4 +95,4 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         default:
             return state;
     }
-}
+};

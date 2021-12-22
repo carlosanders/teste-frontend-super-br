@@ -210,3 +210,8 @@ export const getVinculacaoEtiquetaByUuid = (uuid: string): any => createSelector
     getAllVinculacoesEtiqueta,
     ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta.find(vinculacao => vinculacao.objectUuid === uuid))
 );
+
+export const getVinculacaoEtiquetaByDocumentoId = (documentoId: number): any => createSelector(
+    getAllVinculacoesEtiqueta,
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta.find(vinculacao => vinculacao.objectId === documentoId))
+);

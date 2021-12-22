@@ -26,6 +26,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
+import * as AssinaturaStore from 'app/store';
 import {
     getDeletingBookmarkId,
     getDocumentosHasLoaded,
@@ -41,8 +42,6 @@ import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {
@@ -55,14 +54,13 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
-import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 import {MercureService} from '@cdk/services/mercure.service';
 import {DndDragImageOffsetFunction, DndDropEvent} from 'ngx-drag-drop';
 import {CdkUploadDialogComponent} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {Contador} from '@cdk/models/contador';
 import {Bookmark} from '@cdk/models/bookmark.model';
-import {SharedBookmarkService} from "../../../../../../../@cdk/services/shared-bookmark.service";
+import {SharedBookmarkService} from '../../../../../../../@cdk/services/shared-bookmark.service';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -150,17 +148,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
 
-    assinaturaInterval = null;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
-    assinandoTarefaDocumentosId$: Observable<number[]>;
-    assinandoTarefaEletronicamenteDocumentosId$: Observable<number[]>;
-    alterandoDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentoIds$: Observable<number[]>;
-    javaWebStartOK = false;
     lixeiraMinutas$: Observable<boolean>;
     loadingDocumentosExcluidos$: Observable<boolean>;
 
@@ -217,8 +210,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     documentosVinculados: Documento[];
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
-    assinandoDocumentosVinculadosId$: Observable<number[]>;
-    removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
     alterandoDocumentosVinculadosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
     documentosVinculadosPagination$: Observable<any>;
@@ -229,9 +220,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
-
-    private _unsubscribeAll: Subject<any> = new Subject();
-    private _unsubscribeDocs: Subject<any> = new Subject();
 
     bookMarkselected: any;
     bookMarkJuntadaselected: any;
@@ -244,6 +232,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     paginationBookmark: any;
     deletingBookmarkId$: Observable<number[]>;
     isJuntadas = true;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _unsubscribeDocs: Subject<any> = new Subject();
 
     /**
      *
@@ -309,10 +300,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
-        this.assinandoTarefaDocumentosId$ = this._store.pipe(select(getAssinandoDocumentosId));
-        this.assinandoTarefaEletronicamenteDocumentosId$ = this._store.pipe(select(getAssinandoDocumentosEletronicamenteId));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
         this.loadingDocumentosExcluidos$ = this._store.pipe(select(fromStore.getLoadingDocumentosExcluidos));
@@ -421,8 +410,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
-        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
-        this.removendoAssinaturaDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosVinculadosId));
         this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
         this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
@@ -501,52 +488,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.detectChanges();
                 this._store.dispatch(new LimpaMercure());
             }
-
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeDocs)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
         this.tarefa$.pipe(
@@ -995,7 +936,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     assinaDocumento(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -1007,7 +948,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -1025,7 +966,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             result.documento = documento;
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.AssinaJuntada(result.documento.id));
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
             } else {
                 result.documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -1037,7 +978,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: result.documento,
                         operacaoId: operacaoId
@@ -1161,7 +1102,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doRemoveAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     doConverte(documentoId): void {
@@ -1308,8 +1249,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 result.documentos.forEach((aDocumento) => {
                     documentosId.push(aDocumento.id);
                 });
-                this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
             } else {
+                const loteId = CdkUtils.makeId();
                 result.documentos.forEach((aDocumento) => {
                     aDocumento.componentesDigitais.forEach((componenteDigital) => {
                         const assinatura = new Assinatura();
@@ -1321,10 +1263,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         assinatura.plainPassword = result.plainPassword;
 
                         const operacaoId = CdkUtils.makeId();
-                        this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                             assinatura: assinatura,
                             documento: aDocumento,
-                            operacaoId: operacaoId
+                            operacaoId: operacaoId,
+                            loteId: loteId
                         }));
                     });
                 });
@@ -1332,7 +1275,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
         const assinaSub = dialogRef.componentInstance.assina.subscribe((result) => {
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
             } else {
                 result.documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -1344,7 +1287,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: result.documento,
                         operacaoId: operacaoId
@@ -1387,7 +1330,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: nparams, documento: documento}));
         });
         const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((docId: number) => {
-            this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(docId));
+            this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(docId));
         });
         // Unsubscribe em todas as assinaturas de eventos
         dialogRef.afterClosed().subscribe(() => {

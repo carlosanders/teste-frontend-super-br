@@ -49,7 +49,8 @@ import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
 import * as MinutasActions from '../../minutas/store/actions';
 import * as ModeloComponenteDigitalActions from '../../modelo-bloco/modelo/store/actions/componentes-digitais.actions';
-import * as ComponenteDigitalActions from '../../modelo-bloco/componentes-digitais/store/actions/componentes-digitais.actions';
+import * as ComponenteDigitalActions
+    from '../../modelo-bloco/componentes-digitais/store/actions/componentes-digitais.actions';
 import * as AtividadeCreateActions from '../../tarefa-detail/atividades/atividade-create/store/actions';
 import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store/actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
@@ -191,6 +192,29 @@ export class TarefasEffect {
             return of(new TarefasActions.GetEtiquetasTarefasFailed(err));
         })
     ));
+    atualizaEtiquetaMinuta: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<TarefasActions.AtualizaEtiquetaMinuta>(TarefasActions.ATUALIZA_ETIQUETA_MINUTA),
+        map(action => action.payload),
+        mergeMap(documentoId => of(documentoId).pipe(
+            withLatestFrom(this._store.pipe(select(fromStore.getVinculacaoEtiquetaByDocumentoId(documentoId))).pipe(
+                map(vinculacaoEtiqueta => vinculacaoEtiqueta)
+            ))
+        ), 25),
+        mergeMap(([, vinculacao]) => this._vinculacaoEtiquetaService.get(
+            vinculacao.id,
+            JSON.stringify(['etiqueta'])).pipe(
+            tap((response) => {
+                this._store.dispatch(new AddData<VinculacaoEtiqueta>({
+                    data: [response],
+                    schema: vinculacaoEtiquetaSchema
+                }));
+            })
+        ),25),
+        catchError((err) => {
+            console.log(err);
+            return err;
+        })
+    ), {dispatch: false});
     removeEtiquetaMinutaTarefa: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefasActions.RemoveEtiquetaMinutaTarefa>(TarefasActions.REMOVE_ETIQUETA_MINUTA_TAREFA),
         mergeMap(action => of(action.payload).pipe(
@@ -207,7 +231,7 @@ export class TarefasEffect {
                     }
                 })
             ))
-        ))
+        ), 25)
     ), {dispatch: false});
     /**
      * Update Tarefa

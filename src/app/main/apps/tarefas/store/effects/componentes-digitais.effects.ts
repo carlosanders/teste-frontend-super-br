@@ -2,10 +2,10 @@ import {Injectable, SecurityContext} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
-
+import * as TarefasActions from '../actions/tarefas.actions';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
@@ -100,24 +100,28 @@ export class ComponentesDigitaisEffects {
      */
     getDocumento: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.GetDocumento>(ComponenteDigitalActions.GET_DOCUMENTO),
-        tap((action) => {
-            this.componenteDigitalId = action.payload.componenteDigitalId;
-            this.routeAtividadeDocumento = action.payload.routeDocumento;
-        }),
         switchMap(action => this._documentoService.query(
             `{"componentesDigitais.id": "eq:${action.payload.componenteDigitalId}"}`,
             1,
             0,
             '{}',
-            '[]')
+            JSON.stringify([
+                'processoOrigem',
+                'tarefaOrigem'
+            ]))
             .pipe(
                 switchMap(response => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new AddData<Documento>({
+                        data: response['entities'], schema: documentoSchema, populate: [
+                            'processoOrigem',
+                            'tarefaOrigem'
+                        ]
+                    }),
                     new ComponenteDigitalActions.GetDocumentoSuccess({
                         documentoId: response['entities'][0].id,
                         documento: response['entities'][0],
-                        componenteDigitalId: this.componenteDigitalId,
-                        routeDocumento: this.routeAtividadeDocumento
+                        componenteDigitalId: action.payload.componenteDigitalId,
+                        routeDocumento: action.payload.routeDocumento
                     }),
                 ])
             )
@@ -130,30 +134,91 @@ export class ComponentesDigitaisEffects {
 
     getDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
-        withLatestFrom(this._store.pipe(select(fromStore.getCurrentTarefaId))),
-        tap(([action, currentTarefa]) => {
-            console.log(currentTarefa);
-            const primary = 'componente-digital/' + action.payload.componenteDigitalId;
-            const sidebar = 'editar/' + action.payload.routeDocumento;
+        tap((action) => {
+            let stepHandle = this.routerState.params['stepHandle'];
+            let primary: string;
+            primary = 'componente-digital/';
+            const componenteDigitalId = action.payload.componenteDigitalId;
+
+            primary += componenteDigitalId;
+            const tarefaId = action.payload.documento.vinculacaoDocumentoPrincipal ?
+                action.payload.documento.vinculacaoDocumentoPrincipal.documento.tarefaOrigem.id :
+                action.payload.documento.tarefaOrigem.id;
+            const processoId = action.payload.documento.processoOrigem.id;
+            if (!stepHandle || processoId !== parseInt(this.routerState.params['processoHandle'],10)) {
+                stepHandle = 'default';
+            }
+
             this._router.navigate([
                     'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
-                    + this.routerState.params.targetHandle + '/tarefa/' + currentTarefa.tarefaId + '/processo/'
-                    + currentTarefa.processoId + '/visualizar',
+                    + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/processo/' + processoId + '/visualizar/'
+                    + stepHandle + '/documento/' + action.payload.documento.id,
                     {
                         outlets: {
-                            primary: primary,
-                            sidebar: sidebar
+                            primary: primary
                         }
                     }
                 ],
                 {
-                    relativeTo: this._activatedRoute.parent,
-                    queryParams: {
-                        documentoEdit: action.payload.documento.uuid
-                    }
+                    relativeTo: this._activatedRoute.parent
                 }).then();
         })
     ), {dispatch: false});
+    /**
+     * Aprovar Componente Digital
+     *
+     * @type {Observable<any>}
+     */
+    aprovarDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.AprovarDocumento>(ComponenteDigitalActions.APROVAR_DOCUMENTO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'componente digital',
+            content: 'Criando aprovação com base em documento id ' + action.payload.documento.id + ' ...',
+            status: 0, // carregando
+        }))),
+        switchMap((action) => {
+            const componenteDigital = new ComponenteDigital();
+            componenteDigital.documentoOrigem = action.payload.documento;
+            const populate = [
+                'documento',
+                'documento.componentesDigitais'
+            ];
+            this.routeAtividadeDocumento = action.payload.routeDocumento;
+
+            return this._componenteDigitalService.aprovar(componenteDigital, JSON.stringify(populate)).pipe(
+                tap(() => this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'componente digital',
+                    content: 'Aprovação com base em documento id ' + action.payload.documento.id + ' salva com sucesso.',
+                    status: 1, // sucesso
+                }))),
+                mergeMap((response: ComponenteDigital) => [
+                    new TarefasActions.AtualizaEtiquetaMinuta(action.payload.documento.id),
+                    new ComponenteDigitalActions.AprovarDocumentoSuccess(response),
+                    new AddData<ComponenteDigital>({
+                        data: [{...action.payload, ...response}],
+                        schema: componenteDigitalSchema,
+                        populate: populate
+                    }),
+                    new ComponenteDigitalActions.GetDocumento({
+                        componenteDigitalId: response.id,
+                        routeDocumento: action.payload.routeDocumento
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'componente digital',
+                        content: 'Ocorreu um erro ao criar aprovação.',
+                        status: 2, // erro
+                    }));
+                    return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                })
+            );
+        })
+    ));
     /**
      * Visualizar Modelo
      *

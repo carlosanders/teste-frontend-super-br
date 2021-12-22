@@ -14,11 +14,10 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
 export class DocumentosVinculadosEffects {
-    documento: Documento;
+    payload: any;
     /**
      * Get Documentos Vinculados with router parameters
      *
@@ -26,8 +25,8 @@ export class DocumentosVinculadosEffects {
      */
     getDocumentosVinculados: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<DocumentosVinculadosActions.GetDocumentosVinculados>(DocumentosVinculadosActions.GET_DOCUMENTOS_VINCULADOS),
+        tap(action => this.payload = action.payload),
         switchMap((action) => {
-            this.documento = action.payload.documento;
             const params = action.payload.filters;
 
             return this._documentoService.query(
@@ -40,11 +39,11 @@ export class DocumentosVinculadosEffects {
                 JSON.stringify(params.populate));
         }),
         mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+            new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: this.payload.filters.populate}),
             new DocumentosVinculadosActions.GetDocumentosVinculadosSuccess({
                 loaded: {
                     id: 'documentoHandle',
-                    value: this.documento.id
+                    value: this.payload.documentoId
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
                 total: response['total']
@@ -130,48 +129,6 @@ export class DocumentosVinculadosEffects {
             );
         }, 25)
     ));
-    /**
-     * Download Documento Vinculado P7S
-     *
-     * @type {Observable<any>}
-     *
-     * */
-    downloadVinculadoP7S: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<DocumentosVinculadosActions.DownloadVinculadoP7S>(DocumentosVinculadosActions.DOWNLOAD_DOCUMENTO_VINCULADO_P7S),
-        mergeMap(action => this._componenteDigitalService.downloadP7S(action.payload.id)
-            .pipe(
-                map((response) => {
-                    if (response) {
-                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
-                        const byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], {type: response.mimetype});
-                        const URL = window.URL;
-                        const data = URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = data;
-                        link.download = response.fileName;
-                        link.dispatchEvent(new MouseEvent('click', {
-                            bubbles: true,
-                            cancelable: true,
-                            view: window
-                        }));
-                        setTimeout(() => {
-                            window.URL.revokeObjectURL(data);
-                            link.remove();
-                        }, 100);
-                    }
-                    return new DocumentosVinculadosActions.DownloadVinculadoP7SSuccess(action.payload);
-                }),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new DocumentosVinculadosActions.DownloadVinculadoP7SFailed(action.payload));
-                })
-            ), 25)
-    ));
 
     constructor(
         private _actions: Actions,
@@ -179,7 +136,6 @@ export class DocumentosVinculadosEffects {
         private _router: Router,
         private _store: Store<State>,
         private _activatedRoute: ActivatedRoute,
-        private _componenteDigitalService: ComponenteDigitalService,
     ) {
     }
 }

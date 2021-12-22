@@ -11,7 +11,6 @@ import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
 import {getSelectedTarefas} from '../../../store';
-import {Tarefa} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {

@@ -32,6 +32,13 @@ export class VinculacaoEtiqueta {
     @Exclude({ toPlainOnly: true })
     objectUuid?: string;
 
+    @Exclude({ toPlainOnly: true })
+    objectId?: number;
+
+    @Exclude({ toPlainOnly: true })
+    @Transform(value => value ? JSON.parse(value) : {}, {toClassOnly: true})
+    objectContext?: any;
+
     privada?: boolean;
 
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
@@ -140,6 +147,8 @@ export class VinculacaoEtiqueta {
         this.label = null;
         this.objectClass = null;
         this.objectUuid = null;
+        this.objectId = null;
+        this.objectContext = {};
         this.relatorio = null;
     }
 }

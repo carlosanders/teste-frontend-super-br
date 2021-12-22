@@ -19,7 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {ComponenteDigital, Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
+import {Pagination, Usuario, VinculacaoEtiqueta} from '../../../models';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -50,9 +50,6 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     assinandoTarefasIds: number[] = [];
 
     @Input()
-    assinandoTarefasEletronicamenteIds: number[] = [];
-
-    @Input()
     savingVinculacaoEtiquetaId: number;
 
     @Input()
@@ -81,6 +78,24 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     selectedIds: number[] = [];
+
+    @Input()
+    alterandoDocumentosId: number[] = [];
+
+    @Input()
+    assinandoDocumentosId: number[] = [];
+
+    @Input()
+    convertendoDocumentosId: number[] = [];
+
+    @Input()
+    deletingDocumentosId: number[] = [];
+
+    @Input()
+    downloadP7SDocumentoIds: number[] = [];
+
+    @Input()
+    removendoAssinaturaDocumentosId: number[] = [];
 
     @Output()
     changeSelectedIds = new EventEmitter();
@@ -203,6 +218,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     salvarObservacao = new EventEmitter<any>();
 
     @Output()
+    alterarTipoDocumento = new EventEmitter<any>();
+
+    @Output()
     assinaMinutas = new EventEmitter<Tarefa>();
 
     @Output()
@@ -213,6 +231,33 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     vinculacaoEtiquetaEdit = new EventEmitter<any>();
+
+    @Output()
+    aprovaDocumento = new EventEmitter<number>();
+
+    @Output()
+    assinaDocumento = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
+    converteHtml = new EventEmitter<number>();
+
+    @Output()
+    convertePdf = new EventEmitter<number>();
+
+    @Output()
+    deleteDocumento = new EventEmitter<number>();
+
+    @Output()
+    downloadP7S = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
+    removeAssinaturaDocumento = new EventEmitter<number>();
+
+    @Output()
+    uploadAnexos = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
+    verResposta = new EventEmitter<{ documentoRespostaId: number; tarefa: Tarefa }>();
 
     @Output()
     completed = new EventEmitter<number>();
@@ -543,6 +588,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.createDocumentoAvulso.emit(tarefaId);
     }
 
+    doAlterarTipoDocumento(event): void {
+        this.alterarTipoDocumento.emit(event);
+    }
+
     doAssinaMinutas(tarefa: Tarefa): void {
         this.assinaMinutas.emit(tarefa);
     }
@@ -664,6 +713,42 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doVinculacaoEtiquetaEdit(params): void {
         this.vinculacaoEtiquetaEdit.emit(params);
+    }
+
+    doAprovaDocumento(documentoId: number): void {
+        this.aprovaDocumento.emit(documentoId);
+    }
+
+    doAssinaDocumento(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.assinaDocumento.emit(vinculacaoEtiqueta);
+    }
+
+    doConverteHtml(documentoId: number): void {
+        this.converteHtml.emit(documentoId);
+    }
+
+    doConvertePdf(documentoId: number): void {
+        this.convertePdf.emit(documentoId);
+    }
+
+    doDeleteDocumento(documentoId: number): void {
+        this.deleteDocumento.emit(documentoId);
+    }
+
+    doDownloadP7S(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.downloadP7S.emit(vinculacaoEtiqueta);
+    }
+
+    doRemoveAssinaturaDocumento(documentoId: number): void {
+        this.removeAssinaturaDocumento.emit(documentoId);
+    }
+
+    doUploadAnexos(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.uploadAnexos.emit(vinculacaoEtiqueta);
+    }
+
+    doVerResposta(event: { documentoRespostaId: number; tarefa: Tarefa }): void {
+        this.verResposta.emit(event);
     }
 
     onComplete(tarefaId: number): void {

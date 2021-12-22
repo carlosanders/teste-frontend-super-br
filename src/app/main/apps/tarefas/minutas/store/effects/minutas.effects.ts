@@ -41,7 +41,7 @@ export class MinutasEffects {
                 JSON.stringify(action.payload.populate)
             ).pipe(
                 mergeMap(response => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: action.payload.populate}),
                     new MinutasActions.GetDocumentosSuccess({
                         tarefaId: action.payload.tarefaId,
                         processoId: action.payload.processoId,
@@ -89,6 +89,10 @@ export class MinutasEffects {
                     id: response.id,
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
+                }));
+                this._store.dispatch(new MinutasActions.RemoveDocumentoIdFromTarefa({
+                    documentoId: response.id,
+                    tarefaId: action.payload.tarefaId
                 }));
                 return new MinutasActions.DeleteDocumentoSuccess({
                     documentoId: action.payload.documentoId,
@@ -138,18 +142,6 @@ export class MinutasEffects {
         )
     ));
     /**
-     * Converte Documento Success
-     *
-     * @type {Observable<any>}
-     */
-    converteDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<MinutasActions.ConverteToPdfSucess>(MinutasActions.CONVERTE_DOCUMENTO_SUCESS),
-        withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
-            this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
-        }),
-    ), {dispatch: false});
-    /**
      * Converte Documento HTML
      *
      * @type {Observable<any>}
@@ -166,18 +158,6 @@ export class MinutasEffects {
             ), 25
         )
     ));
-    /**
-     * Converte Documento Html Success
-     *
-     * @type {Observable<any>}
-     */
-    converteDocumentoHtmlSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<MinutasActions.ConverteToHtmlSucess>(MinutasActions.CONVERTE_DOCUMENTO_HTML_SUCESS),
-        withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
-            this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
-        }),
-    ), {dispatch: false});
     /**
      * Download P7S
      *
@@ -263,7 +243,7 @@ export class MinutasEffects {
     removeAssinaturaDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<MinutasActions.RemoveAssinaturaDocumentoSuccess>(MinutasActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS),
         withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
+        tap(([, tarefas]) => {
             this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
         }),
     ), {dispatch: false});
@@ -317,19 +297,6 @@ export class MinutasEffects {
         ))
     ));
     /**
-     * Assinaa Documento Eletronicamente Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamenteSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        // eslint-disable-next-line max-len
-        ofType<MinutasActions.AssinaDocumentoEletronicamenteSuccess>(MinutasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
-        withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([action, tarefas]) => {
-            this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
-        }),
-    ), {dispatch: false});
-    /**
      * Update Documento
      *
      * @type {Observable<any>}
@@ -347,18 +314,6 @@ export class MinutasEffects {
             })
         ), 25)
     ));
-    /**
-     * Update Documento Success
-     *
-     * @type {Observable<any>}
-     */
-    updateDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<MinutasActions.UpdateDocumentoBlocoSuccess>(MinutasActions.UPDATE_DOCUMENTO_BLOCO_SUCCESS),
-        withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-        tap(([, tarefas]) => {
-            this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
-        }),
-    ), {dispatch: false});
     /**
      * Ação disparada pelo store de tarefas informando da conclusão do upload de uma minuta em uma tarefa específica
      */

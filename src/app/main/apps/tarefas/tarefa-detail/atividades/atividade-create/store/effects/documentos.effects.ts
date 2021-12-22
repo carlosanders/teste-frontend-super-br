@@ -292,7 +292,7 @@ export class AtividadeCreateDocumentosEffect {
             if (action.payload.componentesDigitais[0]) {
                 primary += action.payload.componentesDigitais[0].id;
             } else {
-                primary += '0';
+                primary += 'default';
             }
             if (action.payload.apagadoEm) {
                 primary += '/visualizar';

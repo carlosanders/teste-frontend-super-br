@@ -315,8 +315,6 @@
                                             aria-label="Ferramentas" (click)="$event.stopPropagation()"
                                             *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
-                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) &&
                             !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
@@ -326,8 +324,6 @@
 
                                     <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
-                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) ||
                             ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
@@ -505,8 +501,6 @@
                                             aria-label="Ferramentas" (click)="$event.stopPropagation()"
                                             *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
-                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
-                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
                             !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
                             !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async)?.indexOf(oficio.id) > -1) &&
                             !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
@@ -516,8 +510,6 @@
 
                                     <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||
                             ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||
-                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
-                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async)?.indexOf(oficio.id) > -1) &&
                             ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||
                             ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async)?.indexOf(oficio.id) > -1) ||
                             ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async)?.indexOf(oficio.id) > -1) ||

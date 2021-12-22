@@ -19,6 +19,8 @@ export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[MINUTAS TAREFAS] ASSINA DOCUME
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[MINUTAS TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[MINUTAS TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
+export const REMOVE_DOCUMENTO_ID_FROM_TAREFA = '[MINUTAS TAREFAS] REMOVE DOCUMENTO ID FROM TAREFA';
+
 export const CONVERTE_DOCUMENTO_ATIVIDADE = '[MINUTAS TAREFAS] CONVERTE DOCUMENTO ATIVIDADE';
 export const CONVERTE_DOCUMENTO_SUCESS = '[MINUTAS TAREFAS] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[MINUTAS TAREFAS] CONVERTE DOCUMENTO ATIVIDADE FAILED';
@@ -170,6 +172,18 @@ export class DeleteDocumentoSuccess implements Action
 export class DeleteDocumentoFailed implements Action
 {
     readonly type = DELETE_DOCUMENTO_BLOCO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Documento Id from Tarefa
+ */
+export class RemoveDocumentoIdFromTarefa implements Action
+{
+    readonly type = REMOVE_DOCUMENTO_ID_FROM_TAREFA;
 
     constructor(public payload: any)
     {
@@ -440,4 +454,5 @@ export type MinutasActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
+    | RemoveDocumentoIdFromTarefa
     | ChangeSelectedDocumentos;

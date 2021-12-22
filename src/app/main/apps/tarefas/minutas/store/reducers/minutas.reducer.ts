@@ -211,6 +211,28 @@ export const minutasReducer = (
             };
         }
 
+        case MinutasActions.REMOVE_DOCUMENTO_ID_FROM_TAREFA: {
+            let documentosId = [];
+            if (state.tarefas[action.payload.tarefaId].documentosId) {
+                documentosId = state.tarefas[action.payload.tarefaId].documentosId.filter(documentoId => documentoId !== action.payload.documentoId);
+            }
+            const tarefas = {
+                ...state.tarefas,
+                [action.payload.tarefaId]: {
+                    ...state.tarefas[action.payload.tarefaId],
+                    documentosId: documentosId,
+                    pagination: {
+                        ...state.tarefas[action.payload.tarefaId].pagination,
+                        total: state.tarefas[action.payload.tarefaId].pagination.total - 1
+                    }
+                }
+            };
+            return {
+                ...state,
+                tarefas: tarefas
+            };
+        }
+
         case MinutasActions.ASSINA_DOCUMENTO_BLOCO: {
             return {
                 ...state,

@@ -29,6 +29,9 @@ import {
 import {
     CdkComponenteDigitalCardListModule
 } from '../../../componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {
+    CdkTipoDocumentoAutocompleteModule
+} from "../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module";
 
 @NgModule({
     declarations: [
@@ -60,7 +63,8 @@ import {
         RouterModule,
         DndModule,
         CdkVinculacaoEtiquetaChipsModule,
-        CdkComponenteDigitalCardListModule
+        CdkComponenteDigitalCardListModule,
+        CdkTipoDocumentoAutocompleteModule
     ],
     providers: [
     ],

@@ -134,11 +134,11 @@ export class ResolveGuard implements CanActivate {
     getRouterDefault(): boolean {
         if (this.routerState.params['generoHandle'] === 'default') {
             if (this._loginService.isGranted('ROLE_COORDENADOR_ORGAO_CENTRAL') && this.orgaos.length) {
-                this._router.navigate(['apps/coordenador/nacional/' + this.orgaos[0].id + '/modelos']);
+                this._router.navigate(['apps/coordenador/nacional/' + this.orgaos[0].id + '/modelos']).then();
             } else if (this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE') && this.unidades.length) {
-                this._router.navigate(['apps/coordenador/unidade/' + this.unidades[0].id + '/modelos']);
+                this._router.navigate(['apps/coordenador/unidade/' + this.unidades[0].id + '/modelos']).then();
             } else if (this._loginService.isGranted('ROLE_COORDENADOR_SETOR') && this.setores.length) {
-                this._router.navigate(['apps/coordenador/local/' + this.setores[0].id + '/modelos']);
+                this._router.navigate(['apps/coordenador/local/' + this.setores[0].id + '/modelos']).then();
             }
             return false;
         }

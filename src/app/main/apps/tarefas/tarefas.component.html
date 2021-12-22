@@ -33,6 +33,9 @@
                     <button mat-menu-item [matMenuTriggerFor]="modeloMenu">
                         Editor
                     </button>
+                    <button mat-menu-item (click)="doAssinaturaMinutas()">
+                        Assinar
+                    </button>
                 </mat-menu>
                 <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doMovimentar(currentTarefa)">
@@ -221,7 +224,12 @@
                                      [unDeletingIds]="(undeletingTarefaIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
                                      [assinandoTarefasIds]="(assinandoTarefasIds$ | async)"
-                                     [assinandoTarefasEletronicamenteIds]="(assinandoTarefasEletronicamenteIds$ | async)"
+                                     [alterandoDocumentosId]="(alterandoDocumentosId$ | async)"
+                                     [assinandoDocumentosId]="(assinandoDocumentosId$ | async)"
+                                     [convertendoDocumentosId]="(convertendoDocumentosId$ | async)"
+                                     [deletingDocumentosId]="(deletingDocumentosId$ | async)"
+                                     [downloadP7SDocumentoIds]="(downloadP7SDocumentoIds$ | async)"
+                                     [removendoAssinaturaDocumentosId]="(removendoAssinaturaDocumentosId$ | async)"
                                      [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                                      [folders]="(folders$ | async)"
                                      [usuarioAtual]="usuarioAtual"
@@ -261,7 +269,7 @@
                                      (loadAssuntos)="doLoadAssuntos($event)"
                                      (loadInteressados)="doLoadInteressados($event)"
                                      (salvarObservacao)="doSalvarObservacao($event)"
-                                     (assinaMinutas)="doAssinaturaMinutas($event)"
+                                     (assinaMinutas)="doAssinaturaMinutas()"
                                      (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
                                      (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
                                      (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
@@ -274,6 +282,16 @@
                                      [mobileMode]="mobileMode"
                                      (criaRelatorio)="criarRelatorio()"
                                      (etiquetaClickHandler)="doEditarDocumentoEtiqueta($event)"
+                                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                     (aprovaDocumento)="doAprovaDocumento($event)"
+                                     (assinaDocumento)="doAssinaMinuta($event)"
+                                     (converteHtml)="doConverteHtml($event)"
+                                     (convertePdf)="doConvertePdf($event)"
+                                     (deleteDocumento)="doDeleteDocumento($event)"
+                                     (downloadP7S)="doDownloadP7S($event)"
+                                     (removeAssinaturaDocumento)="doRemoveAssinaturaDocumento($event)"
+                                     (uploadAnexos)="doUploadAnexos($event)"
+                                     (verResposta)="doVerResposta($event)"
                                      (completedAll)="onCompleteAll($event)">
                     </cdk-tarefa-list>
                 </div>

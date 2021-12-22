@@ -16,15 +16,26 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Documento, Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
+import {
+    Assinatura,
+    ComponenteDigital,
+    Documento,
+    Etiqueta,
+    Folder,
+    Pagination,
+    Tarefa,
+    Usuario,
+    VinculacaoEtiqueta
+} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
+import * as AssinaturaStore from 'app/store';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
@@ -39,13 +50,16 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
 import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {
+    CdkUploadDialogComponent
+} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
 
 @Component({
     selector: 'tarefas',
@@ -95,8 +109,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     togglingUrgenteIds$: Observable<number[]>;
     savingObservacao$: Observable<boolean>;
     assinandoTarefasIds$: Observable<number[]>;
-    assinandoTarefasEletronicamenteIds$: Observable<number[]>;
-    assinaturaInterval = null;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -160,8 +172,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     usuarioAtual: Usuario;
 
-    javaWebStartOK = false;
-
     arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
     filtroEtiquetas: SearchBarEtiquetasFiltro;
     vinculacaoEtiquetaPagination: Pagination;
@@ -175,6 +185,23 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     habilitarEditorSalvar = false;
     modeloPagination: Pagination;
     formEditorValid = false;
+
+    deletingDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
+    convertendoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentoIds$: Observable<number[]>;
+
+    isSaving$: Observable<boolean>;
+    isLoadingDocumentosVinculados$: Observable<boolean>;
+    documentosVinculados$: Observable<Documento[]>;
+    documentosVinculados: Documento[];
+    selectedDocumentosVinculados$: Observable<Documento[]>;
+    deletingDocumentosVinculadosId$: Observable<number[]>;
+    alterandoDocumentosVinculadosId$: Observable<number[]>;
+    documentosVinculadosPagination$: Observable<any>;
+    documentosVinculadosPagination: any;
 
     routeAtividadeDocumento = 'atividade';
     routeOficioDocumento = 'oficio';
@@ -224,8 +251,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
         this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
         this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
-        this.assinandoTarefasEletronicamenteIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasEletronicamenteId));
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
+        this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
+        this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
+        this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
+        this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
+        this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
+        this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
         this.processoHandle$ = this._store.pipe(select(fromStore.getProcessoHandle));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
@@ -415,47 +454,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.novaTarefa = true;
                 }
             }
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
-
-        this.assinandoTarefasIds$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoTarefasIds) => {
-            if (assinandoTarefasIds.length > 0) {
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoTarefasIds.length > 0)) {
-                        assinandoTarefasIds.forEach(
-                            tarefaId => this._store.dispatch(new fromStore.AssinaDocumentoFailed({tarefaId: tarefaId}))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
         });
 
         this.tarefas$.pipe(
@@ -469,7 +467,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((currentTarefa: any) => {
             if (currentTarefa) {
-                if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId)) {
+                if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId) || (this.currentTarefa.id !== currentTarefa.id)) {
                     this._store.dispatch(new fromStore.SyncCurrentTarefaId({
                         tarefaId: currentTarefa.id,
                         processoId: currentTarefa.processo.id,
@@ -537,6 +535,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 panelClass: ['danger-snackbar']
             });
         });
+
+        this.documentosVinculadosPagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.documentosVinculadosPagination = pagination);
+
+        this.documentosVinculados$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documentosVinculados => this.documentosVinculados = documentosVinculados);
 
         this.pesquisaTarefa = 'tarefa';
     }
@@ -850,7 +856,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             acessoNegado: tarefa.processo.acessoNegado,
             static: true
         }));
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/' + this.routeAtividade]).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/' + this.routeAtividade
+        ]).then();
     }
 
     doEditTarefa(tarefa: Tarefa): void {
@@ -861,7 +870,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             acessoNegado: tarefa.processo.acessoNegado,
             static: true
         }));
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/editar']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle
+            + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/editar'
+        ]).then();
     }
 
     doEditProcesso(params): void {
@@ -882,7 +894,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             acessoNegado: tarefa.processo.acessoNegado,
             static: true
         }));
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/redistribuicao']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/redistribuicao'
+        ]).then();
     }
 
     doCienciaTarefa(tarefaId, loteId: string = null): void {
@@ -1005,19 +1020,56 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
     }
 
-    doAssinaturaMinutas(tarefa: Tarefa): void {
+    doAssinaturaMinutas(): void {
         const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, certificadoDigital: true}));
+                const ids = this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
             } else {
-                this._store.dispatch(new fromStore.GetDocumentos({
-                    tarefaId: tarefa.id,
-                    assinatura: {plainPassword: result.plainPassword}
-                }));
+                this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
+                    vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                    vinculacao.objectContext['componentesDigitaisVinculadosId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                });
             }
         });
     }
@@ -1100,7 +1152,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel(
-                    {idTarefasSelecionadas: this.selectedIds.length === this.pagination.total ? [] : this.selectedIds })
+                    {idTarefasSelecionadas: this.selectedIds.length === this.pagination.total ? [] : this.selectedIds})
                 );
             }
             this.confirmDialogRef = null;
@@ -1109,22 +1161,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doEditarDocumentoEtiqueta(event): void {
         const tarefa = event.tarefa;
-        const vinculacaoEtiqueta = event.vinculacaoEtiqueta;
-        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
-            this._store.dispatch(new fromStore.SetCurrentTarefa({
-                tarefaId: tarefa.id,
-                processoId: tarefa.processo.id,
-                acessoNegado: tarefa.processo.acessoNegado,
-                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
-            }));
+        const vinculacaoEtiquetaClicada = event.vinculacaoEtiqueta;
+        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
         }
-        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
-            this._store.dispatch(new fromStore.SetCurrentTarefa({
-                tarefaId: tarefa.id,
-                processoId: tarefa.processo.id,
-                acessoNegado: tarefa.processo.acessoNegado,
-                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
-            }));
+        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
+            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
         }
     }
 
@@ -1197,5 +1239,395 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.autoCompleteModelos.closePanel();
         this.formEditor.get('modelo').setValue(null);
         this._changeDetectorRef.markForCheck();
+    }
+
+    abreEditor(documentoId: number, tarefa: Tarefa): void {
+        let stepHandle = 'default';
+        if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+            stepHandle = this.routerState.params['stepHandle'];
+        }
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+            + stepHandle + '/documento/' + documentoId
+        ]).then();
+    }
+
+    /*****************************************************************************************************************
+     ******************** Inicio de métodos relacionados a minutas de tarefa *****************************************
+     ****************************************************************************************************************/
+
+    /**
+     * Altera o tipo de uma minuta
+     *
+     * @param event
+     */
+    doAlterarTipoDocumento(event): void {
+        this._store.dispatch(new fromStore.UpdateDocumento(event));
+    }
+
+    /**
+     * Aprova uma minuta
+     *
+     * @param documentoId
+     */
+    doAprovaDocumento(documentoId: number): void {
+        const documento = new Documento();
+        documento.id = documentoId;
+        this._store.dispatch(new fromStore.AprovarDocumento({
+            documento: documento,
+            routeDocumento: this.routeAtividadeDocumento
+        }));
+    }
+
+    /**
+     * Assina uma minuta
+     *
+     * @param vinculacaoEtiqueta
+     */
+    doAssinaMinuta(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+            if (result.certificadoDigital) {
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([vinculacaoEtiqueta.objectId]));
+            } else {
+                vinculacaoEtiqueta.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId: number) => {
+                    const documento = new Documento();
+                    documento.id = vinculacaoEtiqueta.objectId;
+                    const assinatura = new Assinatura();
+                    const componenteDigital = new ComponenteDigital();
+                    componenteDigital.id = componenteDigitalId;
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+                vinculacaoEtiqueta.objectContext['componentesDigitaisVinculadosId']?.forEach((componenteDigitalId: number) => {
+                    const documento = new Documento();
+                    documento.id = vinculacaoEtiqueta.objectId;
+                    const assinatura = new Assinatura();
+                    const componenteDigital = new ComponenteDigital();
+                    componenteDigital.id = componenteDigitalId;
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+            }
+        });
+    }
+
+    /**
+     * Converte uma minuta em HTML
+     *
+     * @param documentoId
+     */
+    doConverteHtml(documentoId: number): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
+    }
+
+    /**
+     * Converte uma minuta em PDF
+     *
+     * @param documentoId
+     */
+    doConvertePdf(documentoId: number): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    /**
+     * Apaga uma minuta
+     *
+     * @param documentoId
+     * @param loteId
+     */
+    doDeleteDocumento(documentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId;
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteDocumento({
+                    documentoId: documentoId,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteDocumentoFlush()
+            ],
+            undo: new fromStore.UndeleteDocumento({
+                documento: documento,
+                operacaoId: operacaoId,
+                redo: null,
+                undo: null
+            })
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(s)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteDocumentoCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteDocumentoFlush());
+            }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
+        });
+    }
+
+    /**
+     * Download P7S de uma minuta assinada
+     *
+     * @param vinculacaoEtiqueta
+     */
+    doDownloadP7S(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        vinculacaoEtiqueta.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId: number) => {
+            this._store.dispatch(new fromStore.DownloadToP7S(componenteDigitalId));
+        });
+    }
+
+    /**
+     * Remove assinatura de uma minuta
+     *
+     * @param documentoId
+     */
+    doRemoveAssinaturaDocumento(documentoId: number): void {
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
+    /**
+     * Remove documento vinculado
+     *
+     * @param documentoId
+     * @param loteId
+     */
+    doDeleteDocumentoVinculado(documentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    /**
+     * Abre dialog para visualizar anexos e anexar novos documentos a uma minuta
+     *
+     * @param vinculacaoEtiqueta
+     */
+    doUploadAnexos(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
+        const documentoId = vinculacaoEtiqueta.objectId;
+        const documentoHandle = `eq:${documentoId}`;
+
+        const params = {
+            filter: {
+                'vinculacaoDocumentoPrincipal.documento.id': documentoHandle,
+                'juntadaAtual': 'isNull'
+            },
+            limit: 10,
+            offset: 0,
+            sort: {id: 'DESC'},
+            populate: [
+                'tipoDocumento',
+                'componentesDigitais',
+                'processoOrigem',
+                'setorOrigem',
+                'tarefaOrigem',
+                'tarefaOrigem.usuarioResponsavel',
+                'tarefaOrigem.vinculacoesEtiquetas',
+                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+            ]
+        };
+        this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: documentoId}));
+        const documento = new Documento();
+        documento.id = documentoId;
+        documento.minuta = true;
+        const dialogRef = this._matDialog.open(CdkUploadDialogComponent, {
+            width: '600px',
+            data: {
+                documento: documento,
+                saving$: this.isSaving$,
+                isLoading$: this.isLoadingDocumentosVinculados$,
+                documentosVinculados$: this.documentosVinculados$,
+                selectedDocumentosVinculados$: this.selectedDocumentosVinculados$,
+                deletingDocumentosVinculadosId$: this.deletingDocumentosVinculadosId$,
+                assinandoDocumentosVinculadosId$: this.assinandoDocumentosId$,
+                removendoAssinaturaDocumentosVinculadosId$: this.removendoAssinaturaDocumentosId$,
+                alterandoDocumentosId$: this.alterandoDocumentosVinculadosId$,
+                downloadP7SDocumentosId$: this.downloadP7SDocumentoIds$,
+                documentosPagination$: this.documentosVinculadosPagination$
+            }
+        });
+        // Subscribe nos eventos do componente
+        const alteraTipoSub = dialogRef.componentInstance.alteraTipoDocumento.subscribe((values) => {
+            this._store.dispatch(new fromStore.UpdateDocumento(values));
+        });
+        const aprovaSub = dialogRef.componentInstance.aprovarDocumento.subscribe((aDocumento: Documento) => {
+            this._store.dispatch(new fromStore.AprovarDocumento({
+                documento: aDocumento,
+                routeDocumento: this.routeAtividadeDocumento
+            }));
+            this._matDialog.closeAll();
+        });
+        const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((aDocumento: Documento) => {
+            this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: aDocumento.id}));
+        });
+        const assinaBlocoSub = dialogRef.componentInstance.assinaBloco.subscribe((result) => {
+            if (result.certificadoDigital) {
+                const documentosId = [];
+                result.documentos.forEach((aDocumento) => {
+                    documentosId.push(aDocumento.id);
+                });
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
+            } else {
+                const loteId = CdkUtils.makeId();
+                result.documentos.forEach((aDocumento) => {
+                    aDocumento.componentesDigitais.forEach((componenteDigital) => {
+                        const assinatura = new Assinatura();
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: aDocumento,
+                            operacaoId: operacaoId,
+                            loteId: loteId
+                        }));
+                    });
+                });
+            }
+        });
+        const assinaSub = dialogRef.componentInstance.assina.subscribe((result) => {
+            if (result.certificadoDigital) {
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
+            } else {
+                result.documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: result.documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+            }
+        });
+        const changeSelectedSub = dialogRef.componentInstance.changeSelected.subscribe((selectedIds) => {
+            this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
+        });
+        const clickedSub = dialogRef.componentInstance.clickDocumento.subscribe((aDocumento) => {
+            this._store.dispatch(new fromStore.SetCurrentTarefa({
+                tarefaId: aDocumento.tarefaOrigem.id,
+                processoId: aDocumento.tarefaOrigem.processo.id,
+                acessoNegado: aDocumento.tarefaOrigem.processo.acessoNegado,
+                documentoUuidEdit: aDocumento.uuid
+            }));
+            dialogRef.close();
+        });
+        const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe(() => {
+            this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+        });
+        const deleteSub = dialogRef.componentInstance.deleteDocumento.subscribe((result) => {
+            this.doDeleteDocumentoVinculado(result.documentoId, result.loteId);
+        });
+        const downloadP7SSub = dialogRef.componentInstance.downloadP7S.subscribe((aDocumento: Documento) => {
+            aDocumento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+                this._store.dispatch(new fromStore.DownloadToP7S(componenteDigital));
+            });
+        });
+        const getMoreSub = dialogRef.componentInstance.getMore.subscribe(() => {
+            if (this.documentosVinculados.length >= this.documentosVinculadosPagination.total) {
+                return;
+            }
+
+            const nparams = {
+                ...this.documentosVinculadosPagination,
+                offset: this.documentosVinculadosPagination.offset + this.documentosVinculadosPagination.limit
+            };
+
+            this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: nparams, documentoId: documentoId}));
+        });
+        const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((docId: number) => {
+            this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(docId));
+        });
+        // Unsubscribe em todas as assinaturas de eventos
+        dialogRef.afterClosed().subscribe(() => {
+            alteraTipoSub.unsubscribe();
+            aprovaSub.unsubscribe();
+            atualizaSub.unsubscribe();
+            assinaBlocoSub.unsubscribe();
+            assinaSub.unsubscribe();
+            changeSelectedSub.unsubscribe();
+            clickedSub.unsubscribe();
+            completeSub.unsubscribe();
+            deleteSub.unsubscribe();
+            downloadP7SSub.unsubscribe();
+            getMoreSub.unsubscribe();
+            removeAssinaturaSub.unsubscribe();
+            this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
+        });
+    }
+
+    /**
+     * Visualizar documento de resposta
+     *
+     * @param event
+     */
+    doVerResposta(event: { documentoRespostaId: number; tarefa: Tarefa }): void {
+        const tarefa = event.tarefa;
+        const documentoRespostaId = event.documentoRespostaId;
+        this.abreEditor(documentoRespostaId, tarefa);
     }
 }

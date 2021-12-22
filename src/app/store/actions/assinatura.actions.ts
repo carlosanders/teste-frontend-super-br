@@ -1,18 +1,23 @@
 import {Action} from '@ngrx/store';
 
-export const ASSINA_DOCUMENTO = '[TAREFAS] ASSINA DOCUMENTO';
-export const ASSINA_DOCUMENTO_SUCCESS = '[TAREFAS] ASSINA DOCUMENTO SUCCESS';
-export const ASSINA_DOCUMENTO_FAILED = '[TAREFAS] ASSINA DOCUMENTO FAILED';
+export const ASSINA_DOCUMENTO = '[ASSINATURA] ASSINA DOCUMENTO';
 
-export const PREPARA_ASSINATURA_SUCCESS = '[TAREFAS] PREPARA ASSINATURA SUCCESS';
-export const PREPARA_ASSINATURA_FAILED = '[TAREFAS] PREPARA ASSINATURA FAILED';
+export const ASSINA_DOCUMENTO_SUCCESS = '[ASSINATURA] ASSINA DOCUMENTO SUCCESS';
+export const ASSINA_DOCUMENTO_FAILED = '[ASSINATURA] ASSINA DOCUMENTO FAILED';
 
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+export const PREPARA_ASSINATURA_SUCCESS = '[ASSINATURA] PREPARA ASSINATURA SUCCESS';
+export const PREPARA_ASSINATURA_FAILED = '[ASSINATURA] PREPARA ASSINATURA FAILED';
+
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[ASSINATURA] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[ASSINATURA] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[ASSINATURA] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO = '[ASSINATURA] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[ASSINATURA] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[ASSINATURA] REMOVE ASSINATURA DOCUMENTO FAILED';
 
 /**
- * AssinaDocumento
+ * Assina Documento
  */
 export class AssinaDocumento implements Action
 {
@@ -107,7 +112,43 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
     }
 }
 
-export type AssinaturasActionsAll
+/**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export type AssinaturaActionsAll
     = AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
@@ -115,4 +156,7 @@ export type AssinaturasActionsAll
     | PreparaAssinaturaFailed
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
-    | AssinaDocumentoEletronicamenteFailed;
+    | AssinaDocumentoEletronicamenteFailed
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoSuccess
+    | RemoveAssinaturaDocumentoFailed;

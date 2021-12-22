@@ -3,5 +3,7 @@ export * from './folders.actions';
 export * from './lotacao.actions';
 export * from './setor.actions';
 export * from './unidade.actions';
-export * from './assinaturas.actions';
 export * from './componentes-digitais.actions';
+export * from './documentos.actions';
+export * from './documentos-vinculados.actions';
+export * from './assinaturas.actions';
