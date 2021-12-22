@@ -164,7 +164,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.processo$.pipe(
-            filter(processo => !!processo)
+            filter(processo => !!processo),
+            distinctUntilKeyChanged('id')
         ).subscribe((processo) => {
             this.processo = processo;
             this.label = 'Protocolo';
