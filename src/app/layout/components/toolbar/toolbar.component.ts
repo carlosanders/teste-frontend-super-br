@@ -11,15 +11,22 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {ButtonTodasNotificacoesLidas, getCounterState, RemoveAllNotificacao, RemoveNotificacao} from 'app/store';
+import {
+    ButtonTodasNotificacoesLidas,
+    getCounterState,
+    getMercureState,
+    RemoveAllNotificacao,
+    RemoveNotificacao
+} from 'app/store';
 import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
-import {Notificacao} from '@cdk/models';
+import {Documento, Notificacao} from '@cdk/models';
 import {getIsLoading, getNotificacaoList, getOperacoesEmProcessamento} from '../../../store';
 import {getChatIsLoading} from '../chat-panel/store';
-import {ComponenteDigitalService} from "../../../../@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import * as moment from 'moment';
 
 @Component({
     selector: 'toolbar',
@@ -50,6 +57,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     operacoesProcessando = 0;
     operacoesPendentes = 0;
 
+    assinadores: any = [];
+    assinadorTime: any;
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -63,6 +73,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param _router
      * @param _componenteDigitalService
      * @param _changeDetectorRef
+     * @param _dialog
      */
     constructor(
         public _cdkConfigService: CdkConfigService,
@@ -177,7 +188,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 takeUntil(this._unsubscribeAll)
             ).subscribe((value) => {
                 if (value && value['notificacoes_pendentes'] !== undefined) {
-                    if (parseInt(value['notificacoes_pendentes']) > 99) {
+                    if (parseInt(value['notificacoes_pendentes'], 10) > 99) {
                         this.notificacoesCount = '99+';
                     } else {
                         this.notificacoesCount = value['notificacoes_pendentes'];
@@ -185,7 +196,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 }
 
                 if (value && value['chat_mensagens_nao_lidas'] !== undefined) {
-                    if (parseInt(value['chat_mensagens_nao_lidas']) > 99) {
+                    if (parseInt(value['chat_mensagens_nao_lidas'], 10) > 99) {
                         this.totalChatMensagensNaoLidas = '99+';
                     } else {
                         this.totalChatMensagensNaoLidas = value['chat_mensagens_nao_lidas'];
@@ -318,6 +329,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        clearInterval(this.assinadorTime);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -431,7 +443,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         if (contexto?.componente_digital_id) {
             this._componenteDigitalService
                 .download(contexto.componente_digital_id)
-                .subscribe(response => {
+                .subscribe((response) => {
                     if (response && response.conteudo) {
                         const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
                         const byteNumbers = new Array(byteCharacters.length);
