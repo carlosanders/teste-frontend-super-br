@@ -25,6 +25,15 @@
         <mat-slide-toggle class="mt-8" formControlName="certificadoDigital" [disabled]="!temAssinador">
             Usar Certificado Digital
         </mat-slide-toggle>
+        <div class="mt-16" *ngIf="!temAssinador">
+            Instale ou atualize o assinador para usar Certificado Digital!
+        </div>
+        <div class="mt-8"  *ngIf="!temAssinador">
+            <a [href]="urlAssinadorWindows">Versão Windows</a>
+        </div>
+        <div class="mt-8"  *ngIf="!temAssinador">
+            <a [href]="urlAssinadorLinux">Versão Linux</a>
+        </div>
     </div>
     <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
