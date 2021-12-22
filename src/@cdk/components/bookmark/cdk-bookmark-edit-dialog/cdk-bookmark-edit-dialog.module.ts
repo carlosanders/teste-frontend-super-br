@@ -11,6 +11,7 @@ import {
 } from '@cdk/angular/material';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDividerModule} from "@angular/material/divider";
+import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import {MatDividerModule} from "@angular/material/divider";
         CdkSharedModule,
         MatCheckboxModule,
         MatDividerModule,
+        NgxUpperCaseDirectiveModule,
     ],
     entryComponents: [
         CdkBookmarkEditDialogComponent

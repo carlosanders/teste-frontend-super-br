@@ -16,7 +16,7 @@
                    name="nome"
                    formControlName="nome"
                    maxlength="255"
-                   required>
+                   required upperCase>
             <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
             <mat-error *ngIf="form.get('nome').hasError('formError')">
                 {{form.get('nome').errors.formError}}
@@ -37,7 +37,7 @@
             <input matInput #descricao
                    name="descricao"
                    formControlName="descricao"
-                   maxlength="255">
+                   maxlength="255" upperCase>
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
             <mat-error *ngIf="form.get('descricao').hasError('formError')">
                 {{form.get('descricao').errors.formError}}

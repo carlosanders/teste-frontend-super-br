@@ -5,7 +5,6 @@ import {CdkConfigService} from '@cdk/services/config.service';
 import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
 import {getLoginAppState} from 'app/main/auth/login/store';
-import {environment} from '../../../../environments/environment';
 import {getRouterState} from '../../../store';
 import {getConfig, getErrorMessage, getLoadingConfig} from './store';
 import {LoginService} from './login.service';
@@ -130,8 +129,9 @@ export class LoginComponent implements OnInit {
             this.cdkConfigService.nome = config.name;
             this.cdkConfigService.sigla = config.sigla;
             this.cdkConfigService.barramento = config.barramento;
-            localStorage.setItem('barramento', config.barramento);
+            this.cdkConfigService.assinador = config.assinador;
             this.cdkConfigService.email = config.email;
+            localStorage.setItem('barramento', config.barramento);
         });
 
         if (this.routerState.queryParams['token'] &&

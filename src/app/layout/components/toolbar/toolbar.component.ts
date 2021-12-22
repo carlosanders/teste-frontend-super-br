@@ -257,20 +257,22 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'ALIVE':
-                        this.assinadores = this.assinadores.filter(info => info.processUUID !== message.content.subscriberInfo.processUUID);
-                        let selecionado = false;
-                        if (this.assinadores.length === 0) {
-                            selecionado = true;
-                            localStorage.setItem('assinador', message.content.subscriberInfo.processUUID);
+                        if (message.content.subscriberInfo.version === this._cdkConfigService.assinador) {
+                            this.assinadores = this.assinadores.filter(info => info.processUUID !== message.content.subscriberInfo.processUUID);
+                            let selecionado = false;
+                            if (this.assinadores.length === 0) {
+                                selecionado = true;
+                                localStorage.setItem('assinador', message.content.subscriberInfo.processUUID);
+                            }
+                            this.assinadores.push({
+                                timestamp: moment().unix(),
+                                selecionado: selecionado,
+                                ...message.content.subscriberInfo
+                            });
                         }
-                        this.assinadores.push({
-                            timestamp: moment().unix(),
-                            selecionado: selecionado,
-                            ...message.content.subscriberInfo
-                        });
                         break;
                     case 'DISCONNECTED_NOW':
-                        this.assinadores = this.assinadores.filter(info => info.processUUID !== message.content.processUUID);
+                        this.assinadores = this.assinadores.filter(info => info.processUUID === message.content.processUUID);
                         if (this.assinadores.length > 0) {
                             let temSelecionado = false;
                             this.assinadores.forEach((ass) => {

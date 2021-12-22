@@ -147,7 +147,7 @@
                 </div>
             </div>
 
-            <div class="search-wrapper" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo?.id">
+            <div class="search-wrapper" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo?.id && routerState?.url.indexOf('editar/dados-basicos-steps') === -1">
                 <mat-icon class="secondary-text mr-8">label</mat-icon>
                 <cdk-vinculacao-etiqueta-chips
                     [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"

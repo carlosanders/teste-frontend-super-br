@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
     selector: 'cdk-assinatura-eletronica-plugin',
@@ -18,6 +19,8 @@ export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
 
     form: FormGroup;
     temAssinador: boolean = false;
+    urlAssinadorLinux = environment.base_url + 'AssinadorSUPP.deb';
+    urlAssinadorWindows = environment.base_url + 'AssinadorSUPP.exe';
 
     /**
      * @param _changeDetectorRef
