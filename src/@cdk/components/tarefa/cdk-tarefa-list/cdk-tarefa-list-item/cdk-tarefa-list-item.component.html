@@ -321,14 +321,14 @@
             <mat-icon class="secondary-text">edit</mat-icon>
         </button>
 
-        <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button
+        <button *ngIf="!togglingUrgente && !deleting && ! ciencia && ! pluginLoading && ! undeleting && ! assinando && !tarefa.apagadoEm" mat-icon-button
                 (click)="doToggleUrgente(); $event.stopPropagation();"
                 aria-label="Toggle important" fxHide.xs>
             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
             <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
         </button>
 
-        <div class="spinner-container m-8" *ngIf="togglingUrgente">
+        <div class="spinner-container m-8" *ngIf="togglingUrgente || deleting || ciencia || pluginLoading || undeleting || assinando">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
@@ -343,10 +343,6 @@
                 aria-label="Editar observação" fxHide.xs>
             <mat-icon class="secondary-text">sticky_note_2</mat-icon>
         </button>
-
-        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting || assinando">
-            <mat-spinner diameter="24"></mat-spinner>
-        </div>
 
         <button style="display: none;" *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
                 [matMenuTriggerFor]="moreMenu"

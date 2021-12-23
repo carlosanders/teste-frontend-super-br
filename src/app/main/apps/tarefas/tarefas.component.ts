@@ -2,11 +2,11 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ComponentRef,
     ElementRef,
     OnDestroy,
     OnInit,
-    ViewChild,
+    ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
@@ -60,6 +60,7 @@ import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {
     CdkUploadDialogComponent
 } from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {HasTarefa} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
 
 @Component({
     selector: 'tarefas',
@@ -76,8 +77,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
     @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
-    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger})
-    autoCompleteModelos: MatAutocompleteTrigger;
+    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger}) autoCompleteModelos: MatAutocompleteTrigger;
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
@@ -552,6 +553,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const path = 'app/main/apps/tarefas';
         modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach(((c) => {
+                    this._dynamicService.loadComponent(c)
+                        .then((componentFactory) => {
+                            const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                            componente.instance.setTarefa(this.currentTarefa);
+                            this._changeDetectorRef.detectChanges();
+                        });
+                }));
+            }
+
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividades') &&
                 module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {

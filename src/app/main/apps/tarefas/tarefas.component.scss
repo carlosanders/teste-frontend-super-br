@@ -29,6 +29,10 @@ tarefas {
                 min-height: 56px !important;
                 max-height: 56px !important;
 
+                .hideToolbar {
+                    display: none !important;
+                }
+
                 > .search-wrapper {
                     flex: 1 1 auto;
                     display: none;
