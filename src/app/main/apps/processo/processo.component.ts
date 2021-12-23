@@ -17,13 +17,12 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 
 import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import * as fromStore from 'app/main/apps/processo/store';
-
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../store';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {distinctUntilKeyChanged, filter, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
@@ -164,8 +163,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.processo$.pipe(
-            filter(processo => !!processo),
-            distinctUntilKeyChanged('id')
+            filter(processo => !!processo)
         ).subscribe((processo) => {
             this.processo = processo;
             this.label = 'Protocolo';
