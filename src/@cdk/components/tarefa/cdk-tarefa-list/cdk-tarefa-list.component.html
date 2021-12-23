@@ -122,6 +122,9 @@
                     <button mat-menu-item (click)="doEditorBloco()">
                         Editor
                     </button>
+                    <button mat-menu-item (click)="doAssinaMinutas()">
+                        Assinar
+                    </button>
                 </mat-menu>
 
                 <button mat-menu-item aria-label="etiquetar"
@@ -284,7 +287,6 @@
                     (cienciaTarefa)="doCienciaTarefa($event)"
                     (editProcesso)="doEditProcesso($event)"
                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
-                    (assinaMinutas)="doAssinaMinutas($event)"
                     (aprovaDocumento)="doAprovaDocumento($event)"
                     (assinaDocumento)="doAssinaDocumento($event)"
                     (converteHtml)="doConverteHtml($event)"

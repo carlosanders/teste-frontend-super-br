@@ -9,8 +9,6 @@ export interface AtividadeCreateDocumentosState {
     undeletingDocumentoIds: number[];
     bufferingDelete: number;
     alterandoDocumentoIds: number[];
-    assinandoDocumentoIds: number[];
-    removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
     convertendoDocumentoHtmlIds: number[];
     downloadDocumentosP7SIds: number[];
@@ -23,14 +21,12 @@ export interface AtividadeCreateDocumentosState {
     errorDelete: number[];
 }
 
-export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosState = {
+export const atividadeCreateDocumentosInitialState: AtividadeCreateDocumentosState = {
     documentosId: [],
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
-    assinandoDocumentoIds: [],
     alterandoDocumentoIds: [],
-    removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     convertendoDocumentoHtmlIds: [],
     downloadDocumentosP7SIds: [],
@@ -45,15 +41,15 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     errorDelete: []
 };
 
-export function AtividadeCreateDocumentosReducer(
-    state = AtividadeCreateDocumentosInitialState,
+export const atividadeCreateDocumentosReducer = (
+    state = atividadeCreateDocumentosInitialState,
     action: AtividadeCreateDocumentosActions.AtividadeCreateDocumentosActionsAll
-): AtividadeCreateDocumentosState {
+): AtividadeCreateDocumentosState => {
     switch (action.type) {
 
         case AtividadeCreateDocumentosActions.GET_DOCUMENTOS: {
             if (action.payload && action.payload['context'] &&
-                    action.payload['context']['mostrarApagadas']) {
+                action.payload['context']['mostrarApagadas']) {
 
                 return {
                     ...state,
@@ -101,7 +97,7 @@ export function AtividadeCreateDocumentosReducer(
 
         case AtividadeCreateDocumentosActions.UNLOAD_DOCUMENTOS: {
             return {
-                ...AtividadeCreateDocumentosInitialState
+                ...atividadeCreateDocumentosInitialState
             };
         }
 
@@ -185,69 +181,6 @@ export function AtividadeCreateDocumentosReducer(
                 alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
                 loaded: false,
                 loading: false,
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, ...action.payload]
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId)
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
@@ -350,4 +283,4 @@ export function AtividadeCreateDocumentosReducer(
         default:
             return state;
     }
-}
+};

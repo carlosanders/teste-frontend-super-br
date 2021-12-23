@@ -743,3 +743,7 @@
 * Melhoria assinatura, assinatura eletrônica e remover assinatura passam a ocorrer através de um evento global e único no sistema
 * Melhoria implementadas ações sobre minutas diretamente do painel de tarefas
 * Refatoramento em todo o sistema e módulos para padronização e utilização dos eventos globais de assinaturas
+* Correção de problema no dialog de uploads sendo aberto em uma minuta sem anexos
+* Melhoria implementada função de assinar em bloco todas as minutas das tarefas selecionadas
+* Correção em paginação do dialog de uploads após conclusão de um upload
+* Correção nos guardas de rota de movimentar/movimentar em bloco, que agora traz todos os documentos da(s) tarefa(s)

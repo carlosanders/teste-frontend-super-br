@@ -122,7 +122,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     delete = new EventEmitter<Tarefa>();
 
     @Output()
-    gerenciarMinutas = new EventEmitter<any>();
+    gerenciarMinutasBloco = new EventEmitter<any>();
 
     @Output()
     restauraTarefa = new EventEmitter<Tarefa>();
@@ -221,7 +221,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     alterarTipoDocumento = new EventEmitter<any>();
 
     @Output()
-    assinaMinutas = new EventEmitter<Tarefa>();
+    assinaMinutas = new EventEmitter<any>();
 
     @Output()
     vinculacaoEtiquetaCreate = new EventEmitter<any>();
@@ -254,7 +254,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     removeAssinaturaDocumento = new EventEmitter<number>();
 
     @Output()
-    uploadAnexos = new EventEmitter<VinculacaoEtiqueta>();
+    uploadAnexos = new EventEmitter<{ vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa }>();
 
     @Output()
     verResposta = new EventEmitter<{ documentoRespostaId: number; tarefa: Tarefa }>();
@@ -592,8 +592,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.alterarTipoDocumento.emit(event);
     }
 
-    doAssinaMinutas(tarefa: Tarefa): void {
-        this.assinaMinutas.emit(tarefa);
+    doAssinaMinutas(): void {
+        this.assinaMinutas.emit(true);
     }
 
     doCreateDocumentoAvulsoBloco(): void {
@@ -644,19 +644,19 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     doEtiquetarBloco(): void {
-        this.etiquetarBloco.emit();
+        this.etiquetarBloco.emit(true);
     }
 
     doMinutas(): void {
-        this.gerenciarMinutas.emit();
+        this.gerenciarMinutasBloco.emit(true);
     }
 
     doUploadBloco(): void {
-        this.uploadBloco.emit();
+        this.uploadBloco.emit(true);
     }
 
     doEditorBloco(): void {
-        this.editorBloco.emit();
+        this.editorBloco.emit(true);
     }
 
     doRestaurarBloco(): void {
@@ -743,8 +743,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.removeAssinaturaDocumento.emit(documentoId);
     }
 
-    doUploadAnexos(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
-        this.uploadAnexos.emit(vinculacaoEtiqueta);
+    doUploadAnexos(event: { vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa }): void {
+        this.uploadAnexos.emit(event);
     }
 
     doVerResposta(event: { documentoRespostaId: number; tarefa: Tarefa }): void {

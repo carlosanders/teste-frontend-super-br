@@ -108,9 +108,6 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     editTarefa = new EventEmitter<Tarefa>();
 
     @Output()
-    assinaMinutas = new EventEmitter<Tarefa>();
-
-    @Output()
     redistribuirTarefa = new EventEmitter<Tarefa>();
 
     @Output()
@@ -201,7 +198,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     removeAssinaturaDocumento = new EventEmitter<number>();
 
     @Output()
-    uploadAnexos = new EventEmitter<VinculacaoEtiqueta>();
+    uploadAnexos = new EventEmitter<{ vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa }>();
 
     @Output()
     verResposta = new EventEmitter<{ documentoRespostaId: number; tarefa: Tarefa }>();
@@ -376,10 +373,6 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         return tarefa.vinculacoesEtiquetas.filter(vinculacao => vinculacao.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento').length > 0;
     }
 
-    doAssinaMinutas(): void {
-        this.assinaMinutas.emit(this.tarefa);
-    }
-
     doEditProcesso(): void {
         this.editProcesso.emit(this.tarefa);
     }
@@ -523,7 +516,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doUploadAnexos(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this.menuTriggerMinutas.closeMenu();
-        this.uploadAnexos.emit(vinculacaoEtiqueta);
+        this.uploadAnexos.emit({ vinculacaoEtiqueta: vinculacaoEtiqueta, tarefa: this.tarefa });
     }
 
     doVerResposta(documentoRespostaId: number, tarefa: Tarefa): void {

@@ -35,7 +35,7 @@ import {getMercureState, getRouterState, getScreenState} from 'app/store/reducer
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
@@ -988,11 +988,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doMinutas(): void {
-        // tslint:disable-next-line:max-line-length
-        // eslint-disable-next-line max-len
         this._router.navigate([
             'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
             + this.routerState.params.targetHandle + '/tarefa/' + this.currentTarefa.id + '/minutas'
+        ]).then();
+    }
+
+    doMinutasBloco(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/minutas'
         ]).then();
     }
 
@@ -1024,7 +1029,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doEditorBloco(): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco/modelo']).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
@@ -1043,6 +1048,62 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
             } else {
                 this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
+                    vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                    vinculacao.objectContext['componentesDigitaisVinculadosId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                });
+            }
+        });
+    }
+
+    doAssinaturaTarefas(): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+            if (result.certificadoDigital) {
+                const ids = this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
+                    .filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
+            } else {
+                this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
+                    .filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
                     vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
                         const documento = new Documento();
                         documento.id = vinculacao.objectId;
@@ -1450,12 +1511,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * Remove documento vinculado
      *
      * @param documentoId
+     * @param documentoPrincipalId
      * @param loteId
      */
-    doDeleteDocumentoVinculado(documentoId: number, loteId: string = null): void {
+    doDeleteDocumentoVinculado(documentoId: number, documentoPrincipalId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
             documentoId: documentoId,
+            documentoPrincipalId: documentoPrincipalId,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
@@ -1464,11 +1527,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Abre dialog para visualizar anexos e anexar novos documentos a uma minuta
      *
-     * @param vinculacaoEtiqueta
+     * @param event
      */
-    doUploadAnexos(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+    doUploadAnexos(event: { vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa }): void {
         this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
-        const documentoId = vinculacaoEtiqueta.objectId;
+        const documentoId = event.vinculacaoEtiqueta.objectId;
+        const tarefa = event.tarefa;
         const documentoHandle = `eq:${documentoId}`;
 
         const params = {
@@ -1483,17 +1547,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 'tipoDocumento',
                 'componentesDigitais',
                 'processoOrigem',
-                'setorOrigem',
-                'tarefaOrigem',
-                'tarefaOrigem.usuarioResponsavel',
-                'tarefaOrigem.vinculacoesEtiquetas',
-                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
             ]
         };
         this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: documentoId}));
         const documento = new Documento();
         documento.id = documentoId;
         documento.minuta = true;
+        documento.tarefaOrigem = tarefa;
         const dialogRef = this._matDialog.open(CdkUploadDialogComponent, {
             width: '600px',
             data: {
@@ -1522,7 +1582,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this._matDialog.closeAll();
         });
         const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((aDocumento: Documento) => {
-            this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: aDocumento.id}));
+            // this._store.dispatch(new fromStore.CompleteDocumentoVinculado(aDocumento.id));
         });
         const assinaBlocoSub = dialogRef.componentInstance.assinaBloco.subscribe((result) => {
             if (result.certificadoDigital) {
@@ -1579,20 +1639,19 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         const changeSelectedSub = dialogRef.componentInstance.changeSelected.subscribe((selectedIds) => {
             this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
         });
-        const clickedSub = dialogRef.componentInstance.clickDocumento.subscribe((aDocumento) => {
-            this._store.dispatch(new fromStore.SetCurrentTarefa({
-                tarefaId: aDocumento.tarefaOrigem.id,
-                processoId: aDocumento.tarefaOrigem.processo.id,
-                acessoNegado: aDocumento.tarefaOrigem.processo.acessoNegado,
-                documentoUuidEdit: aDocumento.uuid
-            }));
+        const clickedSub = dialogRef.componentInstance.clickDocumento.subscribe((clickEvent) => {
+            this.abreEditor(clickEvent.documento.id, clickEvent.documentoPrincipal.tarefaOrigem);
             dialogRef.close();
         });
-        const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe(() => {
-            this._store.dispatch(new fromStore.SetSavingComponentesDigitais());
+        const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe((result) => {
+            delete result.componenteDigital.documentoOrigem;
+            this._store.dispatch(new fromStore.CompleteDocumentoVinculado({
+                documentoPrincipalId: result.documentoPrincipal.id,
+                componenteDigital: result.componenteDigital
+            }));
         });
         const deleteSub = dialogRef.componentInstance.deleteDocumento.subscribe((result) => {
-            this.doDeleteDocumentoVinculado(result.documentoId, result.loteId);
+            this.doDeleteDocumentoVinculado(result.documentoId, documentoId, result.loteId);
         });
         const downloadP7SSub = dialogRef.componentInstance.downloadP7S.subscribe((aDocumento: Documento) => {
             aDocumento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {

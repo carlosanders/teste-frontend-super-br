@@ -94,17 +94,12 @@ export class ComponenteDigitalEffect {
                 if ((!documento?.minuta || documento?.vinculacaoDocumentoPrincipal || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
                     sidebar = 'editar/dados-basicos';
                 }
-                this._router.navigate([
-                        this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
-                        '/visualizar/' + this.routerState.params.stepHandle +
-                        '/documento/' + this.routerState.params.documentoHandle,
-                        {
-                            outlets: {
-                                primary: primary,
-                                sidebar: sidebar
-                            }
-                        }
-                    ],
+                const url = this.routerState.url.includes('/processo/') ?
+                    this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+                    '/visualizar/' + this.routerState.params.stepHandle +
+                    '/documento/' + this.routerState.params.documentoHandle :
+                    this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params.documentoHandle;
+                this._router.navigate([url, {outlets: {primary: primary, sidebar: sidebar}}],
                     {
                         relativeTo: this._activatedRoute.parent
                     }

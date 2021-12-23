@@ -3,7 +3,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter,
-    Inject,
+    Inject, OnDestroy,
     OnInit, Output,
     ViewChild, ViewContainerRef,
     ViewEncapsulation
@@ -13,10 +13,11 @@ import {cdkAnimations} from '@cdk/animations';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';
 import {Observable, Subject} from 'rxjs';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {Documento, Pagination} from '@cdk/models';
+import {ComponenteDigital, Documento, Pagination} from '@cdk/models';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkUtils} from '@cdk/utils';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'cdk-upload-dialog',
@@ -26,7 +27,7 @@ import {CdkUtils} from '@cdk/utils';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
+export class CdkUploadDialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild('cdkUpload', {static: false})
     cdkUpload;
@@ -41,7 +42,7 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     changeSelected: EventEmitter<number[]> = new EventEmitter<number[]>();
 
     @Output()
-    clickDocumento: EventEmitter<Documento> = new EventEmitter<Documento>();
+    clickDocumento = new EventEmitter<{ documento: Documento; documentoPrincipal: Documento }>();
 
     @Output()
     deleteDocumento: EventEmitter<any> = new EventEmitter<any>();
@@ -59,7 +60,7 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     downloadP7S: EventEmitter<Documento> = new EventEmitter<Documento>();
 
     @Output()
-    completeDocumentoVinculado: EventEmitter<Documento> = new EventEmitter<Documento>();
+    completeDocumentoVinculado = new EventEmitter<{ documentoPrincipal: Documento; componenteDigital: ComponenteDigital }>();
 
     @Output()
     atualizaDocumentosVinculados: EventEmitter<Documento> = new EventEmitter<Documento>();
@@ -82,9 +83,10 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
-    assinandoDocumentosVinculadosId: number[] = [];
     documentosPagination$: Observable<Pagination>;
     lote: string;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      *
@@ -115,9 +117,6 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.assinandoDocumentosVinculadosId$.subscribe((assinandoDocumentosVinculadosId) => {
-            this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
-        });
         this.saving$.subscribe((value) => {
             this.saving = value;
         });
@@ -133,6 +132,11 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
                 }));
             }
         });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(true);
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -151,8 +155,8 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
         this.changeSelected.emit(selectedIds);
     }
 
-    onClickedDocumentoVinculado(documento): void {
-        this.clickDocumento.emit(documento);
+    onClickedDocumentoVinculado(documento: Documento): void {
+        this.clickDocumento.emit({documento: documento, documentoPrincipal: this.documento});
     }
 
     doDeleteDocumentoVinculado(documentoId: number, loteId: string = null): void {
@@ -183,8 +187,9 @@ export class CdkUploadDialogComponent implements OnInit, AfterViewInit {
         this.downloadP7S.emit(documento);
     }
 
-    onCompleteDocumentoVinculado(): void {
-        this.completeDocumentoVinculado.emit(this.documento);
+    onCompleteDocumentoVinculado(event): void {
+        console.log(event);
+        this.completeDocumentoVinculado.emit({documentoPrincipal: this.documento, componenteDigital: event});
     }
 
     onCompleteAllDocumentosVinculados(): void {

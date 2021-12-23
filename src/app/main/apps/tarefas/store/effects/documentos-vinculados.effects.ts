@@ -9,11 +9,12 @@ import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.a
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as TarefasActions from '../actions/tarefas.actions';
 
 @Injectable()
 export class DocumentosVinculadosEffects {
@@ -82,6 +83,7 @@ export class DocumentosVinculadosEffects {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
+                this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload.documentoPrincipalId));
                 return new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id);
             }),
             catchError((err) => {
@@ -129,6 +131,25 @@ export class DocumentosVinculadosEffects {
             );
         }, 25)
     ));
+    /**
+     * Action disparada quando os uploads de anexos de um Documento Vinculado são concluídos dentro do dialog
+     *
+     * @type {Observable<any>}
+     */
+    completeDocumentoVinculado: Observable<any> = createEffect(() => this._actions.pipe(
+        ofType<DocumentosVinculadosActions.CompleteDocumentoVinculado>(DocumentosVinculadosActions.COMPLETE_DOCUMENTO_VINCULADO),
+        tap((action) => {
+            this._store.dispatch(new AddData<ComponenteDigital>({
+                data: [action.payload.componenteDigital],
+                schema: componenteDigitalSchema,
+                populate: [
+                    'documento',
+                    'documento.tipoDocumento'
+                ]
+            }));
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload.documentoPrincipalId));
+        })
+    ), {dispatch: false});
 
     constructor(
         private _actions: Actions,

@@ -6,7 +6,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, SimpleChange,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -36,7 +36,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     tiposDocumentosNaoEditaveis = [];
 
     @Input()
-    documentos: Documento[];
+    documentos: Documento[] = [];
 
     @Output()
     delete = new EventEmitter<number>();
@@ -78,7 +78,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     sairLixeira = new EventEmitter<boolean>();
 
     @Output()
-    clicked = new EventEmitter<number>();
+    clicked = new EventEmitter<Documento>();
 
     @Output()
     verResposta = new EventEmitter<Documento>();
@@ -160,13 +160,17 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
             tipoDocumen: [null],
         });
         this.tipoDocumentoPagination = new Pagination();
+        this.documentos = [];
     }
 
     ngOnInit(): void {
-        this.isNotMinutas = this.documentos.filter(documento => !documento.minuta).length > 0;
+        this.isNotMinutas = this.documentos?.filter(documento => !documento.minuta)?.length > 0;
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['documentos'] && this.documentos && this.documentos.length) {
+            this.isNotMinutas = this.documentos?.filter(documento => !documento.minuta)?.length > 0;
+        }
     }
 
     deleteDocumento(documentoId): void {

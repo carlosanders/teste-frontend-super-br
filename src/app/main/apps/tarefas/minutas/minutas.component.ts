@@ -321,16 +321,6 @@ export class MinutasComponent implements OnInit, OnDestroy {
     }
 
     onClicked(documento): void {
-        let primary: string;
-        primary = 'componente-digital/';
-        if (documento.componentesDigitais[0]) {
-            primary += documento.componentesDigitais[0].id;
-        } else {
-            primary += '0';
-        }
-        if (documento.apagadoEm || documento.assinado) {
-            primary += '/visualizar';
-        }
         let sidebar = 'oficio/dados-basicos';
         if (!documento.documentoAvulsoRemessa) {
             sidebar = 'editar/dados-basicos';
@@ -340,7 +330,6 @@ export class MinutasComponent implements OnInit, OnDestroy {
         }
         this._router.navigate([this.routerState.url + '/documento/' + documento.id, {
                 outlets: {
-                    primary: primary,
                     sidebar: sidebar
                 }
             }],

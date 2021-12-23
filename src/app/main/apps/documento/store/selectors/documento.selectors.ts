@@ -3,8 +3,6 @@ import {DocumentoAppState, DocumentoState, getDocumentoAppState} from 'app/main/
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital, Documento} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
-import {AtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
-import {getAtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
@@ -49,11 +47,6 @@ export const getIsLoading: any = createSelector(
 export const getIsSaving: any = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.saving
-);
-
-export const getAssinandoDocumentosId: any = createSelector(
-    getAtividadeCreateDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state ? state.assinandoDocumentoIds : null
 );
 
 export const getErrors: any = createSelector(

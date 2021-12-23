@@ -84,7 +84,11 @@ export const documentosVinculadosReducer = (
         case DocumentosVinculadosActions.COMPLETE_DOCUMENTO_VINCULADO: {
             return {
                 ...state,
-                documentosId: [...state.documentosId, action.payload.id],
+                documentosId: [...state.documentosId, action.payload.componenteDigital.documento.id],
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total + 1
+                }
             };
         }
         case DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO: {

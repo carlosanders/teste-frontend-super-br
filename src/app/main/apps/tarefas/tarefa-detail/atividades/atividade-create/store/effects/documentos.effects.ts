@@ -8,17 +8,14 @@ import * as AtividadeCreateDocumentosActions
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {GetTarefa} from '../../../../store';
@@ -50,7 +47,7 @@ export class AtividadeCreateDocumentosEffect {
                         'tarefaOrigem.id': tarefaId,
                         'juntadaAtual': 'isNull'
                     },
-                    limit: 10,
+                    limit: 25,
                     offset: 0,
                     sort: {
                         criadoEm: 'DESC'
@@ -118,23 +115,6 @@ export class AtividadeCreateDocumentosEffect {
                 return of(new AtividadeCreateDocumentosActions.UpdateDocumentoFailed(err));
             })
         ))
-    ));
-
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<AtividadeCreateDocumentosActions.AssinaDocumento>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload)).pipe(
-                map(response => new AtividadeCreateDocumentosActions.AssinaDocumentoSuccess(response)),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
-                })
-            )
-        )
     ));
 
     /**
@@ -213,72 +193,6 @@ export class AtividadeCreateDocumentosEffect {
         }, 25)
     ));
 
-    removeAssinaturaDocumento: any = createEffect(() => this._actions.pipe(
-        ofType<AtividadeCreateDocumentosActions.RemoveAssinaturaDocumento>(AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-            .pipe(
-                mergeMap(() => [
-                    new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                    new AtividadeCreateDocumentosActions.GetDocumentos(),
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                })
-            )
-        )
-    ));
-
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: any = createEffect(() => this._actions.pipe(
-        ofType<AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamente>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Assinando o documento...',
-            status: 0, // carregando
-            lote: action.payload.loteId
-        }))),
-        mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            mergeMap((response: Assinatura) => [
-                new AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                }),
-                new AtividadeCreateDocumentosActions.GetDocumentos(),
-                new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: `Assinatura id ${response.id} criada com sucesso!`,
-                    status: 1,
-                    lote: action.payload.loteId
-                })
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao assinar o documento!',
-                    status: 2, // erro
-                    lote: action.payload.loteId
-                }));
-                return of(new AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-
     /**
      * Clicked Documento
      *
@@ -287,23 +201,12 @@ export class AtividadeCreateDocumentosEffect {
     clickedDocumento: any = createEffect(() => this._actions.pipe(
         ofType<AtividadeCreateDocumentosActions.ClickedDocumento>(AtividadeCreateDocumentosActions.CLICKED_DOCUMENTO),
         tap((action) => {
-            let primary: string;
-            primary = 'componente-digital/';
-            if (action.payload.componentesDigitais[0]) {
-                primary += action.payload.componentesDigitais[0].id;
-            } else {
-                primary += 'default';
-            }
-            if (action.payload.apagadoEm) {
-                primary += '/visualizar';
-            }
             let sidebar = 'oficio/dados-basicos';
             if (!action.payload.documentoAvulsoRemessa) {
                 sidebar = 'editar/atividade';
             }
             this._router.navigate([this.routerState.url + '/documento/' + action.payload.id, {
                     outlets: {
-                        primary: primary,
                         sidebar: sidebar
                     }
                 }],
@@ -457,7 +360,6 @@ export class AtividadeCreateDocumentosEffect {
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>,
         public activatedRoute: ActivatedRoute
