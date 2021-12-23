@@ -20,7 +20,7 @@ import {
 } from 'app/store';
 import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
-import {Documento, Notificacao} from '@cdk/models';
+import {Notificacao} from '@cdk/models';
 import {getIsLoading, getNotificacaoList, getOperacoesEmProcessamento} from '../../../store';
 import {getChatIsLoading} from '../chat-panel/store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
@@ -135,6 +135,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.assinadores = [];
+        localStorage.removeItem('assinador');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -254,7 +257,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'ALIVE':
-                        if (message.content.subscriberInfo.version === this._cdkConfigService.assinador) {
+                        if (message.content.subscriberInfo.version === localStorage.getItem('assinadorVersion')) {
                             this.assinadores = this.assinadores.filter(info => info.processUUID !== message.content.subscriberInfo.processUUID);
                             let selecionado = false;
                             if (this.assinadores.length === 0) {
