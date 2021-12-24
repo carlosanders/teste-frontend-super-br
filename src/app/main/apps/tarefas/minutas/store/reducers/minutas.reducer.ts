@@ -34,6 +34,8 @@ export interface MinutasState {
     convertendoDocumentoHtmlIds: number[];
     downloadDocumentosP7SIds: number[];
     alterandoDocumentoIds: number[];
+    undeletingDocumentoIds: number[];
+    lixeira: boolean;
     saving: boolean;
     loading: boolean;
     loaded: boolean;
@@ -50,9 +52,11 @@ export const minutasInitialState: MinutasState = {
     convertendoDocumentoHtmlIds: [],
     downloadDocumentosP7SIds: [],
     alterandoDocumentoIds: [],
+    undeletingDocumentoIds: [],
     saving: false,
     loading: false,
-    loaded: false
+    loaded: false,
+    lixeira: false
 };
 
 export const agrupadorTarefaInitialState: AgrupadorTarefa = {
@@ -76,7 +80,7 @@ export const agrupadorTarefaInitialState: AgrupadorTarefa = {
     saving: false,
     loading: false,
     error: null
-}
+};
 
 export const minutasReducer = (
     state = minutasInitialState,
@@ -85,6 +89,10 @@ export const minutasReducer = (
     switch (action.type) {
 
         case MinutasActions.GET_DOCUMENTOS_BLOCO: {
+            let lixeira = false;
+            if (action.payload && action.payload['context'] && action.payload['context']['mostrarApagadas']) {
+                lixeira = true;
+            }
             const total = state.tarefas[action.payload.tarefaId]?.pagination?.total ?? 0;
             const tarefas = {
                 ...state.tarefas,
@@ -102,6 +110,7 @@ export const minutasReducer = (
                         filter: action.payload.filter,
                         listFilter: action.payload.listFilter,
                         populate: action.payload.populate,
+                        context: action.payload.context,
                         sort: action.payload.sort,
                         tarefaId: action.payload.tarefaId,
                         processoId: action.payload.processoId,
@@ -114,6 +123,7 @@ export const minutasReducer = (
                 ...state,
                 saving: false,
                 loading: true,
+                lixeira: lixeira,
                 tarefas: tarefas
             };
         }
@@ -357,6 +367,28 @@ export const minutasReducer = (
             return {
                 ...state,
                 downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case MinutasActions.UNDELETE_DOCUMENTO: {
+            return {
+                ...state,
+                undeletingDocumentoIds: [...state.undeletingDocumentoIds, action.payload.documento.id],
+            };
+        }
+
+        case MinutasActions.UNDELETE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id)
+            };
+        }
+
+        case MinutasActions.UNDELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
+                documentos: state.documentos.filter(id => id !== action.payload.id)
             };
         }
 

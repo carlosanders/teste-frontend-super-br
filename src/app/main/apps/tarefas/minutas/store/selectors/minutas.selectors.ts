@@ -71,6 +71,16 @@ export const getDownloadDocumentosP7SId: any = createSelector(
     (state: MinutasState) => state.downloadDocumentosP7SIds
 );
 
+export const getUndeletingDocumentosId: any = createSelector(
+    getMinutasState,
+    (state: MinutasState) => state.undeletingDocumentoIds
+);
+
+export const getLixeiraMinutas: any = createSelector(
+    getMinutasState,
+    (state: MinutasState) => state.lixeira
+);
+
 export const getSelectedDocumentoIds: any = createSelector(
     getMinutasState,
     (state: MinutasState) => state.selectedDocumentosId

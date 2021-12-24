@@ -747,3 +747,5 @@
 * Melhoria implementada função de assinar em bloco todas as minutas das tarefas selecionadas
 * Correção em paginação do dialog de uploads após conclusão de um upload
 * Correção nos guardas de rota de movimentar/movimentar em bloco, que agora traz todos os documentos da(s) tarefa(s)
+* Melhoria garantindo sincronia entre etiqueta da tarefa e minuta após ações nos paineis de movimentação de tarefa
+* Melhoria implementada lixeira de minutas no painel de minutas 

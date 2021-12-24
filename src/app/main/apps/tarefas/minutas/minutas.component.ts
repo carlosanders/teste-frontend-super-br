@@ -18,10 +18,8 @@ import * as fromStore from './store';
 import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getOperacoes, getRouterState} from 'app/store';
+import {getOperacoes, getRouterState} from 'app/store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store';
 import {getSelectedTarefas} from '../store';
 import {CdkUtils} from '@cdk/utils';
@@ -48,7 +46,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
     tarefas$: Observable<Tarefa[]>;
-    tarefas: Tarefa[];
+    tarefas: Tarefa[] = [];
 
     operacoes: any[] = [];
     tarefasAgrupadas: {
@@ -82,11 +80,11 @@ export class MinutasComponent implements OnInit, OnDestroy {
     alterandoDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
-    javaWebStartOK = false;
-
-    assinaturaInterval = null;
+    lixeiraMinutas$: Observable<boolean>;
+    undeletingDocumentosId$: Observable<number[]>;
 
     lote: string;
+    lixeira: boolean = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Colaborador;
@@ -129,6 +127,8 @@ export class MinutasComponent implements OnInit, OnDestroy {
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
+        this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUndeletingDocumentosId));
+        this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -140,6 +140,10 @@ export class MinutasComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.operacoes = [];
+
+        this.lixeiraMinutas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(lixeira => this.lixeira = lixeira);
 
         this._store.pipe(
             select(getRouterState),
@@ -369,6 +373,98 @@ export class MinutasComponent implements OnInit, OnDestroy {
         documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
             this._store.dispatch(new fromStore.DownloadP7S(componenteDigital.id));
         });
+    }
+
+    doRestaurar(documento: Documento): void {
+        const operacaoId = CdkUtils.makeId();
+        const populate = [
+            'tipoDocumento',
+            'tarefaOrigem',
+            'tarefaOrigem.vinculacoesEtiquetas',
+            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+            'componentesDigitais'
+        ];
+        this._store.dispatch(new fromStore.UndeleteDocumento({
+            documento: documento,
+            tarefaId: documento.tarefaOrigem.id,
+            populate: populate,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
+    doToggleLixeiraMinutas(status): void {
+        const params = {
+            filter: {},
+            limit: 10,
+            offset: 0,
+            sort: {
+                criadoEm: 'DESC'
+            },
+            populate: []
+        };
+
+        this.minutas = [];
+        const tarefas = this.tarefas;
+        this._store.dispatch(new fromStore.UnloadDocumentos());
+        tarefas.sort((a, b) => a.processo.id < b.processo.id ? -1 : a.processo.id > b.processo.id ? 1 : 0);
+        if (!status) {
+            // Saindo da lixeira de minutas
+            tarefas.forEach((tarefa) => {
+                this.documentos = {
+                    ...this.documentos,
+                    [tarefa.id]: []
+                };
+                const tarefaHandle = `eq:${tarefa.id}`;
+
+                params.filter = {
+                    'tarefaOrigem.id': tarefaHandle,
+                    'documentoAvulsoRemessa.id': 'isNull',
+                    'juntadaAtual': 'isNull'
+                };
+                params.populate = [
+                    'tipoDocumento',
+                    'tarefaOrigem',
+                    'tarefaOrigem.vinculacoesEtiquetas',
+                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+                    'componentesDigitais'
+                ];
+                params['tarefaId'] = tarefa.id;
+                params['processoId'] = tarefa.processo.id;
+                params['nupFormatado'] = tarefa.processo.NUPFormatado;
+                this._store.dispatch(new fromStore.GetDocumentos(params));
+            });
+        } else {
+            // Entrando na lixeira de minutas
+            tarefas.forEach((tarefa) => {
+                this.documentos = {
+                    ...this.documentos,
+                    [tarefa.id]: []
+                };
+                const tarefaHandle = `eq:${tarefa.id}`;
+
+                params.filter = {
+                    'tarefaOrigem.id': tarefaHandle,
+                    'documentoAvulsoRemessa.id': 'isNull',
+                    'juntadaAtual': 'isNull',
+                    'apagadoEm': 'isNotNull'
+                };
+                params.populate = [
+                    'tipoDocumento',
+                    'tarefaOrigem',
+                    'componentesDigitais'
+                ];
+                params['context'] = {
+                    'mostrarApagadas': true
+                };
+                params['tarefaId'] = tarefa.id;
+                params['processoId'] = tarefa.processo.id;
+                params['nupFormatado'] = tarefa.processo.NUPFormatado;
+                this._store.dispatch(new fromStore.GetDocumentos(params));
+            });
+        }
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos([]));
     }
 
     doAbort(): void {

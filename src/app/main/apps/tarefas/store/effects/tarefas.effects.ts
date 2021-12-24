@@ -852,6 +852,12 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa(action.payload));
         })
     ), {dispatch: false});
+    undeleteDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<MinutasActions.UndeleteDocumentoSuccess>(MinutasActions.UNDELETE_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
+        })
+    ), {dispatch: false});
     /* Ações referentes ao editor de modelos de minutas em bloco,
      * que o painel de tarefas fica observando
      */
@@ -889,6 +895,30 @@ export class TarefasEffect {
         ofType<AtividadeBlocoCreateActions.DeleteDocumentoSuccess>(AtividadeBlocoCreateActions.DELETE_DOCUMENTO_BLOCO_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa(action.payload));
+        })
+    ), {dispatch: false});
+    converteDocumentoPdfAtividade: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeCreateActions.ConverteToPdfSucess>(AtividadeCreateActions.CONVERTE_DOCUMENTO_SUCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+    converteDocumentoHtmlAtividade: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeCreateActions.ConverteToHtmlSucess>(AtividadeCreateActions.CONVERTE_DOCUMENTO_HTML_SUCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+    converteDocumentoPdfAtividadeBloco: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeBlocoCreateActions.ConverteToPdfSucess>(AtividadeBlocoCreateActions.CONVERTE_DOCUMENTO_SUCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
+        })
+    ), {dispatch: false});
+    converteDocumentoHtmlAtividadeBloco: any = createEffect(() => this._actions.pipe(
+        ofType<AtividadeBlocoCreateActions.ConverteToHtmlSucess>(AtividadeBlocoCreateActions.CONVERTE_DOCUMENTO_HTML_SUCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(action.payload));
         })
     ), {dispatch: false});
 

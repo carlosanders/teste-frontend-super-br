@@ -11,6 +11,10 @@ export const DELETE_DOCUMENTO_BLOCO = '[MINUTAS TAREFAS] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_BLOCO_SUCCESS = '[MINUTAS TAREFAS] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_BLOCO_FAILED = '[MINUTAS TAREFAS] DELETE DOCUMENTO FAILED';
 
+export const UNDELETE_DOCUMENTO = '[MINUTAS TAREFAS] UNDELETE DOCUMENTO';
+export const UNDELETE_DOCUMENTO_SUCCESS = '[MINUTAS TAREFAS] UNDELETE DOCUMENTO SUCCESS';
+export const UNDELETE_DOCUMENTO_FAILED = '[MINUTAS TAREFAS] UNDELETE DOCUMENTO FAILED';
+
 export const ASSINA_DOCUMENTO_BLOCO = '[MINUTAS TAREFAS] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_BLOCO_SUCCESS = '[MINUTAS TAREFAS] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_BLOCO_FAILED = '[MINUTAS TAREFAS] ASSINA DOCUMENTO FAILED';
@@ -172,6 +176,41 @@ export class DeleteDocumentoSuccess implements Action
 export class DeleteDocumentoFailed implements Action
 {
     readonly type = DELETE_DOCUMENTO_BLOCO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+/**
+ * Undelete Documento
+ */
+export class UndeleteDocumento implements Action
+{
+    readonly type = UNDELETE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Undelete Documento Success
+ */
+export class UndeleteDocumentoSuccess implements Action
+{
+    readonly type = UNDELETE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Undelete Documento Failed
+ */
+export class UndeleteDocumentoFailed implements Action
+{
+    readonly type = UNDELETE_DOCUMENTO_FAILED;
 
     constructor(public payload: any)
     {
@@ -454,5 +493,8 @@ export type MinutasActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
+    | UndeleteDocumento
+    | UndeleteDocumentoSuccess
+    | UndeleteDocumentoFailed
     | RemoveDocumentoIdFromTarefa
     | ChangeSelectedDocumentos;

@@ -5,7 +5,7 @@ import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Tarefa} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
     assinatura as assinaturaSchema,
@@ -38,7 +38,8 @@ export class MinutasEffects {
                 action.payload.limit,
                 action.payload.offset,
                 JSON.stringify(action.payload.sort),
-                JSON.stringify(action.payload.populate)
+                JSON.stringify(action.payload.populate),
+                JSON.stringify(action.payload.context)
             ).pipe(
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema, populate: action.payload.populate}),
@@ -114,6 +115,58 @@ export class MinutasEffects {
                 }));
                 console.log(err);
                 return of(new MinutasActions.DeleteDocumentoFailed(payload));
+            })
+        ), 25)
+    ));
+
+    /**
+     * Undelete Documento
+     *
+     * @type {Observable<any>}
+     */
+    undeleteDocumento: any = createEffect(() => this._actions.pipe(
+        ofType<MinutasActions.UndeleteDocumento>(MinutasActions.UNDELETE_DOCUMENTO),
+        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
+            id: action.payload.operacaoId,
+            type: 'documento',
+            content: 'Restaurando o documento id ' + action.payload.documento.id + '...',
+            status: 0, // carregando
+            lote: action.payload.loteId
+        }))),
+        mergeMap(action => this._documentoService.undelete(action.payload.documento, JSON.stringify(action.payload.populate)).pipe(
+            map((response) => {
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento',
+                    content: 'Documento id ' + action.payload.documento.id + ' restaurado com sucesso.',
+                    status: 1, // sucesso
+                    lote: action.payload.loteId
+                }));
+                this._store.dispatch(new AddData<Documento>({
+                    data: [response],
+                    schema: documentoSchema,
+                    populate: action.payload.populate
+                }));
+                this._store.dispatch(new MinutasActions.RemoveDocumentoIdFromTarefa({
+                    documentoId: response.id,
+                    tarefaId: action.payload.tarefaId
+                }));
+                return new MinutasActions.UndeleteDocumentoSuccess(response);
+            }),
+            catchError((err) => {
+                const payload = {
+                    id: action.payload.documento.id,
+                    error: err
+                };
+                this._store.dispatch(new OperacoesActions.Operacao({
+                    id: action.payload.operacaoId,
+                    type: 'documento',
+                    content: 'Erro ao restaurar o documento id ' + action.payload.documento.id + '!',
+                    status: 2, // erro
+                    lote: action.payload.loteId
+                }));
+                console.log(err);
+                return of(new MinutasActions.UndeleteDocumentoFailed(payload));
             })
         ), 25)
     ));

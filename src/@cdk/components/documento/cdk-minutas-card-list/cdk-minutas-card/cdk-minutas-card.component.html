@@ -102,7 +102,7 @@
                 </button>
             </ng-template>
             <ng-template [ngIf]="documento.apagadoEm">
-                <button fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(documento.id)" mat-menu-item>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(documento)" mat-menu-item>
                     <mat-icon color="accent">undo</mat-icon>
                     <span>Restaurar</span>
                 </button>
