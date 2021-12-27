@@ -255,7 +255,6 @@ export class ResolveGuard implements CanActivate {
                     });
 
                     this._store.dispatch(new fromStore.GetTarefas(params));
-                    console.log(tarefaHandle);
                     if (!tarefaHandle) {
                         this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
                     } else {
@@ -264,7 +263,7 @@ export class ResolveGuard implements CanActivate {
                     this.loadingTarefas = true;
                 }
             }),
-            filter((loaded: any) => this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
+            filter(([loaded,]) => this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
                 this.routerState.params['targetHandle'] &&
                 (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
                     this.routerState.params['targetHandle']) ===
