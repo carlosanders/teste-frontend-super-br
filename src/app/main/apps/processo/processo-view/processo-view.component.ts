@@ -148,7 +148,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private pdfViewerService: NgxExtendedPdfViewerService
     ) {
         pdfDefaultOptions.ignoreDestinationZoom = true;
-
+        pdfDefaultOptions.assetsFolder = 'bleeding-edge';
+        
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
         }
