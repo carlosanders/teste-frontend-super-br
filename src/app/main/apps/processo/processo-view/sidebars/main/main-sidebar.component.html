@@ -133,6 +133,7 @@
             </mat-menu>
 
             <button mat-icon-button
+                    *showIfRole="'ROLE_COLABORADOR'"
                     (click)="getBookmark()"
                     aria-label="abrir marcadores de página"
                     matTooltip="Marcadores de páginas">

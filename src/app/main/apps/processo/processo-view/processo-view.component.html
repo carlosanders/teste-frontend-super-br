@@ -25,12 +25,14 @@
                             [disabled]="disabledBack()">
                         <mat-icon>chevron_left</mat-icon>
                     </button>
-                    <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
-                            class="previous accent cdk-white-fg ml-8"
-                            *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf'"
-                            (click)="criarBookmark(this.componenteDigital.id)">
-                        <mat-icon>bookmark</mat-icon>
-                    </button>
+                    <ng-container *showIfRole="'ROLE_COLABORADOR'">
+                        <button mat-mini-fab [matTooltip]="'Criar marcador de página'"
+                                class="previous accent cdk-white-fg ml-8"
+                                *ngIf="src && this.componenteDigital?.mimetype === 'application/pdf'"
+                                (click)="criarBookmark(this.componenteDigital.id)">
+                            <mat-icon>bookmark</mat-icon>
+                        </button>
+                    </ng-container>
                 </div>
 
                 <div>
