@@ -1,3 +1,4 @@
+import { Back } from './../../../../../store/actions/router.action';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -610,6 +611,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         if (this.stepper['_selectedIndex'] === 4) {
             this.vinculacaoProcessoActivated = 'grid';
         }
+    }
+
+    abort(): void {
+        this._store.dispatch(new Back());
     }
 
     submitAssunto(values): void {
