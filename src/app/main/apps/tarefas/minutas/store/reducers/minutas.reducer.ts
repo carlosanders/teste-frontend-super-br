@@ -380,7 +380,8 @@ export const minutasReducer = (
         case MinutasActions.UNDELETE_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
-                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id)
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
+                documentos: state.documentos.filter(id => id !== action.payload.id)
             };
         }
 

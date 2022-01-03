@@ -18,6 +18,7 @@
                                [undeletingId]="(undeletingDocumentosId$ | async)"
                                [downloadId]="(downloadP7SDocumentosId$ | async)"
                                [lixeiraMinutas]="(lixeiraMinutas$ | async)"
+                               [loading]="(isLoadingAny$ | async)"
                                (delete)="doDelete($event)"
                                (deleteBlocoEmmitter)="doDeleteBloco($event)"
                                (assinatura)="doAssinatura($event)"

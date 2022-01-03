@@ -1,11 +1,13 @@
 <div class="toolbar pt-8 pb-8 pl-0 pr-8">
     <button mat-mini-fab *ngIf="lixeiraMinutas"
+            [disabled]="loading"
             class="m-4 active accent" aria-label="Sair da lixeira"
             (click)="doToggleLixeiraMinutas()" matTooltip="Sair da lixeira">
         <mat-icon class="secondary-text">exit_to_app</mat-icon>
     </button>
 
     <button mat-mini-fab *ngIf="!lixeiraMinutas"
+            [disabled]="loading"
             class="m-4 active accent" aria-label="Lixeira de minutas"
             (click)="doToggleLixeiraMinutas()" matTooltip="Lixeira de minutas">
         <mat-icon class="secondary-text">delete</mat-icon>
@@ -150,12 +152,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="loading" *ngIf="saving">
-            <mat-spinner class="minutas-loading" diameter="24"></mat-spinner>
-        </div>
-        <div class="loading" *ngIf="loading">
-            <mat-spinner class="minutas-loading" diameter="24"></mat-spinner>
         </div>
     </div>
 </div>

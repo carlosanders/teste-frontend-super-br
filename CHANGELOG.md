@@ -749,3 +749,8 @@
 * Correção nos guardas de rota de movimentar/movimentar em bloco, que agora traz todos os documentos da(s) tarefa(s)
 * Melhoria garantindo sincronia entre etiqueta da tarefa e minuta após ações nos paineis de movimentação de tarefa
 * Melhoria implementada lixeira de minutas no painel de minutas 
+* Correção em problemas de sincronia entre as etiquetas de minutas no painel de tarefas e as minutas propriamente ditas
+* Correções no funcionamento do acervo de minutas
+* Correção na assinatura de minutas por dentro do editor de minutas
+* Correção na assinatura de minutas de tarefas em bloco
+* Correção em bugs na lixeira do painel de minutas

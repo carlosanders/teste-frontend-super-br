@@ -1430,21 +1430,23 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Apaga uma minuta
      *
-     * @param documentoId
+     * @param event
      * @param loteId
      */
-    doDeleteDocumento(documentoId: number, loteId: string = null): void {
+    doDeleteDocumento(event: { documentoId: number; tarefaId: number }, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();
-        documento.id = documentoId;
+        documento.id = event.documentoId;
         this._store.dispatch(new fromStore.DeleteDocumento({
-            documentoId: documentoId,
+            documentoId: documento.id,
             operacaoId: operacaoId,
+            tarefaId: event.tarefaId,
             loteId: loteId,
             redo: [
                 new fromStore.DeleteDocumento({
-                    documentoId: documentoId,
+                    documentoId: documento.id,
                     operacaoId: operacaoId,
+                    tarefaId: event.tarefaId,
                     loteId: loteId,
                     redo: 'inherent',
                     undo: 'inherent'
@@ -1455,6 +1457,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             undo: new fromStore.UndeleteDocumento({
                 documento: documento,
                 operacaoId: operacaoId,
+                tarefaId: event.tarefaId,
                 redo: null,
                 undo: null
             })
@@ -1581,8 +1584,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }));
             this._matDialog.closeAll();
         });
-        const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((aDocumento: Documento) => {
-            // this._store.dispatch(new fromStore.CompleteDocumentoVinculado(aDocumento.id));
+        const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe(() => {
         });
         const assinaBlocoSub = dialogRef.componentInstance.assinaBloco.subscribe((result) => {
             if (result.certificadoDigital) {

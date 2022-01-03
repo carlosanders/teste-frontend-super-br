@@ -148,7 +148,7 @@
                     <mat-menu #minutaMenu="matMenu">
                         <button
                             *ngIf="!!vinculacaoEtiqueta.objectContext['podeApagar']"
-                            fxLayout="row" fxLayoutAlign="start center" (click)="doDeleteDocumento(vinculacaoEtiqueta.objectId); $event.stopPropagation();"
+                            fxLayout="row" fxLayoutAlign="start center" (click)="doDeleteDocumento(vinculacaoEtiqueta.objectId, tarefa.id); $event.stopPropagation();"
                             mat-menu-item>
                             <mat-icon color="accent">delete</mat-icon>
                             <span>Apagar Minuta</span>

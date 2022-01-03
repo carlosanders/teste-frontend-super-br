@@ -48,8 +48,11 @@ import {
 import * as fromStore from '../index';
 import * as UploadBlocoActions from '../../upload-bloco/store/actions';
 import * as MinutasActions from '../../minutas/store/actions';
-import * as ModeloComponenteDigitalActions from '../../modelo-bloco/modelo/store/actions/componentes-digitais.actions';
-import * as ComponenteDigitalActions
+import * as ModeloComponenteDigitalActions from 'app/main/apps/modelos/modelo/store/actions/componentes-digitais.actions';
+import * as AcervoComponenteDigitalActions
+    from 'app/main/apps/modelos/componentes-digitais/store/actions/componentes-digitais.actions';
+import * as ModeloComponenteDigitalBlocoActions from '../../modelo-bloco/modelo/store/actions/componentes-digitais.actions';
+import * as AcervoComponenteDigitalBlocoActions
     from '../../modelo-bloco/componentes-digitais/store/actions/componentes-digitais.actions';
 import * as AtividadeCreateActions from '../../tarefa-detail/atividades/atividade-create/store/actions';
 import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store/actions';
@@ -858,10 +861,10 @@ export class TarefasEffect {
             this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
         })
     ), {dispatch: false});
-    /* Ações referentes ao editor de modelos de minutas em bloco,
+    /* Ações referentes ao editor de modelos de minutas,
      * que o painel de tarefas fica observando
      */
-    createModeloBloco: any = createEffect(() => this._actions.pipe(
+    createModelo: any = createEffect(() => this._actions.pipe(
         ofType<ModeloComponenteDigitalActions.SaveComponenteDigitalSuccess>(ModeloComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
@@ -870,8 +873,26 @@ export class TarefasEffect {
     /* Ações referentes ao editor de modelos de minutas em bloco,
      * que o painel de tarefas fica observando
      */
+    createModeloBloco: any = createEffect(() => this._actions.pipe(
+        ofType<ModeloComponenteDigitalBlocoActions.SaveComponenteDigitalSuccess>(ModeloComponenteDigitalBlocoActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
+        })
+    ), {dispatch: false});
+    /* Ações referentes ao editor de modelos de minutas por acervo,
+     * que o painel de tarefas fica observando
+     */
+    createAcervo: any = createEffect(() => this._actions.pipe(
+        ofType<AcervoComponenteDigitalActions.SaveComponenteDigitalSuccess>(AcervoComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
+        tap((action) => {
+            this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
+        })
+    ), {dispatch: false});
+    /* Ações referentes ao editor de modelos de minutas em bloco por acervo,
+     * que o painel de tarefas fica observando
+     */
     createAcervoBloco: any = createEffect(() => this._actions.pipe(
-        ofType<ComponenteDigitalActions.SaveComponenteDigitalSuccess>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
+        ofType<AcervoComponenteDigitalBlocoActions.SaveComponenteDigitalSuccess>(AcervoComponenteDigitalBlocoActions.SAVE_COMPONENTE_DIGITAL_SUCCESS),
         tap((action) => {
             this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
         })

@@ -213,7 +213,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         assinatura.assinatura = 'A1';
         assinatura.plainPassword = plainPassword;
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoEletronicamente({
+        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
             assinatura: assinatura,
             operacaoId: operacaoId,
             documento: this.documento

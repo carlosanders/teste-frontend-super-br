@@ -25,7 +25,7 @@ import {getSelectedTarefas} from '../store';
 import {CdkUtils} from '@cdk/utils';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {DynamicService} from 'modules/dynamic.service';
-import {AgrupadorTarefa} from './store';
+import {AgrupadorTarefa, isLoadingAny} from './store';
 
 @Component({
     selector: 'minutas',
@@ -82,6 +82,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
     downloadP7SDocumentosId$: Observable<number[]>;
     lixeiraMinutas$: Observable<boolean>;
     undeletingDocumentosId$: Observable<number[]>;
+    isLoadingAny$: Observable<boolean>;
 
     lote: string;
     lixeira: boolean = false;
@@ -128,6 +129,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
         this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUndeletingDocumentosId));
+        this.isLoadingAny$ = this._store.pipe(select(fromStore.isLoadingAny));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
     }
 
@@ -395,16 +397,6 @@ export class MinutasComponent implements OnInit, OnDestroy {
     }
 
     doToggleLixeiraMinutas(status): void {
-        const params = {
-            filter: {},
-            limit: 10,
-            offset: 0,
-            sort: {
-                criadoEm: 'DESC'
-            },
-            populate: []
-        };
-
         this.minutas = [];
         const tarefas = this.tarefas;
         this._store.dispatch(new fromStore.UnloadDocumentos());
@@ -417,22 +409,28 @@ export class MinutasComponent implements OnInit, OnDestroy {
                     [tarefa.id]: []
                 };
                 const tarefaHandle = `eq:${tarefa.id}`;
-
-                params.filter = {
-                    'tarefaOrigem.id': tarefaHandle,
-                    'documentoAvulsoRemessa.id': 'isNull',
-                    'juntadaAtual': 'isNull'
+                const params = {
+                    filter: {
+                        'tarefaOrigem.id': tarefaHandle,
+                        'documentoAvulsoRemessa.id': 'isNull',
+                        'juntadaAtual': 'isNull'
+                    },
+                    limit: 10,
+                    offset: 0,
+                    sort: {
+                        criadoEm: 'DESC'
+                    },
+                    populate: [
+                        'tipoDocumento',
+                        'tarefaOrigem',
+                        'tarefaOrigem.vinculacoesEtiquetas',
+                        'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+                        'componentesDigitais'
+                    ],
+                    tarefaId: tarefa.id,
+                    processoId: tarefa.processo.id,
+                    nupFormatado: tarefa.processo.NUPFormatado
                 };
-                params.populate = [
-                    'tipoDocumento',
-                    'tarefaOrigem',
-                    'tarefaOrigem.vinculacoesEtiquetas',
-                    'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
-                    'componentesDigitais'
-                ];
-                params['tarefaId'] = tarefa.id;
-                params['processoId'] = tarefa.processo.id;
-                params['nupFormatado'] = tarefa.processo.NUPFormatado;
                 this._store.dispatch(new fromStore.GetDocumentos(params));
             });
         } else {
@@ -443,24 +441,30 @@ export class MinutasComponent implements OnInit, OnDestroy {
                     [tarefa.id]: []
                 };
                 const tarefaHandle = `eq:${tarefa.id}`;
-
-                params.filter = {
-                    'tarefaOrigem.id': tarefaHandle,
-                    'documentoAvulsoRemessa.id': 'isNull',
-                    'juntadaAtual': 'isNull',
-                    'apagadoEm': 'isNotNull'
+                const params = {
+                    filter: {
+                        'tarefaOrigem.id': tarefaHandle,
+                        'documentoAvulsoRemessa.id': 'isNull',
+                        'juntadaAtual': 'isNull',
+                        'apagadoEm': 'isNotNull'
+                    },
+                    limit: 10,
+                    offset: 0,
+                    sort: {
+                        criadoEm: 'DESC'
+                    },
+                    populate: [
+                        'tipoDocumento',
+                        'tarefaOrigem',
+                        'componentesDigitais'
+                    ],
+                    context: {
+                        'mostrarApagadas': true
+                    },
+                    tarefaId: tarefa.id,
+                    processoId: tarefa.processo.id,
+                    nupFormatado: tarefa.processo.NUPFormatado
                 };
-                params.populate = [
-                    'tipoDocumento',
-                    'tarefaOrigem',
-                    'componentesDigitais'
-                ];
-                params['context'] = {
-                    'mostrarApagadas': true
-                };
-                params['tarefaId'] = tarefa.id;
-                params['processoId'] = tarefa.processo.id;
-                params['nupFormatado'] = tarefa.processo.NUPFormatado;
                 this._store.dispatch(new fromStore.GetDocumentos(params));
             });
         }

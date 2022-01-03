@@ -131,7 +131,11 @@ export class ComponentesDigitaisEffects {
             return of(new ComponenteDigitalActions.GetDocumentoFailed(err));
         })
     ));
-
+    /**
+     * getDocumentoSuccess
+     *
+     * @type {Observable<any>}
+     */
     getDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
         tap((action) => {

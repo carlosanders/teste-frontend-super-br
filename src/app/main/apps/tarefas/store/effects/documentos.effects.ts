@@ -92,7 +92,10 @@ export class TarefasDocumentosEffects {
                         schema: documentoSchema,
                         changes: {apagadoEm: response.apagadoEm}
                     }));
-                    this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa(response.id));
+                    this._store.dispatch(new TarefasActions.RemoveEtiquetaMinutaTarefa({
+                        uuid: response.uuid,
+                        tarefaId: action.payload.tarefaId
+                    }));
                     return new TarefasDocumentosActions.DeleteDocumentoSuccess(response.id);
                 }),
                 catchError((err) => {
@@ -140,7 +143,7 @@ export class TarefasDocumentosEffects {
                     status: 1, // sucesso
                     lote: action.payload.loteId
                 }));
-                this._store.dispatch(new TarefasActions.AtualizaEtiquetaMinuta(response.id));
+                this._store.dispatch(new TarefasActions.GetEtiquetasTarefas(action.payload.tarefaId));
                 return new TarefasDocumentosActions.UndeleteDocumentoSuccess({
                     documento: response
                 });
