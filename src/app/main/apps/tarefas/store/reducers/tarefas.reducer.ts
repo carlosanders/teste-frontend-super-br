@@ -695,21 +695,24 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.SAVE_OBSERVACAO: {
             return {
                 ...state,
-                savingObservacao: true
+                savingObservacao: true,
+                error: null
             };
         }
 
         case TarefasActions.SAVE_OBSERVACAO_SUCCESS: {
             return {
                 ...state,
-                savingObservacao: false
+                savingObservacao: false,
+                error: null
             };
         }
 
         case TarefasActions.SAVE_OBSERVACAO_FAILED: {
             return {
                 ...state,
-                savingObservacao: false
+                savingObservacao: false,
+                error: {statusText: action.payload.error.message},
             };
         }
 
