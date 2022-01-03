@@ -5,10 +5,15 @@ export const GET_DOCUMENTOS_BLOCO_SUCCESS = '[MINUTAS TAREFAS] GET DOCUMENTOS SU
 export const GET_DOCUMENTOS_BLOCO_FAILED = '[MINUTAS TAREFAS] GET DOCUMENTOS FAILED';
 
 export const UNLOAD_DOCUMENTOS_BLOCO = '[MINUTAS TAREFAS] UNLOAD DOCUMENTOS';
+export const UNLOAD_DOCUMENTOS_TAREFA = '[MINUTAS TAREFAS] UNLOAD DOCUMENTOS TAREFA';
 
 export const DELETE_DOCUMENTO_BLOCO = '[MINUTAS TAREFAS] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_BLOCO_SUCCESS = '[MINUTAS TAREFAS] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_BLOCO_FAILED = '[MINUTAS TAREFAS] DELETE DOCUMENTO FAILED';
+
+export const UNDELETE_DOCUMENTO = '[MINUTAS TAREFAS] UNDELETE DOCUMENTO';
+export const UNDELETE_DOCUMENTO_SUCCESS = '[MINUTAS TAREFAS] UNDELETE DOCUMENTO SUCCESS';
+export const UNDELETE_DOCUMENTO_FAILED = '[MINUTAS TAREFAS] UNDELETE DOCUMENTO FAILED';
 
 export const ASSINA_DOCUMENTO_BLOCO = '[MINUTAS TAREFAS] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_BLOCO_SUCCESS = '[MINUTAS TAREFAS] ASSINA DOCUMENTO SUCCESS';
@@ -17,6 +22,8 @@ export const ASSINA_DOCUMENTO_BLOCO_FAILED = '[MINUTAS TAREFAS] ASSINA DOCUMENTO
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[MINUTAS TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[MINUTAS TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[MINUTAS TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
+export const REMOVE_DOCUMENTO_ID_FROM_TAREFA = '[MINUTAS TAREFAS] REMOVE DOCUMENTO ID FROM TAREFA';
 
 export const CONVERTE_DOCUMENTO_ATIVIDADE = '[MINUTAS TAREFAS] CONVERTE DOCUMENTO ATIVIDADE';
 export const CONVERTE_DOCUMENTO_SUCESS = '[MINUTAS TAREFAS] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
@@ -128,6 +135,18 @@ export class UnloadDocumentos implements Action
 }
 
 /**
+ * Unload Documentos Tarefa
+ */
+export class UnloadDocumentosTarefa implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Delete Documento
  */
 export class DeleteDocumento implements Action
@@ -157,6 +176,53 @@ export class DeleteDocumentoSuccess implements Action
 export class DeleteDocumentoFailed implements Action
 {
     readonly type = DELETE_DOCUMENTO_BLOCO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+/**
+ * Undelete Documento
+ */
+export class UndeleteDocumento implements Action
+{
+    readonly type = UNDELETE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Undelete Documento Success
+ */
+export class UndeleteDocumentoSuccess implements Action
+{
+    readonly type = UNDELETE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Undelete Documento Failed
+ */
+export class UndeleteDocumentoFailed implements Action
+{
+    readonly type = UNDELETE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Documento Id from Tarefa
+ */
+export class RemoveDocumentoIdFromTarefa implements Action
+{
+    readonly type = REMOVE_DOCUMENTO_ID_FROM_TAREFA;
 
     constructor(public payload: any)
     {
@@ -403,6 +469,7 @@ export type MinutasActionsAll
     | UpdateDocumentoBlocoSuccess
     | UpdateDocumentoBlocoFailed
     | UnloadDocumentos
+    | UnloadDocumentosTarefa
     | ClickedDocumento
     | ConverteToPdf
     | ConverteToPdfSucess
@@ -426,4 +493,8 @@ export type MinutasActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
+    | UndeleteDocumento
+    | UndeleteDocumentoSuccess
+    | UndeleteDocumentoFailed
+    | RemoveDocumentoIdFromTarefa
     | ChangeSelectedDocumentos;

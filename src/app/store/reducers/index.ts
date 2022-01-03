@@ -4,6 +4,7 @@ import * as fromRouter from '@ngrx/router-store';
 import {normalized, NormalizedState} from '@cdk/ngrx-normalizr';
 import {MercureReducer, MercureState} from './mercure.reducer';
 import {AjudaReducer, AjudaState} from './ajuda.reducer';
+import {assinaturaReducer, AssinaturaState} from './assinatura.reducer';
 import {ScreenReducer, ScreenState} from './screen.reducer';
 import {OperacoesReducer, OperacoesState} from './operacoes.reducer';
 import {LOGOUT} from '../../main/auth/login/store';
@@ -21,6 +22,7 @@ export interface State extends NormalizedState {
     mercureReducer: MercureState;
     counterReducer: CounterState;
     ajudaReducer: AjudaState;
+    assinaturaReducer: AssinaturaState;
     screenReducer: ScreenState;
     operacoesReducer: OperacoesState;
     notificacoes: NotificacaoState;
@@ -32,12 +34,13 @@ export const reducers: ActionReducerMap<State> = {
     mercureReducer: MercureReducer,
     counterReducer: CounterReducer,
     ajudaReducer: AjudaReducer,
+    assinaturaReducer: assinaturaReducer,
     screenReducer: ScreenReducer,
     operacoesReducer: OperacoesReducer,
     notificacoes: NotificacaoReducer
 };
 
-export function clearState(reducer): any {
+export const clearState = (reducer): any => {
     return (state, action) => {
 
         if (action.type === LOGOUT) {
@@ -46,8 +49,7 @@ export function clearState(reducer): any {
 
         return reducer(state, action);
     };
-}
-
+};
 
 export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>('routerReducer');
 
@@ -56,6 +58,8 @@ export const getMercureState = createFeatureSelector<MercureState>('mercureReduc
 export const getCounterState = createFeatureSelector<CounterState>('counterReducer');
 
 export const getAjudaState = createFeatureSelector<AjudaState>('ajudaReducer');
+
+export const getAssinaturaState = createFeatureSelector<AssinaturaState>('assinaturaReducer');
 
 export const getScreenState = createFeatureSelector<ScreenState>('screenReducer');
 

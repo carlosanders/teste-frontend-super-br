@@ -2,24 +2,26 @@ import {Injectable, SecurityContext} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componente-digital.actions';
 import {getRouterState, State} from 'app/store/reducers';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {select, Store} from '@ngrx/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
-import {ComponenteDigital} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DomSanitizer} from '@angular/platform-browser';
+import {getDocumento} from '../../../store';
+import {getComponenteDigitalLoaded} from '../selectors';
 
 @Injectable()
 export class ComponenteDigitalEffect {
-
     routerState: any;
     lixeira = false;
+    documento: Documento;
     /**
      * Set Current Step
      *
@@ -50,26 +52,67 @@ export class ComponenteDigitalEffect {
             }
             return this._componenteDigitalService.download(handle.value, context);
         }),
-        mergeMap((response: ComponenteDigital) => [
+        mergeMap(response => [
             new UpdateData<ComponenteDigital>({
                 id: response.id,
                 schema: componenteDigitalSchema,
                 changes: {conteudo: response.conteudo}
             }),
             new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
-                    componenteDigitalId: response.id,
-                    loaded: {
-                        id: 'componenteDigitalHandle',
-                        value: this.routerState.params.componenteDigitalHandle
-                    }
+                componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
+                componenteDigital: response,
+                loaded: {
+                    id: 'componenteDigitalHandle',
+                    value: this.routerState.params['componenteDigitalHandle']
                 }
-            ),
+            }),
         ]),
         catchError((err) => {
             console.log(err);
             return of(new ComponenteDigitalActions.DownloadComponenteDigitalFailed(err));
         })
     ));
+    downloadComponenteDigitalSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.DownloadComponenteDigitalSuccess>(ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL_SUCCESS),
+        withLatestFrom(this._store.select(getDocumento), this._store.select(getComponenteDigitalLoaded)),
+        tap(([action, documento, loaded]) => {
+            if (loaded.exibido !== action.payload.componenteDigitalId) {
+                let primary: string;
+                primary = 'componente-digital/';
+                const componenteDigital = action.payload.componenteDigital;
+
+                primary += componenteDigital.id;
+
+                if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
+                    primary += '/editor/ckeditor';
+                } else {
+                    primary += '/visualizar';
+                }
+
+                let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
+                // eslint-disable-next-line max-len
+                if ((!documento?.minuta || documento?.vinculacaoDocumentoPrincipal || action.payload.componenteDigital?.documentoOrigem) && sidebar.includes('editar/atividade')) {
+                    sidebar = 'editar/dados-basicos';
+                }
+                const url = this.routerState.url.includes('/processo/') ?
+                    this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+                    '/visualizar/' + this.routerState.params.stepHandle +
+                    '/documento/' + this.routerState.params.documentoHandle :
+                    this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params.documentoHandle;
+                this._router.navigate([url, {outlets: {primary: primary, sidebar: sidebar}}],
+                    {
+                        relativeTo: this._activatedRoute.parent
+                    }
+                ).then(() => {
+                    const loadedExibido = {
+                        ...action.payload.loaded,
+                        exibido: action.payload.componenteDigitalId
+                    };
+                    this._store.dispatch(new ComponenteDigitalActions.ComponenteDigitalExibido(loadedExibido));
+                });
+            }
+        })
+    ), {dispatch: false});
     /**
      * Visualizar Versão ComponenteDigital
      *
@@ -326,6 +369,7 @@ export class ComponenteDigitalEffect {
         private _store: Store<State>,
         private _router: Router,
         private _componenteDigitalService: ComponenteDigitalService,
+        private _activatedRoute: ActivatedRoute,
         private _sanitizer: DomSanitizer,
     ) {
         this._store.pipe(

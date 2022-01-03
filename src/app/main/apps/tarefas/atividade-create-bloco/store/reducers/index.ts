@@ -1,6 +1,6 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {AtividadeCreateBlocoReducer, AtividadeCreateBlocoState} from './atividade-create-bloco.reducer';
-import {AtividadeBlocoCreateDocumentosReducer, AtividadeBlocoCreateDocumentosState} from './documentos.reducer';
+import {atividadeCreateBlocoReducer, AtividadeCreateBlocoState} from './atividade-create-bloco.reducer';
+import {atividadeBlocoCreateDocumentosReducer, AtividadeBlocoCreateDocumentosState} from './documentos.reducer';
 
 export interface AtividadeCreateBlocoAppState
 {
@@ -18,8 +18,8 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<AtividadeCreateBlocoAppState> = {
-    atividadeCreateBloco: AtividadeCreateBlocoReducer,
-    atividadeCreateBlocoDocumentos: AtividadeBlocoCreateDocumentosReducer
+    atividadeCreateBloco: atividadeCreateBlocoReducer,
+    atividadeCreateBlocoDocumentos: atividadeBlocoCreateDocumentosReducer
 };
 
 export * from './atividade-create-bloco.reducer';

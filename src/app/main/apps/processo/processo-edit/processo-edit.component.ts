@@ -14,8 +14,8 @@ import * as fromStore from '../store';
 import {getProcesso, getSteps} from '../store';
 import {getRouterState} from '../../../../store';
 import {Observable, Subject} from 'rxjs';
-import {Processo} from '../../../../../@cdk/models';
-import {MercureService} from '../../../../../@cdk/services/mercure.service';
+import {Processo} from '@cdk/models';
+import {MercureService} from '@cdk/services/mercure.service';
 import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({

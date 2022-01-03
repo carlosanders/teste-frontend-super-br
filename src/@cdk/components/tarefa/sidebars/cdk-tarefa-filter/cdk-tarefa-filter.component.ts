@@ -4,8 +4,8 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input,
-    Output,
+    Input, OnChanges,
+    Output, SimpleChange,
     ViewChild,
     ViewContainerRef,
     ViewEncapsulation
@@ -17,8 +17,9 @@ import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
 import {of, Subject} from 'rxjs';
-import {Pagination} from '../../../../models';
+import {Etiqueta, Pagination} from '../../../../models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {SearchBarEtiquetasFiltro} from '../../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 
 @Component({
     selector: 'cdk-tarefa-filter',
@@ -28,7 +29,10 @@ import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkTarefaFilterComponent implements AfterViewInit {
+export class CdkTarefaFilterComponent implements AfterViewInit, OnChanges {
+
+    @Input()
+    arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
 
     @Output()
     selected = new EventEmitter<any>();
@@ -60,6 +64,10 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
     filterDataHoraInicioPrazo = [];
     filterDataHoraFinalPrazo = [];
     filterDataHoraConclusaoPrazo = [];
+
+    etiquetas: Etiqueta[] = [];
+    filtroEtiquetas: SearchBarEtiquetasFiltro;
+    etiquetaFilter: any;
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
@@ -167,6 +175,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
                 }));
             }
         });
+    }
+
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['arrayFiltrosEtiquetas']) {
+            this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
+        }
     }
 
     emite(): void {
@@ -347,6 +361,12 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             andXFilter.push({'apagadoPor.id': `eq:${this.form.get('apagadoPor').value.id}`});
         }
 
+        this.etiquetas.forEach((e) => {
+            const objFiltro = {};
+            objFiltro[this.filtroEtiquetas.queryFilter] = `eq:${e.id}`;
+            andXFilter.push(objFiltro);
+        });
+
         const request = {
             filters: {},
         };
@@ -356,7 +376,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-list').close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
     }
 
     filtraDataHoraLeitura(value: any): void {
@@ -407,6 +427,20 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         this.form.reset();
         this.limparFormFiltroDatas$.next(true);
         this._cdkTarefaFilterService.clear.next(true);
+        this.etiquetas = [];
         this.emite();
+    }
+
+    addEtiqueta(etiqueta: Etiqueta): void {
+        this.etiquetas.push(etiqueta);
+    }
+
+    deleteEtiqueta(etiqueta: Etiqueta): void {
+        this.etiquetas = this.etiquetas.filter(e => e.id !== etiqueta.id);
+    }
+
+    changeEtiquetaFilter(filtro: SearchBarEtiquetasFiltro): void {
+        this.etiquetas = [];
+        this.filtroEtiquetas = filtro;
     }
 }

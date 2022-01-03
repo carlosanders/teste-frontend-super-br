@@ -94,7 +94,7 @@ export class CdkDocumentoCardComponent implements OnInit {
     desvincular = new EventEmitter<VinculacaoDocumento>();
 
     @Output()
-    clicked = new EventEmitter<number>();
+    clicked = new EventEmitter<Documento>();
 
     @Output()
     changedSelected = new EventEmitter<boolean>();

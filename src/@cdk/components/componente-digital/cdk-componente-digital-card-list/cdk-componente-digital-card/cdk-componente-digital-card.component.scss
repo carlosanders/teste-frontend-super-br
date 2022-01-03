@@ -12,8 +12,8 @@ cdk-componente-digital-card {
         flex: 1 1 auto;
         align-items: center;
         margin-right: 8px;
-        border-radius: 6px;
-        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 3px;
+        border: 1px solid;
 
         > .content-img {
             display: flex;
@@ -26,7 +26,7 @@ cdk-componente-digital-card {
             display: flex;
             flex: 1 1 auto;
             flex-direction: column;
-            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            border-right: 1px solid;
             justify-content: center;
 
             > .content-card-item {
@@ -54,7 +54,8 @@ cdk-componente-digital-card {
         align-items: center;
         margin: 0;
         padding: 8px 0;
-        border: 0 solid rgba(0, 0, 0, 0.12);
+        border-radius: 3px;
+        border: 1px solid;
 
         > .content-img {
             display: flex;
@@ -67,8 +68,59 @@ cdk-componente-digital-card {
             display: flex;
             flex: 1 1 auto;
             flex-direction: column;
-            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            border-right: 1px solid;
             justify-content: center;
+
+            > .content-card-item {
+                display: flex;
+                flex: 1 1 auto;
+                align-items: center;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+        }
+
+        > .menu {
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: center;
+            align-items: center;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+    }
+
+    > .tarefas-list {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        margin-right: 2px;
+        border-radius: 3px;
+        border: 1px solid;
+        max-height: 32px;
+        margin-top: 6px;
+
+        > .content-img {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            justify-content: center;
+
+            mat-icon {
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+                line-height: 22px;
+            }
+        }
+
+        > .content-card {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            border-right: 1px solid;
+            justify-content: center;
+            font-size: 11px;
 
             > .content-card-item {
                 display: flex;

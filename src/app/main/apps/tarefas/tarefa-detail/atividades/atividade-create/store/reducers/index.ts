@@ -1,7 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {AtividadeCreateReducer, AtividadeCreateState} from './atividade-create.reducer';
-import {AtividadeCreateDocumentosReducer, AtividadeCreateDocumentosState} from './documentos.reducer';
-import {ComponenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
+import {atividadeCreateReducer, AtividadeCreateState} from './atividade-create.reducer';
+import {atividadeCreateDocumentosReducer, AtividadeCreateDocumentosState} from './documentos.reducer';
+import {componenteDigitalReducer, ComponenteDigitalState} from './componentes-digitais.reducer';
 
 export interface AtividadeCreateAppState
 {
@@ -20,9 +20,9 @@ export const getAppState: any = createSelector(
 );
 
 export const reducers: ActionReducerMap<AtividadeCreateAppState> = {
-    atividadeCreate: AtividadeCreateReducer,
-    atividadeCreateDocumentos: AtividadeCreateDocumentosReducer,
-    componentesDigitais: ComponenteDigitalReducer
+    atividadeCreate: atividadeCreateReducer,
+    atividadeCreateDocumentos: atividadeCreateDocumentosReducer,
+    componentesDigitais: componenteDigitalReducer
 };
 
 export * from './atividade-create.reducer';

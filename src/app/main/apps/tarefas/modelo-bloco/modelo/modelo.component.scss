@@ -1,0 +1,27 @@
+modelos-bloco-modelo {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        > mat-list {
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 auto;
+            p.mat-line {
+                white-space: pre-wrap !important;
+            }
+        }
+    }
+
+    > .footer {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+}

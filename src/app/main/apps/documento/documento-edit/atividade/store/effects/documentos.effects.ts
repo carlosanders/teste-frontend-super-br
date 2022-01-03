@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -12,6 +12,7 @@ import {
 } from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import * as DocumentosActionsAll from '../actions/documentos.actions';
+import {getDocumento} from '../../../../store';
 
 @Injectable()
 export class DocumentosEffects {
@@ -23,11 +24,12 @@ export class DocumentosEffects {
      */
     getDocumentos: any = createEffect(() => this._actions.pipe(
         ofType<DocumentosActionsAll.GetDocumentos>(DocumentosActionsAll.GET_DOCUMENTOS),
-        switchMap(() => {
-
+        withLatestFrom(this._store.pipe(select(getDocumento))),
+        switchMap(([, documento]) => {
+            const tarefaId = this.routerState.params['tarefaHandle'] ?? documento.tarefaOrigem.id;
             const params = {
                 filter: {
-                    'tarefaOrigem.id': 'eq:' + this.routerState.params['tarefaHandle'],
+                    'tarefaOrigem.id': 'eq:' + tarefaId,
                     'documentoAvulsoRemessa.id': 'isNull',
                     'juntadaAtual': 'isNull'
                 },
@@ -58,8 +60,8 @@ export class DocumentosEffects {
             new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
             new DocumentosActionsAll.GetDocumentosSuccess({
                 loaded: {
-                    id: 'tarefaHandle',
-                    value: this.routerState.params['tarefaHandle']
+                    id: this.routerState.params['tarefaHandle'] ? 'tarefaHandle' : 'documentoHandle',
+                    value: this.routerState.params['tarefaHandle'] ?? this.routerState.params['documentoHandle']
                 },
                 entitiesId: response['entities'].map(documento => documento.id),
             })

@@ -2,23 +2,34 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ComponentRef,
     ElementRef,
     OnDestroy,
     OnInit,
-    ViewChild,
+    ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Documento, Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
+import {
+    Assinatura,
+    ComponenteDigital,
+    Documento,
+    Etiqueta,
+    Folder,
+    Pagination,
+    Tarefa,
+    Usuario,
+    VinculacaoEtiqueta
+} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
+import * as AssinaturaStore from 'app/store';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
@@ -39,10 +50,17 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {
+    CdkAssinaturaEletronicaPluginComponent
+} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
+import {CdkTarefaListComponent} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list.component';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {
+    CdkUploadDialogComponent
+} from '@cdk/components/documento/cdk-upload-dialog/cdk-upload-dialog.component';
+import {HasTarefa} from '../../../../@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item/has-tarefa';
 
 @Component({
     selector: 'tarefas',
@@ -55,6 +73,12 @@ import {SearchBarEtiquetasFiltro} from '@cdk/components/search-bar-etiquetas/sea
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
+    @ViewChild('tarefasList', {read: CdkTarefaListComponent, static: true}) tarefasList: CdkTarefaListComponent;
+    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
+    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger}) autoCompleteModelos: MatAutocompleteTrigger;
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef}) container: ViewContainerRef;
 
     confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
@@ -63,8 +87,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     searchInput: FormControl;
 
     folders$: Observable<Folder[]>;
+
     currentTarefaId: number;
+
+    currentTarefa: Tarefa;
+    currentTarefa$: Observable<any>;
+
     tarefas: Tarefa[] = [];
+
+    savingVinculacaoEtiquetaId$: Observable<number>;
 
     loaded: any;
 
@@ -79,8 +110,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     togglingUrgenteIds$: Observable<number[]>;
     savingObservacao$: Observable<boolean>;
     assinandoTarefasIds$: Observable<number[]>;
-    assinandoTarefasEletronicamenteIds$: Observable<number[]>;
-    assinaturaInterval = null;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -122,12 +151,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     totalInteressadosProcessosId$: Observable<any[]>;
 
+    processoHandle$: Observable<any>;
+
     cienciaIds$: Observable<number[]>;
 
     pesquisaTarefa: string;
 
     changingFolderIds$: Observable<number[]>;
 
+    typeHandle: string;
     targetHandle: string;
 
     routeAtividade = 'atividades/criar';
@@ -141,18 +173,41 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     usuarioAtual: Usuario;
 
-    javaWebStartOK = false;
-
     arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
     filtroEtiquetas: SearchBarEtiquetasFiltro;
+    vinculacaoEtiquetaPagination: Pagination;
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     novaAba = false;
 
-    private _unsubscribeAll: Subject<any> = new Subject();
+    formEditor: FormGroup;
+    habilitarEditorSalvar = false;
+    modeloPagination: Pagination;
+    formEditorValid = false;
 
+    deletingDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
+    convertendoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentoIds$: Observable<number[]>;
+
+    isSaving$: Observable<boolean>;
+    isLoadingDocumentosVinculados$: Observable<boolean>;
+    documentosVinculados$: Observable<Documento[]>;
+    documentosVinculados: Documento[];
+    selectedDocumentosVinculados$: Observable<Documento[]>;
+    deletingDocumentosVinculadosId$: Observable<number[]>;
+    alterandoDocumentosVinculadosId$: Observable<number[]>;
+    documentosVinculadosPagination$: Observable<any>;
+    documentosVinculadosPagination: any;
+
+    routeAtividadeDocumento = 'atividade';
+    routeOficioDocumento = 'oficio';
+
+    private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
 
     /**
@@ -161,6 +216,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
      * @param _tarefaService
+     * @param _formBuilder
      * @param _router
      * @param _store
      * @param _loginService
@@ -173,6 +229,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _tarefaService: TarefaService,
+        private _formBuilder: FormBuilder,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
         private _loginService: LoginService,
@@ -181,17 +238,35 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _matDialog: MatDialog
     ) {
         // Set the defaults
+        this.formEditor = this._formBuilder.group({
+            modelo: [null]
+        });
         this.searchInput = new FormControl('');
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.togglingUrgenteIds$ = this._store.pipe(select(fromStore.getIsTogglingUrgenteIds));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
+        this.currentTarefa$ = this._store.pipe(select(fromStore.getCurrentTarefa));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
         this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
         this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
-        this.assinandoTarefasEletronicamenteIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasEletronicamenteId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
+        this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
+        this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
+        this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
+        this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
+        this.alterandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosVinculadosId));
+        this.documentosVinculadosPagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
+        this.processoHandle$ = this._store.pipe(select(fromStore.getProcessoHandle));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -237,6 +312,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             ]
         };
+        this.vinculacaoEtiquetaPagination = vinculacaoEtiquetaPagination;
         this.arrayFiltrosEtiquetas.push({
             label: 'etiquetas',
             pagination: vinculacaoEtiquetaPagination,
@@ -281,6 +357,26 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.totalInteressadosProcessosId$ = this._store.pipe(select(fromStore.getTotalInteressadosProcessosId));
         this.cienciaIds$ = this._store.pipe(select(fromStore.getCienciaTarefaIds));
         this.usuarioAtual = this._loginService.getUserProfile();
+        this.formEditor.get('modelo').valueChanges.subscribe((value) => {
+            this.formEditorValid = value && typeof value === 'object';
+        });
+        this.modeloPagination = new Pagination();
+        this.modeloPagination.populate = [
+            'documento',
+            'documento.componentesDigitais'
+        ];
+        this.modeloPagination.filter = {
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -306,8 +402,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
             this.routerState = routerState.state;
             // eslint-disable-next-line radix
-            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 10);
+
             this.targetHandle = routerState.state.params['targetHandle'];
+            this.typeHandle = routerState.state.params['typeHandle'];
             if (this.routerState.queryParams['novaAba']) {
                 this.novaAba = true;
                 this._store.dispatch(new fromStore.ToggleMaximizado(true));
@@ -327,6 +424,26 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
                 }
             });
+            const pathDocumento = 'app/main/apps/documento/documento-edit';
+            modulesConfig.forEach((module) => {
+                if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                    module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
+                    module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
+                }
+                if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                    module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
+                    module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                    this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
+                }
+            });
+        });
+
+        this._store.pipe(
+            select(fromStore.getCurrentTarefaId),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((currentTarefaId) => {
+            this.currentTarefaId = currentTarefaId?.tarefaId ?? null;
         });
 
         this._store.pipe(
@@ -338,47 +455,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.novaTarefa = true;
                 }
             }
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
-
-        this.assinandoTarefasIds$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoTarefasIds) => {
-            if (assinandoTarefasIds.length > 0) {
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoTarefasIds.length > 0)) {
-                        assinandoTarefasIds.forEach(
-                            tarefaId => this._store.dispatch(new fromStore.AssinaDocumentoFailed({tarefaId: tarefaId}))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
         });
 
         this.tarefas$.pipe(
@@ -386,6 +462,23 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(tarefas => !!tarefas)
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
+        });
+
+        this.currentTarefa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((currentTarefa: any) => {
+            if (currentTarefa) {
+                if (!this.currentTarefa || (this.currentTarefa && !this.currentTarefaId) || (this.currentTarefa.id !== currentTarefa.id)) {
+                    this._store.dispatch(new fromStore.SyncCurrentTarefaId({
+                        tarefaId: currentTarefa.id,
+                        processoId: currentTarefa.processo.id,
+                        acessoNegado: currentTarefa.processo.acessoNegado
+                    }));
+                }
+            } else {
+                this._store.dispatch(new fromStore.SyncCurrentTarefaId({}));
+            }
+            this.currentTarefa = currentTarefa;
         });
 
         this.pagination$.pipe(
@@ -444,6 +537,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             });
         });
 
+        this.documentosVinculadosPagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => this.documentosVinculadosPagination = pagination);
+
+        this.documentosVinculados$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documentosVinculados => this.documentosVinculados = documentosVinculados);
+
         this.pesquisaTarefa = 'tarefa';
     }
 
@@ -452,6 +553,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const path = 'app/main/apps/tarefas';
         modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach(((c) => {
+                    this._dynamicService.loadComponent(c)
+                        .then((componentFactory) => {
+                            const componente: ComponentRef<HasTarefa> = this.container.createComponent(componentFactory);
+                            componente.instance.setTarefa(this.currentTarefa);
+                            this._changeDetectorRef.detectChanges();
+                        });
+                }));
+            }
+
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividades') &&
                 module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
@@ -681,6 +793,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changeSelectedIds(ids: number[]): void {
         this._store.dispatch(new fromStore.ChangeSelectedTarefas(ids));
+        if (!ids || (ids.length === 0)) {
+            this._router.navigate([
+                'apps',
+                'tarefas',
+                this.routerState.params.generoHandle,
+                this.routerState.params.typeHandle,
+                this.routerState.params.targetHandle
+            ]).then();
+        }
     }
 
     changeDraggedIds(ids: number[]): void {
@@ -739,14 +860,32 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
     }
 
-    doMovimentar(tarefaId): void {
+    doMovimentar(tarefa: Tarefa): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/' + this.routeAtividade]).then();
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado,
+            static: true
+        }));
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/' + this.routeAtividade
+        ]).then();
     }
 
-    doEditTarefa(tarefaId): void {
+    doEditTarefa(tarefa: Tarefa): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado,
+            static: true
+        }));
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle
+            + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/editar'
+        ]).then();
     }
 
     doEditProcesso(params): void {
@@ -754,9 +893,23 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/editar/dados-basicos']).then();
     }
 
-    doRedistribuirTarefa(tarefaId): void {
+    doVisualizarProcesso(params): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/visualizar']).then();
+    }
+
+    doRedistribuirTarefa(tarefa: Tarefa): void {
+        // eslint-disable-next-line max-len
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado,
+            static: true
+        }));
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/redistribuicao'
+        ]).then();
     }
 
     doCienciaTarefa(tarefaId, loteId: string = null): void {
@@ -835,9 +988,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doMinutas(): void {
-        // tslint:disable-next-line:max-line-length
-        // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/minutas']).then();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + this.currentTarefa.id + '/minutas'
+        ]).then();
+    }
+
+    doMinutasBloco(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/minutas'
+        ]).then();
     }
 
     doMovimentarBloco(): void {
@@ -861,14 +1022,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
     }
 
-    doUploadBloco(): void {
-        // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
+    doUpload(): void {
+        const selectedTarefa = this.tarefasList.tarefaListItems.find(tarefaListItem => tarefaListItem.tarefa.id === this.currentTarefaId);
+        selectedTarefa.upload();
     }
 
     doEditorBloco(): void {
         // eslint-disable-next-line max-len
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco/modelo']).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
@@ -876,19 +1037,112 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
     }
 
-    doAssinaturaMinutas(tarefa: Tarefa): void {
+    doAssinaturaMinutas(): void {
         const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             if (result.certificadoDigital) {
-                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, certificadoDigital: true}));
+                const ids = this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
             } else {
-                this._store.dispatch(new fromStore.GetDocumentos({
-                    tarefaId: tarefa.id,
-                    assinatura: {plainPassword: result.plainPassword}
-                }));
+                this.currentTarefa.vinculacoesEtiquetas.filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
+                    vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                    vinculacao.objectContext['componentesDigitaisVinculadosId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                });
+            }
+        });
+    }
+
+    doAssinaturaTarefas(): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+            if (result.certificadoDigital) {
+                const ids = this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
+                    .filter(vinculacao => !!vinculacao.objectId).map(vinculacao => vinculacao.objectId);
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(ids));
+            } else {
+                this.selectedTarefas.map(tarefa => tarefa.vinculacoesEtiquetas).flat()
+                    .filter(vinculacao => !!vinculacao.objectId).forEach((vinculacao) => {
+                    vinculacao.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                    vinculacao.objectContext['componentesDigitaisVinculadosId']?.forEach((componenteDigitalId) => {
+                        const documento = new Documento();
+                        documento.id = vinculacao.objectId;
+                        const assinatura = new Assinatura();
+                        const componenteDigital = new ComponenteDigital();
+                        componenteDigital.id = componenteDigitalId;
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: documento,
+                            operacaoId: operacaoId
+                        }));
+                    });
+                });
             }
         });
     }
@@ -947,7 +1201,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     retornar(): void {
         this.mostraCriar = false;
-        this.currentTarefaId = null;
+        //this.currentTarefaId = null;
     }
 
     doSalvarObservacao(params: any): void {
@@ -971,7 +1225,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel(
-                    {idTarefasSelecionadas: this.selectedIds.length === this.pagination.total ? [] : this.selectedIds })
+                    {idTarefasSelecionadas: this.selectedIds.length === this.pagination.total ? [] : this.selectedIds})
                 );
             }
             this.confirmDialogRef = null;
@@ -980,22 +1234,471 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doEditarDocumentoEtiqueta(event): void {
         const tarefa = event.tarefa;
-        const vinculacaoEtiqueta = event.vinculacaoEtiqueta;
-        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
-            this._store.dispatch(new fromStore.SetCurrentTarefa({
-                tarefaId: tarefa.id,
-                processoId: tarefa.processo.id,
-                acessoNegado: tarefa.processo.acessoNegado,
-                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
-            }));
+        const vinculacaoEtiquetaClicada = event.vinculacaoEtiqueta;
+        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
         }
-        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
-            this._store.dispatch(new fromStore.SetCurrentTarefa({
-                tarefaId: tarefa.id,
-                processoId: tarefa.processo.id,
-                acessoNegado: tarefa.processo.acessoNegado,
-                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
-            }));
+        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
+            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
         }
+    }
+
+    doVinculacaoEtiquetaCreate(params): void {
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta(params));
+    }
+
+    doVinculacaoEtiquetaDelete(params): void {
+        this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta(params));
+    }
+
+    doVinculacaoEtiquetaEdit(params): void {
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta(params));
+    }
+
+    onCompleteAll(tarefaId: number): void {
+        this._store.dispatch(new fromStore.UploadConcluido(tarefaId));
+        this._store.dispatch(new fromStore.GetEtiquetasTarefas(tarefaId));
+    }
+
+    checkModelo(): void {
+        const value = this.formEditor.get('modelo').value;
+        if (!value || typeof value !== 'object') {
+            this.habilitarEditorSalvar = false;
+            this.formEditor.get('modelo').setValue(null);
+        } else {
+            this.habilitarEditorSalvar = true;
+        }
+    }
+
+    doEditor(): void {
+        const modelo = this.formEditor.get('modelo').value;
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.CreateComponenteDigital({
+            modelo: modelo,
+            tarefaOrigem: this.currentTarefa,
+            processoOrigem: this.currentTarefa.processo,
+            routeAtividadeDocumento: this.routeAtividadeDocumento,
+            operacaoId: operacaoId
+        }));
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
+    }
+
+    criarOficio(): void {
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + this.currentTarefa.id + '/oficio'
+        ]).then();
+    }
+
+    showModelosGrid(): void {
+        this.autoCompleteModelos.closePanel();
+        this._changeDetectorRef.markForCheck();
+        this.menuTriggerList.closeMenu();
+        this._changeDetectorRef.markForCheck();
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + this.currentTarefa.id + '/modelos/modelo'
+        ]).then(() => {
+            this.closeAutocomplete();
+        });
+    }
+
+    doVisualizarModelo(): void {
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.documento.componentesDigitais[0].id));
+    }
+
+    closeAutocomplete(): void {
+        this.autoCompleteModelos.closePanel();
+        this.formEditor.get('modelo').setValue(null);
+        this._changeDetectorRef.markForCheck();
+    }
+
+    abreEditor(documentoId: number, tarefa: Tarefa): void {
+        let stepHandle = 'default';
+        if (this.routerState.params['stepHandle'] && parseInt(this.routerState.params['processoHandle'], 10) === tarefa.processo.id) {
+            stepHandle = this.routerState.params['stepHandle'];
+        }
+        this._router.navigate([
+            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+            + this.routerState.params.targetHandle + '/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar/'
+            + stepHandle + '/documento/' + documentoId
+        ]).then();
+    }
+
+    /*****************************************************************************************************************
+     ******************** Inicio de métodos relacionados a minutas de tarefa *****************************************
+     ****************************************************************************************************************/
+
+    /**
+     * Altera o tipo de uma minuta
+     *
+     * @param event
+     */
+    doAlterarTipoDocumento(event): void {
+        this._store.dispatch(new fromStore.UpdateDocumento(event));
+    }
+
+    /**
+     * Aprova uma minuta
+     *
+     * @param documentoId
+     */
+    doAprovaDocumento(documentoId: number): void {
+        const documento = new Documento();
+        documento.id = documentoId;
+        this._store.dispatch(new fromStore.AprovarDocumento({
+            documento: documento,
+            routeDocumento: this.routeAtividadeDocumento
+        }));
+    }
+
+    /**
+     * Assina uma minuta
+     *
+     * @param vinculacaoEtiqueta
+     */
+    doAssinaMinuta(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+            if (result.certificadoDigital) {
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([vinculacaoEtiqueta.objectId]));
+            } else {
+                vinculacaoEtiqueta.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId: number) => {
+                    const documento = new Documento();
+                    documento.id = vinculacaoEtiqueta.objectId;
+                    const assinatura = new Assinatura();
+                    const componenteDigital = new ComponenteDigital();
+                    componenteDigital.id = componenteDigitalId;
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+                vinculacaoEtiqueta.objectContext['componentesDigitaisVinculadosId']?.forEach((componenteDigitalId: number) => {
+                    const documento = new Documento();
+                    documento.id = vinculacaoEtiqueta.objectId;
+                    const assinatura = new Assinatura();
+                    const componenteDigital = new ComponenteDigital();
+                    componenteDigital.id = componenteDigitalId;
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+            }
+        });
+    }
+
+    /**
+     * Converte uma minuta em HTML
+     *
+     * @param documentoId
+     */
+    doConverteHtml(documentoId: number): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
+    }
+
+    /**
+     * Converte uma minuta em PDF
+     *
+     * @param documentoId
+     */
+    doConvertePdf(documentoId: number): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    /**
+     * Apaga uma minuta
+     *
+     * @param documentoId
+     * @param loteId
+     */
+    doDeleteDocumento(documentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId;
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteDocumento({
+                    documentoId: documentoId,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteDocumentoFlush()
+            ],
+            undo: new fromStore.UndeleteDocumento({
+                documento: documento,
+                operacaoId: operacaoId,
+                redo: null,
+                undo: null
+            })
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(s)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteDocumentoCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteDocumentoFlush());
+            }
+            this.snackSubscription.unsubscribe();
+            this.snackSubscription = null;
+        });
+    }
+
+    /**
+     * Download P7S de uma minuta assinada
+     *
+     * @param vinculacaoEtiqueta
+     */
+    doDownloadP7S(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        vinculacaoEtiqueta.objectContext['componentesDigitaisId']?.forEach((componenteDigitalId: number) => {
+            this._store.dispatch(new fromStore.DownloadToP7S(componenteDigitalId));
+        });
+    }
+
+    /**
+     * Remove assinatura de uma minuta
+     *
+     * @param documentoId
+     */
+    doRemoveAssinaturaDocumento(documentoId: number): void {
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
+    /**
+     * Remove documento vinculado
+     *
+     * @param documentoId
+     * @param documentoPrincipalId
+     * @param loteId
+     */
+    doDeleteDocumentoVinculado(documentoId: number, documentoPrincipalId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
+            documentoId: documentoId,
+            documentoPrincipalId: documentoPrincipalId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    /**
+     * Abre dialog para visualizar anexos e anexar novos documentos a uma minuta
+     *
+     * @param event
+     */
+    doUploadAnexos(event: { vinculacaoEtiqueta: VinculacaoEtiqueta; tarefa: Tarefa }): void {
+        this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
+        const documentoId = event.vinculacaoEtiqueta.objectId;
+        const tarefa = event.tarefa;
+        const documentoHandle = `eq:${documentoId}`;
+
+        const params = {
+            filter: {
+                'vinculacaoDocumentoPrincipal.documento.id': documentoHandle,
+                'juntadaAtual': 'isNull'
+            },
+            limit: 10,
+            offset: 0,
+            sort: {id: 'DESC'},
+            populate: [
+                'tipoDocumento',
+                'componentesDigitais',
+                'processoOrigem',
+            ]
+        };
+        this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: params, documentoId: documentoId}));
+        const documento = new Documento();
+        documento.id = documentoId;
+        documento.minuta = true;
+        documento.tarefaOrigem = tarefa;
+        const dialogRef = this._matDialog.open(CdkUploadDialogComponent, {
+            width: '600px',
+            data: {
+                documento: documento,
+                saving$: this.isSaving$,
+                isLoading$: this.isLoadingDocumentosVinculados$,
+                documentosVinculados$: this.documentosVinculados$,
+                selectedDocumentosVinculados$: this.selectedDocumentosVinculados$,
+                deletingDocumentosVinculadosId$: this.deletingDocumentosVinculadosId$,
+                assinandoDocumentosVinculadosId$: this.assinandoDocumentosId$,
+                removendoAssinaturaDocumentosVinculadosId$: this.removendoAssinaturaDocumentosId$,
+                alterandoDocumentosId$: this.alterandoDocumentosVinculadosId$,
+                downloadP7SDocumentosId$: this.downloadP7SDocumentoIds$,
+                documentosPagination$: this.documentosVinculadosPagination$
+            }
+        });
+        // Subscribe nos eventos do componente
+        const alteraTipoSub = dialogRef.componentInstance.alteraTipoDocumento.subscribe((values) => {
+            this._store.dispatch(new fromStore.UpdateDocumento(values));
+        });
+        const aprovaSub = dialogRef.componentInstance.aprovarDocumento.subscribe((aDocumento: Documento) => {
+            this._store.dispatch(new fromStore.AprovarDocumento({
+                documento: aDocumento,
+                routeDocumento: this.routeAtividadeDocumento
+            }));
+            this._matDialog.closeAll();
+        });
+        const atualizaSub = dialogRef.componentInstance.atualizaDocumentosVinculados.subscribe((aDocumento: Documento) => {
+            // this._store.dispatch(new fromStore.CompleteDocumentoVinculado(aDocumento.id));
+        });
+        const assinaBlocoSub = dialogRef.componentInstance.assinaBloco.subscribe((result) => {
+            if (result.certificadoDigital) {
+                const documentosId = [];
+                result.documentos.forEach((aDocumento) => {
+                    documentosId.push(aDocumento.id);
+                });
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
+            } else {
+                const loteId = CdkUtils.makeId();
+                result.documentos.forEach((aDocumento) => {
+                    aDocumento.componentesDigitais.forEach((componenteDigital) => {
+                        const assinatura = new Assinatura();
+                        assinatura.componenteDigital = componenteDigital;
+                        assinatura.algoritmoHash = 'A1';
+                        assinatura.cadeiaCertificadoPEM = 'A1';
+                        assinatura.cadeiaCertificadoPkiPath = 'A1';
+                        assinatura.assinatura = 'A1';
+                        assinatura.plainPassword = result.plainPassword;
+
+                        const operacaoId = CdkUtils.makeId();
+                        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                            assinatura: assinatura,
+                            documento: aDocumento,
+                            operacaoId: operacaoId,
+                            loteId: loteId
+                        }));
+                    });
+                });
+            }
+        });
+        const assinaSub = dialogRef.componentInstance.assina.subscribe((result) => {
+            if (result.certificadoDigital) {
+                this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
+            } else {
+                result.documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
+
+                    const operacaoId = CdkUtils.makeId();
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        documento: result.documento,
+                        operacaoId: operacaoId
+                    }));
+                });
+            }
+        });
+        const changeSelectedSub = dialogRef.componentInstance.changeSelected.subscribe((selectedIds) => {
+            this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
+        });
+        const clickedSub = dialogRef.componentInstance.clickDocumento.subscribe((clickEvent) => {
+            this.abreEditor(clickEvent.documento.id, clickEvent.documentoPrincipal.tarefaOrigem);
+            dialogRef.close();
+        });
+        const completeSub = dialogRef.componentInstance.completeDocumentoVinculado.subscribe((result) => {
+            delete result.componenteDigital.documentoOrigem;
+            this._store.dispatch(new fromStore.CompleteDocumentoVinculado({
+                documentoPrincipalId: result.documentoPrincipal.id,
+                componenteDigital: result.componenteDigital
+            }));
+        });
+        const deleteSub = dialogRef.componentInstance.deleteDocumento.subscribe((result) => {
+            this.doDeleteDocumentoVinculado(result.documentoId, documentoId, result.loteId);
+        });
+        const downloadP7SSub = dialogRef.componentInstance.downloadP7S.subscribe((aDocumento: Documento) => {
+            aDocumento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+                this._store.dispatch(new fromStore.DownloadToP7S(componenteDigital));
+            });
+        });
+        const getMoreSub = dialogRef.componentInstance.getMore.subscribe(() => {
+            if (this.documentosVinculados.length >= this.documentosVinculadosPagination.total) {
+                return;
+            }
+
+            const nparams = {
+                ...this.documentosVinculadosPagination,
+                offset: this.documentosVinculadosPagination.offset + this.documentosVinculadosPagination.limit
+            };
+
+            this._store.dispatch(new fromStore.GetDocumentosVinculados({filters: nparams, documentoId: documentoId}));
+        });
+        const removeAssinaturaSub = dialogRef.componentInstance.removeAssinatura.subscribe((docId: number) => {
+            this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(docId));
+        });
+        // Unsubscribe em todas as assinaturas de eventos
+        dialogRef.afterClosed().subscribe(() => {
+            alteraTipoSub.unsubscribe();
+            aprovaSub.unsubscribe();
+            atualizaSub.unsubscribe();
+            assinaBlocoSub.unsubscribe();
+            assinaSub.unsubscribe();
+            changeSelectedSub.unsubscribe();
+            clickedSub.unsubscribe();
+            completeSub.unsubscribe();
+            deleteSub.unsubscribe();
+            downloadP7SSub.unsubscribe();
+            getMoreSub.unsubscribe();
+            removeAssinaturaSub.unsubscribe();
+            this._store.dispatch(new fromStore.UnloadDocumentosVinculados({reset: true}));
+        });
+    }
+
+    /**
+     * Visualizar documento de resposta
+     *
+     * @param event
+     */
+    doVerResposta(event: { documentoRespostaId: number; tarefa: Tarefa }): void {
+        const tarefa = event.tarefa;
+        const documentoRespostaId = event.documentoRespostaId;
+        this.abreEditor(documentoRespostaId, tarefa);
     }
 }

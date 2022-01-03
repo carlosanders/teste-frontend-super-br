@@ -27,6 +27,10 @@ export const GET_CAPA_PROCESSO = '[JUNTADAS] GET CAPA PROCESSO';
 
 export const RETIRA_JUNTADA = '[PROCESSO VIEW] RETIRA JUNTADA';
 
+export const SET_BINARY_VIEW = '[PROCESSO VIEW] SET BINARY VIEW';
+export const SET_BINARY_VIEW_SUCCESS = '[PROCESSO VIEW] SET BINARY VIEW SUCCESS';
+export const SET_BINARY_VIEW_FAILED = '[PROCESSO VIEW] SET BINARY VIEW FAILED';
+
 /**
  * Expandir Processo
  */
@@ -235,6 +239,37 @@ export class RetiraJuntada implements Action
     }
 }
 
+
+/**
+ * Set Binary View
+ */
+export class SetBinaryView implements Action {
+    readonly type = SET_BINARY_VIEW;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Binary View Success
+ */
+export class SetBinaryViewSuccess implements Action {
+    readonly type = SET_BINARY_VIEW_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Binary View Failed
+ */
+export class SetBinaryViewFailed implements Action {
+    readonly type = SET_BINARY_VIEW_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -253,4 +288,7 @@ export type ProcessoViewActionsAll
     | ExpandirProcesso
     | ReloadJuntadas
     | UpdateIndex
-    | RetiraJuntada;
+    | RetiraJuntada
+    | SetBinaryView
+    | SetBinaryViewSuccess
+    | SetBinaryViewFailed;

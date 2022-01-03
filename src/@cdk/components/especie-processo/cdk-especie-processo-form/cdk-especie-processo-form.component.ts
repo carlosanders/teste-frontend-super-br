@@ -69,6 +69,7 @@ export class CdkEspecieProcessoFormComponent implements OnChanges, OnDestroy {
             descricao: [null, [Validators.required]],
             classificacao: [null],
             modalidadeMeio: [null],
+            workflow: [null],
             titulo: [null],
             ativo: [null],
         });
@@ -88,6 +89,7 @@ export class CdkEspecieProcessoFormComponent implements OnChanges, OnDestroy {
                 descricao: this.especieProcesso.descricao,
                 classificacao: this.especieProcesso.classificacao,
                 modalidadeMeio: this.especieProcesso.modalidadeMeio,
+                workflow: this.especieProcesso.workflow,
                 titulo: this.especieProcesso.titulo,
                 ativo: this.especieProcesso.ativo
             });
