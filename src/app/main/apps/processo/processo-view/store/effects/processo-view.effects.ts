@@ -62,7 +62,7 @@ export class ProcessoViewEffect {
                 JSON.stringify(populate),
                 JSON.stringify(chaveAcesso)
             ).pipe(
-                tap((response) => {
+                tap(() => {
                     this.index = juntadas.map(
                         (juntada) => {
                             if (!juntada.ativo) {
@@ -212,14 +212,35 @@ export class ProcessoViewEffect {
             this._store.dispatch(new fromStore.GetJuntadas(params));
         })
     ), {dispatch: false});
+
     /**
      * @type {Observable<any>}
      */
     setCurrentStep: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
         ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
         withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep)), this._store.pipe(select(getJuntadas))),
-        switchMap(([, index, currentStep, juntadas]) => {
-            if (this.routerState.params.stepHandle !== 'capa' && index[currentStep.step] === undefined) {
+        switchMap(([action, index, currentStep, juntadas]) => {
+            let stepHandle = action.payload.step;
+            if (stepHandle === 'default') {
+                let firstJuntada = 0;
+                if (index) {
+                    firstJuntada = index.findIndex(indice => indice.length > 0);
+                    if (firstJuntada === -1) {
+                        stepHandle = 'capa';
+                    } else {
+                        this._router.navigate([
+                            this.routerState.url.replace('/visualizar/' + this.routerState.params['stepHandle'], '/visualizar/' + firstJuntada + '-0')
+                        ]).then(() => {
+                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                step: firstJuntada,
+                                subStep: 0
+                            }));
+                        });
+                        return of(null);
+                    }
+                }
+            }
+            if (stepHandle === 'capa' || stepHandle !== 'capa' && index[currentStep.step] === undefined) {
                 // não tem documentos, vamos para capa
                 this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
                 return of(null);
@@ -292,8 +313,8 @@ export class ProcessoViewEffect {
             action.payload.documentosId.forEach((documentoId) => {
                 this._store.dispatch(new GetJuntadasEtiquetas(documentoId));
             });
-
-            if (this.routerState.params['stepHandle'] === 'default') {
+            const stepHandle = this.routerState.params['stepHandle'];
+            if (stepHandle === 'default') {
                 let capa = true;
                 let firstJuntada = 0;
                 if (action.payload.index) {
@@ -303,31 +324,49 @@ export class ProcessoViewEffect {
                 if (capa) {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
                         const arrPrimary = [];
-                        arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
-                            'visualizar-processo' : 'anexar-copia');
-                        arrPrimary.push(this.routerState.params.processoHandle);
-                        if (this.routerState.params.chaveAcessoHandle) {
-                            arrPrimary.push('chave');
-                            arrPrimary.push(this.routerState.params.chaveAcessoHandle);
-                        }
-                        arrPrimary.push('visualizar');
-                        arrPrimary.push('capa');
-                        arrPrimary.push('mostrar');
-                        const extras = {
-                            relativeTo: this._activatedRoute.parent,
-                            queryParams: {
-                                documentoEdit: this.routerState.queryParams.documentoEdit
+                        let sidebar;
+                        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+                            arrPrimary.push('anexar-copia');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                             }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push('capa');
+                            arrPrimary.push('mostrar');
+                            sidebar = 'empty';
+                        } else if (this.routerState.url.indexOf('visualizar-processo') !== -1) {
+                            arrPrimary.push('visualizar-processo');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push('capa');
+                            arrPrimary.push('mostrar');
+                            sidebar = 'empty';
+                        } else {
+                            if (this.routerState.params['componenteDigitalHandle']) {
+                                arrPrimary.push('componente-digital');
+                                arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
+                            }
+                            sidebar = null;
+                        }
+                        const extras = {
+                            relativeTo: this._activatedRoute.parent
                         };
 
                         // Navegação do processo deve ocorrer por outlet
                         this._router.navigate(
                             [
-                                this.routerState.url.split('/documento/')[0] + '/documento/' +
-                                this.routerState.params.documentoHandle + '/',
+                                this.routerState.url.split('/visualizar/' + stepHandle)[0] + '/visualizar/capa'
+                                + '/documento/' + this.routerState.params.documentoHandle + '/',
                                 {
                                     outlets: {
-                                        primary: arrPrimary
+                                        primary: arrPrimary,
+                                        sidebar: sidebar ?? null
                                     }
                                 }
                             ],
@@ -351,7 +390,7 @@ export class ProcessoViewEffect {
                 } else {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
                         if (this.routerState.url.indexOf('sidebar:') === -1) {
-                            let sidebar = '';
+                            let sidebar;
                             const arrPrimary = [];
                             if (this.routerState.url.indexOf('anexar-copia') !== -1) {
                                 arrPrimary.push('anexar-copia');
@@ -374,13 +413,17 @@ export class ProcessoViewEffect {
                                 arrPrimary.push(firstJuntada + '-0');
                                 sidebar = 'empty';
                             } else {
-                                sidebar = 'editar/dados-basicos';
+                                if (this.routerState.params['componenteDigitalHandle']) {
+                                    arrPrimary.push('componente-digital');
+                                    arrPrimary.push(this.routerState.params['componenteDigitalHandle']);
+                                }
+                                sidebar = null;
                             }
                             // Navegação do processo deve ocorrer por outlet
                             this._router.navigate(
                                 [
-                                    this.routerState.url.split('/documento/')[0] + '/documento/' +
-                                    this.routerState.params.documentoHandle + '/',
+                                    this.routerState.url.split('/visualizar/' + stepHandle)[0] + '/visualizar/' + firstJuntada + '-0'
+                                    + '/documento/' + this.routerState.params.documentoHandle + '/',
                                     {
                                         outlets: {
                                             primary: arrPrimary,
@@ -413,7 +456,6 @@ export class ProcessoViewEffect {
                         url += '/visualizar/' + firstJuntada + '-0';
                         const extras = {
                             queryParams: {
-                                documentoEdit: this.routerState.queryParams.documentoEdit,
                                 novaAba: this.routerState.queryParams.novaAba
                             }
                         };
@@ -430,7 +472,7 @@ export class ProcessoViewEffect {
                 this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
                 if (this.routerState.url.indexOf('/documento/') !== -1) {
                     if (this.routerState.url.indexOf('sidebar:') === -1) {
-                        let sidebar = '';
+                        let sidebar;
                         const arrPrimary = [];
                         if (this.routerState.url.indexOf('anexar-copia') !== -1) {
                             arrPrimary.push('anexar-copia');
@@ -453,7 +495,7 @@ export class ProcessoViewEffect {
                             arrPrimary.push(this.routerState.params['stepHandle']);
                             sidebar = 'empty';
                         } else {
-                            sidebar = 'editar/dados-basicos';
+                            sidebar = null;
                         }
 
                         // Navegação do processo deve ocorrer por outlet
@@ -494,7 +536,6 @@ export class ProcessoViewEffect {
                     url += '/visualizar/' + this.routerState.params['stepHandle'];
                     const extras = {
                         queryParams: {
-                            documentoEdit: this.routerState.queryParams.documentoEdit,
                             novaAba: this.routerState.queryParams.novaAba
                         }
                     };
@@ -560,6 +601,21 @@ export class ProcessoViewEffect {
             }
         })
     ), {dispatch: false});
+
+    /**
+     * @type {Observable<any>}
+     */
+    setBinaryView: Observable<ProcessoViewActions.ProcessoViewActionsAll> = createEffect(() => this._actions.pipe(
+        ofType<ProcessoViewActions.SetBinaryView>(ProcessoViewActions.SET_BINARY_VIEW),
+        switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId, '{}')),
+        map((response: any) => new ProcessoViewActions.SetCurrentStepSuccess({
+            binary: response
+        })),
+        catchError((err) => {
+            console.log(err);
+            return of(new ProcessoViewActions.SetCurrentStepFailed(err));
+        })
+    ));
 
     constructor(
         private _actions: Actions,

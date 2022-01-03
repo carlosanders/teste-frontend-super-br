@@ -27,6 +27,7 @@ import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {CdkEspecieRelevanciaAutocompleteModule} from '../../../especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
+import {CdkSearchBarEtiquetasModule} from "../../../search-bar-etiquetas/search-bar-etiquetas.module";
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import {CdkEspecieRelevanciaAutocompleteModule} from '../../../especie-relevanci
         MatMenuModule,
         MatButtonToggleModule,
         CdkEspecieRelevanciaAutocompleteModule,
+        CdkSearchBarEtiquetasModule,
     ],
     providers: [
         EspecieTarefaService

@@ -1,11 +1,28 @@
 import {createSelector} from '@ngrx/store';
 import {getTarefasAppState, TarefasAppState, TarefasState} from 'app/main/apps/tarefas/store/reducers';
-
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr';
-import {Tarefa} from '@cdk/models';
+import {tarefa as tarefaSchema, vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
+import {Tarefa, VinculacaoEtiqueta} from '@cdk/models';
+import {getRouterState} from '../../../../../store';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
+const schemaSelectorsVinculacoesEtiqueta = createSchemaSelectors<VinculacaoEtiqueta>(vinculacaoEtiquetaSchema);
+
+export const getTarefaHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['tarefaHandle']
+);
+
+export const getProcessoHandle: any = createSelector(
+    getRouterState,
+    router => router?.state.params['processoHandle']
+);
+
+export const getCurrentTarefa: any = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getTarefaHandle,
+    schemaSelectors.entityProjector
+);
 
 export const getTarefasState: any = createSelector(
     getTarefasAppState,
@@ -77,6 +94,11 @@ export const getErrorDistribuir: any = createSelector(
 export const getDeletingTarefaIds: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletingTarefaIds
+);
+
+export const getSavingVinculacaoEtiquetaId: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.savingVinculacaoEtiquetaId
 );
 
 export const getUnDeletingTarefaIds: any = createSelector(
@@ -154,7 +176,42 @@ export const getDistribuindoTarefaIds: any = createSelector(
     (state: TarefasState) => state.distribuindoTarefaIds
 );
 
+export const getCurrentTarefaId: any = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.currentTarefaId
+);
+
 export const getIsSavingObservacao: any = createSelector(
     getTarefasState,
     (state: TarefasState) => state.savingObservacao
+);
+
+export const getTarefaById = (tarefaId: number): any => createSelector(
+    schemaSelectors.getNormalizedEntities,
+    ((tarefas) => {
+        console.log(tarefaId);
+        console.log(tarefas);
+        return tarefaId;
+    }),
+    schemaSelectors.entityProjector
+);
+
+export const getVinculacoesEtiquetaIdsByTarefaId = (tarefaId: number): any => createSelector(
+    getTarefaById(tarefaId),
+    ((tarefa: Tarefa) => tarefa.vinculacoesEtiquetas)
+);
+
+export const getAllVinculacoesEtiqueta: any = createSelector(
+    schemaSelectorsVinculacoesEtiqueta.getNormalizedEntities,
+    schemaSelectorsVinculacoesEtiqueta.entitiesProjector
+);
+
+export const getVinculacaoEtiquetaByUuid = (uuid: string): any => createSelector(
+    getAllVinculacoesEtiqueta,
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta.find(vinculacao => vinculacao.objectUuid === uuid))
+);
+
+export const getVinculacaoEtiquetaByDocumentoId = (documentoId: number): any => createSelector(
+    getAllVinculacoesEtiqueta,
+    ((vinculacoesEtiqueta: VinculacaoEtiqueta[]) => vinculacoesEtiqueta.find(vinculacao => vinculacao.objectId === documentoId))
 );

@@ -186,6 +186,30 @@
             </a>
         </div>
 
+        <div class="nav-subheader">SAÍDA</div>
+
+        <div class="nav-item">
+            <a class="nav-link" matRipple
+               [routerLink]="'/apps/tarefas/' + generoHandle + '/concluidas/saida'"
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <mat-icon class="nav-link-icon">
+                    send
+                </mat-icon>
+                <span>Concluídas</span>
+            </a>
+        </div>
+
+        <div style="display: none;" class="nav-item">
+            <a class="nav-link" matRipple
+               [routerLink]="'/apps/tarefas/' + generoHandle + '/enviadas/saida'"
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <mat-icon class="nav-link-icon">
+                    send
+                </mat-icon>
+                <span>Enviadas</span>
+            </a>
+        </div>
+
         <div
             *ngIf="setoresCoordenacao.length > 0 || unidadesCoordenacao.length > 0 || orgaoCentralCoordenacao.length > 0"
             class="nav-subheader">COORDENAÇÃO

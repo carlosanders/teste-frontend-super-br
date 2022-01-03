@@ -7,14 +7,17 @@
         <cdk-minutas-card-list *ngIf="operacoes.length === 0"
                                [documentos]="minutas"
                                [processos]="processos"
-                               [minutasPorProcesso]="documentos"
+                               [minutasPorTarefa]="documentos"
+                               [tarefasAgrupadas]="tarefasAgrupadas"
                                [selectedIds]="(selectedIds$ | async)"
                                [deletingId]="(deletingDocumentosId$ | async)"
                                [assinandoId]="(assinandoDocumentosId$ | async)"
                                [convertendoId]="(convertendoDocumentosId$ | async)"
                                [alterandoId]="(alterandoDocumentosId$ | async)"
                                [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                               [undeletingId]="(undeletingDocumentosId$ | async)"
                                [downloadId]="(downloadP7SDocumentosId$ | async)"
+                               [lixeiraMinutas]="(lixeiraMinutas$ | async)"
                                (delete)="doDelete($event)"
                                (deleteBlocoEmmitter)="doDeleteBloco($event)"
                                (assinatura)="doAssinatura($event)"
@@ -26,6 +29,8 @@
                                (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                (getMore)="paginaDocumentos($event)"
                                (clicked)="onClicked($event)"
+                               (toggleLixeira)="doToggleLixeiraMinutas($event)"
+                               (restaurar)="doRestaurar($event)"
                                (changedSelectedIds)="changedSelectedIds($event)">
         </cdk-minutas-card-list>
     </div>

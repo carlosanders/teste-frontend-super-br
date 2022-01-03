@@ -41,9 +41,6 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
     form: FormGroup;
 
     @Input()
-    certificadoDigital: string;
-
-    @Input()
     loading: boolean;
 
     @Input()

@@ -8,17 +8,14 @@ import * as ComplementaresActions from '../actions';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
+import {ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema
 } from '@cdk/normalizr';
 import {Router} from '@angular/router';
-import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
@@ -175,122 +172,11 @@ export class ComplementaresEffects {
             })
         ), 25)
     ));
-    /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ComplementaresActions.AssinaDocumentoComplementar>(ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
-            .pipe(
-                map(response => new ComplementaresActions.PreparaAssinaturaComplementarSuccess(response)),
-                catchError((err) => {
-                    const payload = {
-                        id: action.payload,
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new ComplementaresActions.PreparaAssinaturaComplementarFailed(payload));
-                })
-            ), 25)
-    ));
-    /**
-     * Prepara Assinatura Success
-     *
-     * @type {Observable<any>}
-     */
-    preparaAssinaturaSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ComplementaresActions.PreparaAssinaturaComplementarSuccess>(ComplementaresActions.PREPARA_ASSINATURA_COMPLEMENTAR_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ComplementaresActions.AssinaDocumentoComplementarEletronicamente>(ComplementaresActions.ASSINA_DOCUMENTO_COMPLEMENTAR_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura ...',
-            status: 0, // carregando
-            lote: action.payload.loteId
-        }))),
-        switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            tap(response => this._store.dispatch(new OperacoesActions.Operacao({
-                id: action.payload.operacaoId,
-                type: 'assinatura',
-                content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                status: 1, // sucesso
-                lote: action.payload.loteId
-            }))),
-            mergeMap((response: Assinatura) => [
-                new ComplementaresActions.AssinaDocumentoComplementarEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                }),
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura!',
-                    status: 2, // erro
-                    lote: action.payload.loteId
-                }));
-                return of(new ComplementaresActions.AssinaDocumentoComplementarEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-    /**
-     * Remove Assinatura de Documento
-     */
-    removeAssinaturaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ComplementaresActions.RemoveAssinaturaDocumentoComplementar>(ComplementaresActions.REMOVE_ASSINATURA_DOCUMENTO_COMPLEMENTAR),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-            .pipe(
-                mergeMap(() => [
-                    new ComplementaresActions.RemoveAssinaturaDocumentoComplementarSuccess(action.payload),
-                    new UpdateData<Documento>({
-                        id: action.payload,
-                        schema: documentoSchema,
-                        changes: {assinado: false}
-                    })
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new ComplementaresActions.RemoveAssinaturaDocumentoComplementarFailed(action.payload));
-                })
-            ), 25)
-    ));
 
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>
     ) {

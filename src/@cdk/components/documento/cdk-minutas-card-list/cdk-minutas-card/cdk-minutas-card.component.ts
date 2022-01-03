@@ -97,7 +97,7 @@ export class CdkMinutasCardComponent implements OnInit {
     changedSelected = new EventEmitter<boolean>();
 
     @Output()
-    restaurar = new EventEmitter<boolean>();
+    restaurar = new EventEmitter<Documento>();
 
     @Input()
     tipoDocumentoPagination: Pagination;
@@ -177,8 +177,8 @@ export class CdkMinutasCardComponent implements OnInit {
         this.removeAssinatura.emit(documentoId);
     }
 
-    doRestaurar(documentoId): void {
-        this.restaurar.emit(documentoId);
+    doRestaurar(documento: Documento): void {
+        this.restaurar.emit(documento);
     }
 
     doConverte(documentoId): void {

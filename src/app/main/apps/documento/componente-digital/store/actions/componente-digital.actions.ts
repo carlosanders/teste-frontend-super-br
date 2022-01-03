@@ -6,6 +6,8 @@ export const DOWNLOAD_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] DOWNLOAD COMPON
 export const DOWNLOAD_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] DOWNLOAD COMPONENTE DIGITAL SUCCESS';
 export const DOWNLOAD_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] DOWNLOAD COMPONENTE DIGITAL FAILED';
 
+export const COMPONENTE_DIGITAL_EXIBIDO = '[COMPONENTE DIGITAL] COMPONENTE DIGITAL EXIBIDO';
+
 export const DOWNLOAD_AS_PDF_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] DOWNLOAD AS PDF COMPONENTE DIGITAL';
 export const DOWNLOAD_AS_PDF_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] AS PDF DOWNLOAD COMPONENTE DIGITAL SUCCESS';
 export const DOWNLOAD_AS_PDF_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] AS PDF DOWNLOAD COMPONENTE DIGITAL FAILED';
@@ -94,6 +96,17 @@ export class VisualizarVersaoComponenteDigitalFailed implements Action {
     readonly type = VISUALIZAR_VERSAO_COMPONENTE_DIGITAL_FAILED;
 
     constructor(public payload: string) {
+    }
+}
+
+/**
+ * Componente Digital Exibido
+ */
+export class ComponenteDigitalExibido implements Action {
+    readonly type = COMPONENTE_DIGITAL_EXIBIDO;
+
+    constructor(public payload: any)
+    {
     }
 }
 
@@ -228,6 +241,7 @@ export type ComponenteDigitalActionsAll
     | DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
     | DownloadComponenteDigitalFailed
+    | ComponenteDigitalExibido
     | DownloadAsPdfComponenteDigital
     | DownloadAsPdfComponenteDigitalSuccess
     | DownloadAsPdfComponenteDigitalFailed

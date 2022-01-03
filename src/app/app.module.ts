@@ -32,7 +32,9 @@ import {CdkLoginDialogModule} from '@cdk/components/login/cdk-login-dialog/cdk-l
 import {MatStepperIntl} from '@angular/material/stepper';
 import {CdkMatStepperIntl} from '../@cdk/angular/cdk-mat-stepper-intl';
 import {GlobalErrorHandler} from './global-error-handler';
-import {modulesConfig} from "../modules/modules-config";
+import {AssinaturaService} from '../@cdk/services/assinatura.service';
+import {DocumentoService} from '../@cdk/services/documento.service';
+import {modulesConfig} from '../modules/modules-config';
 
 registerLocaleData(localePt, 'pt');
 
@@ -138,6 +140,8 @@ modulesConfig.forEach((module) => {
         {provide: MatStepperIntl, useClass: CdkMatStepperIntl},
         {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
         {provide: LOCALE_ID, useValue: 'pt'},
+        {provide: AssinaturaService, useClass: AssinaturaService},
+        {provide: DocumentoService, useClass: DocumentoService}
     ],
     bootstrap: [
         AppComponent

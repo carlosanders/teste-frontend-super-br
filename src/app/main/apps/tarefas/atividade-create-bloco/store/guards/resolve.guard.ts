@@ -3,19 +3,24 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
-import {catchError, filter, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
+import {forkJoin, Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {AtividadeCreateBlocoAppState} from 'app/main/apps/tarefas/atividade-create-bloco/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded} from '../selectors';
 import {getSelectedTarefas} from '../../../store';
+import {Tarefa} from '../../../../../../../@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    selectedTarefas: Tarefa[] = [];
+    loadingTarefa: {
+        [id: number]: boolean;
+    } = {};
+
 
     /**
      * Constructor
@@ -31,7 +36,22 @@ export class ResolveGuard implements CanActivate {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
-
+        this._store.pipe(
+            select(getSelectedTarefas),
+            filter(tarefas => !!tarefas)
+        ).subscribe((tarefas: Tarefa[]) => {
+            tarefas.forEach((tarefa) => {
+                this.loadingTarefa[tarefa.id] = false;
+            });
+            this.selectedTarefas = tarefas;
+        });
+        this._store.pipe(
+            select(fromStore.getDocumentosHasLoaded)
+        ).subscribe((loaded) => {
+            Object.keys(loaded).forEach((tarefaId) => {
+                this.loadingTarefa[parseInt(tarefaId, 10)] = loaded[tarefaId].loading;
+            });
+        });
     }
 
     /**
@@ -42,7 +62,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getDocumentos().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError((err) => {
                 console.log(err);
@@ -56,16 +76,29 @@ export class ResolveGuard implements CanActivate {
      *
      * @returns
      */
-    getDocumentos(): any {
+    checkStore(): Observable<any> {
+        return forkJoin(
+            this.selectedTarefas.map(tarefa => this.getDocumentos(tarefa))
+        ).pipe(
+            take(1),
+        );
+    }
+
+    /**
+     * Get Documentos Tarefa
+     *
+     * @returns
+     */
+    getDocumentos(tarefa: Tarefa): any {
         return this._store.pipe(
-            select(getDocumentosHasLoaded),
-            withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-            tap(([loaded, tarefas]) => {
-                if (!loaded && tarefas?.length) {
-                    this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
+            select(fromStore.getDocumentosHasLoadedTarefaId(tarefa.id)),
+            tap((loaded) => {
+                if (!this.loadingTarefa[tarefa.id] && !loaded && tarefa) {
+                    this._store.dispatch(new fromStore.GetDocumentos(tarefa.id));
+                    this.loadingTarefa[tarefa.id] = true;
                 }
             }),
-            filter((loaded: any) => (loaded[0] === true) && loaded[1].length),
+            filter((loaded: any) => this.loadingTarefa[tarefa.id] || loaded),
             take(1)
         );
     }

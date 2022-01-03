@@ -12,8 +12,8 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" *ngIf="(expandir$ | async) === false">
-            <div class="search-wrapper" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo?.id">
+        <div class="header-processo" *ngIf="(expandir$ | async) === false">
+            <div class="painel" *ngIf="processo?.id && routerState?.url.indexOf('editar/dados-basicos-steps') === -1">
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
                         matTooltip="Menu do processo"
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
@@ -24,103 +24,139 @@
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-xl>
                     <mat-icon>menu</mat-icon>
                 </button>
-
-                <div class="search">
-                    <mat-icon class="secondary-text mr-8">label</mat-icon>
-                    <cdk-vinculacao-etiqueta-chips
-                        [placeholder]="'Adicionar etiquetas no processo'"
-                        [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
-                        (create)="onEtiquetaCreate($event)"
-                        (edit)="onEtiquetaEdit($event)"
-                        [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
-                        [errors]="(errors$ | async)"
-                        [pagination]="vinculacaoEtiquetaPagination"
-                        (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+                <div class="info">
+                    <div style="font-weight: bold">{{label}} {{nup}}</div>
+                    <div style="font-style: italic">{{processo.titulo|titleCasePipe}}</div>
                 </div>
+                <div>
+                    <div class="spinner-container m-8"
+                         *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
+                        <mat-spinner diameter="20"></mat-spinner>
+                    </div>
 
-            </div>
+                    <div class="actions" *ngIf="processo !== null && !((togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length)">
 
-            <div class="spinner-container m-8"
-                 *ngIf="(togglingAcompanharProcesso$ | async) || (pluginLoading$ | async)?.length">
-                <mat-spinner diameter="20"></mat-spinner>
-            </div>
+                        <button mat-icon-button aria-label="arquivar processo" matTooltip="Arquivar Processo" fxHide.xs
+                                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"
+                                (click)="arquivarProcesso()">
+                            <ng-container>
+                                <mat-icon>archive</mat-icon>
+                            </ng-container>
+                        </button>
 
-            <div class="actions" *ngIf="processo !== null">
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                        (click)="$event.stopPropagation()"
-                        *ngIf="(processo$ | async) && (togglingAcompanharProcesso$ | async) === false && (pluginLoading$ | async)?.length === 0">
-                    <mat-icon class="secondary-text">more_vert</mat-icon>
-                </button>
+                        <button mat-icon-button aria-label="autuar" matTooltip="Autuar" fxHide.xs
+                                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1"
+                                (click)="doAutuar()">
+                            <ng-container>
+                                <mat-icon>check</mat-icon>
+                            </ng-container>
+                        </button>
 
-                <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="arquivar processo"
-                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"
-                            (click)="arquivarProcesso()">
-                        <ng-container>
-                            <mat-icon>archive</mat-icon>
-                            <span>Arquivar</span>
-                        </ng-container>
-                    </button>
-                    <button mat-menu-item aria-label="imprimir etiqueta"
-                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                            (click)="imprimirEtiqueta()">
-                        <ng-container>
-                            <mat-icon>video_label</mat-icon>
-                            <span>Imprimir Etiqueta</span>
-                        </ng-container>
-                    </button>
-                    <button mat-menu-item aria-label="imprimir etiqueta"
-                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                            (click)="imprimirRelatorio()">
-                        <ng-container>
-                            <mat-icon>description</mat-icon>
-                            <span>Imprimir Relatório</span>
-                        </ng-container>
-                    </button>
-                    <button mat-menu-item aria-label="Autuar"
-                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1"
-                            (click)="doAutuar()">
-                        <ng-container>
-                            <mat-icon>check</mat-icon>
-                            <span>Autuar</span>
-                        </ng-container>
-                    </button>
-                    <button mat-menu-item aria-label="abrir nova aba" (click)="visualizarProcessoNovaAba()">
-                        <ng-container>
-                            <mat-icon>open_in_new</mat-icon>
-                            <span>Abrir nova aba</span>
-                        </ng-container>
-                    </button>
-                    <button mat-menu-item aria-label="alterar acompanhamento"
-                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo"
-                            (click)="acompanharProcesso(processo)">
-                        <ng-container>
-                            <mat-icon>done</mat-icon>
-                            <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo' : 'Acompanhar Processo'}}</span>
-                        </ng-container>
-                    </button>
-                    <ng-template #dynamicComponent></ng-template>
-                    <button mat-menu-item aria-label="sincronizar barramento"
-                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo
+                        <button mat-icon-button aria-label="alterar acompanhamento" fxHide.xs
+                                [matTooltip]="!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo' : 'Acompanhar Processo'"
+                                *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo"
+                                (click)="acompanharProcesso(processo)">
+                            <ng-container>
+                                <mat-icon *ngIf="!processo.compartilhamentoUsuario">done</mat-icon>
+                                <mat-icon *ngIf="!!processo.compartilhamentoUsuario">done_all</mat-icon>
+                            </ng-container>
+                        </button>
+
+                        <button mat-icon-button aria-label="abrir nova aba" (click)="visualizarProcessoNovaAba()" matTooltip="Abrir Nova Aba" fxHide.xs>
+                            <ng-container>
+                                <mat-icon>open_in_new</mat-icon>
+                            </ng-container>
+                        </button>
+
+                        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                                (click)="$event.stopPropagation()"
+                                *ngIf="(processo$ | async) && (togglingAcompanharProcesso$ | async) === false && (pluginLoading$ | async)?.length === 0">
+                            <mat-icon class="secondary-text">more_vert</mat-icon>
+                        </button>
+
+                        <mat-menu #moreMenu="matMenu">
+                            <button mat-menu-item aria-label="arquivar processo" fxShow.xs fxHide.gt-xs
+                                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.setorAtual?.especieSetor?.nome !== 'ARQUIVO'"
+                                    (click)="arquivarProcesso()">
+                                <ng-container>
+                                    <mat-icon>archive</mat-icon>
+                                    <span>Arquivar</span>
+                                </ng-container>
+                            </button>
+                            <button mat-menu-item aria-label="imprimir etiqueta"
+                                    *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                    (click)="imprimirEtiqueta()">
+                                <ng-container>
+                                    <mat-icon>video_label</mat-icon>
+                                    <span>Imprimir Etiqueta</span>
+                                </ng-container>
+                            </button>
+                            <button mat-menu-item aria-label="imprimir etiqueta"
+                                    *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                    (click)="imprimirRelatorio()">
+                                <ng-container>
+                                    <mat-icon>description</mat-icon>
+                                    <span>Imprimir Relatório</span>
+                                </ng-container>
+                            </button>
+                            <button mat-menu-item aria-label="Autuar" fxShow.xs fxHide.gt-xs
+                                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1"
+                                    (click)="doAutuar()">
+                                <ng-container>
+                                    <mat-icon>check</mat-icon>
+                                    <span>Autuar</span>
+                                </ng-container>
+                            </button>
+                            <button mat-menu-item aria-label="abrir nova aba" (click)="visualizarProcessoNovaAba()">
+                                <ng-container>
+                                    <mat-icon>open_in_new</mat-icon>
+                                    <span>Abrir nova aba</span>
+                                </ng-container>
+                            </button>
+                            <button mat-menu-item aria-label="alterar acompanhamento" fxShow.xs fxHide.gt-xs
+                                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo"
+                                    (click)="acompanharProcesso(processo)">
+                                <ng-container>
+                                    <mat-icon>done</mat-icon>
+                                    <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo' : 'Acompanhar Processo'}}</span>
+                                </ng-container>
+                            </button>
+                            <ng-template #dynamicComponent></ng-template>
+                            <button mat-menu-item aria-label="sincronizar barramento"
+                                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo
                                     && processo?.origemDados?.fonteDados === 'BARRAMENTO_PEN'"
-                            (click)="sincronizarBarramento(processo)">
-                        <ng-container>
-                            <mat-icon>backup</mat-icon>
-                            <span>Sincronizar Barramento</span>
-                        </ng-container>
-                    </button>
-                    <button mat-menu-item *ngIf="containerConverter?.length"
-                            [matMenuTriggerFor]="moreMenuConverter" aria-label="converter"
-                            (click)="$event.stopPropagation()">
-                        <ng-container>
-                            <mat-icon>swap_horiz</mat-icon>
-                            <span>Converter</span>
-                        </ng-container>
-                    </button>
-                    <mat-menu #moreMenuConverter="matMenu">
-                        <ng-template #dynamicComponentConverter></ng-template>
-                    </mat-menu>
-                </mat-menu>
+                                    (click)="sincronizarBarramento(processo)">
+                                <ng-container>
+                                    <mat-icon>backup</mat-icon>
+                                    <span>Sincronizar Barramento</span>
+                                </ng-container>
+                            </button>
+                            <button mat-menu-item *ngIf="containerConverter?.length"
+                                    [matMenuTriggerFor]="moreMenuConverter" aria-label="converter"
+                                    (click)="$event.stopPropagation()">
+                                <ng-container>
+                                    <mat-icon>swap_horiz</mat-icon>
+                                    <span>Converter</span>
+                                </ng-container>
+                            </button>
+                            <mat-menu #moreMenuConverter="matMenu">
+                                <ng-template #dynamicComponentConverter></ng-template>
+                            </mat-menu>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-wrapper" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && processo?.id && routerState?.url.indexOf('editar/dados-basicos-steps') === -1">
+                <mat-icon class="secondary-text mr-8">label</mat-icon>
+                <cdk-vinculacao-etiqueta-chips
+                    [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
+                    (create)="onEtiquetaCreate($event)"
+                    (edit)="onEtiquetaEdit($event)"
+                    [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
+                    [errors]="(errors$ | async)"
+                    [pagination]="vinculacaoEtiquetaPagination"
+                    (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
             </div>
         </div>
         <!-- / CONTENT HEADER -->

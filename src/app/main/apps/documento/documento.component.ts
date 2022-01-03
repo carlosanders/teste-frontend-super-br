@@ -162,15 +162,10 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this._store.dispatch(new UnloadComponenteDigital());
         this._store.dispatch(new fromStore.UnloadDocumento());
-        if (this.unloadDocumentosTarefas) {
-            this._store.dispatch(new UnloadDocumentos());
-        }
         if (this.getDocumentosAtividades) {
             this._store.dispatch(new GetDocumentosAtividade());
         } else if (this.getDocumentosAvulsos) {
             this._store.dispatch(new GetDocumentosAvulsos());
-        } else if (this.getDocumentosProcesso) {
-            this._store.dispatch(new GetDocumentosProcesso());
         }
         if (this.atualizarJuntadaId !== null) {
             this._store.dispatch(new GetJuntada(this.atualizarJuntadaId));
@@ -179,7 +174,7 @@ export class DocumentoComponent implements OnInit, OnDestroy, AfterViewInit {
             this.reloadJuntadas();
             return;
         }
-        if (this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
+        if (this.routerState.params['stepHandle']) {
             const steps = this.routerState.params['stepHandle'].split('-');
             this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                 step: steps[0],

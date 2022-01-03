@@ -4,19 +4,26 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {ModeloBlocoComponent} from './modelo-bloco.component';
-import {ModeloBlocoStoreModule} from './store/store.module';
-import {CdkModeloGridModule} from '@cdk/components/modelo/cdk-modelo-grid/cdk-modelo-grid.module';
-import {DocumentoService} from '@cdk/services/documento.service';
-import * as fromGuards from './store/guards';
-import {MatListModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 import {modulesConfig} from 'modules/modules-config';
-import {MatButtonModule} from "@angular/material/button";
-
+import {MatButtonModule, MatIconModule, MatTooltipModule} from '@cdk/angular/material';
 const routes: Routes = [
     {
         path: '',
         component: ModeloBlocoComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        children: [
+            {
+                path: 'modelo',
+                loadChildren: () => import('./modelo/modelo.module').then(m => m.ModeloModule)
+            },
+            {
+                path: 'componente-digital',
+                loadChildren: () => import('./componentes-digitais/modelos-componentes-digitais.module').then(m => m.ModelosComponentesDigitaisModule)
+            }
+        ],
+    },
+    {
+        path: '**',
+        redirectTo: 'modelo'
     }
 ];
 
@@ -34,20 +41,13 @@ modulesConfig.forEach((module) => {
     ],
     imports: [
         RouterModule.forChild(routes),
-
-        CdkModeloGridModule,
-        MatListModule,
-        MatProgressSpinnerModule,
-
-        ModeloBlocoStoreModule,
-
         TranslateModule,
         CdkSharedModule,
         MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
     ],
     providers: [
-        DocumentoService,
-        fromGuards.ResolveGuard
     ]
 })
 export class ModeloBlocoModule {

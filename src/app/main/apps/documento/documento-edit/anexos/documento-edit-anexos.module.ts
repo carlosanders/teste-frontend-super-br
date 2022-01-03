@@ -17,6 +17,7 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as fromGuards from './store/guards';
+import {VinculacaoDocumentoService} from "../../../../../../@cdk/services/vinculacao-documento.service";
 
 const routes: Routes = [
     {
@@ -59,6 +60,7 @@ modulesConfig.forEach((module) => {
     providers: [
         AssinaturaService,
         DocumentoService,
+        VinculacaoDocumentoService,
         fromGuards.ResolveGuard
     ],
     exports: [

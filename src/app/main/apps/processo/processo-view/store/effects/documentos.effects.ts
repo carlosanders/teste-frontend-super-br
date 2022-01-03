@@ -7,17 +7,14 @@ import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
 import {AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
+import {ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema,
     componenteDigital as componenteDigitalSchema,
     documento as documentoSchema,
     vinculacaoDocumento as vinculacaoDocumentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from 'environments/environment';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ReloadJuntadas} from '../actions';
@@ -276,199 +273,6 @@ export class ProcessoViewDocumentosEffects {
         }, 25)
     ));
     /**
-     * Assina Documento
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.AssinaDocumento>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload))
-            .pipe(
-                map(response => new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response)),
-                catchError((err) => {
-                    const payload = {
-                        id: action.payload,
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
-                })
-            ), 25)
-    ));
-    /**
-     * Assina Juntada
-     *
-     * @type {Observable<any>}
-     */
-    assinaJuntada: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.AssinaJuntada>(ProcessoViewDocumentosActions.ASSINA_JUNTADA),
-        mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
-            .pipe(
-                mergeMap(response => [
-                    new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response),
-                ]),
-                catchError((err) => {
-                    const payload = {
-                        id: action.payload,
-                        error: err
-                    };
-                    console.log(err);
-                    return of(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
-                })
-            )
-        )
-    ));
-    removeAssinaturaDocumento: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.RemoveAssinaturaDocumento>(ProcessoViewDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
-        mergeMap(action => this._documentoService.removeAssinatura(action.payload)
-            .pipe(
-                mergeMap(() => [
-                    new ProcessoViewDocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
-                    new UpdateData<Documento>({
-                        id: action.payload,
-                        schema: documentoSchema,
-                        changes: {assinado: false}
-                    })
-                ]),
-                catchError((err) => {
-                    console.log(err);
-                    return of(new ProcessoViewDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
-                })
-            ), 25)
-    ));
-    /**
-     * Prepara Assinatura Success
-     *
-     * @type {Observable<any>}
-     */
-    preparaAssinaturaSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.PreparaAssinaturaSuccess>(ProcessoViewDocumentosActions.PREPARA_ASSINATURA_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
-    /**
-     * Assina Juntada Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaJuntadaSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.AssinaJuntadaSuccess>(ProcessoViewDocumentosActions.ASSINA_JUNTADA_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
-    /**
-     * Save Documento Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.AssinaDocumentoEletronicamente>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Assinando documento id ' + action.payload.documento.id + ' ...',
-            status: 0, // carregando
-        }))),
-        mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            mergeMap((response: Assinatura) => [
-                new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                }),
-                new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                    status: 1, // sucesso
-                })
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao assinar documento id ' + action.payload.documento.id + '!',
-                    status: 2, // erro
-                }));
-                return of(new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-    /**
-     * Save Juntada Assinatura Eletronica
-     *
-     * @type {Observable<any>}
-     */
-    assinaJuntadaEletronicamente: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<ProcessoViewDocumentosActions.AssinaJuntadaEletronicamente>(ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'assinatura',
-            content: 'Salvando a assinatura de juntada...',
-            status: 0, // carregando
-        }))),
-        mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
-            mergeMap((response: Assinatura) => [
-                new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteSuccess(action.payload.documento.id),
-                new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                new UpdateData<Documento>({
-                    id: action.payload.documento.id,
-                    schema: documentoSchema,
-                    changes: {assinado: true}
-                }),
-                new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Assinatura id ' + response.id + ' salva com sucesso.',
-                    status: 1, // sucesso
-                })
-            ]),
-            catchError((err) => {
-                const payload = {
-                    documentoId: action.payload.documento.id,
-                    error: err
-                };
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'assinatura',
-                    content: 'Erro ao salvar a assinatura em juntada!',
-                    status: 2, // erro
-                }));
-                return of(new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteFailed(payload));
-            })
-        ))
-    ));
-    /**
      * Clicked Documento
      *
      * @type {Observable<any>}
@@ -498,6 +302,7 @@ export class ProcessoViewDocumentosEffects {
 
             let sidebar = action.payload.routeOficio + '/dados-basicos';
 
+            // eslint-disable-next-line max-len
             if (!action.payload.documento?.documentoAvulsoRemessa && action.payload.documento?.minuta && !action.payload.documento?.vinculacaoDocumentoPrincipal && !action.payload.componenteDigital?.documentoOrigem ) {
                 sidebar = 'editar/' + action.payload.routeAtividade;
             } else if (!action.payload.documento?.minuta || action.payload.documento?.vinculacaoDocumentoPrincipal || action.payload.componenteDigital?.documentoOrigem) {
@@ -684,7 +489,6 @@ export class ProcessoViewDocumentosEffects {
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _assinaturaService: AssinaturaService,
         private _vinculacaoDocumentoService: VinculacaoDocumentoService,
         private _router: Router,
         private _store: Store<State>,

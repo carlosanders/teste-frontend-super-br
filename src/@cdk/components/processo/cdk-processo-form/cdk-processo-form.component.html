@@ -78,6 +78,10 @@
             Alterar chave de acesso
         </mat-slide-toggle>
 
+        <mat-slide-toggle formControlName="visibilidadeExterna" class="alterar-chave" *ngIf="this.processo.id">
+            Habilitar Consulta Pública ao Cidadão
+        </mat-slide-toggle>
+
         <mat-checkbox
             formControlName="nupInvalido"
             *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && nupIsValid === false">

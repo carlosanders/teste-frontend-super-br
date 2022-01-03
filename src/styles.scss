@@ -107,10 +107,6 @@ mat-option.mat-option {
     line-height: 32px !important;
 }
 
-.mat-chip-list {
-    zoom: 0.7;
-}
-
 .mat-card-title {
     font-size: 16px !important;
 }
@@ -201,4 +197,12 @@ div.menu-sort {
 
 .mat-list-base .mat-list-item {
     height: auto !important;
+}
+
+.mat-checkbox {
+    margin-bottom: 8px;
+}
+
+.mat-slide-toggle {
+    margin-bottom: 8px;
 }

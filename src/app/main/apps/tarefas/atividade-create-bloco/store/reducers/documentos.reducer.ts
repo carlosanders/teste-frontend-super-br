@@ -3,46 +3,61 @@ import * as AtividadeBlocoCreateDocumentosActionsAll from '../actions/documentos
 export interface AtividadeBlocoCreateDocumentosState {
     documentosId: number[];
     documentosLoaded: any;
+    loading: boolean;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
-    assinandoDocumentoIds: number[];
-    removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
     convertendoDocumentoHtmlIds: number[];
     downloadDocumentosP7SIds: number[];
     alterandoDocumentoIds: number[];
 }
 
-export const AtividadeBlocoCreateDocumentosInitialState: AtividadeBlocoCreateDocumentosState = {
+export const atividadeBlocoCreateDocumentosInitialState: AtividadeBlocoCreateDocumentosState = {
     documentosId: [],
-    documentosLoaded: false,
+    documentosLoaded: {},
+    loading: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
-    assinandoDocumentoIds: [],
-    removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     convertendoDocumentoHtmlIds: [],
     downloadDocumentosP7SIds: [],
     alterandoDocumentoIds: [],
 };
 
-export function AtividadeBlocoCreateDocumentosReducer(
-    state = AtividadeBlocoCreateDocumentosInitialState,
+export const atividadeBlocoCreateDocumentosReducer = (
+    state = atividadeBlocoCreateDocumentosInitialState,
     action: AtividadeBlocoCreateDocumentosActionsAll.AtividadeBlocoCreateDocumentosActionsAll
-): AtividadeBlocoCreateDocumentosState {
+): AtividadeBlocoCreateDocumentosState => {
     switch (action.type) {
 
         case AtividadeBlocoCreateDocumentosActionsAll.GET_DOCUMENTOS_BLOCO: {
             return {
-                ...AtividadeBlocoCreateDocumentosInitialState
+                ...state,
+                loading: true,
+                documentosLoaded: {
+                    ...state.documentosLoaded,
+                    [action.payload]: {
+                        loading: true,
+                        loaded: false
+                    }
+                }
             };
         }
 
         case AtividadeBlocoCreateDocumentosActionsAll.GET_DOCUMENTOS_BLOCO_SUCCESS: {
+            const documentosLoaded = {
+                ...state.documentosLoaded,
+                [action.payload.loaded.id]: {
+                    loading: false,
+                    loaded: true
+                }
+            };
+            const newLoading = Object.keys(documentosLoaded).map(tarefa => documentosLoaded[tarefa]).filter(loaded => !!loaded.loading).length > 0;
             return {
                 ...state,
-                documentosId: action.payload.entitiesId,
-                documentosLoaded: action.payload.loaded,
+                documentosId: [...state.documentosId, ...action.payload.entitiesId],
+                documentosLoaded: documentosLoaded,
+                loading: newLoading
             };
         }
 
@@ -62,16 +77,16 @@ export function AtividadeBlocoCreateDocumentosReducer(
 
         case AtividadeBlocoCreateDocumentosActionsAll.UNLOAD_DOCUMENTOS_BLOCO: {
             return {
-                ...AtividadeBlocoCreateDocumentosInitialState
+                ...atividadeBlocoCreateDocumentosInitialState
             };
         }
 
         case AtividadeBlocoCreateDocumentosActionsAll.DELETE_DOCUMENTO_BLOCO_SUCCESS: {
             return {
                 ...state,
-                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.documentoId),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.documentoId),
+                documentosId: state.documentosId.filter(id => id !== action.payload.documentoId)
             };
         }
 
@@ -80,69 +95,6 @@ export function AtividadeBlocoCreateDocumentosReducer(
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.id)
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, ...action.payload]
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
-            return {
-                ...state,
-                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
-            return {
-                ...state,
-                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id]
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
-            return {
-                ...state,
-                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId)
             };
         }
 
@@ -236,4 +188,4 @@ export function AtividadeBlocoCreateDocumentosReducer(
         default:
             return state;
     }
-}
+};

@@ -71,16 +71,6 @@ export const getDeletingDocumentosId: any = createSelector(
     (state: DocumentosState) => state.deletingDocumentoIds
 );
 
-export const getAssinandoDocumentosId: any = createSelector(
-    getDocumentosState,
-    (state: DocumentosState) => state.assinandoDocumentoIds
-);
-
-export const getRemovendoAssinaturaDocumentosId: any = createSelector(
-    getDocumentosState,
-    (state: DocumentosState) => state.removendoAssinaturaDocumentoIds
-);
-
 export const getAlterandoDocumentosId: any = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.alterandoDocumentoIds

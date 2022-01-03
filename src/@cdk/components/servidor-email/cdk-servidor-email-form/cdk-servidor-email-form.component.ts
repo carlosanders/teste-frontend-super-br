@@ -58,7 +58,7 @@ export class CdkServidorEmailFormComponent implements OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
             host: [null, [Validators.required, Validators.maxLength(255)]],
-            porta: [null, [Validators.required, Validators.maxLength(255)]],
+            porta: [null, [Validators.required, Validators.min(0), Validators.maxLength(255)]],
             protocolo: [null, [Validators.required, Validators.maxLength(255)]],
             metodoEncriptacao: [null, [Validators.maxLength(255)]],
             validaCertificado: [null],

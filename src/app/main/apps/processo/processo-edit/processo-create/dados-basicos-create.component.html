@@ -19,7 +19,8 @@
             (classificacao)="doSelectClassificacao($event)"
             (editProcedencia)="editProcedencia($event)"
             (validateNup)="validateNup($event)"
-            (save)="submit($event)">
+            (save)="submit($event)"
+            (abort)="abort()">
         </cdk-processo-form>
     </mat-step>
     <mat-step [completed]="(assuntos$ | async)?.length > 0">

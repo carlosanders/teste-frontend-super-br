@@ -15,14 +15,13 @@ import {Observable, Subject} from 'rxjs';
 import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso, Pagination, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {DynamicService} from 'modules/dynamic.service';
-import {getMercureState, getRouterState} from 'app/store';
+import {getRouterState} from 'app/store';
 import {getDocumentoAvulso, getDocumentosComplementares} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkUtils} from '@cdk/utils';
 
@@ -61,7 +60,6 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routerState: any;
 
-    javaWebStartOK = false;
     isSavingDocumentos$: Observable<boolean>;
     isLoadingDocumentos$: Observable<boolean>;
     deletingDocumentosId$: Observable<number[]>;
@@ -69,9 +67,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
     convertendoDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
-    assinaturaInterval = null;
 
     errors$: Observable<any>;
     lote: string;
@@ -100,13 +96,13 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
         this.isSavingDocumentos$ = this._store.pipe(select(fromStore.getIsSavingDocumentos));
         this.isLoadingDocumentos$ = this._store.pipe(select(fromStore.getIsLoadingDocumentos));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
     }
 
@@ -146,36 +142,6 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
             this._changeDetectorRef.detectChanges();
         });
 
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
-
         this.pagination$.pipe(
             filter(pagination => !!pagination),
             takeUntil(this._unsubscribeAll)
@@ -186,27 +152,6 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe((selectedDocumentos) => {
             this.selectedOficios = selectedDocumentos;
-        });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
         });
     }
 
@@ -269,7 +214,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
             result.documentos.forEach((documento) => {
                 documentosId.push(documento.id);
             });
-            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
         } else {
             const lote = CdkUtils.makeId();
             result.documentos.forEach((documento) => {
@@ -283,7 +228,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
                         operacaoId: operacaoId,
@@ -296,7 +241,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -308,7 +253,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -318,7 +263,7 @@ export class ResponderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doRemoveAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     onClicked(documento): void {

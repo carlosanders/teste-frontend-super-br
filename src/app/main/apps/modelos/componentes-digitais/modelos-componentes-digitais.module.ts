@@ -26,6 +26,12 @@ const routes: Routes = [
     {
         path: '',
         component: ComponentesDigitaisComponent,
+        children: [
+            {
+                path       : 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
