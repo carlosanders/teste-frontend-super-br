@@ -40,7 +40,7 @@ export class Pessoa {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     origemDados?: OrigemDados;
 
-    @Exclude({toPlainOnly: true})
+    @Exclude({ toPlainOnly: true })
     @Type(() => Dossie)
     dossies?: Dossie[];
 
