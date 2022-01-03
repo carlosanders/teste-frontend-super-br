@@ -129,3 +129,5 @@ export * from './chat-participante.model';
 export * from './servidor-email.model';
 export * from './conta-email.model';
 export * from './modalidade-copia.model';
+export * from './dossie.model';
+export * from './tipo-dossie.model';

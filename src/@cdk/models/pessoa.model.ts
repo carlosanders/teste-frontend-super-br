@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {ModalidadeGeneroPessoa, ModalidadeQualificacaoPessoa, Municipio, OrigemDados, Pais, Usuario} from '@cdk/models';
+import {ModalidadeGeneroPessoa, ModalidadeQualificacaoPessoa, Municipio, OrigemDados, Pais, Usuario, Dossie} from '@cdk/models';
 
 export class Pessoa {
 
@@ -11,16 +11,6 @@ export class Pessoa {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome?: string;
-
-    numeroDocumentoPrincipal?: string;
-
-    contato?: string;
-
-    pessoaValidada?: boolean;
-
-    pessoaConveniada?: boolean;
-
     @Transform(value => value ? value.format('YYYY-MM-DD') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataNascimento?: moment.Moment;
@@ -28,12 +18,6 @@ export class Pessoa {
     @Transform(value => value ? value.format('YYYY-MM-DD') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataObito?: moment.Moment;
-
-    nomeGenitor?: string;
-
-    nomeGenitora?: string;
-
-    profissao?: string;
 
     @Type(() => Pais)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -55,6 +39,10 @@ export class Pessoa {
     @Type(() => OrigemDados)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     origemDados?: OrigemDados;
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => Dossie)
+    dossies?: Dossie[];
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -86,6 +74,22 @@ export class Pessoa {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: moment.Moment;
 
+    nome?: string;
+
+    numeroDocumentoPrincipal?: string;
+
+    contato?: string;
+
+    pessoaValidada?: boolean;
+
+    pessoaConveniada?: boolean;
+
+    nomeGenitor?: string;
+
+    nomeGenitora?: string;
+
+    profissao?: string;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -110,5 +114,6 @@ export class Pessoa {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.dossies = [];
     }
 }
