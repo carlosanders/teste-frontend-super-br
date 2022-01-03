@@ -45,10 +45,6 @@ export class Pessoa {
     dossies?: Dossie[];
 
     @Exclude({ toPlainOnly: true })
-    @Type(() => Dossie)
-    dossies?: Dossie[];
-
-    @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     criadoPor?: Usuario;
