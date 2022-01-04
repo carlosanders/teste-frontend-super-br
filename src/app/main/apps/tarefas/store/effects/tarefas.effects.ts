@@ -50,7 +50,7 @@ import * as UploadBlocoActions from '../../upload-bloco/store/actions';
 import * as MinutasActions from '../../minutas/store/actions';
 import * as ComponenteDigitalActions from '../../modelo-bloco/store/actions/componentes-digitais.actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
-import {navigationConverter} from '../../../../../navigation/navigation';
+import {navigationConverter} from 'app/navigation/navigation';
 
 @Injectable()
 export class TarefasEffect {
@@ -122,8 +122,10 @@ export class TarefasEffect {
                 'especieTarefa.generoTarefa',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.workflow',
-                'workflow'
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
+                'vinculacaoWorkflow',
+                'vinculacaoWorkflow.workflow'
             ];
             let context = {};
             const paramUrl = this.routerState.params['targetHandle'];

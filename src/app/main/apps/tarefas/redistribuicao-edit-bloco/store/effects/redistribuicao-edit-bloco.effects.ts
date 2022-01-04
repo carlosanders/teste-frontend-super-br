@@ -53,7 +53,8 @@ export class TarefaEditBlocoEffect {
                 'especieTarefa.generoTarefa',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.workflow',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                 'workflow'
             ]);
             return this._tarefaService.save(action.payload.tarefa, '{}', populate).pipe(

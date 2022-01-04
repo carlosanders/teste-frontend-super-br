@@ -36,8 +36,8 @@ export class DadosBasicosEffect {
                 'tarefaAtualWorkflow',
                 'tarefaAtualWorkflow.especieTarefa',
                 'especieProcesso',
-                'especieProcesso.workflow',
-                'especieProcesso.workflow.especieTarefaInicial'
+                'especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
             ]))),
         switchMap(response => [
             new AddData<Processo>({data: [response], schema: processoSchema}),

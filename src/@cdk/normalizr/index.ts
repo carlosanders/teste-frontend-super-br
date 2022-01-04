@@ -130,6 +130,9 @@ export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-b
 export const servidorEmail = new schema.Entity('servidor-email');
 export const contaEmail = new schema.Entity('conta-email');
 export const modalidadeCopia = new schema.Entity('modalidade-copia');
+export const vinculacaoEspecieProcessoWorkflow = new schema.Entity('vinculacao-especie-processo-workflow');
+export const vinculacaoTransicaoWorkflow = new schema.Entity('vinculacao-transicao-workflow');
+export const vinculacaoWorkflow = new schema.Entity('vinculacao-workflow');
 
 acao.define({
     criadoPor: usuario,
@@ -1102,6 +1105,28 @@ contaEmail.define({
 
 modalidadeCopia.define({
     criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+vinculacaoEspecieProcessoWorkflow.define({
+    especieProcesso: especieProcesso,
+    workflow: workflow,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+vinculacaoTransicaoWorkflow.define({
+    transicaoWorkflow: transicaoWorkflow,
+    workflow: workflow,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+vinculacaoWorkflow.define({
+    tarefaInicial: tarefa,
+    tarefaAtual: tarefa,
+    workflow: workflow,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });

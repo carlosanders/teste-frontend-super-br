@@ -10,10 +10,10 @@ import {TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {getFoldersLoaded, getIsLoading, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from '../../../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {Usuario} from '@cdk/models';
 
-import {navigationConverter} from '../../../../../navigation/navigation';
+import {navigationConverter} from 'app/navigation/navigation';
 import * as moment from 'moment';
 
 @Injectable()
@@ -144,8 +144,10 @@ export class ResolveGuard implements CanActivate {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
-                            'processo.especieProcesso.workflow',
-                            'workflow'
+                            'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                            'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
+                            'vinculacaoWorkflow',
+                            'vinculacaoWorkflow.workflow',
                         ],
                         context: {}
                     };

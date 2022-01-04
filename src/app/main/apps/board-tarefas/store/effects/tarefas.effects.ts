@@ -31,8 +31,8 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
-import {InteressadoService} from '../../../../../../@cdk/services/interessado.service';
-import {AssuntoService} from '../../../../../../@cdk/services/assunto.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
 
 @Injectable()
 export class TarefasEffect {
@@ -148,10 +148,12 @@ export class TarefasEffect {
                         'setorOrigem',
                         'setorOrigem.unidade',
                         'especieTarefa.generoTarefa',
+                        'vinculacaoWorkflow',
+                        'vinculacaoWorkflow.workflow',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta',
-                        'processo.especieProcesso.workflow',
-                        'workflow'
+                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
                     ]
                 ),
                 JSON.stringify(context)
@@ -350,7 +352,8 @@ export class TarefasEffect {
                         'especieTarefa.generoTarefa',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta',
-                        'processo.especieProcesso.workflow',
+                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                        'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                         'workflow'
                     ]
                 )

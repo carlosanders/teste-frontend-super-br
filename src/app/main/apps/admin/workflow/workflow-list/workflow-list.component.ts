@@ -11,9 +11,9 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Workflow} from '@cdk/models';
-import {getRouterState} from '../../../../../store';
+import {getRouterState} from 'app/store';
 import {cdkAnimations} from '@cdk/animations';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -118,6 +118,6 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     }
 
     especies(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/especies-processo/listar`)]).then();
+        this._router.navigate([this.routerState.url.replace('listar', `editar/${workflowId}/vinculacao-especie-processo-workflow/listar`)]).then();
     }
 }

@@ -1,7 +1,7 @@
 <cdk-workflow-grid
         [loading]="loading"
         [workflows]="workflows"
-        [displayedColumns]="['id', 'especieTarefaInicial.nome', 'especieProcesso.nome', 'actions']"
+        [displayedColumns]="displayedColumns"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

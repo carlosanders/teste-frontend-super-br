@@ -27,9 +27,9 @@ import {getMercureState, getRouterState, getScreenState} from 'app/store/reducer
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../../../store';
-import {modulesConfig} from '../../../../../../../modules/modules-config';
-import {DynamicService} from '../../../../../../../modules/dynamic.service';
+import {Back} from 'app/store';
+import {modulesConfig} from 'modules/modules-config';
+import {DynamicService} from 'modules/dynamic.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkUtils} from '@cdk/utils';
@@ -147,7 +147,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             tarefa: [null],
             unidadeAprovacao: [null, [Validators.required]],
             setorAprovacao: [null, [Validators.required]],
-            usuarioAprovacao: [null, [Validators.required]]
+            usuarioAprovacao: [null, [Validators.required]],
+            unidadeResponsavel: [null, [Validators.required]],
+            setorResponsavel: [null, [Validators.required]],
+            usuarioResponsavel: [null],
+            distribuicaoAutomatica: [null],
         });
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -236,14 +240,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
             }
 
-            // caso tarefa seja de workflow verificar espécies permitidas
-            this.especieAtividadePagination['context'] = {};
-            if (tarefa.workflow) {
-                this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.workflow.id': 'eq:' + tarefa.workflow.id
-                };
-                this.especieAtividadePagination['context'] = {tarefaId: tarefa.id};
-            }
+            this.verificaFilterWorkflow();
         });
 
         this._store.pipe(
@@ -640,6 +637,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         } else {
             this.disabledIds = [];
         }
+        this.verificaFilterWorkflow();
     }
 
     minutasExcluidas(): void {
@@ -660,5 +658,32 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         };
         this._store.dispatch(new fromStore.GetDocumentos(params));
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos([]));
+    }
+
+    verificaFilterWorkflow(): void {
+        // caso tarefa seja de workflow verificar espécies permitidas
+        this.especieAtividadePagination['context'] = {};
+        if (this.tarefa?.vinculacaoWorkflow && this.tarefa.vinculacaoWorkflow.transicaoFinalWorkflow !== true && this.form.get('encerraTarefa').value) {
+            this.form.get('especieAtividade').setValue(null);
+            this.especieAtividadePagination.filter = {
+                orX: [
+                    {'transicoesWorkflow.workflow.id': 'eq:' + this.tarefa.vinculacaoWorkflow.workflow.id},
+                    {
+                        'transicoesWorkflow.workflow.id': 'isNull',
+                        'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()
+                    },
+
+                ]
+            };
+
+            this.especieAtividadePagination['context'] = {tarefaId: this.tarefa.id};
+
+        } else {
+            if (this.tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+            } else {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
+            }
+        }
     }
 }

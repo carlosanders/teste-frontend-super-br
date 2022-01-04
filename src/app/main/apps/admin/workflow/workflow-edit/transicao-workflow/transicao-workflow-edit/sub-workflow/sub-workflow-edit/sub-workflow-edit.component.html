@@ -1,0 +1,12 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-vinculacao-transicao-workflow-form
+        [vinculacaoTransicaoWorkflow]="vinculacaoTransicaoWorkflow"
+        [workflowPagination]="workflowPagination"
+        [form]="formVinculacaoTransicaoWorkflow"
+        [saving]="(isSaving$ | async)"
+        [visibleFields]="visibleFields"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-vinculacao-transicao-workflow-form>
+</div>

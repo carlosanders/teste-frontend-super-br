@@ -129,3 +129,6 @@ export * from './chat-participante.model';
 export * from './servidor-email.model';
 export * from './conta-email.model';
 export * from './modalidade-copia.model';
+export * from './vinculacao-especie-processo-workflow.model';
+export * from './vinculacao-workflow.model';
+export * from './vinculacao-transicao-workflow.model';

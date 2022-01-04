@@ -99,7 +99,7 @@ export class CdkEspecieProcessoAutocompleteComponent implements OnInit {
     displayEspecieProcessoFn(especieProcesso): string {
         let displayed = especieProcesso ? especieProcesso.nome : '';
         displayed += (especieProcesso && especieProcesso.generoProcesso) ? (' (' + especieProcesso.generoProcesso.nome +')') : '';
-        displayed += (especieProcesso && especieProcesso.workflow) ? (' - ' + 'WORKFLOW') : '';
+        displayed += (especieProcesso && especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length) ? (' - ' + 'WORKFLOW') : '';
         return displayed;
     }
 }
