@@ -38,7 +38,7 @@ export const locale = {
                 TITLE: 'Relatórios'
             },
             OFICIO : {
-                TITLE: 'Ofício'
+                TITLE: 'Ofícios'
             },
             PROTOCOLO_EXTERNO : {
                 TITLE: 'Protocolo'

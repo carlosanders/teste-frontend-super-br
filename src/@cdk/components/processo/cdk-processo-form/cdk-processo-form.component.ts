@@ -347,6 +347,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
+        this.form.get('visibilidadeExterna').valueChanges.subscribe((value) => {
+            this.form.get('visibilidadeExterna').setValue(value);
+            }
+        )
+
         this.form.get('modalidadeFase').disable();
     }
 
@@ -365,7 +370,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 const data = JSON.parse(this.errors.error.message);
                 data.forEach((field) => {
                     const control = this.form.get(field.propertyPath);
-                    control.setErrors({formError: data.message});
+                    control.setErrors({formError: field.message});
+
                 });
             } catch (e) {
                 this.form.setErrors({rulesError: this.errors.error.message});

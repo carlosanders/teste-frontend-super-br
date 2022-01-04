@@ -2,10 +2,6 @@ import {createSelector} from '@ngrx/store';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital, Documento} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema, documento as documentoSchema} from '@cdk/normalizr';
-import {
-    AtividadeCreateDocumentosState,
-    getAtividadeCreateDocumentosState
-} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {DocumentoAppState, DocumentoState, getDocumentoAppState} from '../../../../store';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
@@ -46,9 +42,4 @@ export const getDocumentoLoaded: any = createSelector(
 export const getIsLoading: any = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.loading
-);
-
-export const getAssinandoDocumentosId: any = createSelector(
-    getAtividadeCreateDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state ? state.assinandoDocumentoIds : null
 );

@@ -1,4 +1,4 @@
-import {createSelector} from '@ngrx/store';
+import {createSelector, MemoizedSelector} from '@ngrx/store';
 import {
     AtividadeBlocoCreateDocumentosState,
     AtividadeCreateBlocoAppState,
@@ -31,19 +31,14 @@ export const getDocumentosHasLoaded: any = createSelector(
     (state: AtividadeBlocoCreateDocumentosState) => state.documentosLoaded
 );
 
+export const getDocumentosHasLoadedTarefaId = (tarefaId: number): MemoizedSelector<any, any> => createSelector(
+    getDocumentosHasLoaded,
+    loaded => loaded[tarefaId]
+);
+
 export const getDeletingDocumentosId: any = createSelector(
     getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.deletingDocumentoIds
-);
-
-export const getAssinandoDocumentosId: any = createSelector(
-    getAtividadeCreateBlocoDocumentosState,
-    (state: AtividadeBlocoCreateDocumentosState) => state.assinandoDocumentoIds
-);
-
-export const getRemovendoAssinaturaDocumentosId: any = createSelector(
-    getAtividadeCreateBlocoDocumentosState,
-    (state: AtividadeBlocoCreateDocumentosState) => state.removendoAssinaturaDocumentoIds
 );
 
 export const getAlterandoDocumentosId: any = createSelector(

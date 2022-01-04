@@ -11,10 +11,11 @@ import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import * as fromDocumentoStore from '../../store';
+import * as AssinaturaStore from 'app/store';
 import {select, Store} from '@ngrx/store';
-import {Assinatura, ComponenteDigital} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getRouterState} from '../../../../../store';
+import {getRouterState} from '../../../../../store';
 import {getRepositorioComponenteDigital} from '../../documento-edit/inteligencia/store';
 import {getRepositorioComponenteDigital as getRepositorioComponenteDigitalAvulso} from '../../documento-avulso-edit/inteligencia/store/selectors';
 import {
@@ -40,6 +41,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
     componenteDigital$: Observable<ComponenteDigital>;
     componenteDigital: ComponenteDigital;
+    documento$: Observable<Documento>;
+    documento: Documento;
     repositorio$: Observable<string>;
     repositorio: string;
     saving$: Observable<boolean>;
@@ -47,12 +50,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     routerState: any;
     assinandoDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
-    javaWebStartOK = false;
     btVersoes = true;
     logEntryPagination: Pagination;
     mode = 'documento';
-    assinaturaInterval = null;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -64,6 +64,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.ComponenteDigitalAppState>
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._store.pipe(
@@ -89,7 +90,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                 this.mode = 'template';
             }
         });
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromDocumentoStore.getAssinandoDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         if (this.routerState.url.indexOf('sidebar:oficio') === -1) {
             this.repositorio$ = this._store.pipe(select(getRepositorioComponenteDigital));
         } else if (this.routerState.url.indexOf('sidebar:oficio') !== -1) {
@@ -120,55 +121,18 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                 };
             }
         });
+        this.documento$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(documento => !!documento)
+        ).subscribe((documento) => {
+            this.documento = documento;
+        });
 
         this.saving$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe((saving) => {
             this.saving = saving;
             this._changeDetectorRef.detectChanges();
-        });
-
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        break;
-                }
-            }
-        });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId && assinandoDocumentosId.length > 0) {
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromDocumentoStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
         });
     }
 
@@ -237,7 +201,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     }
 
     doAssinarDigitalmente(): void {
-        this._store.dispatch(new fromDocumentoStore.AssinaDocumento());
+        this._store.dispatch(new AssinaturaStore.AssinaDocumento([this.documento.id]));
     }
 
     doAssinarEletronicamente(plainPassword): void {
@@ -248,12 +212,11 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         assinatura.cadeiaCertificadoPkiPath = 'A1';
         assinatura.assinatura = 'A1';
         assinatura.plainPassword = plainPassword;
-
         const operacaoId = CdkUtils.makeId();
-        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoEletronicamente({
+        this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
             assinatura: assinatura,
             operacaoId: operacaoId,
-            documentoId: parseInt(this.routerState.params['documentoHandle'], 10)
+            documento: this.documento
         }));
     }
 

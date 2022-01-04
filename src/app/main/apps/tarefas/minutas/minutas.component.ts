@@ -15,18 +15,17 @@ import {Observable, Subject} from 'rxjs';
 import {Assinatura, Colaborador, ComponenteDigital, Documento, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {distinctUntilChanged, filter, take, takeUntil, tap} from 'rxjs/operators';
-import {getMercureState, getOperacoes, getRouterState} from 'app/store';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {getOperacoes, getRouterState} from 'app/store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store';
 import {getSelectedTarefas} from '../store';
 import {CdkUtils} from '@cdk/utils';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {DynamicService} from 'modules/dynamic.service';
-import {AgrupadorProcesso, getDocumentosByProcessoId} from './store';
+import {AgrupadorTarefa, isLoadingAny} from './store';
 
 @Component({
     selector: 'minutas',
@@ -47,11 +46,17 @@ export class MinutasComponent implements OnInit, OnDestroy {
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
     tarefas$: Observable<Tarefa[]>;
-    tarefas: Tarefa[];
+    tarefas: Tarefa[] = [];
 
     operacoes: any[] = [];
+    tarefasAgrupadas: {
+        [id: number]: AgrupadorTarefa;
+    } = {};
     processos: {
-        [id: number]: AgrupadorProcesso;
+        [id: number]: {
+            nupFormatado: string;
+            tarefas: number[];
+        };
     } = {};
     documentos: {
         [id: number]: Documento[];
@@ -75,11 +80,12 @@ export class MinutasComponent implements OnInit, OnDestroy {
     alterandoDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
-    javaWebStartOK = false;
-
-    assinaturaInterval = null;
+    lixeiraMinutas$: Observable<boolean>;
+    undeletingDocumentosId$: Observable<number[]>;
+    isLoadingAny$: Observable<boolean>;
 
     lote: string;
+    lixeira: boolean = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Colaborador;
@@ -117,11 +123,14 @@ export class MinutasComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoIds));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
+        this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUndeletingDocumentosId));
+        this.isLoadingAny$ = this._store.pipe(select(fromStore.isLoadingAny));
+        this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -134,6 +143,10 @@ export class MinutasComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.operacoes = [];
 
+        this.lixeiraMinutas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(lixeira => this.lixeira = lixeira);
+
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState),
@@ -143,12 +156,25 @@ export class MinutasComponent implements OnInit, OnDestroy {
         });
 
         this._store.pipe(
-            select(fromStore.getProcessos),
+            select(fromStore.getTarefas),
             takeUntil(this._unsubscribeAll)
-        ).subscribe((processos) => {
-            this.processos = {
-                ...processos
+        ).subscribe((tarefas) => {
+            this.tarefasAgrupadas = {
+                ...tarefas
             };
+            Object.keys(tarefas).forEach((tarefa) => {
+                const tarefasPorProcesso = this.processos[this.tarefasAgrupadas[tarefa].processoId]?.tarefas ?? [];
+                if (tarefasPorProcesso.indexOf(this.tarefasAgrupadas[tarefa].id) === -1) {
+                    tarefasPorProcesso.push(this.tarefasAgrupadas[tarefa].id);
+                }
+                this.processos = {
+                    ...this.processos,
+                    [this.tarefasAgrupadas[tarefa].processoId]: {
+                        nupFormatado: this.tarefasAgrupadas[tarefa].nupFormatado,
+                        tarefas: tarefasPorProcesso
+                    }
+                };
+            });
             this._changeDetectorRef.markForCheck();
         });
 
@@ -157,36 +183,6 @@ export class MinutasComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
-        });
-
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
         });
 
         this.selectedDocumentos$.pipe(
@@ -202,40 +198,19 @@ export class MinutasComponent implements OnInit, OnDestroy {
         ).subscribe((documentos) => {
             const novoDocumentos = {};
             this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
-            Object.keys(this.processos).forEach((processo) => {
-                if (this.processos[processo]?.documentosId?.length) {
-                    const documentosProcesso = this.minutas.filter(documento => documento.tarefaOrigem.processo.id === parseInt(processo, 10));
-                    novoDocumentos[processo] = documentosProcesso;
+            Object.keys(this.tarefasAgrupadas).forEach((tarefa) => {
+                if (this.tarefasAgrupadas[tarefa]?.documentosId?.length) {
+                    const documentosTarefa = this.minutas.filter(documento => documento.tarefaOrigem.id === parseInt(tarefa, 10));
+                    novoDocumentos[tarefa] = documentosTarefa;
                 }
             });
-            Object.keys(novoDocumentos).forEach((processoId) => {
+            Object.keys(novoDocumentos).forEach((tarefaId) => {
                 this.documentos = {
                     ...this.documentos,
-                    [processoId]: novoDocumentos[processoId]
+                    [tarefaId]: novoDocumentos[tarefaId]
                 };
             });
             this._changeDetectorRef.markForCheck();
-        });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
         });
     }
 
@@ -270,7 +245,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
     }
 
     doRemoveAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     doAlterarTipoDocumento(values): void {
@@ -282,6 +257,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documento.id,
             tarefaId: documento.tarefaOrigem.id,
+            uuid: documento.uuid,
             operacaoId: operacaoId,
             loteId: loteId,
         }));
@@ -302,7 +278,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
             result.documentos.forEach((documento) => {
                 documentosId.push(documento.id);
             });
-            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
         } else {
             const lote = CdkUtils.makeId();
             result?.documentos?.forEach((documento) => {
@@ -316,7 +292,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
                         operacaoId: operacaoId,
@@ -329,7 +305,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
 
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result?.documento?.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -341,7 +317,7 @@ export class MinutasComponent implements OnInit, OnDestroy {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -351,16 +327,6 @@ export class MinutasComponent implements OnInit, OnDestroy {
     }
 
     onClicked(documento): void {
-        let primary: string;
-        primary = 'componente-digital/';
-        if (documento.componentesDigitais[0]) {
-            primary += documento.componentesDigitais[0].id;
-        } else {
-            primary += '0';
-        }
-        if (documento.apagadoEm || documento.assinado) {
-            primary += '/visualizar';
-        }
         let sidebar = 'oficio/dados-basicos';
         if (!documento.documentoAvulsoRemessa) {
             sidebar = 'editar/dados-basicos';
@@ -370,7 +336,6 @@ export class MinutasComponent implements OnInit, OnDestroy {
         }
         this._router.navigate([this.routerState.url + '/documento/' + documento.id, {
                 outlets: {
-                    primary: primary,
                     sidebar: sidebar
                 }
             }],
@@ -380,18 +345,19 @@ export class MinutasComponent implements OnInit, OnDestroy {
             }).then();
     }
 
-    paginaDocumentos(processoId: number): void {
-        const pagination = this.processos[processoId].pagination;
-        const documentosId = this.processos[processoId].documentosId;
+    paginaDocumentos(tarefaId: number): void {
+        const pagination = this.tarefasAgrupadas[tarefaId].pagination;
+        const documentosId = this.tarefasAgrupadas[tarefaId].documentosId;
         if (documentosId.length >= pagination.total) {
             return;
         }
-        if (!this.processos[processoId].loading) {
+        if (!this.tarefasAgrupadas[tarefaId].loading) {
             const nparams = {
                 ...pagination,
                 offset: pagination.offset + pagination.limit,
-                processoId: processoId,
-                nupFormatado: this.processos[processoId].nupFormatado
+                tarefaId: tarefaId,
+                processoId: this.tarefasAgrupadas[tarefaId].processoId,
+                nupFormatado: this.tarefasAgrupadas[tarefaId].nupFormatado
             };
             this._store.dispatch(new fromStore.GetDocumentos(nparams));
         }
@@ -409,6 +375,100 @@ export class MinutasComponent implements OnInit, OnDestroy {
         documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
             this._store.dispatch(new fromStore.DownloadP7S(componenteDigital.id));
         });
+    }
+
+    doRestaurar(documento: Documento): void {
+        const operacaoId = CdkUtils.makeId();
+        const populate = [
+            'tipoDocumento',
+            'tarefaOrigem',
+            'tarefaOrigem.vinculacoesEtiquetas',
+            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+            'componentesDigitais'
+        ];
+        this._store.dispatch(new fromStore.UndeleteDocumento({
+            documento: documento,
+            tarefaId: documento.tarefaOrigem.id,
+            populate: populate,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
+    doToggleLixeiraMinutas(status): void {
+        this.minutas = [];
+        const tarefas = this.tarefas;
+        this._store.dispatch(new fromStore.UnloadDocumentos());
+        tarefas.sort((a, b) => a.processo.id < b.processo.id ? -1 : a.processo.id > b.processo.id ? 1 : 0);
+        if (!status) {
+            // Saindo da lixeira de minutas
+            tarefas.forEach((tarefa) => {
+                this.documentos = {
+                    ...this.documentos,
+                    [tarefa.id]: []
+                };
+                const tarefaHandle = `eq:${tarefa.id}`;
+                const params = {
+                    filter: {
+                        'tarefaOrigem.id': tarefaHandle,
+                        'documentoAvulsoRemessa.id': 'isNull',
+                        'juntadaAtual': 'isNull'
+                    },
+                    limit: 10,
+                    offset: 0,
+                    sort: {
+                        criadoEm: 'DESC'
+                    },
+                    populate: [
+                        'tipoDocumento',
+                        'tarefaOrigem',
+                        'tarefaOrigem.vinculacoesEtiquetas',
+                        'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+                        'componentesDigitais'
+                    ],
+                    tarefaId: tarefa.id,
+                    processoId: tarefa.processo.id,
+                    nupFormatado: tarefa.processo.NUPFormatado
+                };
+                this._store.dispatch(new fromStore.GetDocumentos(params));
+            });
+        } else {
+            // Entrando na lixeira de minutas
+            tarefas.forEach((tarefa) => {
+                this.documentos = {
+                    ...this.documentos,
+                    [tarefa.id]: []
+                };
+                const tarefaHandle = `eq:${tarefa.id}`;
+                const params = {
+                    filter: {
+                        'tarefaOrigem.id': tarefaHandle,
+                        'documentoAvulsoRemessa.id': 'isNull',
+                        'juntadaAtual': 'isNull',
+                        'apagadoEm': 'isNotNull'
+                    },
+                    limit: 10,
+                    offset: 0,
+                    sort: {
+                        criadoEm: 'DESC'
+                    },
+                    populate: [
+                        'tipoDocumento',
+                        'tarefaOrigem',
+                        'componentesDigitais'
+                    ],
+                    context: {
+                        'mostrarApagadas': true
+                    },
+                    tarefaId: tarefa.id,
+                    processoId: tarefa.processo.id,
+                    nupFormatado: tarefa.processo.NUPFormatado
+                };
+                this._store.dispatch(new fromStore.GetDocumentos(params));
+            });
+        }
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos([]));
     }
 
     doAbort(): void {

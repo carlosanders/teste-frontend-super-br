@@ -13,16 +13,15 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, of, Subject} from 'rxjs';
 import * as fromStore from './store';
+import * as AssinaturaStore from 'app/store';
 import {Assinatura, Documento, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {getMercureState, getRouterState} from 'app/store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -56,10 +55,9 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
     assinandoDocumentosVinculadosId$: Observable<number[]>;
-    assinandoDocumentosVinculadosId: number[] = [];
-    javaWebStartOK = false;
+    removendoAssinaturaDocumentosVinculadosId$: Observable<number[]>;
+    lote: string;
 
-    assinaturaInterval = null;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
@@ -81,40 +79,11 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
-        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
+        this.removendoAssinaturaDocumentosVinculadosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.isSavingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.pagination$ = this._store.pipe(select(fromStore.getDocumentosVinculadosPagination));
-
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
-            }
-        });
 
         this._store.pipe(
             select(getRouterState),
@@ -146,24 +115,6 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
             filter(documentos => !!documentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(documentos => this.documentosVinculados = documentos);
-
-        this.assinandoDocumentosVinculadosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosVinculadosId) => {
-            if (assinandoDocumentosVinculadosId.length > 0) {
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosVinculadosId.length > 0)) {
-                        assinandoDocumentosVinculadosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
-        });
     }
 
     ngAfterViewInit(): void {
@@ -201,13 +152,23 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
         this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
     }
 
-    doDeleteDocumentoVinculado(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
+    doDeleteDocumentoVinculado(documentoId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado({
+            documentoVinculadoId: documentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+        }));
+    }
+
+    doDeleteBloco(documentosId: number[]): void {
+        this.lote = CdkUtils.makeId();
+        documentosId.forEach((documentoId: number) => this.doDeleteDocumentoVinculado(documentoId, this.lote));
     }
 
     doAssinaturaDocumentoVinculado(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumentoVinculado(result.documento.id));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result.documento.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -219,7 +180,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -234,8 +195,9 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
             result.documentos.forEach((documento) => {
                 documentosId.push(documento.id);
             });
-            this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentosId));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
         } else {
+            const loteId = CdkUtils.makeId();
             result.documentos.forEach((documento) => {
                 documento.componentesDigitais.forEach((componenteDigital) => {
                     const assinatura = new Assinatura();
@@ -247,14 +209,19 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
-                        operacaoId: operacaoId
+                        operacaoId: operacaoId,
+                        loteId: loteId
                     }));
                 });
             });
         }
+    }
+
+    doRemoveAssinatura(documentoId: number): void {
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     hasChanges(): boolean {

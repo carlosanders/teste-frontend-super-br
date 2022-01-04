@@ -1,79 +1,43 @@
-import * as AssinaturasActions from '../actions';
+import * as TarefaAssinaturasActions from '../actions/assinaturas.actions';
 
 export interface AssinaturasState {
-    assinandoDocumentosId: number[];
-    assinandoDocumentosEletronicamenteId: number[];
     assinandoTarefasId: number[];
-    assinandoTarefasEletronicamenteId: number[];
     documentosTarefa: { [id: number]: number[] };
-    documentosId: number[];
-    errors: any;
 }
 
-export const AssinaturasInitialState: AssinaturasState = {
-    assinandoDocumentosId: [],
-    assinandoDocumentosEletronicamenteId: [],
+export const assinaturasInitialState: AssinaturasState = {
     assinandoTarefasId: [],
-    assinandoTarefasEletronicamenteId: [],
     documentosTarefa: {},
-    documentosId: [],
-    errors: false
 };
 
-export function AssinaturasReducer(
-    state = AssinaturasInitialState,
-    action: AssinaturasActions.AssinaturasActionsAll
-): AssinaturasState {
+export const assinaturasReducer = (
+    state = assinaturasInitialState,
+    action
+): AssinaturasState => {
     switch (action.type) {
-
-        case AssinaturasActions.GET_DOCUMENTOS: {
+        case TarefaAssinaturasActions.ASSINA_DOCUMENTO: {
+            const tarefaId = action.payload.tarefaId;
+            const documentosTarefa = {
+                ...state.documentosTarefa,
+                [tarefaId]: [...state.documentosTarefa[tarefaId], action.payload.documentoId]
+            };
             return {
                 ...state,
-                documentosTarefa: {
-                    ...state.documentosTarefa,
-                    [action.payload.tarefaId]: []
-                }
+                assinandoTarefasId: [...state.assinandoTarefasId, tarefaId],
+                documentosTarefa: documentosTarefa
             };
         }
 
-        case AssinaturasActions.GET_DOCUMENTOS_SUCCESS: {
-            return {
-                ...state,
-                documentosId: action.payload.entitiesId,
-                documentosTarefa: {
-                    ...state.documentosTarefa,
-                    [action.payload.tarefaId]: action.payload.entitiesId
-                }
-            };
-        }
-
-        case AssinaturasActions.ASSINA_DOCUMENTO: {
-            return {
-                ...state,
-                assinandoDocumentosId: [...state.assinandoDocumentosId, ...action.payload.documentosIds],
-                assinandoTarefasId: [...state.assinandoTarefasId, action.payload.tarefaId],
-                errors: false
-            };
-        }
-
-        case AssinaturasActions.ASSINA_DOCUMENTO_SUCCESS: {
-            let tarefaId = null;
+        case TarefaAssinaturasActions.ASSINA_DOCUMENTO_SUCCESS: {
+            const tarefaId = action.payload.tarefaId;
             let documentosTarefa = [];
             let assinandoTarefasId = state.assinandoTarefasId;
-            Object.keys(state.documentosTarefa).forEach((tarefa) => {
-                if (state.documentosTarefa[tarefa].indexOf(action.payload) > -1) {
-                    // Documento assinado pertence a esta tarefa
-                    console.log(tarefa);
-                    tarefaId = tarefa;
-                    documentosTarefa = state.documentosTarefa[tarefa].filter(id => id !== action.payload);
-                }
-            });
+            documentosTarefa = state.documentosTarefa[tarefaId].filter(id => id !== action.payload.documentoId);
             if (documentosTarefa.length === 0) {
-                assinandoTarefasId = assinandoTarefasId.filter(id => id != tarefaId);
+                assinandoTarefasId = assinandoTarefasId.filter(id => id !== tarefaId);
             }
             return {
                 ...state,
-                assinandoDocumentosId: state.assinandoDocumentosId.filter(id => id !== action.payload),
                 assinandoTarefasId: assinandoTarefasId,
                 documentosTarefa: {
                     ...state.documentosTarefa,
@@ -82,33 +46,18 @@ export function AssinaturasReducer(
             };
         }
 
-        case AssinaturasActions.ASSINA_DOCUMENTO_FAILED: {
-            let tarefaId = action.payload.tarefaId;
+        case TarefaAssinaturasActions.ASSINA_DOCUMENTO_FAILED: {
+            const tarefaId = action.payload.tarefaId;
             let documentosTarefa = [];
             let assinandoTarefasId = state.assinandoTarefasId;
-            let assinandoDocumentosId = state.assinandoDocumentosId;
             if (tarefaId) {
-                state.documentosTarefa[tarefaId].forEach((documento) => {
-                    assinandoDocumentosId = assinandoDocumentosId.filter(id => id !== documento);
-                });
-                assinandoTarefasId = assinandoDocumentosId.filter(id => id !== tarefaId);
-            } else {
-                Object.keys(state.documentosTarefa).forEach((tarefa) => {
-                    if (state.documentosTarefa[tarefa].indexOf(action.payload.documentoId) > -1) {
-                        // Documento assinado pertence a esta tarefa
-                        console.log(tarefa);
-                        tarefaId = tarefa;
-                        documentosTarefa = state.documentosTarefa[tarefa].filter(id => id !== action.payload.documentoId);
-                    }
-                });
+                documentosTarefa = state.documentosTarefa[tarefaId].filter(id => id !== action.payload.documentoId);
                 if (documentosTarefa.length === 0) {
                     assinandoTarefasId = assinandoTarefasId.filter(id => id !== tarefaId);
                 }
-                assinandoDocumentosId = assinandoDocumentosId.filter(id => id !== action.payload.documentoId);
             }
             return {
                 ...state,
-                assinandoDocumentosId: state.assinandoDocumentosId.filter(id => id !== action.payload),
                 assinandoTarefasId: assinandoTarefasId,
                 documentosTarefa: {
                     ...state.documentosTarefa,
@@ -117,62 +66,89 @@ export function AssinaturasReducer(
             };
         }
 
-        case AssinaturasActions.PREPARA_ASSINATURA_FAILED: {
+        case TarefaAssinaturasActions.PREPARA_ASSINATURA_FAILED: {
+            let tarefaId = null;
+            let documentosTarefa = {
+                ...state.documentosTarefa
+            };
+            let documentos = [];
+            let assinandoTarefasId = state.assinandoTarefasId;
+            action.payload.ids.forEach((documentoId) => {
+                Object.keys(state.documentosTarefa).forEach((tarefa) => {
+                    if (state.documentosTarefa[tarefa].indexOf(documentoId) > -1) {
+                        // Documento assinado pertence a esta tarefa
+                        console.log(tarefa);
+                        tarefaId = parseInt(tarefa, 10);
+                        documentos = state.documentosTarefa[tarefa].filter(id => id !== documentoId);
+                        if (documentos.length === 0) {
+                            assinandoTarefasId = assinandoTarefasId.filter(tId => tId !== tarefaId);
+                        }
+                        documentosTarefa = {
+                            ...documentosTarefa,
+                            [tarefaId]: documentos
+                        };
+                    }
+                });
+            });
             return {
                 ...state,
-                assinandoDocumentosId: state.assinandoDocumentosId.filter(el => action.payload.ids.includes(el)),
-                errors: action.payload.error
+                assinandoTarefasId: assinandoTarefasId,
+                documentosTarefa: documentosTarefa
             };
         }
 
-        case AssinaturasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+        case TarefaAssinaturasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            const tarefaId = action.payload.tarefaId;
+            const documentosTarefa = {
+                ...state.documentosTarefa,
+                [tarefaId]: [...state.documentosTarefa[tarefaId], action.payload.documentoId]
+            };
             return {
                 ...state,
-                assinandoDocumentosEletronicamenteId: [...state.assinandoDocumentosEletronicamenteId, action.payload.documento.id],
-                assinandoTarefasEletronicamenteId: [...state.assinandoTarefasEletronicamenteId, action.payload.tarefaId],
-                errors: false
+                assinandoTarefasId: [...state.assinandoTarefasId, tarefaId],
+                documentosTarefa: documentosTarefa
             };
         }
 
-        case AssinaturasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
-            const documentosTarefa = state.documentosTarefa[action.payload.tarefaId]
-                .filter(id => id !== action.payload.documentoId);
-            let assinandoTarefasId = state.assinandoTarefasEletronicamenteId;
+        case TarefaAssinaturasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            const tarefaId = action.payload.tarefaId;
+            let documentosTarefa = [];
+            let assinandoTarefasId = state.assinandoTarefasId;
+            documentosTarefa = state.documentosTarefa[tarefaId].filter(id => id !== action.payload.documentoId);
             if (documentosTarefa.length === 0) {
-                assinandoTarefasId = assinandoTarefasId.filter(id => id !== action.payload.tarefaId);
+                assinandoTarefasId = assinandoTarefasId.filter(id => id !== tarefaId);
             }
             return {
                 ...state,
-                assinandoDocumentosEletronicamenteId: state.assinandoDocumentosEletronicamenteId.filter(id => id !== action.payload.documentoId),
-                assinandoTarefasEletronicamenteId: assinandoTarefasId,
+                assinandoTarefasId: assinandoTarefasId,
                 documentosTarefa: {
                     ...state.documentosTarefa,
-                    [action.payload.tarefaId]: documentosTarefa
+                    [tarefaId]: documentosTarefa
                 },
-                errors: false
             };
         }
 
-        case AssinaturasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
-            const documentosTarefa = state.documentosTarefa[action.payload.tarefaId]
-                .filter(id => id !== action.payload.documentoId);
-            let assinandoTarefasId = state.assinandoTarefasEletronicamenteId;
-            if (documentosTarefa.length === 0) {
-                assinandoTarefasId = assinandoTarefasId.filter(id => id !== action.payload.tarefaId);
+        case TarefaAssinaturasActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            const tarefaId = action.payload.tarefaId;
+            let documentosTarefa = [];
+            let assinandoTarefasId = state.assinandoTarefasId;
+            if (tarefaId) {
+                documentosTarefa = state.documentosTarefa[tarefaId].filter(id => id !== action.payload.documentoId);
+                if (documentosTarefa.length === 0) {
+                    assinandoTarefasId = assinandoTarefasId.filter(id => id !== tarefaId);
+                }
             }
             return {
                 ...state,
-                assinandoDocumentosEletronicamenteId: state.assinandoDocumentosEletronicamenteId.filter(id => id !== action.payload.documentoId),
-                assinandoTarefasEletronicamenteId: assinandoTarefasId,
+                assinandoTarefasId: assinandoTarefasId,
                 documentosTarefa: {
                     ...state.documentosTarefa,
-                    [action.payload.tarefaId]: documentosTarefa
-                },
-                errors: action.payload.error
+                    [tarefaId]: documentosTarefa
+                }
             };
         }
 
         default:
             return state;
     }
-}
+};

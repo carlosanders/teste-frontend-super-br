@@ -17,13 +17,12 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 
 import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import * as fromStore from 'app/main/apps/processo/store';
-
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../store';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {distinctUntilKeyChanged, filter, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
@@ -78,6 +77,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
+    label = 'Protocolo';
+    nup = '';
+    generoProcesso = '';
 
     private _profile: Usuario;
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -161,11 +163,34 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.processo$.pipe(
-            filter(processo => !!processo),
-            distinctUntilKeyChanged('id')
+            filter(processo => !!processo)
         ).subscribe((processo) => {
             this.processo = processo;
-            this.iniciaModulos();
+            this.label = 'Protocolo';
+            switch (this.processo?.unidadeArquivistica) {
+                case 1:
+                    this.label = 'Processo';
+                    this.nup = this.processo?.NUPFormatado;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
+                    break;
+                case 2:
+                    this.label = 'Documento Avulso';
+                    this.nup = this.processo?.NUPFormatado;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
+                    break;
+                case 3:
+                    this.label = 'Pasta';
+                    this.nup = this.processo?.outroNumero;
+                    this.generoProcesso = this.processo?.especieProcesso?.generoProcesso?.nome;
+                    break;
+                default:
+                    this.label = 'Protocolo';
+                    this.nup = '';
+                    this.generoProcesso = '';
+            }
+            if (this.processo?.id !== processo.id) {
+                this.iniciaModulos();
+            }
             this.refresh();
         });
 

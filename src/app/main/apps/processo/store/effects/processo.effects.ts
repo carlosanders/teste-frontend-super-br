@@ -325,8 +325,12 @@ export class ProcessoEffect {
                 }))),
                 mergeMap((response: Compartilhamento) => [
                     new ProcessoActions.SaveAcompanhamentoSuccess(response),
-                    new ProcessoActions.GetProcesso(action.payload.processo),
-                    new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema})
+                    new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema}),
+                    new UpdateData<Processo>({
+                        id: action.payload.processo.id,
+                        schema: processoSchema,
+                        changes: {compartilhamentoUsuario: response}
+                    }),
                 ]),
                 catchError((err) => {
                     const erroString = CdkUtils.errorsToString(err);
@@ -357,6 +361,11 @@ export class ProcessoEffect {
                         childSchema: acompanhamentoSchema,
                         parentSchema: processoSchema,
                         parentId: action.payload.processoId
+                    }),
+                    new UpdateData<Processo>({
+                        id: action.payload.processoId,
+                        schema: processoSchema,
+                        changes: {compartilhamentoUsuario: null}
                     }),
                     new ProcessoActions.DeleteAcompanhamentoSuccess(response.id)
                 ],

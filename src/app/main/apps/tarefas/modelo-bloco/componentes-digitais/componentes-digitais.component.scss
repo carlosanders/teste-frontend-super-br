@@ -1,0 +1,19 @@
+componentes-digitais-bloco {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    > .footer {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+}

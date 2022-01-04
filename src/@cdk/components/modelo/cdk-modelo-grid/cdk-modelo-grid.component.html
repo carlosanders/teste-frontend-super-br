@@ -1,17 +1,35 @@
 <div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar name="cdk-modelo-filter" position="left">
+    <cdk-sidebar
+        [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
+        [ngClass]="{
+            'mobile-modelo-pesquisa-off': (mobileMode && !!modelos),
+            'mobile-modelo-pesquisa-on': (mobileMode && !modelos)
+        }"
+        class="sidebar"
+        name="cdk-modelo-filter"
+        position="left">
         <cdk-modelo-filter (selected)="setFilter($event)" [@animate]="{value:'*'}" [mode]="this.mode" [hasInatived]="hasInatived"></cdk-modelo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <div class="responsive-grid"
          [ngClass]="{
-            'documento-edit': (this.documento)
+            'search': (this.mode === 'search'),
+            'documento-edit': (this.documento),
+            'mobile-modelo-lista-off': (mobileMode && !modelos),
+            'mobile-modelo-lista-on': (mobileMode && !!modelos)
          }">
 
         <div class="actions">
+
+            <button class="back" mat-icon-button *ngIf="mobileMode"
+                    (click)="cssPesquisaOn()"
+                    aria-label="pesquisar"
+                    matTooltip="Pesquisar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
             <div class="back">
                 <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"

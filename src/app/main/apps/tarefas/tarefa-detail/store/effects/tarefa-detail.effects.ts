@@ -34,6 +34,7 @@ import {
 @Injectable()
 export class TarefaDetailEffect {
     routerState: any;
+    populate: string[] = [];
     /**
      * Get Tarefa with router parameters
      *
@@ -41,9 +42,8 @@ export class TarefaDetailEffect {
      */
     getTarefa: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
-        switchMap(action => this._tarefaService.get(
-            action.payload.id,
-            JSON.stringify([
+        switchMap((action) => {
+            this.populate = action.payload.populate ?? [
                 'processo',
                 'processo.especieProcesso',
                 'processo.especieProcesso.generoProcesso',
@@ -62,18 +62,23 @@ export class TarefaDetailEffect {
                 'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta'
-            ])
-        )),
-        mergeMap(response => [
-            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
-            new TarefaDetailActions.GetTarefaSuccess({
-                loaded: {
-                    id: 'tarefaHandle',
-                    value: this.routerState.params.tarefaHandle
-                },
-                tarefa: response
-            })
-        ]),
+            ];
+            return this._tarefaService.get(
+                action.payload.id,
+                JSON.stringify(this.populate)
+            ).pipe(
+                mergeMap(response => [
+                    new AddData<Tarefa>({data: [response], schema: tarefaSchema, populate: this.populate}),
+                    new TarefaDetailActions.GetTarefaSuccess({
+                        loaded: {
+                            id: 'tarefaHandle',
+                            value: this.routerState.params.tarefaHandle
+                        },
+                        tarefa: response
+                    })
+                ])
+            );
+        }),
         catchError((err) => {
             console.log(err);
             return of(new TarefaDetailActions.GetTarefaFailed(err));

@@ -48,7 +48,7 @@ export class PathComponent implements OnInit {
         this.caminhoAbsoluto = this.caminhoAbsoluto.slice(posicao, this.caminhoAbsoluto.length);
         const arrayCaminho = this.caminhoAbsoluto.split('/');
         arrayCaminho.forEach((c: string) => {
-            let urlLimpa = this.limparUrl(c);
+            const urlLimpa = this.limparUrl(c);
             if (urlLimpa === 'dados-basicos' || urlLimpa === 'default') { } //Não adiciona no link, para resolver despadronizacoes
             else if (urlLimpa === 'visualizar') {
                 caminhoAux += '/' + urlLimpa;

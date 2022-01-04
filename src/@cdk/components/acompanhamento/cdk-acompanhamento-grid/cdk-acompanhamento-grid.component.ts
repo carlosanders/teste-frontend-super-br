@@ -20,6 +20,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {AcompanhamentoDataSource} from '@cdk/data-sources/acompanhamento-data-source';
 import {Compartilhamento, Processo} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {SearchBarEtiquetasFiltro} from '../../search-bar-etiquetas/search-bar-etiquetas-filtro';
 
 @Component({
     selector: 'cdk-acompanhamento-grid',
@@ -42,6 +43,9 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
 
     @Input()
     mode = 'list';
+
+    @Input()
+    arraySearchTypes: SearchBarEtiquetasFiltro[] = [];
 
     @Output()
     create = new EventEmitter<any>();

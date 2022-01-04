@@ -1,5 +1,5 @@
 <div class="campo">
-    <mat-form-field *ngIf="valid" [ngClass]="{'error': creating && etiquetaCtrl.hasError('addEtiqueta')}">
+    <mat-form-field *ngIf="valid" [ngClass]="{'error': creating && etiquetaCtrl.hasError('addEtiqueta')}" appearance="none">
         <mat-placeholder class="placeholder">{{placeholder}}</mat-placeholder>
         <mat-chip-list #chipList>
             <mat-chip

@@ -20,6 +20,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 })
 export class BoardTarefasMainSidebarComponent implements OnInit, OnDestroy {
 
+    generoHandle = '';
     private _unsubscribeAll: Subject<any> = new Subject();
 
     routerState: any;
@@ -43,6 +44,7 @@ export class BoardTarefasMainSidebarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
+            this.generoHandle = routerState.state.params['generoHandle'];
         });
     }
 

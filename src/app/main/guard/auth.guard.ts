@@ -21,6 +21,7 @@ export class AuthGuard implements CanActivate {
         if (token && !this._loginService.isExpired()) {
             this._mercureService.subscribe(this._loginService.getUserProfile().username);
             this._mercureService.subscribe(this._loginService.getUserProfile().username + '/chat');
+            this._mercureService.subscribe('/assinador/' + this._loginService.getUserProfile().username);
             const params = {
                 filter: {
                     'destinatario.id': 'eq:' + this._loginService.getUserProfile().id

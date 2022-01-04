@@ -20,9 +20,9 @@ export const getDocumentosId: any = createSelector(
     (state: MinutasState) => state.documentos
 );
 
-export const getProcessos: any = createSelector(
+export const getTarefas: any = createSelector(
     getMinutasState,
-    (state: MinutasState) => state.processos
+    (state: MinutasState) => state.tarefas
 );
 
 export const getDocumentos: any = createSelector(
@@ -71,6 +71,16 @@ export const getDownloadDocumentosP7SId: any = createSelector(
     (state: MinutasState) => state.downloadDocumentosP7SIds
 );
 
+export const getUndeletingDocumentosId: any = createSelector(
+    getMinutasState,
+    (state: MinutasState) => state.undeletingDocumentoIds
+);
+
+export const getLixeiraMinutas: any = createSelector(
+    getMinutasState,
+    (state: MinutasState) => state.lixeira
+);
+
 export const getSelectedDocumentoIds: any = createSelector(
     getMinutasState,
     (state: MinutasState) => state.selectedDocumentosId
@@ -82,36 +92,36 @@ export const getSelectedDocumentos: any = createSelector(
     schemaDocumentoSelectors.entitiesProjector
 );
 
-export const getProcessoStateById = (processoId: number): MemoizedSelector<any, any> => createSelector(
-    getProcessos,
-    processos => processos[processoId]
+export const getTarefaStateById = (tarefaId: number): MemoizedSelector<any, any> => createSelector(
+    getTarefas,
+    tarefas => tarefas[tarefaId]
 );
 
-export const getPaginationProcessoId = (processoId: number): MemoizedSelector<any, any> => createSelector(
-    getProcessos,
-    processos => processos[processoId].pagination
+export const getPaginationTarefaId = (tarefaId: number): MemoizedSelector<any, any> => createSelector(
+    getTarefas,
+    tarefas => tarefas[tarefaId].pagination
 );
 
-export const getDocumentosIdByProcessoId = (processoId: number): MemoizedSelector<any, any> => createSelector(
-    getProcessos,
-    processos => processos[processoId].documentos
+export const getDocumentosIdByTarefaId = (tarefaId: number): MemoizedSelector<any, any> => createSelector(
+    getTarefas,
+    tarefas => tarefas[tarefaId].documentosId
 );
 
-export const getLoadedProcessoId = (processoId: number): MemoizedSelector<any, any> => createSelector(
-    getProcessos,
-    processos => processos[processoId].loaded
+export const getLoadedTarefaId = (tarefaId: number): MemoizedSelector<any, any> => createSelector(
+    getTarefas,
+    tarefas => tarefas[tarefaId].loaded
 );
 
-export const getLoadingProcessoId = (processoId: number): MemoizedSelector<any, any> => createSelector(
-    getProcessos,
-    processos => processos[processoId].loading
+export const getLoadingTarefaId = (tarefaId: number): MemoizedSelector<any, any> => createSelector(
+    getTarefas,
+    tarefas => tarefas[tarefaId].loading
 );
 
 export const isLoadingAny: any = createSelector(
-    getProcessos,
-    (processos) => {
+    getTarefas,
+    (tarefas) => {
         let loading = false;
-        const hasLoading = Object.values(processos).filter(processo => processo.loading);
+        const hasLoading = Object.values(tarefas).filter(tarefa => tarefa.loading);
         if (hasLoading.length > 0) {
             loading = true;
         }
@@ -120,10 +130,10 @@ export const isLoadingAny: any = createSelector(
 );
 
 export const hasLoadedAll: any = createSelector(
-    getProcessos,
-    (processos) => {
+    getTarefas,
+    (tarefas) => {
         let loaded = true;
-        const hasLoaded = Object.values(processos).filter(processo => !processo.loaded);
+        const hasLoaded = Object.values(tarefas).filter(tarefa => !tarefa.loaded);
         if (hasLoaded.length > 0) {
             loaded = false;
         }
@@ -131,8 +141,8 @@ export const hasLoadedAll: any = createSelector(
     }
 );
 
-export const getDocumentosByProcessoId = (processoId: number): any => createSelector(
+export const getDocumentosByTarefaId = (tarefaId: number): any => createSelector(
     schemaDocumentoSelectors.getNormalizedEntities,
-    getDocumentosIdByProcessoId(processoId),
+    getDocumentosIdByTarefaId(tarefaId),
     schemaDocumentoSelectors.entitiesProjector
 );

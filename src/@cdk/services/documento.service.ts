@@ -22,6 +22,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
     preparaAssinatura(documentosId: any = '[]', context: any = '{}'): Observable<any> {
         const p = {};
         p['documentosId'] = documentosId;
+        p['processUUID'] = localStorage.getItem('assinador');
         const params = new HttpParams({fromObject: p});
         params['context'] = context;
         return this.http.get(`${environment.api_url}administrativo/${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
@@ -68,13 +69,16 @@ export class DocumentoService extends ParentGenericService<Documento> {
         return this.http.get(`${environment.api_url}administrativo/documento/${id}/download_p7s` + environment.xdebug, {params});
     }
 
-    undelete(documento: Documento, context: any = '{}'): Observable<Documento> {
-        const params: HttpParams = new HttpParams();
-        params['context'] = context;
+    undelete(documento: Documento, populate: any = '[]', context: any = '{}'): Observable<Documento> {
+        const objParams = {
+            'context': context,
+            'populate': populate
+        };
+        const params: HttpParams = new HttpParams({fromObject: objParams});
         return this.http.patch(
             `${environment.api_url}${'administrativo/documento'}/${documento.id}/${'undelete'}` + environment.xdebug,
             null,
-            {params}
+            { params }
         ).pipe(
             map((response) => {
                 response = plainToClass(Documento, response);

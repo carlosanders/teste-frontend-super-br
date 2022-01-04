@@ -8,6 +8,7 @@ export const assuntoAdministrativo = new schema.Entity('assunto-administrativo')
 export const assunto = new schema.Entity('assunto');
 export const atividade = new schema.Entity('atividade');
 export const aviso = new schema.Entity('aviso');
+export const bookmark = new schema.Entity('bookmark');
 export const cadastroIdentificador = new schema.Entity('cadastro-identificador');
 export const cargo = new schema.Entity('cargo');
 export const classificacao = new schema.Entity('classificacao');
@@ -130,6 +131,8 @@ export const vinculacaoPessoaBarramento = new schema.Entity('vinculacao-pessoa-b
 export const servidorEmail = new schema.Entity('servidor-email');
 export const contaEmail = new schema.Entity('conta-email');
 export const modalidadeCopia = new schema.Entity('modalidade-copia');
+export const dossie = new schema.Entity('dossie');
+export const tipoDossie = new schema.Entity('tipo-dossie');
 export const vinculacaoEspecieProcessoWorkflow = new schema.Entity('vinculacao-especie-processo-workflow');
 export const vinculacaoTransicaoWorkflow = new schema.Entity('vinculacao-transicao-workflow');
 export const vinculacaoWorkflow = new schema.Entity('vinculacao-workflow');
@@ -196,6 +199,16 @@ cadastroIdentificador.define({
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+bookmark.define({
+    usuario: usuario,
+    processo: processo,
+    componenteDigital: componenteDigital,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
 
 cargo.define({
     criadoPor: usuario,
@@ -709,6 +722,7 @@ pessoa.define({
     naturalidade: municipio,
     modalidadeQualificacaoPessoa: modalidadeQualificacaoPessoa,
     origemDados: origemDados,
+    dossies: [dossie],
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -1109,6 +1123,22 @@ modalidadeCopia.define({
     apagadoPor: usuario
 });
 
+dossie.define({
+    pessoa: pessoa,
+    processo: processo,
+    origemDados: origemDados,
+    documento: documento,
+    tipoDossie: tipoDossie,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+tipoDossie.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
 vinculacaoEspecieProcessoWorkflow.define({
     especieProcesso: especieProcesso,
     workflow: workflow,
