@@ -258,19 +258,16 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         ).subscribe();
 
         if (!this.atividade?.tarefa?.vinculacaoWorkflow || this.atividade?.tarefa?.vinculacaoWorkflow?.transicaoFinalWorkflow === true) {
-            console.log(1)
             this.form.get('unidadeResponsavel').disable();
             this.form.get('setorResponsavel').disable();
             this.form.get('usuarioResponsavel').disable();
             this.form.get('distribuicaoAutomatica').disable();
         } else {
-            console.log(2)
             if (this.form.get('unidadeResponsavel').value) {
                 this.form.get('setorResponsavel').enable();
                 this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.form.get('unidadeResponsavel').value.id}`;
                 this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
             } else {
-                console.log(3)
                 this.form.get('setorResponsavel').disable();
                 this.form.get('usuarioResponsavel').disable();
             }
@@ -373,17 +370,14 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('distribuicaoAutomatica').reset();
 
                 if (!this.atividade?.tarefa?.vinculacaoWorkflow || this.atividade?.tarefa?.vinculacaoWorkflow?.transicaoFinalWorkflow === true) {
-                    console.log(4, !this.atividade?.tarefa?.vinculacaoWorkflow, this.atividade?.tarefa?.vinculacaoWorkflow?.transicaoFinalWorkflow === true, this.atividade?.tarefa?.vinculacaoWorkflow)
                     this.form.get('unidadeResponsavel').disable();
                     this.form.get('setorResponsavel').disable();
                     this.form.get('usuarioResponsavel').disable();
                     this.form.get('distribuicaoAutomatica').disable();
                 } else if (value) {
-                    console.log(5)
                     this.form.get('unidadeResponsavel').enable();
                     this.form.get('distribuicaoAutomatica').enable();
                 } else {
-                    console.log(6)
                     this.form.get('unidadeResponsavel').disable();
                     this.form.get('setorResponsavel').disable();
                     this.form.get('usuarioResponsavel').disable();

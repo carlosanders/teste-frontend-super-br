@@ -19,10 +19,8 @@ import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getOperacoes, getRouterState} from 'app/store';
+import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from 'app/store';
 import {getSelectedTarefas} from '../store';
 import {getProcessosIdsEncaminhar} from '../encaminhamento-bloco/store';
@@ -263,6 +261,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             atividade.tarefa = tarefa;
             atividade.usuario = tarefa.usuarioResponsavel;
             atividade.setor = tarefa.setorResponsavel;
+
+            if (tarefa.vinculacaoWorkflow) {
+                atividade.setorResponsavel = tarefa.setorResponsavel
+                atividade.usuarioResponsavel = tarefa.usuarioResponsavel
+            }
 
             if (atividade.encerraTarefa) {
                 atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
