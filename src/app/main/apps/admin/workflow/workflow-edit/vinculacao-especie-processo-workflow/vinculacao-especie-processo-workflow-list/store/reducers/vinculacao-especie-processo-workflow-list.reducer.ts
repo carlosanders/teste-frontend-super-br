@@ -102,6 +102,7 @@ export function VinculacaoEspecieProcessoWorkflowListReducer(
         case fromStore.DELETE_VINCULACAO_ESPECIE_PROCESSO_WORKFLOW_SUCCESS: {
             return {
                 ...state,
+                entitiesId: state.entitiesId.filter(id => id !== action.payload),
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
                 deletingErrors: _.omit(state.deletingErrors, [action.payload])

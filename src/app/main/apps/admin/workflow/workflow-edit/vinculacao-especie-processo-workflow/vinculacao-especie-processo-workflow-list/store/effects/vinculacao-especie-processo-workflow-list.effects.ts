@@ -75,8 +75,8 @@ export class VinculacaoEspecieProcessoWorkflowListEffects {
                     content: 'Vinculação Espécie Processo id ' + action.payload.vinculacaoEspecieProcessoWorkflow.id + ' deletado com sucesso.',
                     status: 1, // sucesso
                 }));
-                this._store.dispatch(new RemoveData({
-                    id: response.id,
+                this._store.dispatch(new AddData<VinculacaoEspecieProcessoWorkflow>({
+                    data: [response],
                     schema: vinculacaoEspecieProcessoWorkflowSchema,
                 }));
                 return new fromStore.DeleteVinculacaoEspecieProcessoWorkflowSuccess(response.id);
