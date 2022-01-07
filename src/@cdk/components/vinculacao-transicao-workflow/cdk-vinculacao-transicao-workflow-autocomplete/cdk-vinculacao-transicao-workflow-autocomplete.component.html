@@ -1,0 +1,9 @@
+<mat-autocomplete (closed)="fechado()" [displayWith]="displayVinculacaoTransicaoWorkflowFn">
+    <mat-option *ngFor="let vinculacaoTransicaoWorkflow of vinculacaoTransicaoWorkflowList"
+                [value]="vinculacaoTransicaoWorkflow">
+        <span [innerHTML]="displayVinculacaoTransicaoWorkflowFn(vinculacaoTransicaoWorkflow) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="listIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

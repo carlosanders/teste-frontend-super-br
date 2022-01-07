@@ -19,9 +19,9 @@ import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getOperacoes, getRouterState} from 'app/store';
+import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
-import {Back} from '../../../../store';
+import {Back} from 'app/store';
 import {getSelectedTarefas} from '../store';
 import {getProcessosIdsEncaminhar} from '../encaminhamento-bloco/store';
 import {CdkUtils} from '@cdk/utils';
@@ -119,7 +119,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             tarefa: [null],
             unidadeAprovacao: [null, [Validators.required]],
             setorAprovacao: [null, [Validators.required]],
-            usuarioAprovacao: [null, [Validators.required]]
+            usuarioAprovacao: [null, [Validators.required]],
+            unidadeResponsavel: [null, [Validators.required]],
+            setorResponsavel: [null, [Validators.required]],
+            usuarioResponsavel: [null],
+            distribuicaoAutomatica: [null],
         });
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
         this.processosIdsEncaminhar$ = this._store.pipe(select(getProcessosIdsEncaminhar));
@@ -191,14 +195,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
                 }
 
-                // caso tarefa seja de workflow verificar espécies permitidas
-                this.especieAtividadePagination['context'] = {};
-                if (tarefas[0].workflow) {
-                    this.especieAtividadePagination.filter = {
-                        'transicoesWorkflow.workflow.id': 'eq:' + tarefas[0].workflow.id
-                    };
-                    this.especieAtividadePagination['context'] = {tarefaId: tarefas[0].id};
-                }
+                this.verificaFilterWorkflow();
             } else if (this.processosIdsEncaminhar.length > 0) {
                 // tslint:disable-next-line:max-line-length
                 // eslint-disable-next-line max-len
@@ -265,6 +262,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             atividade.usuario = tarefa.usuarioResponsavel;
             atividade.setor = tarefa.setorResponsavel;
 
+            if (tarefa.vinculacaoWorkflow) {
+                atividade.setorResponsavel = tarefa.setorResponsavel
+                atividade.usuarioResponsavel = tarefa.usuarioResponsavel
+            }
+
             if (atividade.encerraTarefa) {
                 atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
             } else {
@@ -278,6 +280,34 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 loteId: this.loteAtividades
             }));
         });
+    }
+
+    verificaFilterWorkflow(): void {
+        if (this.tarefas.length) {
+            let tarefasWorkflow = this.tarefas.filter((tarefa: Tarefa)=> tarefa.vinculacaoWorkflow)
+            this.especieAtividadePagination['context'] = {};
+            if (tarefasWorkflow.length && tarefasWorkflow[0].vinculacaoWorkflow?.transicaoFinalWorkflow !== true && this.atividade.encerraTarefa) {
+                this.form.get('especieAtividade').setValue(null);
+                // caso tarefa seja de workflow verificar espécies permitidas
+                this.especieAtividadePagination.filter = {
+                    orX: [
+                        {'transicoesWorkflow.workflow.id': 'eq:' + tarefasWorkflow[0].vinculacaoWorkflow.workflow.id},
+                        {
+                            'transicoesWorkflow.workflow.id': 'isNull',
+                            'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefasWorkflow[0].especieTarefa.generoTarefa.nome.toUpperCase()
+                        },
+                    ]
+                };
+
+                this.especieAtividadePagination['context'] = {tarefaId: tarefasWorkflow[0].id};
+            }  else {
+                if (this.tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+                } else {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
+                }
+            }
+        }
     }
 
     upload(): void {
@@ -405,6 +435,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         } else {
             this.disabledIds = [];
         }
+        this.verificaFilterWorkflow();
     }
 
     doAbort(): void {

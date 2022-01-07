@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 import {EspecieTarefa, Folder, Processo, Setor, Usuario, VinculacaoEtiqueta, Workflow} from '@cdk/models';
+import {VinculacaoWorkflow} from './vinculacao-workflow.model';
 
 export class Tarefa {
 
@@ -46,6 +47,11 @@ export class Tarefa {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     processo?: Processo;
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoWorkflow)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    vinculacaoWorkflow?: VinculacaoWorkflow;
+
     @Type(() => EspecieTarefa)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     especieTarefa?: EspecieTarefa;
@@ -57,10 +63,6 @@ export class Tarefa {
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorOrigem?: Setor;
-
-    @Type(() => Workflow)
-    @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    workflow?: Workflow;
 
     @Exclude()
     unidadeResponsavel?: Setor;
@@ -123,6 +125,10 @@ export class Tarefa {
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
 
+    @Type(() => Workflow)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    workflow?: Workflow;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -137,7 +143,7 @@ export class Tarefa {
         this.dataHoraLeitura = null;
         this.dataHoraDistribuicao = null;
         this.processo = null;
-        this.workflow = null;
+        this.vinculacaoWorkflow = null;
         this.especieTarefa = null;
         this.usuarioResponsavel = null;
         this.setorOrigem = null;

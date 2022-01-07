@@ -13,12 +13,25 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Atividade, DocumentoAvulso, EspecieAtividade, Pagination, Setor, Tarefa, Usuario} from '@cdk/models';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {
+    Atividade,
+    Colaborador,
+    DocumentoAvulso,
+    EspecieAtividade,
+    Lotacao,
+    Pagination,
+    Setor,
+    Tarefa,
+    Usuario
+} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '@cdk/services/favorito.service';
+import {SetorService} from '@cdk/services/setor.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'cdk-atividade-form',
@@ -87,6 +100,15 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     unidadeAprovacaoPagination: Pagination;
 
     @Input()
+    unidadeResponsavelPagination: Pagination;
+
+    @Input()
+    setorResponsavelPagination: Pagination;
+
+    @Input()
+    usuarioResponsavelPagination: Pagination;
+
+    @Input()
     temMinutas = false;
 
     @Input()
@@ -104,20 +126,22 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     activeCard = 'form';
 
     especieAtividadeList: EspecieAtividade[] = [];
-
     especieAtividadeListIsLoading: boolean;
-
     unidadeAprovacaoList: Setor[] = [];
-
     unidadeAprovacaoListIsLoading: boolean;
-
     setorAprovacaoList: Setor[] = [];
-
     setorAprovacaoListIsLoading: boolean;
-
     usuarioAprovacaoList: Usuario[] = [];
-
     usuarioAprovacaoListIsLoading: boolean;
+    unidadeResponsavelList: Setor[] = [];
+    unidadeResponsavelListIsLoading: boolean;
+    setorResponsavelList: Setor[] = [];
+    setorResponsavelListIsLoading: boolean;
+    usuarioResponsavelList: Usuario[] = [];
+    usuarioResponsavelListIsLoading: boolean;
+
+    private _profile: Colaborador;
+
 
     /**
      * Constructor
@@ -125,8 +149,11 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _favoritoService: FavoritoService
+        private _favoritoService: FavoritoService,
+        private _setorService: SetorService,
+        private _loginService: LoginService
     ) {
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this.form = this._formBuilder.group({
             id: [null],
@@ -141,7 +168,11 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             tarefa: [null],
             unidadeAprovacao: [null, [Validators.required]],
             setorAprovacao: [null, [Validators.required]],
-            usuarioAprovacao: [null, [Validators.required]]
+            usuarioAprovacao: [null, [Validators.required]],
+            unidadeResponsavel: [null, [Validators.required]],
+            setorResponsavel: [null, [Validators.required]],
+            usuarioResponsavel: [null],
+            distribuicaoAutomatica: [null],
         });
 
         this.especieAtividadePagination = new Pagination();
@@ -151,6 +182,12 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.unidadeAprovacaoPagination.filter = {parent: 'isNull'};
         this.setorAprovacaoPagination = new Pagination();
         this.setorAprovacaoPagination.filter = {parent: 'isNotNull'};
+        this.unidadeResponsavelPagination = new Pagination();
+        this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
+        this.setorResponsavelPagination = new Pagination();
+        this.setorResponsavelPagination.populate = ['unidade'];
+        this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
+        this.usuarioResponsavelPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -220,23 +257,150 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             )
         ).subscribe();
 
+        if (!this.atividade?.tarefa?.vinculacaoWorkflow || this.atividade?.tarefa?.vinculacaoWorkflow?.transicaoFinalWorkflow === true) {
+            this.form.get('unidadeResponsavel').disable();
+            this.form.get('setorResponsavel').disable();
+            this.form.get('usuarioResponsavel').disable();
+            this.form.get('distribuicaoAutomatica').disable();
+        } else {
+            if (this.form.get('unidadeResponsavel').value) {
+                this.form.get('setorResponsavel').enable();
+                this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.form.get('unidadeResponsavel').value.id}`;
+                this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
+            } else {
+                this.form.get('setorResponsavel').disable();
+                this.form.get('usuarioResponsavel').disable();
+            }
+
+            if (this.form.get('setorResponsavel')?.value) {
+                this.form.get('usuarioResponsavel').enable();
+                this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
+            } else {
+                this.form.get('usuarioResponsavel').disable();
+            }
+
+            this.form.get('unidadeResponsavel').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
+                        if (value && typeof value === 'object') {
+                            this.form.get('setorResponsavel').enable();
+                            this.form.get('setorResponsavel').reset();
+                            this.form.get('usuarioResponsavel').reset();
+                            this.form.get('usuarioResponsavel').disable();
+                            this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
+                            this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
+
+                            const unidadesId = [];
+
+                            this._profile.lotacoes.forEach((lotacao: Lotacao) => {
+                                unidadesId.push(lotacao.setor.unidade.id);
+                            });
+
+                            if (value.apenasProtocolo && unidadesId.indexOf(value.id) === -1) {
+                                this.form.get('distribuicaoAutomatica').setValue(true);
+                                this.form.get('setorResponsavel').enable();
+                                this.getSetorProtocolo();
+                            }
+
+                            this._changeDetectorRef.markForCheck();
+                        }
+                        return of([]);
+                    }
+                )
+            ).subscribe();
+
+            this.form.get('setorResponsavel').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
+                        delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
+
+                        // criacao normal de tarefa sem distribuicao automatica
+                        if (value && typeof value === 'object' && !this.form.get('distribuicaoAutomatica').value) {
+                            this.form.get('usuarioResponsavel').enable();
+                            this.form.get('usuarioResponsavel').reset();
+                            this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
+                        }
+
+                        // Adiciona contexto para marcar usuários que estão afastados impedindo seleção
+                        this.usuarioResponsavelPagination['context'] = {semAfastamento: true};
+
+                        // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
+                        if (typeof value === 'object' && value && value.apenasDistribuidor) {
+                            const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id === parseInt(value.id, 10));
+                            if (lotacoes.length === 0) {
+                                this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
+                            }
+                        }
+
+                        this._changeDetectorRef.markForCheck();
+
+                        return of([]);
+                    }
+                )
+            ).subscribe();
+
+            this.form.get('distribuicaoAutomatica').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
+                        if (value) {
+                            this.form.get('usuarioResponsavel').disable();
+                        } else {
+                            this.form.get('usuarioResponsavel').enable();
+                        }
+
+                        this.form.get('usuarioResponsavel').reset();
+                        this._changeDetectorRef.markForCheck();
+
+                        return of([]);
+                    }
+                )
+            ).subscribe();
+        }
+
         this.form.get('encerraTarefa').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+                this.form.get('unidadeResponsavel').reset();
+                this.form.get('setorResponsavel').reset();
+                this.form.get('usuarioResponsavel').reset();
+                this.form.get('distribuicaoAutomatica').reset();
+
+                if (!this.atividade?.tarefa?.vinculacaoWorkflow || this.atividade?.tarefa?.vinculacaoWorkflow?.transicaoFinalWorkflow === true) {
+                    this.form.get('unidadeResponsavel').disable();
+                    this.form.get('setorResponsavel').disable();
+                    this.form.get('usuarioResponsavel').disable();
+                    this.form.get('distribuicaoAutomatica').disable();
+                } else if (value) {
+                    this.form.get('unidadeResponsavel').enable();
+                    this.form.get('distribuicaoAutomatica').enable();
+                } else {
+                    this.form.get('unidadeResponsavel').disable();
+                    this.form.get('setorResponsavel').disable();
+                    this.form.get('usuarioResponsavel').disable();
+                    this.form.get('distribuicaoAutomatica').disable();
+                }
+
                 this.changeEncerramentoTarefa.emit(value);
+                this._changeDetectorRef.markForCheck();
                 return of([]);
             })
         ).subscribe();
+
     }
 
     /**
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['atividade'] && this.atividade && (!this.atividade.id || (this.atividade.id !== this.form.get('id').value))) {
+        if (changes['atividade'] && this.atividade && (!this.atividade.id || (this.atividade.tarefa.id !== this.form.get('tarefa').value.id))) {
+            this.form.reset();
             this.form.patchValue({...this.atividade});
             this.form.get('destinacaoMinutas').setValue(this.destinacaoMinutas);
+            this.changeEncerramentoTarefa.emit(this.atividade.encerraTarefa);
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -282,94 +446,44 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.abort.emit();
     }
 
-    checkEspecieAtividade(): void {
-        const value = this.form.get('especieAtividade').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('especieAtividade').setValue(null);
+    getSetorProtocolo(): void {
+        this._setorService.query(
+            JSON.stringify({
+                'unidade.id': `eq:${this.form.get('unidadeResponsavel').value.id}`,
+                'parent': 'isNotNull', 'nome': 'eq:PROTOCOLO'
+            }),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify(['unidade', 'parent'])
+        ).pipe(
+            catchError(() => of([]))
+        ).subscribe(
+            (response) => {
+                response['entities'].forEach((setor) => {
+                    this.form.get('setorResponsavel').setValue(setor);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    checkAutocomplete(formEl: AbstractControl): void {
+        if (!formEl.value || !_.isObject(formEl.value)) {
+            formEl.setValue(null);
         }
     }
 
-    selectEspecieAtividade(especieAtividade: EspecieAtividade): void {
-        if (especieAtividade) {
-            this.form.get('especieAtividade').setValue(especieAtividade);
-        }
-        this.activeCard = 'form';
+    changeActiveCard(activeCard: string): void
+    {
+        this.activeCard = activeCard;
     }
 
-    showEspecieAtividadeGrid(): void {
-        this.activeCard = 'especie-atividade-gridsearch';
-    }
-
-    checkUsuario(): void {
-        const value = this.form.get('usuario').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('usuario').setValue(null);
-        }
-    }
-
-    selectUsuario(usuario: Usuario): void {
-        if (usuario) {
-            this.form.get('usuario').setValue(usuario);
-        }
-        this.activeCard = 'form';
-    }
-
-    showUsuarioGrid(): void {
-        this.activeCard = 'usuario-gridsearch';
-    }
-
-    checkUsuarioAprovacao(): void {
-        const value = this.form.get('usuarioAprovacao').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('usuarioAprovacao').setValue(null);
-        }
-    }
-
-    selectUsuarioAprovacao(usuarioAprovacao: Usuario): void {
-        if (usuarioAprovacao) {
-            this.form.get('usuarioAprovacao').setValue(usuarioAprovacao);
+    selectFormElementValue(formEl:AbstractControl, value: any): void {
+        if (value) {
+            formEl.setValue(value);
         }
         this.activeCard = 'form';
-    }
-
-    showUsuarioAprovacaoGrid(): void {
-        this.activeCard = 'usuario-aprovacao-gridsearch';
-    }
-
-    checkSetorAprovacao(): void {
-        const value = this.form.get('setorAprovacao').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setorAprovacao').setValue(null);
-        }
-    }
-
-    selectSetorAprovacao(setorAprovacao: Setor): void {
-        if (setorAprovacao) {
-            this.form.get('setorAprovacao').setValue(setorAprovacao);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorAprovacaoGrid(): void {
-        this.activeCard = 'setor-aprovacao-gridsearch';
-    }
-
-    selectUnidadeAprovacao(setor: Setor): void {
-        if (setor) {
-            this.form.get('unidadeAprovacao').setValue(setor);
-        }
-        this.activeCard = 'form';
-    }
-
-    checkUnidadeAprovacao(): void {
-        const value = this.form.get('unidadeAprovacao').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('unidadeAprovacao').setValue(null);
-        }
-    }
-
-    showUnidadeAprovacaoGrid(): void {
-        this.activeCard = 'unidade-aprovacao-gridsearch';
     }
 
     cancel(): void {
@@ -480,6 +594,83 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.usuarioAprovacaoList = [];
                 response['entities'].forEach((favorito) => {
                     this.usuarioAprovacaoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUnidadeResponsavel(): void {
+        this.unidadeResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_unidade_responsavel'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.unidadeResponsavelPagination.populate)
+        ).pipe(
+            finalize(() => this.unidadeResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            (response) => {
+                this.unidadeResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.unidadeResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosSetorResponsavel(): void {
+        this.setorResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id +
+                    '_setor_responsavel_unidade_' + this.form.get('unidadeResponsavel').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.setorResponsavelPagination.populate)
+        ).pipe(
+            finalize(() => this.setorResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            (response) => {
+                this.setorResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.setorResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUsuarioResponsavel(): void {
+        this.usuarioResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Usuario',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id +
+                    '_usuario_responsavel_setor_' + this.form.get('setorResponsavel').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.usuarioResponsavelPagination.populate)
+        ).pipe(
+            finalize(() => this.usuarioResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            (response) => {
+                this.usuarioResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.usuarioResponsavelList.push(favorito.objFavoritoClass[0]);
                 });
                 this._changeDetectorRef.markForCheck();
             }

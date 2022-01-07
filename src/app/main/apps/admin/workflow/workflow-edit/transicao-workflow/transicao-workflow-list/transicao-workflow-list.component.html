@@ -11,14 +11,15 @@
     [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [total]="(pagination$ | async)?.total"
-    [displayedColumns]="['id', 'especieTarefaFrom.nome', 'especieAtividade.nome', 'especieTarefaTo.nome', 'actions']"
-    [actions]="['edit', 'create', 'delete', 'regras', 'actions']"
+    [displayedColumns]="['id', 'especieTarefaFrom.nome', 'especieAtividade.nome', 'especieTarefaTo.nome', 'qtdDiasPrazo', 'actions']"
+    [actions]="['edit', 'create', 'delete', 'regras', 'actions', 'sub-workflows']"
     (regras)="regras($event)"
     (cancel)="cancel()"
     (reload)="reload($event)"
     (edit)="edit($event)"
     (create)="create()"
     (acoes)="acoes($event)"
+    (subWorkflows)="subWorkflows($event)"
     (delete)="delete($event)"
     (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-transicao-workflow-grid>

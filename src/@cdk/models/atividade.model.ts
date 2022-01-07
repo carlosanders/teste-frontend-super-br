@@ -45,6 +45,19 @@ export class Atividade {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     tarefa?: Tarefa;
 
+    distribuicaoAutomatica?: boolean;
+
+    @Exclude()
+    unidadeResponsavel?: Setor;
+
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    setorResponsavel?: Setor;
+
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    usuarioResponsavel?: Usuario;
+
     @Type(() => Documento)
     @Transform(value => value ? value.map(d => d.id) : null, { toPlainOnly: true })
     documentos?: Documento[];

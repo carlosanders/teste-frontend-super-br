@@ -50,7 +50,7 @@
         </div>
         <div class="list-card-content-group">
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                {{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.processo?.especieProcesso?.workflow ? ' (Workflow)' : '' }}
+                {{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.vinculacaoWorkflow ? ' (Workflow)' : '' }}
             </div>
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
                 Usuário com acesso negado ao processo

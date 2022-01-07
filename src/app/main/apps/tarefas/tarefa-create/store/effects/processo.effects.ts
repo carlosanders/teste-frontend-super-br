@@ -32,9 +32,7 @@ export class ProcessoEffect {
             JSON.stringify([
                 'populateAll',
                 'especieProcesso', 'especieProcesso.generoProcesso',
-                'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade', 'especieProcesso.workflow.especieTarefaInicial',
-                'tarefaAtualWorkflow', 'tarefaAtualWorkflow.especieTarefa',
-
+                'especieProcesso.vinculacoesEspecieProcessoWorkflow', 'setorAtual', 'setorAtual.unidade', 'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
             ]))),
         switchMap(response => [
             new AddData<Processo>({data: response['entities'], schema: processoSchema}),

@@ -16,11 +16,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getProcesso} from '../../../store';
 import * as moment from 'moment';
-import {LoginService} from '../../../../../auth/login/login.service';
-import {Back, getOperacoes} from '../../../../../../store';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Back, getOperacoes} from 'app/store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
-import * as fromStoreSidebar from "../../../../tarefas/store";
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefa-edit',
@@ -74,7 +73,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
         this.logEntryPagination = new Pagination();
         this.especieTarefaPagination = new Pagination();
-        this.especieTarefaPagination.populate = ['generoTarefa', 'especieProcesso', 'especieProcesso.workflow'];
+        this.especieTarefaPagination.populate = ['generoTarefa', 'especieProcesso'];
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};

@@ -57,7 +57,7 @@ import * as AcervoComponenteDigitalBlocoActions
 import * as AtividadeCreateActions from '../../tarefa-detail/atividades/atividade-create/store/actions';
 import * as AtividadeBlocoCreateActions from '../../atividade-create-bloco/store/actions';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
-import {navigationConverter} from '../../../../../navigation/navigation';
+import {navigationConverter} from 'app/navigation/navigation';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @Injectable()
@@ -132,8 +132,12 @@ export class TarefasEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
-                'processo.especieProcesso.workflow',
-                'workflow'
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
+                'vinculacaoWorkflow',
+                'vinculacaoWorkflow.workflow'
             ];
             let context = {};
             const paramUrl = this.routerState.params['targetHandle'];

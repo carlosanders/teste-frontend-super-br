@@ -10,9 +10,9 @@ import {
     SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-import {EspecieAtividade, EspecieTarefa, Pagination, TransicaoWorkflow} from '../../../models';
+import {Criteria, EspecieAtividade, EspecieTarefa, Pagination, TransicaoWorkflow} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {cdkAnimations} from '../../../animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'cdk-transicao-workflow-form',
@@ -48,6 +48,25 @@ export class CdkTransicaoWorkflowFormComponent implements OnChanges, OnDestroy {
     @Input()
     especieAtividadePagination: Pagination;
 
+    @Input()
+    prazoCriteriaList: Criteria[] = [
+        {
+            ...(new Criteria()),
+            descricao: '5 dias',
+            valor: 5
+        },
+        {
+            ...(new Criteria()),
+            descricao: '10 dias',
+            valor: 10
+        },
+        {
+            ...(new Criteria()),
+            descricao: '15 dias',
+            valor: 15
+        }
+    ];
+
     controlInputTarefa: any;
 
     @Input()
@@ -69,6 +88,8 @@ export class CdkTransicaoWorkflowFormComponent implements OnChanges, OnDestroy {
             especieAtividade: [null, [Validators.required]],
             especieTarefaFrom: [null, [Validators.required]],
             especieTarefaTo: [null, [Validators.required]],
+            qtdDiasPrazo: [null, [Validators.required]],
+
         });
     }
 

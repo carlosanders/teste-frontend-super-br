@@ -6,10 +6,10 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {cdkAnimations} from '@cdk/animations';
 import {Pagination, TransicaoWorkflow, Workflow} from '@cdk/models';
-import {LoginService} from '../../../../../../../auth/login/login.service';
-import {Back, getRouterState} from '../../../../../../../../store';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Back, getRouterState} from 'app/store';
 import {getTransicaoWorkflow} from '../store';
-import {CdkUtils} from '../../../../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {filter} from 'rxjs/operators';
 
 @Component({
@@ -70,6 +70,7 @@ export class TransicaoWorkflowDadosBasicosComponent implements OnInit {
             especieAtividade: [null, [Validators.required]],
             especieTarefaFrom: [null, [Validators.required]],
             especieTarefaTo: [null, [Validators.required]],
+            qtdDiasPrazo: [null, [Validators.required]],
         });
     }
 

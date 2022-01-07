@@ -21,7 +21,7 @@ import {
 } from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {LoginService} from '../../../../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistribuindoId} from '../selectors';
 import {
     DarCienciaTarefa,
@@ -44,19 +44,22 @@ export class TarefaDetailEffect {
         ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
         switchMap((action) => {
             this.populate = action.payload.populate ?? [
-                'populateAll',
+                'processo',
                 'processo.especieProcesso',
                 'processo.especieProcesso.generoProcesso',
                 'processo.modalidadeMeio',
                 'processo.documentoAvulsoOrigem',
-                'processo.especieProcesso.generoProcesso',
-                'processo.especieProcesso.workflow',
-                'processo.especieProcesso.workflow.especieTarefaInicial',
-                'processo.tarefaAtualWorkflow',
-                'processo.tarefaAtualWorkflow.especieTarefa',
+                'especieTarefa',
+                'usuarioResponsavel',
+                'setorResponsavel',
                 'setorResponsavel.unidade',
+                'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
+                'vinculacaoWorkflow',
+                'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta'
             ];
@@ -248,10 +251,12 @@ export class TarefaDetailEffect {
                 'setorOrigem',
                 'setorOrigem.unidade',
                 'especieTarefa.generoTarefa',
+                'vinculacaoWorkflow',
+                'vinculacaoWorkflow.workflow',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta',
-                'processo.especieProcesso.workflow',
-                'workflow'
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                'processo.especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow'
             ]);
             return this._tarefaService.save(action.payload.tarefa, '{}', populate).pipe(
                 map((response) => {

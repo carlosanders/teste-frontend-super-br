@@ -1,0 +1,13 @@
+sub-workflow-edit {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        overflow-y: auto;
+        height: 0;
+        padding: 8px;
+    }
+}

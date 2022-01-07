@@ -15,7 +15,7 @@ import {
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
@@ -47,10 +47,8 @@ export class ProcessoEffect {
                     'origemDados',
                     'especieProcesso',
                     'especieProcesso.generoProcesso',
-                    'especieProcesso.workflow',
-                    'especieProcesso.workflow.especieTarefaInicial',
-                    'tarefaAtualWorkflow',
-                    'tarefaAtualWorkflow.especieTarefa',
+                    'especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                    'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                     'setorAtual',
                     'setorAtual.especieSetor',
                     'vinculacoesEtiquetas',
