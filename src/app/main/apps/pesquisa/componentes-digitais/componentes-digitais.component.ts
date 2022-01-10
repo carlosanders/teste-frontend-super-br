@@ -112,10 +112,7 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         const sidebar = 'empty';
 
         this._router.navigate([
-                'apps/processo/' +
-                $event.componenteDigital.documento?.juntadaAtual?.volume?.processo.id +
-                '/editar/juntadas/listar/documento/' +
-                $event.componenteDigital.documento.id,
+                this.routerState.url + '/documento/' + $event.componenteDigital.documento.id,
                 {
                     outlets: {
                         primary: primary,

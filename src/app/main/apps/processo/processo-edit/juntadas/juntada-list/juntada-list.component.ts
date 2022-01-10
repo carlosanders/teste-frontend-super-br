@@ -182,13 +182,6 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
     }
 
     editar(documento: Documento): void {
-        let primary: string;
-        primary = 'componente-digital/';
-        if (documento.componentesDigitais[0]) {
-            primary += documento.componentesDigitais[0].id;
-        } else {
-            primary += '0';
-        }
         const sidebar = 'editar/dados-basicos';
 
         this._router.navigate([
@@ -196,7 +189,6 @@ export class JuntadaListComponent implements OnInit, OnDestroy {
                 '/documento/' + documento.id,
                 {
                     outlets: {
-                        primary: primary,
                         sidebar: sidebar
                     }
                 }],

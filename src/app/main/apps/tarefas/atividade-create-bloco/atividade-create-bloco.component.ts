@@ -235,6 +235,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadAtividade());
         this._store.dispatch(new fromStore.UnloadDocumentos());
     }
 

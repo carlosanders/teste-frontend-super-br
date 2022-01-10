@@ -19,7 +19,6 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {MercureService} from '@cdk/services/mercure.service';
 import {Back} from '../../../../../store';
-import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';

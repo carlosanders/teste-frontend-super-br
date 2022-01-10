@@ -15,7 +15,7 @@ export const atividadeCreateBlocoReducer = (
 ): AtividadeCreateBlocoState => {
     switch (action.type) {
 
-        case AtividadeCreateBlocoActions.CREATE_ATIVIDADE: {
+        case AtividadeCreateBlocoActions.UNLOAD_ATIVIDADE: {
             return {
                 savingTarefasId: [],
                 errors: false
