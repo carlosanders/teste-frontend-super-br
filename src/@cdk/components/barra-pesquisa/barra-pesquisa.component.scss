@@ -6,6 +6,7 @@
         display: flex;
         flex: 1 0 auto;
         font-size: 13px;
+        background: transparent;
 
         @include media-breakpoint('xs') {
             height: 56px;
