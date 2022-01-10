@@ -2,7 +2,7 @@
 
     <div class="toolbar-element" xFlex fxFill fxLayout="row" fxLayoutAlign="start center">
 
-        <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="end center">
 
             <button mat-icon-button class="navbar-toggle-button"
                     *ngIf="!hiddenNavbar && !rightNavbar" (click)="toggleSidebarOpen('navbar')" fxHide.gt-md>
@@ -16,10 +16,10 @@
                     <img class="logo-icon" [src]="_cdkConfigService.logo">
                 </div>
             </div>
+            <cdk-barra-pesquisa class="mr-8 ml-8 pesquisa-rapida" (inputText)="search($event)" *showIfRole="'ROLE_COLABORADOR'"></cdk-barra-pesquisa>
         </div>
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
-
             <div class="avatar-element" >
                 <button mat-button [matMenuTriggerFor]="userMenu"
                         class="user-button">
@@ -47,10 +47,6 @@
 
                 </mat-menu>
             </div>
-
-            <div class="toolbar-separator"></div>
-
-            <cdk-search-bar class="mr-8 ml-8 pesquisa-rapida" (inputText)="search($event)" *showIfRole="'ROLE_COLABORADOR'"></cdk-search-bar>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
 

@@ -7,6 +7,8 @@ export const SAVE_ATIVIDADE = '[ATIVIDADE CREATE] SAVE ATIVIDADE';
 export const SAVE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE] SAVE ATIVIDADE SUCCESS';
 export const SAVE_ATIVIDADE_FAILED = '[ATIVIDADE CREATE] SAVE ATIVIDADE FAILED';
 
+export const UNLOAD_ATIVIDADE = '[ATIVIDADE CREATE] UNLOAD ATIVIDADE';
+
 /**
  * Save Atividade
  */
@@ -67,9 +69,22 @@ export class CreateAtividadeSuccess implements Action
     }
 }
 
+/**
+ * Unload Atividade
+ */
+export class UnloadAtividade implements Action
+{
+    readonly type = UNLOAD_ATIVIDADE;
+
+    constructor()
+    {
+    }
+}
+
 export type AtividadeCreateActionsAll
     = CreateAtividade
     | CreateAtividadeSuccess
     | SaveAtividade
     | SaveAtividadeSuccess
-    | SaveAtividadeFailed;
+    | SaveAtividadeFailed
+    | UnloadAtividade;

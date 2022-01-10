@@ -1,4 +1,4 @@
-import { Back } from './../../../../../store/actions/router.action';
+import { Back } from '../../../../../store';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -317,7 +317,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             setores: [null],
             setorOrigem: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]],
-            localEvento: [null, [Validators.maxLength(255)]]
+            localEvento: [null, [Validators.maxLength(255)]],
+            tarefaWorkflow: [null, [Validators.required]],
+            workflow: [null, [Validators.required]],
         });
     }
 
@@ -943,13 +945,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     editar(documento: Documento): void {
-        let primary: string;
-        primary = 'componente-digital/';
-        if (documento.componentesDigitais[0]) {
-            primary += documento.componentesDigitais[0].id;
-        } else {
-            primary += '0';
-        }
         const sidebar = 'editar/dados-basicos';
 
         this._router.navigate([
@@ -957,7 +952,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 '/documento/' + documento.id,
                 {
                     outlets: {
-                        primary: primary,
                         sidebar: sidebar
                     }
                 }],

@@ -586,6 +586,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
     }
 
     // -----------------------------------------------------------------------------------------------------

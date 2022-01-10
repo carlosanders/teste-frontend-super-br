@@ -754,3 +754,5 @@
 * Correção na assinatura de minutas por dentro do editor de minutas
 * Correção na assinatura de minutas de tarefas em bloco
 * Correção em bugs na lixeira do painel de minutas
+* Melhoria barra de pesquisa rápida superior sempre aberta
+* Correção na abertura do editor de juntadas quando acessado de dentro do processo-edit

@@ -47,6 +47,13 @@ export const atividadeCreateReducer = (
             };
         }
 
+        case AtividadeCreateActions.UNLOAD_ATIVIDADE: {
+            return {
+                saving: false,
+                errors: false
+            };
+        }
+
         default:
             return state;
     }

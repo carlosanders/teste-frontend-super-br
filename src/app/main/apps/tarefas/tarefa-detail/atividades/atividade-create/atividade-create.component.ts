@@ -24,7 +24,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import * as fromStoreTarefaDetail from '../../store';
 import {getTarefa} from '../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -321,6 +321,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadAtividade());
         this._store.dispatch(new fromStore.UnloadDocumentos());
     }
 
