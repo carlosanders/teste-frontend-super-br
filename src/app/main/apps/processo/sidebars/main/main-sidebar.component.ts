@@ -122,112 +122,122 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
         this.linksEdit = [];
 
-        const pathEdit = 'app/main/apps/processo/processo-edit/sidebars/main';
+        if (!this.routerState.url.includes('dados-basicos-steps')) {
+            const pathEdit = 'app/main/apps/processo/processo-edit/sidebars/main';
 
-        modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(pathEdit)) {
-                module.sidebars[pathEdit].forEach((s => this.linksEdit.push(s)));
-            }
-        });
+            modulesConfig.forEach((module) => {
+                if (module.sidebars.hasOwnProperty(pathEdit)) {
+                    module.sidebars[pathEdit].forEach((s => this.linksEdit.push(s)));
+                }
+            });
 
-        this.linksEdit.push(
-            {
-                index: 10,
-                nome: 'Dados Básicos',
-                link: 'editar/dados-basicos',
-            },
-            {
-                index: 20,
-                nome: 'Assuntos',
-                link: 'editar/assuntos'
-            },
-            {
-                index: 30,
-                nome: 'Interessados',
-                link: 'editar/interessados'
-            },
-            {
-                index: 40,
-                nome: 'Volumes',
-                link: 'editar/volumes',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 50,
-                nome: 'Juntadas',
-                link: 'editar/juntadas',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 60,
-                nome: 'Vinculações',
-                link: 'editar/vinculacoes-processos',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 70,
-                nome: 'Relevâncias',
-                link: 'editar/relevancias',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 80,
-                nome: 'Sigilos',
-                link: 'editar/sigilos',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 90,
-                nome: 'Restrições de Acesso',
-                link: 'editar/acessos',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 110,
-                nome: 'Tarefas',
-                link: 'editar/tarefas',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 120,
-                nome: 'Ofícios',
-                link: 'editar/oficios',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 130,
-                nome: 'Remessas',
-                link: 'editar/remessas',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 140,
-                nome: 'Temporalidades e Destinações',
-                link: 'editar/transicoes',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 150,
-                nome: 'Tramitações',
-                link: 'editar/tramitacoes',
-                role: 'ROLE_COLABORADOR',
-                canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
-                    filter(processo => !!processo),
-                    switchMap((processo) => {
-                        if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
-                            return of(false);
-                        }
-                        return of(true);
-                    })
-                )
-            },
-            {
-                index: 160,
-                nome: 'Histórico',
-                link: 'editar/historico',
-                role: 'ROLE_COLABORADOR'
-            }
-        );
+            this.linksEdit.push(
+                {
+                    index: 10,
+                    nome: 'Dados Básicos',
+                    link: 'editar/dados-basicos',
+                },
+                {
+                    index: 20,
+                    nome: 'Assuntos',
+                    link: 'editar/assuntos'
+                },
+                {
+                    index: 30,
+                    nome: 'Interessados',
+                    link: 'editar/interessados'
+                },
+                {
+                    index: 40,
+                    nome: 'Volumes',
+                    link: 'editar/volumes',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 50,
+                    nome: 'Juntadas',
+                    link: 'editar/juntadas',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 60,
+                    nome: 'Vinculações',
+                    link: 'editar/vinculacoes-processos',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 70,
+                    nome: 'Relevâncias',
+                    link: 'editar/relevancias',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 80,
+                    nome: 'Sigilos',
+                    link: 'editar/sigilos',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 90,
+                    nome: 'Restrições de Acesso',
+                    link: 'editar/acessos',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 110,
+                    nome: 'Tarefas',
+                    link: 'editar/tarefas',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 120,
+                    nome: 'Ofícios',
+                    link: 'editar/oficios',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 130,
+                    nome: 'Remessas',
+                    link: 'editar/remessas',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 140,
+                    nome: 'Temporalidades e Destinações',
+                    link: 'editar/transicoes',
+                    role: 'ROLE_COLABORADOR'
+                },
+                {
+                    index: 150,
+                    nome: 'Tramitações',
+                    link: 'editar/tramitacoes',
+                    role: 'ROLE_COLABORADOR',
+                    canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
+                        filter(processo => !!processo),
+                        switchMap((processo) => {
+                            if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+                                return of(false);
+                            }
+                            return of(true);
+                        })
+                    )
+                },
+                {
+                    index: 160,
+                    nome: 'Histórico',
+                    link: 'editar/historico',
+                    role: 'ROLE_COLABORADOR'
+                }
+            );
+        } else {
+            this.linksEdit.push(
+                {
+                    index: 10,
+                    nome: 'Dados Básicos',
+                    link: 'editar/dados-basicos-steps/' + this.routerState.params['generoHandle'],
+                }
+            );
+        }
 
         this.links = [
             {

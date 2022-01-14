@@ -24,10 +24,13 @@
                 <span>{{link.nome | titlecase}}</span>
                 <mat-icon class="collapsable-arrow" *ngIf="link.type === 'collapsable'">keyboard_arrow_right</mat-icon>
             </a>
-            <div class="children" [@slideInOut]="isOpenEditar">
+            <div class="children"
+                 *ngIf="(link.canShow === undefined || (link.canShow(this.processo$) | async) === true) && this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))"
+                 [@slideInOut]="isOpenEditar">
                 <div class="nav-item" *ngFor="let item of link.children">
                     <a class="nav-link" matRipple
                        *ngIf="(item.canShow === undefined || (item.canShow(this.processo$) | async) === true) && (item.role === undefined || this._loginService.isGranted(item.role))"
+                       (click)="fecharSidebar()"
                        [routerLink]="[item.link]" [routerLinkActive]="['active', 'accent']"
                        [routerLinkActiveOptions]="{exact: false}">
                         <span>{{item.nome | titlecase}}</span>
