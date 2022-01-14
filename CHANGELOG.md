@@ -756,3 +756,6 @@
 * Correção em bugs na lixeira do painel de minutas
 * Melhoria barra de pesquisa rápida superior sempre aberta
 * Correção na abertura do editor de juntadas quando acessado de dentro do processo-edit
+* Correção na lixeira de minutas dentro do painel de minutas
+* Correção na exibição de conteúdo de uma juntada desentranhada por dentro do visualizador de processo
+* Melhoria na barra lateral de processos, exibindo o botão editar como um botão colapsável com todas as opções de edição do processo

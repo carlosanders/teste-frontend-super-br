@@ -36,7 +36,7 @@ import {
 } from '@cdk/components/bookmark/cdk-bookmark-edit-dialog/cdk-bookmark-edit-dialog.component';
 import {Bookmark} from '@cdk/models/bookmark.model';
 import {CdkUtils} from '@cdk/utils';
-import {SharedBookmarkService} from "../../../../../@cdk/services/shared-bookmark.service";
+import {SharedBookmarkService} from '../../../../../@cdk/services/shared-bookmark.service';
 
 @Component({
     selector: 'processo-view',
@@ -117,9 +117,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     unsafe = false;
 
     bookmarkDialogRef: MatDialogRef<CdkBookmarkEditDialogComponent>;
+    isBookmark = false;
 
     private _unsubscribeAll: Subject<any> = new Subject();
-    isBookmark = false;
 
     /**
      * @param _juntadaService
@@ -149,7 +149,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     ) {
         pdfDefaultOptions.ignoreDestinationZoom = true;
         pdfDefaultOptions.assetsFolder = 'bleeding-edge';
-        
+
         if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
             this._cdkSidebarService.unregister(this.sidebarName);
         }
@@ -234,6 +234,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 if (this.currentJuntada && this.currentJuntada.documento.componentesDigitais.length === 0) {
                     this.srcMessage = 'Não há componentes digitais';
                 }
+                if (this.currentJuntada && !this.currentJuntada.ativo) {
+                    this.srcMessage = 'Juntada desentranhada do processo';
+                }
             }
 
             if (this.routerState && this.routerState?.queryParams?.pagina &&
@@ -245,11 +248,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 !(this.currentJuntada?.documento?.componentesDigitais.some(i => i.id === this.componenteDigital.id)) &&
                 this.currentJuntada?.documento?.vinculacoesDocumentos.length > 0) {
                   this.currentJuntada?.documento?.vinculacoesDocumentos.map((d) => {
-                      (d?.documentoVinculado?.componentesDigitais.map(c => {
+                      (d?.documentoVinculado?.componentesDigitais.map((c) => {
                           if (c.id === this.componenteDigital.id) {
                               SharedBookmarkService.juntadaAtualSelect = d.documentoVinculado.juntadaAtual;
                           }
-                      }))
+                      }));
                     });
             } else {
                 SharedBookmarkService.juntadaAtualSelect = SharedBookmarkService.modeBookmark ?

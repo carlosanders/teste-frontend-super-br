@@ -24,11 +24,11 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
     @HostBinding('class.open')
     public isOpen = false;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
-
     isGrantedRole: boolean;
     isCoordenador: boolean;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
     /**
      *

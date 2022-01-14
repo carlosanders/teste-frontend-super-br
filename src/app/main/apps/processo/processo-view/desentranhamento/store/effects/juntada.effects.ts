@@ -7,6 +7,7 @@ import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewDesentranhamentoActions from '../actions';
+import * as ProcessoViewActions from '../../../store/actions';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
@@ -20,8 +21,91 @@ import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 
 @Injectable()
 export class JuntadaEffects {
-
     routerState: any;
+
+    /**
+     * Get Juntada with router parameters
+     *
+     * @type {Observable<any>}
+     */
+    getJuntada: any = createEffect(() => this._actions
+        .pipe(
+            ofType<ProcessoViewDesentranhamentoActions.GetJuntada>(ProcessoViewDesentranhamentoActions.GET_JUNTADA),
+            mergeMap(action => this._juntadaService.get(
+                action.payload.id,
+                JSON.stringify([
+                    'volume',
+                    'volume.processo',
+                    'documento',
+                    'documento.componentesDigitais',
+                    'documento.vinculacoesDocumentos',
+                    'documento.tipoDocumento',
+                    'documento.vinculacaoDocumentoPrincipal'
+                ])
+            ).pipe(
+                mergeMap(response => [
+                    new AddData<Juntada>({data: [response], schema: juntadaSchema}),
+                    new ProcessoViewDesentranhamentoActions.GetJuntadaSuccess({
+                        juntadaId: response.id,
+                        loaded: {
+                            id: 'juntadaHandle',
+                            value: this.routerState.params.juntadaHandle
+                        }
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoViewDesentranhamentoActions.GetJuntadaFailed(err));
+                    return caught;
+                })
+            ))
+        ));
+
+    /**
+     * Save Desentranhamento
+     *
+     * @type {Observable<any>}
+     */
+    saveDesentranhamento: any = createEffect(() => this._actions
+        .pipe(
+            ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamento>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO),
+            switchMap(action => this._desentranhamentoService.save(action.payload.desentranhamento).pipe(
+                mergeMap((response: Desentranhamento) => [
+                    new AddData<Desentranhamento>({data: [response], schema: desentranhamentoSchema}),
+                    new UpdateData<Juntada>({
+                        id: action.payload.desentranhamento.juntada.id,
+                        schema: juntadaSchema,
+                        changes: {ativo: false}
+                    }),
+                    new ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess(action.payload.desentranhamento.juntada.id)
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new ProcessoViewDesentranhamentoActions.SaveDesentranhamentoFailed(err));
+                })
+            ))
+        ));
+
+    /**
+     * Save Desentranhamento Success
+     */
+    saveDesentranhamentoSuccess: any = createEffect(() => this._actions
+            .pipe(
+                ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO_SUCCESS),
+                tap(() => {
+                    this._router.navigate([
+                        this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '')
+                    ]).then(() => {
+                        const steps = this.routerState.params['stepHandle'].split('-');
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                            step: steps[0],
+                            subStep: steps[1]
+                        }));
+                    });
+                })
+            ),
+        {dispatch: false}
+    );
 
     constructor(
         private _actions: Actions,
@@ -37,86 +121,4 @@ export class JuntadaEffects {
             this.routerState = routerState.state;
         });
     }
-
-    /**
-     * Get Juntada with router parameters
-     *
-     * @type {Observable<any>}
-     */
-    getJuntada: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<ProcessoViewDesentranhamentoActions.GetJuntada>(ProcessoViewDesentranhamentoActions.GET_JUNTADA),
-                mergeMap(action => this._juntadaService.get(
-                    action.payload.id,
-                    JSON.stringify([
-                        'volume',
-                        'volume.processo',
-                        'documento',
-                        'documento.componentesDigitais',
-                        'documento.vinculacoesDocumentos',
-                        'documento.tipoDocumento',
-                        'documento.vinculacaoDocumentoPrincipal'
-                    ])
-                ).pipe(
-                    mergeMap(response => [
-                        new AddData<Juntada>({data: [response], schema: juntadaSchema}),
-                        new ProcessoViewDesentranhamentoActions.GetJuntadaSuccess({
-                            juntadaId: response.id,
-                            loaded: {
-                                id: 'juntadaHandle',
-                                value: this.routerState.params.juntadaHandle
-                            }
-                        })
-                    ]),
-                    catchError((err, caught) => {
-                        console.log(err);
-                        this._store.dispatch(new ProcessoViewDesentranhamentoActions.GetJuntadaFailed(err));
-                        return caught;
-                    })
-                ))
-            );
-    });
-
-    /**
-     * Save Desentranhamento
-     *
-     * @type {Observable<any>}
-     */
-    saveDesentranhamento: any = createEffect(() => {
-        return this._actions
-            .pipe(
-                ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamento>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO),
-                switchMap(action => {
-                    return this._desentranhamentoService.save(action.payload.desentranhamento).pipe(
-                        mergeMap((response: Desentranhamento) => [
-                            new ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess(),
-                            new AddData<Desentranhamento>({data: [response], schema: desentranhamentoSchema}),
-                            new UpdateData<Juntada>({
-                                id: action.payload.desentranhamento.juntada.id,
-                                schema: juntadaSchema,
-                                changes: {ativo: false}
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new ProcessoViewDesentranhamentoActions.SaveDesentranhamentoFailed(err));
-                        })
-                    )
-                })
-            );
-    });
-
-    /**
-     * Save Desentranhamento Success
-     */
-    saveDesentranhamentoSuccess: any = createEffect(() => this._actions
-            .pipe(
-                ofType<ProcessoViewDesentranhamentoActions.SaveDesentranhamentoSuccess>(ProcessoViewDesentranhamentoActions.SAVE_DESENTRANHAMENTO_SUCCESS),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('desentranhar/' + this.routerState.params.juntadaHandle), '')]).then();
-                })
-            ),
-        {dispatch: false}
-    );
 }

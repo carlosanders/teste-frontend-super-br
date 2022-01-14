@@ -249,8 +249,8 @@ export class ProcessoViewEffect {
                 return of(null);
             } else {
                 const juntada = juntadas[currentStep.step];
-                if (juntada.documento.acessoNegado) {
-                    // temos documento com acesso negado
+                if (juntada.documento.acessoNegado || !juntada.ativo) {
+                    // temos documento com acesso negado ou desentranhado
                     return of(null);
                 }
                 // temos componente digital, vamos pega-lo
