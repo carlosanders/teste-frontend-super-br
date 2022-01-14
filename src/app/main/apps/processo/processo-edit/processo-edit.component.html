@@ -2,23 +2,6 @@
 
     <!-- CENTER -->
     <div class="center">
-        <!-- CONTENT HEADER -->
-        <div class="header">
-            <div class="sidebar-toggle">
-                <button mat-icon-button
-                        *ngIf="routerState.url.indexOf('apps/processo') > -1 && routerState.params.processoHandle && routerState.params.processoHandle !== 'criar'"
-                        (click)="toggleSidebar('processo-edit-main-sidebar')" fxHide.gt-md>
-                    <mat-icon>menu</mat-icon>
-                </button>
-
-                <button mat-icon-button
-                        *ngIf="routerState.url.indexOf('apps/processo') === -1 && routerState.params.processoHandle && routerState.params.processoHandle !== 'criar'"
-                        (click)="toggleSidebar('processo-edit-main-sidebar')" fxHide.gt-xl>
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </div>
-        </div>
-        <!-- / CONTENT HEADER -->
         <div class="m-8" *ngIf="this.processo?.id && this.processo?.origemDados">
             <mat-card *showIfRole="'ROLE_COLABORADOR'">
                 <mat-card-subtitle>Integração</mat-card-subtitle>
