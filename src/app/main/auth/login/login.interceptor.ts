@@ -22,7 +22,6 @@ export class LoginInterceptor implements HttpInterceptor {
     loadingConfig$: Observable<boolean>;
     loadingConfig: boolean;
     loading$: Subject<boolean> = new Subject<boolean>();
-    certificadoDigital = '';
     errorMessage$: Observable<any>;
 
     loginError: any;
@@ -55,10 +54,6 @@ export class LoginInterceptor implements HttpInterceptor {
         this.token$ = this.store.pipe(select(getToken));
 
         this.store.pipe(select(getRouterState)).subscribe(state => this.routerState = state?.state);
-
-        if (environment.base_url_x509) {
-            this.certificadoDigital = environment.base_url_x509;
-        }
 
         this.token$
             .pipe(
@@ -156,7 +151,6 @@ export class LoginInterceptor implements HttpInterceptor {
                 loading$: this.loading$,
                 config$: this.config$,
                 loadingConfig$: this.loadingConfig$,
-                certificadoDigital: this.certificadoDigital,
                 errorMessage$: this.errorMessage$,
                 username: this.loginService.getUserProfile()?.username
             },

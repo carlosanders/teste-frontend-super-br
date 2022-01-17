@@ -1,56 +1,15 @@
 import {Action} from '@ngrx/store';
 
-export const GET_DOCUMENTOS = '[TAREFA LIST] GET DOCUMENTOS';
-export const GET_DOCUMENTOS_SUCCESS = '[TAREFA LIST] GET DOCUMENTOS SUCCESS';
-export const GET_DOCUMENTOS_FAILED = '[TAREFA LIST] GET DOCUMENTOS FAILED';
+export const ASSINA_DOCUMENTO = '[TAREFAS] ASSINA DOCUMENTO';
+export const ASSINA_DOCUMENTO_SUCCESS = '[TAREFAS] ASSINA DOCUMENTO SUCCESS';
+export const ASSINA_DOCUMENTO_FAILED = '[TAREFAS] ASSINA DOCUMENTO FAILED';
 
-export const ASSINA_DOCUMENTO = '[TAREFA LIST] ASSINATURA DOCUMENTO';
-export const ASSINA_DOCUMENTO_SUCCESS = '[TAREFA LIST] ASSINA DOCUMENTO SUCCESS';
-export const ASSINA_DOCUMENTO_FAILED = '[TAREFA LIST] ASSINA DOCUMENTO FAILED';
+export const PREPARA_ASSINATURA_SUCCESS = '[TAREFAS] PREPARA ASSINATURA SUCCESS';
+export const PREPARA_ASSINATURA_FAILED = '[TAREFAS] PREPARA ASSINATURA FAILED';
 
-export const PREPARA_ASSINATURA_SUCCESS = '[TAREFA LIST] PREPARA ASSINATURA SUCCESS';
-export const PREPARA_ASSINATURA_FAILED = '[TAREFA LIST] PREPARA ASSINATURA FAILED';
-
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[TAREFA LIST] ASSINA DOCUMENTO ELETRONICAMENTE';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[TAREFA LIST] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
-export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[TAREFA LIST] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
-
-
-/**
- * Get Documentos
- */
-export class GetDocumentos implements Action
-{
-    readonly type = GET_DOCUMENTOS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Get Documentos Success
- */
-export class GetDocumentosSuccess implements Action
-{
-    readonly type = GET_DOCUMENTOS_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Get Documentos Failed
- */
-export class GetDocumentosFailed implements Action
-{
-    readonly type = GET_DOCUMENTOS_FAILED;
-
-    constructor(public payload: string)
-    {
-    }
-}
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[TAREFAS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
 /**
  * AssinaDocumento
@@ -149,10 +108,7 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
 }
 
 export type AssinaturasActionsAll
-    = GetDocumentos
-    | GetDocumentosSuccess
-    | GetDocumentosFailed
-    | AssinaDocumento
+    = AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
     | PreparaAssinaturaSuccess

@@ -6,12 +6,15 @@ export interface AtividadeCreateState {
     errors: any;
 }
 
-export const AtividadeCreateInitialState: AtividadeCreateState = {
+export const atividadeCreateInitialState: AtividadeCreateState = {
     saving: false,
     errors: false
 };
 
-export function AtividadeCreateReducer(state = AtividadeCreateInitialState, action: AtividadeCreateActions.AtividadeCreateActionsAll): AtividadeCreateState {
+export const atividadeCreateReducer = (
+    state = atividadeCreateInitialState,
+    action: AtividadeCreateActions.AtividadeCreateActionsAll
+): AtividadeCreateState => {
     switch (action.type) {
 
         case AtividadeCreateActions.CREATE_ATIVIDADE: {
@@ -44,7 +47,14 @@ export function AtividadeCreateReducer(state = AtividadeCreateInitialState, acti
             };
         }
 
+        case AtividadeCreateActions.UNLOAD_ATIVIDADE: {
+            return {
+                saving: false,
+                errors: false
+            };
+        }
+
         default:
             return state;
     }
-}
+};

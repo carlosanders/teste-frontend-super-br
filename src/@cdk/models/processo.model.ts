@@ -14,7 +14,6 @@ import {
     OrigemDados,
     Pessoa,
     Setor,
-    Tarefa,
     Usuario
 } from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
@@ -197,11 +196,6 @@ export class Processo {
     @Type(() => Interessado)
     interessados: Interessado[];
 
-    @Exclude({toPlainOnly: true})
-    @Type(() => Tarefa)
-    @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    tarefaAtualWorkflow?: Tarefa;
-
     alterarChave?: boolean;
 
     @Exclude({ toPlainOnly: true })
@@ -253,7 +247,6 @@ export class Processo {
         this.requerimento = null;
         this.protocoloEletronico = null;
         this.any = null;
-        this.tarefaAtualWorkflow = null;
         this.configuracaoNup = null;
         this.validaNup = null;
         this.alterarChave = null;

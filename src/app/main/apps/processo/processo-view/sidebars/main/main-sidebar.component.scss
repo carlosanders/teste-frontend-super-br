@@ -151,6 +151,10 @@ processo-view-main-sidebar {
         display: flex;
         flex-direction: column;
 
+        mat-expansion-panel.minutas-tarefa {
+            display: none;
+        }
+
         .minutas {
             max-height: 155px;
             overflow-y: auto;
@@ -211,6 +215,18 @@ processo-view-main-sidebar {
                 .drag-juntada.dndDraggingSource {
                     cursor: no-drop !important;
                 }
+            }
+        }
+
+        > .bookmarks {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            height: 0;
+            overflow-y: auto;
+
+            .place-holder {
+                display: none;
             }
         }
 
@@ -754,6 +770,27 @@ processo-view-main-sidebar {
             .criado-em {
                 font-style: italic;
                 font-size: 10px;
+            }
+
+            .tipo-documento {
+                .index-vinculado {
+                    display: flex;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 25px;
+                        min-width: 25px;
+                        max-width: 25px;
+                        height: 25px;
+                        border-radius: 100%;
+                        font-size: 11px;
+                        border: 1px solid;
+                        font-weight: bold;
+                        z-index: 10;
+                    }
+                }
             }
         }
 

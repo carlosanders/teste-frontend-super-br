@@ -21,6 +21,7 @@ import {CdkEspecieProcessoGridsearchModule} from '../../especie-processo/cdk-esp
 import {CdkEspecieTarefaGridsearchModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
 import {CdkEspecieAtividadeAutocompleteModule} from '../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
 import {CdkEspecieAtividadeGridsearchModule} from '../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     declarations: [CdkTransicaoWorkflowFormComponent],
@@ -48,7 +49,8 @@ import {CdkEspecieAtividadeGridsearchModule} from '../../especie-atividade/cdk-e
         CdkEspecieProcessoGridsearchModule,
         CdkEspecieTarefaGridsearchModule,
         CdkEspecieAtividadeAutocompleteModule,
-        CdkEspecieAtividadeGridsearchModule
+        CdkEspecieAtividadeGridsearchModule,
+        MatSelectModule
     ]
 })
 export class CdkTransicaoWorkflowFormModule { }

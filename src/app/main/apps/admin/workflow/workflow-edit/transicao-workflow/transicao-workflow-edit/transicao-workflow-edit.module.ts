@@ -34,6 +34,10 @@ const routes: Routes = [
                     .then(m => m.AcaoTransicaoWorkflowModule)
             },
             {
+                path: 'sub-workflows',
+                loadChildren: () => import('./sub-workflow/sub-workflow.module').then(m => m.SubWorkflowModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'dados-basicos'
             }

@@ -113,7 +113,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         ).subscribe((processo) => {
             this.processo = processo;
 
-            if (this.processo && this.processo.especieProcesso?.workflow) {
+            if (this.processo && this.processo.especieProcesso?.vinculacoesEspecieProcessoWorkflow) {
                 this.estaNumProcessoWorkflow = 'SIM';
             } else {
                 this.estaNumProcessoWorkflow = 'NÃO';

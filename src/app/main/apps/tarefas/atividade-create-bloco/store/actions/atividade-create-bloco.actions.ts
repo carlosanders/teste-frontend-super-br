@@ -1,7 +1,6 @@
 import {Action} from '@ngrx/store';
 
-export const CREATE_ATIVIDADE = '[ATIVIDADE CREATE BLOCO] CREATE ATIVIDADE';
-export const CREATE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE BLOCO] CREATE ATIVIDADE SUCCESS';
+export const UNLOAD_ATIVIDADE = '[ATIVIDADE CREATE BLOCO] UNLOAD ATIVIDADE';
 
 export const SAVE_ATIVIDADE = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE';
 export const SAVE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE SUCCESS';
@@ -44,23 +43,11 @@ export class SaveAtividadeFailed implements Action
 }
 
 /**
- * Create Atividade
+ * Unload Atividade
  */
-export class CreateAtividade implements Action
+export class UnloadAtividade implements Action
 {
-    readonly type = CREATE_ATIVIDADE;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Create Atividade Success
- */
-export class CreateAtividadeSuccess implements Action
-{
-    readonly type = CREATE_ATIVIDADE_SUCCESS;
+    readonly type = UNLOAD_ATIVIDADE;
 
     constructor()
     {
@@ -68,8 +55,7 @@ export class CreateAtividadeSuccess implements Action
 }
 
 export type AtividadeCreateBlocoActionsAll
-    = CreateAtividade
-    | CreateAtividadeSuccess
+    = UnloadAtividade
     | SaveAtividade
     | SaveAtividadeSuccess
     | SaveAtividadeFailed;

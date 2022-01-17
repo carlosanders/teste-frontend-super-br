@@ -70,14 +70,11 @@ export class ComponentesDigitaisEffects {
                 content: `Componente Digital id ${response.id} criado com sucesso!`,
                 status: 1, // sucesso
             }))),
-            tap(() => {
-                this._store.dispatch(new GetDocumentos());
-                this._store.dispatch(new fromStoreTarefaDetail.GetTarefa({
-                    id: this.routerState.params['tarefaHandle']
-                }));
-            }),
             mergeMap((response: ComponenteDigital) => [
-                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
+                new ComponenteDigitalActions.SaveComponenteDigitalSuccess({
+                    componenteDigital: response,
+                    tarefa: action.payload.componenteDigital.tarefaOrigem
+                }),
                 new ComponenteDigitalActions.GetDocumento({
                     componenteDigitalId: response.id,
                     routeTarefa: action.payload.routeTarefa,

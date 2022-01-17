@@ -16,13 +16,12 @@ import {Assinatura, Atividade, Colaborador, ComponenteDigital, Documento, Pagina
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
+import * as AssinaturaStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {getMercureState, getOperacoes, getRouterState} from 'app/store';
+import {getOperacoes, getRouterState} from 'app/store';
 import {Router} from '@angular/router';
-import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../store';
+import {Back} from 'app/store';
 import {getSelectedTarefas} from '../store';
 import {getProcessosIdsEncaminhar} from '../encaminhamento-bloco/store';
 import {CdkUtils} from '@cdk/utils';
@@ -65,6 +64,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     routerState: any;
 
     documentos$: Observable<Documento[]>;
+    documentos: Documento[] = [];
     minutas: Documento[] = [];
     oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
@@ -74,16 +74,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     disabledIds: number[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
-    assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     downloadP7SDocumentosId$: Observable<number[]>;
-    javaWebStartOK = false;
 
     especieAtividadePagination: Pagination;
-
-    assinaturaInterval = null;
 
     encerraTarefa: boolean;
 
@@ -123,7 +119,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             tarefa: [null],
             unidadeAprovacao: [null, [Validators.required]],
             setorAprovacao: [null, [Validators.required]],
-            usuarioAprovacao: [null, [Validators.required]]
+            usuarioAprovacao: [null, [Validators.required]],
+            unidadeResponsavel: [null, [Validators.required]],
+            setorResponsavel: [null, [Validators.required]],
+            usuarioResponsavel: [null],
+            distribuicaoAutomatica: [null],
         });
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
         this.processosIdsEncaminhar$ = this._store.pipe(select(getProcessosIdsEncaminhar));
@@ -144,10 +144,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoIds));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosAssinandoIds));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
-        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(AssinaturaStore.getDocumentosRemovendoAssinaturaIds));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
 
         this.especieAtividadePagination = new Pagination();
@@ -195,48 +195,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
                 }
 
-                // caso tarefa seja de workflow verificar espécies permitidas
-                this.especieAtividadePagination['context'] = {};
-                if (tarefas[0].workflow) {
-                    this.especieAtividadePagination.filter = {
-                        'transicoesWorkflow.workflow.id': 'eq:' + tarefas[0].workflow.id
-                    };
-                    this.especieAtividadePagination['context'] = {tarefaId: tarefas[0].id};
-                }
+                this.verificaFilterWorkflow();
             } else if (this.processosIdsEncaminhar.length > 0) {
                 // tslint:disable-next-line:max-line-length
                 // eslint-disable-next-line max-len
                 this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/encaminhamento-bloco']).then();
-            }
-        });
-
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((message) => {
-            if (message && message.type === 'assinatura') {
-                switch (message.content.action) {
-                    case 'assinatura_iniciada':
-                        this.javaWebStartOK = true;
-                        break;
-                    case 'assinatura_cancelada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_erro':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                        break;
-                    case 'assinatura_finalizada':
-                        this.javaWebStartOK = false;
-                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                        this._store.dispatch(new UpdateData<Documento>({
-                            id: message.content.documentoId,
-                            schema: documentoSchema,
-                            changes: {assinado: true}
-                        }));
-                        break;
-                }
             }
         });
 
@@ -252,6 +215,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe((documentos) => {
+            this.documentos = documentos;
             this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
             this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
 
@@ -262,27 +226,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
             this._changeDetectorRef.markForCheck();
         });
-
-        this.assinandoDocumentosId$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((assinandoDocumentosId) => {
-            if (assinandoDocumentosId.length > 0) {
-                if (this.assinaturaInterval) {
-                    clearInterval(this.assinaturaInterval);
-                }
-                this.assinaturaInterval = setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            } else {
-                clearInterval(this.assinaturaInterval);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
-        });
     }
 
     /**
@@ -292,6 +235,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(true);
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadAtividade());
         this._store.dispatch(new fromStore.UnloadDocumentos());
     }
 
@@ -319,6 +263,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             atividade.usuario = tarefa.usuarioResponsavel;
             atividade.setor = tarefa.setorResponsavel;
 
+            if (tarefa.vinculacaoWorkflow) {
+                atividade.setorResponsavel = tarefa.setorResponsavel
+                atividade.usuarioResponsavel = tarefa.usuarioResponsavel
+            }
+
             if (atividade.encerraTarefa) {
                 atividade.documentos = this.minutas.filter(minuta => minuta.tarefaOrigem.id === tarefa.id);
             } else {
@@ -334,12 +283,40 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         });
     }
 
+    verificaFilterWorkflow(): void {
+        if (this.tarefas.length) {
+            let tarefasWorkflow = this.tarefas.filter((tarefa: Tarefa)=> tarefa.vinculacaoWorkflow)
+            this.especieAtividadePagination['context'] = {};
+            if (tarefasWorkflow.length && tarefasWorkflow[0].vinculacaoWorkflow?.transicaoFinalWorkflow !== true && this.atividade.encerraTarefa) {
+                this.form.get('especieAtividade').setValue(null);
+                // caso tarefa seja de workflow verificar espécies permitidas
+                this.especieAtividadePagination.filter = {
+                    orX: [
+                        {'transicoesWorkflow.workflow.id': 'eq:' + tarefasWorkflow[0].vinculacaoWorkflow.workflow.id},
+                        {
+                            'transicoesWorkflow.workflow.id': 'isNull',
+                            'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefasWorkflow[0].especieTarefa.generoTarefa.nome.toUpperCase()
+                        },
+                    ]
+                };
+
+                this.especieAtividadePagination['context'] = {tarefaId: tarefasWorkflow[0].id};
+            }  else {
+                if (this.tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+                } else {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
+                }
+            }
+        }
+    }
+
     upload(): void {
         this.cdkUpload.upload();
     }
 
     modelo(): void {
-        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
+        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelos/modelo']).then();
     }
 
     oficio(): void {
@@ -351,7 +328,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     }
 
     doRemoveAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+        this._store.dispatch(new AssinaturaStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     doAlterarTipoDocumento(values): void {
@@ -360,9 +337,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     doDelete(documentoId, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
+        const documento = this.documentos.find(doc => doc.id === documentoId);
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documentoId,
             operacaoId: operacaoId,
+            tarefaId: documento.tarefaOrigem.id,
             loteId: loteId,
         }));
     }
@@ -382,7 +361,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             result.documentos.forEach((documento) => {
                 documentosId.push(documento.id);
             });
-            this._store.dispatch(new fromStore.AssinaDocumento(documentosId));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento(documentosId));
         } else {
             const lote = CdkUtils.makeId();
             result?.documentos?.forEach((documento) => {
@@ -396,7 +375,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     const operacaoId = CdkUtils.makeId();
-                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
                         documento: documento,
                         operacaoId: operacaoId,
@@ -409,7 +388,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     doAssinatura(result): void {
         if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento([result.documento.id]));
+            this._store.dispatch(new AssinaturaStore.AssinaDocumento([result.documento.id]));
         } else {
             result?.documento?.componentesDigitais.forEach((componenteDigital) => {
                 const assinatura = new Assinatura();
@@ -421,7 +400,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 assinatura.plainPassword = result.plainPassword;
 
                 const operacaoId = CdkUtils.makeId();
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                this._store.dispatch(new AssinaturaStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
                     documento: result.documento,
                     operacaoId: operacaoId
@@ -457,6 +436,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         } else {
             this.disabledIds = [];
         }
+        this.verificaFilterWorkflow();
     }
 
     doAbort(): void {

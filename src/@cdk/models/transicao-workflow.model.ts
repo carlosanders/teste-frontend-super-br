@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
 import {EspecieAtividade, EspecieTarefa, Usuario, Workflow} from '@cdk/models';
+import {VinculacaoTransicaoWorkflow} from './vinculacao-transicao-workflow.model';
 
 export class TransicaoWorkflow {
 
@@ -26,6 +27,12 @@ export class TransicaoWorkflow {
     @Type(() => EspecieTarefa)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     especieTarefaTo?: EspecieTarefa;
+
+    qtdDiasPrazo?: number;
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoTransicaoWorkflow)
+    vinculacoesTransicaoWorkflow?: VinculacaoTransicaoWorkflow[];
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
@@ -64,6 +71,8 @@ export class TransicaoWorkflow {
         this.especieAtividade = null;
         this.especieTarefaFrom = null;
         this.especieTarefaTo = null;
+        this.qtdDiasPrazo = null;
+        this.vinculacoesTransicaoWorkflow = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

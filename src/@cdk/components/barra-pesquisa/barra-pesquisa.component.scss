@@ -1,0 +1,62 @@
+@import "../../scss/cdk";
+
+:host {
+
+    .cdk-barra-pesquisa {
+        display: flex;
+        flex: 1 0 auto;
+        font-size: 13px;
+        background: transparent;
+
+        @include media-breakpoint('xs') {
+            height: 56px;
+        }
+
+        .cdk-barra-pesquisa-content {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            justify-content: flex-end;
+
+            .form-field-flex {
+                display: flex;
+                flex-direction: row;
+                flex: 1 0 auto;
+                justify-content: flex-start;
+                align-items: center;
+                border-radius: 28px;
+                background: white;
+                margin: 0px 13px;
+                padding-left: 8px;
+                height: 45px;
+                max-width: 400px;
+                @include mat-elevation(1);
+
+                .input-field {
+                    font: 400 13px/1.125 Muli, Helvetica Neue, Arial, sans-serif;
+                    margin-left: 13px;
+                }
+            }
+
+            .cdk-barra-pesquisa-loader {
+                width: 64px !important;
+                height: 64px !important;
+                line-height: 64px !important;
+
+                @include media-breakpoint('xs') {
+                    height: 56px !important;
+                    line-height: 56px !important;
+                }
+            }
+
+            #cdk-barra-pesquisa-input {
+                display: none;
+                flex: 1 0 auto;
+                min-height: 64px;
+                font-size: 13px;
+                background-color: transparent;
+                color: currentColor;
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+<cdk-vinculacao-especie-processo-workflow-grid
+        [loading]="loading"
+        [vinculacoesEspecieProcessoWorkflow]="vinculacoesEspecieProcessoWorkflow"
+        [displayedColumns]="['id', 'especieProcesso.nome', 'workflow.nome', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-especie-processo-workflow-grid>

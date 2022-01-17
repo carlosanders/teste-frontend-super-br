@@ -13,6 +13,155 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="(maximizado$ | async) === false">
 
+            <mat-toolbar [ngClass]="currentTarefa ? 'showToolbar' : 'hideToolbar'">
+                <button mat-button aria-label="minutas"
+                        [matMenuTriggerFor]="selectMenuMinutas"
+                        #menuTriggerList="matMenuTrigger"
+                        *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'">
+                    <ng-container>
+                        <mat-icon>attach_file</mat-icon>
+                        <span>Minutas</span>
+                    </ng-container>
+                </button>
+                <mat-menu #selectMenuMinutas="matMenu">
+                    <button mat-menu-item (click)="doMinutas()">
+                        Gerenciar
+                    </button>
+                    <button mat-menu-item (click)="doUpload()">
+                        Upload
+                    </button>
+                    <button mat-menu-item [matMenuTriggerFor]="modeloMenu">
+                        Editor
+                    </button>
+                    <button mat-menu-item (click)="doAssinaturaMinutas()">
+                        Assinar
+                    </button>
+                </mat-menu>
+                <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                        (click)="doMovimentar(currentTarefa)">
+                    <mat-icon>autorenew</mat-icon>
+                    <span>Movimentar</span>
+                </button>
+                <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                        (click)="doEditTarefa(currentTarefa)" fxHide.xs>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar Tarefa</span>
+                </button>
+                <button mat-button aria-label="redistribuir tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                        (click)="doRedistribuirTarefa(currentTarefa)" fxHide.xs>
+                    <mat-icon>forward</mat-icon>
+                    <span>Redistribuir</span>
+                </button>
+                <button mat-button aria-label="compartilhar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                        (click)="doCompartilhar(currentTarefa.id)" fxHide.xs>
+                    <mat-icon>share</mat-icon>
+                    <span>Compartilhar</span>
+                </button>
+                <button mat-button aria-label="dar ciencia" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                        (click)="doCienciaTarefa(currentTarefa.id)" fxHide.lt-lg>
+                    <mat-icon>check</mat-icon>
+                    <span>Dar Ciência</span>
+                </button>
+                <button mat-button aria-label="enviar ofício"
+                        (click)="doCreateDocumentoAvulso(currentTarefaId)" fxHide.lt-lg>
+                    <mat-icon>mail</mat-icon>
+                    <span>Criar Ofício</span>
+                </button>
+                <button mat-button aria-label="apagar"
+                *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira' && usuarioAtual?.id === currentTarefa?.usuarioResponsavel?.id"
+                (click)="deleteTarefa(currentTarefa)" fxHide.lt-lg>
+                    <mat-icon>delete</mat-icon>
+                    <span>Apagar </span>
+                </button>
+                <button mat-button aria-label="processo" *ngIf="!(processoHandle$ | async)"
+                        (click)="doEditProcesso(currentTarefa)" fxHide.lt-lg>
+                    <mat-icon>book</mat-icon>
+                    <span>Processo</span>
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="moreMenuMainTarefa" aria-label="Mais Ferramentas"
+                        (click)="$event.stopPropagation()">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenuMainTarefa="matMenu">
+                    <button mat-menu-item aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                            (click)="doEditTarefa(currentTarefa)" fxHide fxShow.xs>
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar Tarefa</span>
+                    </button>
+                    <button mat-menu-item aria-label="redistribuir tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                            (click)="doRedistribuirTarefa(currentTarefa)" fxHide fxShow.xs>
+                        <mat-icon>forward</mat-icon>
+                        <span>Redistribuir</span>
+                    </button>
+                    <button mat-menu-item aria-label="compartilhar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                            (click)="doCompartilhar(currentTarefaId)" fxHide fxShow.xs>
+                        <mat-icon>share</mat-icon>
+                        <span>Compartilhar</span>
+                    </button>
+                    <button mat-menu-item aria-label="dar ciencia" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                            (click)="doCienciaTarefa(currentTarefaId)" fxHide fxShow.lt-lg>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar Ciência</span>
+                    </button>
+                    <button mat-menu-item aria-label="enviar ofício"
+                            (click)="doCreateDocumentoAvulso(currentTarefaId)" fxHide fxShow.lt-lg>
+                        <mat-icon>mail</mat-icon>
+                        <span>Criar Ofício</span>
+                    </button>
+                    <button mat-menu-item aria-label="processo"
+                            (click)="doEditProcesso(currentTarefa)" fxHide fxShow.lt-lg>
+                        <mat-icon>book</mat-icon>
+                        <span>Processo</span>
+                    </button>
+                    <button mat-menu-item aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira' && usuarioAtual?.id === currentTarefa?.usuarioResponsavel?.id"
+                            (click)="deleteTarefa(currentTarefa)" fxHide fxShow.lt-lg>
+                        <mat-icon>delete</mat-icon>
+                        <span>Apagar</span>
+                    </button>
+                    <button mat-menu-item aria-label="criar tarefa"
+                            (click)="doCreateTarefa({processoId: currentTarefa.processo.id})">
+                        <mat-icon>check_box</mat-icon>
+                        <span>Criar Tarefa</span>
+                    </button>
+                    <ng-template #dynamicComponent></ng-template>
+                </mat-menu>
+
+                <mat-menu #modeloMenu="matMenu">
+                    <h4 class="p-8">Modelos Individuais e em Branco (Outros na Lupa)</h4>
+                    <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="8px" fxLayout="column"
+                          fxLayoutAlign="start"
+                          (submit)="doEditor()"
+                          fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
+                        <mat-form-field fxFlex="100">
+                            <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
+                                <input matInput placeholder="Nome ou Id"
+                                       formControlName="modelo"
+                                       #autoCompleteModelos
+                                       [matAutocomplete]="modelo.autocomplete"
+                                       (blur)="checkModelo()">
+                            </div>
+                            <cdk-modelo-autocomplete
+                                #modelo="modeloAutocomplete"
+                                [control]="formEditor.get('modelo')"
+                                [pagination]="modeloPagination">
+                            </cdk-modelo-autocomplete>
+                            <button matSuffix mat-button mat-icon-button type="button"
+                                    (click)="$event.stopPropagation(); doVisualizarModelo()" [disabled]="!formEditorValid">
+                                <mat-icon matTooltip="Prévia do modelo">remove_red_eye</mat-icon>
+                            </button>
+                            <button matSuffix mat-button mat-icon-button type="button"
+                                    (click)="$event.stopPropagation(); showModelosGrid()">
+                                <mat-icon matTooltip="Procurar em todos os modelos">search</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <button mat-raised-button color="accent" type="submit" [disabled]="!formEditorValid">
+                            CRIAR MINUTA
+                        </button>
+                    </form>
+                </mat-menu>
+            </mat-toolbar>
+
             <div class="search-wrapper">
 
                 <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
@@ -57,7 +206,10 @@
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
                         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                     </div>
-                    <cdk-tarefa-list (scrolled)="onScroll()"
+                    <cdk-tarefa-list #tarefasList
+                                     (scrolled)="onScroll()"
+                                     [arraySearchTypes]="arrayFiltrosEtiquetas"
+                                     [vinculacaoEtiquetaPagination]="vinculacaoEtiquetaPagination"
                                      [loading]="(loading$ | async)"
                                      [togglingUrgenteIds]="(togglingUrgenteIds$ | async)"
                                      [tarefas]="tarefas"
@@ -69,7 +221,13 @@
                                      [unDeletingIds]="(undeletingTarefaIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
                                      [assinandoTarefasIds]="(assinandoTarefasIds$ | async)"
-                                     [assinandoTarefasEletronicamenteIds]="(assinandoTarefasEletronicamenteIds$ | async)"
+                                     [alterandoDocumentosId]="(alterandoDocumentosId$ | async)"
+                                     [assinandoDocumentosId]="(assinandoDocumentosId$ | async)"
+                                     [convertendoDocumentosId]="(convertendoDocumentosId$ | async)"
+                                     [deletingDocumentosId]="(deletingDocumentosId$ | async)"
+                                     [downloadP7SDocumentoIds]="(downloadP7SDocumentoIds$ | async)"
+                                     [removendoAssinaturaDocumentosId]="(removendoAssinaturaDocumentosId$ | async)"
+                                     [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                                      [folders]="(folders$ | async)"
                                      [usuarioAtual]="usuarioAtual"
                                      [currentTarefaId]="currentTarefaId"
@@ -86,7 +244,7 @@
                                      (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
                                      (createTarefa)="doCreateTarefa($event)"
                                      (movimentar)="doMovimentar($event)"
-                                     (gerenciarMinutas)="doMinutas()"
+                                     (gerenciarMinutasBloco)="doMinutasBloco()"
                                      (editTarefa)="doEditTarefa($event)"
                                      (editProcesso)="doEditProcesso($event)"
                                      (removeTarefa)="doRemoveTarefa($event)"
@@ -100,7 +258,6 @@
                                      (createTarefaBloco)="doCreateTarefaBloco()"
                                      (movimentarBloco)="doMovimentarBloco()"
                                      (etiquetarBloco)="doEtiquetarBloco()"
-                                     (uploadBloco)="doUploadBloco()"
                                      (editorBloco)="doEditorBloco()"
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (editRedistribuirBloco)="doRedistribuiTarefaBloco()"
@@ -109,7 +266,10 @@
                                      (loadAssuntos)="doLoadAssuntos($event)"
                                      (loadInteressados)="doLoadInteressados($event)"
                                      (salvarObservacao)="doSalvarObservacao($event)"
-                                     (assinaMinutas)="doAssinaturaMinutas($event)"
+                                     (assinaMinutas)="doAssinaturaTarefas()"
+                                     (vinculacaoEtiquetaCreate)="doVinculacaoEtiquetaCreate($event)"
+                                     (vinculacaoEtiquetaDelete)="doVinculacaoEtiquetaDelete($event)"
+                                     (vinculacaoEtiquetaEdit)="doVinculacaoEtiquetaEdit($event)"
                                      [savingObservacao]="savingObservacao$ | async"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)"
@@ -118,7 +278,18 @@
                                      [cienciaIds]="(cienciaIds$ | async)"
                                      [mobileMode]="mobileMode"
                                      (criaRelatorio)="criarRelatorio()"
-                                     (etiquetaClickHandler)="doEditarDocumentoEtiqueta($event)">
+                                     (etiquetaClickHandler)="doEditarDocumentoEtiqueta($event)"
+                                     (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                                     (aprovaDocumento)="doAprovaDocumento($event)"
+                                     (assinaDocumento)="doAssinaMinuta($event)"
+                                     (converteHtml)="doConverteHtml($event)"
+                                     (convertePdf)="doConvertePdf($event)"
+                                     (deleteDocumento)="doDeleteDocumento($event)"
+                                     (downloadP7S)="doDownloadP7S($event)"
+                                     (removeAssinaturaDocumento)="doRemoveAssinaturaDocumento($event)"
+                                     (uploadAnexos)="doUploadAnexos($event)"
+                                     (verResposta)="doVerResposta($event)"
+                                     (completedAll)="onCompleteAll($event)">
                     </cdk-tarefa-list>
                 </div>
 

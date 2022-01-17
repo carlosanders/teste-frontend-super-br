@@ -21,7 +21,7 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
-import {LoginService} from '../../../../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
@@ -53,7 +53,8 @@ export class ProcessoCapaEffect {
                     'setorAtual.unidade',
                     'setorAtual.especieSetor',
                     'classificacao.modalidadeDestinacao',
-                    'especieProcesso.workflow',
+                    'especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                    'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                     'especieProcesso.generoProcesso'
                 ]),
                 JSON.stringify(contexto));

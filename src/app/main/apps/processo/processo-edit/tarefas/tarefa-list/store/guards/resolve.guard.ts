@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
@@ -96,7 +96,9 @@ export class ResolveGuard implements CanActivate {
                             'especieTarefa.generoTarefa',
                             'criadoPor',
                             'atualizadoPor',
-                            'apagadoPor'
+                            'apagadoPor',
+                            'vinculacaoWorkflow',
+                            'vinculacaoWorkflow.workflow',
                         ]
                     };
 

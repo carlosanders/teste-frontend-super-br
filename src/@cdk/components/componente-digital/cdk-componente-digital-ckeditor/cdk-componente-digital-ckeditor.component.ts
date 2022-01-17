@@ -289,7 +289,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this._componenteDigitalService.alterandoModelo.next(false);
             }
 
-            if (this.trocandoDocumento && this.componenteDigital && this.componenteDigital.conteudo) {
+            if (this.trocandoDocumento && this.componenteDigital && this.componenteDigital.conteudo && this.componenteDigital.editavel && !this.componenteDigital.assinado) {
                 this.fetch();
                 this._componenteDigitalService.trocandoDocumento.next(false);
             }

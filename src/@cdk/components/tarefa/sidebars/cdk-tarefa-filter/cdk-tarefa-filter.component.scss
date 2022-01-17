@@ -13,6 +13,24 @@ cdk-tarefa-filter {
         padding: 8px;
     }
 
+    > .search-wrapper {
+        margin: 8px;
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: hidden;
+
+        > .search {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+
     > .content {
         flex: 1 1 auto;
         display: flex;

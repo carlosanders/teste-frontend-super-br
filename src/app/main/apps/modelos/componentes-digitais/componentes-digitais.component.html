@@ -9,7 +9,7 @@
             [mobileMode]="mobileMode"
             [displayedColumns]="['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions']"
             [isColaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
-            [actions]="['edit', 'select']"
+            [actions]="['select']"
             (selected)="doSelect($event)"
             (reload)="reload($event)"
             (edit)="edit($event)">

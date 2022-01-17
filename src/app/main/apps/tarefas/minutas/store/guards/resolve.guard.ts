@@ -58,10 +58,39 @@ export class ResolveGuard implements CanActivate {
     getDocumentos(): any {
         return this._store.pipe(
             select(getDocumentosHasLoaded),
-            withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
-            tap(([loaded, tarefas]) => {
-                if (!loaded && tarefas?.length) {
-                    this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
+            withLatestFrom(this._store.pipe(select(getSelectedTarefas)), this._store.pipe(select(fromStore.isLoadingAny))),
+            tap(([loaded, tarefas, loadingAny]) => {
+                if (!loaded && tarefas?.length && !loadingAny) {
+                    this._store.dispatch(new fromStore.UnloadDocumentos());
+
+                    tarefas.sort((a, b) => a.processo.id < b.processo.id ? -1 : a.processo.id > b.processo.id ? 1 : 0);
+                    tarefas.forEach((tarefa) => {
+                        const tarefaHandle = `eq:${tarefa.id}`;
+
+                        const params = {
+                            filter: {
+                                'tarefaOrigem.id': tarefaHandle,
+                                'documentoAvulsoRemessa.id': 'isNull',
+                                'juntadaAtual': 'isNull'
+                            },
+                            limit: 10,
+                            offset: 0,
+                            sort: {
+                                criadoEm: 'DESC'
+                            },
+                            populate: [
+                                'tipoDocumento',
+                                'tarefaOrigem',
+                                'tarefaOrigem.vinculacoesEtiquetas',
+                                'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
+                                'componentesDigitais'
+                            ],
+                            tarefaId: tarefa.id,
+                            processoId: tarefa.processo.id,
+                            nupFormatado: tarefa.processo.NUPFormatado
+                        };
+                        this._store.dispatch(new fromStore.GetDocumentos(params));
+                    });
                 }
             }),
             filter((loaded: any) => (loaded[0] === true) && loaded[1].length),

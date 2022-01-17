@@ -8,13 +8,17 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
-import {Compartilhamento} from '@cdk/models';
+import {Compartilhamento, Pagination, Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
+import {
+    SearchBarEtiquetasFiltro
+} from '@cdk/components/search-bar-etiquetas/search-bar-etiquetas-filtro';
+import {LoginService} from '../../../../auth/login/login.service';
 
 @Component({
     selector: 'acompanhamento-list',
@@ -35,16 +39,23 @@ export class AcompanhamentoListComponent implements OnInit, OnDestroy {
     deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     lote: string;
+    arrayFiltrosEtiquetas: SearchBarEtiquetasFiltro[] = [];
+    filtroEtiquetas: SearchBarEtiquetasFiltro;
+
     private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
+
 
     /**
      * @param _changeDetectorRef
      * @param _router
+     * @param _loginService
      * @param _store
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
+        private _loginService: LoginService,
         private _store: Store<fromStore.AcompanhamentoListAppState>,
     ) {
         this.acompanhamentos$ = this._store.pipe(select(fromStore.getAcompanhamentoList));
@@ -60,6 +71,41 @@ export class AcompanhamentoListComponent implements OnInit, OnDestroy {
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
         });
+
+        this._profile = _loginService.getUserProfile();
+        const vinculacaoEtiquetaProcessoPagination = new Pagination();
+        vinculacaoEtiquetaProcessoPagination.filter = {
+            orX: [
+                {
+                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    // tslint:disable-next-line:max-line-length
+                    // eslint-disable-next-line max-len
+                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                },
+                {
+                    'sistema': 'eq:true',
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                }
+            ]
+        };
+        this.arrayFiltrosEtiquetas.push({
+            label: 'etiquetas do processo',
+            pagination: vinculacaoEtiquetaProcessoPagination,
+            queryFilter: 'processo.vinculacoesEtiquetas.etiqueta.id'
+        });
+        this.filtroEtiquetas = this.arrayFiltrosEtiquetas[0];
     }
 
     ngOnInit(): void {

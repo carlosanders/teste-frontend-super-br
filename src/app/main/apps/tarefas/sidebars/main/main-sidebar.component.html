@@ -186,6 +186,30 @@
             </a>
         </div>
 
+        <div class="nav-subheader">SAÍDA</div>
+
+        <div class="nav-item">
+            <a class="nav-link" matRipple
+               [routerLink]="'/apps/tarefas/' + generoHandle + '/concluidas/saida'"
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <mat-icon class="nav-link-icon">
+                    send
+                </mat-icon>
+                <span>Concluídas</span>
+            </a>
+        </div>
+
+        <div style="display: none;" class="nav-item">
+            <a class="nav-link" matRipple
+               [routerLink]="'/apps/tarefas/' + generoHandle + '/enviadas/saida'"
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
+                <mat-icon class="nav-link-icon">
+                    send
+                </mat-icon>
+                <span>Enviadas</span>
+            </a>
+        </div>
+
         <div
             *ngIf="setoresCoordenacao.length > 0 || unidadesCoordenacao.length > 0 || orgaoCentralCoordenacao.length > 0"
             class="nav-subheader">COORDENAÇÃO
@@ -618,7 +642,7 @@
     <div class="actions">
         <mat-toolbar>
             <button disabled mat-icon-button class="secondary-text"
-                    routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent"
+                    [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'" routerLinkActive="mat-accent"
                     matTooltip="Tarefas">
                 <mat-icon>check_box</mat-icon>
             </button>
@@ -626,7 +650,7 @@
                     routerLinkActive="mat-accent" matTooltip="Calendário">
                 <mat-icon>calendar_today</mat-icon>
             </button>
-            <button mat-icon-button class="secondary-text" routerLink="/apps/board-tarefas/administrativo"
+            <button mat-icon-button class="secondary-text" [routerLink]="'/apps/board-tarefas/' + generoHandle"
                     routerLinkActive="mat-accent" matTooltip="Quadro de Tarefas">
                 <mat-icon>assessment</mat-icon>
             </button>

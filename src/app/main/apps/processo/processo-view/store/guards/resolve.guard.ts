@@ -9,10 +9,8 @@ import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/reducers';
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
 import {
-    getDocumentosHasLoaded,
     getIsLoading,
     getIsLoadingVolumes,
-    getMinutasLoading,
     getVolumesLoaded
 } from 'app/main/apps/processo/processo-view/store';
 import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
@@ -20,13 +18,8 @@ import {getRouterState} from 'app/store/reducers';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
-
     routerState: any;
-
     loadingJuntadas: boolean = false;
-
-    loadingDocumentos: boolean = false;
-
     loadingVolumes: boolean = false;
 
     /**
@@ -48,18 +41,10 @@ export class ResolveGuard implements CanActivate {
             this.routerState = routerState.state;
         });
 
-
         this._store
             .pipe(select(getIsLoading))
             .subscribe((loading) => {
                 this.loadingJuntadas = loading;
-            });
-
-
-        this._store
-            .pipe(select(getMinutasLoading))
-            .subscribe((loading) => {
-                this.loadingDocumentos = loading;
             });
 
         this._store
@@ -92,7 +77,7 @@ export class ResolveGuard implements CanActivate {
      * @returns
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.getJuntadas(), this.getDocumentos(), this.getVolumes()]).pipe(
+        return forkJoin([this.getJuntadas(), this.getVolumes()]).pipe(
             take(1)
         );
     }
@@ -149,39 +134,6 @@ export class ResolveGuard implements CanActivate {
             filter((loaded: any) => this.loadingJuntadas || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
             take(1)
         );
-    }
-
-    /**
-     * Get Documentos
-     *
-     * @returns
-     */
-    getDocumentos(): any {
-        if (this.routerState.params['tarefaHandle']) {
-            return this._store.pipe(
-                select(getDocumentosHasLoaded),
-                tap((loaded: any) => {
-                    if (!this.loadingDocumentos && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
-                        this._store.dispatch(new fromStore.GetDocumentos());
-                        this.loadingDocumentos = true;
-                    }
-                }),
-                filter((loaded: any) => this.loadingDocumentos || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
-                take(1)
-            );
-        } else {
-            return this._store.pipe(
-                select(getDocumentosHasLoaded),
-                tap((loaded: any) => {
-                    if (loaded) {
-                        this._store.dispatch(new fromStore.UnloadDocumentos());
-                        this.loadingDocumentos = false;
-                    }
-                }),
-                filter((loaded: any) => !loaded),
-                take(1)
-            );
-        }
     }
 
     /**

@@ -12,7 +12,6 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Injectable()
@@ -65,11 +64,11 @@ export class ComponenteDigitalEffect {
                 content: `Componente digital id ${response.id} criado com sucesso!`,
                 status: 1, // sucesso
             }))),
-            tap(() => {
-                this._store.dispatch(new GetDocumentos());
-            }),
             mergeMap((response: ComponenteDigital) => [
-                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
+                new ComponenteDigitalActions.SaveComponenteDigitalSuccess({
+                    componenteDigital: response,
+                    tarefaId: action.payload.componenteDigital.tarefaOrigem.id
+                }),
                 new ComponenteDigitalActions.GetDocumento({
                     componenteDigitalId: response.id,
                     routeTarefa: action.payload.routeTarefa,
@@ -103,11 +102,23 @@ export class ComponenteDigitalEffect {
             1,
             0,
             '{}',
-            '[]')),
+            JSON.stringify([
+                'processoOrigem',
+                'tarefaOrigem'
+            ])
+        )),
         switchMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+            new AddData<Documento>({
+                data: response['entities'],
+                schema: documentoSchema,
+                populate: [
+                    'processoOrigem',
+                    'tarefaOrigem'
+                ]
+            }),
             new ComponenteDigitalActions.GetDocumentoSuccess({
                 documentoId: response['entities'][0].id,
+                documento: response['entities'][0],
                 componenteDigitalId: this.componenteDigitalId,
                 routeTarefa: this.routeAtividadeTarefa,
                 routeDocumento: this.routeAtividadeDocumento
@@ -121,37 +132,33 @@ export class ComponenteDigitalEffect {
     getDocumentoSuccess: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
         tap((action) => {
-            const primary = 'componente-digital/' + action.payload.componenteDigitalId;
-            const sidebar = 'editar/' + action.payload.routeDocumento;
+            let stepHandle = this.routerState.params['stepHandle'];
+            let primary: string;
+            primary = 'componente-digital/';
+            const componenteDigitalId = action.payload.componenteDigitalId;
 
-            if (this.routerState.url.indexOf('processo') !== -1) {
-                this._router.navigate([
-                        this.routerState.url.split('processo/')[0] + 'processo/' + this.routerState.params.processoHandle
-                        + '/visualizar/' + this.routerState.params.stepHandle + '/documento/' + action.payload.documentoId,
-                        {
-                            outlets: {
-                                primary: primary,
-                                sidebar: sidebar
-                            }
-                        }
-                    ],
-                    {
-                        relativeTo: this._activatedRoute.parent
-                    }).then();
-            } else {
-                this._router.navigate([
-                        this.routerState.url.replace('modelo', action.payload.routeTarefa + '/documento') + '/' + action.payload.documentoId,
-                        {
-                            outlets: {
-                                primary: primary,
-                                sidebar: sidebar
-                            }
-                        }
-                    ],
-                    {
-                        relativeTo: this._activatedRoute.parent
-                    }).then();
+            primary += componenteDigitalId;
+
+            const tarefaId = action.payload.documento.vinculacaoDocumentoPrincipal ?
+                action.payload.documento.vinculacaoDocumentoPrincipal.documento.tarefaOrigem.id :
+                action.payload.documento.tarefaOrigem.id;
+            const processoId = action.payload.documento.processoOrigem.id;
+            if (!stepHandle || processoId !== parseInt(this.routerState.params['processoHandle'], 10)) {
+                stepHandle = 'default';
             }
+            this._router.navigate([
+                    'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/'
+                    + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/processo/' + processoId + '/visualizar/'
+                    + stepHandle + '/documento/' + action.payload.documento.id,
+                    {
+                        outlets: {
+                            primary: primary
+                        }
+                    }
+                ],
+                {
+                    relativeTo: this._activatedRoute.parent
+                }).then();
         })
     ), {dispatch: false});
     /**

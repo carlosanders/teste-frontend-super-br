@@ -145,3 +145,13 @@ toolbar {
         margin: auto;
     }
 }
+
+cdk-barra-pesquisa {
+    display: flex;
+    flex: 1 1 auto;
+
+    > form {
+        display: flex;
+        flex: 1 0 auto;
+    }
+}

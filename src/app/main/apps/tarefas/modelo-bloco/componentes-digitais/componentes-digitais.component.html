@@ -1,0 +1,37 @@
+<div class="content">
+
+    <h2>Criação de minutas em bloco de tarefas</h2>
+
+    <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
+
+    <h2 class="ml-8">Pesquisa no Acervo</h2>
+
+    <cdk-componente-digital-grid
+            [loading]="(loading$ | async)"
+            [componentesDigitais]="(componentesDigitais$ | async)"
+            [total]="(pagination$ | async)?.total"
+            [mode]="'search'"
+            [saving]="(saving$ | async)"
+            [mobileMode]="mobileMode"
+            [displayedColumns]="['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions']"
+            [isColaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
+            [actions]="['edit', 'select']"
+            (selected)="doSelect($event)"
+            (reload)="reload($event)"
+            (edit)="edit($event)">
+    </cdk-componente-digital-grid>
+
+    <mat-list *ngIf="operacoes.length > 0">
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'grey-50': operacao.status === 0, 'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+</div>
+<div class="footer">
+    <mat-error *ngIf="erro">{{erro}}</mat-error>
+</div>

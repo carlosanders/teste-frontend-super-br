@@ -82,26 +82,6 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: false
         },
         {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
             id: 'actions',
             label: '',
             fixed: true

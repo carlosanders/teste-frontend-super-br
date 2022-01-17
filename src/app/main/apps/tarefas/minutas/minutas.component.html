@@ -1,18 +1,24 @@
 <!-- CONTENT -->
 <div class="content">
 
-    <h2>Minutas da(s) tarefa(s)</h2>
+    <h2>Gerenciar Minutas</h2>
 
     <div class="upload">
         <cdk-minutas-card-list *ngIf="operacoes.length === 0"
                                [documentos]="minutas"
+                               [processos]="processos"
+                               [minutasPorTarefa]="documentos"
+                               [tarefasAgrupadas]="tarefasAgrupadas"
                                [selectedIds]="(selectedIds$ | async)"
                                [deletingId]="(deletingDocumentosId$ | async)"
                                [assinandoId]="(assinandoDocumentosId$ | async)"
                                [convertendoId]="(convertendoDocumentosId$ | async)"
                                [alterandoId]="(alterandoDocumentosId$ | async)"
                                [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
+                               [undeletingId]="(undeletingDocumentosId$ | async)"
                                [downloadId]="(downloadP7SDocumentosId$ | async)"
+                               [lixeiraMinutas]="(lixeiraMinutas$ | async)"
+                               [loading]="(isLoadingAny$ | async)"
                                (delete)="doDelete($event)"
                                (deleteBlocoEmmitter)="doDeleteBloco($event)"
                                (assinatura)="doAssinatura($event)"
@@ -22,7 +28,10 @@
                                (converteHtml)="doConverteHtml($event)"
                                (downloadP7S)="doDownloadP7S($event)"
                                (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                               (getMore)="paginaDocumentos($event)"
                                (clicked)="onClicked($event)"
+                               (toggleLixeira)="doToggleLixeiraMinutas($event)"
+                               (restaurar)="doRestaurar($event)"
                                (changedSelectedIds)="changedSelectedIds($event)">
         </cdk-minutas-card-list>
     </div>

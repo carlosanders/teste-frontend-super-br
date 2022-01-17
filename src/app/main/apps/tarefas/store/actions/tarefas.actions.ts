@@ -6,8 +6,20 @@ export const GET_TAREFAS = '[TAREFAS] GET TAREFAS';
 export const GET_TAREFAS_SUCCESS = '[TAREFAS] GET TAREFAS SUCCESS';
 export const GET_TAREFAS_FAILED = '[TAREFAS] GET TAREFAS FAILED';
 
+export const GET_TAREFA = '[TAREFAS] GET TAREFA';
+export const GET_TAREFA_SUCCESS = '[TAREFAS] GET TAREFA SUCCESS';
+export const GET_TAREFA_FAILED = '[TAREFAS] GET TAREFA FAILED';
+
+export const GET_ETIQUETAS_TAREFAS = '[TAREFAS] GET ETIQUETAS TAREFA';
+export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFAS] GET ETIQUETAS TAREFA SUCCESS';
+export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFAS] GET ETIQUETAS TAREFA FAILED';
+
+export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFAS] REMOVE ETIQUETA MINUTA TAREFA';
+export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFAS] ATUALIZA ETIQUETA MINUTA';
+
 export const SET_CURRENT_TAREFA = '[TAREFAS] SET CURRENT TAREFA';
 export const SET_CURRENT_TAREFA_SUCCESS = '[TAREFAS] SET CURRENT TAREFA SUCCESS';
+export const SYNC_CURRENT_TAREFA_ID = '[TAREFAS] SYNC CURRENT TAREFA ID';
 
 export const CREATE_TAREFA = '[TAREFAS] CREATE TAREFA';
 export const CREATE_TAREFA_SUCCESS = '[TAREFAS] CREATE TAREFA SUCCESS';
@@ -50,49 +62,53 @@ export const DISTRIBUIR_TAREFA_FLUSH = '[TAREFAS] DISTRIBUIR TAREFA FLUSH';
 export const DISTRIBUIR_TAREFA_CANCEL = '[TAREFAS] DISTRIBUIR TAREFA CANCEL';
 export const DISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFAS] DISTRIBUIR TAREFA CANCEL SUCCESS';
 
-export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
-export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
-export const SAVE_TAREFA_FAILED = '[TAREFA] SAVE TAREFA FAILED';
+export const SAVE_TAREFA = '[TAREFAS] SAVE TAREFA';
+export const SAVE_TAREFA_SUCCESS = '[TAREFAS] SAVE TAREFA SUCCESS';
+export const SAVE_TAREFA_FAILED = '[TAREFAS] SAVE TAREFA FAILED';
 
-export const CREATE_VINCULACAO_ETIQUETA = '[TAREFA] CREATE VINCULACAO ETIQUETA';
-export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] CREATE VINCULACAO ETIQUETA SUCCESS';
-export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] CREATE VINCULACAO ETIQUETA FAILED';
+export const CREATE_VINCULACAO_ETIQUETA = '[TAREFAS] CREATE VINCULACAO ETIQUETA';
+export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFAS] CREATE VINCULACAO ETIQUETA SUCCESS';
+export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFAS] CREATE VINCULACAO ETIQUETA FAILED';
 
-export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
-export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
-export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
+export const DELETE_VINCULACAO_ETIQUETA = '[TAREFAS] DELETE VINCULACAO_ETIQUETA';
+export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFAS] DELETE VINCULACAO_ETIQUETA SUCCESS';
+export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFAS] DELETE VINCULACAO_ETIQUETA FAILED';
 
-export const GET_ASSUNTOS_PROCESSO_TAREFA = '[TAREFA] GET ASSUNTOS PROCESSO';
-export const GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET ASSUNTOS PROCESSO SUCCESS';
-export const GET_ASSUNTOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET ASSUNTOS PROCESSO FAILED';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA = '[TAREFAS] SAVE CONTEUDO VINCULACAO ETIQUETA';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFAS] SAVE CONTEUDO VINCULACAO ETIQUETA SUCCESS';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED = '[TAREFAS] SAVE CONTEUDO VINCULACAO ETIQUETA FAILED';
 
-export const SET_LOADING_ASSUNTOS = '[TAREFA] SET LOADING ASSUNTOS';
-export const SET_LOADING_ASSUNTOS_SUCCESS = '[TAREFA] SET LOADING ASSUNTOS SUCCESS';
-export const SET_LOADING_ASSUNTOS_FAILED = '[TAREFA] SET LOADING ASSUNTOS FAILED';
+export const GET_ASSUNTOS_PROCESSO_TAREFA = '[TAREFAS] GET ASSUNTOS PROCESSO';
+export const GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS = '[TAREFAS] GET ASSUNTOS PROCESSO SUCCESS';
+export const GET_ASSUNTOS_PROCESSO_TAREFA_FAILED = '[TAREFAS] GET ASSUNTOS PROCESSO FAILED';
 
-export const SET_ASSUNTOS_LOADED = '[TAREFA] SET ASSUNTOS LOADED';
-export const SET_ASSUNTOS_LOADED_SUCCESS = '[TAREFA] SET ASSUNTOS LOADED SUCCESS';
-export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFA] SET ASSUNTOS LOADED FAILED';
+export const SET_LOADING_ASSUNTOS = '[TAREFAS] SET LOADING ASSUNTOS';
+export const SET_LOADING_ASSUNTOS_SUCCESS = '[TAREFAS] SET LOADING ASSUNTOS SUCCESS';
+export const SET_LOADING_ASSUNTOS_FAILED = '[TAREFAS] SET LOADING ASSUNTOS FAILED';
 
-export const GET_INTERESSADOS_PROCESSO_TAREFA = '[TAREFA] GET INTERESSADOS PROCESSO';
-export const GET_INTERESSADOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET INTERESSADOS PROCESSO SUCCESS';
-export const GET_INTERESSADOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET INTERESSADOS PROCESSO FAILED';
+export const SET_ASSUNTOS_LOADED = '[TAREFAS] SET ASSUNTOS LOADED';
+export const SET_ASSUNTOS_LOADED_SUCCESS = '[TAREFAS] SET ASSUNTOS LOADED SUCCESS';
+export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFAS] SET ASSUNTOS LOADED FAILED';
 
-export const SET_LOADING_INTERESSADOS = '[TAREFA] SET LOADING INTERESSADOS';
-export const SET_LOADING_INTERESSADOS_SUCCESS = '[TAREFA] SET LOADING INTERESSADOS SUCCESS';
-export const SET_LOADING_INTERESSADOS_FAILED = '[TAREFA] SET LOADING INTERESSADOS FAILED';
+export const GET_INTERESSADOS_PROCESSO_TAREFA = '[TAREFAS] GET INTERESSADOS PROCESSO';
+export const GET_INTERESSADOS_PROCESSO_TAREFA_SUCCESS = '[TAREFAS] GET INTERESSADOS PROCESSO SUCCESS';
+export const GET_INTERESSADOS_PROCESSO_TAREFA_FAILED = '[TAREFAS] GET INTERESSADOS PROCESSO FAILED';
 
-export const SET_INTERESSADOS_LOADED = '[TAREFA] SET INTERESSADOS LOADED';
-export const SET_INTERESSADOS_LOADED_SUCCESS = '[TAREFA] SET INTERESSADOS LOADED SUCCESS';
-export const SET_INTERESSADOS_LOADED_FAILED = '[TAREFA] SET INTERESSADOS LOADED FAILED';
+export const SET_LOADING_INTERESSADOS = '[TAREFAS] SET LOADING INTERESSADOS';
+export const SET_LOADING_INTERESSADOS_SUCCESS = '[TAREFAS] SET LOADING INTERESSADOS SUCCESS';
+export const SET_LOADING_INTERESSADOS_FAILED = '[TAREFAS] SET LOADING INTERESSADOS FAILED';
 
-export const DAR_CIENCIA_TAREFA = '[TAREFA] DAR CIENCIA TAREFA';
-export const DAR_CIENCIA_TAREFA_SUCCESS = '[TAREFA] DAR CIENCIA TAREFA SUCCESS';
-export const DAR_CIENCIA_TAREFA_FAILED = '[TAREFA] DAR CIENCIA TAREFA FAILED';
+export const SET_INTERESSADOS_LOADED = '[TAREFAS] SET INTERESSADOS LOADED';
+export const SET_INTERESSADOS_LOADED_SUCCESS = '[TAREFAS] SET INTERESSADOS LOADED SUCCESS';
+export const SET_INTERESSADOS_LOADED_FAILED = '[TAREFAS] SET INTERESSADOS LOADED FAILED';
 
-export const DAR_CIENCIA_TAREFA_CANCEL = '[TAREFA] DAR CIENCIA TAREFA CANCEL';
-export const DAR_CIENCIA_TAREFA_CANCEL_SUCCESS = '[TAREFA] DAR CIENCIA TAREFA CANCEL SUCCESS';
-export const DAR_CIENCIA_TAREFA_FLUSH = '[TAREFA] DAR CIENCIA TAREFA FLUSH';
+export const DAR_CIENCIA_TAREFA = '[TAREFAS] DAR CIENCIA TAREFA';
+export const DAR_CIENCIA_TAREFA_SUCCESS = '[TAREFAS] DAR CIENCIA TAREFA SUCCESS';
+export const DAR_CIENCIA_TAREFA_FAILED = '[TAREFAS] DAR CIENCIA TAREFA FAILED';
+
+export const DAR_CIENCIA_TAREFA_CANCEL = '[TAREFAS] DAR CIENCIA TAREFA CANCEL';
+export const DAR_CIENCIA_TAREFA_CANCEL_SUCCESS = '[TAREFAS] DAR CIENCIA TAREFA CANCEL SUCCESS';
+export const DAR_CIENCIA_TAREFA_FLUSH = '[TAREFAS] DAR CIENCIA TAREFA FLUSH';
 
 export const REDISTRIBUIR_TAREFA = '[TAREFAS] REDISTRIBUIR TAREFA';
 export const REDISTRIBUIR_TAREFA_FAILED = '[TAREFAS] REDISTRIBUIR TAREFA FAILED';
@@ -108,6 +124,8 @@ export const GERAR_RELATORIO_TAREFA_EXCEL_SUCCESS = '[TAREFAS] GERAR RELATORIO T
 export const SAVE_OBSERVACAO = '[TAREFAS] SAVE OBSERVACAO';
 export const SAVE_OBSERVACAO_SUCCESS = '[TAREFAS] SAVE OBSERVACAO SUCCESS';
 export const SAVE_OBSERVACAO_FAILED = '[TAREFAS] SAVE OBSERVACAO FAILED';
+
+export const UPLOAD_CONCLUIDO = '[TAREFAS] UPLOAD CONCLUIDO';
 
 /**
  * Unload Tarefas
@@ -150,6 +168,88 @@ export class GetTarefasFailed implements Action {
 }
 
 /**
+ * Get Etiquetas Tarefas
+ */
+export class GetEtiquetasTarefas implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas Success
+ */
+export class GetEtiquetasTarefasSuccess implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiquetas Tarefas Failed
+ */
+export class GetEtiquetasTarefasFailed implements Action {
+    readonly type = GET_ETIQUETAS_TAREFAS_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * Remove Etiqueta Minuta Tarefa
+ */
+export class RemoveEtiquetaMinutaTarefa implements Action {
+    readonly type = REMOVE_ETIQUETA_MINUTA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Atualiza Etiqueta Minuta
+ */
+export class AtualizaEtiquetaMinuta implements Action {
+    readonly type = ATUALIZA_ETIQUETA_MINUTA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Tarefa
+ */
+export class GetTarefa implements Action {
+    readonly type = GET_TAREFA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Tarefa Success
+ */
+export class GetTarefaSuccess implements Action {
+    readonly type = GET_TAREFA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Tarefa Failed
+ */
+export class GetTarefaFailed implements Action {
+    readonly type = GET_TAREFA_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
  * Select Tarefa
  */
 export class SetCurrentTarefa implements Action {
@@ -166,6 +266,17 @@ export class SetCurrentTarefaSuccess implements Action {
     readonly type = SET_CURRENT_TAREFA_SUCCESS;
 
     constructor() {
+    }
+}
+
+/**
+ * Sync Current Tarefa Id
+ */
+export class SyncCurrentTarefaId implements Action {
+    readonly type = SYNC_CURRENT_TAREFA_ID;
+
+    constructor(public payload: any)
+    {
     }
 }
 
@@ -536,6 +647,42 @@ export class CreateVinculacaoEtiquetaFailed implements Action {
     readonly type = CREATE_VINCULACAO_ETIQUETA_FAILED;
 
     constructor(public payload: any) {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta
+ */
+export class SaveConteudoVinculacaoEtiqueta implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Success
+ */
+export class SaveConteudoVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Failed
+ */
+export class SaveConteudoVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
     }
 }
 
@@ -947,15 +1094,36 @@ export class SaveObservacaoFailed implements Action
     }
 }
 
+/**
+ * Upload Concluído
+ */
+export class UploadConcluido implements Action
+{
+    readonly type = UPLOAD_CONCLUIDO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefasActionsAll
     = UnloadTarefas
     | GetTarefas
     | GetTarefasSuccess
     | GetTarefasFailed
+    | GetTarefa
+    | GetTarefaSuccess
+    | GetTarefaFailed
+    | GetEtiquetasTarefas
+    | GetEtiquetasTarefasSuccess
+    | GetEtiquetasTarefasFailed
+    | RemoveEtiquetaMinutaTarefa
+    | AtualizaEtiquetaMinuta
     | CreateTarefa
     | CreateTarefaSuccess
     | SetCurrentTarefa
     | SetCurrentTarefaSuccess
+    | SyncCurrentTarefaId
     | ChangeSelectedTarefas
     | ChangeDraggedTarefas
     | SetFolderOnSelectedTarefas
@@ -991,6 +1159,9 @@ export type TarefasActionsAll
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
+    | SaveConteudoVinculacaoEtiqueta
+    | SaveConteudoVinculacaoEtiquetaSuccess
+    | SaveConteudoVinculacaoEtiquetaFailed
     | ToggleMaximizado
     | GetAssuntosProcessoTarefa
     | GetAssuntosProcessoTarefaSuccess
@@ -1027,4 +1198,5 @@ export type TarefasActionsAll
     | GerarRelatorioTarefaExcelSuccess
     | SaveObservacao
     | SaveObservacaoSuccess
-    | SaveObservacaoFailed;
+    | SaveObservacaoFailed
+    | UploadConcluido;

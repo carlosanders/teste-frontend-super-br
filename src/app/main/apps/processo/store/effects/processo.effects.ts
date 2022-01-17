@@ -15,7 +15,7 @@ import {
     vinculacaoEtiqueta as vinculacaoEtiquetaSchema
 } from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Router} from '@angular/router';
 import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
 import {StatusBarramentoService} from '@cdk/services/status-barramento';
@@ -47,10 +47,8 @@ export class ProcessoEffect {
                     'origemDados',
                     'especieProcesso',
                     'especieProcesso.generoProcesso',
-                    'especieProcesso.workflow',
-                    'especieProcesso.workflow.especieTarefaInicial',
-                    'tarefaAtualWorkflow',
-                    'tarefaAtualWorkflow.especieTarefa',
+                    'especieProcesso.vinculacoesEspecieProcessoWorkflow',
+                    'especieProcesso.vinculacoesEspecieProcessoWorkflow.workflow',
                     'setorAtual',
                     'setorAtual.especieSetor',
                     'vinculacoesEtiquetas',
@@ -327,8 +325,12 @@ export class ProcessoEffect {
                 }))),
                 mergeMap((response: Compartilhamento) => [
                     new ProcessoActions.SaveAcompanhamentoSuccess(response),
-                    new ProcessoActions.GetProcesso(action.payload.processo),
-                    new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema})
+                    new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema}),
+                    new UpdateData<Processo>({
+                        id: action.payload.processo.id,
+                        schema: processoSchema,
+                        changes: {compartilhamentoUsuario: response}
+                    }),
                 ]),
                 catchError((err) => {
                     const erroString = CdkUtils.errorsToString(err);
@@ -359,6 +361,11 @@ export class ProcessoEffect {
                         childSchema: acompanhamentoSchema,
                         parentSchema: processoSchema,
                         parentId: action.payload.processoId
+                    }),
+                    new UpdateData<Processo>({
+                        id: action.payload.processoId,
+                        schema: processoSchema,
+                        changes: {compartilhamentoUsuario: null}
                     }),
                     new ProcessoActions.DeleteAcompanhamentoSuccess(response.id)
                 ],

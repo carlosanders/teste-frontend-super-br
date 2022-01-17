@@ -29,7 +29,7 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
 import {FavoritoService} from '@cdk/services/favorito.service';
-import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
 import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 import {CdkBlocoResponsaveisGridModule} from '../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-grid.module';
@@ -42,6 +42,10 @@ import {CdkGrupoContatoGridsearchModule} from '../../grupo-contato/cdk-grupo-con
 import {MatMenuModule} from "@angular/material/menu";
 import {CdkLotacaoAutocompleteModule} from "../../lotacao/cdk-lotacao-autocomplete/cdk-lotacao-autocomplete.module";
 import {CdkLotacaoGridsearchModule} from "../../lotacao/cdk-lotacao-autocomplete/cdk-lotacao-gridsearch/cdk-lotacao-gridsearch.module";
+import {CdkWorkflowAutocompleteModule} from "../../workflow/cdk-workflow-autocomplete/cdk-workflow-autocomplete.module";
+import {
+    CdkWorkflowGridsearchModule
+} from '../../workflow/cdk-workflow-autocomplete/cdk-workflow-gridsearch/cdk-workflow-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -88,6 +92,8 @@ import {CdkLotacaoGridsearchModule} from "../../lotacao/cdk-lotacao-autocomplete
         MatMenuModule,
         CdkLotacaoAutocompleteModule,
         CdkLotacaoGridsearchModule,
+        CdkWorkflowAutocompleteModule,
+        CdkWorkflowGridsearchModule,
     ],
     providers: [
         EspecieTarefaService,

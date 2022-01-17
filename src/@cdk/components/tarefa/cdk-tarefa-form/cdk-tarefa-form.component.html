@@ -33,8 +33,34 @@
         </cdk-processo-grid>
     </div>
 
+    <mat-slide-toggle formControlName="tarefaWorkflow"
+      *ngIf="!!form.get('processo').value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length">
+        Seguir Workflow
+    </mat-slide-toggle>
+
     <mat-form-field
-        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
+            *ngIf="form.get('tarefaWorkflow')?.value">
+        <input matInput placeholder="Workflow"
+               formControlName="workflow"
+               [matAutocomplete]="workflow.autocomplete" required
+               (blur)="checkWorkflow()">
+        <cdk-workflow-autocomplete
+            #workflow="workflowAutocomplete"
+            [control]="form.get('workflow')"
+            [pagination]="workflowPagination">
+        </cdk-workflow-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                [disabled]="form.get('workflow').disabled"
+                (click)="showWorkflowGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('workflow').hasError('formError')">
+            {{form.get('workflow').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+        *ngIf="exibeEspecieTarefa()">
         <input matInput placeholder="Espécie de Tarefa"
                formControlName="especieTarefa"
                [readonly]="desabilitaEspecieTarefa || !!tarefa.dataHoraConclusaoPrazo"
@@ -454,3 +480,11 @@
     (selected)="selectLotacao($event)"
     (cancel)="cancel()">
 </cdk-lotacao-gridsearch>
+
+<cdk-workflow-gridsearch
+    *ngIf="activeCard === 'workflow-gridsearch'"
+    [pagination]="workflowPagination"
+    [mode]="'search'"
+    (selected)="selectWorkflow($event)"
+    (cancel)="cancel()">
+</cdk-workflow-gridsearch>

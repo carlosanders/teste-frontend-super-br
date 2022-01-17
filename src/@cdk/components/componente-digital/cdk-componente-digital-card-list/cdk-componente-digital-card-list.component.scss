@@ -34,6 +34,15 @@ cdk-componente-digital-card-list {
         }
     }
 
+    > .toolbar.tarefas-list {
+        > .grupo-componentes-digitais.tarefas-list {
+            > cdk-componente-digital-card {
+                box-sizing: border-box;
+                margin-bottom: 0;
+            }
+        }
+    }
+
     .cdk-drag-preview {
         box-sizing: border-box;
         border-radius: 4px;

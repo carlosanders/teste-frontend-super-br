@@ -67,7 +67,7 @@ export class CdkMinutasCardComponent implements OnInit {
     download = false;
 
     @Output()
-    delete = new EventEmitter<number>();
+    delete = new EventEmitter<Documento>();
 
     @Output()
     verResposta = new EventEmitter<Documento>();
@@ -97,7 +97,7 @@ export class CdkMinutasCardComponent implements OnInit {
     changedSelected = new EventEmitter<boolean>();
 
     @Output()
-    restaurar = new EventEmitter<boolean>();
+    restaurar = new EventEmitter<Documento>();
 
     @Input()
     tipoDocumentoPagination: Pagination;
@@ -154,8 +154,8 @@ export class CdkMinutasCardComponent implements OnInit {
         this.changedSelected.emit(documentoId);
     }
 
-    doDelete(documentoId): void {
-        this.delete.emit(documentoId);
+    doDelete(documento: Documento): void {
+        this.delete.emit(documento);
     }
 
     doVerResposta(documento): void {
@@ -177,8 +177,8 @@ export class CdkMinutasCardComponent implements OnInit {
         this.removeAssinatura.emit(documentoId);
     }
 
-    doRestaurar(documentoId): void {
-        this.restaurar.emit(documentoId);
+    doRestaurar(documento: Documento): void {
+        this.restaurar.emit(documento);
     }
 
     doConverte(documentoId): void {

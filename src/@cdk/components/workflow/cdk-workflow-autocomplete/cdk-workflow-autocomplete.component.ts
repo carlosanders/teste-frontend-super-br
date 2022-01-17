@@ -66,7 +66,7 @@ export class CdkWorkflowAutocompleteComponent implements OnInit {
                     const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
-                            'especieProcesso.nome': `like:%${bit}%`});
+                            'nome': `like:%${bit}%`});
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.workflowListIsLoading = true;
@@ -97,6 +97,6 @@ export class CdkWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayWorkflowFn(workflow): string {
-        return workflow ? workflow.especieProcesso.nome : '';
+        return workflow ? workflow.nome : '';
     }
 }

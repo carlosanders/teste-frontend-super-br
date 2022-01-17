@@ -1,5 +1,5 @@
 <div class="toolbar pt-8 pb-8 pl-0 pr-8">
-    <div class="multiple-choices" *ngIf="documentos.length > 0">
+    <div class="multiple-choices" *ngIf="documentos?.length > 0">
 
         <mat-checkbox (click)="toggleSelectAll($event)"
                       [checked]="selectedIds.length > 0"
@@ -51,6 +51,15 @@
                     <ng-container>
                         <mat-icon>picture_as_pdf</mat-icon>
                         <span>Converter em PDF</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="desvincular bloco"
+                        *ngIf="!isNotMinutas"
+                        (click)="doDesvincularBloco()">
+                    <ng-container>
+                        <mat-icon>unlink</mat-icon>
+                        <span>Desvincular Juntadas</span>
                     </ng-container>
                 </button>
 
@@ -132,6 +141,7 @@
                         (converteHtml)="doConverteHtml($event)"
                         (downloadP7s)="doDownloadP7S($event)"
                         (restaurar)="doRestaurar($event)"
+                        (desvincular)="doDesvincular($event)"
                         (clicked)="onClick($event)"
                         (changedSelected)="toggleInSelected($event)">
     </cdk-documento-card>

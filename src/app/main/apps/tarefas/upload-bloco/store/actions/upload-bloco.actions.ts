@@ -1,18 +1,14 @@
 import {Action} from '@ngrx/store';
 
-export const CREATE_ATIVIDADE = '[ATIVIDADE CREATE BLOCO] CREATE ATIVIDADE';
-export const CREATE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE BLOCO] CREATE ATIVIDADE SUCCESS';
-
-export const SAVE_ATIVIDADE = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE';
-export const SAVE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE SUCCESS';
-export const SAVE_ATIVIDADE_FAILED = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE FAILED';
+export const UPLOAD_INICIADO = '[UPLOAD BLOCO] UPLOAD INICIADO';
+export const UPLOAD_CONCLUIDO = '[UPLOAD BLOCO] UPLOAD CONCLUIDO';
 
 /**
- * Save Atividade
+ * Upload Iniciado
  */
-export class SaveAtividade implements Action
+export class UploadIniciado implements Action
 {
-    readonly type = SAVE_ATIVIDADE;
+    readonly type = UPLOAD_INICIADO;
 
     constructor(public payload: any)
     {
@@ -20,56 +16,17 @@ export class SaveAtividade implements Action
 }
 
 /**
- * Save Atividade Success
+ * Upload Concluido
  */
-export class SaveAtividadeSuccess implements Action
+export class UploadConcluido implements Action
 {
-    readonly type = SAVE_ATIVIDADE_SUCCESS;
+    readonly type = UPLOAD_CONCLUIDO;
 
     constructor(public payload: any)
     {
     }
 }
 
-/**
- * Save Atividade Failed
- */
-export class SaveAtividadeFailed implements Action
-{
-    readonly type = SAVE_ATIVIDADE_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Create Atividade
- */
-export class CreateAtividade implements Action
-{
-    readonly type = CREATE_ATIVIDADE;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Create Atividade Success
- */
-export class CreateAtividadeSuccess implements Action
-{
-    readonly type = CREATE_ATIVIDADE_SUCCESS;
-
-    constructor()
-    {
-    }
-}
-
-export type AtividadeCreateBlocoActionsAll
-    = CreateAtividade
-    | CreateAtividadeSuccess
-    | SaveAtividade
-    | SaveAtividadeSuccess
-    | SaveAtividadeFailed;
+export type UploadBlocoActionsAll
+    = UploadIniciado
+    | UploadConcluido;

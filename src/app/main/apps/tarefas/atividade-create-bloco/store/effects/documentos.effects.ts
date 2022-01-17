@@ -13,7 +13,6 @@ import {
     documento as documentoSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from 'environments/environment';
 import * as AtividadeBlocoCreateDocumentosActionsAll from '../actions/documentos.actions';
 import {getSelectedTarefas} from '../../../store';
 import * as fromStore from '../index';
@@ -31,17 +30,16 @@ export class AtividadeCreateBlocoDocumentosEffect {
      */
     getDocumentos: Observable<any> = createEffect(() => this._actions.pipe(
         ofType<AtividadeBlocoCreateDocumentosActionsAll.GetDocumentos>(AtividadeBlocoCreateDocumentosActionsAll.GET_DOCUMENTOS_BLOCO),
-        switchMap((action) => {
-
-            const tarefaIds = `in:${action.payload}`;
+        mergeMap((action) => {
+            const tarefaId = `eq:${action.payload}`;
 
             const params = {
                 filter: {
-                    'tarefaOrigem.id': tarefaIds,
+                    'tarefaOrigem.id': tarefaId,
                     'documentoAvulsoRemessa.id': 'isNull',
                     'juntadaAtual': 'isNull'
                 },
-                limit: 10,
+                limit: 25,
                 offset: 0,
                 sort: {
                     criadoEm: 'DESC'
@@ -62,19 +60,23 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 params.limit,
                 params.offset,
                 JSON.stringify(params.sort),
-                JSON.stringify(params.populate));
+                JSON.stringify(params.populate)
+            ).pipe(
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new AtividadeBlocoCreateDocumentosActionsAll.GetDocumentosSuccess({
+                        loaded: {
+                            id: action.payload
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                    })
+                ]),
+                catchError((err) => {
+                    console.log(err);
+                    return of(new AtividadeBlocoCreateDocumentosActionsAll.GetDocumentosFailed(err));
+                })
+            );
         }),
-        mergeMap(response => [
-            new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-            new AtividadeBlocoCreateDocumentosActionsAll.GetDocumentosSuccess({
-                loaded: true,
-                entitiesId: response['entities'].map(documento => documento.id),
-            })
-        ]),
-        catchError((err) => {
-            console.log(err);
-            return of(new AtividadeBlocoCreateDocumentosActionsAll.GetDocumentosFailed(err));
-        })
     ));
     /**
      * Delete Documento
@@ -104,7 +106,11 @@ export class AtividadeCreateBlocoDocumentosEffect {
                     schema: documentoSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
-                return new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess(response.id);
+                return new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess({
+                    documentoId: response.id,
+                    uuid: response.uuid,
+                    tarefaId: action.payload.tarefaId
+                });
             }),
             catchError((err) => {
                 const payload = {
@@ -277,26 +283,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
             this._store.dispatch(new fromStore.GetDocumentos(tarefas.map(tarefa => tarefa.id)));
         }),
     ), {dispatch: false});
-    /**
-     * Assina Documento Success
-     *
-     * @type {Observable<any>}
-     */
-    assinaDocumentoSuccess: Observable<any> = createEffect(() => this._actions.pipe(
-        ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoSuccess>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO_SUCCESS),
-        tap((action) => {
-            if (action.payload.secret) {
-                const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
-                const ifrm = document.createElement('iframe');
-                ifrm.setAttribute('src', url);
-                ifrm.style.width = '0';
-                ifrm.style.height = '0';
-                ifrm.style.border = '0';
-                document.body.appendChild(ifrm);
-                setTimeout(() => document.body.removeChild(ifrm), 20000);
-            }
-        })
-    ), {dispatch: false});
+
     /**
      * Save Documento Assinatura Eletronica
      *
@@ -371,7 +358,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
             if (action.payload.componentesDigitais[0]) {
                 primary += action.payload.componentesDigitais[0].id;
             } else {
-                primary += '0';
+                primary += 'default';
             }
             if (action.payload.apagadoEm) {
                 primary += '/visualizar';

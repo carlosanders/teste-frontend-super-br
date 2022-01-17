@@ -52,7 +52,7 @@
         <cdk-componente-digital-card-list #cdkUpload
                                           [documentoOrigem]="documento"
                                           [uploadMode]="'linear'"
-                                          (completed)="onCompleteDocumentoVinculado()"
+                                          (completed)="onCompleteDocumentoVinculado($event)"
                                           (completedAll)="onCompleteAllDocumentosVinculados()">
         </cdk-componente-digital-card-list>
     </div>

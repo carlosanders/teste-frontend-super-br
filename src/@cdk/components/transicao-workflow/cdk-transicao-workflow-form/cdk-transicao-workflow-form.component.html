@@ -43,6 +43,14 @@
         </button>
     </mat-form-field>
 
+    <mat-form-field>
+        <mat-select formControlName="qtdDiasPrazo" placeholder="Prazo Próxima Tarefa">
+            <div *ngFor="let criteria of prazoCriteriaList">
+                <mat-option [value]="criteria.valor">{{ criteria.descricao }}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">

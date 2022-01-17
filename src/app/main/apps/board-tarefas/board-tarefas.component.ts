@@ -7,14 +7,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Folder, Pagination} from '../../../../@cdk/models';
+import {Folder, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {FolderTarefaState} from './store';
 import {Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil, withLatestFrom} from 'rxjs/operators';
-import {LoginService} from '../../auth/login/login.service';
-import {getRouterState, RouterStateUrl} from '../../../store';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {getRouterState, RouterStateUrl} from 'app/store';
 import * as _ from 'lodash';
 import {IInfiniteScrollEvent} from 'ngx-infinite-scroll/src/models';
 
@@ -62,8 +62,7 @@ export class BoardTarefasComponent implements OnInit, OnDestroy {
             'especieTarefa.generoTarefa',
             'vinculacoesEtiquetas',
             'vinculacoesEtiquetas.etiqueta',
-            'processo.especieProcesso.workflow',
-            'workflow'
+            'vinculacaoWorkflow'
         ],
         context: {}
     };
