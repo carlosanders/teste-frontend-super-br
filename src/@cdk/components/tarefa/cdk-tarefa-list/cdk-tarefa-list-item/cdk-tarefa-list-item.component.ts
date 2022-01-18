@@ -80,6 +80,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     removendoAssinaturaDocumentosId: number[] = [];
 
+    @Input()
+    savingComponentesDigitais: boolean = false;
+
     @Output()
     toggleInSelectedTarefas = new EventEmitter();
 
@@ -298,7 +301,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
         this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
             // eslint-disable-next-line max-len
-            vinculacaoEtiqueta => (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento' || vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso')
+            vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
         );
     }
 
@@ -337,7 +340,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this._cdkTarefaListItemService.tarefa = this.tarefa;
             this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
                 // eslint-disable-next-line max-len
-                vinculacaoEtiqueta => (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento' || vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso')
+                vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
             );
             this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'

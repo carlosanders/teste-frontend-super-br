@@ -30,7 +30,7 @@ import {
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import * as AssinaturaStore from 'app/store';
-import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {getSavingComponentesDigitaisIds, ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
@@ -122,6 +122,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
     draggingIds$: Observable<number[]>;
+
+    savingComponentesDigitaisIds$: Observable<number[]>;
 
     selectedTarefas$: Observable<Tarefa[]>;
 
@@ -259,6 +261,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
+        this.savingComponentesDigitaisIds$ = this._store.pipe(select(fromStore.getSavingComponentesDigitaisIds));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSavingDocumentosVinculados));
         this.isLoadingDocumentosVinculados$ = this._store.pipe(select(fromStore.getIsLoadingDocumentosVinculados));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));

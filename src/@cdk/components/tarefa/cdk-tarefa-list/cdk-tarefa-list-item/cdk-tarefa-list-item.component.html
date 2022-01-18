@@ -246,11 +246,15 @@
                                     {{formTipoDocumento.get('tipoDocumentoMinuta').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="accent"  [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
+                            <button mat-raised-button color="accent" [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
                                 SALVAR
                             </button>
                         </form>
                     </mat-menu>
+                </div>
+                <div class="etiqueta-loading" *ngIf="savingComponentesDigitais">
+                    CARREGANDO
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                 </div>
                 <cdk-componente-digital-card-list class="componente-digital-card"
                                                   #cdkUpload
