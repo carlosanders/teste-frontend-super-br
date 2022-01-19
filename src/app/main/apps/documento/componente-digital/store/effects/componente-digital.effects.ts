@@ -83,7 +83,7 @@ export class ComponenteDigitalEffect {
 
                 primary += componenteDigital.id;
 
-                if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
+                if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm && documento.minuta) {
                     primary += '/editor/ckeditor';
                 } else {
                     primary += '/visualizar';

@@ -77,7 +77,7 @@
                         </ng-container>
                     </button>
 
-                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async)?.juntadaAtual"
+                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async)?.minuta === false"
                             matTooltip="Juntada" routerLink="juntada"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
@@ -88,7 +88,7 @@
 
                     <button mat-menu-item aria-label="modelos"
                             matTooltip="Modelos" routerLink="modelos"
-                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false"
+                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false && (documento$ | async)?.minuta"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">file_copy</mat-icon>
@@ -98,7 +98,7 @@
 
                     <button mat-menu-item aria-label="versões"
                             matTooltip="Versões" routerLink="versoes"
-                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false"
+                            *ngIf="this.currentComponenteDigital?.editavel && (documento$ | async).assinado === false && (documento$ | async)?.minuta"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">folder</mat-icon>

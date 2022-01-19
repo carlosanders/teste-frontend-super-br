@@ -26,6 +26,7 @@ import {CdkUtils} from '../../../../../../@cdk/utils';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {getComponenteDigitalLoading} from "./store";
 
 @Component({
     selector: 'documento-edit-componentes-digitais',
