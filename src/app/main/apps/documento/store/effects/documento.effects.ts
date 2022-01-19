@@ -32,7 +32,7 @@ import {
     GetDocumentos as GetDocumentosAtividade
 } from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {GetDocumentos as GetDocumentosAvulsos} from '../../../tarefas/tarefa-detail/oficios/store';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Injectable()
 export class DocumentoEffect {
