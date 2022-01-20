@@ -136,6 +136,8 @@ export const tipoDossie = new schema.Entity('tipo-dossie');
 export const vinculacaoEspecieProcessoWorkflow = new schema.Entity('vinculacao-especie-processo-workflow');
 export const vinculacaoTransicaoWorkflow = new schema.Entity('vinculacao-transicao-workflow');
 export const vinculacaoWorkflow = new schema.Entity('vinculacao-workflow');
+export const objetoAvaliado = new schema.Entity('objeto-avaliado');
+export const avaliacao = new schema.Entity('avaliacao');
 
 acao.define({
     criadoPor: usuario,
@@ -1157,6 +1159,19 @@ vinculacaoWorkflow.define({
     tarefaInicial: tarefa,
     tarefaAtual: tarefa,
     workflow: workflow,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+avaliacao.define({
+    objetoAvaliado: objetoAvaliado,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+objetoAvaliado.define({
+    criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });

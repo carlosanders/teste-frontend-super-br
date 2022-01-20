@@ -1,0 +1,40 @@
+<h3 mat-dialog-title></h3>
+<div mat-dialog-content>
+    <div class="content">
+        <div class="loading" *ngIf="(isLoading$ | async) === true">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+        <div *ngIf="(isLoading$ | async) === false">
+            <span *ngFor="let star of stars; let i = index" on-mouseover="rate(i + 1)" class="estrelas">
+                <ng-container *ngIf="star; else noIcon">
+                    <mat-icon class="yellow-icon ativas">star_border</mat-icon>
+                </ng-container>
+                <ng-template #noIcon>
+                    <mat-icon class="inativas">star</mat-icon>
+                </ng-template>
+            </span>
+            <span class="resultante">{{ avaliacaoResultante }} de {{ quantity }}</span>
+            <ng-container>
+                <span class="error" *ngIf="(errors$ | async)?.error">
+                    <mat-icon>error_outline</mat-icon> {{(errors$ | async)?.error.message}}
+                </span>
+                <div class="avaliacoes">
+                    <p>{{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes ?? 0 }} avaliações</p>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <div class="actions" *ngIf="(isLoading$ | async) === false">
+        <button mat-raised-button color="accent" (click)="avaliacao(10.0)"
+                *ngIf="(isSaving$ | async) === false">
+            <mat-icon>thumb_up</mat-icon>
+        </button>
+        <button mat-raised-button color="warn" (click)="avaliacao(0)"
+                *ngIf="(isSaving$ | async) === false">
+            <mat-icon>thumb_down</mat-icon>
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="(isSaving$ | async) === true"></mat-spinner>
+    </div>
+</div>
