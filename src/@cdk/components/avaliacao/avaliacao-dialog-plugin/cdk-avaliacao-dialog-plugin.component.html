@@ -16,10 +16,11 @@
             <span class="resultante">{{ avaliacaoResultante }} de {{ quantity }}</span>
             <ng-container>
                 <span class="error" *ngIf="(errors$ | async)?.error">
-                    <mat-icon>error_outline</mat-icon> {{(errors$ | async)?.error.message}}
+                    <mat-icon>error_outline</mat-icon>
+                    {{(errors$ | async)?.error.message}}
                 </span>
                 <div class="avaliacoes">
-                    <p>{{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes ?? 0 }} avaliações</p>
+                    <p>{{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes ?? 0 }} {{ (objetoAvaliado$ | async)?.quantidadeAvaliacoes === 1 ? 'avaliação' : 'avaliações' }}</p>
                 </div>
             </ng-container>
         </div>
