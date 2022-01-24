@@ -12,9 +12,9 @@ RUN npm config set unsafe-perm true
 
 RUN apk add python3 make g++
 
-RUN npm install npm@7.24.2 -g
+RUN npm install npm@8.3.2 -g
 
-RUN npm install -g @angular/cli@13.1.2
+RUN npm install -g @angular/cli@13.1.4
 
 RUN npm install --legacy-peer-deps --package-lock=false
 
