@@ -1242,9 +1242,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
             this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
         }
-        if (!tarefa.apagadoEm && vinculacaoEtiquetaClicada.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
-            this.abreEditor(vinculacaoEtiquetaClicada.objectId, tarefa);
-        }
     }
 
     doVinculacaoEtiquetaCreate(params): void {

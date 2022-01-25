@@ -3,6 +3,7 @@ import {Actions} from '@ngrx/effects';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import {filter} from 'rxjs/operators';
 
 @Injectable()
 export class AdminEffect {
