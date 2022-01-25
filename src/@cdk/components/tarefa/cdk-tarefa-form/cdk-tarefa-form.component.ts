@@ -334,7 +334,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('usuarioResponsavel').disable();
         }
 
-        if (this.form.get('setorResponsavel').value) {
+        if (this.form.get('setorResponsavel').value && !this.form.get('distribuicaoAutomatica').value) {
             this.form.get('usuarioResponsavel').enable();
             this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
         } else {
@@ -344,11 +344,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('blocoProcessos').valueChanges.pipe(
             distinctUntilChanged(),
             switchMap((value) => {
-                if (value && this.processos.length > 0) {
-                    this.desabilitaEspecieTarefa = false;
-                } else {
-                    this.desabilitaEspecieTarefa = true;
-                }
+                this.desabilitaEspecieTarefa = !(value && this.processos.length > 0);
 
                 this._changeDetectorRef.markForCheck();
                 return of([]);
@@ -750,8 +746,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
 
             if (diffDays > this.form.get('prazoDias').value
-                || parseInt(diffDays) < (this.form.get('prazoDias').value - 1)) {
-                this.form.get('prazoDias').setValue(parseInt(diffDays));
+                || parseInt(diffDays, 10) < (this.form.get('prazoDias').value - 1)) {
+                this.form.get('prazoDias').setValue(parseInt(diffDays, 10));
             }
         }
     }
