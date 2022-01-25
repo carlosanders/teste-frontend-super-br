@@ -43,6 +43,12 @@ export class CdkSetorTreeComponent implements OnInit {
     @Output()
     selected = new EventEmitter<Setor>();
 
+    setorMap = new Map<Setor, Setor>();
+    nestedNodeMap = new Map<Setor, Setor>();
+    treeControl: FlatTreeControl<Setor>;
+    treeFlattener: MatTreeFlattener<Setor, Setor>;
+    dataSource: MatTreeFlatDataSource<Setor, Setor>;
+
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _serviceTree: CdkSetorTreeService,
@@ -56,12 +62,6 @@ export class CdkSetorTreeComponent implements OnInit {
 
         this.pagination = new Pagination();
     }
-
-    setorMap = new Map<Setor, Setor>();
-    nestedNodeMap = new Map<Setor, Setor>();
-    treeControl: FlatTreeControl<Setor>;
-    treeFlattener: MatTreeFlattener<Setor, Setor>;
-    dataSource: MatTreeFlatDataSource<Setor, Setor>;
 
     getLevel = (node: Setor) => node.level;
     isExpandable = (node: Setor) => node.expandable;

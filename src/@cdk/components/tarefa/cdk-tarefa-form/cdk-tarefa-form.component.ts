@@ -162,6 +162,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     setorResponsavelListIsLoading: boolean;
 
+    setorResponsavelPaginationTree: Pagination;
+
     unidadeResponsavelList: Setor[] = [];
 
     unidadeResponsavelListIsLoading: boolean;
@@ -238,6 +240,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPagination = new Pagination();
         this.setorResponsavelPagination.populate = ['unidade'];
         this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
+        this.setorResponsavelPaginationTree = new Pagination();
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPaginationTree = new Pagination();
@@ -329,6 +332,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('setorResponsavel').enable();
             this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.form.get('unidadeResponsavel').value.id}`;
             this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
+            this.setorResponsavelPaginationTree.filter['unidade.id'] = `eq:${this.form.get('unidadeResponsavel').value.id}`;
         } else {
             this.form.get('setorResponsavel').disable();
             this.form.get('usuarioResponsavel').disable();
@@ -395,6 +399,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         // this.form.get('distribuicaoAutomatica').reset();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
                         this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
+                        this.setorResponsavelPaginationTree.filter['unidade.id'] = `eq:${value.id}`;
                         this.editable = true;
 
                         const unidadesId = [];

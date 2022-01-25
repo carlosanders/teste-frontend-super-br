@@ -766,3 +766,5 @@
 * Correção ao remover componente digital que estava sendo exibido, editor não redirecionava a tela e tentava abrir componente inexistente
 * Correção no botão de próximo componente digital do editor, que em algumas situações pulava um componente digital
 * Correção no botão de componente digital anterior do editor, que não verificava se havia mudanças no editor antes de trocar de componente
+* Correção de css no formulário de novas tramitações em edição de processo
+* Correção de comportamento de árvore do setor responsável no formulário de criação de tarefa
