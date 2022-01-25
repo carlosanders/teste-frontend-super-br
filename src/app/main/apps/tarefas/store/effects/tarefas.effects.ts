@@ -207,16 +207,21 @@ export class TarefasEffect {
                 map(vinculacaoEtiqueta => vinculacaoEtiqueta)
             ))
         ), 25),
-        mergeMap(([, vinculacao]) => this._vinculacaoEtiquetaService.get(
-            vinculacao.id,
-            JSON.stringify(['etiqueta'])).pipe(
-            tap((response) => {
-                this._store.dispatch(new AddData<VinculacaoEtiqueta>({
-                    data: [response],
-                    schema: vinculacaoEtiquetaSchema
-                }));
-            })
-        ),25),
+        mergeMap(([, vinculacao]) => {
+            if (vinculacao) {
+                return this._vinculacaoEtiquetaService.get(
+                    vinculacao.id,
+                    JSON.stringify(['etiqueta'])).pipe(
+                    tap((response) => {
+                        this._store.dispatch(new AddData<VinculacaoEtiqueta>({
+                            data: [response],
+                            schema: vinculacaoEtiquetaSchema
+                        }));
+                    })
+                );
+            }
+            return of(null);
+        },25),
         catchError((err) => {
             console.log(err);
             return err;

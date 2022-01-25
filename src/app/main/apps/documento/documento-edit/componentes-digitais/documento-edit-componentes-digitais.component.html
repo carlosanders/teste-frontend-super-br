@@ -25,7 +25,7 @@
                                   [mode]="'documento-edit'"
                                   [uploadMode]="'linear'"
                                   [documento]="(documento$ | async)"
-                                  (completed)="onCompleteComponenteDigital()">
+                                  (completed)="onCompleteComponenteDigital($event)">
 </cdk-componente-digital-card-list>
 
 <cdk-componente-digital-grid

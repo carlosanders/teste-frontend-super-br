@@ -2,24 +2,31 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
+import {
+    componenteDigital as componenteDigitalSchema, documento as documentoSchema
+} from '@cdk/normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../../anexos/store';
+import {ActivatedRoute, Router} from '@angular/router';
+import {getDocumento} from "../selectors";
+import {SetCurrentStep} from "../../../../store";
 
 @Injectable()
 export class ComponenteDigitalEffects {
     routerState: any;
     componenteDigitalId: number;
+    lixeira = false;
+    pesquisa = false;
     /**
      * Get ComponentesDigitais with router parameters
      *
@@ -91,6 +98,16 @@ export class ComponenteDigitalEffects {
                     schema: componenteDigitalSchema,
                     changes: {apagadoEm: response.apagadoEm}
                 }));
+                this._store.dispatch(new RemoveChildData({
+                    id: action.payload.componenteDigitalId,
+                    childSchema: componenteDigitalSchema,
+                    parentSchema: documentoSchema,
+                    parentId: action.payload.documento.id
+                }));
+                this._store.dispatch(new AddData<ComponenteDigital>({
+                    data: [response],
+                    schema: componenteDigitalSchema
+                }));
                 return new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id);
             }),
             catchError((err) => {
@@ -111,45 +128,86 @@ export class ComponenteDigitalEffects {
         ), 25)
     ));
     /**
+     * Delete ComponenteDigital Success
+     *
+     * @type {Observable<any>}
+     */
+    deleteComponenteDigitalSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<ComponenteDigitalActions.DeleteComponenteDigitalSuccess>(ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL_SUCCESS),
+        withLatestFrom(this._store.pipe(select(getDocumento))),
+        tap(([action, documento]) => {
+            console.log(this.routerState.params['componenteDigitalHandle']);
+            console.log(action.payload);
+            console.log(documento);
+            if (parseInt(this.routerState.params['componenteDigitalHandle'], 10) === action.payload) {
+                console.log('entrou aqui');
+                let primary = '';
+                let nextComponenteDigital = null;
+                nextComponenteDigital = documento.componentesDigitais[0];
+                if (nextComponenteDigital) {
+                    primary = 'componente-digital/' + nextComponenteDigital.id;
+                } else {
+                    primary = undefined;
+                }
+                this._router.navigate(
+                    [
+                        this.routerState.url.split('/documento/')[0] + '/documento/' + documento.id,
+                        {
+                            outlets: {
+                                primary: primary,
+                                sidebar: 'editar/componentes-digitais'
+                            }
+                        }
+                    ],
+                    {
+                        relativeTo: this._activatedRoute.parent,
+                        queryParams: {
+                            lixeira: this.lixeira ? true : null,
+                            pesquisa: this.pesquisa ? true : null
+                        }
+                    }
+                ).then(() => {
+                    console.log('caiu no then');
+                    if (nextComponenteDigital) {
+                        this._store.dispatch(new SetCurrentStep({
+                            id: nextComponenteDigital.id,
+                            editavel: nextComponenteDigital.editavel && documento.minuta
+                        }));
+                    }
+                });
+            }
+        })
+    ), {dispatch: false});
+    /**
      * Save ComponenteDigital
      *
      * @type {Observable<any>}
      */
-    saveComponenteDigital: Observable<any> = createEffect(() => this._actions.pipe(
+    saveComponenteDigital: any = createEffect(() => this._actions.pipe(
         ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-        tap(action => this._store.dispatch(new OperacoesActions.Operacao({
-            id: action.payload.operacaoId,
-            type: 'componente digital',
-            content: 'Criando componente digital...',
-            status: 0, // carregando
-        }))),
-        switchMap(action => this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
-            mergeMap((response: ComponenteDigital) => [
-                new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
-                new AddData<ComponenteDigital>({
-                    data: [{...action.payload, ...response}],
-                    schema: componenteDigitalSchema
-                }),
-                new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'componente digital',
-                    content: `Componente Digital id ${response.id} criado com sucesso!`,
-                    status: 1, // Sucesso
-                }),
-                new fromStore.ReloadDocumentosVinculados()
-            ]),
-            catchError((err) => {
-                console.log(err);
-                this._store.dispatch(new OperacoesActions.Operacao({
-                    id: action.payload.operacaoId,
-                    type: 'componente digital',
-                    content: 'Erro ao criar o componente digital!',
-                    status: 2, // erro
-                }));
-                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
-            })
-        ))
-    ));
+        switchMap((action) => {
+            const documentoId = action.payload.documento.id;
+            const componenteDigital = new ComponenteDigital();
+            Object.assign(componenteDigital, action.payload);
+            componenteDigital.documento = undefined;
+            componenteDigital.file = null;
+            this._store.dispatch(new AddData<ComponenteDigital>({
+                data: [componenteDigital],
+                schema: componenteDigitalSchema
+            }));
+            this._store.dispatch(new AddChildData<ComponenteDigital>({
+                data: [componenteDigital],
+                childSchema: componenteDigitalSchema,
+                parentSchema: documentoSchema,
+                parentId: documentoId
+            }));
+            return of(new ComponenteDigitalActions.SaveComponenteDigitalSuccess(componenteDigital));
+        }),
+        catchError((err) => {
+            console.log(err);
+            return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+        })
+    ), {dispatch: false});
     /**
      * Patch ComponenteDigital
      *
@@ -310,13 +368,17 @@ export class ComponenteDigitalEffects {
         private _actions: Actions,
         private _componenteDigitalService: ComponenteDigitalService,
         private _documentoService: DocumentoService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute
     ) {
         this._store.pipe(
             select(getRouterState),
             filter(routerState => !!routerState)
         ).subscribe((routerState) => {
             this.routerState = routerState.state;
+            this.lixeira = !!routerState.state.queryParams.lixeira;
+            this.pesquisa = !!routerState.state.queryParams.pesquisa;
         });
     }
 }
