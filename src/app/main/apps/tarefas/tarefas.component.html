@@ -39,7 +39,7 @@
                 </mat-menu>
                 <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doMovimentar(currentTarefa)">
-                    <mat-icon>autorenew</mat-icon>
+                    <mat-icon>send</mat-icon>
                     <span>Movimentar</span>
                 </button>
                 <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
