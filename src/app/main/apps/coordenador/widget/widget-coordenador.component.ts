@@ -96,7 +96,6 @@ export class WidgetCoordenadorComponent implements OnInit {
                     )
                     this.numeroTarefas = unique2;
                     this.tarefas = this.listaTarefas;
-                    console.log(this.numeroTarefas);
                 }
             );
         } else {
