@@ -22,7 +22,7 @@
                 <button class="botao-link" mat-button
                          [routerLink]="'/apps/tarefas/' + item.especieTarefa.generoTarefa.nome.toLowerCase() + '/coordenacao/' +item.setorResponsavel.id">
                     <span class="material-icons">link</span>
-                    <span class="titulo">Setor {{item.setorResponsavel.sigla}}({{item.setorResponsavel.unidade.sigla}})<br></span>
+                    <span class="titulo">Setor {{item.setorResponsavel.sigla}}({{item.setorResponsavel.unidade.sigla}}) {{this.numeroTarefas[item.setorResponsavel.id]}}<br></span>
                 </button>
             </div>
             <div *ngIf="tarefasCount === 0" class="mensagem-aviso">Não há tarefas de Coordenação pendentes de resposta</div>

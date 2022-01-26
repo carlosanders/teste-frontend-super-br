@@ -83,14 +83,20 @@ export class WidgetCoordenadorComponent implements OnInit {
                 (value) => {
 
                     this.numeroTarefas = [];
+                    this.listaTarefas = [];
+                    const unique2 = {}
                     this.numeroTarefas.push(value);
                     const unique = [...new Map(this.numeroTarefas[0].entities.map((item) => [item.setorResponsavel.id, item]))];
-                    this.listaTarefas = [];
+                    this.numeroTarefas[0].entities.forEach(function (x) {
+                        unique2[x.setorResponsavel.id] = (unique2[x.setorResponsavel.id] || 0) + 1;
+                    });
                     unique.map(key => {
                             this.listaTarefas.push(key[1]);
                         }
                     )
+                    this.numeroTarefas = unique2;
                     this.tarefas = this.listaTarefas;
+                    console.log(this.numeroTarefas);
                 }
             );
         } else {
