@@ -25,6 +25,7 @@ export class WidgetTramitacaoComponent implements OnInit {
     listaNups: any;
     tramitacoes: Tramitacao[];
     contagemTramitacoes: any;
+    isLoading: boolean = true;
 
     /**
      *
@@ -58,12 +59,17 @@ export class WidgetTramitacaoComponent implements OnInit {
                 this._changeDetectorRef.markForCheck();
             }
         );
+    }
+
+    trocarVisualizacao(): void {
+        this.contagemTramitacoes = [];
+        this.isContadorPrincipal = !this.isContadorPrincipal;
         this._tramitacaoService.query(
             `{"setorDestino.id": "in:${this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`,
-                25,
-                0,
-                '{"criadoEm": "DESC"}',
-                '["processo"]')
+            25,
+            0,
+            '{"criadoEm": "DESC"}',
+            '["processo"]')
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
@@ -71,12 +77,9 @@ export class WidgetTramitacaoComponent implements OnInit {
                 this.listaNups = [];
                 this.listaNups.push(value);
                 this.tramitacoes = this.listaNups[0].entities;
+                this.isLoading = false;
+                this._changeDetectorRef.markForCheck();
             }
         );
-    }
-
-    trocarVisualizacao(): void {
-        this.isContadorPrincipal = !this.isContadorPrincipal;
-        this.contagemTramitacoes = [];
     }
 }

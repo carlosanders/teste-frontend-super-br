@@ -17,7 +17,9 @@
                 Aguardando
             </div>
         </div>
-        <div class="card-oficio" *ngIf="!isContadorPrincipal">
+        <div class="card-oficio" fxLayout="column" fxLayoutAlign="center center" *ngIf="!isContadorPrincipal">
+            <mat-spinner *ngIf="this.isLoading !== false" diameter="64"></mat-spinner>
+            <div *ngIf="this.isLoading === false">
             <div *ngFor="let item of documentoAvulso">
                 <button class="botao-link" mat-button
                         (click)="visualizar(item)">
@@ -28,6 +30,7 @@
                     <span class="subtitulo" *ngIf="item.documentoRemessa.numeroUnicoDocumentoFormatado">{{item.documentoRemessa.numeroUnicoDocumentoFormatado}}</span>
             </div>
             <div *ngIf="documentosAvulsosCount === 0" class="mensagem-aviso">Não há ofícios pendentes de resposta</div>
+            </div>
         </div>
     </mat-card-content>
     <mat-card-footer *ngIf="isContadorPrincipal">

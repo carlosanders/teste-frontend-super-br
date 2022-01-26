@@ -30,6 +30,8 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
     listaNups: any;
     documentoAvulso: DocumentoAvulso[];
     routerState: any;
+    isLoading: boolean = true;
+
 
     /**
      * Constructor
@@ -73,6 +75,10 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
                 this._changeDetectorRef.markForCheck();
             }
         );
+    }
+    trocarVisualizacao(): void {
+        this.isContadorPrincipal = !this.isContadorPrincipal;
+        this.contagemDocumentosAvulsos = [];
         this._documentoAvulsoService.query(
             `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull","dataHoraRemessa": "isNotNull"}`,
             25,
@@ -86,12 +92,10 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
                 this.listaNups = [];
                 this.listaNups.push(value);
                 this.documentoAvulso = this.listaNups[0].entities;
+                this.isLoading = false;
+                this._changeDetectorRef.markForCheck();
             }
         );
-    }
-    trocarVisualizacao(): void {
-        this.isContadorPrincipal = !this.isContadorPrincipal;
-        this.contagemDocumentosAvulsos = [];
     }
 
     visualizar(documentoAvulso: DocumentoAvulso): void {
