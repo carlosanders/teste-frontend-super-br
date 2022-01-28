@@ -42,6 +42,7 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
     @Input()
     datetime: boolean = false;
 
+    @Input()
     format: string = 'YYYY-MM-DD';
 
     form: FormGroup;

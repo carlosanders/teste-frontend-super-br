@@ -97,7 +97,7 @@ export class CdkSetorTreeComponent implements OnInit {
 
     addNewItem(node: any): void {
         node.isLoading = true;
-        this.pagination.filter = '';
+        this.pagination.filter = {};
         const parentNode = this.setorMap.get(node);
         const setoresChild = this.getSetor('eq:' + node.id);
         setoresChild.subscribe((setores) => {
