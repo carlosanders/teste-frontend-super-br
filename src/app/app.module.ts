@@ -73,7 +73,7 @@ let rootModules = [];
 let childModules = [];
 
 const path = 'app';
-modulesConfig.forEach((module) => {
+modulesConfig.forEach((module: any) => {
     if (module.hasOwnProperty('extension')) {
         const extension = new module.extension();
 
