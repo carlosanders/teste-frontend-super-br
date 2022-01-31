@@ -8,6 +8,8 @@ export const GET_AVALIACAO = '[AVALIACAO] GET AVALIACAO';
 export const GET_AVALIACAO_SUCCESS = '[AVALIACAO] GET AVALIACAO SUCCESS';
 export const GET_AVALIACAO_FAILED = '[AVALIACAO] GET AVALIACAO FAILED';
 
+export const UNLOAD_AVALIACAO = '[AVALIACAO] UNLOAD AVALIACAO';
+
 /**
  * Get Avaliacao
  */
@@ -80,10 +82,19 @@ export class SaveAvaliacaoFailed implements Action
     }
 }
 
+export class UnloadAvaliacao implements Action
+{
+    readonly type = UNLOAD_AVALIACAO;
+
+    constructor() {
+    }
+}
+
 export type AvaliacaoActionsAll
     = GetAvaliacao
     | GetAvaliacaoSuccess
     | GetAvaliacaoFailed
     | SaveAvaliacao
     | SaveAvaliacaoSuccess
-    | SaveAvaliacaoFailed;
+    | SaveAvaliacaoFailed
+    | UnloadAvaliacao;

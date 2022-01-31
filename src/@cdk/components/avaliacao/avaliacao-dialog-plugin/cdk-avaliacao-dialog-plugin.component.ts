@@ -52,7 +52,6 @@ export class CdkAvaliacaoDialogPluginComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.objetoAvaliado$.subscribe((objetoAvaliado) => {
             this.objetoAvaliado = objetoAvaliado;
-
             this.avaliacaoResultante = Math.trunc(Math.round(objetoAvaliado?.avaliacaoResultante / 20.0));
             this.starsActivate(this.avaliacaoResultante);
             this._changeDetectorRef.markForCheck();

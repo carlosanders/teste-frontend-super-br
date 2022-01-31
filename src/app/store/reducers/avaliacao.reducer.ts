@@ -71,6 +71,12 @@ export const avaliacaoReducer = (
             };
         }
 
+        case AvaliacaoActions.UNLOAD_AVALIACAO: {
+            return {
+                ...avaliacaoInitialState
+            };
+        }
+
         default:
             return state;
     }
