@@ -32,6 +32,7 @@ import {
 import {
     CdkTipoDocumentoAutocompleteModule
 } from "../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
     declarations: [
@@ -64,7 +65,8 @@ import {
         DndModule,
         CdkVinculacaoEtiquetaChipsModule,
         CdkComponenteDigitalCardListModule,
-        CdkTipoDocumentoAutocompleteModule
+        CdkTipoDocumentoAutocompleteModule,
+        MatProgressBarModule
     ],
     providers: [
     ],

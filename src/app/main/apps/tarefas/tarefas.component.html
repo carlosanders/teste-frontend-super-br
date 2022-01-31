@@ -39,7 +39,7 @@
                 </mat-menu>
                 <button mat-button aria-label="movimentar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
                         (click)="doMovimentar(currentTarefa)">
-                    <mat-icon>autorenew</mat-icon>
+                    <mat-icon>send</mat-icon>
                     <span>Movimentar</span>
                 </button>
                 <button mat-button aria-label="editar tarefa" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
@@ -67,10 +67,11 @@
                     <mat-icon>mail</mat-icon>
                     <span>Criar Ofício</span>
                 </button>
-                <button mat-button aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
-                        (click)="deleteTarefa(currentTarefa)" fxHide.lt-lg>
+                <button mat-button aria-label="apagar"
+                *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira' && usuarioAtual?.id === currentTarefa?.usuarioResponsavel?.id"
+                (click)="deleteTarefa(currentTarefa)" fxHide.lt-lg>
                     <mat-icon>delete</mat-icon>
-                    <span>Apagar</span>
+                    <span>Apagar </span>
                 </button>
                 <button mat-button aria-label="processo" *ngIf="!(processoHandle$ | async)"
                         (click)="doEditProcesso(currentTarefa)" fxHide.lt-lg>
@@ -113,7 +114,7 @@
                         <mat-icon>book</mat-icon>
                         <span>Processo</span>
                     </button>
-                    <button mat-menu-item aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira'"
+                    <button mat-menu-item aria-label="apagar" *ngIf="typeHandle !== 'concluidas' && typeHandle !== 'enviadas' && targetHandle !== 'lixeira' && usuarioAtual?.id === currentTarefa?.usuarioResponsavel?.id"
                             (click)="deleteTarefa(currentTarefa)" fxHide fxShow.lt-lg>
                         <mat-icon>delete</mat-icon>
                         <span>Apagar</span>
@@ -226,6 +227,7 @@
                                      [deletingDocumentosId]="(deletingDocumentosId$ | async)"
                                      [downloadP7SDocumentoIds]="(downloadP7SDocumentoIds$ | async)"
                                      [removendoAssinaturaDocumentosId]="(removendoAssinaturaDocumentosId$ | async)"
+                                     [savingComponentesDigitaisIds]="(savingComponentesDigitaisIds$ | async)"
                                      [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                                      [folders]="(folders$ | async)"
                                      [usuarioAtual]="usuarioAtual"

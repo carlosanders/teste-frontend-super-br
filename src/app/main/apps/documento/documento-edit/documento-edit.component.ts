@@ -268,7 +268,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         let primary: string;
         primary = 'componente-digital/';
         if (documento.componentesDigitais[0]) {
-            primary += documento.componentesDigitais[0].id + '/editor/ckeditor';
+            primary += documento.componentesDigitais[0].id;
         } else {
             primary += '0';
         }

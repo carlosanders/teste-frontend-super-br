@@ -381,6 +381,7 @@ export const minutasReducer = (
             return {
                 ...state,
                 undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.id),
                 documentos: state.documentos.filter(id => id !== action.payload.id)
             };
         }

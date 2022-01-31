@@ -202,6 +202,8 @@ export class MinutasComponent implements OnInit, OnDestroy {
                 if (this.tarefasAgrupadas[tarefa]?.documentosId?.length) {
                     const documentosTarefa = this.minutas.filter(documento => documento.tarefaOrigem.id === parseInt(tarefa, 10));
                     novoDocumentos[tarefa] = documentosTarefa;
+                } else {
+                    novoDocumentos[tarefa] = [];
                 }
             });
             Object.keys(novoDocumentos).forEach((tarefaId) => {

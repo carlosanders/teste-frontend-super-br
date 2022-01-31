@@ -756,3 +756,15 @@
 * Correção em bugs na lixeira do painel de minutas
 * Melhoria barra de pesquisa rápida superior sempre aberta
 * Correção na abertura do editor de juntadas quando acessado de dentro do processo-edit
+* Correção na lixeira de minutas dentro do painel de minutas
+* Correção na exibição de conteúdo de uma juntada desentranhada por dentro do visualizador de processo
+* Melhoria na barra lateral de processos, exibindo o botão editar como um botão colapsável com todas as opções de edição do processo
+* Correção ao remover anexo de documentos no editor, o botão carregar mais aparece incorretamente
+* Correção de falha grave no editor ao assinar um anexo de dentro do editor de documentos
+* Correção ao remover um componente digital dentro do editor de documentos, ocorre erro 404 do backend
+* Correção ao adicionar componente digital, editor se comportava de forma incorreta
+* Correção ao remover componente digital que estava sendo exibido, editor não redirecionava a tela e tentava abrir componente inexistente
+* Correção no botão de próximo componente digital do editor, que em algumas situações pulava um componente digital
+* Correção no botão de componente digital anterior do editor, que não verificava se havia mudanças no editor antes de trocar de componente
+* Correção de css no formulário de novas tramitações em edição de processo
+* Correção de comportamento de árvore do setor responsável no formulário de criação de tarefa

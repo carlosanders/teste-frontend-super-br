@@ -83,13 +83,17 @@ export class ComponentesDigitaisEffects {
             ]),
             catchError((err) => {
                 console.log(err);
+                const payload = {
+                    id: action.payload.componenteDigital.tarefaOrigem.id,
+                    error: err
+                };
                 this._store.dispatch(new OperacoesActions.Operacao({
                     id: action.payload.operacaoId,
                     type: 'componente digital',
                     content: 'Ocorreu um erro ao salvar o componente digital.',
                     status: 2, // erro
                 }));
-                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(payload));
             })
         ))
     ));

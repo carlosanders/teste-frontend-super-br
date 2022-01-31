@@ -1,3 +1,8 @@
+<cdk-componente-digital-card-list #ckdUpload
+                                  [uploadMode]="'linear'"
+                                  (completed)="onComplete()">
+</cdk-componente-digital-card-list>
+
 <cdk-documento-avulso-grid
         [loading]="(loading$ | async)"
         [documentosAvulsos]="(documentosAvulsos$ | async)"
@@ -7,11 +12,14 @@
         [deletedIds]="(deletedIds$ | async)"
         (responder)="responder($event)"
         (statusBarramento)="verificaStatusBarramento($event)"
-        [actions]="['showDeleted']"
+        [actions]="['visualizar','showDeleted']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"
         (create)="create()"
+        (visualizar)="visualizar($event)"
         (delete)="delete($event)"
         (deleteBlocoEmmitter)="deleteBloco($event)">
 </cdk-documento-avulso-grid>
+
+<router-outlet></router-outlet>

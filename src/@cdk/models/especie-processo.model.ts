@@ -65,6 +65,7 @@ export class EspecieProcesso {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: moment.Moment;
 
+    workflow?: boolean;
 
     constructor() {
         this.id = null;
@@ -83,5 +84,6 @@ export class EspecieProcesso {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.workflow = null;
     }
 }

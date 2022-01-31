@@ -189,7 +189,7 @@ export const processoViewReducer = (state = processoViewInitialState, action: Pr
                     ...state.pagination,
                     total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
                 }
-            }
+            };
         }
 
         case ProcessoViewActions.SET_BINARY_VIEW: {

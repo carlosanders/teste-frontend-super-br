@@ -455,6 +455,7 @@
 
 <cdk-setor-tree
     *ngIf="activeCard === 'setor-tree'"
+    [pagination]="setorResponsavelPaginationTree"
     (selected)="selectSetorResponsavel($event)"
     (cancel)="cancel()">
 </cdk-setor-tree>

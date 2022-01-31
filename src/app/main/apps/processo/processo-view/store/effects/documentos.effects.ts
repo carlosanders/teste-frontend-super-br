@@ -294,12 +294,6 @@ export class ProcessoViewDocumentosEffects {
                 primary += '0';
             }
 
-            if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
-                primary += '/editor/ckeditor';
-            } else {
-                primary += '/visualizar';
-            }
-
             let sidebar = action.payload.routeOficio + '/dados-basicos';
 
             // eslint-disable-next-line max-len

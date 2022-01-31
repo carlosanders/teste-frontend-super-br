@@ -77,8 +77,9 @@ toolbar {
     margin-top: 10px;
 
     .title {
-        font-size: 20px;
-        margin-top: 10px;
+        font-weight: 600;
+        font-size: 15px;
+        margin-top: 5px;
         margin-bottom: 5px;
         margin-right: 3px;
 
@@ -86,13 +87,13 @@ toolbar {
 
     .title-actions {
         .mat-icon {
-            margin-left: 10px;
+            margin-left: 5px;
         }
     }
 
 
     button {
-        margin-right: 15px;
+        margin-right: 10px;
     }
 
     .actions {
@@ -110,7 +111,14 @@ toolbar {
     flex: auto;
 
     button {
-        margin-right: 15px;
+        margin-right: 10px;
+    }
+
+    p {
+        cursor: pointer;
+        margin: 5px 0 5px 5px;
+        text-align: initial;
+        font-size: 13px;
     }
 
     .actions {
@@ -127,7 +135,7 @@ toolbar {
 }
 
 .non-readed {
-    background-color: #eae9e9;
+    background-color: #f1f2f9;
     font-weight: bold;
 }
 

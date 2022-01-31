@@ -32,7 +32,7 @@
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.processo?.especieProcesso?.workflow ? ' (Workflow)' : '' }}</span>
+                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.vinculacaoWorkflow ? ' (Workflow)' : '' }}</span>
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
@@ -246,11 +246,15 @@
                                     {{formTipoDocumento.get('tipoDocumentoMinuta').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="accent"  [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
+                            <button mat-raised-button color="accent" [disabled]="!habilitarTipoDocumentoSalvar" (click)="salvarTipoDocumento(vinculacaoEtiqueta.objectId)">
                                 SALVAR
                             </button>
                         </form>
                     </mat-menu>
+                </div>
+                <div class="etiqueta-loading" *ngIf="savingComponentesDigitais">
+                    CARREGANDO
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                 </div>
                 <cdk-componente-digital-card-list class="componente-digital-card"
                                                   #cdkUpload
@@ -312,7 +316,7 @@
         <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm" matTooltip="Movimentar tarefa"
                 mat-icon-button (click)="doMovimentar(); $event.stopPropagation();"
                 aria-label="Movimentar tarefa" fxHide.xs>
-            <mat-icon class="secondary-text">autorenew</mat-icon>
+            <mat-icon class="secondary-text">send</mat-icon>
         </button>
 
         <button style="display: none;" class="ferramentas" *ngIf="!tarefa.apagadoEm" matTooltip="Editar tarefa"
