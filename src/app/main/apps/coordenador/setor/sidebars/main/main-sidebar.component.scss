@@ -17,5 +17,9 @@ setor-main-sidebar {
         height: 0;
         overflow-y: auto;
         margin-top: 8px;
+
+        .nav .nav-subheader {
+            white-space: pre-wrap;
+        }
     }
 }
