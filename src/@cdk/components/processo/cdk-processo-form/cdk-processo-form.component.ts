@@ -117,6 +117,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     gerirProcedencia = new EventEmitter();
 
     @Output()
+    calcularNup = new EventEmitter<string>();
+
+    @Output()
     classificacao = new EventEmitter<Classificacao | null>();
 
     @Output()
@@ -448,6 +451,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     doGerirProcedencia(): void {
         this.gerirProcedencia.emit();
+    }
+
+    doCalcularNUP(): void {
+        const valorNup = this.form.get('NUP').value;
+        this.calcularNup.emit(valorNup);
     }
 
     doEditProcedencia(): void {
