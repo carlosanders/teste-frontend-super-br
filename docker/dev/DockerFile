@@ -19,7 +19,7 @@ COPY docker/dev/node.sh /usr/local/bin/node
 
 RUN chmod +x /usr/local/bin/node
 
-RUN npm install npm@8.3.2 -g
+RUN npm install npm@8.4.0 -g
 
 FROM base as dev
 
