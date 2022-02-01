@@ -768,3 +768,4 @@
 * Correção no botão de componente digital anterior do editor, que não verificava se havia mudanças no editor antes de trocar de componente
 * Correção de css no formulário de novas tramitações em edição de processo
 * Correção de comportamento de árvore do setor responsável no formulário de criação de tarefa
+* Correção em css de painel de coordenação relacionado a unidade/setores
