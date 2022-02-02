@@ -770,3 +770,4 @@
 * Correção de comportamento de árvore do setor responsável no formulário de criação de tarefa
 * Correção em css de painel de coordenação relacionado a unidade/setores
 * Correção adicionado listener para eventos de assinatura dentro do editor, para atualizar o conteúdo do documento após assinatura com sucesso
+* Correção resposta de erro do backend de componente digital mata navegação da aplicação em definitivo
