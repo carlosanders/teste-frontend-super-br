@@ -1271,6 +1271,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onCompleteAll(tarefaId: number): void {
         this._store.dispatch(new fromStore.UploadConcluido(tarefaId));
+        this._store.dispatch(new fromStore.GetEtiquetasTarefas(tarefaId));
     }
 
     checkModelo(): void {
