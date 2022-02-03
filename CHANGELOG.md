@@ -776,3 +776,5 @@
 * Correção acima também aplicada para anexos de documento e de documento-avulso
 * Correção adicionando ícone diferente para minutas editáveis e PDF
 * Correção de desaparecimento de mensagens de erros de upload poucos instantes após erro aparecer
+* Melhoria criação de marcadores de páginas para pdfs (bookmarks)
+* Correção para exibição de pds e arquivos para download dentro do editor
