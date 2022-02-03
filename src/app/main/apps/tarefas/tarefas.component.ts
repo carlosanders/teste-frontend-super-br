@@ -30,7 +30,7 @@ import {
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import * as AssinaturaStore from 'app/store';
-import {getSavingComponentesDigitaisIds, ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
@@ -1244,6 +1244,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    doCreateEtiqueta(params: { tarefa: Tarefa; etiqueta: Etiqueta }): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.SaveEtiqueta({
+            etiqueta: params.etiqueta,
+            tarefa: params.tarefa,
+            operacaoId: operacaoId
+        }));
+    }
+
     doVinculacaoEtiquetaCreate(params): void {
         this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta(params));
     }
@@ -1256,9 +1265,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta(params));
     }
 
+    onComplete(uploaded: { tarefaId: number; documento: Documento }): void {
+        // this._store.dispatch(new fromStore.GetEtiquetaMinuta(uploaded));
+    }
+
     onCompleteAll(tarefaId: number): void {
         this._store.dispatch(new fromStore.UploadConcluido(tarefaId));
-        this._store.dispatch(new fromStore.GetEtiquetasTarefas(tarefaId));
     }
 
     checkModelo(): void {

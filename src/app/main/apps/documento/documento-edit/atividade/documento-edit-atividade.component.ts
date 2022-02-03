@@ -289,23 +289,6 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
         if (!this.disabledIds.includes(documento.id)) {
             this.podeNavegarDoEditor().subscribe((result) => {
                 if (result) {
-                    let primary: string;
-                    primary = 'componente-digital/';
-                    let componenteDigital = null;
-
-                    if (documento.componentesDigitais[0]) {
-                        componenteDigital = documento.componentesDigitais[0];
-                        primary += componenteDigital.id;
-                    } else {
-                        primary += '0';
-                    }
-
-                    if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
-                        primary += '/editor/ckeditor';
-                    } else {
-                        primary += '/visualizar';
-                    }
-
                     const sidebar = 'editar/' + this.routeAtividadeDocumento;
                     this._componenteDigitalService.trocandoDocumento.next(true);
 
@@ -314,7 +297,6 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy {
                             '/documento/' + documento.id,
                             {
                                 outlets: {
-                                    primary: primary,
                                     sidebar: sidebar
                                 }
                             }],

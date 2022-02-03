@@ -771,3 +771,8 @@
 * Correção em css de painel de coordenação relacionado a unidade/setores
 * Correção adicionado listener para eventos de assinatura dentro do editor, para atualizar o conteúdo do documento após assinatura com sucesso
 * Correção resposta de erro do backend de componente digital mata navegação da aplicação em definitivo
+* Correção trazendo de volta opção para criar etiquetas diretamente do local onde se adiciona etiquetas às tarefas conforme ux antiga
+* Correção em componente digital com erro de codificação quando componente era convertido de HTML para PDF por motivos de segurança
+* Correção acima também aplicada para anexos de documento e de documento-avulso
+* Correção adicionando ícone diferente para minutas editáveis e PDF
+* Correção de desaparecimento de mensagens de erros de upload poucos instantes após erro aparecer

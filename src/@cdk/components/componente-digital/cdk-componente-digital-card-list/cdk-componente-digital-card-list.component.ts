@@ -115,6 +115,8 @@ export class CdkComponenteDigitalCardListComponent {
 
     lastOrder = 0;
 
+    hasErrors: Array<any> = [];
+
     private files: Array<FileUploadModel> = [];
 
     private currentFile: FileUploadModel = null;
@@ -154,6 +156,7 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     onRetry(componenteDigital: ComponenteDigital): void {
+        this.hasErrors = this.hasErrors.filter(fileError => fileError !== componenteDigital.file);
         this.componentesDigitais = this.componentesDigitais.filter(el => el.file !== componenteDigital.file);
         componenteDigital.canRetry = false;
         componenteDigital.errorMsg = null;
@@ -243,7 +246,9 @@ export class CdkComponenteDigitalCardListComponent {
         } else {
             this.currentFile = null;
             this.uploading = false;
-            this.completedAll.emit(true);
+            if (!this.hasErrors.length) {
+                this.completedAll.emit(true);
+            }
         }
     }
 
@@ -251,6 +256,9 @@ export class CdkComponenteDigitalCardListComponent {
         // @ts-ignore
         this.componentesDigitais = this.componentesDigitais.filter(el => el.file !== componenteDigital.file);
         this.removeFileFromArray(componenteDigital.file);
+        if (!this.hasErrors.length && !this.uploading) {
+            this.completedAll.emit(true);
+        }
         this._changeDetectorRef.markForCheck();
     }
 
@@ -306,6 +314,7 @@ export class CdkComponenteDigitalCardListComponent {
                     }),
                     last(),
                     catchError((error: HttpErrorResponse) => {
+                        this.hasErrors.push(file);
                         componenteDigital.inProgress = false;
                         componenteDigital.canRetry = true;
                         componenteDigital.errorMsg = CdkUtils.errorsToString(error);
@@ -315,7 +324,7 @@ export class CdkComponenteDigitalCardListComponent {
                         this.currentFile = null;
                         if (this.uploadMode !== 'linear') {
                             this.removeFileFromArray(file);
-                            if (!this.files.length) {
+                            if (!this.files.length && !this.hasErrors.length) {
                                 this.completedAll.emit(true);
                             }
                         }
@@ -339,7 +348,7 @@ export class CdkComponenteDigitalCardListComponent {
                             setTimeout(() => {
                                 if (this.uploadMode !== 'linear') {
                                     this.removeFileFromArray(file);
-                                    if (!this.files.length) {
+                                    if (!this.files.length && !this.hasErrors.length) {
                                         this.completedAll.emit(true);
                                     }
                                 }
