@@ -57,7 +57,9 @@ export class ComponenteDigitalEffect {
             new UpdateData<ComponenteDigital>({
                 id: response.id,
                 schema: componenteDigitalSchema,
-                changes: {conteudo: response.conteudo}
+                changes: {conteudo: response.conteudo, mimetype: response.mimetype,
+                            fileName: response.fileName, unsafe: response.unsafe,
+                            extensao: response.extensao, convertidoPdf: response.convertidoPdf}
             }),
             new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
                 componenteDigitalId: this.routerState.params['componenteDigitalHandle'],
