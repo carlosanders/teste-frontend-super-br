@@ -112,8 +112,10 @@
                     (create)="doVinculacaoEtiquetaCreate($event)"
                     (delete)="doVinculacaoEtiquetaDelete($event)"
                     (edit)="doVinculacaoEtiquetaEdit($event)"
+                    (addEtiqueta)="doAddEtiqueta($event)"
                     [savingVinculacaoEtiquetaId]="savingVinculacaoEtiquetaId"
-                >
+                    [errorsAddEtiqueta]="errorsAddEtiqueta"
+                    [habilitarOpcaoBtnAddEtiqueta]="habilitarOpcaoBtnAddEtiqueta">
                 </cdk-vinculacao-etiqueta-chips>
             </div>
 
@@ -121,7 +123,8 @@
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetasMinutas"
                      (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
                      [matTooltip]="'Clique para abrir o documento'">
-                    <mat-icon class="mr-4 small">picture_as_pdf</mat-icon>
+                    <mat-icon class="mr-4 small" *ngIf="!vinculacaoEtiqueta.objectContext['podeConverterPDF']">picture_as_pdf</mat-icon>
+                    <mat-icon class="mr-4 small" *ngIf="!!vinculacaoEtiqueta.objectContext['podeConverterPDF']">insert_drive_file</mat-icon>
                     <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                     <mat-icon *ngIf="!!vinculacaoEtiqueta.objectContext['temAnexos']" [matTooltip]="'Possui Anexos'" class="ml-2 mr-2 small"
                               (click)="doUploadAnexos(vinculacaoEtiqueta); $event.stopPropagation();">attach_file</mat-icon>
@@ -260,7 +263,7 @@
                                                   #cdkUpload
                                                   [tarefaOrigem]="tarefa"
                                                   [mode]="'tarefas-list'"
-                                                  (completed)="onComplete()"
+                                                  (completed)="onComplete($event)"
                                                   (completedAll)="onCompleteAll()"
                                                   (erroUpload)="onErroUpload($event)">
                 </cdk-componente-digital-card-list>

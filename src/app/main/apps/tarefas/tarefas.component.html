@@ -260,6 +260,7 @@
                                      (movimentarBloco)="doMovimentarBloco()"
                                      (etiquetarBloco)="doEtiquetarBloco()"
                                      (editorBloco)="doEditorBloco()"
+                                     (addEtiqueta)="doCreateEtiqueta($event)"
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (editRedistribuirBloco)="doRedistribuiTarefaBloco()"
                                      (restauraTarefa)="doRestauraTarefa($event)"
@@ -290,6 +291,7 @@
                                      (removeAssinaturaDocumento)="doRemoveAssinaturaDocumento($event)"
                                      (uploadAnexos)="doUploadAnexos($event)"
                                      (verResposta)="doVerResposta($event)"
+                                     (completed)="onComplete($event)"
                                      (completedAll)="onCompleteAll($event)">
                     </cdk-tarefa-list>
                 </div>

@@ -14,6 +14,10 @@ export const GET_ETIQUETAS_TAREFAS = '[TAREFAS] GET ETIQUETAS TAREFA';
 export const GET_ETIQUETAS_TAREFAS_SUCCESS = '[TAREFAS] GET ETIQUETAS TAREFA SUCCESS';
 export const GET_ETIQUETAS_TAREFAS_FAILED = '[TAREFAS] GET ETIQUETAS TAREFA FAILED';
 
+export const GET_ETIQUETA_MINUTA = '[TAREFAS] GET ETIQUETA MINUTA';
+export const GET_ETIQUETA_MINUTA_SUCCESS = '[TAREFAS] GET ETIQUETA MINUTA SUCCESS';
+export const GET_ETIQUETA_MINUTA_FAILED = '[TAREFAS] GET ETIQUETA MINUTA FAILED';
+
 export const REMOVE_ETIQUETA_MINUTA_TAREFA = '[TAREFAS] REMOVE ETIQUETA MINUTA TAREFA';
 export const ATUALIZA_ETIQUETA_MINUTA = '[TAREFAS] ATUALIZA ETIQUETA MINUTA';
 
@@ -65,6 +69,10 @@ export const DISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFAS] DISTRIBUIR TAREFA CAN
 export const SAVE_TAREFA = '[TAREFAS] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[TAREFAS] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[TAREFAS] SAVE TAREFA FAILED';
+
+export const SAVE_ETIQUETA = '[TAREFAS] SAVE ETIQUETA';
+export const SAVE_ETIQUETA_SUCCESS = '[TAREFAS] SAVE ETIQUETA SUCCESS';
+export const SAVE_ETIQUETA_FAILED = '[TAREFAS] SAVE ETIQUETA FAILED';
 
 export const CREATE_VINCULACAO_ETIQUETA = '[TAREFAS] CREATE VINCULACAO ETIQUETA';
 export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFAS] CREATE VINCULACAO ETIQUETA SUCCESS';
@@ -192,6 +200,36 @@ export class GetEtiquetasTarefasSuccess implements Action {
  */
 export class GetEtiquetasTarefasFailed implements Action {
     readonly type = GET_ETIQUETAS_TAREFAS_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * Get Etiqueta Minuta
+ */
+export class GetEtiquetaMinuta implements Action {
+    readonly type = GET_ETIQUETA_MINUTA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiqueta Minuta Success
+ */
+export class GetEtiquetaMinutaSuccess implements Action {
+    readonly type = GET_ETIQUETA_MINUTA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Etiqueta Minuta Failed
+ */
+export class GetEtiquetaMinutaFailed implements Action {
+    readonly type = GET_ETIQUETA_MINUTA_FAILED;
 
     constructor(public payload: string) {
     }
@@ -525,6 +563,36 @@ export class SaveTarefaSuccess implements Action {
  */
 export class SaveTarefaFailed implements Action {
     readonly type = SAVE_TAREFA_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Save Etiqueta
+ */
+export class SaveEtiqueta implements Action {
+    readonly type = SAVE_ETIQUETA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Save Etiqueta Success
+ */
+export class SaveEtiquetaSuccess implements Action {
+    readonly type = SAVE_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Save Etiqueta Failed
+ */
+export class SaveEtiquetaFailed implements Action {
+    readonly type = SAVE_ETIQUETA_FAILED;
 
     constructor(public payload: any) {
     }
@@ -1117,6 +1185,9 @@ export type TarefasActionsAll
     | GetEtiquetasTarefas
     | GetEtiquetasTarefasSuccess
     | GetEtiquetasTarefasFailed
+    | GetEtiquetaMinuta
+    | GetEtiquetaMinutaSuccess
+    | GetEtiquetaMinutaFailed
     | RemoveEtiquetaMinutaTarefa
     | AtualizaEtiquetaMinuta
     | CreateTarefa
@@ -1147,6 +1218,9 @@ export type TarefasActionsAll
     | SaveTarefa
     | SaveTarefaSuccess
     | SaveTarefaFailed
+    | SaveEtiqueta
+    | SaveEtiquetaSuccess
+    | SaveEtiquetaFailed
     | ToggleLidaTarefa
     | ToggleLidaTarefaSuccess
     | ToggleLidaTarefaFailed

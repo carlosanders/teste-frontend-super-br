@@ -312,12 +312,12 @@
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                     [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
                     [savingObservacao]="savingObservacao"
+                    (addEtiqueta)="doAddEtiqueta($event)"
                     (salvarObservacao)="doSalvarObservacao($event)"
                     (etiquetaClickHandler)="doClickEtiqueta($event)"
                     (erroUpload)="onErroUpload($event)"
                     (completed)="onComplete($event)"
-                    (completedAll)="onCompleteAll($event)"
-                >
+                    (completedAll)="onCompleteAll($event)">
                 </cdk-tarefa-list-item>
             </div>
         </div>
