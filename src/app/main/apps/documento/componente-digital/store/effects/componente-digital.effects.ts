@@ -16,6 +16,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DomSanitizer} from '@angular/platform-browser';
 import {getDocumento} from '../../../store';
 import {getComponenteDigitalLoaded} from '../selectors';
+import * as AssinaturaActions from 'app/store/actions/assinatura.actions';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -361,6 +362,28 @@ export class ComponenteDigitalEffect {
         ofType<ComponenteDigitalActions.RevertComponenteDigitalSuccess>(ComponenteDigitalActions.REVERT_COMPONENTE_DIGITAL_SUCCESS),
         tap(() => {
             this._componenteDigitalService.revertendo.next(true);
+        })
+    ), {dispatch: false});
+    /**
+     * Ações relacionadas a assinatura de minutas com sucesso
+     */
+    assinaDocumentoSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaActions.AssinaDocumentoSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_SUCCESS),
+        tap((action) => {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload && this.routerState.url.includes('editor/ckeditor')) {
+                this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
+            }
+        })
+    ), {dispatch: false});
+    /**
+     * Ações relacionadas a assinatura de minutas eletronicamente com sucesso
+     */
+    assinaDocumentoEletronicamenteSuccess: any = createEffect(() => this._actions.pipe(
+        ofType<AssinaturaActions.AssinaDocumentoEletronicamenteSuccess>(AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
+        tap((action) => {
+            if (parseInt(this.routerState.params['documentoHandle'], 10) === action.payload && this.routerState.url.includes('editor/ckeditor')) {
+                this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigital());
+            }
         })
     ), {dispatch: false});
 
