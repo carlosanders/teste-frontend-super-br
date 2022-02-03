@@ -36,10 +36,10 @@
                 </div>
 
                 <div>
-                    <span [matTooltip]="fileName"
+                    <span [matTooltip]="fileName" fxHide.lt-sm
                           [ngClass]="{'warn' : unsafe}" *ngIf="(loading$ | async) === false">
-                        {{ (fileName.length > 40) ?
-                            (fileName | slice:0:40)+'...' :
+                        {{ (fileName.length > 25) ?
+                            (fileName | slice:0:25)+'...' :
                             (fileName)
                         }}
                     </span>
