@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {ExtendedModule} from "@angular/flex-layout";
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         CdkProcessoAutocompleteModule,
         ReactiveFormsModule,
         MatMenuModule,
-        MatTooltipModule
+        MatTooltipModule,
+        ExtendedModule
     ],
     exports: [
         BarraPesquisaComponent
