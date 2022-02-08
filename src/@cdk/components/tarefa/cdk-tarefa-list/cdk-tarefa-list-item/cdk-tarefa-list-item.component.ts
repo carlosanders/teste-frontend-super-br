@@ -303,14 +303,14 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this.removeTarefa.emit(tarefa);
         });
 
-        this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+        this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
             vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
-        );
+        ) : [];
 
-        this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+        this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
             // eslint-disable-next-line max-len
             vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
-        );
+        ) : [];
     }
 
     ngAfterViewInit(): void {
@@ -346,13 +346,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['tarefa']) {
             this._cdkTarefaListItemService.tarefa = this.tarefa;
-            this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas.filter(
+            this.vinculacoesEtiquetasMinutas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 // eslint-disable-next-line max-len
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
-            );
-            this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas.filter(
+            ) : [];
+            this.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas ? this.tarefa.vinculacoesEtiquetas.filter(
                 vinculacaoEtiqueta => vinculacaoEtiqueta.objectClass !== 'SuppCore\\AdministrativoBackend\\Entity\\Documento'
-            );
+            ) : [];
         }
     }
 
@@ -381,7 +381,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     }
 
     canAssinarMinutas(tarefa: Tarefa): boolean {
-        return tarefa.vinculacoesEtiquetas.filter(vinculacao => vinculacao.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento').length > 0;
+        return tarefa.vinculacoesEtiquetas ?
+            this.tarefa.vinculacoesEtiquetas.filter(vinculacao => vinculacao.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento').length > 0 :
+            false;
     }
 
     doEditProcesso(): void {
