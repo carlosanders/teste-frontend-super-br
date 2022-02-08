@@ -348,7 +348,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('blocoProcessos').valueChanges.pipe(
             distinctUntilChanged(),
             switchMap((value) => {
-                this.desabilitaEspecieTarefa = !(value && this.processos.length > 0);
+                if (value && this.processos.length > 0) {
+                    this.desabilitaEspecieTarefa = false;
+                } else {
+                    this.desabilitaEspecieTarefa = true;
+                }
 
                 this._changeDetectorRef.markForCheck();
                 return of([]);
@@ -479,13 +483,20 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                this.form.get('workflow').reset();
-                if (!value) {
+                //fazer validação se tem id ou não para habilitar/desabilitar campos
+                if (this.tarefa?.id) {
                     this.form.get('workflow').disable();
-                    this.form.get('especieTarefa').enable();
+                    this.form.get('tarefaWorkflow').disable();
                 } else {
-                    this.form.get('workflow').enable();
-                    this.form.get('especieTarefa').disable();
+                    if (!value) {
+                        this.form.get('workflow').disable();
+                        this.form.get('especieTarefa').enable();
+                        this.form.get('workflow').reset();
+                    } else {
+                        this.form.get('workflow').enable();
+                        this.form.get('especieTarefa').disable();
+                        this.form.get('especieTarefa').reset();
+                    }
                 }
                 return of([]);
             })
@@ -552,9 +563,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         }
 
                         if (value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length) {
-                            this.form.get('especieTarefa').reset();
+                            if (!this.tarefa?.id) {
+                                this.form.get('especieTarefa').reset();
+                            }
                             this.form.get('tarefaWorkflow').enable();
-                            this.form.get('workflow').enable();
+                            this.form.get('tarefaWorkflow').setValue(false, {emitEvent: false});
+                            this.form.get('workflow').disable();
                         } else {
                             this.form.get('tarefaWorkflow').disable();
                             this.form.get('workflow').disable();
@@ -563,16 +577,18 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.changeFiltrosWorkflow();
 
                         if (this.tarefa?.vinculacaoWorkflow) {
-                            this.form.get('tarefaWorkflow').setValue(true);
+                            this.form.get('tarefaWorkflow').setValue(true, {emitEvent: false});
                             this.form.get('workflow').setValue(this.tarefa?.vinculacaoWorkflow?.workflow);
                             this.form.get('tarefaWorkflow').disable();
                             this.form.get('workflow').disable();
                             this.form.get('especieTarefa').disable();
                         } else if (this.tarefa?.id) {
+                            this.form.get('tarefaWorkflow').setValue(false, {emitEvent: false});
                             this.form.get('tarefaWorkflow').disable();
                             this.form.get('workflow').disable();
                             this.form.get('especieTarefa').enable();
                         }
+
                     } else if (!this.form.get('blocoProcessos').value || (this.form.get('blocoProcessos').value && this.processos.length === 0)) {
                         this.desabilitaEspecieTarefa = true;
                         this.form.get('tarefaWorkflow').reset();
@@ -884,21 +900,27 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('dataHoraFinalPrazo').disable();
             }
 
-            if (this.tarefa?.id && this.tarefa?.vinculacaoWorkflow) {
-                this.form.get('tarefaWorkflow').setValue(true);
-                this.form.get('tarefaWorkflow').disable();
-                this.form.get('workflow').setValue(this.tarefa.vinculacaoWorkflow.workflow);
+            if (this.tarefa?.id) {
+                if (this.tarefa?.vinculacaoWorkflow) {
+                    this.form.get('tarefaWorkflow').setValue(true, {emitEvent: false});
+                    this.form.get('workflow').setValue(this.tarefa.vinculacaoWorkflow.workflow);
+                    this.form.get('especieTarefa').disable();
+                    this.desabilitaEspecieTarefa = true;
+                } else {
+                    this.form.get('especieTarefa').enable();
+                    this.desabilitaEspecieTarefa = false;
+                }
                 this.form.get('workflow').disable();
-                this.form.get('especieTarefa').disable();
-                this.desabilitaEspecieTarefa = true;
+                this.form.get('tarefaWorkflow').disable();
+
             } else if (this.form.get('processo').value?.especieProcesso?.vinculacoesEspecieProcessoWorkflow?.length) {
                 this.form.get('tarefaWorkflow').enable();
-                this.form.get('tarefaWorkflow').setValue(false);
+                this.form.get('tarefaWorkflow').setValue(false, {emitEvent: false});
                 this.form.get('workflow').disable();
                 this.form.get('especieTarefa').enable();
             } else {
                 this.form.get('tarefaWorkflow').disable();
-                this.form.get('tarefaWorkflow').setValue(false);
+                this.form.get('tarefaWorkflow').setValue(false, {emitEvent: false});
                 this.form.get('workflow').disable();
                 this.form.get('especieTarefa').enable();
             }

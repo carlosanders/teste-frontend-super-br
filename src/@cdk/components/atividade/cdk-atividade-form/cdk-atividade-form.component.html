@@ -254,7 +254,7 @@
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
             <button *ngIf="form.get('usuarioResponsavel').enabled" matSuffix mat-button mat-icon-button
-                    (click)="changeActiveCard('usuario-gridsearch')">
+                    (click)="changeActiveCard('usuario-responsavel-gridsearch')">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('usuarioResponsavel').hasError('formError')">
@@ -330,3 +330,10 @@
         (selected)="selectFormElementValue(form.get('unidadeResponsavel'), $event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
+
+<cdk-usuario-gridsearch
+        *ngIf="activeCard === 'usuario-responsavel-gridsearch'"
+        (selected)="selectFormElementValue(form.get('usuarioResponsavel'), $event)"
+        [pagination]="usuarioResponsavelPagination"
+        (cancel)="cancel()">
+</cdk-usuario-gridsearch>
